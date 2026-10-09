@@ -535,3 +535,107 @@ Both are BOM-free.
 - **Two journals truncate rather than append** — `logs/guardrail.jsonl` (~33 KB) and
   `logs/supervisor.jsonl` (~7 KB) lost between commits. Both are silent data loss on a
   file the system's own history depends on.
+
+---
+
+## 16. TOPOLOGY AND ZERO-CONTEXT REBUILD — how to stand this up from nothing
+
+This section is the one that lets an agent with **zero context** rebuild the system. It
+was written from `registry.json` and `scripts/`, both read on 2026-10-09 — not from memory.
+
+### 16.1 The single source of truth is `registry.json`, not `server.js`
+
+`qwen-system\registry.json` (v2.0, last modified 2026-09-25) declares every service.
+`server.js` has its **own hard-coded list** at lines 78–83, and the two have drifted:
+
+| Service | port | `registry.json` | declared in `server.js:78-83` | script |
+|---|---|---|---|---|
+| filesystem | 3012 | enabled, **critical** | yes | `AI_Tools\mcp-filesystem-sse-bridge.js` |
+| shell | 3011 | enabled, **critical** | yes | `AI_Tools\mcp-shell-fast-bridge.js` |
+| dashboard | 3098 | enabled, not critical | yes | `qwen-system\dashboard\server.js` |
+| system-monitor | 3013 | enabled | yes | `AI_Tools\mcp-system-monitor-bridge.js` |
+| fetch | 3015 | enabled | yes | `AI_Tools\mcp-fetch-bridge.js` |
+| database | 3016 | enabled | yes | `AI_Tools\mcp-database-bridge.js` |
+| docker | 3017 | enabled | yes | `AI_Tools\mcp-docker-bridge.js` |
+| **git** | **3014** | **`enabled: false`** | **ABSENT** | `AI_Tools\mcp-git-bridge.js` |
+
+**The git bridge on 3014 exists on disk and is declared in `registry.json`, but is absent
+from the `server.js` list.** That is a measured divergence, not an inference — the file is
+there, the registry entry is there, the `server.js` entry is not. If you are rebuilding,
+read `registry.json`, not the `server.js` constant.
+
+All seven bridge scripts were verified present on disk under
+`C:\Users\apviz\AI_Tools\` — **one level above `qwen-system`**, which the `../` in each
+`script` path refers to.
+
+### 16.2 Supervisor parameters (measured, from `registry.json`)
+
+```
+port 3099 · healthCheckIntervalMs 10000 · restartDelayMs 3000
+maxRestartAttempts 5 · restartCooldownMs 300000 · log logs/supervisor.jsonl
+```
+
+### 16.3 The runtime that matters
+
+Every MCP bridge is invoked through **bun**, not node:
+
+```
+C:\Program Files\Qwen\resources\bun\bun.exe  x -y mcp-remote http://127.0.0.1:<port>/sse
+timeout 60000
+```
+
+The bridges themselves are node scripts. `bun` is the launcher Qwen Studio uses to reach
+them over SSE. If `bun` is missing from PATH this whole layer fails with a message that
+looks like a network fault.
+
+### 16.4 The rebuild order — do not reorder
+
+1. `AI_Tools\mcp-shell-fast-bridge.js` (3011) and `mcp-filesystem-sse-bridge.js` (3012) —
+   both **critical**; everything else depends on the shell existing
+2. the remaining bridges: 3013, 3015, 3016, 3017
+3. `qwen-system\dashboard\server.js` (3098) — binds to `127.0.0.1` only
+4. `qwen-system\supervisor.js` (3099) — reads `registry.json`, health-checks every 10 s
+5. `qwen-system\guardrail.js` — **exactly one**, never more (§15)
+6. `qwen-system\root-guardian.js` via `scripts\root-guardian.cmd`
+
+### 16.5 The scripts that already do this — use them, do not rewrite them
+
+`qwen-system\scripts\` contains 27 files. The ones that matter for a rebuild:
+
+| Script | Does |
+|---|---|
+| `start-supervisor.vbs` · `start-guardrail.vbs` · `start-dashboard.vbs` | the three launchers |
+| `install-startup.ps1` · `install-dashboard-startup.ps1` | register them at Windows login |
+| `root-guardian.cmd` | the root guardian entry point |
+| `rebuild-settings.ps1` · `fix-settings-json.ps1` | repair the Qwen settings files |
+| `apply-asar-patch.ps1` / `.bat` | the asar patch (see §16.7) |
+| `reconcile-custom-mcps.ps1` | reconcile MCP entries in the Qwen config |
+| `create-savepoint.ps1` · `plan-restore.ps1` · `execute-restore.ps1` | savepoint / restore cycle |
+| `backup-qwen-ecosystem.ps1` · `weekly-backup.ps1` · `schedule-weekly-backup.ps1` | backups |
+
+`docs\ARCHITECTURE.md`, `docs\OPERATIONS.md`, `docs\HERMES_MCP_CONFIG.md` and
+`docs\README.md` are also on disk and were written by the build, not by an agent. Read
+them before inventing anything.
+
+### 16.6 Diagnosis order when the system is down
+
+Work **outside in**, and never restart the thing you are diagnosing before you have read
+its log:
+
+```
+0. which process?  Get-CimInstance Win32_Process -Filter "Name='node.exe'" | ? { $_.CommandLine -like '*<name>*' }
+1. which port?    Get-NetTCPConnection -State Listen   — a declared port that is not listening is the fault
+2. what did it say?  logs\supervisor.jsonl, then logs\guardrail.jsonl
+3. only then restart
+```
+
+Measured 2026-10-09 21:15, this is what "down" actually looked like: **3098 listening,
+3097 and 3099 dead, one guardrail, zero supervisors.** Declared ≠ running, and the
+declaration lives in `registry.json`.
+
+### 16.7 The asar patch — the one irreversible-ish step
+
+`C:\Program Files\Qwen\Qwen.exe` is an **unpatched install**; Windows starts it by
+default, while the patched build lives elsewhere (`scripts\deploy-local-patched-qwen.ps1`).
+Reconciling the two is an R0 item, never a chore — see the R0 queue, item 3. Read
+`docs\ARCHITECTURE.md` §asar before touching it, and never `Remove-Item` it.
