@@ -1,0 +1,5 @@
+# Qwen-system a avut nevoie de asta masurat: index.html e LF-pure (CR=0), iar un
+# checkout cu core.autocrlf=true rescrie fisierele pe CRLF si invalideaza fiecare
+# SHA inregistrat intr-un manifest. Aici nu avem manifest, dar skill-urile se
+# compara prin hash intre ele si prin backup — deci LF trebuie pastrat.
+* -text

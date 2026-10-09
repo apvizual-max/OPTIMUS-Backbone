@@ -1,0 +1,6 @@
+# Build artifacts — nu sunt sursa, sunt resturi de compilare.
+__pycache__/
+*.pyc
+
+# .bak-* / .PRE-* NU sunt excluse: forme vechi pastrate ca dovada.
+# Stergerea lor din istoric ar sterge singura trasa a unei corectii.
