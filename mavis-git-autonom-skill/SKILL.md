@@ -85,7 +85,47 @@ Backupul se **citește**, nu se scrie. Dacă lipsește ceva din dosarul de lucru
 La push: cer acord. **Atunci totul.** Nu cer decizii tehnice — acelea le
 decid eu, le spun odată cu explicația și continui.
 
-## 8. Promptul pereche
+## 8. Plasa de siguranță — `git-autocommit.ps1`
+
+Ultima linie de apărare. **Nu înlocuiește disciplina de mai sus** — e pentru cazul
+în care eu nu sunt: o sesiune oprită la mijloc, un alt agent, o noapte.
+
+| | |
+|---|---|
+| **Script** | `AI-Kit\git-autocommit.ps1` |
+| **Task** | `PKMS-GitAutoCommit`, la 5 minute, `apviz`, Limited, Interactive, fereastră ascunsă |
+| **Log** | `AI-Kit\raport-autocomit.log` — scris **doar la eveniment**, ca să nu-și creeze singur arbore murdar |
+| **Registru** | `AI-Kit\git-autocommit-registru.txt` — repo-ul, o cale pe rând |
+| **Interziceri** | `AI-Kit\git-autocommit-ignorat.txt` — wildcard-uri pe căi care nu se comită niciodată |
+
+**Cele patru porți, în ordine:**
+
+1. **secrete pe NUME** — `.env`, `id_rsa`, `*.pem`, `credentials`, `secret`, `token`…
+2. **secrete pe CONȚINUT** — chei PEM, `AKIA…`, `ghp_…`, `sk-…`, `password = "…"` etc.
+   Citește doar text (binarele și cei peste 512 KB sunt sărite și **numărați**).
+3. **căi interzise** — din registrul de mai sus. *Doar pentru căi care există:
+   o ștergere a unei căi interzise nu blochează restul.*
+4. **timp de așezare** — implicit 60 s; nu comită un fișier scris acum.
+
+**Zone oarbe DECLARATE, nu ascunse:**
+
+- Scriptul și registrul de interdicții **nu sunt scanați de poarta 2** — un detector
+  conține tiparele pe care le caută. Numărul lor ajunge în mesajul de comit
+  (`exceptie-definire 2`), ca oricine citește istoricul să vadă ce n-a fost necăutat.
+- **O poartă recunoaște o CHEIE, nu o INTENȚIE.** Un fișier cu nume și conținut
+  inocue care spune „nu comita asta" e opac pentru orice automat. Forma corectă
+  e declarația explicită în registrul de interdicții.
+- `git-autocommit.ps1 -AutoProbe` rulează 8 cazuri (5 pozitive + 3 negative).
+  **Dacă nu pot deveni ROȘII, poarta e decor.** Rulează-l când schimbi tiparele.
+
+**Coduri de ieșire:** `0` curat / așteaptă / salvat · `1` refuzat (secrete, căi
+interzise, comit eșuat, parțial) · `2` mediu (repo invalid, git lipsă) ·
+`3` autoproba a picat.
+
+**Nu atinge:** interfața, hook-urile git globale (`C:\Users\apviz\.git-hooks`,
+LiveReview — aparțin altui mecanism), backupul. **Nu face push.** Nu șterge nimic.
+
+## 9. Promptul pereche
 
 `PROMPT git autonom.md`, în același folder — se trimite ca atare altor
 instanțe, în alte proiecte. Rulează **după** `PROMPT git install.md`.
