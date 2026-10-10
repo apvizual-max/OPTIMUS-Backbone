@@ -1125,6 +1125,127 @@ def _get_raw(path: str, timeout: int = 20):
         return 0, str(e).encode("utf-8", "replace")
 
 
+def _post_action_origin(payload: dict, origin, timeout: int = 20):
+    """POST to /api/action carrying an explicit Origin header.
+
+    Same shape as _post_action, but the Origin is caller-controlled so the
+    cross-origin gate can be exercised. origin=None omits the header entirely,
+    which is what curl, PowerShell and every other non-browser client send."""
+    try:
+        body = json.dumps(payload).encode("utf-8")
+        headers = {"Content-Type": "application/json", "Accept": "*/*"}
+        if origin is not None:
+            headers["Origin"] = origin
+        req = urllib.request.Request(
+            BACKEND + "/api/action", data=body, method="POST", headers=headers)
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            return r.status, r.read().decode("utf-8", "replace")
+    except urllib.error.HTTPError as e:
+        try:
+            return e.code, e.read().decode("utf-8", "replace")
+        except Exception:
+            return e.code, ""
+    except Exception as e:
+        return 0, str(e)
+
+
+def test_action_origin_gate_blocks_cross_origin() -> None:
+    """/api/action must not be drivable from another page.
+
+    Added 2026-10-11 after an independent verifier found a MEDIUM gap: a
+    cross-origin POST with Content-Type: text/plain EXECUTED an action and
+    answered 200. That is a CORS "simple request" - no preflight, so the
+    browser never asked first. The action whitelist stopped injection; it never
+    stopped unauthorised invocation, and a comment had called that whitelist
+    "the security boundary".
+
+    The probe payload is an action id that does not exist. That is deliberate:
+    the Origin gate runs BEFORE the whitelist, so
+      403 = the gate fired and nothing ran
+      400 = the request reached the action layer and was refused there
+    A test that instead invoked a real action would prove the gate works only
+    by running something, and would have side effects as its price.
+
+    Three things are asserted because they fail independently:
+      BLOCKS  - a foreign Origin and a literal "null" are refused 403.
+      ADMITS  - our own Origin, and an ABSENT Origin, still reach the action
+                layer. Absent is allowed on purpose: no browser can be made to
+                omit Origin, so permitting it costs nothing and keeps the
+                endpoint usable from curl and from both test suites.
+      DISCRIMINATES - the same predicate is re-run in memory against a gate
+                neutralised to always admit. The control must stop blocking.
+                If it blocks the same list, this test measures nothing.
+    """
+    payload = {"id": "__origin_gate_probe_no_such_action__"}
+    foreign = ["https://evil.example.com", "null"]
+    own = ["http://127.0.0.1:8912", "http://127.0.0.1:8910", "http://localhost:8912"]
+
+    blocked, not_blocked = [], {}
+    for o in foreign:
+        status, _ = _post_action_origin(payload, o)
+        if status != 403:
+            not_blocked[o] = f"HTTP {status}, expected 403"
+        else:
+            blocked.append(o)
+    for o in own + [None]:
+        status, _ = _post_action_origin(payload, o)
+        if status != 400:
+            not_blocked[str(o)] = f"HTTP {status}, expected 400"
+    check("action_origin_blocks_foreign", not not_blocked,
+          f"foreign Origin refused 403, own/absent Origin reached the action "
+          f"layer 400 ({len(blocked)}/{len(foreign)} blocked)",
+          f"the origin gate did not hold: {not_blocked}")
+
+    # ---- sensitivity control, neutralised in memory ---------------------
+    # The shipped v3 pattern, applied to the same source the gate runs from.
+    # Read the REAL allowlist out of the REAL file, neutralise that allowlist
+    # IN MEMORY (never on disk), re-extract, and re-run the SAME membership
+    # predicate. The neutralised gate must block strictly FEWER origins.
+    # If it blocks the same list, this control proves nothing about the gate.
+    srv = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                       "13_COMMAND_CENTER", "api", "server.ps1")
+    import re  # module-level import is absent here; this file imports it locally
+    with open(srv, "r", encoding="utf-8", errors="replace") as fh:
+        src = fh.read()
+
+    pat = re.compile(r"\$allowedOrigins\s*=\s*@\((.*?)\)", re.S)
+
+    def extract(text):
+        m = pat.search(text)
+        if not m:
+            return None
+        return set(re.findall(r"[\"']([^\"']+)[\"']",
+                              re.sub(r"\$[A-Za-z_]\w*", "PORT", m.group(1))))
+
+    live = extract(src)
+    # Neutralise by WIDENING the allowlist to admit every probe. Note the
+    # direction: the gate blocks an origin that is NOT in the table, so
+    # emptying the table would block MORE, not fewer. Widening it to admit
+    # everything is what switches the gate off, and it does so through the
+    # same extractor and the same predicate over the same file.
+    widen = ", ".join("'%s'" % p for p in foreign + own)
+    broken = src.replace("$allowedOrigins = @(",
+                         "$allowedOrigins = @(" + widen + "\n)", 1)
+    neutral = extract(broken) if broken != src else None
+
+    def gate(origin, table):
+        return bool(origin) and origin not in table      # -notcontains
+
+    probes = [p for p in foreign + own if p]
+    real_blocks = [p for p in probes if gate(p, live or set())]
+    neutral_blocks = [p for p in probes if gate(p, neutral or set())]
+
+    check("action_origin_control_discriminates",
+          bool(live) and neutral is not None and len(real_blocks) > len(neutral_blocks),
+          f"the real allowlist in source blocks {len(real_blocks)} of "
+          f"{len(probes)} probed origins; the same extractor and predicate over "
+          f"the same file with the allowlist widened to admit all blocks "
+          f"{len(neutral_blocks)}",
+          "the control did not fail: the neutralised gate blocked the same or "
+          "more origins than the live one, so this check is not measuring the "
+          "gate at all")
+
+
 def test_static_route_is_allowlisted_and_serves_intact_bytes() -> None:
     """The font route must serve the two allowlisted files and nothing else.
 
@@ -2079,6 +2200,7 @@ def main() -> int:
             ("action_missing_id", "test_action_missing_id_is_refused_separately"),
             ("action_whitelist_admits", "test_action_whitelist_admits"),
             ("static_route", "test_static_route_is_allowlisted_and_serves_intact_bytes"),
+            ("action_origin_gate", "test_action_origin_gate_blocks_cross_origin"),
             ("telemetry_fifo", "test_telemetry_feed_is_bounded"),
             ("inventory_registry", "test_inventory_registry_discriminates"),
             ("dom_guards", "test_dom_injection_is_guarded"),

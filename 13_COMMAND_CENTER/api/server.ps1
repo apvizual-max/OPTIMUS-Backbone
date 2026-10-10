@@ -386,6 +386,35 @@ try {
       $method = $ctx.Request.HttpMethod
 
       if ($method -eq 'POST' -and $path -eq '/api/action') {
+        # ---- cross-origin gate -------------------------------------------
+        # Found by an independent verifier 2026-10-11: a cross-origin POST
+        # with Content-Type: text/plain executed an action and returned 200.
+        # That is a CORS "simple request" - no preflight, so the browser
+        # never asked. The whitelist below stops INJECTION; it never stopped
+        # UNAUTHORISED INVOCATION, and the old comment at the unknown-id
+        # branch called that same line "the security boundary".
+        #
+        # A browser ALWAYS sends Origin on a cross-origin POST. That is the
+        # whole basis of this gate: if Origin arrives and is not one of ours,
+        # the caller is another page. An ABSENT Origin is deliberately
+        # allowed - curl, PowerShell and both test suites send none, and no
+        # browser can be made to omit it, so allowing it costs nothing and
+        # keeps the endpoint scriptable. A literal "null" Origin (sandboxed
+        # iframe, file://) is not in the list and is refused like any other.
+        $origin = $ctx.Request.Headers['Origin']
+        if ($origin) {
+          $allowedOrigins = @(
+            "http://127.0.0.1:$Port"
+            "http://localhost:$Port"
+            'http://127.0.0.1:8910'
+            'http://localhost:8910'
+          )
+          if ($allowedOrigins -notcontains $origin) {
+            Send-Response $ctx 403 'application/json' `
+              '{"error":"origin not allowed","origin":"' + ($origin -replace '"',"'") + '"}' $null
+            continue
+          }
+        }
         $body = Read-Body $ctx
         $id = ''
         $arg = ''
@@ -400,8 +429,11 @@ try {
         }
         $out = Invoke-Action $id $arg
         if ($null -eq $out) {
-          # An unknown or injected id is refused here. This is the security
+          # An unknown or injected id is refused here. This is the INJECTION
           # boundary, and it is verified by test rather than by inspection.
+          # It is NOT the whole authorisation story: the cross-origin gate
+          # above is the other half. Neither alone stops a hostile page on
+          # loopback from driving an action the user did not click.
           Send-Response $ctx 400 'application/json' `
             ("{{""error"":""unknown or forbidden action id"",""id"":""{0}""}}" -f ($id -replace '"',"'")) $null
           continue
@@ -590,14 +622,33 @@ try {
             'fonts/jetbrains-mono-600.ttf' = 'font/ttf'
           }
           $rel = $path.TrimStart('/')
-          # Windows paths are case-insensitive and PowerShell's hashtable is
-          # case-SENSITIVE by default. The verifier confirmed this rather than
-          # assuming it:
-          #   @{'fonts/jetbrains-mono-400.ttf'='font/ttf'}.ContainsKey(
-          #     '/FONTS/JETBRAINS-MONO-400.TTF')  ->  False
-          # so the loop below is genuinely required, not defensive padding.
-          # Ordinal-ignore-case makes the comparison match the filesystem's
-          # own rule: allowlisted means allowlisted regardless of case.
+          # FALSE CLAIM, CORRECTED 2026-10-11 02:10 by an independent verifier.
+          # The text below was mine and it was wrong. It is kept, not deleted:
+          #
+          #   "Windows paths are case-insensitive and PowerShell's hashtable is
+          #    case-SENSITIVE by default. The verifier confirmed this rather than
+          #    assuming it:
+          #      @{'fonts/jetbrains-mono-400.ttf'='font/ttf'}.ContainsKey(
+          #        '/FONTS/JETBRAINS-MONO-400.TTF')  ->  False
+          #    so the loop below is genuinely required, not defensive padding."
+          #
+          # Measured on this machine, PowerShell 5.1:
+          #   ContainsKey('/FONTS/JETBRAINS-MONO-400.TTF')  ->  False   (leading slash)
+          #   ContainsKey('FONTS/JETBRAINS-MONO-400.TTF')   ->  True
+          #   ContainsKey('Fonts/JetBrains-Mono-400.TTF')  ->  True
+          #   $h['FONTS/JETBRAINS-MONO-400.TTF']           ->  font/ttf
+          # A PowerShell @{} hashtable is case-INSENSITIVE. My probe returned
+          # False only because of the leading slash, which I did not vary.
+          # So both the stated reason AND the conclusion drawn from it are
+          # false: ContainsKey would have behaved identically to this loop.
+          #
+          # WHAT IS STILL TRUE, and is the part that matters: $rel is only ever
+          # COMPARED, and only $key - a literal out of $ASSETS - reaches
+          # Join-Path. Attacker input can SELECT an allowlisted name; it can
+          # never COMPOSE a path. The explicit OrdinalIgnoreCase below is kept
+          # not because hashtables need it, but because stating the comparison
+          # rule in the code is better than inheriting an implicit default that
+          # differs between language and runtime.
           $key = $null
           foreach ($k in $ASSETS.Keys) {
             if ([string]::Equals($k, $rel, [StringComparison]::OrdinalIgnoreCase)) { $key = $k; break }

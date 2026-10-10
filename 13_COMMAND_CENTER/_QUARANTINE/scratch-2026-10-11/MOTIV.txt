@@ -1,0 +1,11 @@
+﻿MOTIV.txt - scratch moved 2026-10-11
+
+These are the raw measurement logs from the R17 CRITICAL/MEDIUM audit:
+unit suite run 1 (504/2 - the red one), run 2 (506/0 after the handshake was
+re-measured), and three deployment suite runs while the origin-gate test was
+being written, including the two that ended in NameError.
+
+They are kept, not deleted. They are the evidence behind the numbers in
+EVOLUTION.md R17, including the two failures that were mine.
+
+Nothing here is referenced by any code path.

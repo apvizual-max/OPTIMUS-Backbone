@@ -1,0 +1,96 @@
+﻿python.exe : [+    0.2s] begin container
+At line:5 char:1
++ & python '08_SELF_IMPROVEMENT\test_deployment.py' 2>&1 | Out-File -Fi ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([+    0.2s] begin container:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[+    0.9s] end   container
+[+    0.9s] begin verb_argv
+[+    0.9s] end   verb_argv
+[+    0.9s] begin bat_crlf
+[+    0.9s] end   bat_crlf
+[+    0.9s] begin case_shadow
+[+    0.9s] end   case_shadow
+[+    0.9s] begin loopback_only
+[+    7.1s] end   loopback_only
+[+    7.1s] begin serves_through_front
+[+    7.4s] end   serves_through_front
+[+    7.4s] begin front_not_hijacked
+[+    7.4s] end   front_not_hijacked
+[+    7.4s] begin backend_behind_front
+[+    7.5s] end   backend_behind_front
+[+    7.5s] begin sse_reconnect
+[+   70.8s] end   sse_reconnect
+[+   70.8s] begin startup_entry
+[+   70.8s] end   startup_entry
+[+   70.8s] begin ecosystem_snapshot_fresh
+[+   70.8s] end   ecosystem_snapshot_fresh
+[+   70.8s] begin ecosystem_route
+[+   70.8s] end   ecosystem_route
+[+   70.8s] begin action_whitelist
+[+   70.9s] end   action_whitelist
+[+   70.9s] begin action_missing_id
+[+   70.9s] end   action_missing_id
+[+   70.9s] begin action_whitelist_admits
+[+   70.9s] end   action_whitelist_admits
+[+   70.9s] begin static_route
+[+   71.1s] end   static_route
+[+   71.1s] begin action_origin_gate
+==========================================================================
+  mavis-sentinel-hub - deployment end-to-end tests
+==========================================================================
+  [ok]   engine_available: docker server 29.8.1
+  [ok]   precondition_serving: deployment already serving on both planes - checks run against the live system
+  [ok]   container_exists: container 'mavis-sentinel-hub' exists
+  [ok]   container_running: state=running
+  [ok]   container_health: gateway healthcheck=healthy after 0s of settle time; /healthz measured 200
+  [ok]   container_restart_policy: restart policy=unless-stopped (survives Docker restart and reboot)
+  [ok]   container_image: image=mavis/sentinel-hub:1.0.0
+  [ok]   verb_argv_not_joined: hub invocations pass 12 separate argv elements; no switch and its value are fused into a single string
+  [ok]   every_bat_is_crlf: all .bat files under the project use CRLF (0 problems)
+  [ok]   no_case_shadowed_params: no local in 5 PowerShell scripts shadows a script-level parameter by case alone
+  [ok]   loopback_only: 8910 refused on 3 non-loopback address(es): 172.21.224.1, 172.30.224.1, 192.168.1.193
+  [ok]   port_binding: docker port -> 80/tcp -> 127.0.0.1:8910
+  [ok]   route_root: 200 121635 B
+  [ok]   route_healthz: 200 87 B
+  [ok]   route_readyz: 200 90405 B
+  [ok]   route_api_state: 200 90405 B
+  [ok]   route_api_health: 200 20228 B
+  [ok]   served_by_front: Server=nginx/1.31.6 X-SENTINEL-Deployment=mavis-sentinel-hub
+  [ok]   gateway_independent: /healthz reports mavis-sentinel-hub role=deployment-front
+  [ok]   front_not_hijacked: front port is served by mavis-sentinel-hub
+  [ok]   both_planes_live: front=200 backend=200
+  [ok]   front_matches_backend: front and backend both serve 200 and agree
+  [ok]   sse_reconnect: 3 'state' events in 62s via EventSource reconnect (3 transport errors)
+  [ok]   startup_entry_present: Startup entry present (4557 B)
+  [ok]   startup_entry_readable: entry is readable ASCII
+  [ok]   startup_uses_file_not_command: entry uses -File with a quoted path (the form that survives 'start')
+  [ok]   startup_targets_orchestrator: entry invokes sentinel-hub.ps1 (brings up BOTH planes)
+  [ok]   startup_ports: entry targets front=8910 backend=8912
+  [ok]   startup_logs: entry writes a log, so a future failure leaves evidence
+  [----] startup_cold_start: destructive: re-run with --coldstart to tear the deployment down and prove the Startup entry brings it back
+  [ok]   ecosystem_snapshot_fresh: snapshot age 165s, refreshed by the server's worker (bound 600s)
+  [ok]   ecosystem_route: 200, 32 surfaces, counts={"measured": 32, "not_available": 0, "error": 0, "total": 32}
+  [ok]   action_whitelist_rejects: all 7 unapproved/injection payloads were refused by the whitelist itself, not by a missing-field guard
+  [ok]   action_missing_id_refused: a body with no `id` is refused with 'no action id supplied'
+  [ok]   action_whitelist_admits: the whitelisted action 'logs_tail' is accepted, so the whitelist discriminates
+  [ok]   static_route_serves_intact: both allowlisted fonts served byte-exact (jetbrains-mono-400.ttf 112172B, jetbrains-mono-600.ttf 112160B)
+  [ok]   static_route_refuses_traversal: all 11 traversal probes returned no file content
+  [ok]   static_route_gate_is_literal: every Join-Path under $ROOT receives $key, a literal from the allowlist - request-derived values can only SELECT a name, never compose a path
+  [ok]   static_route_control_discriminates: the same predicate fails when the gate is rewritten to take $rel, so this check is measuring the gate and not passing vacuously
+  [ok]   action_origin_blocks_foreign: foreign Origin refused 403, own/absent Origin reached the action layer 400 (2/2 blocked)
+Traceback (most recent call last):
+  File "C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\08_SELF_IMPROVEMENT\test_deployment.py", line 2247, in 
+<module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\08_SELF_IMPROVEMENT\test_deployment.py", line 2212, in 
+main
+    fn()
+    ~~^^
+  File "C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\08_SELF_IMPROVEMENT\test_deployment.py", line 1210, in 
+test_action_origin_gate_blocks_cross_origin
+    pat = re.compile(r"\$allowedOrigins\s*=\s*@\((.*?)\)", re.S)
+          ^^
+NameError: name 're' is not defined. Did you forget to import 're'?

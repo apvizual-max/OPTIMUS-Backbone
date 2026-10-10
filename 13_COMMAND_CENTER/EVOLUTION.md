@@ -2126,13 +2126,46 @@ nothing to deliver there and a rejected font costs everything.
 
 ### One more inconsistency, caught by attacking my own fix
 
-My first allowlist used `ContainsKey`, which in PowerShell is
-**case-sensitive**, while Windows paths are not. Measured: `/FONTS/JETBRAINS-MONO-400.WOFF2`
-was **rejected** while the same file in lower case was served. That is not a
-hole yet, because nothing differently-cased is in the table - but the first
-entry somebody adds in the wrong case would have opened one. The lookup is
-now an explicit `OrdinalIgnoreCase` scan, which matches the filesystem's own
-rule: allowlisted means allowlisted regardless of case.
+**This whole subsection was wrong and is corrected below. It is kept, not
+deleted.** An independent verifier on 2026-10-11 measured it and it did not hold.
+
+> My first allowlist used `ContainsKey`, which in PowerShell is
+> **case-sensitive**, while Windows paths are not. Measured: `/FONTS/JETBRAINS-MONO-400.WOFF2`
+> was **rejected** while the same file in lower case was served. That is not a
+> hole yet, because nothing differently-cased is in the table - but the first
+> entry somebody adds in the wrong case would have opened one. The lookup is
+> now an explicit `OrdinalIgnoreCase` scan, which matches the filesystem's own
+> rule: allowlisted means allowlisted regardless of case.
+
+What is actually true, measured on this machine in PowerShell 5.1:
+
+```
+@{'fonts/jetbrains-mono-400.ttf'='font/ttf'}
+  .ContainsKey('/FONTS/JETBRAINS-MONO-400.TTF')  ->  False   <- leading slash
+  .ContainsKey('FONTS/JETBRAINS-MONO-400.TTF')   ->  True
+  .ContainsKey('Fonts/JetBrains-Mono-400.TTF')  ->  True
+  ['FONTS/JETBRAINS-MONO-400.TTF']               ->  font/ttf
+```
+
+A PowerShell `@{}` hashtable is **case-insensitive**. My probe returned `False`
+only because of the **leading slash**, a variable I never varied - so I read a
+case-sensitivity result out of a slash test. Both the stated reason and the
+conclusion drawn from it were false: `ContainsKey` would have behaved
+identically to the explicit scan, and no wrongly-cased first entry could ever
+have opened a hole.
+
+The security conclusion was never at risk, because it rests on something else
+and that part stands: `$rel` is only ever **compared**, and only `$key` - a
+literal out of the table - reaches `Join-Path`. Attacker input can **select** an
+allowlisted name; it can never **compose** a path. The explicit
+`OrdinalIgnoreCase` scan is kept not because hashtables need it, but because
+writing the comparison rule in the code is better than inheriting an implicit
+default that differs between language and runtime.
+
+This is the exact failure `EVOLUTION.md` warns about elsewhere: *a security
+property asserted in prose, enforced on the wrong axis, is worse than no claim,
+because the prose is what a later reader trusts.* I wrote the warning and then
+committed the thing it describes.
 
 ### Proof it is actually on screen
 
@@ -2302,3 +2335,169 @@ checks.
 | after the C1 build | 505 / 0 / 0 | 41 / 0 / 1 |
 | after R16 corrections | 505 / 0 / 0 | 41 / 0 / 1 |
 | after adding route coverage | - | **45 / 0 / 1** |
+---
+
+## R17 - CRITICAL/MEDIUM audit, and three things it caught
+
+**Requested**: a verification pass that reports ONLY critical and medium
+findings, with the small ones filtered out so they cannot mask something real.
+**Run**: 2026-10-11, roughly 01:43 to 02:20.
+
+An independent verifier ran the pass in parallel with my own measurements, and
+the two agreed on the finding that mattered most - which is the first time the
+same defect has been found twice by different routes.
+
+### Result: **no CRITICAL. Three MEDIUM, all now closed or declared.**
+
+### M1 - the number I had been reporting was false: the suite was RED
+
+`test_suite.py` was **504 passed / 2 failed / exit 1**. I had been writing
+506/0/0 in this file, in the handoff, and in conversation.
+
+Both failures shared one root cause, and it was not a code defect:
+
+- `BrainAndMonitor` 46/47 - "MCP tools report OK only on a measured,
+  argument-confirmed handshake: expected OK, got STALE"
+- `McpHandshakeMeasure` 9/10 - the same
+
+`09_LOGS/mcp_handshake.json` was dated 2026-10-09 23:27, about **26 hours** old
+against a bound of 24h. The product's own record agreed with the verifier and
+against me: `13_COMMAND_CENTER/api/last_test_run.json` carried
+`"passed": 504, "failed": 2, "green": false`.
+
+**What makes this worth writing down** is not the failure. It is that a stale
+*artifact* turned a *suite* red, and I kept quoting a number from memory instead
+of re-running it. The remedy was written into the check's own evidence field:
+re-run `08_SELF_IMPROVEMENT/mcp_handshake.py`. I did.
+
+```
+declared in src : 26
+returned by wire: 26
+probe sentinel_confirm_identity ok=True, arguments_arrived=True
+status OK, 2s, record 09_LOGS\mcp_handshake.json
+```
+
+After: **506 passed / 0 failed / 0 skipped**, `green: true`, at 02:02:53.
+
+The lesson is already written in this file and I broke it anyway: a number I
+typed is a claim, a number I measured is evidence.
+
+### M2 - /api/action was drivable from any page on loopback
+
+Found by the verifier, confirmed by me. A cross-origin `POST /api/action` with
+`Content-Type: text/plain` and `Origin: https://evil.example.com` **executed an
+action and returned 200**.
+
+That content type is a CORS "simple request": no preflight, so the browser
+never asked. The action whitelist stops *injection* and never stopped
+*unauthorised invocation* - and a comment had called that whitelist "the
+security boundary", which is how a half-measure reads as a whole one.
+
+Latent rather than live: the server is loopback-only, the reply is unreadable
+cross-origin, and it needs a hostile page open while the server runs. But
+"needs a hostile page" is a low bar on a machine that browses the web.
+
+**Fix**, additive, before anything else in the handler:
+
+```powershell
+$origin = $ctx.Request.Headers['Origin']
+if ($origin) {
+  $allowedOrigins = @("http://127.0.0.1:$Port" "http://localhost:$Port"
+                      'http://127.0.0.1:8910' 'http://localhost:8910')
+  if ($allowedOrigins -notcontains $origin) { 403; continue }
+}
+```
+
+An **absent** Origin is deliberately allowed. A browser always sends Origin on a
+cross-origin POST, so absence cannot be forged by a page - while curl,
+PowerShell and both test suites send none, and refusing it would only make the
+endpoint unscriptable. A literal `"null"` Origin (sandboxed iframe, `file://`)
+is not in the list, so it is refused.
+
+Measured, six probes differing in one variable:
+
+| Origin | Result |
+|---|---|
+| absent (curl / PowerShell) | 400 - reached the action layer |
+| `http://127.0.0.1:8912` | 400 |
+| `http://127.0.0.1:8910` | 400 |
+| `http://localhost:8912` | 400 |
+| `https://evil.example.com` | **403** |
+| `null` | **403** |
+
+The probe payload is an action id that does not exist, on purpose. 403 means the
+gate fired and nothing ran; 400 means the request reached the whitelist and was
+refused there. A test that instead invoked a real action would prove the gate
+only by running something.
+
+The interface does not care: `wf_state` and `skills_list` invoked from the live
+page returned 200 with real content, and all 13 tabs render with **0 console
+messages**.
+
+**Covered by test**, because a security control checked only by hand decays the
+moment nobody is looking: `action_origin_gate` in `test_deployment.py`, two
+checks - `action_origin_blocks_foreign` and
+`action_origin_control_discriminates`. The control neutralises the gate **in
+memory** over the real file and requires it to block strictly fewer origins.
+
+### M3 - a false security premise, which I had written twice
+
+`server.ps1` and this file both claimed *"PowerShell's hashtable is
+case-sensitive"* and concluded *"the loop below is genuinely required, not
+defensive padding."*
+
+Measured, PowerShell 5.1:
+
+```
+@{'fonts/jetbrains-mono-400.ttf'='font/ttf'}
+  .ContainsKey('/FONTS/JETBRAINS-MONO-400.TTF')  ->  False   <- leading slash
+  .ContainsKey('FONTS/JETBRAINS-MONO-400.TTF')   ->  True
+  .ContainsKey('Fonts/JetBrains-Mono-400.TTF')  ->  True
+  ['FONTS/JETBRAINS-MONO-400.TTF']               ->  font/ttf
+```
+
+A PowerShell `@{}` hashtable is **case-insensitive**. My probe returned `False`
+because of the **leading slash** - a variable I never varied - and I read a
+case-sensitivity result out of a slash test. The conclusion drawn from it was
+false too: `ContainsKey` would have behaved identically to the explicit scan.
+
+The security conclusion was never at risk, because it rests on something else
+and that part holds: `$rel` is only ever **compared**, and only `$key` - a
+literal out of the table - reaches `Join-Path`. Attacker input can **select** an
+allowlisted name; it can never **compose** a path.
+
+Both false passages are kept and marked, not deleted. This file warns elsewhere
+that *a security property asserted in prose, enforced on the wrong axis, is worse
+than no claim, because the prose is what a later reader trusts* - and I wrote
+the warning and then did the thing it describes.
+
+### The one MEDIUM I did not close, and why
+
+`corpus_fresh` is **STALE at ~490,000s (~5.7 days)** against a bound of 1 hour.
+`collect-sentinel.ps1` reads `11_BRAIN/01_RAW/corpus_stats.json`; it never
+recomputes it, and the ~17-minute refresh worker does not either. Corpus
+extraction is a separate heavy pass, so nothing re-runs it on a clock.
+
+It is left open deliberately: refreshing it means re-extracting Popy's
+conversation corpus, which is his material and not mine to churn for a green
+number. The important part is that it is **not silent** - the check is red, on
+the dashboard, in the header count.
+
+### Final measured state
+
+| | before | after |
+|---|---|---|
+| `test_suite.py` | 504 / **2 failed** / exit 1 | **506 / 0 / 0**, exit 0 |
+| `test_deployment.py` | 45 / 0 / 1 (46) | **47 / 0 / 1** (48) |
+| live header | 45 ok / 0 fail / 11 stale | **54 ok / 0 fail / 2 stale** |
+| `/api/action` cross-origin | executed, 200 | **403** |
+| console on 13 tabs | - | **0 messages**, 23/23 requests 200 |
+
+**Two authoring bugs of mine, both caught by the suite rather than by me** -
+recording them because the pattern is now three times old: `io.open` and then
+`re` were not imported in `test_deployment.py` (it imports `re` locally, inside
+another function), and my first version of the control neutralised the gate in
+the wrong direction - emptying an allowlist whose predicate *blocks what is not
+listed* makes the gate block more, not less. A control that cannot fail is not a
+control; the third version widens the allowlist to admit everything and requires
+the block count to drop from 4 to 0.

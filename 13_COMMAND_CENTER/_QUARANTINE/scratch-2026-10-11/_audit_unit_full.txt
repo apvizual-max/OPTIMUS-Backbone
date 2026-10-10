@@ -1,0 +1,127 @@
+﻿======================================================================
+SENTINEL PRIME - Test Suite
+======================================================================
+
+=== Foundation ===
+Status: PASS
+Passed: 4/4
+
+=== Scripts ===
+Status: PASS
+Passed: 24/24
+
+=== JSON ===
+Status: PASS
+Passed: 1/1
+
+=== NoRomanianInCode ===
+Status: PASS
+Passed: 65/65
+
+=== Orchestrator ===
+Status: PASS
+Passed: 5/5
+
+=== SelfModify ===
+Status: PASS
+Passed: 4/4
+
+=== MultiModal ===
+Status: PASS
+Passed: 16/16
+
+=== Performance ===
+Status: PASS
+Passed: 3/3
+
+=== Backup ===
+Status: PASS
+Passed: 3/3
+
+=== BrowserAutomation ===
+Status: PASS
+Passed: 4/4
+
+=== CrossInstance ===
+Status: PASS
+Passed: 13/13
+
+=== UniversalCompat ===
+Status: PASS
+Passed: 10/10
+
+=== BimodalWorkflow ===
+Status: PASS
+Passed: 21/21
+
+=== MimicryDetectors ===
+Status: PASS
+Passed: 34/34
+
+=== HubToolAudit ===
+Status: PASS
+Passed: 6/6
+
+=== BimodalStopPersistence ===
+Status: PASS
+Passed: 28/28
+
+=== BrainAndMonitor ===
+Status: FAIL
+Passed: 46/47
+Errors:
+  - MCP tools report OK only on a measured, argument-confirmed handshake: expected OK, got STALE
+
+=== ScrapeArtifactEmptiness ===
+Status: PASS
+Passed: 15/15
+
+=== McpHandshakeMeasure ===
+Status: FAIL
+Passed: 9/10
+Errors:
+  - the real record is restored and the check returns OK: expected OK, got STALE
+
+=== DashboardBoot ===
+Status: PASS
+Passed: 10/10
+
+=== UiNoObjectCoercion ===
+Status: PASS
+Passed: 12/12
+
+=== McpConfigServersExist ===
+Status: PASS
+Passed: 4/4
+
+=== ToolResolution ===
+Status: PASS
+Passed: 10/10
+
+=== DashboardSurface ===
+Status: PASS
+Passed: 35/35
+
+=== EcosystemCollector ===
+Status: PASS
+Passed: 59/59
+
+=== MonitorCoverage ===
+Status: PASS
+Passed: 24/24
+
+=== The plan is never pruned ===
+Status: PASS
+Passed: 12/12
+
+=== AppendOnlyIntegrity ===
+Status: PASS
+Passed: 14/14
+
+=== Project references resolve ===
+Status: PASS
+Passed: 13/13
+
+======================================================================
+TOTAL: 504 passed, 2 failed, 0 skipped
+======================================================================

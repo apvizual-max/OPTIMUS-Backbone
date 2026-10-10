@@ -1,10 +1,10 @@
 {
   "suite": "mavis-sentinel-hub deployment e2e",
-  "generated_at": "2026-10-10T22:55:45",
-  "passed": 45,
+  "generated_at": "2026-10-11T02:16:09",
+  "passed": 47,
   "failed": 0,
   "not_run": 1,
-  "total": 46,
+  "total": 48,
   "green": true,
   "checks": [
     {
@@ -55,7 +55,7 @@
     {
       "id": "no_case_shadowed_params",
       "status": "PASS",
-      "detail": "no local in 6 PowerShell scripts shadows a script-level parameter by case alone"
+      "detail": "no local in 5 PowerShell scripts shadows a script-level parameter by case alone"
     },
     {
       "id": "loopback_only",
@@ -80,17 +80,17 @@
     {
       "id": "route_readyz",
       "status": "PASS",
-      "detail": "200 90426 B"
+      "detail": "200 90405 B"
     },
     {
       "id": "route_api_state",
       "status": "PASS",
-      "detail": "200 90426 B"
+      "detail": "200 90405 B"
     },
     {
       "id": "route_api_health",
       "status": "PASS",
-      "detail": "200 20249 B"
+      "detail": "200 20229 B"
     },
     {
       "id": "served_by_front",
@@ -160,7 +160,7 @@
     {
       "id": "ecosystem_snapshot_fresh",
       "status": "PASS",
-      "detail": "snapshot age 47s, refreshed by the server's worker (bound 600s)"
+      "detail": "snapshot age 146s, refreshed by the server's worker (bound 600s)"
     },
     {
       "id": "ecosystem_route",
@@ -201,6 +201,16 @@
       "id": "static_route_control_discriminates",
       "status": "PASS",
       "detail": "the same predicate fails when the gate is rewritten to take $rel, so this check is measuring the gate and not passing vacuously"
+    },
+    {
+      "id": "action_origin_blocks_foreign",
+      "status": "PASS",
+      "detail": "foreign Origin refused 403, own/absent Origin reached the action layer 400 (2/2 blocked)"
+    },
+    {
+      "id": "action_origin_control_discriminates",
+      "status": "PASS",
+      "detail": "the real allowlist in source blocks 4 of 5 probed origins; the same extractor and predicate over the same file with the allowlist widened to admit all blocks 0"
     },
     {
       "id": "telemetry_detector_armed",
