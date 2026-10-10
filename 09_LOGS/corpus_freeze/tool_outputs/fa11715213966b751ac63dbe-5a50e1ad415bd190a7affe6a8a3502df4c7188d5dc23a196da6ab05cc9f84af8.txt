@@ -1,0 +1,1877 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- __ _ _ _ __| |_ (_)__ _____
+    / _` | '_/ _| ' \| |\ V / -_)
+    \__,_|_| \__|_||_|_| \_/\___| -->
+  <head data-release=3d3b6dbb data-node="www15.us.archive.org">
+    <title>Full text of &quot;Mihai Eminescu Luceafarul&quot;</title>
+
+          <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    
+        <meta name="google-site-verification" content="Q2YSouphkkgHkFNP7FgAkc4TmBs1Gmag3uGNndb53B8" />
+    <meta name="google-site-verification" content="bpjKvUvsX0lxfmjg19TLblckWkDpnptZEYsBntApxUk" />
+
+    <meta name="baggage" content="sentry-trace_id=65bb1d0b2e1243f29ced06e54e3e94b8,sentry-sample_rate=0.001,sentry-transaction=%2Fdownload.php,sentry-public_key=94bf3037c1e245c8a927aaa4daad2dbb,sentry-environment=production,sentry-sampled=false,sentry-sample_rand=0.987668"/>    <meta name="sentry-trace" content="65bb1d0b2e1243f29ced06e54e3e94b8-6684e9702432479d-0"/>
+    <script  nonce="4235694868061fe5eaab229728726f10" >
+/* @licstart  The following is the entire license notice for the
+ * JavaScript code in this page.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in this page.
+ */
+</script>
+        <meta charset="UTF-8">
+                      <meta property="mediatype" content="texts">
+                      <meta property="primary_collection" content="">
+            <script src="//archive.org/includes/athena.js?v=3d3b6dbb" type="text/javascript"></script>
+    <script src="//archive.org/includes/apollo.js?v=3d3b6dbb" type="text/javascript"></script>
+    <script src="//archive.org/components/npm/lit/polyfill-support.js?v=3d3b6dbb" type="text/javascript"></script>
+    <script src="//archive.org/components/npm/@webcomponents/webcomponentsjs/webcomponents-bundle.js?v=3d3b6dbb" type="text/javascript"></script>
+<script nonce="4235694868061fe5eaab229728726f10" >
+      window.__realDefine = customElements.define.bind(customElements);
+      customElements.define = function() {
+        try {
+          return window.__realDefine.apply(this, arguments);
+        } catch (e) {
+          console.warn(e);
+        }
+      }
+    </script>    <script src="//archive.org/includes/build/js/ia-topnav.min.js?v=3d3b6dbb" type="text/javascript"></script>
+    <script src="//archive.org/includes/build/js/archive.min.js?v=3d3b6dbb" type="text/javascript"></script>
+<link rel="canonical" href="https://archive.org/details/MihaiEminescuLuceafarul_201503">
+    <link href="//archive.org/includes/build/css/archive.min.css?v=3d3b6dbb" rel="stylesheet" type="text/css"/>
+    <link rel="SHORTCUT ICON" href="https://archive.org/images/glogo.jpg"/>
+  </head>
+  <body class="navia ">
+    <a href="#maincontent" class="hidden-for-screen-readers">Skip to main content</a>
+
+    <!-- Wraps all page content -->
+    <div id="wrap"
+          >
+                    <div class="ia-banners">
+              <div
+        class="ia-banner hidden save-wayback-20260601"
+        data-campaign="save-wayback-20260601">
+        <p>Keep the news in the Wayback Machine. <a href="https://www.savethearchive.com/NewsLeaders" rel="ugc nofollow">Sign Fight for the Future's letter</a>.</p>
+        <form class="banner-close" action="" method="get" data-action="ia-banner-close">
+          <fieldset>
+            <button aria-label="Close Banner" type="submit"></button>
+          </fieldset>
+        </form>
+      </div>
+          </div>
+                    <div id="topnav">
+              <input class="js_nav_tweaks" type="hidden" value='[]'/>
+    <!-- Shady DOM styles for icon-hamburger -->
+<style scope="icon-hamburger-1">
+  .icon-hamburger-1 svg.icon-hamburger {
+    display: block;
+    height: 4rem;
+    width: 4rem;
+  }
+
+  .icon-hamburger-1 .fill-color.icon-hamburger {
+    fill: #fff;
+  }
+</style><!-- Shady DOM styles for login-button -->
+<style scope="login-button-1">
+  .login-button-1 .dropdown-toggle.login-button {
+    display: block;
+    text-transform: uppercase;
+    color: #ccc;
+    cursor: pointer;
+  }
+  .login-button-1 .dropdown-toggle.logged-out-menu {
+    display: inline-block;
+    vertical-align: middle;
+    background: inherit;
+    border: medium;
+  }
+
+  .login-button-1 .dropdown-toggle.login-button svg.login-button {
+    height: 100%;
+    width: 4rem;
+  }
+
+  .login-button-1 .dropdown-toggle.login-button .fill-color.login-button {
+    fill: #999;
+  }
+
+  .login-button-1 .dropdown-toggle.login-button:active .fill-color.login-button,
+  .login-button-1 .dropdown-toggle.login-button:focus .fill-color.login-button,
+  .login-button-1 .dropdown-toggle.login-button:hover .fill-color.login-button {
+    fill: #fff;
+  }
+
+  .login-button-1 .active.login-button {
+    border-radius: 1rem 1rem 0 0;
+    background: #333;
+  }
+
+  .login-button-1 .active.login-button .fill-color.login-button {
+    fill: #fff;
+  }
+
+  .login-button-1 span.login-button {
+    display: none;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    color: #999;
+  }
+
+  .login-button-1 span.login-button a.login-button {
+    color: inherit;
+    text-decoration: none;
+    outline: 0;
+  }
+
+  .login-button-1 a.login-button:hover,
+  .login-button-1 a.login-button:active,
+  .login-button-1 a.login-button:focus {
+    color: #fff !important;
+    outline: none !important;
+    outline-offset: inherit !important;
+  }
+
+  @media (min-width: 890px) {
+    .login-button-1 .logged-out-toolbar.login-button {
+      padding: 1rem 0.5rem;
+      vertical-align: middle;
+    }
+
+    .login-button-1 .active.login-button {
+      background: transparent;
+    }
+
+    .login-button-1 .dropdown-toggle.login-button {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .login-button-1 .dropdown-toggle.login-button svg.login-button {
+      height: 3rem;
+      width: 3rem;
+      display: block;
+    }
+
+    .login-button-1 span.login-button {
+      display: inline;
+      vertical-align: middle;
+    }
+
+  }
+</style><!-- Shady DOM styles for media-button -->
+<style scope="media-button-1">
+  .media-button-1 a.media-button {
+    display: inline-block;
+    text-decoration: none;
+  }
+
+  .media-button-1 .menu-item.media-button {
+    display: inline-block;
+    width: 100%;
+    padding: 0;
+    font-size: 1.6rem;
+    text-align: left;
+    background: transparent;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+  }
+
+  .media-button-1 .menu-item.media-button:focus {
+    outline: none;
+  }
+
+  .media-button-1 .label.media-button {
+    display: inline-block;
+    padding: 0;
+    font-weight: 400;
+    color: #fff;
+    text-align: left;
+    vertical-align: middle;
+  }
+
+  .media-button-1 .menu-item.media-button>.icon.media-button {
+    display: inline-flex;
+    vertical-align: middle;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+  }
+
+  .media-button-1 .menu-item.media-button>.icon.media-button>svg.media-button {
+    height: 4rem;
+    width: 4rem;
+  }
+
+  .media-button-1 .menu-item.selected.media-button .icon.media-button {
+    background-color: #333;
+    border-radius: 1rem 0 0 1rem;
+  }
+
+  .media-button-1 .icon.media-button .fill-color.media-button {
+    fill: #999;
+  }
+
+  .media-button-1 .icon.active.media-button .fill-color.media-button {
+    fill: #fff;
+  }
+
+  .media-button-1 .donate.media-button .fill-color.media-button {
+    fill: #f00;
+  }
+
+  @media (min-width: 890px) {
+    .media-button-1 .menu-item.media-button {
+      width: auto;
+      height: 5rem;
+      color: #999;
+      display: inline-flex;
+    }
+
+    .media-button-1 .menu-item.media-button:hover,
+    .media-button-1 .menu-item.media-button:active,
+    .media-button-1 .menu-item.media-button:focus {
+      color: #fff;
+    }
+
+    .media-button-1 .menu-item.media-button:hover .fill-color.media-button,
+    .media-button-1 .menu-item.media-button:active .fill-color.media-button,
+    .media-button-1 .menu-item.media-button:focus .fill-color.media-button {
+      fill: #fff;
+    }
+
+    .media-button-1 .label.media-button {
+      display: none;
+    }
+
+    .media-button-1 .label.media-button,
+    .media-button-1 .web.media-button:after {
+      padding-right: 1rem;
+      font-size: 1.3rem;
+      text-transform: uppercase;
+      color: inherit;
+    }
+
+    .media-button-1 .web.media-button:after {
+      display: none;
+      content: "web";
+    }
+
+    .media-button-1 .donate.media-button,
+    .media-button-1 .more.media-button {
+      display: none;
+    }
+
+    .media-button-1 .menu-item.selected.media-button {
+      background: #474747;
+    }
+
+    .media-button-1 .menu-item.selected.media-button .label.media-button,
+    .media-button-1 .menu-item.selected.web.media-button:after {
+      color: #fff;
+    }
+
+    .media-button-1 .menu-item.selected.media-button .icon.media-button {
+      background: transparent;
+    }
+
+    .media-button-1 .web.selected.media-button .fill-color.media-button {
+      fill: #ffcd27;
+    }
+
+    .media-button-1 .texts.selected.media-button .fill-color.media-button {
+      fill: #faab3c;
+    }
+
+    .media-button-1 .video.selected.media-button .fill-color.media-button {
+      fill: #f1644b;
+    }
+
+    .media-button-1 .audio.selected.media-button .fill-color.media-button {
+      fill: #00adef;
+    }
+
+    .media-button-1 .software.selected.media-button .fill-color.media-button {
+      fill: #9ecc4f;
+    }
+
+    .media-button-1 .images.selected.media-button .fill-color.media-button {
+      fill: #aa99c9;
+    }
+
+  }
+
+  @media (min-width: 1200px) {
+
+    .media-button-1 .label.media-button,
+    .media-button-1 .web.media-button:after {
+      display: inline;
+    }
+
+    .media-button-1 .web.media-button .label.media-button {
+      display: none;
+    }
+
+  }
+</style><!-- Shady DOM styles for media-menu -->
+<style scope="media-menu-1">
+  .media-menu-1 {
+    outline: none;
+  }
+
+  .media-menu-1 .media-menu-inner.media-menu {
+    z-index: -1;
+    top: -40rem;
+    background-color: #222;
+    margin: 0;
+    overflow: hidden;
+    transition-duration: 0.2s;
+    transition-property: top;
+    transition-timing-function: ease;
+  }
+
+  .media-menu-1 .menu-group.media-menu {
+    position: relative;
+    line-height: normal;
+  }
+
+  @media (max-width: 889px) {
+    .media-menu-1 .media-menu-inner.media-menu {
+      position: absolute;
+      width: 100%;
+    }
+
+    .media-menu-1 .open.media-menu .media-menu-inner.media-menu {
+      top: 0;
+    }
+
+    .media-menu-1 .overflow-clip.media-menu {
+      position: absolute;
+      z-index: -1;
+      top: 4rem;
+      left: 0;
+      height: 0;
+      width: 100%;
+      overflow: hidden;
+      transition-duration: 0.2s;
+      transition-property: height;
+    }
+
+    .media-menu-1 .open.media-menu .overflow-clip.media-menu {
+      height: 40rem;
+    }
+
+  }
+
+  @media (min-width: 890px) {
+    .media-menu-1 .media-menu-inner.media-menu {
+      display: block;
+      position: static;
+      width: auto;
+      height: 5rem;
+      transition-property: none;
+    }
+
+    .media-menu-1 .menu-group.media-menu {
+      font-size: 0;
+    }
+
+  }
+</style><!-- Shady DOM styles for primary-nav -->
+<style scope="primary-nav-1">
+  .primary-nav-1 button.primary-nav:focus,
+  .primary-nav-1 input.primary-nav:focus {
+    outline: none;
+  }
+
+  .primary-nav-1 nav.primary-nav {
+    position: relative;
+    display: flex;
+    height: 4rem;
+    grid-template-areas: 'hamburger empty heart search user';
+    -ms-grid-columns: 4rem minmax(1rem, 100%) 4rem 4rem 4rem;
+    grid-template-columns: 4rem auto 4rem 4rem 4rem;
+    -ms-grid-rows: 100%;
+    grid-template-rows: 100%;
+    background: #222;
+    border-bottom: 1px solid #333;
+  }
+
+  .primary-nav-1 .right-side-section.primary-nav {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    user-select: none;
+  }
+
+  .primary-nav-1 button.primary-nav {
+    background: none;
+    color: inherit;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .primary-nav-1 .branding.primary-nav {
+    position: static;
+    float: left;
+    margin: 0 !important;
+    padding: 0 5px 0 10px;
+    -webkit-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
+  }
+
+  .primary-nav-1 slot.primary-nav,
+  .primary-nav-1 .branding.primary-nav {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+  }
+
+  .primary-nav-1 media-menu.primary-nav {
+    flex: 1;
+    justify-self: stretch;
+  }
+
+  .primary-nav-1 .ia-logo.primary-nav {
+    height: 3rem;
+    width: 2.7rem;
+    display: inline-block;
+  }
+
+  .primary-nav-1 .ia-wordmark.primary-nav {
+    height: 3rem;
+    width: 9.5rem;
+  }
+
+  .primary-nav-1 .ia-logo.primary-nav,
+  .primary-nav-1 .ia-wordmark.primary-nav {
+    margin-right: 5px;
+  }
+
+  .primary-nav-1 .hamburger.primary-nav {
+    -ms-grid-row: 1;
+    -ms-grid-column: 1;
+    grid-area: hamburger;
+    padding: 0;
+  }
+
+  .primary-nav-1 .hamburger.primary-nav svg.primary-nav {
+    height: 4rem;
+    width: 4rem;
+    fill: #fff;
+  }
+
+  .primary-nav-1 .mobile-donate-link.primary-nav {
+    display: inline-block;
+  }
+
+  .primary-nav-1 .mobile-donate-link.primary-nav svg.primary-nav {
+    height: 4rem;
+    width: 4rem;
+  }
+
+  .primary-nav-1 .mobile-donate-link.primary-nav .fill-color.primary-nav {
+    fill: rgb(255, 0, 0);
+  }
+
+  .primary-nav-1 .sr-only.primary-nav {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    clip: rect(1px, 1px, 1px, 1px);
+    -webkit-clip-path: inset(50%);
+    clip-path: inset(50%);
+    user-select: none;
+  }
+
+  .primary-nav-1 .search-trigger.primary-nav {
+    padding: 0;
+  }
+
+  .primary-nav-1 .search-trigger.primary-nav svg.primary-nav {
+    height: 4rem;
+    width: 4rem;
+  }
+
+  .primary-nav-1 .search-trigger.primary-nav .fill-color.primary-nav {
+    fill: #999;
+  }
+
+  .primary-nav-1 ia-dropdown-search-bar.primary-nav {
+    display: none;
+    font-size: 1.6rem;
+    --dropdownFontSize: 1.4rem;
+    --dropdownItemButtonPadding: 0 10px;
+  }
+
+  @media (max-width: 889px) {
+    .primary-nav-1 ia-dropdown-search-bar.search-open.primary-nav {
+      --search-bar-width: 100%;
+      display: flex;
+      align-items: center;
+      position: absolute;
+      top: 0;
+      right: 4rem;
+      bottom: 0;
+      left: 4rem;
+      z-index: 3;
+    }
+  }
+
+  .primary-nav-1 .upload.primary-nav {
+    display: none;
+  }
+
+  .primary-nav-1 .upload.primary-nav span.primary-nav {
+    display: none;
+  }
+
+  .primary-nav-1 .upload.primary-nav svg.primary-nav {
+    height: 3rem;
+    width: 3rem;
+  }
+
+  .primary-nav-1 .screen-name.primary-nav {
+    display: none;
+    font-size: 1.3rem;
+    vertical-align: middle;
+    text-transform: uppercase;
+  }
+
+  .primary-nav-1 .user-menu.primary-nav {
+    color: #999;
+    padding: 0.5rem;
+    height: 100%;
+  }
+
+  .primary-nav-1 button.user-menu.primary-nav:hover,
+  .primary-nav-1 button.user-menu.primary-nav:focus {
+    color: #fff;
+    outline: none;
+  }
+
+  .primary-nav-1 .user-menu.active.primary-nav {
+    border-radius: 1rem 1rem 0 0;
+    background: #333;
+  }
+
+  .primary-nav-1 .user-menu.primary-nav img.primary-nav {
+    display: block;
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .primary-nav-1 .link-home.primary-nav {
+    text-decoration: none;
+    display: inline-flex;
+  }
+
+  .primary-nav-1 a.link-home.primary-nav:focus,
+  .primary-nav-1 a.link-home.primary-nav:focus-visible {
+    outline-offset: 1px;
+  }
+
+  @media only screen and (min-width: 890px) and (max-device-width: 905px) {
+    .primary-nav-1 .branding.second-logo.primary-nav {
+      padding-right: 0;
+    }
+
+  }
+
+  @media (min-width: 906px) {
+    .primary-nav-1 .branding.second-logo.primary-nav {
+      padding-right: 20px;
+    }
+
+  }
+
+  @media (max-width: 889px) {
+    .primary-nav-1 slot.primary-nav[name='opt-sec-logo'] {
+      display: none;
+    }
+
+    .primary-nav-1 .right-side-section.primary-nav {
+      display: initial;
+    }
+
+    .primary-nav-1 .right-side-section.primary-nav .user-info.primary-nav {
+      float: right;
+    }
+
+  }
+
+  @media (min-width: 890px) {
+    .primary-nav-1 {
+      ;
+    }
+
+    .primary-nav-1 nav.primary-nav {
+      display: flex;
+      z-index: 4;
+      height: 5rem;
+      padding-right: 1.5rem;
+    }
+
+    .primary-nav-1 slot.primary-nav[name='opt-sec-logo-mobile'] {
+      display: none;
+    }
+
+    .primary-nav-1 .ia-logo.primary-nav,
+    .primary-nav-1 .ia-wordmark.primary-nav {
+      margin-right: 10px;
+    }
+
+    .primary-nav-1 .hamburger.primary-nav,
+    .primary-nav-1 .search-trigger.primary-nav,
+    .primary-nav-1 .mobile-donate-link.primary-nav {
+      display: none;
+    }
+
+    .primary-nav-1 .user-info.primary-nav {
+      display: block;
+      float: right;
+      vertical-align: middle;
+      height: 100%;
+      padding: 1rem 0.5rem;
+    }
+
+    .primary-nav-1 .user-info.primary-nav .user-menu.primary-nav img.primary-nav {
+      height: 3rem;
+      width: 3rem;
+      margin-right: 0.5rem;
+    }
+
+    .primary-nav-1 .user-menu.primary-nav {
+      padding: 1rem 0.5rem;
+    }
+
+    .primary-nav-1 .user-menu.active.primary-nav {
+      background: transparent;
+    }
+
+    .primary-nav-1 .user-menu.primary-nav img.primary-nav {
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 0.5rem;
+    }
+
+    .primary-nav-1 .upload.primary-nav {
+      display: block;
+      padding: 1rem 0.5rem;
+      float: right;
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #999;
+    }
+
+    .primary-nav-1 .upload.primary-nav:active,
+    .primary-nav-1 .upload.primary-nav:focus,
+    .primary-nav-1 .upload.primary-nav:hover {
+      color: #fff;
+    }
+
+    .primary-nav-1 .upload.primary-nav:focus-visible {
+      outline: none;
+    }
+
+    .primary-nav-1 .upload.primary-nav svg.primary-nav {
+      vertical-align: middle;
+      fill: #999;
+    }
+
+    .primary-nav-1 .upload.primary-nav:hover svg.primary-nav,
+    .primary-nav-1 .upload.primary-nav:focus svg.primary-nav,
+    .primary-nav-1 .upload.primary-nav:active svg.primary-nav {
+      fill: #fff;
+    }
+
+    .primary-nav-1 ia-dropdown-search-bar.primary-nav {
+      display: block;
+      position: static;
+      margin-right: 0.5rem;
+    }
+
+  }
+
+  @media (min-width: 990px) {
+    .primary-nav-1 .screen-name.primary-nav {
+      display: inline-block;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      max-width: 165px;
+    }
+
+    .primary-nav-1 .upload.primary-nav span.primary-nav {
+      display: inline;
+      vertical-align: middle;
+    }
+
+  }
+</style><!-- Shady DOM styles for user-menu --><!-- Shady DOM styles for ia-wayback-search --><!-- Shady DOM styles for wayback-search -->
+<style scope="wayback-search-1">
+  .wayback-search-1 {
+    font: normal 1.2rem/1.5 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+
+  .wayback-search-1 form.wayback-search {
+    max-width: 600px;
+  }
+
+  .wayback-search-1 p.wayback-search {
+    margin-top: 0;
+    font-weight: 200;
+  }
+
+  .wayback-search-1 a.wayback-search {
+    font-weight: 500;
+    text-decoration: none;
+    color: #fff;
+  }
+
+  .wayback-search-1 fieldset.wayback-search {
+    padding: 0.7rem 2rem;
+    margin: 1.5rem 0;
+    box-sizing: border-box;
+    text-align: center;
+    border: none;
+    border-radius: 7px;
+    background-color: #fcf5e6;
+    box-shadow: 3px 3px 0 0 #c3ad97;
+  }
+
+  .wayback-search-1 label.wayback-search {
+    display: none;
+  }
+
+  .wayback-search-1 img.wayback-search {
+    width: 100%;
+    max-width: 215px;
+    max-height: 60px;
+    margin-bottom: 1.3rem;
+    vertical-align: middle;
+  }
+
+  .wayback-search-1 input.wayback-search {
+    display: block;
+    width: 100%;
+    height: 3rem;
+    padding: 0.5rem 1rem 0.5rem 2.5rem;
+    font: normal 1.2rem/1.5 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #858585;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 2rem;
+    background: #eee;
+  }
+
+  .wayback-search-1 input.wayback-search:focus {
+    border-color: #66afe9;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+    outline: none;
+  }
+
+  .wayback-search-1 .search-field.wayback-search {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .wayback-search-1 .search-field.wayback-search svg.wayback-search {
+    position: absolute;
+    top: 2px;
+    left: 3px;
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+
+  .wayback-search-1 .search-field.wayback-search .fill-color.wayback-search {
+    fill: #999;
+  }
+
+  @media (min-width: 890px) {
+    .wayback-search-1 form.wayback-search {
+      margin: 0 auto;
+    }
+
+    .wayback-search-1 p.wayback-search {
+      margin-bottom: 3rem;
+      font-size: 1.6rem;
+      text-align: center;
+    }
+
+    .wayback-search-1 img.wayback-search {
+      margin: 0;
+    }
+
+    .wayback-search-1 fieldset.wayback-search {
+      margin: 0 auto;
+      font-size: 0;
+    }
+
+    .wayback-search-1 fieldset.wayback-search a.wayback-search,
+    .wayback-search-1 .search-field.wayback-search {
+      display: inline-block;
+      width: 50%;
+      vertical-align: middle;
+    }
+
+    .wayback-search-1 fieldset.wayback-search a.wayback-search {
+      text-align: center;
+    }
+
+    .wayback-search-1 .search-field.wayback-search svg.wayback-search {
+      width: 2.8rem;
+      height: 2.8rem;
+    }
+
+    .wayback-search-1 .search-field.wayback-search .fill-color.wayback-search {
+      fill: #333;
+    }
+
+  }
+
+  .wayback-search-1 p.wayback-search {
+    margin-bottom: 1rem;
+    font-size: 1.6rem;
+    text-align: center;
+  }
+
+  .wayback-search-1 fieldset.wayback-search {
+    padding: .5rem;
+    border-radius: 5px;
+    box-shadow: none;
+  }
+
+  .wayback-search-1 input.wayback-search {
+    padding-left: 3rem;
+    margin-top: .3rem;
+    font-size: 1.4rem;
+    border-color: #bca38e;
+    background: #fff;
+  }
+
+  .wayback-search-1 input.wayback-search::placeholder,
+  .wayback-search-1 input.wayback-search::-webkit-input-placeholder {
+    color: #8e8e8e;
+  }
+
+  .wayback-search-1 .search-field.wayback-search svg.wayback-search {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  @media (min-width: 890px) {
+
+    .wayback-search-1 fieldset.wayback-search a.wayback-search,
+    .wayback-search-1 .search-field.wayback-search {
+      display: block;
+      width: auto;
+    }
+
+    .wayback-search-1 fieldset.wayback-search a.wayback-search {
+      margin: 0 1.5rem;
+    }
+
+  }
+</style><!-- Shady DOM styles for save-page-form -->
+<style scope="save-page-form-1">
+  .save-page-form-1 div.save-page-form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-column-gap: .8rem;
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+
+  .save-page-form-1 input.save-page-form[type="text"] {
+    width: 100%;
+    height: 3rem;
+    box-sizing: border-box;
+    border: 1px solid #999;
+    border-radius: .5rem;
+    color: #222;
+    font-size: inherit;
+  }
+
+  .save-page-form-1 input.save-page-form[type="submit"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: .4rem .8rem;
+    font: normal 1.3rem 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    text-transform: uppercase;
+    color: #fff;
+    border: none;
+    border-radius: 16px;
+    background: #222;
+    cursor: pointer;
+  }
+
+  .save-page-form-1 .error.save-page-form {
+    display: none;
+    margin-top: .5rem;
+    font-weight: bold;
+    color: #ffcd27;
+  }
+
+  .save-page-form-1 .visible.save-page-form {
+    display: block;
+  }
+
+  @media (min-width: 890px) {
+    .save-page-form-1 h3.save-page-form {
+      margin-top: 0;
+      font: normal 100 1.6rem 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+  }
+</style><!-- Shady DOM styles for wayback-slider -->
+<style scope="wayback-slider-1">
+  .wayback-slider-1 h4.wayback-slider {
+    font-size: 1.6rem;
+  }
+
+  .wayback-slider-1 a.wayback-slider {
+    text-decoration: none;
+    color: #fff;
+  }
+
+  .wayback-slider-1 ul.wayback-slider {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .wayback-slider-1 li.wayback-slider+li.wayback-slider {
+    padding-top: 1.5rem;
+  }
+
+  @media (min-width: 890px) {
+    .wayback-slider-1 h4.wayback-slider {
+      margin: 0 0 1rem 0;
+      font-weight: 100;
+    }
+
+    .wayback-slider-1 ul.wayback-slider {
+      font-size: 1.3rem;
+    }
+
+    .wayback-slider-1 li.wayback-slider {
+      padding-bottom: .5rem;
+    }
+
+    .wayback-slider-1 li.wayback-slider+li.wayback-slider {
+      padding-top: 0;
+    }
+
+    .wayback-slider-1 li.wayback-slider a.wayback-slider {
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+  }
+
+  @media (min-width: 890px) {
+    .wayback-slider-1 {
+      display: block;
+      grid-column: 1 / 4;
+      padding: 0 1.5rem;
+    }
+
+    .wayback-slider-1 h4.wayback-slider {
+      margin-top: 0;
+      font: normal 100 1.6rem 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    .wayback-slider-1 .grid.wayback-slider {
+      display: grid;
+      grid-template-columns: minmax(auto, 260px) 1fr minmax(auto, 260px);
+
+      grid-column-gap: 2.5rem;
+    }
+
+    .wayback-slider-1 .link-lists.wayback-slider {
+      display: grid;
+      grid-template-columns: calc(50% - 1.25rem) calc(50% - 1.25rem);
+      grid-column-gap: 2.5rem;
+    }
+
+  }
+</style><!-- Shady DOM styles for more-slider -->
+<style scope="more-slider-1">
+  .more-slider-1 ul.more-slider {
+    padding: 0;
+    margin: -1rem 0 0 0;
+    list-style: none;
+  }
+
+  .more-slider-1 a.more-slider {
+    display: block;
+    padding: 1rem 0;
+    text-decoration: none;
+    color: #fff;
+  }
+</style><!-- Shady DOM styles for media-subnav -->
+<style scope="media-subnav-1">
+  .media-subnav-1 h4.media-subnav {
+    font-size: 1.6rem;
+  }
+
+  .media-subnav-1 a.media-subnav {
+    text-decoration: none;
+    color: #fff;
+  }
+
+  .media-subnav-1 ul.media-subnav {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .media-subnav-1 li.media-subnav+li.media-subnav {
+    padding-top: 1.5rem;
+  }
+
+  @media (min-width: 890px) {
+    .media-subnav-1 h4.media-subnav {
+      margin: 0 0 1rem 0;
+      font-weight: 100;
+    }
+
+    .media-subnav-1 ul.media-subnav {
+      font-size: 1.3rem;
+    }
+
+    .media-subnav-1 li.media-subnav {
+      padding-bottom: .5rem;
+    }
+
+    .media-subnav-1 li.media-subnav+li.media-subnav {
+      padding-top: 0;
+    }
+
+    .media-subnav-1 li.media-subnav a.media-subnav {
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+  }
+
+  .media-subnav-1 img.media-subnav {
+    display: block;
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 1rem auto;
+    border-radius: 45px;
+  }
+
+  .media-subnav-1 h3.media-subnav {
+    margin-top: 0;
+    font-size: 1.8rem;
+  }
+
+  .media-subnav-1 .icon-links.media-subnav {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: space-evenly;
+    -ms-flex-pack: space-evenly;
+    justify-content: space-evenly;
+    text-align: center;
+  }
+
+  .media-subnav-1 .icon-links.media-subnav a.media-subnav {
+    display: inline-block;
+    width: 12rem;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: center;
+    text-overflow: ellipsis;
+  }
+
+  .media-subnav-1 .icon-links.media-subnav a.media-subnav+a.media-subnav {
+    margin-left: 2rem;
+  }
+
+  .media-subnav-1 .featured.media-subnav h4.media-subnav {
+    display: none;
+  }
+
+  @media (min-width: 890px) {
+    .media-subnav-1 {
+      display: -ms-grid;
+      display: grid;
+      -ms-grid-columns: 40% 20% 40%;
+      grid-template-columns: 40% 20% 40%;
+    }
+
+    .media-subnav-1 .wayback-search.media-subnav {
+      -ms-grid-column: 1;
+      -ms-grid-column-span: 3;
+      grid-column: 1 / 4;
+    }
+
+    .media-subnav-1 h3.media-subnav {
+      display: none;
+    }
+
+    .media-subnav-1 .icon-links.media-subnav {
+      -ms-grid-column: 1;
+    }
+
+    .media-subnav-1 .icon-links.media-subnav a.media-subnav {
+      padding-top: 3.5rem;
+      max-width: 16rem;
+    }
+
+    .media-subnav-1 .links.media-subnav {
+      padding: 0 1.5rem;
+    }
+
+    .media-subnav-1 .featured.media-subnav {
+      -ms-grid-column: 2;
+    }
+
+    .media-subnav-1 .featured.media-subnav h4.media-subnav {
+      display: block;
+    }
+
+    .media-subnav-1 .top.media-subnav {
+      -ms-grid-column: 3;
+    }
+
+    .media-subnav-1 .top.media-subnav ul.media-subnav {
+      display: -ms-grid;
+      display: grid;
+      -ms-grid-columns: 50% 3rem 50%;
+      grid-template-columns: 50% 50%;
+      -ms-grid-rows: (auto)[7];
+      grid-template-rows: repeat(7, auto);
+      grid-column-gap: 3rem;
+      grid-auto-flow: column;
+    }
+
+    .media-subnav-1 .top.media-subnav ul.media-subnav>*.media-subnav:nth-child(1) {
+      -ms-grid-row: 1;
+      -ms-grid-column: 1;
+    }
+
+    .media-subnav-1 .top.media-subnav ul.media-subnav>*.media-subnav:nth-child(2) {
+      -ms-grid-row: 2;
+      -ms-grid-column: 1;
+    }
+
+    .media-subnav-1 .top.media-subnav ul.media-subnav>*.media-subnav:nth-child(3) {
+      -ms-grid-row: 3;
+      -ms-grid-column: 1;
+    }
+
+    .media-subnav-1 .top.media-subnav ul.media-subnav>*.media-subnav:nth-child(4) {
+      -ms-grid-row: 4;
+      -ms-grid-column: 1;
+    }
+
+    .media-subnav-1 .top.media-subnav ul.media-subnav>*.media-subnav:nth-child(5) {
+      -ms-grid-row: 5;
+      -ms-grid-column: 1;
+    }
+
+    .media-subnav-1 .top.media-subnav ul.media-subnav>*.media-subnav:nth-child(6) {
+      -ms-grid-row: 6;
+      -ms-grid-column: 1;
+    }
+
+    .media-subnav-1 .top.media-subnav ul.media-subnav>*.media-subnav:nth-child(7) {
+      -ms-grid-row: 7;
+      -ms-grid-column: 1;
+    }
+
+    .media-subnav-1 .top.media-subnav ul.media-subnav>*.media-subnav:nth-child(8) {
+      -ms-grid-row: 1;
+      -ms-grid-column: 3;
+    }
+
+    .media-subnav-1 .top.media-subnav ul.media-subnav>*.media-subnav:nth-child(9) {
+      -ms-grid-row: 2;
+      -ms-grid-column: 3;
+    }
+
+    .media-subnav-1 .top.media-subnav ul.media-subnav>*.media-subnav:nth-child(10) {
+      -ms-grid-row: 3;
+      -ms-grid-column: 3;
+    }
+
+    .media-subnav-1 .top.media-subnav ul.media-subnav>*.media-subnav:nth-child(11) {
+      -ms-grid-row: 4;
+      -ms-grid-column: 3;
+    }
+
+    .media-subnav-1 .top.media-subnav ul.media-subnav>*.media-subnav:nth-child(12) {
+      -ms-grid-row: 5;
+      -ms-grid-column: 3;
+    }
+
+    .media-subnav-1 .top.media-subnav ul.media-subnav>*.media-subnav:nth-child(13) {
+      -ms-grid-row: 6;
+      -ms-grid-column: 3;
+    }
+
+    .media-subnav-1 .top.media-subnav ul.media-subnav>*.media-subnav:nth-child(14) {
+      -ms-grid-row: 7;
+      -ms-grid-column: 3;
+    }
+
+  }
+</style><!-- Shady DOM styles for media-slider -->
+<style scope="media-slider-1">
+  .media-slider-1 .media-slider-container.media-slider {
+    position: relative;
+  }
+
+  .media-slider-1 .overflow-clip.media-slider {
+    display: none;
+    position: absolute;
+    top: 3rem;
+    right: 0;
+    left: 0;
+    height: 0;
+    overflow: hidden;
+    transition: height 0.2s ease;
+  }
+
+  .media-slider-1 .information-menu.media-slider {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    padding: 0;
+    height: 31.9rem;
+    overflow-x: hidden;
+    font-size: 1.4rem;
+    background: #333;
+  }
+
+  .media-slider-1 .open.media-slider {
+    display: block;
+  }
+
+  .media-slider-1 .hidden.media-slider {
+    display: none;
+  }
+
+  .media-slider-1 .info-box.media-slid
+
+[web_fetch response truncated: estimated 138917 tokens exceeded 16000; omitted middle content.]
+
+ariţie s-ar fi încheiat vârsta de aur a scripturilor române. 
+
+Zoe DUMITRESCU-BUŞULENGA, Eminescu şi lumea miturilor, în Valori 
+şi echivalenţe umanistice, Editura Eminescu, 1973, p. 188 — 91. 
+
+Ceea ce a încercat într-un fel unic artistul a fost să exprime total 
+prin geniul său, geniul poporului român, printr-o lucrare neprecupeţită, 
+de proporţii uriaşe, care trebuia, în gândul său, să-l facă o modestă 
+verigă între înaintaşi şi prezent. Ceea ce a izbutit a depăşit şi intenţia 
+sa, şi înţelegerea noastră. Prin iubire şi jertfire de sine faţă de idealurile, 
+aspiraţiile, concepţia de viaţă a românilor, el s-a proiectat pe orbita şi 
+pantheonul valorilor româneşti şi universale, devenind steaua polară la 
+care se raportează astăzi şi se va raporta cât va fi limba noastră pe 
+lume, cultura şi creaţia poporului său. 
+
+Zoe DUMITRESCU-BUŞULENGA, Prefaţa, în M.Eminescu, Poezii, 
+voi. I, Colecţia „B.P.T.", Editura Minerva, Bucureşti, 1 989, p. XL. 
+
+E ştiut că, dintr-o anumită perspectivă, astrul invocat în cel mai 
+nedumeritor poem eminescian apărea ca Luceafăr, în vreme ce din 
+perspectiva opusă el apărea ca Hyperion. în viziunea lui Eminescu, 
+aceasta nu-i o simplă chestiune de onomastică, ci simbolizează posibilităţi 
+şi atitudini diferite ale cunoaşterii. In primul caz, subiectul cunoscător 
+nu poate şi mai curând nici nu-şi pune problema de a ieşi din sine, de a 
+gândi alteritatea. A fi măsura tuturor lucrurilor i se pare un dat, nu un 
+rezultat. încât, ceea ce contrazice un asemenea mod de a fi, chiar de 
+trezeşte iniţial vreo nelinişte, sfârşeşte prin a fi pus sub semnul confortabil 
+
+
+
+315 
+
+
+
+— Mihai Eminescu — 
+
+
+
+al netranscenderii, al lui: „Deşivorbeştipe înţeles,/ Eu nu te pot pricepe..." 
+(Luceafărul^. Tot ce apare în raza unei asemenea percepţii este repede 
+integrat unei utilizări ad-hoc a principiului raţiunii suficiente: „Nu 
+slăvindu-te pe tine... lustruindu-se pe el / Sub a numelui tău umbră"; 
+„Rele-or zice că sunt toate câte nu vor înţelege..." (Scrisoarea l). Evident 
+că nu astfel se prezintă lucrurile în cazul al doilea, al cunoaşterii restituite 
+sensului ei originar. Aici, exceptând ceea ce poate fi o virtualitate privi- 
+legiată, un loc „menit în cer", deloc neglijabilă e şi actualizarea neîntreruptă 
+a acestei virtualităţi, curajul morţii şi al renaşterii repetate ffenomenologic 
+vorbind) drept condiţie şi cale de a deveni o autentică, universală măsură 
+a lucrurilor, un hyper-eon. Nu numai Luceafărul, dar şi întreaga operă 
+eminesciană, existenţa de aievea a poetului şi cea de când „ îl vedem şi nu 
+e" reprezintă aventura necontenit luată de la capăt a unui asemenea tip 
+de cunoaştere. Ni-lputem reprezentape Hyperion căzând şi acum în mări 
+din tot înaltul, chiar dacă în stadiul de operă finită, datoare a-şi atinge 
+sfericitatea, Luceafărul trebuia să se încheie în felul ştiut. A se simţi în 
+lumea sa „nemuritor şi rece" nu vrea să însemne şi ostil nouă decât în 
+măsura în care noi sfârşim încă adeseori prin a fi ostili chemărilor ce ne 
+adresează simbolicul astru, nereceptivi la revelaţia întruchipărilor lui de 
+gheaţă şi foc. Hyperion, condiţia hyperionică, pot însemna doar din 
+asemenea motive însingurare, deşi în esenţa lor reprezintă sete de 
+comunicare, numai că de pe o bază a intransigenţei faţă de „cercul strâmt", 
+implicând refuzul compromisurilor cu soarta ce ni s-a dat. O asemenea 
+condiţie exclude aşadar opacitatea, închiderea faţă de ceea ce semnifică 
+un mod mai înalt de a fi. înainte de a-şi fi imaginat că Demiurgul e cel ce 
+i-o spune, Eminescu îşi recunoscuse şi asumase el însuşi un anume destin, 
+în virtutea căruia putea să conchidă: „Iar tu, Hyperion rămâi/ Oriunde 
+ai apune..." 
+
+George MUNTEANU, 1 . Viaţa lui Eminescu, Editura Minerva, 1 973, 
+p. 7—8. 
+
+Floarea albastră, iată o vorbă care a devenit celebră în literatură ca 
+şi „a fi sau a nu fi" a lui Hamlet. Se vorbeşte de floarea albastră, însă de 
+multe ori nu se ştie bine nici de unde vine şi nici mai ales ce înseamnă. 
+Se ştie doar că ea porneşte de la Novalis, se ştie mai puţin că apare 
+romanul acestuia, neterminat, Heinrich von Ofterdingen şi încă şi mai 
+puţin se ştie care este adevăratul ei înţeles. 
+
+Confuzia sporeşte atunci când se presupune că între floarea albastră 
+a lui Novalis şi poezia lui Eminescu Floare-albastră ar fi o legătură de 
+
+
+
+316 
+
+
+
+— Luceafărul — 
+
+
+
+fond. Lectura textului lui Novalis şi a textului lui Eminescu şi comparaţia 
+între amândouă aceste texte alungă orice confuzie. [...] 
+
+A luat ceva Eminescu în Floare-abastră din toată această povestire? 
+Nimic altceva decât doar denumirea poeziei, denumirea de care pome- 
+neşte în penultima strofă şi pe care o repetă de două ori în strofa de la 
+sfârşit. Deosebirile sunt mari. Mai înainte de orice, în ce priveşte mişcarea. 
+Mişcarea visului lui Heinrich este îndreptată către viitor, corespunde chiar 
+şi titlului primei părţi a romanului (singura terminată) şi care este 
+Aşteptarea. Mişcarea din poezia lui Eminescu este îndreptată către trecut, 
+e o mişcare de amintire, de evocare a unor lucruri trăite cândva. Tonul în 
+care fata îndeamnă pe iubitul ei să nu-şi caute „în depărtare fericirea" 
+este pe jumătate glumeţ, pe jumătate serios: 
+
+„ — Iar te-ai cufundat în stele 
+Şi în nori şi ceruri nalte? 
+De nu m-ai uita încalţe, 
+Sufletul vieţii mele". 
+
+Uşor glumeaţă este şi atitudinea iubitului: 
+
+„Ast/eZ zise mititica, 
+Dulce netezindu-mi părul. 
+Ah! ea spuse adevărul; 
+Eu am râs, n-am zis nimica". 
+
+Tot cu un râs răspunde poetul în O, rămâi îndemnului pădurii de a 
+rămâne la ea: 
+
+&gt;r Astfel zise lin pădurea, 
+Bolţi asupra-mi clătinând; 
+Şuieram l-a ei chemare 
+Ş-am ieşit în câmp râzând". 
+
+Floare-albastră, ca şi O, rămâi, stă la hotarul dintre întristarea pe 
+care o dă părerea de rău după o fericire trecută şi plăcerea uşor dureroasă 
+pe care o dă amintirea acestei fericiri. Hotarul acesta, mişcător ca şi 
+timpul, în care el se înscrie, este asemenea aceluia dintre nour şi senin, 
+dintre umbră şi lumină, e o stare de crepuscul, foarte prielnică poeziei, 
+dar care este mai general omenească şi mai des întâlnită decât s-ar putea 
+crede la prima vedere. Există în om un simţ interior al limpezirii şi al 
+înceţoşării, simţ care nu are a face cu inteligenţa (deşi poate oferi acestuia 
+subiect de meditaţie) şi care funcţionează cu o mare vigoare şi arată 
+întotdeauna în chip sigur şi negura şi înseninarea. La Novalis şi la Eminescu 
+
+
+
+317 
+
+
+
+— Mihai Eminescu — 
+
+acest simţ îşi dovedeşte mereu şi din belşug prezenţa. Poetul român şi 
+poetul german sunt din aceeaşi familie spirituală, a romanticilor din 
+naştere, familie în care încap individualităţi felurite în ce priveşte expresia 
+şi chiar modul de viaţă şi de comportare, dar care toate se lasă purtate 
+între lumină şi umbră şi scot din aceste mişcări contrastante poezia lor 
+cea mai adâncă. 
+
+Alexandru PHILIPPIDE, Ceva despre „Floarea-albastră", în „Caietele 
+Mihai Eminescu", voi, II, Editura Eminescu, 1974, p. 12, 15 — 16. 
+
+Eminescu a devenit stil naţional, enclavă în care ne ridicăm portretul 
+spiritului nostru individual, tărâm cucerit în spiritualitate, de către 
+efortul de gândire al unei naţiuni. Ziua lui de naştere tinde să devină 
+sărbătoare a poeziei, aşa cum pentru portughezi sărbătoarea poeziei 
+este naşterea lui Camoes. 
+
+Nichita STĂNESCU, Pagini de jurnal, în voi. Fiziologia poeziei, Proză 
+şi versuri 1957-1983, Ediţie îngrijită de Alexandru Condeescu cu 
+acordul autorului, Editura Eminescu, Bucureşti, 1990, p. 413. 
+
+Eminescu este, prin pluridimensionalitatea sa prismatică, un adevărat 
+Aisberg. Scufundat cu o parte din bloc în apele începuturilor genetice ale 
+lumii, înălţat cu o altă parte dincolo de lume, în infinitul plăsmuit de un 
+Demiurgos închis astfel în sine încât „doar el aude plânsu- şi", el rămâne 
+încă — şi va rămâne o veşnicie! — un Necunoscut. Şi nu ne gândim, 
+spunând acest lucru, numai la faptul că, intraţi în ultimul deceniu al 
+secolului şi al mileniului, nu dispunem încă de o ediţie integrală a operei 
+sale. Ne gândim mai cu seamă la odiseea receptării, la modul în care 
+„aisbergul" a fost explorat şi înţeles. Dacă e firesc ca să nu se poată cu- 
+prinde întregul bloc, mai puţin explicabile sunt perseverarea în îngusti- 
+mea vederii, fixarea în clişee şi absolutizarea unor dimensiuni în defavoa- 
+rea altora şi, bineînţeles, a întregului. 
+
+Desprins din calotele glaciare (hyperionice) ale spiritului şi mergând 
+spre zonele calde ale sufletului, având reflexele astrale ale înseşi nemăr- 
+ginirii, aisbergul cunoaşte temperaturi diferite, este familiarizat cu cate- 
+gorii fundamentale ca Departele şi Adâncul, Cerescul şi Terestrul, Mişcarea 
+şi Oprirea în loc. Aventura capitală în care se lansează este cea a Cunoaşterii 
+Cursele care îl aşteaptă sunt ştiute dinainte: o preştiinţă călăuzeşte paşii lui 
+Eminescu, sensurile Vieţii (şi ale Morţii, fireşte) sunt descifrate încă înainte 
+de a trăi ca atare. O intuiţie sigură, dacă nu o pre-intuiţie, covârşeşte fiinţa 
+
+
+
+318 
+
+
+
+— Luceafărul — 
+
+
+
+eminesciană şi pre-determină gesturile hotărâtoare; o ardenţă tragică se 
+conturează din fragedele sale începuturi când îşi înalţă ochii visători la 
+steaua singurătăţii („Eu singur n-am cui spune cumplita mea durere,/ Eu 
+singur n-am cui spune nebunul meu amor...") sau când descoperă pentru 
+prima dată un gol ontologic înpreajmasa („Dar poate... o! capu-mipustiu 
+cufurtune,/ Gândirile-mi rele sugrum cele hune.../ Când sorii se sting şi 
+când stelele pică,/ îmi vine a crede că toate-s nimică.// Se poate ca bolta de 
+sus să se spargă,/ Să cadă nimicul cu noaptea lui largă,/ Să văd cerul negru 
+că lumile-şi cerne/ Ca prăzi trecătoare a morţii eterne..."). [...] 
+
+Fiinţa eminesciană se vede pusă, din începuturile sale firave, sub sem- 
+nul întrebărilor existenţiale şi al Nimicului invadant. Aisbergul se mişcă 
+întruna, cucerind nesăţios zonă după zonă între altitudinea glacială a 
+spiritului şi apele calde ale Vieţii, dar mişcarea lui este vectorială şi împacă 
+scufundarea cu înălţarea cutezătoare spre zori. Cum aiputea să-i determini 
+cu exactitate valoarea numerică, unitatea de măsură şi direcţia, raza 
+vectoare? Zadarul pândeşte rezultatul unei astfel de operaţiuni, aisbergul 
+rămânând ceea ce este: un aisberg. O parte (care?) este mereu ascunsă de 
+ochii noştri, fiinţa eminesciană, ca şi fiinţa în genere, neieşind nicicând în 
+întregime în heideggerianul luminiş al revelării. 
+
+Is-a mulat, înainte de toate, o mască platoniciană de geniu înnăscut, 
+prea puternic în a sa proprie fiinţă încât să-lfi abătut vreun contact cu 
+contingentul de la drumul său firesc. Imaginea maioresciană este statică, 
+apolinică, glacială; nepăsarea şi răceala hyperionică îi imprimă un 
+caracter aspaţial şi atemporal. Eminescu este, după părerea lui Maiorescu, 
+cu capul în norii unei idealităţi goale. Trăieşte deci în lumea ideilor gene- 
+rale şi coborârea în contingent, în lumea convenţională îi repugnă. Po- 
+etul se identifică în totul luiHyperion: este esenţă pură, metafizică, setos 
+de frumuseţea formelor perfecte şi afişând o seninătate abstractă. Masca 
+platoniciano-schopenhaueriană a lui Eminescu respiră, în primul rând, 
+impersonalitate. întâmplările dinafară, mişcarea evolutivă nu mai 
+contează: geniul se impune prin autodeterminare, printr-o „existenţă" 
+datorată propriei intuiţii şi voinţe. 
+
+Odiseea receptării cunoaşte două căi distincte: cea deschisă de 
+critica estetică a lui Titu Maiorescu şi ceapromovată de critica socialistă 
+a lui Gherea. Punându-le faţă în faţă, D. Popovici întrezăreşte cu perspi- 
+cacitate, în cunoscutele sale prelegeri universitare, limitele, exagerările, 
+absolutizările; într-un cuvânt, chiar neputinţa de a cuprinde integral 
+fenomenul prin fixarea într-o mentalitate sau prin căutarea obsesivă a 
+unei faculte maîtresse, a unui ax structural. [...] 
+
+
+
+319 
+
+
+
+— Mihai Eminescu — 
+
+
+
+[...] Dar nu numai Oda (în metru antic) vorbeşte pregnant despre 
+existenţialismul structural al poetului: el este un poet al Fiinţei prin lini- 
+amentele esenţiale ale viziunilor sale. 
+
+într-un studiu fundamental Eminescu sau despre Absolut, publicat 
+în 1 963 şi tradus în româneşte abia în 1 990, cercetătoarea italiană Rosa 
+del Conte distinge că, încă în cele mai fragede începuturi, mintea emi- 
+nesciană este cutreierată de fantoma contradictoriului. In faţa Poetului 
+se proiectează Timpul ca prim prag ontologic: fiind „omul afirmărilor 
+vitale absolute, al deplinătăţii, omul eminescian este măcinat de destin şi 
+de căutarea sensului existenţei; este omul care îşi pune fiinţa „în centrul 
+lumii încoronat cu sori" şi îşi proiectează „idealurile în infinit". Este o 
+proiectare în imens şi abstract a Fiinţei, în Timpul cosmic liniştit, dar şi în 
+Timpul psihologic care-i marchează devenirea. Este, la Eminescu, un 
+idealism ontologic care îngăduie o privire asupra realităţii obiective a 
+Universului. Or, imaginea precisă a acestuia se dizolvă în valurile fumurii 
+ale visului şi iluziei E vălul uriaş al May ei? Absolutul nu se poate identifica 
+contingentului fenomenului şi poetul stăruie mereu în această zonă tragică 
+a imposibilităţii împăcării contrariilor. „... în această identificare a existenţei 
+cu temporalitatea căreia i se contrapune Fiinţa drept ceva asupra căruia 
+vremelnicia nu are nici o putere, stă modernitatea simţirii lui" (ediţia 
+română, p. 389). Tărâmurile, categoriile ontologice rămân în separarea 
+continuă, zădărnicind eforturile de a pătrunde sensul existenţei. Astfel 
+proiectează sugestiv Rosa del Conte drama fiinţială eminesciană: Dumne- 
+zeu se opune Omului, la fel cum Fiinţa se opune devenirii. Cum poate fi 
+atins, în acest caz, Absolutul? 
+
+Este o întrebare fundamentală care ne transferă în zona fenomenelor 
+moderne ce ne promite o zare de nădejde: lumea valorilor. Eminescu s-a 
+pătruns de valorile vieţii fiindcă a trăit intens în orizontul morţii. 
+
+Cartea Svetlanei Paleologu-Matta Eminescu şi abisul ontologic (Edi- 
+tura „Nord", Aarhus, 1989) îl raportează pe poetul român la fenome- 
+nologia lui Heidegger şi Husserl, ca şi la axiologia modernă, în special la 
+Max Scheler, la care persoana se identifică spiritului în drumul lui spre 
+Absolut. Raportările nu au nimic voit în ele; servesc doar ca argumente 
+mai solide ale unei demonstraţii axiomatice. Eminescu se aliniază organic 
+la postulatele filosofilor printr-o experienţă trăită, prin scufundarea reală 
+şi cu toate consecinţele în abisurile fiinţei. Astfel, el nu doar prinde lumea 
+în concepţie, ci o percepe ca totalitate a existenţei, pus sub semnul tragi- 
+cului. El priveşte moartea în faţă ca dimensiune esenţială ce agită orizon- 
+tul existenţial, plin de tainele indeterminării. 
+
+Dorinţa vechilor greci de a concentra într-un singur individ toate 
+forţele şi calităţile umane ducea la încarnare: un individ aparte poartă în 
+
+
+
+320 
+
+
+
+— Luceafărul — 
+
+
+
+sine întreaga plenititudine a vieţii, în timp ce ceilalţi o posedă numai în 
+măsura în care o contemplă la el. La greci, după cum observă Soren 
+Kierkegaard, apare un raport inversat: zeul nu posedă el însuşi forţa pe 
+care o reprezintă: indivizii, însă, beneficiază de ea prin faptul că se pun în 
+legătură cu zeul. 
+
+Fenomenologii de tipul lui Heidegger văd tipul reprezentativ sau încar- 
+nat care domină lumea Fiinţei în Poet, fiindcă numai rostirea cântăreţului 
+rosteşte întregul nevătămat al existenţei de ordinul lumii care se rânduieşte 
+în spaţiul interior al lumii inimii. Preaplinul existenţei îşi află izvorul în 
+inima poetului, precum ne-o demonstrează atâtRilke, în Elegia a noua, 
+cât şi Eminescu, în Povestea magului călător în stele: „Pe creaţiuni bo- 
+gate sufletul este domn". 
+
+Omul eminescian face, în fond, gesturile fiinţiale ale omului modern, 
+care, aşa cum spune Heidegger, se impune pe sine în prim plan în încerca- 
+rea de a se ridica, hyperionic, deasupra lumii, şi îşi asumă calitatea de 
+stăpân ce domină prin ridicarea-deasupra. Eminescu, tip reprezentativ 
+sau încarnat (cu conştiinţa de bard sau de geniu), având revelaţia des- 
+tinului măcinător şi deschizător de pustii în preajmă („Viaţa-mi se scurge 
+ca şi murmura/ Ce-o suflă-un crivăţ printre pustii/ Mă urc ca crucea 
+pusă-n câmpii/ Şi de blesteme mi-e neagră gura") se întreabă, din frageda 
+tinereţe şi dacă pentru sufletul meu/Nu-i loc aicea, ci numa-n stele" (Ami- 
+cului F. IJ îşi punea, adică, problema raportării la Lumea fiinţei şi a 
+locului său în ea, gândindu-se la o ridicare- deasupra hyperionică. Este 
+marea temă existenţială a vieţii şi operei sale. 
+
+Eminescu depăşeşte realitatea obiectivă printr-o formă de viaţă supe- 
+rioară, cu adevărat spirituală, prin raportarea frecventă a gândirii la 
+Fiinţa „nestrămutată" (de aceea, pentru el între moarte şi viaţă nu este 
+o demarcaţie) „sub raza gândului etern". Visând şi gândind sub specie 
+aeternitas, poetul vede sufletul şi lucrurile dincolo de cunoaştere, într-o 
+dimensiune în care totul „scânteiază", îmbogăţind cosmosul. Astfel poetul 
+transcende contingentul şi particularul, ajungând până la zona tensi- 
+onată a spiritului unde intuieşte esenţialul, resacralizează Lumea, 
+gândeşte Fiinţa în toate metamorfozele ei, punându-ne şi pe noi „pe 
+acest drum al iluminaţiilor succesive, al devenirii şi al bucuriei acestei 
+deveniri" (Eminescu şi abisul ontologic, „Nord", Aarhus, p. 249). 
+
+Aşadar, un nou Eminescu apare din perspectiva raportului dintre 
+existenţa umană şi existenţa în genere (George Munteanu), dintre eul 
+eminescian şi legile universului (Theodor Codreanu), sau a modelelor 
+cosmologice (I. Em. Petrescu). întoarcerea la originiprin mit şi coborâre 
+în preistoria dacică devine o aventură existenţială fundamentală, prin 
+
+
+
+321 
+
+
+
+— Mihai Eminescu — 
+
+
+
+care explorează adâncimile fiinţei. Nostalgia după începuturi, matca pri- 
+mordială, abisul, noaptea bogată în germeni şi latenţe, principiul feminin 
+în toate manifestările sunt, după Mircea Eliade, categorii romantice ma- 
+jore ce nu depind de careva „influenţe" dinafară, ci definesc poziţia esenţială 
+a omului în Cosmos. Pădurea mitică este depozitară subconştientului 
+colectiv, a corespondenţelor misterioase ce-l leagă pe om de o realitate 
+psihică primordială în cadrul căreia el cunoştea integral şi simţea uni- 
+tatea inseparabilă cu Lumea (Zoe Dumitrescu-Buşulenga) . Eminescu 
+înfăţişează un mit românesc, în imaginea mitică a Daciei zeii fiind 
+„strămoşii" dacilor, iar nemurirea apărând reprezentată ca o nemurire a 
+„eroilor" din raiul zânei Dochia (Eugen Todoran). Mitul eminescian duce, 
+în mod obişnuit, la o paradigmă a armoniei, la o conjugare a tranzitori- 
+ului cu veşnicia; mişcarea în imaginar, dincolo de contradicţiile Eului, 
+relevă o conştiinţă nu funciar tragică, ci patetică şi capabilă de a restruc- 
+tura lumea în consens cu proaspăta unitate primordială (C. Ciopraga). 
+
+Drumul către Fiinţă a lui Eminescu nu dovedeşte pur şi simplu o 
+devenire oarecare, o devenire întru devenire, ci o devenire întru fiinţă, 
+fiindcă se realizează la el un dialog dintre particular şi general, în care se 
+constată că acesta din urmă nu poate prinde fiinţa aievea, după cum 
+spune inspirat Constantin Noica în Sentimentul românesc al fiinţei. 
+
+Aisbergul eminescian este, dacă ne gândim la neputinţa noastră de iden- 
+tificare cu el, o paradigmă a însăşi Fiinţei care se deschide şi se închide succesiv 
+prin alternanţa de lumini şi abisuri revelate. Pornind de la afirmaţia blagiană 
+„Există „O idee Eminescu", iar aceasta s-a zămislit sub zodii româneşti"), 
+academicianul Mihai Drăgănescu vorbea şi despre existenţa unui Spaţiu 
+Eminescu, constituit din întreaga operă de poezie şi gândire. 
+
+De acest spaţiu dispunem acum graţie trudei lui Perpessicius, Dimitrie 
+Vatamaniuc, Petru Creţia, Aurelia Rusu, Oxana Busuioceanu. 
+
+Poezia română a secolului al XK-lea a rămas afiliată, prin spirit, tot 
+acestei idei Eminescu şi acestui Spaţiu Eminescu: Nichita Stănescu con- 
+sidera că întreg contextul poetic al zbuciumatului veac poate fi pus sub 
+semnul Odei (în metru antic), iar Grigore Vieru vede personalitatea lui 
+Eminescu ca o cetate cu mai multe porţi, fiecare alegându-şi-o pe a sa. 
+
+Fiindcă, aşa cum recunosc şi filosofii culturii (G. Uscătescu), căutarea 
+fiinţei noastre, marea noastră regăsire ontologică, tot Eminescu ne-o 
+face posibilă. 
+
+Cu Eminescu putem căuta nu pur şi simplu Fiinţa, ci plinătatea Ei. 
+Mihai CIMPOI, Personalitatea lui Eminescu: odiseea receptării. 
+
+
+
+322 
+
+
+
+</pre>        </div><!--/.container-->
+              </main>
+    </div><!--/#wrap-->
+
+    <!-- Timing ...
+     rendered on: www15.us.archive.org
+ seconds diff sec                                      message   stack(file:line:function)
+=========================================================
+  0.0000   0.0000                                petabox start   var/cache/petabox/petabox/www/sf/download.php:1:require
+                                             |common/ia:66:require_once
+                                             |setup.php:384:log
+  0.0058   0.0058                             redis_read start   var/cache/petabox/petabox/www/sf/download.php:79:main_wrap
+                                             |download.php:98:main
+                                             |download.php:317:getItem
+                                             |common/Item.inc:78:parseMetadata
+                                             |Item.inc:138:get_obj
+                                             |Metadata.inc:613:_get_obj
+                                             |Metadata.inc:642:run_pipeline
+                                             |Metadata.inc:1697:read
+                                             |Metadata/AdapterPipeline.inc:288:_read
+                                             |AdapterPipeline.inc:324:pipeline
+                                             |AdapterPipeline.inc:466:fetch
+                                             |AdapterPipeline.inc:895:execute_pipeline
+                                             |RecordServer.inc:184:log
+  0.0089   0.0031                            redis_read finish   var/cache/petabox/petabox/www/sf/download.php:79:main_wrap
+                                             |download.php:98:main
+                                             |download.php:317:getItem
+                                             |common/Item.inc:78:parseMetadata
+                                             |Item.inc:138:get_obj
+                                             |Metadata.inc:613:_get_obj
+                                             |Metadata.inc:642:run_pipeline
+                                             |Metadata.inc:1697:read
+                                             |Metadata/AdapterPipeline.inc:288:_read
+                                             |AdapterPipeline.inc:324:pipeline
+                                             |AdapterPipeline.inc:466:fetch
+                                             |AdapterPipeline.inc:895:execute_pipeline
+                                             |RecordServer.inc:193:log
+  0.7267   0.7178                             start db connect   var/cache/petabox/petabox/www/sf/download.php:79:main_wrap
+                                             |download.php:98:main
+                                             |download.php:317:getItem
+                                             |common/Item.inc:78:parseMetadata
+                                             |Item.inc:138:get_obj
+                                             |Metadata.inc:613:_get_obj
+                                             |Metadata.inc:642:run_pipeline
+                                             |Metadata.inc:1697:read
+                                             |Metadata/AdapterPipeline.inc:288:_read
+                                             |AdapterPipeline.inc:324:pipeline
+                                             |AdapterPipeline.inc:578:pipeline_stage
+                                             |AdapterPipeline.inc:717:populate
+                                             |Adapter/SimpleListsAdapter.inc:60:get_memberships
+                                             |SimpleLists.inc:86:get_records
+                                             |SimpleLists/Storage.inc:39:q
+                                             |DB.inc:398:execute
+                                             |DB.inc:1142:query
+                                             |DB.inc:136:query0
+                                             |DB.inc:165:ping
+                                             |DB.inc:830:connect
+                                             |DB.inc:105:conn
+                                             |DB.inc:932:log
+  0.7391   0.0124                                       got db   var/cache/petabox/petabox/www/sf/download.php:79:main_wrap
+                                             |download.php:98:main
+                                             |download.php:317:getItem
+                                             |common/Item.inc:78:parseMetadata
+                                             |Item.inc:138:get_obj
+                                             |Metadata.inc:613:_get_obj
+                                             |Metadata.inc:642:run_pipeline
+                                             |Metadata.inc:1697:read
+                                             |Metadata/AdapterPipeline.inc:288:_read
+                                             |AdapterPipeline.inc:324:pipeline
+                                             |AdapterPipeline.inc:578:pipeline_stage
+                                             |AdapterPipeline.inc:717:populate
+                                             |Adapter/SimpleListsAdapter.inc:60:get_memberships
+                                             |SimpleLists.inc:86:get_records
+                                             |SimpleLists/Storage.inc:39:q
+                                             |DB.inc:398:execute
+                                             |DB.inc:1142:query
+                                             |DB.inc:136:query0
+                                             |DB.inc:165:ping
+                                             |DB.inc:830:connect
+                                             |DB.inc:105:conn
+                                             |DB.inc:981:log
+  0.7427   0.0037                            redis_write start   var/cache/petabox/petabox/www/sf/download.php:79:main_wrap
+                                             |download.php:98:main
+                                             |download.php:317:getItem
+                                             |common/Item.inc:78:parseMetadata
+                                             |Item.inc:138:get_obj
+                                             |Metadata.inc:613:_get_obj
+                                             |Metadata.inc:642:run_pipeline
+                                             |Metadata.inc:1697:read
+                                             |Metadata/AdapterPipeline.inc:288:_read
+                                             |AdapterPipeline.inc:324:pipeline
+                                             |AdapterPipeline.inc:594:store_record
+                                             |AdapterPipeline.inc:627:execute
+                                             |IO/Attempt.inc:307:wait
+                                             |WaitForCondition.inc:177:IO\{closure}
+                                             |IO/Attempt.inc:125:iteration
+                                             |Attempt.inc:342:Metadata\{closure}
+                                             |Metadata/AdapterPipeline.inc:626:update
+                                             |RecordServer.inc:248:_update
+                                             |RecordServer.inc:283:log
+  0.7438   0.0010                           redis_write finish   var/cache/petabox/petabox/www/sf/download.php:79:main_wrap
+                                             |download.php:98:main
+                                             |download.php:317:getItem
+                                             |common/Item.inc:78:parseMetadata
+                                             |Item.inc:138:get_obj
+                                             |Metadata.inc:613:_get_obj
+                                             |Metadata.inc:642:run_pipeline
+                                             |Metadata.inc:1697:read
+                                             |Metadata/AdapterPipeline.inc:288:_read
+                                             |AdapterPipeline.inc:324:pipeline
+                                             |AdapterPipeline.inc:594:store_record
+                                             |AdapterPipeline.inc:627:execute
+                                             |IO/Attempt.inc:307:wait
+                                             |WaitForCondition.inc:177:IO\{closure}
+                                             |IO/Attempt.inc:125:iteration
+                                             |Attempt.inc:342:Metadata\{closure}
+                                             |Metadata/AdapterPipeline.inc:626:update
+                                             |RecordServer.inc:248:_update
+                                             |RecordServer.inc:290:log
+  0.7501   0.0064                          begin session_start   var/cache/petabox/petabox/www/sf/download.php:79:main_wrap
+                                             |download.php:98:main
+                                             |download.php:504:stream
+                                             |download.php:872:head
+                                             |common/Nav.inc:155:__construct
+                                             |Nav.inc:230:session_start
+                                             |Cookies.inc:50:log
+  0.7502   0.0000   skipping session_start, user not logged-in   var/cache/petabox/petabox/www/sf/download.php:79:main_wrap
+                                             |download.php:98:main
+                                             |download.php:504:stream
+                                             |download.php:872:head
+                                             |common/Nav.inc:155:__construct
+                                             |Nav.inc:230:session_start
+                                             |Cookies.inc:60:log
+  0.7931   0.0429                                     bug dump   var/cache/petabox/petabox/www/sf/download.php:79:main_wrap
+                                             |download.php:98:main
+                                             |download.php:504:stream
+                                             |download.php:902:footer
+                                             |common/setup.php:148:footer
+                                             |Nav.inc:820:dump
+                                             |Bug.inc:94:log
+    -->
+    <script  nonce="4235694868061fe5eaab229728726f10" >
+if (typeof archive_analytics !== 'undefined') {
+  archive_analytics.send_pageview_on_load(archive_analytics);
+  archive_analytics.process_url_events(location);
+  var vs = archive_analytics.get_data_packets();
+  for (var i in vs) {
+    if (!vs[i]) {
+      vs[i] = {};
+    }
+    vs[i]['cache_bust']=Math.random();
+    vs[i]['server_ms']=793;
+    vs[i]['server_name']="www15.us.archive.org";
+      }
+}
+</script>
+          <img src="//athena.archive.org/0.gif?kind=track_js&track_js_case=control&cache_bust=192878742" alt="" />
+          <noscript>
+        <img src="//athena.archive.org/0.gif?kind=track_js&track_js_case=disabled&cache_bust=712990595" />
+      </noscript>
+          <script  nonce="4235694868061fe5eaab229728726f10" >
+        document.addEventListener('DOMContentLoaded', function() {
+          if (typeof archive_analytics !== 'undefined')
+            archive_analytics.create_tracking_image('in_page_executes');
+        });
+      </script>
+      </div>
+  </body>
+</html>
+    

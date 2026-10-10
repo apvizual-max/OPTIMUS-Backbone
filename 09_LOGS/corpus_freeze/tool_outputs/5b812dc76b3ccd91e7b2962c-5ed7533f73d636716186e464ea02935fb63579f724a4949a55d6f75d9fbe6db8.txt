@@ -1,0 +1,49 @@
+# MiniMax Agent Docs
+
+- [Welcome to MiniMax Code](https://agent.minimax.io/docs/code/welcome.md): MiniMax Code is a desktop AI Agent app for software development, everyday workflows, automation, and remote collaboration.
+- [Download and Install](https://agent.minimax.io/docs/code/get-started/download.md): Download MiniMax Code and install it on macOS or Windows.
+- [Create Your First Task](https://agent.minimax.io/docs/code/get-started/first-task.md): Start from the composer, attach context, and let MiniMax Code begin working.
+- [Coding and Work Modes](https://agent.minimax.io/docs/code/workflows/modes.md): Understand when to use Coding mode or Work mode in MiniMax Code.
+- [Workspace and Project Context](https://agent.minimax.io/docs/code/workflows/workspace.md): Attach a local project so the Agent can understand your files, scripts, and conventions.
+- [Tasks and History](https://agent.minimax.io/docs/code/workflows/tasks.md): Manage tasks, history, pinned items, and archived conversations in MiniMax Code.
+- [Conversation Collaboration](https://agent.minimax.io/docs/code/workflows/conversation-collaboration.md): Quote, comment on, and rate Agent replies directly in a conversation.
+- [Code Review](https://agent.minimax.io/docs/code/workflows/code-review.md): Use the built-in Review command to inspect local code changes.
+- [Permissions and Safety](https://agent.minimax.io/docs/code/workflows/permissions.md): Understand how MiniMax Code handles permission prompts for local files, commands, and external actions.
+- [Infinite Canvas](https://agent.minimax.io/docs/code/desktop/infinite-canvas.md): Bring your assets, ideas, and generated results onto one canvas, and create alongside your Agent.
+- [Goal](https://agent.minimax.io/docs/code/desktop/goal.md): Set a verifiable outcome for MiniMax Code and let it keep working until the goal is achieved or progress is blocked.
+- [Built-in Browser](https://agent.minimax.io/docs/code/desktop/browser.md): Open pages, preview generated HTML, and debug web work inside the MiniMax Code task view.
+- [Files / Changes / Terminal Panels](https://agent.minimax.io/docs/code/desktop/panels.md): Use MiniMax Code panels to inspect files, code changes, and command output.
+- [Shortcuts and Mini Window](https://agent.minimax.io/docs/code/desktop/shortcuts.md): Use global shortcuts, command palette, and the mini window to work faster.
+- [Updates and Feedback](https://agent.minimax.io/docs/code/desktop/updates-feedback.md): Check for MiniMax Code updates and submit feedback tickets from the desktop app.
+- [Agent Team](https://agent.minimax.io/docs/code/agents/team.md): Use Agent Team for complex tasks that benefit from decomposition, collaboration, and verification.
+- [Custom Agents](https://agent.minimax.io/docs/code/agents/custom-agents.md): Create dedicated Agents with their own role, instructions, skills, workspace, and channels.
+- [Custom Mini Apps](https://agent.minimax.io/docs/code/agents/mini-apps.md): Bring information, tools, and everyday tasks together in one interface.
+- [H3 Max Video Generation](https://agent.minimax.io/docs/code/agents/h3-max.md): Create videos with sound from text prompts and reference media in MiniMax Code.
+- [Plugin Marketplace](https://agent.minimax.io/docs/code/agents/plugins.md): Install and use domain plugins in MiniMax Code.
+- [MCP Servers](https://agent.minimax.io/docs/code/agents/mcp.md): Connect external tools and data sources to MiniMax Code.
+- [Memory](https://agent.minimax.io/docs/code/agents/memory.md): Let MiniMax Code retain useful preferences, project conventions, and long-term working patterns.
+- [Scheduled Tasks](https://agent.minimax.io/docs/code/automation/schedules.md): Let Agents run recurring work on a schedule.
+- [Remote Control](https://agent.minimax.io/docs/code/automation/remote-control.md): Connect to your desktop Agent from your phone to check progress, add instructions, and approve permissions.
+- [Messaging Integrations](https://agent.minimax.io/docs/code/automation/im.md): Collaborate with Agents through Telegram, WeChat, Lark, or Feishu depending on the locale.
+- [Token Plan and Credits](https://agent.minimax.io/docs/code/account/usage.md): View usage, plan status, credits, and billing-related entries in MiniMax Code.
+- [MiniMax API Key](https://agent.minimax.io/docs/code/account/minimax-api.md): Configure your own MiniMax API key in MiniMax Code.
+- [Custom Models / BYOK](https://agent.minimax.io/docs/code/account/byok.md): Add a custom model provider with base URL, API key, API format, and model names.
+- [FAQ](https://agent.minimax.io/docs/code/help/faq.md): Frequently asked questions about MiniMax Code desktop.
+- [Feedback](https://agent.minimax.io/docs/code/help/feedback.md): Submit reproduction details, screenshots, and diagnostics when reporting issues.
+- [Quick Start](https://agent.minimax.io/docs/cli/quick-start.md): Install MiniMax Code CLI, sign in, and complete your first terminal task.
+- [Features and configuration](https://agent.minimax.io/docs/cli/features.md): Learn about MiniMax Code CLI entry points, interactive capabilities, configuration, and integrations.
+- [Workflows](https://agent.minimax.io/docs/cli/workflows.md): Use MiniMax Code CLI for repository work, multi-turn tasks, plans, permissions, and session recovery.
+- [Configuration and models](https://agent.minimax.io/docs/cli/configuration.md): Configure MiniMax Code CLI data directories, credentials, providers, models, proxies, skills, MCP, and plugins.
+- [Headless and CI](https://agent.minimax.io/docs/cli/automation.md): Use mcode exec from Shell, CI, batch jobs, and evaluations with structured output and stable exit codes.
+- [ACP integration](https://agent.minimax.io/docs/cli/integrations.md): Connect MiniMax Code CLI to editors and Agent hosts that support Agent Client Protocol.
+- [Command reference](https://agent.minimax.io/docs/cli/reference.md): Review MiniMax Code CLI top-level commands, options, and machine-readable output entry points.
+- [Security and permissions](https://agent.minimax.io/docs/cli/security.md): Understand MiniMax Code CLI permission modes, credential protection, and automation boundaries.
+- [Troubleshooting](https://agent.minimax.io/docs/cli/faq.md): Troubleshoot MiniMax Code CLI installation, sign-in, configuration, automation, and terminal issues.
+- [Changelog](https://agent.minimax.io/docs/changelog.md): Track every update to MiniMax Code.
+- [Tech Blog](https://agent.minimax.io/docs/techblog.md): Technical articles from the MiniMax Agent engineering team.
+- [Common Issues](https://agent.minimax.io/docs/question.md): Solutions for common MiniMax Code client startup, login, unresponsive app, and log upload issues.
+- [MiniMax Agent Team: Built for Long-Horizon Work, Built to Keep Improving](https://agent.minimax.io/docs/techblog/agent-team.md): Why we built Agent Team: how we designed it, what it solves, what it costs, when to use it, and when to keep it simple.
+
+## AsyncAPI Specs
+
+- [asyncapi](/docs/api-reference/speech/t2a/api/asyncapi.json)

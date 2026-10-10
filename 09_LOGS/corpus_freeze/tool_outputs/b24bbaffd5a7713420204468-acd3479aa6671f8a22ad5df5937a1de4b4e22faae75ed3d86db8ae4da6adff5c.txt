@@ -1,0 +1,54 @@
+NAMES                             IMAGE                                    STATUS                  PORTS
+hermes-mcp-docker-gordon-bridge   hermes-mcp-base:latest                   Up 14 hours             
+hermes-mcp-antigravity-bridge     hermes-mcp-base:latest                   Up 14 hours             
+hermes-mcp-hermes-profile         hermes-mcp-base:latest                   Up 14 hours             
+hermes-mcp-session-replay         hermes-mcp-base:latest                   Up 14 hours             
+hermes-mcp-whatsapp               hermes-mcp-base:latest                   Up 14 hours             
+hermes-sentinel-daemon            hermes-mcp-base:latest                   Up 14 hours             
+hermes-mcp-windows-system         hermes-mcp-base:latest                   Up 14 hours             
+hermes-mcp-docker                 hermes-mcp-base:latest                   Up 14 hours             
+hermes-mcp-optimus-orchestrator   hermes-mcp-base:latest                   Up 14 hours             
+hermes-mcp-tempo                  hermes-mcp-base:latest                   Up 14 hours             
+hermes-mcp-prometheus             hermes-mcp-base:latest                   Up 14 hours             
+hermes-mcp-vault                  hermes-mcp-base:latest                   Up 14 hours             
+hermes-mcp-elasticsearch          hermes-mcp-base:latest                   Up 14 hours             
+hermes-mcp-searxng                hermes-mcp-base:latest                   Up 14 hours             
+hermes-mcp-postgresql             hermes-mcp-base:latest                   Up 14 hours             
+hermes-mcp-telegram-bot           hermes-mcp-base:latest                   Up 14 hours             
+hermes-mcp-redis                  hermes-mcp-base:latest                   Up 14 hours             
+hermes-mcp-minio                  hermes-mcp-base:latest                   Up 14 hours             
+hermes-mcp-git                    hermes-mcp-base:latest                   Up 14 hours             
+hermes-mcp-notebooklm             node:20-slim                             Up 14 hours             
+hermes-mcp-google-drive           node:20-slim                             Up 14 hours             
+hermes-mcp-agent-browser          node:20-slim                             Up 14 hours             
+hermes-mcp-sequential-thinking    node:20-slim                             Up 14 hours             
+hermes-mcp-memory                 node:20-slim                             Up 14 hours             
+hermes-mcp-discord                node:20-slim                             Up 14 hours             
+hermes-mcp-telegram               node:20-slim                             Up 14 hours             
+hermes-mcp-obsidian               node:20-slim                             Up 14 hours             
+hermes-mcp-chrome-devtools        node:20-slim                             Up 14 hours             
+hermes-mcp-qwen                   node:20-slim                             Up 14 hours             
+hermes-mcp-filesystem             node:20-slim                             Up 14 hours             
+hermes-mcp-browser                node:20-slim                             Up 14 hours             
+hermes-mcp-google-workspace       node:20-slim                             Up 14 hours             
+camofox                           camofox-browser:latest                   Up 14 hours             6080/tcp, 9377/tcp
+whatsmeow-bui                     whatsmeow-bui:latest                     Up 14 hours             0.0.0.0:8086->8085/tcp, [::]:8086->8085/tcp
+stirling-pdf                      stirlingtools/stirling-pdf:latest        Up 14 hours (healthy)   0.0.0.0:8082->8080/tcp, [::]:8082->8080/tcp
+golang                            golang:1.24                              Up 14 hours             
+postgres                          postgres:15                              Up 14 hours             0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+selenium-chrome                   selenium/standalone-chrome:latest        Up 14 hours             0.0.0.0:4444->4444/tcp, [::]:4444->4444/tcp, 0.0.0.0:7900->7900/tcp, [::]:7900->7900/tcp
+vault                             hashicorp/vault:latest                   Up 14 hours             0.0.0.0:8200->8200/tcp, [::]:8200->8200/tcp
+alpine                            alpine:latest                            Up 14 hours             
+prometheus                        prom/prometheus:latest                   Up 14 hours             0.0.0.0:9090->9090/tcp, [::]:9090->9090/tcp
+searxng                           searxng/searxng:latest                   Up 14 hours             0.0.0.0:8888->8080/tcp, [::]:8888->8080/tcp
+node-22-slim                      node:22-slim                             Up 14 hours             
+camofox-browser-beta              camofox-browser:152.0.4-beta.28-x86_64   Up 14 hours             0.0.0.0:6081->6080/tcp, [::]:6081->6080/tcp, 0.0.0.0:9378->9377/tcp, [::]:9378->9377/tcp
+camofox-browser-latest            camofox-browser:latest                   Up 14 hours             0.0.0.0:6080->6080/tcp, [::]:6080->6080/tcp, 0.0.0.0:9377->9377/tcp, [::]:9377->9377/tcp
+node-20-slim                      node:20-slim                             Up 14 hours             
+open-webui                        ghcr.io/open-webui/open-webui:main       Up 14 hours (healthy)   0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp
+redis                             redis:7-alpine                           Up 14 hours             0.0.0.0:6379->6379/tcp, [::]:6379->6379/tcp
+hermes-mcp-git-base               hermes-mcp-git-base:latest               Up 14 hours             
+elasticsearch                     elasticsearch:8.13.0                     Up 14 hours             0.0.0.0:9200->9200/tcp, [::]:9200->9200/tcp, 0.0.0.0:9300->9300/tcp, [::]:9300->9300/tcp
+libreoffice                       lscr.io/linuxserver/libreoffice:latest   Up 14 hours             0.0.0.0:3001->3000/tcp, [::]:3001->3000/tcp
+aion-ui                           aion-ui:latest                           Up 14 hours             0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp
+

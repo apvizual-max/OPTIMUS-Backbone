@@ -1,0 +1,927 @@
+{
+  "generated_at": "2026-10-07T04:33:50.620190",
+  "workspace": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME",
+  "not_measured": [],
+  "deployment": {
+    "front_healthz": {
+      "status": 200,
+      "bytes": 87,
+      "headers": {
+        "Server": "nginx/1.31.6",
+        "Content-Type": "application/json",
+        "X-SENTINEL-Deployment": "mavis-sentinel-hub"
+      }
+    },
+    "front_root": {
+      "status": 200,
+      "bytes": 64805,
+      "headers": {
+        "Server": "nginx/1.31.6",
+        "Content-Type": "text/html; charset=utf-8",
+        "X-SENTINEL-Deployment": "mavis-sentinel-hub"
+      }
+    },
+    "front_readyz": {
+      "status": 200,
+      "bytes": 92010,
+      "headers": {
+        "Server": "nginx/1.31.6",
+        "Content-Type": "application/json; charset=utf-8",
+        "X-SENTINEL-Deployment": "mavis-sentinel-hub"
+      }
+    },
+    "backend_readyz": {
+      "status": 200,
+      "bytes": 92010,
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Server": "Microsoft-HTTPAPI/2.0"
+      }
+    },
+    "backend_route_note": "The backend serves /, /api/state, /api/health, /api/minimax, /api/verify, /api/corpus. It has NO route literally named /healthz or /readyz - those two names exist only on the container front, where nginx maps /readyz onto the backend's /api/state. Probing the backend at /readyz returns 404 and that is correct behaviour, not a defect. front /readyz byte size equals /api/state byte size, which is how the two planes are proved to agree.",
+    "route_api_state": {
+      "status": 200,
+      "bytes": 92010,
+      "headers": {
+        "Server": "nginx/1.31.6",
+        "Content-Type": "application/json; charset=utf-8",
+        "X-SENTINEL-Deployment": "mavis-sentinel-hub"
+      }
+    },
+    "route_api_health": {
+      "status": 200,
+      "bytes": 21080,
+      "headers": {
+        "Server": "nginx/1.31.6",
+        "Content-Type": "application/json; charset=utf-8",
+        "X-SENTINEL-Deployment": "mavis-sentinel-hub"
+      }
+    },
+    "route_api_minimax": {
+      "status": 200,
+      "bytes": 21223,
+      "headers": {
+        "Server": "nginx/1.31.6",
+        "Content-Type": "application/json; charset=utf-8",
+        "X-SENTINEL-Deployment": "mavis-sentinel-hub"
+      }
+    },
+    "route_api_verify": {
+      "status": 200,
+      "bytes": 20385,
+      "headers": {
+        "Server": "nginx/1.31.6",
+        "Content-Type": "application/json; charset=utf-8",
+        "X-SENTINEL-Deployment": "mavis-sentinel-hub"
+      }
+    },
+    "route_api_corpus": {
+      "status": 200,
+      "bytes": 18916,
+      "headers": {
+        "Server": "nginx/1.31.6",
+        "Content-Type": "application/json; charset=utf-8",
+        "X-SENTINEL-Deployment": "mavis-sentinel-hub"
+      }
+    },
+    "container": {
+      "name": "mavis-sentinel-hub",
+      "image": "mavis/sentinel-hub:1.0.0",
+      "status": "running",
+      "health": "healthy",
+      "restart_policy": "unless-stopped",
+      "ports": {
+        "80/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "8910"
+          }
+        ]
+      },
+      "started_at": "2026-10-07T01:27:14.307292515Z",
+      "created": "2026-10-05T01:40:21.892436229Z"
+    },
+    "loopback_refused": [
+      "172.21.224.1",
+      "172.29.32.1",
+      "192.168.1.193"
+    ],
+    "loopback_reachable": []
+  },
+  "health": {
+    "file": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\13_COMMAND_CENTER\\api\\health.json",
+    "sha256": "1bff72944cd34e9ac5125245f1b78076c96b7f77138d4d99a5fdc0fd283a24f4",
+    "bytes": 21080,
+    "generated_at": "2026-10-07T04:33:39.036023",
+    "overall": "FAIL",
+    "interpretation": "OK means every check ran and passed. DEGRADED means at least one check could not run or is stale - the capability is UNVERIFIED, not working. FAIL means at least one measured value is out of bounds.",
+    "declared_total_checks": 55,
+    "actual_checks": 55,
+    "status_counts": {
+      "OK": 51,
+      "STALE": 2,
+      "FAIL": 2
+    },
+    "duration_sec": 8.734,
+    "non_ok": [
+      {
+        "id": "corpus_fresh",
+        "family": "corpus",
+        "status": "STALE",
+        "value": 153930.0,
+        "bound": "< 3600s",
+        "evidence": "extraction is a snapshot; older than the bound means the conversation moved on",
+        "measured_at": "2026-10-07T04:33:30.301830"
+      },
+      {
+        "id": "workflow_state_fresh",
+        "family": "workflow",
+        "status": "STALE",
+        "value": 367.7,
+        "bound": "< 300s",
+        "evidence": "how long since the workflow last wrote its state",
+        "measured_at": "2026-10-07T04:33:30.304028"
+      },
+      {
+        "id": "mcp_config_servers_exist",
+        "family": "wiring",
+        "status": "FAIL",
+        "value": {
+          "referenced_python_servers": 5,
+          "missing": 5,
+          "missing_entries": [
+            "prime-bridge -> C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\prime_bridge_server.py",
+            "sentinel-state -> C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\sentinel_state_server.py",
+            "rule-triggers -> C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\rule_triggers_server.py",
+            "learning-loop -> C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\learning_loop_server.py",
+            "context-pressure -> C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\context_pressure_server.py"
+          ],
+          "capability_covered_elsewhere": [
+            {
+              "declared_as": "prime-bridge",
+              "live_under": "mcp-server-filesystem"
+            },
+            {
+              "declared_as": "sentinel-state",
+              "live_under": "sentinel-hub (3 tools)"
+            },
+            {
+              "declared_as": "rule-triggers",
+              "live_under": "sentinel-hub (1 tools)"
+            },
+            {
+              "declared_as": "learning-loop",
+              "live_under": "sentinel-hub (3 tools)"
+            },
+            {
+              "declared_as": "context-pressure",
+              "live_under": "sentinel-hub (1 tools)"
+            }
+          ],
+          "capability_uncovered": []
+        },
+        "bound": "every referenced .py server exists on disk",
+        "evidence": "5 .py servers referenced by the config, 5 not on disk. 5 of those capabilities are verified live under another registered server (prime-bridge, sentinel-state, rule-triggers, learning-loop, context-pressure); 0 have no live equivalent. A declared server that cannot start is a false promise, so this stays FAIL: the blueprint is stale, but an agent that reads it and launches those names still fails. Rewriting or pruning the config is an operator decision.",
+        "measured_at": "2026-10-07T04:33:30.332781"
+      },
+      {
+        "id": "mcp_npx_packages_resolve",
+        "family": "wiring",
+        "status": "FAIL",
+        "value": {
+          "declared": 4,
+          "resolved": 2,
+          "missing": [
+            "web-tools -> @modelcontextprotocol/server-fetch",
+            "git -> @modelcontextprotocol/server-git"
+          ]
+        },
+        "bound": "every npx package the config declares actually resolves",
+        "evidence": "2/4 declared npx packages resolve (registry control answered: 19.3.0). Missing: web-tools -> @modelcontextprotocol/server-fetch; git -> @modelcontextprotocol/server-git. A declared package that 404s cannot be started by npx.",
+        "measured_at": "2026-10-07T04:33:37.518003"
+      }
+    ]
+  },
+  "ecosystem": {
+    "file": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\13_COMMAND_CENTER\\api\\minimax-ecosystem.json",
+    "bytes": 21223,
+    "generated_at": "2026-10-07T04:31:48",
+    "counts": {
+      "measured": 32,
+      "not_available": 0,
+      "error": 0,
+      "total": 32
+    },
+    "surfaces": 32,
+    "by_status": {
+      "MEASURED": 32
+    },
+    "surface_index": [
+      {
+        "id": "agents",
+        "label": "Agent runtime",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:33"
+      },
+      {
+        "id": "skills",
+        "label": "Installed skills",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:33"
+      },
+      {
+        "id": "skills_drift",
+        "label": "SENTINEL skill drift",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:33"
+      },
+      {
+        "id": "mcp_config",
+        "label": "MCP configuration",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:33"
+      },
+      {
+        "id": "mcp_runtime",
+        "label": "MCP runtime names",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:33"
+      },
+      {
+        "id": "sessions",
+        "label": "Local sessions",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:33"
+      },
+      {
+        "id": "memory",
+        "label": "Agent memory",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:33"
+      },
+      {
+        "id": "integrations",
+        "label": "Integrations",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:33"
+      },
+      {
+        "id": "plugins",
+        "label": "Plugins",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:33"
+      },
+      {
+        "id": "config",
+        "label": "Runtime config",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:33"
+      },
+      {
+        "id": "permissions",
+        "label": "Permission policy",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:33"
+      },
+      {
+        "id": "channel_bindings",
+        "label": "Channel bindings",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:33"
+      },
+      {
+        "id": "channel_routes",
+        "label": "Channel routes",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:33"
+      },
+      {
+        "id": "minimax_cli",
+        "label": "MINIMAX CLI",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:33"
+      },
+      {
+        "id": "desktop_code_processes",
+        "label": "Code desktop app processes",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:35"
+      },
+      {
+        "id": "task_telemetry",
+        "label": "App task telemetry",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:35"
+      },
+      {
+        "id": "embedded_browser",
+        "label": "Embedded browser tabs",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:35"
+      },
+      {
+        "id": "cloud_bridge_device",
+        "label": "Cloud bridge device",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:35"
+      },
+      {
+        "id": "agent_identity",
+        "label": "Signed-in identity",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:35"
+      },
+      {
+        "id": "design_app",
+        "label": "MINIMAX Design",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:35"
+      },
+      {
+        "id": "hub_app",
+        "label": "MINIMAX Hub",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:35"
+      },
+      {
+        "id": "design_gateway",
+        "label": "Design gateway",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:37"
+      },
+      {
+        "id": "design_route_loader",
+        "label": "Design route loader",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:37"
+      },
+      {
+        "id": "design_cloud_seam",
+        "label": "Design cloud seam",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:37"
+      },
+      {
+        "id": "design_profiles",
+        "label": "Design agent profiles",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:37"
+      },
+      {
+        "id": "design_plugins",
+        "label": "Design bundled plugins",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:37"
+      },
+      {
+        "id": "design_cloud_hosts",
+        "label": "Design cloud gateway hosts",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:37"
+      },
+      {
+        "id": "design_cloud_reach",
+        "label": "Design cloud reachability",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:48"
+      },
+      {
+        "id": "design_cloud_auth",
+        "label": "Design cloud credential",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:48"
+      },
+      {
+        "id": "sentinel_profile",
+        "label": "SENTINEL in MCP profile",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:48"
+      },
+      {
+        "id": "sentinel_hub",
+        "label": "SENTINEL MCP hub",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:48"
+      },
+      {
+        "id": "swarm_liveness",
+        "label": "SENTINEL swarm",
+        "status": "MEASURED",
+        "measured_at": "2026-10-07T04:31:48"
+      }
+    ]
+  },
+  "tests": {
+    "unit_suite": {
+      "file": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\13_COMMAND_CENTER\\api\\last_test_run.json",
+      "bytes": 4830,
+      "ran_at": "2026-10-07T04:30:42.837805",
+      "passed": 502,
+      "failed": 0,
+      "skipped": 0,
+      "green": true,
+      "classes": 29,
+      "checks": null
+    },
+    "deployment_suite": {
+      "file": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\13_COMMAND_CENTER\\api\\deployment-tests.json",
+      "bytes": 7497,
+      "ran_at": "2026-10-06T23:22:20",
+      "passed": 43,
+      "failed": 0,
+      "skipped": null,
+      "green": true,
+      "classes": null,
+      "checks": 43
+    }
+  },
+  "workspace_inventory": {
+    "directories": 15,
+    "total_files": 1293,
+    "total_bytes": 31565054,
+    "per_directory": {
+      "01_FOUNDATION": {
+        "files": 5,
+        "bytes": 25957
+      },
+      "02_OPERATIONAL": {
+        "files": 4,
+        "bytes": 16187
+      },
+      "03_INTELLIGENCE": {
+        "files": 2,
+        "bytes": 12354
+      },
+      "04_PARTNERSHIP": {
+        "files": 1,
+        "bytes": 5764
+      },
+      "05_LEARNING": {
+        "files": 5,
+        "bytes": 30196
+      },
+      "06_HISTORICAL": {
+        "files": 4,
+        "bytes": 12508
+      },
+      "07_BACKBONE": {
+        "files": 9,
+        "bytes": 177979
+      },
+      "08_SELF_IMPROVEMENT": {
+        "files": 90,
+        "bytes": 1429734
+      },
+      "09_LOGS": {
+        "files": 1039,
+        "bytes": 25234947
+      },
+      "10_DOCS": {
+        "files": 3,
+        "bytes": 26808
+      },
+      "11_BRAIN": {
+        "files": 36,
+        "bytes": 3086936
+      },
+      "11_PLANS": {
+        "files": 11,
+        "bytes": 210985
+      },
+      "12_PROGRAM": {
+        "files": 4,
+        "bytes": 41256
+      },
+      "13_COMMAND_CENTER": {
+        "files": 68,
+        "bytes": 1119777
+      },
+      "14_HANDOFF": {
+        "files": 12,
+        "bytes": 133666
+      }
+    }
+  },
+  "key_files": {
+    "13_COMMAND_CENTER\\index.html": {
+      "bytes": 64805,
+      "lines": 1178,
+      "sha256": "f59129cb4653ac08",
+      "bom": false,
+      "crlf": 1177
+    },
+    "13_COMMAND_CENTER\\api\\server.ps1": {
+      "bytes": 27374,
+      "lines": 570,
+      "sha256": "d0227839c51627c6",
+      "bom": false,
+      "crlf": 0
+    },
+    "13_COMMAND_CENTER\\api\\sentinel-hub.ps1": {
+      "bytes": 32713,
+      "lines": 668,
+      "sha256": "211b59734eb5f4ce",
+      "bom": false,
+      "crlf": 0
+    },
+    "13_COMMAND_CENTER\\api\\collect-sentinel.ps1": {
+      "bytes": 14030,
+      "lines": 313,
+      "sha256": "a7db107e9883d5a1",
+      "bom": true,
+      "crlf": 0
+    },
+    "13_COMMAND_CENTER\\deploy\\nginx.conf": {
+      "bytes": 6149,
+      "lines": 131,
+      "sha256": "ddd19721ec8716f8",
+      "bom": false,
+      "crlf": 0
+    },
+    "13_COMMAND_CENTER\\deploy\\Dockerfile": {
+      "bytes": 2417,
+      "lines": 47,
+      "sha256": "f23659fa1b432390",
+      "bom": false,
+      "crlf": 0
+    },
+    "07_BACKBONE\\mcp\\sentinel_hub_server.py": {
+      "bytes": 38765,
+      "lines": 968,
+      "sha256": "4127e543c219610a",
+      "bom": false,
+      "crlf": 0
+    },
+    "07_BACKBONE\\mcp\\OPTIMUS_MCP_CONFIG.json": {
+      "bytes": 4565,
+      "lines": 150,
+      "sha256": "86989b627f2eb8eb",
+      "bom": false,
+      "crlf": 0
+    },
+    "08_SELF_IMPROVEMENT\\test_suite.py": {
+      "bytes": 151422,
+      "lines": 3119,
+      "sha256": "03ded93a4e1d171f",
+      "bom": false,
+      "crlf": 3118
+    },
+    "08_SELF_IMPROVEMENT\\test_deployment.py": {
+      "bytes": 94750,
+      "lines": 1852,
+      "sha256": "5e58f9c1bee8f508",
+      "bom": false,
+      "crlf": 1851
+    },
+    "08_SELF_IMPROVEMENT\\monitor.py": {
+      "bytes": 54975,
+      "lines": 1178,
+      "sha256": "30ec5b18f8eb4644",
+      "bom": false,
+      "crlf": 0
+    },
+    "08_SELF_IMPROVEMENT\\collect_minimax_ecosystem.py": {
+      "bytes": 50143,
+      "lines": 1063,
+      "sha256": "c1633ebfa8e8c22f",
+      "bom": false,
+      "crlf": 0
+    },
+    "11_BRAIN\\04_METHOD\\MISSTEPS_AND_CORRECTIONS.md": {
+      "bytes": 6406,
+      "lines": 97,
+      "sha256": "bcc1d545ade733e9",
+      "bom": false,
+      "crlf": 0
+    },
+    "12_PROGRAM\\PROGRAM_SPEC.md": {
+      "bytes": 10204,
+      "lines": 217,
+      "sha256": "28b4561c9cdfda17",
+      "bom": false,
+      "crlf": 0
+    },
+    "12_PROGRAM\\IDEA_TO_SCRIPT_MATRIX.json": {
+      "bytes": 16450,
+      "lines": 527,
+      "sha256": "ab394c9ada928144",
+      "bom": false,
+      "crlf": 526
+    },
+    "12_PROGRAM\\GAP_REGISTER.json": {
+      "bytes": 11248,
+      "lines": 183,
+      "sha256": "a592efb7df6fd3e9",
+      "bom": false,
+      "crlf": 0
+    },
+    "12_PROGRAM\\HERMES_GATEWAY_PROFILE_PLAN.md": {
+      "bytes": 3354,
+      "lines": 74,
+      "sha256": "6f5aae2859ee5505",
+      "bom": false,
+      "crlf": 0
+    }
+  },
+  "startup_anchor": {
+    "path": "C:\\Users\\apviz\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\SENTINEL Command Center.bat",
+    "bytes": 4557,
+    "sha256": "4acc5bbc6f3828bc652768295011defff3634a7181e3bde4f1a0826170a7d990",
+    "crlf": 75,
+    "bom": false
+  },
+  "startup_log": {
+    "path": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\09_LOGS\\hub-startup.log",
+    "bytes": 28180,
+    "markers": 61,
+    "exit_lines": 25,
+    "last_exit": "0"
+  },
+  "live_mcp_profile": {
+    "path": "C:\\Users\\apviz\\.minimax\\mcp.json",
+    "servers": 17,
+    "names": [
+      "agent-browser-mcp",
+      "chrome-devtools-mcp",
+      "docker-mcp",
+      "gdrive-mcp",
+      "git-mcp",
+      "gmail-mcp",
+      "google-calendar-mcp",
+      "google-workspace-mcp",
+      "hermes-mcp-router",
+      "mcp-server-filesystem",
+      "minimax-notebooklm",
+      "minimax-whatsapp",
+      "notebooklm-mcp",
+      "obsidian-mcp",
+      "qwen-acp-adapter",
+      "qwen-mcp-http",
+      "sentinel-hub"
+    ]
+  },
+  "sentinel_hub": {
+    "path": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\sentinel_hub_server.py",
+    "bytes": 38765,
+    "tools": 26,
+    "tool_names": [
+      "sentinel_apply_triple_filter",
+      "sentinel_browser_navigate",
+      "sentinel_browser_scrape",
+      "sentinel_browser_screenshot",
+      "sentinel_check_context",
+      "sentinel_check_mimicry",
+      "sentinel_check_r_triggers",
+      "sentinel_combine_perspectives",
+      "sentinel_confirm_identity",
+      "sentinel_create_handoff",
+      "sentinel_cross_instance_active",
+      "sentinel_cross_instance_broadcast",
+      "sentinel_cross_instance_send",
+      "sentinel_extract_patterns",
+      "sentinel_get_state",
+      "sentinel_log_event",
+      "sentinel_make_educated_guess",
+      "sentinel_set_state",
+      "sentinel_universal_adapt_prompt",
+      "sentinel_universal_verify",
+      "sentinel_workflow_enter_mode_a",
+      "sentinel_workflow_execute",
+      "sentinel_workflow_propose_r0",
+      "sentinel_workflow_ratify",
+      "sentinel_workflow_report_interruption",
+      "sentinel_workflow_state"
+    ]
+  },
+  "skills": {
+    "root": "C:\\Users\\apviz\\.minimax\\agents\\mavis\\skills",
+    "count": 62,
+    "names": [
+      "mavis-antigravity-bridge-skill",
+      "mavis-antigravity-docker-admin-skill",
+      "mavis-antigravity-ecosystem-integrations-skill",
+      "mavis-antigravity-process-logging-skill",
+      "mavis-autostart-docker-swarm-skill",
+      "mavis-backbone-skill",
+      "mavis-bigquery-sql-optimization-skill",
+      "mavis-building-data-apps-skill",
+      "mavis-bundle-behavioral",
+      "mavis-bundle-identity",
+      "mavis-bundle-operations",
+      "mavis-bundle-role",
+      "mavis-chrome-browser-skill",
+      "mavis-data-autocleaning-pipeline-skill",
+      "mavis-deliverable-handoff-skill",
+      "mavis-doc-bridge-skill",
+      "mavis-docker-backup-configurator-skill",
+      "mavis-docker-docs-skill",
+      "mavis-docker-gordon-skill",
+      "mavis-exec-sentinel-orchestrator-skill",
+      "mavis-full-intent-execution-skill",
+      "mavis-gemini-api-dev-skill",
+      "mavis-gemini-live-api-skill",
+      "mavis-gemini-omni-flash-skill",
+      "mavis-google-workspace-skill",
+      "mavis-hermes-bridge-skill",
+      "mavis-hermes-design-sot",
+      "mavis-instruction-fidelity-skill",
+      "mavis-jurnal-oglinda-skill",
+      "mavis-managing-python-dependencies-skill",
+      "mavis-mcp-management-skill",
+      "mavis-memory-curator-skill",
+      "mavis-minimax-antigravity-bridge-skill",
+      "mavis-minimax-hermes-bridge-skill",
+      "mavis-minimax-hermes-doctor-skill",
+      "mavis-minimax-index-folder-update",
+      "mavis-minimax-optimus-system",
+      "mavis-minimax-perspective-change-thinking",
+      "mavis-notebooklm-bridge-skill",
+      "mavis-obsidian-second-brain-skill",
+      "mavis-qwen-bridge-skill",
+      "mavis-r33-bimodal-skill",
+      "mavis-sacru-corpus-skill",
+      "mavis-sentinel-bimodal-workflow-skill",
+      "mavis-sentinel-command-center-skill",
+      "mavis-sentinel-daemon-skill",
+      "mavis-sentinel-error-alert-engine-skill",
+      "mavis-sentinel-memory-search-skill",
+      "mavis-sentinel-prime-on-minimax-skill",
+      "mavis-sentinel-prime-role-skill",
+      "mavis-sentinel-workflow-rpid-skill",
+      "mavis-session-lifecycle-skill",
+      "mavis-shared-local-mcp-swarm-skill",
+      "mavis-skill-index",
+      "mavis-skill-repair-manifest-skill",
+      "mavis-subject-completion-skill",
+      "mavis-swarm-coordinator-skill",
+      "mavis-tany-llm-to-sentinel-skill",
+      "mavis-triple-crunch-skill",
+      "mavis-wayland-bridge-skill",
+      "minimax-optimus-dashboard",
+      "qwen-ecosystem-dashboard"
+    ]
+  },
+  "ports": {
+    "docker_ps": [
+      "apviz-honcho-mock-provider\t8000/tcp\tUp 6 minutes",
+      "apviz-honcho-memory\t127.0.0.1:8000->8000/tcp\tUp 6 minutes (healthy)",
+      "mavis-sentinel-hub\t127.0.0.1:8910->80/tcp\tUp 6 minutes (healthy)",
+      "mavis-optimus-control-center\t127.0.0.1:8901->80/tcp\tUp 6 minutes (healthy)",
+      "mattermost\t127.0.0.1:8065->8065/tcp\tUp 6 minutes (healthy)",
+      "postgres\t127.0.0.1:5432->5432/tcp\tUp 6 minutes",
+      "ntfy\t127.0.0.1:8090->80/tcp\tUp 6 minutes",
+      "optimus-tools-selector\t127.0.0.1:9111->9111/tcp\tUp 6 minutes (healthy)",
+      "lightpanda\t127.0.0.1:9222->9222/tcp\tUp 6 minutes",
+      "Antigravity_Ecosystem_Terminal\t127.0.0.1:9878->9878/tcp\tUp 6 minutes",
+      "apviz-honcho-db\t5432/tcp\tUp 6 minutes (healthy)",
+      "apviz-honcho-redis\t6379/tcp\tUp 6 minutes (healthy)",
+      "minimax-hermes-bridge\t127.0.0.1:8801->8801/tcp\tUp 6 minutes (healthy)",
+      "minimax-antigravity-bridge\t127.0.0.1:8802->8802/tcp\tUp 6 minutes (healthy)",
+      "stirling-pdf\t127.0.0.1:8082->8080/tcp\tUp 6 minutes (healthy)",
+      "apviz-dashboard-monitor\t0.0.0.0:9119->9119/tcp, [::]:9119->9119/tcp\tUp 6 minutes",
+      "hermes-mcp-filesystem\t\tUp 6 minutes",
+      "hermes-mcp-memory\t\tUp 6 minutes",
+      "hermes-mcp-browser\t\tUp 6 minutes",
+      "hermes-mcp-obsidian\t\tUp 6 minutes",
+      "hermes-mcp-agent-browser\t\tUp 6 minutes",
+      "hermes-mcp-telegram\t\tUp 6 minutes",
+      "hermes-mcp-discord\t\tUp 6 minutes",
+      "hermes-mcp-google-workspace\t\tUp 6 minutes",
+      "hermes-mcp-google-drive\t\tUp 6 minutes",
+      "hermes-mcp-chrome-devtools\t\tUp 6 minutes",
+      "hermes-mcp-sequential-thinking\t\tUp 6 minutes",
+      "hermes-mcp-notebooklm\t\tUp 6 minutes",
+      "hermes-mcp-qwen\t\tUp 6 minutes",
+      "redis\t127.0.0.1:6379->6379/tcp\tUp 6 minutes",
+      "elasticsearch\t127.0.0.1:9200->9200/tcp, 127.0.0.1:9300->9300/tcp\tUp 6 minutes",
+      "hermes-mcp-optimus-orchestrator\t\tUp 6 minutes",
+      "hermes-mcp-git\t\tUp 6 minutes",
+      "hermes-mcp-session-replay\t\tUp 6 minutes",
+      "hermes-mcp-vault\t\tUp 6 minutes",
+      "hermes-mcp-elasticsearch\t\tUp 6 minutes",
+      "hermes-mcp-redis\t\tUp 6 minutes",
+      "hermes-mcp-docker\t\tUp 6 minutes",
+      "hermes-mcp-windows-system\t\tUp 6 minutes",
+      "hermes-mcp-docker-gordon-bridge\t\tUp 6 minutes",
+      "hermes-mcp-prometheus\t\tUp 6 minutes",
+      "hermes-mcp-antigravity-bridge\t\tUp 6 minutes",
+      "hermes-mcp-goal-judge\t\tUp 6 minutes",
+      "hermes-mcp-searxng\t\tUp 6 minutes",
+      "hermes-mcp-telegram-bot\t\tUp 6 minutes",
+      "hermes-mcp-whatsapp\t\tUp 6 minutes",
+      "hermes-sentinel-daemon\t\tUp 6 minutes",
+      "hermes-mcp-hermes-profile\t\tUp 6 minutes",
+      "hermes-mcp-postgresql\t\tUp 6 minutes",
+      "vault\t127.0.0.1:8201->8200/tcp\tUp 6 minutes",
+      "selenium-chrome\t127.0.0.1:4444->4444/tcp, 127.0.0.1:7900->7900/tcp\tUp 6 minutes",
+      "aion-ui\t127.0.0.1:3000->3000/tcp\tUp 6 minutes",
+      "open-webui\t127.0.0.1:8080->8080/tcp\tUp 6 minutes (healthy)",
+      "libreoffice\t127.0.0.1:3001->3000/tcp\tUp 6 minutes",
+      "searxng\t127.0.0.1:8888->8080/tcp\tUp 6 minutes",
+      "prometheus\t127.0.0.1:9090->9090/tcp\tUp 6 minutes",
+      "whatsmeow-bui\t127.0.0.1:8086->8085/tcp\tUp 6 minutes",
+      "camofox-browser-latest\t127.0.0.1:6080->6080/tcp, 127.0.0.1:9377->9377/tcp\tUp 6 minutes",
+      "hermes-mcp-git-base\t\tUp 6 minutes",
+      "node-22-slim\t\tUp 6 minutes",
+      "alpine\t\tUp 6 minutes",
+      "golang\t\tUp 6 minutes",
+      "node-20-slim\t\tUp 6 minutes"
+    ],
+    "8900_owner": "OPTIMUS control center (not touched by SENTINEL)",
+    "8901_owner": "OPTIMUS (not touched by SENTINEL)"
+  },
+  "blueprint": {
+    "path": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\OPTIMUS_MCP_CONFIG.json",
+    "sha256": "86989b627f2eb8ebc7ffbdd14accfb935891cc342a75b44f7b346e6957707e36",
+    "bytes": 4565,
+    "declared": 9,
+    "built": [
+      "filesystem (npm @modelcontextprotocol/server-filesystem 2026.8.31)",
+      "browser (npm @playwright/mcp 0.0.83)"
+    ],
+    "planned_not_built": [
+      "prime-bridge",
+      "sentinel-state",
+      "rule-triggers",
+      "learning-loop",
+      "context-pressure",
+      "web-tools (npm @modelcontextprotocol/server-fetch does not resolve)",
+      "git (npm @modelcontextprotocol/server-git does not resolve)"
+    ],
+    "names": [
+      "browser",
+      "context-pressure",
+      "filesystem",
+      "git",
+      "learning-loop",
+      "prime-bridge",
+      "rule-triggers",
+      "sentinel-state",
+      "web-tools"
+    ]
+  },
+  "gap_register": {
+    "path": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\12_PROGRAM\\GAP_REGISTER.json",
+    "count": 18,
+    "by_area": {
+      "dependency": 1,
+      "concept": 5,
+      "wiring": 1,
+      "logs": 1,
+      "hermes-gateway-profile": 9,
+      "architecture": 1
+    },
+    "by_status": {
+      "OPEN": 18
+    },
+    "ids": [
+      "BIN_TESSERACT",
+      "CONCEPT_C18",
+      "CONCEPT_C19",
+      "CONCEPT_C21",
+      "CONCEPT_C23",
+      "CONCEPT_C24",
+      "WIRING_MCP",
+      "ARTIFACT_EMPTY",
+      "HPROF_prime_bridge",
+      "HPROF_sentinel_state",
+      "HPROF_rule_triggers",
+      "HPROF_learning_loop",
+      "HPROF_context_pressure",
+      "HPROF_web_tools",
+      "HPROF_filesystem",
+      "HPROF_browser",
+      "HPROF_git",
+      "HERMES_GATEWAY_PROFILES"
+    ]
+  },
+  "swarm": {
+    "registry_path": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\09_LOGS\\cross_instance\\instance_registry.json",
+    "registry_entries": {
+      "PRIME-CLI": {
+        "status": "ACTIVE",
+        "last_seen": "2026-10-06T17:08:17.364511"
+      },
+      "PROBE": {
+        "status": "ACTIVE",
+        "last_seen": "2026-10-06T15:30:51.054446"
+      }
+    },
+    "profile_mailboxes": {
+      "SENTINEL-DESKTOP": true,
+      "SENTINEL-COWORK": true,
+      "SENTINEL-CHAT": true,
+      "CODER-APP": true
+    },
+    "heartbeats_dir": true
+  },
+  "minimax_design": {
+    "install_present": true,
+    "resources": "C:\\Users\\apviz\\AppData\\Local\\Programs\\MiniMax Design\\current\\resources",
+    "gateway_main_bytes": 17090864,
+    "conf_bytes": 2867,
+    "ever_launched": false,
+    "hilo_token_present": false,
+    "note": "measured from disk; the app has never been launched, so no runtime surface was claimed"
+  }
+}

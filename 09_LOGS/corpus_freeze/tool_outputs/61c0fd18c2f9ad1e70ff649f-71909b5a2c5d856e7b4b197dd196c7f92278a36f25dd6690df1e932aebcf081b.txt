@@ -1,0 +1,121 @@
+model:
+  base_url: ''
+  default: meituan/longcat-2.0:free
+  provider: nous
+providers:
+  ollama:
+    api_key: ollama
+    base_url: http://localhost:11434/v1
+fallback_providers:
+  - model: poolside/laguna-s-2.1:free
+    provider: nous
+  - model: tencent/hy3:free
+    provider: nous
+  - model: inclusionai/ling-3.0-flash:free
+    provider: nous
+  - model: poolside/laguna-xs-2.1:free
+    provider: nous
+  - model: nvidia/nemotron-3-ultra-550b-a55b:free
+    provider: openrouter
+  - model: poolside/laguna-s-2.1:free
+    provider: openrouter
+agent:
+  max_turns: 150
+  max_tool_calls: 150
+  reasoning_effort: ultra
+terminal:
+  backend: local
+  font_family: JetBrainsMono Nerd Font
+web:
+  search_backend: ddgs
+browser:
+  allow_private_urls: true
+  use_real_profile: true
+  cloud_provider: camofox
+  use_gateway: false
+checkpoints:
+  enabled: true
+context_file_max_chars: 100000
+mcp:
+  obsidian:
+    args:
+      - -y
+      - '@huangyihe/obsidian-mcp'
+      - --vault-path
+      - D:/Alex_Knowlege_Vault
+      - --api-token
+      - a7f4dd08283400c51067b5abed1816c56255db709d220feb567357d122a3d474
+      - --api-port
+      - '27124'
+compression:
+  checkpoint_required: true
+  progress_notices: true
+  micro_compact: true
+  micro_compact_every_n_turns: 5
+auxiliary:
+  vision:
+    provider: auto
+    model: ''
+  compression:
+    provider: auto
+    model: ''
+  skills_hub:
+    provider: auto
+    model: ''
+  approval:
+    provider: auto
+    model: ''
+  mcp:
+    provider: auto
+    model: ''
+  title_generation:
+    provider: auto
+    model: ''
+  curator:
+    provider: auto
+    model: ''
+  web_extract:
+    model: ''
+    provider: auto
+display:
+  show_reasoning: true
+  pet:
+    enabled: true
+    slug: cosmo
+    scale: 0.3
+  message_reactions: true
+dashboard:
+  theme: default-large
+  font: ibm-plex-sans
+tts:
+  provider: piper
+  edge:
+    voice: en-US-AndrewNeural
+  piper:
+    voice: en_GB-alan-medium
+  use_gateway: false
+stt:
+  provider: groq
+  use_gateway: false
+memory:
+  write_approval: true
+goals:
+  max_turns: 150
+moa:
+  default_preset: default
+  presets:
+    default:
+      reference_models:
+        - enabled: true
+          model: nvidia/nemotron-3-ultra-550b-a55b:free
+          provider: openrouter
+        - enabled: true
+          model: tencent/hy3:free
+          provider: nous
+        - enabled: true
+          model: poolside/laguna-s-2.1:free
+          provider: nous
+        - enabled: true
+          model: inclusionai/ling-3.0-flash:free
+          provider: nous
+

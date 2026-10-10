@@ -1,0 +1,221 @@
+{
+  "suite": "mavis-sentinel-hub deployment e2e",
+  "generated_at": "2026-10-10T18:56:43",
+  "passed": 41,
+  "failed": 0,
+  "not_run": 1,
+  "total": 42,
+  "green": true,
+  "checks": [
+    {
+      "id": "engine_available",
+      "status": "PASS",
+      "detail": "docker server 29.8.1"
+    },
+    {
+      "id": "precondition_serving",
+      "status": "PASS",
+      "detail": "deployment already serving on both planes - checks run against the live system"
+    },
+    {
+      "id": "container_exists",
+      "status": "PASS",
+      "detail": "container 'mavis-sentinel-hub' exists"
+    },
+    {
+      "id": "container_running",
+      "status": "PASS",
+      "detail": "state=running"
+    },
+    {
+      "id": "container_health",
+      "status": "PASS",
+      "detail": "gateway healthcheck=healthy after 0s of settle time; /healthz measured 200"
+    },
+    {
+      "id": "container_restart_policy",
+      "status": "PASS",
+      "detail": "restart policy=unless-stopped (survives Docker restart and reboot)"
+    },
+    {
+      "id": "container_image",
+      "status": "PASS",
+      "detail": "image=mavis/sentinel-hub:1.0.0"
+    },
+    {
+      "id": "verb_argv_not_joined",
+      "status": "PASS",
+      "detail": "hub invocations pass 12 separate argv elements; no switch and its value are fused into a single string"
+    },
+    {
+      "id": "every_bat_is_crlf",
+      "status": "PASS",
+      "detail": "all .bat files under the project use CRLF (0 problems)"
+    },
+    {
+      "id": "no_case_shadowed_params",
+      "status": "PASS",
+      "detail": "no local in 5 PowerShell scripts shadows a script-level parameter by case alone"
+    },
+    {
+      "id": "loopback_only",
+      "status": "PASS",
+      "detail": "8910 refused on 3 non-loopback address(es): 172.21.224.1, 172.30.224.1, 192.168.1.193"
+    },
+    {
+      "id": "port_binding",
+      "status": "PASS",
+      "detail": "docker port -> 80/tcp -> 127.0.0.1:8910"
+    },
+    {
+      "id": "route_root",
+      "status": "PASS",
+      "detail": "200 118679 B"
+    },
+    {
+      "id": "route_healthz",
+      "status": "PASS",
+      "detail": "200 87 B"
+    },
+    {
+      "id": "route_readyz",
+      "status": "PASS",
+      "detail": "200 90450 B"
+    },
+    {
+      "id": "route_api_state",
+      "status": "PASS",
+      "detail": "200 90450 B"
+    },
+    {
+      "id": "route_api_health",
+      "status": "PASS",
+      "detail": "200 20273 B"
+    },
+    {
+      "id": "served_by_front",
+      "status": "PASS",
+      "detail": "Server=nginx/1.31.6 X-SENTINEL-Deployment=mavis-sentinel-hub"
+    },
+    {
+      "id": "gateway_independent",
+      "status": "PASS",
+      "detail": "/healthz reports mavis-sentinel-hub role=deployment-front"
+    },
+    {
+      "id": "front_not_hijacked",
+      "status": "PASS",
+      "detail": "front port is served by mavis-sentinel-hub"
+    },
+    {
+      "id": "both_planes_live",
+      "status": "PASS",
+      "detail": "front=200 backend=200"
+    },
+    {
+      "id": "front_matches_backend",
+      "status": "PASS",
+      "detail": "front and backend both serve 200 and agree"
+    },
+    {
+      "id": "sse_reconnect",
+      "status": "PASS",
+      "detail": "3 'state' events in 62s via EventSource reconnect (3 transport errors)"
+    },
+    {
+      "id": "startup_entry_present",
+      "status": "PASS",
+      "detail": "Startup entry present (4557 B)"
+    },
+    {
+      "id": "startup_entry_readable",
+      "status": "PASS",
+      "detail": "entry is readable ASCII"
+    },
+    {
+      "id": "startup_uses_file_not_command",
+      "status": "PASS",
+      "detail": "entry uses -File with a quoted path (the form that survives 'start')"
+    },
+    {
+      "id": "startup_targets_orchestrator",
+      "status": "PASS",
+      "detail": "entry invokes sentinel-hub.ps1 (brings up BOTH planes)"
+    },
+    {
+      "id": "startup_ports",
+      "status": "PASS",
+      "detail": "entry targets front=8910 backend=8912"
+    },
+    {
+      "id": "startup_logs",
+      "status": "PASS",
+      "detail": "entry writes a log, so a future failure leaves evidence"
+    },
+    {
+      "id": "startup_cold_start",
+      "status": "NOT_RUN",
+      "detail": "destructive: re-run with --coldstart to tear the deployment down and prove the Startup entry brings it back"
+    },
+    {
+      "id": "ecosystem_snapshot_fresh",
+      "status": "PASS",
+      "detail": "snapshot age 84s, refreshed by the server's worker (bound 600s)"
+    },
+    {
+      "id": "ecosystem_route",
+      "status": "PASS",
+      "detail": "200, 32 surfaces, counts={\"measured\": 32, \"not_available\": 0, \"error\": 0, \"total\": 32}"
+    },
+    {
+      "id": "action_whitelist_rejects",
+      "status": "PASS",
+      "detail": "all 7 unapproved/injection payloads were refused by the whitelist itself, not by a missing-field guard"
+    },
+    {
+      "id": "action_missing_id_refused",
+      "status": "PASS",
+      "detail": "a body with no `id` is refused with 'no action id supplied'"
+    },
+    {
+      "id": "action_whitelist_admits",
+      "status": "PASS",
+      "detail": "the whitelisted action 'logs_tail' is accepted, so the whitelist discriminates"
+    },
+    {
+      "id": "telemetry_detector_armed",
+      "status": "PASS",
+      "detail": "detector flags 26 entries, accepts exactly 25, and finds an oversized list nested past position 25 (rows[30].events)"
+    },
+    {
+      "id": "log_feed_within_bound",
+      "status": "PASS",
+      "detail": "the log stream returned 25 lines, within the 25-entry bound"
+    },
+    {
+      "id": "inventories_complete",
+      "status": "PASS",
+      "detail": "across 4 list-bearing routes: every list over 25 is a declared inventory, each declared total matches what is shipped, the class count matches the suite that produced it, and no scan was truncated"
+    },
+    {
+      "id": "inventory_registry_discriminates",
+      "status": "PASS",
+      "detail": "the registry exempts tests.classes but still reports rows[0].classes under the same leaf name; a declared total that disagrees with the shipped list, a declared total with no list behind it, an exemption no declared total can contradict, a pair naming a key the producer never writes, an exempt list with no total at all, a flat key that only looks like the nested inventory, a feed nested INSIDE a registered inventory, a flat impostor shadowed by a real nested inventory, and a total that is not an integer count are each reported - while the real flat payload, a flat surfaces list of the declared length, and a genuine int total all still pass; a class count that contradicts the source and an unreadable source are each reported; test_suite.py registers 29 classes"
+    },
+    {
+      "id": "dom_injection_guarded",
+      "status": "PASS",
+      "detail": "all 13 tabs rendered visible, non-empty content after clicking"
+    },
+    {
+      "id": "polling_refresh",
+      "status": "PASS",
+      "detail": "live page fetched /api/health 2x in 50000ms (poll fired); control with the guard removed fetched 1x - the check discriminates"
+    },
+    {
+      "id": "image_has_no_data",
+      "status": "PASS",
+      "detail": "image contains no corpus or state files"
+    }
+  ]
+}

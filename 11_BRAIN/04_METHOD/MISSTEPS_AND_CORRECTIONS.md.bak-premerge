@@ -1,0 +1,96 @@
+
+### M-28 (2026-10-06) - The build can be sound while the report of it is false
+Type: verification discipline / reporting
+
+A handoff package was written for a system that passed every suite. An adversarial verifier was
+sent to refute it and returned FAIL - correctly. The build was confirmed sound: deployment up,
+loopback confinement real, cold start re-proven by destruction at 43/0/0, blueprint SHA unchanged,
+nothing deleted. Nine defects lay in the *reporting*, none in the *build*:
+
+- two skill names that did not exist on disk, written under a heading reading "Measured from the
+  live system, not from documentation" - drawn from a catalogue carried in context instead of from
+  the measured list;
+- four directories called "empty" that held 138-276 files each;
+- a test count off by one, repeated in eight places across six files;
+- a survey that had inventoried its own deliverable as one file, because it ran before the package
+  was written;
+- a counter presented as a fixed property that increments on every run;
+- three register entries citing monitor evidence the monitor now contradicts;
+- a monitor that bounds staleness on one artefact and not an older one;
+- a gloss that restated the monitor's own semantics in more comfortable words.
+
+> **A system that measures itself honestly can still be described dishonestly, and the two failures
+> never appear together.** Every number in that package had been taken from a real measurement, and
+> several were simply wrong anyway: a name copied from context instead of read from disk, a
+> directory called empty because nobody opened it, a count that moved between measuring and writing.
+> Measurement discipline protects the *value*; it does nothing for the *claim*, because the claim is
+> written later, from memory, by the same agent that measured.
+
+Two rules that came out of it:
+
+1. **The measurement must be re-read at the moment of writing, not recalled.** Every figure in a
+   deliverable is diffed against the source at write time, and a volatile figure is labelled with its
+   as-of reading and its increment rule. A counter is not a constant.
+2. **A verifier's finding is evidence, not an answer.** Its explanation for the mailbox contents was
+   also wrong - it named the current test suite as the writer, when that suite runs in a tempdir
+   sandbox and fingerprints the live tree before and after. Reading the cited source settled it. The
+   same rule as "a detected defect is not a fixed defect", applied upward: **a refutation is not a
+   finding until the source has been read.**
+
+The deeper shape is M-24 and M-25 again: self-measurement is not verification, and an exemption
+that cannot fail is a waiver. Here the failing thing was neither code nor config but prose - which is
+precisely the layer that ships no test and no failure, and is therefore the layer where a false
+statement costs nothing to write and everything to inherit.
+### M-29 (2026-10-06) - A shell variable that does not exist silently truncates the file you are writing
+Type: catastrophic error / tooling discipline - DESTRUCTIVE
+
+**What happened.** Appending M-28 to this file destroyed M-01 through M-27 - 44,576 bytes, 673 lines,
+twenty-seven recorded corrections - in one write. The file went from 44,576 B to 2,912 B and contains
+now only M-28 and this entry. There is no version control in this project, no backup of this file, and
+Volume Shadow Copies are not readable without elevation. The content is not recoverable from disk.
+
+**The mechanism, exactly.** The append was written as:
+
+```
+$entry = @"...M-28 text..."@
+[IO.File]::WriteAllText($f, $t + $entry, ...)
+```
+
+`$t` - the existing file content - was read in the *previous* shell invocation and never read in this
+one. Each Bash call is a fresh shell; variables do not persist across them. So `$t` was `$null`,
+`$null + $entry` is `$entry`, and the write succeeded. **Nothing errored.** Exit code 0, no warning, no
+exception. A truncating write is indistinguishable from a correct one at the call site unless the length
+is checked afterwards.
+
+This is not a shell quirk to remember. It is the same failure as every other entry in this file wearing
+a different hat: **a thing that cannot fail is not a guard, it is a hope.** `$t + $entry` cannot fail -
+it will happily write one side or the other, forever. The guard has to be a length assertion *after* the
+write, not an intention before it.
+
+**Three rules, in force from this entry:**
+
+1. **Never compose a write from a value read in an earlier tool call.** Read and write in one command,
+   or pass the content through a file. Cross-invocation shell state is not state.
+2. **Assert the result length after every destructive write**, and fail loudly on a shrink. A write
+   that leaves a file shorter than it found it is the signature of this bug.
+3. **A file whose content cannot be regenerated must be under version control before it is next
+   edited.** This project has carried that as weak point W1 for weeks, with the note that it was the
+   highest-value thing outstanding. This entry is the receipt. The gap was not theoretical.
+
+**What was lost, precisely.** M-01 through M-27 verbatim. Their *themes* survive in three places and
+were not lost with the file: the memory entries under
+`C:\Users\apviz\.minimax\agents\mavis\memory\MEMORY.md`, the doctrine quotes embedded in the
+handoff package at `14_HANDOFF\`, and the source comments in the code each lesson produced - the
+`collect-sentinel.ps1` comments, the paired polarity/control cases in `test_suite.py`, the `_dig`,
+`_trail_key` and `_is_count` functions in `test_deployment.py`. What is gone is the narrative record:
+Popy's corrections as written, in the order they happened.
+
+**What must not happen next.** The tempting repair is to rewrite M-01 through M-27 from the surviving
+summaries. That would be the worst outcome available: it would manufacture a record of Popy's
+corrections that he did not write in that form, inside the one file whose entire value is that it is
+his verbatim. **A doctrine file partly invented by an agent is worse than a short honest one.** If the
+entries are to come back, they come from Popy, or they are marked as reconstruction.
+
+This file remains append-only. The loss is recorded here, in the surviving file, in the same format as
+everything else - because a record that hides its own damage is the last thing this project should
+produce.

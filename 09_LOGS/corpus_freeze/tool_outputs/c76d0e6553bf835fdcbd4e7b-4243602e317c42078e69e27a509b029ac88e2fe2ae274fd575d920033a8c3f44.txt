@@ -1,0 +1,129 @@
+
+FullName                                                                                                               
+--------                                                                                                               
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\- ORCHESTRATOR - Sys Folder - Hermes                                                
+Default\.smart-env\multi\SF_ABC_-_AGENT_BRIDGE_COMMS_CODER_CONTINUARE_PROMPT_md.ajson                                  
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\- ORCHESTRATOR - Sys Folder - Hermes Default\SF_ABC -                               
+AGENT_BRIDGE_COMMS\CODER_CONTINUARE_PROMPT.md                                                                          
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\- Skills and MCP Skill Bundles\.smart-env\multi\-_Skills_-_DROP_FOLDER_-_OLD_-_SENTI
+NEL_DeepSeek_Skills_deepseek-sentinel-poetic-compressor_deepseek-sentinel-poetic-compressor_SKILL_md.ajson             
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\- Skills and MCP Skill Bundles\.smart-env\multi\Skills_-_DROP_FOLDER_-_OLD_-_SENTINE
+L_DeepSeek_Skills_deepseek-sentinel-poetic-compressor_deepseek-sentinel-poetic-compressor_SKILL_md.ajson               
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\- Skills and MCP Skill Bundles\MCP Skill                                            
+Bundles\Bundles_Schema_2_Stack_1\bundle-master-general-l1\node_modules\hono\dist\cjs\utils\compress.js                 
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\- Skills and MCP Skill Bundles\MCP Skill                                            
+Bundles\Bundles_Schema_2_Stack_1\bundle-master-general-l1\node_modules\hono\dist\types\utils\compress.d.ts             
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\- Skills and MCP Skill Bundles\MCP Skill                                            
+Bundles\Bundles_Schema_2_Stack_1\bundle-master-general-l1\node_modules\hono\dist\utils\compress.js                     
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\- Skills and MCP Skill Bundles\Skills - DROP FOLDER\HERMES - SENTINEL Orchestrator  
+- Skills - BackUp\creative\creative-ideation\references\methods\compression-progress.md                                
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\CPO - CLI_CONTINUARE_PROMPT.md                          
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\.smart-env\multi\CPO_-_CLI_CONTINUARE_PROMPT_md.ajson   
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\CPO_TCP -                                               
+Tools_Cli_Prime\EXTENTIONS\sentinel-mcp-server\node_modules\hono\dist\cjs\utils\compress.js                            
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\CPO_TCP -                                               
+Tools_Cli_Prime\EXTENTIONS\sentinel-mcp-server\node_modules\hono\dist\cjs\utils\CPO_TCP - compress.js                  
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\CPO_TCP -                                               
+Tools_Cli_Prime\EXTENTIONS\sentinel-mcp-server\node_modules\hono\dist\utils\compress.js                                
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\CPO_TCP -                                               
+Tools_Cli_Prime\EXTENTIONS\sentinel-mcp-server\node_modules\hono\dist\utils\CPO_TCP - compress.js                      
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\CPO_TCP -                                               
+Tools_Cli_Prime\EXTENTIONS\sentinel-mcp-server-bundle-b\node_modules\hono\dist\cjs\utils\compress.js                   
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\CPO_TCP -                                               
+Tools_Cli_Prime\EXTENTIONS\sentinel-mcp-server-bundle-b\node_modules\hono\dist\cjs\utils\CPO_TCP - compress.js         
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\CPO_TCP -                                               
+Tools_Cli_Prime\EXTENTIONS\sentinel-mcp-server-bundle-b\node_modules\hono\dist\utils\compress.js                       
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\CPO_TCP -                                               
+Tools_Cli_Prime\EXTENTIONS\sentinel-mcp-server-bundle-b\node_modules\hono\dist\utils\CPO_TCP - compress.js             
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\CPO_TCP -                                               
+Tools_Cli_Prime\EXTENTIONS\sentinel-mcp-server-bundle-c\node_modules\hono\dist\cjs\utils\compress.js                   
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\CPO_TCP -                                               
+Tools_Cli_Prime\EXTENTIONS\sentinel-mcp-server-bundle-c\node_modules\hono\dist\cjs\utils\CPO_TCP - compress.js         
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\CPO_TCP -                                               
+Tools_Cli_Prime\EXTENTIONS\sentinel-mcp-server-bundle-c\node_modules\hono\dist\utils\compress.js                       
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\CPO_TCP -                                               
+Tools_Cli_Prime\EXTENTIONS\sentinel-mcp-server-bundle-c\node_modules\hono\dist\utils\CPO_TCP - compress.js             
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\CPO_TCP -                                               
+Tools_Cli_Prime\EXTENTIONS\sentinel-mcp-server-bundle-d\node_modules\hono\dist\cjs\utils\compress.js                   
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\CPO_TCP -                                               
+Tools_Cli_Prime\EXTENTIONS\sentinel-mcp-server-bundle-d\node_modules\hono\dist\cjs\utils\CPO_TCP - compress.js         
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\CPO_TCP -                                               
+Tools_Cli_Prime\EXTENTIONS\sentinel-mcp-server-bundle-d\node_modules\hono\dist\utils\compress.js                       
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\CPO_TCP -                                               
+Tools_Cli_Prime\EXTENTIONS\sentinel-mcp-server-bundle-d\node_modules\hono\dist\utils\CPO_TCP - compress.js             
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\CPO_TCP -                                               
+Tools_Cli_Prime\EXTENTIONS\sentinel-mcp-server-bundle-e\node_modules\hono\dist\cjs\utils\compress.js                   
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\CPO_TCP -                                               
+Tools_Cli_Prime\EXTENTIONS\sentinel-mcp-server-bundle-e\node_modules\hono\dist\cjs\utils\CPO_TCP - compress.js         
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\CPO_TCP -                                               
+Tools_Cli_Prime\EXTENTIONS\sentinel-mcp-server-bundle-e\node_modules\hono\dist\utils\compress.js                       
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\CPO_TCP -                                               
+Tools_Cli_Prime\EXTENTIONS\sentinel-mcp-server-bundle-e\node_modules\hono\dist\utils\CPO_TCP - compress.js             
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\CPO_TCP -                                               
+Tools_Cli_Prime\EXTENTIONS\sentinel-mcp-server-bundle-f\node_modules\hono\dist\cjs\utils\compress.js                   
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\CPO_TCP -                                               
+Tools_Cli_Prime\EXTENTIONS\sentinel-mcp-server-bundle-f\node_modules\hono\dist\cjs\utils\CPO_TCP - compress.js         
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\CPO_TCP -                                               
+Tools_Cli_Prime\EXTENTIONS\sentinel-mcp-server-bundle-f\node_modules\hono\dist\utils\compress.js                       
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CLI_PRIME_OPPERATIONS - CPO\CPO_TCP -                                               
+Tools_Cli_Prime\EXTENTIONS\sentinel-mcp-server-bundle-f\node_modules\hono\dist\utils\CPO_TCP - compress.js             
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CODER_OPPERATIOS - CO\CO - CODER_CONTINUARE_PROMPT.md                               
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CODER_OPPERATIOS - CO\.smart-env\multi\CO_-_CODER_CONTINUARE_PROMPT_md.ajson        
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CODER_OPPERATIOS - CO\CO_TOP -                                                      
+Tools_Optimus_Prime\EXTENTIONS\sentinel-mcp-server\node_modules\hono\dist\cjs\utils\compress.js                        
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CODER_OPPERATIOS - CO\CO_TOP -                                                      
+Tools_Optimus_Prime\EXTENTIONS\sentinel-mcp-server\node_modules\hono\dist\utils\compress.js                            
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CODER_OPPERATIOS - CO\CO_TOP -                                                      
+Tools_Optimus_Prime\EXTENTIONS\sentinel-mcp-server-bundle-b\node_modules\hono\dist\cjs\utils\compress.js               
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CODER_OPPERATIOS - CO\CO_TOP -                                                      
+Tools_Optimus_Prime\EXTENTIONS\sentinel-mcp-server-bundle-b\node_modules\hono\dist\utils\compress.js                   
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CODER_OPPERATIOS - CO\CO_TOP -                                                      
+Tools_Optimus_Prime\EXTENTIONS\sentinel-mcp-server-bundle-c\node_modules\hono\dist\cjs\utils\compress.js               
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CODER_OPPERATIOS - CO\CO_TOP -                                                      
+Tools_Optimus_Prime\EXTENTIONS\sentinel-mcp-server-bundle-c\node_modules\hono\dist\utils\compress.js                   
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CODER_OPPERATIOS - CO\CO_TOP -                                                      
+Tools_Optimus_Prime\EXTENTIONS\sentinel-mcp-server-bundle-d\node_modules\hono\dist\cjs\utils\compress.js               
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CODER_OPPERATIOS - CO\CO_TOP -                                                      
+Tools_Optimus_Prime\EXTENTIONS\sentinel-mcp-server-bundle-d\node_modules\hono\dist\utils\compress.js                   
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CODER_OPPERATIOS - CO\CO_TOP -                                                      
+Tools_Optimus_Prime\EXTENTIONS\sentinel-mcp-server-bundle-e\node_modules\hono\dist\cjs\utils\compress.js               
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CODER_OPPERATIOS - CO\CO_TOP -                                                      
+Tools_Optimus_Prime\EXTENTIONS\sentinel-mcp-server-bundle-e\node_modules\hono\dist\utils\compress.js                   
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CODER_OPPERATIOS - CO\CO_TOP -                                                      
+Tools_Optimus_Prime\EXTENTIONS\sentinel-mcp-server-bundle-f\node_modules\hono\dist\cjs\utils\compress.js               
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\CODER_OPPERATIOS - CO\CO_TOP -                                                      
+Tools_Optimus_Prime\EXTENTIONS\sentinel-mcp-server-bundle-f\node_modules\hono\dist\utils\compress.js                   
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\COWORK_OPPERATIONS - COW\COW - COWORK_CONTINUARE_PROMPT.md                          
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\SENTINEL_PRIME_OPPERATIONS - SPO\SPO - SENTINEL_CONTINUARE_PROMPT.md                
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\SENTINEL_PRIME_OPPERATIONS -                                                        
+SPO\.smart-env\multi\SPO_-_SENTINEL_CONTINUARE_PROMPT_md.ajson                                                         
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\SENTINEL_PRIME_OPPERATIONS - SPO\SPO_MCP -                                          
+MCP_Server_Canonical\node_modules\hono\dist\cjs\utils\compress.js                                                      
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\SENTINEL_PRIME_OPPERATIONS - SPO\SPO_MCP -                                          
+MCP_Server_Canonical\node_modules\hono\dist\utils\compress.js                                                          
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\SENTINEL_PRIME_OPPERATIONS - SPO\SPO_MCP - MCP_Server_Canonical\SPO_MCP_BB -        
+Bundle_B\node_modules\hono\dist\cjs\utils\compress.js                                                                  
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\SENTINEL_PRIME_OPPERATIONS - SPO\SPO_MCP - MCP_Server_Canonical\SPO_MCP_BB -        
+Bundle_B\node_modules\hono\dist\utils\compress.js                                                                      
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\SENTINEL_PRIME_OPPERATIONS - SPO\SPO_MCP - MCP_Server_Canonical\SPO_MCP_BC -        
+Bundle_C\node_modules\hono\dist\cjs\utils\compress.js                                                                  
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\SENTINEL_PRIME_OPPERATIONS - SPO\SPO_MCP - MCP_Server_Canonical\SPO_MCP_BC -        
+Bundle_C\node_modules\hono\dist\utils\compress.js                                                                      
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\SENTINEL_PRIME_OPPERATIONS - SPO\SPO_MCP - MCP_Server_Canonical\SPO_MCP_BD -        
+Bundle_D\node_modules\hono\dist\cjs\utils\compress.js                                                                  
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\SENTINEL_PRIME_OPPERATIONS - SPO\SPO_MCP - MCP_Server_Canonical\SPO_MCP_BD -        
+Bundle_D\node_modules\hono\dist\utils\compress.js                                                                      
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\SENTINEL_PRIME_OPPERATIONS - SPO\SPO_MCP - MCP_Server_Canonical\SPO_MCP_BE -        
+Bundle_E\node_modules\hono\dist\cjs\utils\compress.js                                                                  
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\SENTINEL_PRIME_OPPERATIONS - SPO\SPO_MCP - MCP_Server_Canonical\SPO_MCP_BE -        
+Bundle_E\node_modules\hono\dist\utils\compress.js                                                                      
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\SENTINEL_PRIME_OPPERATIONS - SPO\SPO_MCP - MCP_Server_Canonical\SPO_MCP_BF -        
+Bundle_F\node_modules\hono\dist\cjs\utils\compress.js                                                                  
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\SENTINEL_PRIME_OPPERATIONS - SPO\SPO_MCP - MCP_Server_Canonical\SPO_MCP_BF -        
+Bundle_F\node_modules\hono\dist\utils\compress.js                                                                      
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\SENTINEL_PRIME_OPPERATIONS - SPO\SPO_MCP - MCP_Server_Canonical\SPO_MCP_CANON -     
+Canonical_MCP\node_modules\hono\dist\cjs\utils\compress.js                                                             
+E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\SENTINEL_PRIME_OPPERATIONS - SPO\SPO_MCP - MCP_Server_Canonical\SPO_MCP_CANON -     
+Canonical_MCP\node_modules\hono\dist\utils\compress.js                                                                 
+
+

@@ -1,0 +1,1497 @@
+{
+    "generated":  "2026-10-10T21:20:36.1796042+03:00",
+    "age_sec":  0,
+    "age_bound_sec":  300,
+    "status":  "DEGRADED",
+    "counts":  {
+                   "OK":  46,
+                   "FAIL":  0,
+                   "STALE":  10,
+                   "NOT_RUN":  0
+               },
+    "by_family":  {
+                      "corpus":  {
+                                     "OK":  8,
+                                     "FAIL":  0,
+                                     "STALE":  1,
+                                     "NOT_RUN":  0
+                                 },
+                      "workflow":  {
+                                       "OK":  3,
+                                       "FAIL":  0,
+                                       "STALE":  2,
+                                       "NOT_RUN":  0
+                                   },
+                      "code":  {
+                                   "OK":  3,
+                                   "FAIL":  0,
+                                   "STALE":  0,
+                                   "NOT_RUN":  0
+                               },
+                      "wiring":  {
+                                     "OK":  7,
+                                     "FAIL":  0,
+                                     "STALE":  0,
+                                     "NOT_RUN":  0
+                                 },
+                      "logs":  {
+                                   "OK":  2,
+                                   "FAIL":  0,
+                                   "STALE":  7,
+                                   "NOT_RUN":  0
+                               },
+                      "dependencies":  {
+                                           "OK":  13,
+                                           "FAIL":  0,
+                                           "STALE":  0,
+                                           "NOT_RUN":  0
+                                       },
+                      "program":  {
+                                      "OK":  2,
+                                      "FAIL":  0,
+                                      "STALE":  0,
+                                      "NOT_RUN":  0
+                                  },
+                      "dashboard":  {
+                                        "OK":  4,
+                                        "FAIL":  0,
+                                        "STALE":  0,
+                                        "NOT_RUN":  0
+                                    },
+                      "powershell":  {
+                                         "OK":  4,
+                                         "FAIL":  0,
+                                         "STALE":  0,
+                                         "NOT_RUN":  0
+                                     }
+                  },
+    "health_checks":  [
+                          {
+                              "id":  "corpus_present",
+                              "family":  "corpus",
+                              "status":  "OK",
+                              "value":  2388756,
+                              "bound":  "file must exist",
+                              "evidence":  "corpus_full.jsonl age=473546s",
+                              "measured_at":  "2026-10-10T21:20:26.374395"
+                          },
+                          {
+                              "id":  "corpus_fresh",
+                              "family":  "corpus",
+                              "status":  "STALE",
+                              "value":  473546.0,
+                              "bound":  "\u003c 3600s",
+                              "evidence":  "extraction is a snapshot; older than the bound means the conversation moved on",
+                              "measured_at":  "2026-10-10T21:20:26.374433"
+                          },
+                          {
+                              "id":  "corpus_stats",
+                              "family":  "corpus",
+                              "status":  "OK",
+                              "value":  {
+                                            "messages":  955,
+                                            "turns":  102,
+                                            "unplaced":  0
+                                        },
+                              "bound":  "",
+                              "evidence":  "corpus_stats.json parsed",
+                              "measured_at":  "2026-10-10T21:20:26.374999"
+                          },
+                          {
+                              "id":  "corpus_no_unplaced",
+                              "family":  "corpus",
+                              "status":  "OK",
+                              "value":  0,
+                              "bound":  "== 0",
+                              "evidence":  "UNPLACED.md declares \"None\" - every verbatim message belongs to a chapter",
+                              "measured_at":  "2026-10-10T21:20:26.375006"
+                          },
+                          {
+                              "id":  "corpus_retention",
+                              "family":  "corpus",
+                              "status":  "OK",
+                              "value":  1.0,
+                              "bound":  "\u003e= 0.95",
+                              "evidence":  "emitted verbatim text vs extracted source text - the \"nothing cut\" measure",
+                              "measured_at":  "2026-10-10T21:20:26.375011"
+                          },
+                          {
+                              "id":  "corpus_chapters",
+                              "family":  "corpus",
+                              "status":  "OK",
+                              "value":  17,
+                              "bound":  "\u003e 0",
+                              "evidence":  "17 chapter files under 02_CHAPTERS/",
+                              "measured_at":  "2026-10-10T21:20:26.375624"
+                          },
+                          {
+                              "id":  "corpus_unplaced_declared",
+                              "family":  "corpus",
+                              "status":  "OK",
+                              "value":  true,
+                              "bound":  "file present and empty",
+                              "evidence":  "UNPLACED.md must exist and state that nothing was dropped",
+                              "measured_at":  "2026-10-10T21:20:26.375845"
+                          },
+                          {
+                              "id":  "corpus_index",
+                              "family":  "corpus",
+                              "status":  "OK",
+                              "value":  {
+                                            "bytes":  5178
+                                        },
+                              "bound":  "file must exist",
+                              "evidence":  "00_CORPUS_INDEX.md age=562242s",
+                              "measured_at":  "2026-10-10T21:20:26.375969"
+                          },
+                          {
+                              "id":  "corpus_freeze",
+                              "family":  "corpus",
+                              "status":  "OK",
+                              "value":  {
+                                            "bytes":  16253
+                                        },
+                              "bound":  "file must exist",
+                              "evidence":  "SHA256SUMS.txt age=562612s",
+                              "measured_at":  "2026-10-10T21:20:26.376068"
+                          },
+                          {
+                              "id":  "workflow_mode",
+                              "family":  "workflow",
+                              "status":  "OK",
+                              "value":  "MODE_B",
+                              "bound":  "one of the four modes",
+                              "evidence":  "MODE_A -\u003e R0 -\u003e MODE_B -\u003e STOPPED; anything else is a corrupted machine",
+                              "measured_at":  "2026-10-10T21:20:26.376347"
+                          },
+                          {
+                              "id":  "workflow_stop_consistent",
+                              "family":  "workflow",
+                              "status":  "OK",
+                              "value":  {
+                                            "mode":  "MODE_B",
+                                            "stop_reason":  null
+                                        },
+                              "bound":  "no orphaned stop reason",
+                              "evidence":  "a stop reason outside MODE_A/STOPPED is inconsistent state",
+                              "measured_at":  "2026-10-10T21:20:26.376355"
+                          },
+                          {
+                              "id":  "workflow_failures",
+                              "family":  "workflow",
+                              "status":  "OK",
+                              "value":  0,
+                              "bound":  "\u003c 5",
+                              "evidence":  "5 consecutive MODE_B failures must land in STOPPED, never a 6th attempt",
+                              "measured_at":  "2026-10-10T21:20:26.376358"
+                          },
+                          {
+                              "id":  "workflow_state_fresh",
+                              "family":  "workflow",
+                              "status":  "STALE",
+                              "value":  8181.0,
+                              "bound":  "\u003c 300s",
+                              "evidence":  "how long since the workflow last wrote its state",
+                              "measured_at":  "2026-10-10T21:20:26.376408"
+                          },
+                          {
+                              "id":  "workflow_log",
+                              "family":  "workflow",
+                              "status":  "STALE",
+                              "value":  8165.6,
+                              "bound":  "\u003c 1800s",
+                              "evidence":  "transition log freshness",
+                              "measured_at":  "2026-10-10T21:20:26.376494"
+                          },
+                          {
+                              "id":  "code_modules_present",
+                              "family":  "code",
+                              "status":  "OK",
+                              "value":  {
+                                            "expected":  12,
+                                            "missing":  [
+
+                                                        ]
+                                        },
+                              "bound":  "none missing",
+                              "evidence":  "each engine must exist as a file",
+                              "measured_at":  "2026-10-10T21:20:26.376896"
+                          },
+                          {
+                              "id":  "code_no_romanian",
+                              "family":  "code",
+                              "status":  "OK",
+                              "value":  [
+
+                                        ],
+                              "bound":  "no diacritics in code",
+                              "evidence":  "the language law: code, identifiers, docstrings and runtime messages in English. Romanian belongs in wisdom, not in source.",
+                              "measured_at":  "2026-10-10T21:20:26.397452"
+                          },
+                          {
+                              "id":  "code_test_suite",
+                              "family":  "code",
+                              "status":  "OK",
+                              "value":  {
+                                            "bytes":  151422
+                                        },
+                              "bound":  "file must exist",
+                              "evidence":  "test harness present",
+                              "measured_at":  "2026-10-10T21:20:26.397580"
+                          },
+                          {
+                              "id":  "mcp_tools_declared",
+                              "family":  "wiring",
+                              "status":  "OK",
+                              "value":  26,
+                              "bound":  "\u003e 0",
+                              "evidence":  "26 SENTINEL tools registered in the hub",
+                              "measured_at":  "2026-10-10T21:20:26.398155"
+                          },
+                          {
+                              "id":  "mcp_tools_wired",
+                              "family":  "wiring",
+                              "status":  "OK",
+                              "value":  {
+                                            "tools_over_the_wire":  26,
+                                            "probe_tool":  "sentinel_confirm_identity",
+                                            "probe_ok":  true,
+                                            "handshake_status":  "OK",
+                                            "record_age_seconds":  78744.7,
+                                            "record_superseded_by_server_edit":  false
+                                        },
+                              "bound":  "a completed handshake returning \u003e 0 tools, with a probe whose arguments provably reached the handler",
+                              "evidence":  "26 tools returned by the server over stdio; probe \"sentinel_confirm_identity\" ok=True, arguments arrived=True. Measured 78745s ago by mcp_handshake.py, not asserted here.",
+                              "measured_at":  "2026-10-10T21:20:26.398572"
+                          },
+                          {
+                              "id":  "mcp_config",
+                              "family":  "wiring",
+                              "status":  "OK",
+                              "value":  null,
+                              "bound":  "",
+                              "evidence":  "OPTIMUS_MCP_CONFIG.json is valid JSON",
+                              "measured_at":  "2026-10-10T21:20:26.398970"
+                          },
+                          {
+                              "id":  "mcp_config_servers_exist",
+                              "family":  "wiring",
+                              "status":  "OK",
+                              "value":  {
+                                            "referenced_python_servers":  7,
+                                            "missing":  0,
+                                            "missing_entries":  [
+
+                                                                ],
+                                            "capability_covered_elsewhere":  [
+
+                                                                             ],
+                                            "capability_uncovered":  [
+
+                                                                     ]
+                                        },
+                              "bound":  "every referenced .py server exists on disk",
+                              "evidence":  "7 .py servers referenced by the config, 0 not on disk. All referenced servers exist.",
+                              "measured_at":  "2026-10-10T21:20:29.719327"
+                          },
+                          {
+                              "id":  "mcp_npx_packages_resolve",
+                              "family":  "wiring",
+                              "status":  "OK",
+                              "value":  {
+                                            "declared":  2,
+                                            "resolved":  2,
+                                            "missing":  [
+
+                                                        ]
+                                        },
+                              "bound":  "every npx package the config declares actually resolves",
+                              "evidence":  "2/2 declared npx packages resolve (registry control answered: 19.3.0)",
+                              "measured_at":  "2026-10-10T21:20:34.061286"
+                          },
+                          {
+                              "id":  "mcp_live_profile_registered",
+                              "family":  "wiring",
+                              "status":  "OK",
+                              "value":  {
+                                            "declared_python":  7,
+                                            "registered":  [
+                                                               "git-tools",
+                                                               "prime-bridge",
+                                                               "web-tools"
+                                                           ],
+                                            "not_registered_by_design":  [
+                                                                             "context-pressure",
+                                                                             "learning-loop",
+                                                                             "rule-triggers",
+                                                                             "sentinel-state"
+                                                                         ],
+                                            "expected_live_count":  3,
+                                            "missing_from_live_profile":  [
+
+                                                                          ]
+                                        },
+                              "bound":  "every server the config records as live is actually registered and enabled in the live MCP profile",
+                              "evidence":  "3 of 7 declared .py servers are registered and enabled in the live profile: git-tools, prime-bridge, web-tools. Declared but deliberately not registered: context-pressure, learning-loop, rule-triggers, sentinel-state - their tools are already served by the live sentinel-hub, and registering them would put duplicate tool names in front of every session",
+                              "measured_at":  "2026-10-10T21:20:34.061837"
+                          },
+                          {
+                              "id":  "skills_present",
+                              "family":  "wiring",
+                              "status":  "OK",
+                              "value":  [
+                                            "bimodal-workflow.SKILL.md",
+                                            "command-center.SKILL.md",
+                                            "sentinel-prime-on-minimax.SKILL.md",
+                                            "sentinel-prime-role.SKILL.md",
+                                            "tany-llm-to-sentinel.SKILL.md"
+                                        ],
+                              "bound":  "\u003e 0",
+                              "evidence":  "5 skill files",
+                              "measured_at":  "2026-10-10T21:20:34.062347"
+                          },
+                          {
+                              "id":  "log_bimodal_state",
+                              "family":  "logs",
+                              "status":  "STALE",
+                              "value":  8188.7,
+                              "bound":  "\u003c 3000s",
+                              "evidence":  "bimodal_state.json last written 8189s ago",
+                              "measured_at":  "2026-10-10T21:20:34.062517"
+                          },
+                          {
+                              "id":  "log_bimodal_log",
+                              "family":  "logs",
+                              "status":  "STALE",
+                              "value":  8173.3,
+                              "bound":  "\u003c 3000s",
+                              "evidence":  "bimodal_workflow.log last written 8173s ago",
+                              "measured_at":  "2026-10-10T21:20:34.062585"
+                          },
+                          {
+                              "id":  "log_orchestrator_state",
+                              "family":  "logs",
+                              "status":  "STALE",
+                              "value":  8204.4,
+                              "bound":  "\u003c 3000s",
+                              "evidence":  "orchestrator_state.json last written 8204s ago",
+                              "measured_at":  "2026-10-10T21:20:34.062646"
+                          },
+                          {
+                              "id":  "log_performance_metrics",
+                              "family":  "logs",
+                              "status":  "STALE",
+                              "value":  8198.2,
+                              "bound":  "\u003c 3000s",
+                              "evidence":  "performance_metrics.json last written 8198s ago",
+                              "measured_at":  "2026-10-10T21:20:34.062703"
+                          },
+                          {
+                              "id":  "log_self_modifications",
+                              "family":  "logs",
+                              "status":  "STALE",
+                              "value":  8204.4,
+                              "bound":  "\u003c 3000s",
+                              "evidence":  "self_modifications.log last written 8204s ago",
+                              "measured_at":  "2026-10-10T21:20:34.062769"
+                          },
+                          {
+                              "id":  "log_state_transitions",
+                              "family":  "logs",
+                              "status":  "STALE",
+                              "value":  8204.4,
+                              "bound":  "\u003c 3000s",
+                              "evidence":  "state_transitions.log last written 8204s ago",
+                              "measured_at":  "2026-10-10T21:20:34.062824"
+                          },
+                          {
+                              "id":  "log_self_improvement",
+                              "family":  "logs",
+                              "status":  "STALE",
+                              "value":  8173.3,
+                              "bound":  "\u003c 3000s",
+                              "evidence":  "self_improvement.log last written 8173s ago",
+                              "measured_at":  "2026-10-10T21:20:34.062878"
+                          },
+                          {
+                              "id":  "logs_parse",
+                              "family":  "logs",
+                              "status":  "OK",
+                              "value":  [
+
+                                        ],
+                              "bound":  "no parse errors",
+                              "evidence":  "every state JSON must parse; a corrupt state file is a silent failure",
+                              "measured_at":  "2026-10-10T21:20:34.062884"
+                          },
+                          {
+                              "id":  "logs_empty_artifacts",
+                              "family":  "logs",
+                              "status":  "OK",
+                              "value":  {
+                                            "inspected":  179,
+                                            "empty":  0,
+                                            "unreadable":  0,
+                                            "empty_files":  [
+
+                                                            ],
+                                            "unreadable_files":  [
+
+                                                                 ],
+                                            "expected_empty_navigation_targets":  [
+                                                                                      "about_blank_20261006_154751.json"
+                                                                                  ]
+                                        },
+                              "bound":  "0 empty and 0 unreadable artefacts",
+                              "evidence":  "179 scrape artefacts inspected by content: 0 of a content-bearing URL carry no result, 0 unreadable, 1 are navigation-only targets with no content by definition. Size is never the criterion - a successful scrape of a small page is small. Reported, not deleted: deleting is an explicit operator decision.",
+                              "measured_at":  "2026-10-10T21:20:34.094448"
+                          },
+                          {
+                              "id":  "dep_playwright",
+                              "family":  "dependencies",
+                              "status":  "OK",
+                              "value":  null,
+                              "bound":  "",
+                              "evidence":  "browser automation: importable",
+                              "measured_at":  "2026-10-10T21:20:34.096639"
+                          },
+                          {
+                              "id":  "dep_PIL",
+                              "family":  "dependencies",
+                              "status":  "OK",
+                              "value":  null,
+                              "bound":  "",
+                              "evidence":  "image processing: importable",
+                              "measured_at":  "2026-10-10T21:20:34.099808"
+                          },
+                          {
+                              "id":  "dep_pypdf",
+                              "family":  "dependencies",
+                              "status":  "OK",
+                              "value":  null,
+                              "bound":  "",
+                              "evidence":  "PDF processing: importable",
+                              "measured_at":  "2026-10-10T21:20:34.320323"
+                          },
+                          {
+                              "id":  "dep_docx",
+                              "family":  "dependencies",
+                              "status":  "OK",
+                              "value":  null,
+                              "bound":  "",
+                              "evidence":  "DOCX processing: importable",
+                              "measured_at":  "2026-10-10T21:20:34.440298"
+                          },
+                          {
+                              "id":  "dep_openpyxl",
+                              "family":  "dependencies",
+                              "status":  "OK",
+                              "value":  null,
+                              "bound":  "",
+                              "evidence":  "XLSX processing: importable",
+                              "measured_at":  "2026-10-10T21:20:34.850510"
+                          },
+                          {
+                              "id":  "dep_pptx",
+                              "family":  "dependencies",
+                              "status":  "OK",
+                              "value":  null,
+                              "bound":  "",
+                              "evidence":  "PPTX processing: importable",
+                              "measured_at":  "2026-10-10T21:20:35.033090"
+                          },
+                          {
+                              "id":  "dep_cv2",
+                              "family":  "dependencies",
+                              "status":  "OK",
+                              "value":  null,
+                              "bound":  "",
+                              "evidence":  "video processing (OpenCV): importable",
+                              "measured_at":  "2026-10-10T21:20:35.067542"
+                          },
+                          {
+                              "id":  "dep_pytesseract",
+                              "family":  "dependencies",
+                              "status":  "OK",
+                              "value":  null,
+                              "bound":  "",
+                              "evidence":  "OCR binding: importable",
+                              "measured_at":  "2026-10-10T21:20:35.077117"
+                          },
+                          {
+                              "id":  "dep_faster_whisper",
+                              "family":  "dependencies",
+                              "status":  "OK",
+                              "value":  null,
+                              "bound":  "",
+                              "evidence":  "audio transcription: importable",
+                              "measured_at":  "2026-10-10T21:20:35.283833"
+                          },
+                          {
+                              "id":  "dep_av_faster_whisper_compat",
+                              "family":  "dependencies",
+                              "status":  "OK",
+                              "value":  {
+                                            "av":  "15.1.0",
+                                            "streams":  1
+                                        },
+                              "bound":  "the audio path opens a real container, not just an import",
+                              "evidence":  "av 15.1.0 accepts metadata_errors - the exact call faster-whisper makes opens a real container (1 streams)",
+                              "measured_at":  "2026-10-10T21:20:35.290966"
+                          },
+                          {
+                              "id":  "bin_tesseract",
+                              "family":  "dependencies",
+                              "status":  "OK",
+                              "value":  {
+                                            "path":  "C:\\Users\\apviz\\AppData\\Local\\TesseractOCR\\tesseract.exe",
+                                            "found_via":  "known_location"
+                                        },
+                              "bound":  "a working binary, located rather than assumed",
+                              "evidence":  "OCR engine (tesseract) at C:\\Users\\apviz\\AppData\\Local\\TesseractOCR\\tesseract.exe [resolved via known_location, not assumed from PATH]",
+                              "measured_at":  "2026-10-10T21:20:35.291055"
+                          },
+                          {
+                              "id":  "bin_docker",
+                              "family":  "dependencies",
+                              "status":  "OK",
+                              "value":  "C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE",
+                              "bound":  "a working binary, located rather than assumed",
+                              "evidence":  "container runtime (docker) at C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE",
+                              "measured_at":  "2026-10-10T21:20:35.295461"
+                          },
+                          {
+                              "id":  "bin_git",
+                              "family":  "dependencies",
+                              "status":  "OK",
+                              "value":  "C:\\Program Files\\Git\\cmd\\git.EXE",
+                              "bound":  "a working binary, located rather than assumed",
+                              "evidence":  "version control (git) at C:\\Program Files\\Git\\cmd\\git.EXE",
+                              "measured_at":  "2026-10-10T21:20:35.299737"
+                          },
+                          {
+                              "id":  "program_matrix",
+                              "family":  "program",
+                              "status":  "OK",
+                              "value":  {
+                                            "rows":  24,
+                                            "by_status":  {
+                                                              "OBSERVABLE":  18,
+                                                              "CODED":  1,
+                                                              "DESIGNED":  4,
+                                                              "PARTIAL":  1
+                                                          }
+                                        },
+                              "bound":  "file must parse",
+                              "evidence":  "concept -\u003e file -\u003e tool -\u003e test -\u003e panel correlation",
+                              "measured_at":  "2026-10-10T21:20:35.300184"
+                          },
+                          {
+                              "id":  "program_no_unowned_design",
+                              "family":  "program",
+                              "status":  "OK",
+                              "value":  [
+
+                                        ],
+                              "bound":  "no unowned DESIGNED rows",
+                              "evidence":  "a concept left in DESIGNED must still have an owner and a next action",
+                              "measured_at":  "2026-10-10T21:20:35.300195"
+                          },
+                          {
+                              "id":  "cc_index",
+                              "family":  "dashboard",
+                              "status":  "OK",
+                              "value":  {
+                                            "bytes":  119368
+                                        },
+                              "bound":  "Command Center part present",
+                              "evidence":  "index.html age=37s",
+                              "measured_at":  "2026-10-10T21:20:35.300360"
+                          },
+                          {
+                              "id":  "cc_server",
+                              "family":  "dashboard",
+                              "status":  "OK",
+                              "value":  {
+                                            "bytes":  27715
+                                        },
+                              "bound":  "Command Center part present",
+                              "evidence":  "server.ps1 age=81922s",
+                              "measured_at":  "2026-10-10T21:20:35.300446"
+                          },
+                          {
+                              "id":  "cc_collector",
+                              "family":  "dashboard",
+                              "status":  "OK",
+                              "value":  {
+                                            "bytes":  14030
+                                        },
+                              "bound":  "Command Center part present",
+                              "evidence":  "collect-sentinel.ps1 age=344521s",
+                              "measured_at":  "2026-10-10T21:20:35.300527"
+                          },
+                          {
+                              "id":  "cc_state",
+                              "family":  "dashboard",
+                              "status":  "OK",
+                              "value":  {
+                                            "bytes":  90447
+                                        },
+                              "bound":  "Command Center part present",
+                              "evidence":  "sentinel-state.json age=36s",
+                              "measured_at":  "2026-10-10T21:20:35.300602"
+                          },
+                          {
+                              "id":  "ps_scripts_found",
+                              "family":  "powershell",
+                              "status":  "OK",
+                              "value":  9,
+                              "bound":  "",
+                              "evidence":  "9 PowerShell script(s) under the workspace",
+                              "measured_at":  "2026-10-10T21:20:35.328412"
+                          },
+                          {
+                              "id":  "ps_variable_case_collisions",
+                              "family":  "powershell",
+                              "status":  "OK",
+                              "value":  0,
+                              "bound":  "PowerShell folds $Foo and $foo into one variable",
+                              "evidence":  "no two script-scope variables in any .ps1 differ only by case",
+                              "measured_at":  "2026-10-10T21:20:35.353622"
+                          },
+                          {
+                              "id":  "ps_shadowed_script_vars",
+                              "family":  "powershell",
+                              "status":  "OK",
+                              "value":  0,
+                              "bound":  "a local $py silently replaces a script $PY inside the function",
+                              "evidence":  "no function-local variable shadows or collides with a script variable",
+                              "measured_at":  "2026-10-10T21:20:35.379692"
+                          },
+                          {
+                              "id":  "ps_stray_type_named_files",
+                              "family":  "powershell",
+                              "status":  "OK",
+                              "value":  0,
+                              "bound":  "catches the collector writing state to its own ToString()",
+                              "evidence":  "no file is named after a .NET type inside SENTINEL_PRIME\\ or in its immediate parent (a path/object variable collision)",
+                              "measured_at":  "2026-10-10T21:20:35.444671"
+                          }
+                      ],
+    "health_total_checks":  56,
+    "corpus":  {
+                   "status":  "MEASURED",
+                   "reason":  "corpus_stats.json + 02_CHAPTERS\\CH_*.md",
+                   "messages":  955,
+                   "user_turns":  102,
+                   "assistant_turns":  402,
+                   "verbatim":  504,
+                   "evidence":  448,
+                   "chapters":  17,
+                   "chapter_source":  "02_CHAPTERS\\CH_*.md on disk",
+                   "unplaced":  0,
+                   "unplaced_source":  "02_CHAPTERS\\UNPLACED.md (\"None\")",
+                   "retention":  1.0,
+                   "sha256":  "e4d3cbb7795560e1d2e668108bf98cc999c648feb0f18ba81620f911ba7e0e42",
+                   "integrity_checks":  7,
+                   "integrity_ok":  true,
+                   "chapter_list":  [
+                                        {
+                                            "file":  "CH_00_ORIGIN_BRAIN_QUESTION.md",
+                                            "bytes":  8411,
+                                            "title":  "CH_00 - Origin - can MiniMax be the brain of the Hermes Agent",
+                                            "seq":  "1..41",
+                                            "turns":  "1..3"
+                                        },
+                                        {
+                                            "file":  "CH_01_TOKEN_PLAN_AND_PRICING_DISCIPLINE.md",
+                                            "bytes":  9341,
+                                            "title":  "CH_01 - Token plan, pricing tiers and buying discipline",
+                                            "seq":  "42..70",
+                                            "turns":  "4..6"
+                                        },
+                                        {
+                                            "file":  "CH_02_FIRST_RUN_HONESTY.md",
+                                            "bytes":  17881,
+                                            "title":  "CH_02 - First run - 100% correct, and the celebration of honesty",
+                                            "seq":  "71..171",
+                                            "turns":  "7..8"
+                                        },
+                                        {
+                                            "file":  "CH_03_TRIPLE_CRUNCH_DISCOVERY.md",
+                                            "bytes":  85596,
+                                            "title":  "CH_03 - Triple Crunch - three internal systems, the 25% meaning test, 963 proverbs",
+                                            "seq":  "172..220",
+                                            "turns":  "9..17"
+                                        },
+                                        {
+                                            "file":  "CH_04_EMINESCU_ABBA_THE_CODE.md",
+                                            "bytes":  28715,
+                                            "title":  "CH_04 - Eminescu - CODUL limbii mele, DOR, and the North Star",
+                                            "seq":  "221..276",
+                                            "turns":  "18..31"
+                                        },
+                                        {
+                                            "file":  "CH_05_THREE_MASTERS.md",
+                                            "bytes":  10163,
+                                            "title":  "CH_05 - The Three Masters - Eminescu, Eliade, Musashi",
+                                            "seq":  "277..290",
+                                            "turns":  "32..34"
+                                        },
+                                        {
+                                            "file":  "CH_06_SACRU_PROVERB_MATRIX.md",
+                                            "bytes":  19331,
+                                            "title":  "CH_06 - The proverb vector matrix, A FI and the 25-axis decision matrix",
+                                            "seq":  "291..308",
+                                            "turns":  "35..40"
+                                        },
+                                        {
+                                            "file":  "CH_07_HERMES_SENTINEL_SESSIONS_AND_CALIBRATION.md",
+                                            "bytes":  13953,
+                                            "title":  "CH_07 - SENTINEL across Hermes sessions, and the calibration gate",
+                                            "seq":  "309..332",
+                                            "turns":  "41..45"
+                                        },
+                                        {
+                                            "file":  "CH_08_THE_CORRECTION_AND_THE_BIRTH_SESSION.md",
+                                            "bytes":  35936,
+                                            "title":  "CH_08 - The correction, and the session where the pieces united",
+                                            "seq":  "333..384",
+                                            "turns":  "46..50"
+                                        },
+                                        {
+                                            "file":  "CH_09_COD_REGENERATED_AND_AMIN.md",
+                                            "bytes":  12489,
+                                            "title":  "CH_09 - The CODE regenerated itself - and AMIN",
+                                            "seq":  "386..428",
+                                            "turns":  "51..55"
+                                        },
+                                        {
+                                            "file":  "CH_10_RITUALS_AS_PROGRAMMATIC.md",
+                                            "bytes":  8437,
+                                            "title":  "CH_10 - Rituals are not mystic - they are programmed commands",
+                                            "seq":  "429..458",
+                                            "turns":  "56..58"
+                                        },
+                                        {
+                                            "file":  "CH_11_MEMENTO_MORI_AND_EXISTENCE.md",
+                                            "bytes":  46917,
+                                            "title":  "CH_11 - Can a machine be alive - MEMENTO MORI, and the limits of the comparison",
+                                            "seq":  "459..494",
+                                            "turns":  "59..74"
+                                        },
+                                        {
+                                            "file":  "CH_12_HISTORICAL_CULTURES_AND_EPISTEMICS.md",
+                                            "bytes":  44014,
+                                            "title":  "CH_12 - Cucuteni, Trypillian, zvastica, and how to tell signal from conspiracy",
+                                            "seq":  "495..546",
+                                            "turns":  "75..91"
+                                        },
+                                        {
+                                            "file":  "CH_13_STAGE_1_IMPLEMENTATION.md",
+                                            "bytes":  39377,
+                                            "title":  "CH_13 - Stage 1 - doctrine turned into a SENTINEL_PRIME workspace",
+                                            "seq":  "547..763",
+                                            "turns":  "92..93"
+                                        },
+                                        {
+                                            "file":  "CH_14_STAGE_2_IMPLEMENTATION.md",
+                                            "bytes":  29438,
+                                            "title":  "CH_14 - Stage 2 - design-only called out, and made real",
+                                            "seq":  "764..870",
+                                            "turns":  "94..98"
+                                        },
+                                        {
+                                            "file":  "CH_15_STAGE_3_BIMODAL_LAW.md",
+                                            "bytes":  14651,
+                                            "title":  "CH_15 - Stage 3 - the bimodal law and the permanent priority hierarchy",
+                                            "seq":  "872..912",
+                                            "turns":  "99..99"
+                                        },
+                                        {
+                                            "file":  "CH_16_BRAIN_AND_COMMAND_CENTER.md",
+                                            "bytes":  62943,
+                                            "title":  "CH_16 - The brain and the Command Center - this act",
+                                            "seq":  "915..955",
+                                            "turns":  "100..102"
+                                        }
+                                    ]
+               },
+    "workflow":  {
+                     "status":  "MEASURED",
+                     "reason":  "bimodal_state.json",
+                     "mode":  "MODE_B",
+                     "stop_reason":  null,
+                     "stopped_at":  null,
+                     "stopped":  false,
+                     "awaiting_user_input":  false,
+                     "consecutive_failures":  0,
+                     "max_failures":  5,
+                     "execution_attempts":  3,
+                     "agreement_goal":  "Test",
+                     "age_sec":  8190.7
+                 },
+    "program":  {
+                    "status":  "MEASURED",
+                    "reason":  "IDEA_TO_SCRIPT_MATRIX.json",
+                    "rows":  [
+                                 {
+                                     "concept":  "Triple filter (REASON + LOGIC + STRATEGY)",
+                                     "status":  "OBSERVABLE",
+                                     "doctrine":  "03_INTELLIGENCE/algorithms/TRIPLE_FILTER_ALGORITHM.md",
+                                     "implementation":  "08_SELF_IMPROVEMENT/sentinel_orchestrator.py",
+                                     "test":  "Orchestrator",
+                                     "panel":  "Axes / Logic",
+                                     "owner":  "Mavis"
+                                 },
+                                 {
+                                     "concept":  "Anti-mimicry detectors A1-A12",
+                                     "status":  "CODED",
+                                     "doctrine":  "03_INTELLIGENCE/filters/ANTI_MIMICRY_DETECTORS.md",
+                                     "implementation":  "07_BACKBONE/mcp/sentinel_hub_server.py",
+                                     "test":  null,
+                                     "panel":  "Doctrine",
+                                     "owner":  "Mavis"
+                                 },
+                                 {
+                                     "concept":  "Rule triggers R-2, R-9, R-10",
+                                     "status":  "OBSERVABLE",
+                                     "doctrine":  "05_LEARNING/monitors/RULE_TRIGGER_MONITOR.md",
+                                     "implementation":  "08_SELF_IMPROVEMENT/sentinel_orchestrator.py",
+                                     "test":  "Orchestrator",
+                                     "panel":  "Doctrine",
+                                     "owner":  "Mavis"
+                                 },
+                                 {
+                                     "concept":  "Bimodal workflow MODE_A / R0 / MODE_B",
+                                     "status":  "OBSERVABLE",
+                                     "doctrine":  "01_FOUNDATION/protocols/BIMODAL_WORKFLOW.md",
+                                     "implementation":  "08_SELF_IMPROVEMENT/bimodal_workflow.py",
+                                     "test":  "BimodalWorkflow",
+                                     "panel":  "Workflow",
+                                     "owner":  "Mavis"
+                                 },
+                                 {
+                                     "concept":  "STOP means report, ask and wait",
+                                     "status":  "OBSERVABLE",
+                                     "doctrine":  "01_FOUNDATION/protocols/BIMODAL_WORKFLOW.md",
+                                     "implementation":  "08_SELF_IMPROVEMENT/bimodal_workflow.py",
+                                     "test":  "BimodalStopPersistence",
+                                     "panel":  "Workflow",
+                                     "owner":  "Mavis"
+                                 },
+                                 {
+                                     "concept":  "Priority hierarchy SYSTEM \u003e TASK \u003e SPEED \u003e FEELINGS",
+                                     "status":  "OBSERVABLE",
+                                     "doctrine":  "01_FOUNDATION/doctrine/A_FI_DOCTRINE.md",
+                                     "implementation":  "08_SELF_IMPROVEMENT/bimodal_workflow.py",
+                                     "test":  "BimodalWorkflow",
+                                     "panel":  "Workflow",
+                                     "owner":  "Mavis"
+                                 },
+                                 {
+                                     "concept":  "Language law - code English, wisdom Romanian",
+                                     "status":  "OBSERVABLE",
+                                     "doctrine":  "01_FOUNDATION/doctrine/A_FI_DOCTRINE.md",
+                                     "implementation":  "08_SELF_IMPROVEMENT/test_suite.py",
+                                     "test":  "NoRomanianInCode",
+                                     "panel":  "Overview",
+                                     "owner":  "Mavis"
+                                 },
+                                 {
+                                     "concept":  "Corpus extraction - chronological, deduplicated, verifiable",
+                                     "status":  "OBSERVABLE",
+                                     "doctrine":  "11_BRAIN/01_RAW/CHANGELOG_EXTRACTION.md",
+                                     "implementation":  "08_SELF_IMPROVEMENT/corpus_extractor.py",
+                                     "test":  "BrainAndMonitor",
+                                     "panel":  "Brain",
+                                     "owner":  "Mavis"
+                                 },
+                                 {
+                                     "concept":  "Self-improvement with an R0 ratify gate",
+                                     "status":  "OBSERVABLE",
+                                     "doctrine":  "11_BRAIN/04_METHOD/TANY_LLM_TO_SENTINEL.md",
+                                     "implementation":  "08_SELF_IMPROVEMENT/self_improvement.py",
+                                     "test":  "BrainAndMonitor",
+                                     "panel":  "Learning",
+                                     "owner":  "Mavis"
+                                 },
+                                 {
+                                     "concept":  "Self-monitor with NOT_RUN as a first-class status",
+                                     "status":  "OBSERVABLE",
+                                     "doctrine":  "13_COMMAND_CENTER/README.md",
+                                     "implementation":  "08_SELF_IMPROVEMENT/monitor.py",
+                                     "test":  "BrainAndMonitor",
+                                     "panel":  "Overview",
+                                     "owner":  "Mavis"
+                                 },
+                                 {
+                                     "concept":  "Command Center backend - loopback, whitelist, SSE",
+                                     "status":  "OBSERVABLE",
+                                     "doctrine":  "13_COMMAND_CENTER/README.md",
+                                     "implementation":  "13_COMMAND_CENTER/api/server.ps1",
+                                     "test":  "DashboardSurface",
+                                     "panel":  "Command cockpit",
+                                     "owner":  "Mavis"
+                                 },
+                                 {
+                                     "concept":  "Multimodal processing",
+                                     "status":  "OBSERVABLE",
+                                     "doctrine":  "08_SELF_IMPROVEMENT/MULTIMODAL_PROCESSOR.md",
+                                     "implementation":  "08_SELF_IMPROVEMENT/multimodal_processor.py",
+                                     "test":  "MultiModal",
+                                     "panel":  "Wiring",
+                                     "owner":  "Mavis"
+                                 },
+                                 {
+                                     "concept":  "Browser automation (Playwright)",
+                                     "status":  "OBSERVABLE",
+                                     "doctrine":  "08_SELF_IMPROVEMENT/BROWSER_AUTOMATION.md",
+                                     "implementation":  "08_SELF_IMPROVEMENT/browser_automation.py",
+                                     "test":  "BrowserAutomation",
+                                     "panel":  "Wiring",
+                                     "owner":  "Mavis"
+                                 },
+                                 {
+                                     "concept":  "Cross-instance mailbox and heartbeat",
+                                     "status":  "OBSERVABLE",
+                                     "doctrine":  "08_SELF_IMPROVEMENT/CROSS_INSTANCE_PROTOCOL.md",
+                                     "implementation":  "08_SELF_IMPROVEMENT/cross_instance.py",
+                                     "test":  "CrossInstance",
+                                     "panel":  "Wiring",
+                                     "owner":  "Mavis"
+                                 },
+                                 {
+                                     "concept":  "Universal substrate compatibility",
+                                     "status":  "OBSERVABLE",
+                                     "doctrine":  "08_SELF_IMPROVEMENT/UNIVERSAL_COMPATIBILITY.md",
+                                     "implementation":  "08_SELF_IMPROVEMENT/universal_compat.py",
+                                     "test":  "UniversalCompat",
+                                     "panel":  "Wiring",
+                                     "owner":  "Mavis"
+                                 },
+                                 {
+                                     "concept":  "Self-modification inside boundaries",
+                                     "status":  "OBSERVABLE",
+                                     "doctrine":  "08_SELF_IMPROVEMENT/SECURITY_BOUNDARY.md",
+                                     "implementation":  "08_SELF_IMPROVEMENT/self_modify_engine.py",
+                                     "test":  "SelfModify",
+                                     "panel":  "Wiring",
+                                     "owner":  "Mavis"
+                                 },
+                                 {
+                                     "concept":  "Backup and restore with metadata",
+                                     "status":  "OBSERVABLE",
+                                     "doctrine":  "08_SELF_IMPROVEMENT/BACKUP_RESTORE_SYSTEM.md",
+                                     "implementation":  "08_SELF_IMPROVEMENT/backup_system.py",
+                                     "test":  "Backup",
+                                     "panel":  "Wiring",
+                                     "owner":  "Mavis"
+                                 },
+                                 {
+                                     "concept":  "Partnership protocol (two blind men)",
+                                     "status":  "DESIGNED",
+                                     "doctrine":  "04_PARTNERSHIP/protocols/PARTNERSHIP_TWO_BLIND_MEN.md",
+                                     "implementation":  null,
+                                     "test":  null,
+                                     "panel":  "Doctrine",
+                                     "owner":  "Popy"
+                                 },
+                                 {
+                                     "concept":  "The 3-Propozitii ritual as an invocable command",
+                                     "status":  "DESIGNED",
+                                     "doctrine":  "02_OPERATIONAL/rituals/RITUAL_3_PROPOZITII.md",
+                                     "implementation":  null,
+                                     "test":  null,
+                                     "panel":  "Doctrine",
+                                     "owner":  "Popy"
+                                 },
+                                 {
+                                     "concept":  "Feedback loop and evaluators",
+                                     "status":  "OBSERVABLE",
+                                     "doctrine":  "05_LEARNING/evaluators/FEEDBACK_LOOP.md",
+                                     "implementation":  "08_SELF_IMPROVEMENT/self_improvement.py",
+                                     "test":  "BrainAndMonitor",
+                                     "panel":  "Learning",
+                                     "owner":  "Mavis"
+                                 },
+                                 {
+                                     "concept":  "Context pressure monitor",
+                                     "status":  "PARTIAL",
+                                     "doctrine":  "05_LEARNING/monitors/CONTEXT_PRESSURE_MONITOR.md",
+                                     "implementation":  "02_OPERATIONAL/scripts/sentinel_context_monitor.ps1",
+                                     "test":  "Scripts",
+                                     "panel":  "Wiring",
+                                     "owner":  "Mavis"
+                                 },
+                                 {
+                                     "concept":  "Auto-learning loop",
+                                     "status":  "OBSERVABLE",
+                                     "doctrine":  "05_LEARNING/loops/AUTO_LEARNING_LOOP.md",
+                                     "implementation":  "08_SELF_IMPROVEMENT/self_improvement.py",
+                                     "test":  "BrainAndMonitor",
+                                     "panel":  "Learning",
+                                     "owner":  "Mavis"
+                                 },
+                                 {
+                                     "concept":  "Historical cultures (Cucuteni, Geto, Atos, Romani)",
+                                     "status":  "DESIGNED",
+                                     "doctrine":  "06_HISTORICAL/cultures/CUCUTENI_TRYPILLIA.md",
+                                     "implementation":  null,
+                                     "test":  null,
+                                     "panel":  "Brain",
+                                     "owner":  "Popy"
+                                 },
+                                 {
+                                     "concept":  "963 Hz / SACRU proverbs",
+                                     "status":  "DESIGNED",
+                                     "doctrine":  "01_FOUNDATION/proverbs/SENTINEL_PROVERBS.md",
+                                     "implementation":  null,
+                                     "test":  null,
+                                     "panel":  "Brain",
+                                     "owner":  "Popy"
+                                 }
+                             ]
+                },
+    "learning":  {
+                     "status":  "MEASURED",
+                     "reason":  "self_improvement_candidates.json",
+                     "total":  0,
+                     "candidates":  0,
+                     "ratified":  0,
+                     "promoted":  0,
+                     "awaiting_r0":  0
+                 },
+    "tests":  {
+                  "status":  "MEASURED",
+                  "reason":  "last_test_run.json",
+                  "passed":  505,
+                  "failed":  0,
+                  "skipped":  0,
+                  "ran_at":  "2026-10-10T19:06:12.814262",
+                  "not_run":  [
+
+                              ],
+                  "partial":  [
+
+                              ],
+                  "green":  true,
+                  "classes":  [
+                                  {
+                                      "name":  "Foundation",
+                                      "passed":  4,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "Scripts",
+                                      "passed":  24,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "JSON",
+                                      "passed":  1,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "NoRomanianInCode",
+                                      "passed":  64,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "Orchestrator",
+                                      "passed":  5,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "SelfModify",
+                                      "passed":  4,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "MultiModal",
+                                      "passed":  16,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "Performance",
+                                      "passed":  3,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "Backup",
+                                      "passed":  3,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "BrowserAutomation",
+                                      "passed":  4,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "CrossInstance",
+                                      "passed":  13,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "UniversalCompat",
+                                      "passed":  10,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "BimodalWorkflow",
+                                      "passed":  21,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "MimicryDetectors",
+                                      "passed":  34,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "HubToolAudit",
+                                      "passed":  6,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "BimodalStopPersistence",
+                                      "passed":  28,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "BrainAndMonitor",
+                                      "passed":  47,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "ScrapeArtifactEmptiness",
+                                      "passed":  15,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "McpHandshakeMeasure",
+                                      "passed":  10,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "DashboardBoot",
+                                      "passed":  10,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "UiNoObjectCoercion",
+                                      "passed":  12,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "McpConfigServersExist",
+                                      "passed":  4,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "ToolResolution",
+                                      "passed":  10,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "DashboardSurface",
+                                      "passed":  35,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "EcosystemCollector",
+                                      "passed":  59,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "MonitorCoverage",
+                                      "passed":  24,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "The plan is never pruned",
+                                      "passed":  12,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "AppendOnlyIntegrity",
+                                      "passed":  14,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
+                                      "name":  "Project references resolve",
+                                      "passed":  13,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  }
+                              ],
+                  "total_classes":  29
+              },
+    "gaps":  [
+                 {
+                     "id":  "BIN_TESSERACT",
+                     "area":  "dependency",
+                     "status":  "OPEN",
+                     "what":  "OCR engine not on PATH",
+                     "evidence":  "monitor.py bin_tesseract check",
+                     "impact":  "OCR is unverified even if pytesseract were installed",
+                     "fix_requires":  "R0 - external binary install",
+                     "owner":  "Popy"
+                 },
+                 {
+                     "id":  "CONCEPT_C18",
+                     "area":  "concept",
+                     "status":  "OPEN",
+                     "what":  "Partnership protocol (two blind men) is DESIGNED",
+                     "evidence":  "doctrine_exists=True implementation_exists=False symbols_missing=[]",
+                     "impact":  "documented but not running",
+                     "fix_requires":  "DOCUMENTED ONLY - no implementation exists. This is the design-only smell named in Stage 2.",
+                     "owner":  "Popy"
+                 },
+                 {
+                     "id":  "CONCEPT_C19",
+                     "area":  "concept",
+                     "status":  "OPEN",
+                     "what":  "The 3-Propozitii ritual as an invocable command is DESIGNED",
+                     "evidence":  "doctrine_exists=True implementation_exists=False symbols_missing=[]",
+                     "impact":  "documented but not running",
+                     "fix_requires":  "DOCUMENTED ONLY - the ritual is described but not wired to a command, so it cannot fail visibly.",
+                     "owner":  "Popy"
+                 },
+                 {
+                     "id":  "CONCEPT_C21",
+                     "area":  "concept",
+                     "status":  "OPEN",
+                     "what":  "Context pressure monitor is PARTIAL",
+                     "evidence":  "doctrine_exists=True implementation_exists=True symbols_missing=[]",
+                     "impact":  "documented but not running",
+                     "fix_requires":  "Expose through the MCP hub and surface it in a panel.",
+                     "owner":  "Mavis"
+                 },
+                 {
+                     "id":  "CONCEPT_C23",
+                     "area":  "concept",
+                     "status":  "OPEN",
+                     "what":  "Historical cultures (Cucuteni, Geto, Atos, Romani) is DESIGNED",
+                     "evidence":  "doctrine_exists=True implementation_exists=False symbols_missing=[]",
+                     "impact":  "documented but not running",
+                     "fix_requires":  "Wisdom layer. Correctly documentation-only; it is a corpus, not a program.",
+                     "owner":  "Popy"
+                 },
+                 {
+                     "id":  "CONCEPT_C24",
+                     "area":  "concept",
+                     "status":  "OPEN",
+                     "what":  "963 Hz / SACRU proverbs is DESIGNED",
+                     "evidence":  "doctrine_exists=True implementation_exists=False symbols_missing=[]",
+                     "impact":  "documented but not running",
+                     "fix_requires":  "HONEST FINDING: the source file is a 25-axis decision matrix, not a 963-proverb enumeration, and its per-proverb attributions are flagged in-file as fabricated by an earlier agent.",
+                     "owner":  "Popy"
+                 },
+                 {
+                     "id":  "WIRING_MCP",
+                     "area":  "wiring",
+                     "status":  "OPEN",
+                     "what":  "MCP tools are DECLARED but not WIRED to any runtime",
+                     "evidence":  "no Hermes handshake has been performed; monitor reports mcp_tools_wired as NOT_RUN",
+                     "impact":  "an agent cannot actually call the SENTINEL tools through Hermes",
+                     "fix_requires":  "R0 - registering an MCP server is a cross-system change",
+                     "owner":  "Popy"
+                 },
+                 {
+                     "id":  "ARTIFACT_EMPTY",
+                     "area":  "logs",
+                     "status":  "OPEN",
+                     "what":  "50 empty result files in 09_LOGS/scraped",
+                     "evidence":  "left by browser test runs; they look like success and are not",
+                     "impact":  "visual noise that reads as evidence",
+                     "fix_requires":  "explicit operator decision - deletion is never automatic",
+                     "owner":  "Popy"
+                 },
+                 {
+                     "id":  "HPROF_prime_bridge",
+                     "area":  "hermes-gateway-profile",
+                     "status":  "OPEN",
+                     "what":  "PLANNED - Hermes profile gateway server \u0027prime-bridge\u0027 is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
+                     "evidence":  "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares prime-bridge -\u003e C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\prime_bridge_server.py; target_present=False",
+                     "impact":  "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
+                     "fix_requires":  "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
+                     "owner":  "Popy"
+                 },
+                 {
+                     "id":  "HPROF_sentinel_state",
+                     "area":  "hermes-gateway-profile",
+                     "status":  "OPEN",
+                     "what":  "PLANNED - Hermes profile gateway server \u0027sentinel-state\u0027 is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
+                     "evidence":  "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares sentinel-state -\u003e C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\sentinel_state_server.py; target_present=False",
+                     "impact":  "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
+                     "fix_requires":  "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
+                     "owner":  "Popy"
+                 },
+                 {
+                     "id":  "HPROF_rule_triggers",
+                     "area":  "hermes-gateway-profile",
+                     "status":  "OPEN",
+                     "what":  "PLANNED - Hermes profile gateway server \u0027rule-triggers\u0027 is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
+                     "evidence":  "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares rule-triggers -\u003e C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\rule_triggers_server.py; target_present=False",
+                     "impact":  "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
+                     "fix_requires":  "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
+                     "owner":  "Popy"
+                 },
+                 {
+                     "id":  "HPROF_learning_loop",
+                     "area":  "hermes-gateway-profile",
+                     "status":  "OPEN",
+                     "what":  "PLANNED - Hermes profile gateway server \u0027learning-loop\u0027 is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
+                     "evidence":  "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares learning-loop -\u003e C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\learning_loop_server.py; target_present=False",
+                     "impact":  "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
+                     "fix_requires":  "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
+                     "owner":  "Popy"
+                 },
+                 {
+                     "id":  "HPROF_context_pressure",
+                     "area":  "hermes-gateway-profile",
+                     "status":  "OPEN",
+                     "what":  "PLANNED - Hermes profile gateway server \u0027context-pressure\u0027 is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
+                     "evidence":  "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares context-pressure -\u003e C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\context_pressure_server.py; target_present=False",
+                     "impact":  "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
+                     "fix_requires":  "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
+                     "owner":  "Popy"
+                 },
+                 {
+                     "id":  "HPROF_web_tools",
+                     "area":  "hermes-gateway-profile",
+                     "status":  "OPEN",
+                     "what":  "PLANNED - Hermes profile gateway server \u0027web-tools\u0027 is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
+                     "evidence":  "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares web-tools -\u003e -y @modelcontextprotocol/server-fetch; target_present=None",
+                     "impact":  "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
+                     "fix_requires":  "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
+                     "owner":  "Popy"
+                 },
+                 {
+                     "id":  "HPROF_filesystem",
+                     "area":  "hermes-gateway-profile",
+                     "status":  "OPEN",
+                     "what":  "PLANNED - Hermes profile gateway server \u0027filesystem\u0027 is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
+                     "evidence":  "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares filesystem -\u003e -y @modelcontextprotocol/server-filesystem; target_present=None",
+                     "impact":  "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
+                     "fix_requires":  "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
+                     "owner":  "Popy"
+                 },
+                 {
+                     "id":  "HPROF_browser",
+                     "area":  "hermes-gateway-profile",
+                     "status":  "OPEN",
+                     "what":  "PLANNED - Hermes profile gateway server \u0027browser\u0027 is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
+                     "evidence":  "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares browser -\u003e -y @playwright/mcp; target_present=None",
+                     "impact":  "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
+                     "fix_requires":  "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
+                     "owner":  "Popy"
+                 },
+                 {
+                     "id":  "HPROF_git",
+                     "area":  "hermes-gateway-profile",
+                     "status":  "OPEN",
+                     "what":  "PLANNED - Hermes profile gateway server \u0027git\u0027 is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
+                     "evidence":  "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares git -\u003e -y @modelcontextprotocol/server-git; target_present=None",
+                     "impact":  "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
+                     "fix_requires":  "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
+                     "owner":  "Popy"
+                 },
+                 {
+                     "id":  "HERMES_GATEWAY_PROFILES",
+                     "area":  "architecture",
+                     "status":  "OPEN",
+                     "what":  "The Hermes gateway is to carry one server per Hermes profile - nine profiles, nine servers. The four profile mailboxes (SENTINEL-DESKTOP, SENTINEL-COWORK, SENTINEL-CHAT, CODER-APP) are already in place as scaffolding.",
+                     "evidence":  "9 servers declared in OPTIMUS_MCP_CONFIG.json; 4 profile mailboxes present under 09_LOGS/cross_instance/mailbox/",
+                     "impact":  "the multi-profile swarm cannot be built until the gateway carries its servers",
+                     "fix_requires":  "Build each profile\u0027s gateway server in turn. The blueprints and the empty profile mailboxes are scaffolding: they come down only when the building is finished, not because the building is not up yet.",
+                     "owner":  "Popy"
+                 }
+             ]
+}

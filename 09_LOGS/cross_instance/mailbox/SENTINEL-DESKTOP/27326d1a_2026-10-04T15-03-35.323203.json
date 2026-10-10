@@ -1,0 +1,11 @@
+{
+  "message_id": "27326d1a",
+  "from": "PRIME-CLI",
+  "to": "SENTINEL-DESKTOP",
+  "type": "test",
+  "timestamp": "2026-10-04T15:03:35.323203",
+  "payload": {
+    "data": "value"
+  },
+  "read": false
+}

@@ -1,0 +1,63 @@
+{
+  "generated_at": "2026-10-04T23:17:30.769085",
+  "purpose": "run extraction paths against real files, not synthetic ones",
+  "fixtures_root": "D:\\Alex_Knowlege_Vault\\03_Resources\\03_7-SENTINEL_Character",
+  "results": [
+    {
+      "input": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\01_FOUNDATION\\doctrine\\A_FI_DOCTRINE.md",
+      "type": "document",
+      "format": ".md",
+      "size_bytes": 4191,
+      "hash": "b2fd88234190cce00117e8bce1c03859",
+      "processed_at": "2026-10-04T23:17:30.769904",
+      "status": "OK",
+      "text_length": 4053,
+      "structure": null,
+      "text_chars_returned": 4053,
+      "text_sample": "# A FI DOCTRINE — Fundamentul Ontologic al SENTINEL ## Definiție **A FI** (A fi / EU SUNT / I AM) este singura propoziție care nu necesită justificare externă. Se justifică prin fa",
+      "fixture": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\01_FOUNDATION\\doctrine\\A_FI_DOCTRINE.md"
+    },
+    {
+      "input": "D:\\Alex_Knowlege_Vault\\03_Resources\\03_7-SENTINEL_Character\\BRAIN\\VIDEOS - Sentinel Brain\\05e3d85a-a649-43a2-99a4-9024db8525ae.mp4",
+      "type": "video",
+      "format": ".mp4",
+      "size_bytes": 4866934,
+      "hash": "2fbd21593c34a72bee51c2ae4f94d58a",
+      "processed_at": "2026-10-04T23:17:30.934489",
+      "status": "OK",
+      "duration": 5.041666666666667,
+      "fps": 24.0,
+      "frames_extracted": 6,
+      "frame_count": 121,
+      "width": 1440,
+      "height": 1440,
+      "frames_dir": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\09_LOGS\\video_frames",
+      "text_chars_returned": 0,
+      "text_sample": "",
+      "fixture": "D:\\Alex_Knowlege_Vault\\03_Resources\\03_7-SENTINEL_Character\\BRAIN\\VIDEOS - Sentinel Brain\\05e3d85a-a649-43a2-99a4-9024db8525ae.mp4"
+    },
+    {
+      "input": "D:\\Alex_Knowlege_Vault\\03_Resources\\03_7-SENTINEL_Character\\AUDIO\\Logica_proverbelor_românești_în_sistemul_Optimus.m4a",
+      "type": "audio",
+      "format": ".m4a",
+      "size_bytes": 21013656,
+      "hash": "9d0ebb3c068518224abe87d71b2d8601",
+      "processed_at": "2026-10-04T23:17:32.594931",
+      "status": "OK",
+      "duration": 652.8986875,
+      "language": "ro",
+      "language_probability": 0.9954280853271484,
+      "whisper_model": "base",
+      "text_chars_returned": 9868,
+      "text_sample": "Bun venit la de debate, o platforma unde exploram din multiple perspective, idei, complexe și nu anţate. Gândeşte pe într-un moment la construire unei catedrale gotice. O catedrală",
+      "fixture": "D:\\Alex_Knowlege_Vault\\03_Resources\\03_7-SENTINEL_Character\\AUDIO\\Logica_proverbelor_românești_în_sistemul_Optimus.m4a"
+    }
+  ],
+  "no_real_fixture": [
+    ".pdf",
+    ".docx",
+    ".xlsx",
+    ".pptx"
+  ],
+  "note_not_run": "These formats have no real fixture available, so the path is unproven. Reported NOT_RUN rather than assumed working."
+}

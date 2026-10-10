@@ -1,0 +1,216 @@
+{
+  "$schema": "MCP config schema v1.0",
+  "version": "1.0",
+  "name": "OPTIMUS MCP Server Bundle",
+  "description": "Configurație MCP pentru SENTINEL PRIME în OPTIMUS. Include toate MCP-urile necesare pentru operare completă.",
+  "created": "2026-09-12",
+  "operator": "Popy",
+  "instance": "M3",
+
+  "servers": {
+    "prime-bridge": {
+      "type": "stdio",
+      "command": "python",
+      "args": [
+        "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\prime_bridge_server.py"
+      ],
+      "env": {
+        "PRIME_HOME": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME",
+        "PYTHONIOENCODING": "utf-8"
+      },
+      "description": "Bridge pentru filesystem și workspace SENTINEL_PRIME"
+    },
+
+    "sentinel-state": {
+      "type": "stdio",
+      "command": "python",
+      "args": [
+        "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\sentinel_state_server.py"
+      ],
+      "env": {
+        "WORKSPACE_ROOT": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME"
+      },
+      "description": "State management pentru SENTINEL (EU SENT, DOR, search, anti-mimicry status)"
+    },
+
+    "rule-triggers": {
+      "type": "stdio",
+      "command": "python",
+      "args": [
+        "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\rule_triggers_server.py"
+      ],
+      "env": {
+        "WORKSPACE_ROOT": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME"
+      },
+      "description": "R-2, R-9, R-10 trigger monitoring și execution"
+    },
+
+    "learning-loop": {
+      "type": "stdio",
+      "command": "python",
+      "args": [
+        "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\learning_loop_server.py"
+      ],
+      "env": {
+        "WORKSPACE_ROOT": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME"
+      },
+      "description": "Auto-learning loop cu feedback și metrics"
+    },
+
+    "context-pressure": {
+      "type": "stdio",
+      "command": "python",
+      "args": [
+        "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\context_pressure_server.py"
+      ],
+      "env": {
+        "WORKSPACE_ROOT": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME"
+      },
+      "description": "Monitor presiune context cu auto-compact"
+    },
+
+    "web-tools": {
+      "type": "stdio",
+      "command": "python",
+      "args": [
+        "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\web_tools_server.py"
+      ],
+      "env": {
+        "PYTHONIOENCODING": "utf-8"
+      },
+      "description": "Web fetch pentru R-2 verification. Read-only, http/https only, fiecare corp de raspuns plafonat si trunchierea anuntata. FUNCTIONALITATEA DE SEARCH LIPSASTE intentionat - vezi nota de mai jos; agentul are in schimb web_search/web_fetch native.",
+      "previouslyDeclaredAs": "npx -y @modelcontextprotocol/server-fetch - masurat 2026-10-10: 404 la registry.npmjs.org. Inlocuirea evidenta mcp-server-fetch exista doar ca latest=0.0.1-security (rezervare npm, nu server), deci NU a fost folosita. Capacitatea a fost construita local in web_tools_server.py.",
+      "knownGap": "search: https://html.duckduckgo.com/html/?q=... masurat 2026-10-10 -> HTTP 202, 0 rezultate (interstitial anti-bot, nu rezultate). Un tool de search construit pe asta ar returna [] si ar parea 'nu exista rezultate'. Preferat sa lipseasca."
+    },
+
+    "filesystem": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem"],
+      "env": {
+        "ALLOWED_DIRECTORIES": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME"
+      },
+      "description": "Filesystem access în workspace SENTINEL_PRIME"
+    },
+
+    "browser": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp"],
+      "env": {
+        "PLAYWRIGHT_BROWSERS_PATH": "0"
+      },
+      "description": "Browser automation pentru web research și vizualizări"
+    },
+
+    "git": {
+      "type": "stdio",
+      "command": "python",
+      "args": [
+        "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\git_tools_server.py"
+      ],
+      "env": {
+        "GIT_DIR": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME",
+        "WORKSPACE_ROOT": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME",
+        "PYTHONIOENCODING": "utf-8"
+      },
+      "description": "Git read-only inspection (status, log, diff, branches, show, discover) pentru /checkpoint. Fara commit/add/checkout/merge/reset/push - subcomandele de scriere nu exista in server, deci security.no_force_push nu poate fi incalcati de aici.",
+      "previouslyDeclaredAs": "npx -y @modelcontextprotocol/server-git - masurat 2026-10-10: 404 la registry.npmjs.org. Inlocuirea evidenta mcp-server-git exista doar ca latest=0.0.1-security (rezervare npm, nu server), deci NU a fost folosita.",
+      "knownDefect": "GIT_DIR este pastrat, dar valoarea lui este un drum de WORK TREE, nu un drum .git - forma gresita pentru GIT_DIR. Masurat 2026-10-10 pe un repo valid: fara GIT_DIR -> true/exit 0; GIT_DIR=<worktree> -> 'not a git repository'/128; GIT_DIR=<worktree>/.git -> true/exit 0. Serverul citeste GIT_DIR ca radacina repo-ului SI il elimina din mediul proceselor git copii, deci valoarea ramane inerta aici. WORKSPACE_ROOT e variabila operativa.",
+      "measuredGap": "SENTINEL_PRIME NU este repository git. Masurat 2026-10-10: git rev-parse --is-inside-work-tree -> exit 128, 'fatal: not a git repository'. Nu exista .git. Declaratia e adevarata ca intentie, dar nu are ce raporta. Serverul refuza explicit in acest caz, pentru ca un status gol ar fi de nescris dintr-un arbore curat. Inchiderea lacunei (version control pe SENTINEL_PRIME) este decizie R0 a lui Popy."
+    }
+  },
+
+  "superseded": {
+    "_measured": "2026-10-10. Nothing was deleted. Popy's instruction: 'never prune'.",
+    "_finding": "The live minimax profile registers 17 MCP servers and NONE of these nine declared names appears in it by that exact name. Measured, not assumed: the profile list is agent-browser-mcp, chrome-devtools-mcp, docker-mcp, gdrive-mcp, git-mcp, gmail-mcp, google-calendar-mcp, google-workspace-mcp, hermes-mcp-router, mcp-server-filesystem, minimax-notebooklm, minimax-whatsapp, notebooklm-mcp, obsidian-mcp, qwen-acp-adapter, qwen-mcp-http, sentinel-hub.",
+    "consolidatedIntoSentinelHub": {
+      "note": "These five are the stale ones. Their responsibilities were absorbed into the single 42 KB sentinel-hub server, which IS registered. The absorption is verifiable from the hub's own exposed tools, not from this file: context-pressure -> sentinel_check_context; sentinel-state -> sentinel_get_state / sentinel_set_state; rule-triggers -> sentinel_check_r_triggers; learning-loop -> sentinel_log_event; prime-bridge -> sentinel_browser_scrape / sentinel_browser_navigate / sentinel_cross_instance_send.",
+      "declaredNames": ["prime-bridge", "sentinel-state", "rule-triggers", "learning-loop", "context-pressure"],
+      "fileSizes": "prime_bridge_server.py 7154 B; sentinel_state_server.py 1184 B; rule_triggers_server.py 1212 B; learning_loop_server.py 1225 B; context_pressure_server.py 1143 B",
+      "howItLooks": "Four of the five are ~1.2 KB stubs of 33-37 lines. Each opens with 'Declared in OPTIMUS_MCP_CONFIG.json as: ...' — they were written to satisfy THIS file, and this file is not what loads them.",
+      "status": "SUPERSEDED BY sentinel-hub. Retained on purpose. Their .py files are untouched and still on disk."
+    },
+    "renamedNotStale": {
+      "note": "These three are the same tools under different names in the live profile. Renamed, not abandoned.",
+      "pairs": [
+        {"declared": "filesystem", "live": "mcp-server-filesystem"},
+        {"declared": "browser", "live": "agent-browser-mcp"},
+        {"declared": "git", "live": "git-mcp"}
+      ]
+    },
+    "noLiveEquivalent": {
+      "web-tools": "no MCP counterpart in the live profile; web_search / web_fetch are native agent tools, not MCP servers"
+    }
+  },
+
+  "builtFromScaffolding": {
+    "_measured": "2026-10-10. Nimic nu a fost sters. Regula lui Popy: 'never prune'.",
+    "_principle": "O intrare declarata nu este una rezolvata. Declaratia se inchide prin CONSTRUIRE, nu prin taiere sau prin repointare.",
+    "fivePythonServers": {
+      "note": "Cele cinci servere python declarate au fost construite la exact cautile declarate. Fiecare face handshake real la pornire si refuza sa porneasca daca un tool numit nu este declarat.",
+      "built": "sentinel_mcp_slice.py (fasada comuna, 3567 B) + sentinel_state_server.py (1184 B) + rule_triggers_server.py (1212 B) + learning_loop_server.py (1225 B) + context_pressure_server.py (1143 B) + prime_bridge_server.py (8252 B)",
+      "design": "O singura implementare, cinci fete. Slice-urile deleaga la sentinel_hub_server.py si nu copiaza niciodata un corp de tool - o copie ar diverga, iar prima divergenta ar fi doi serveri cu doua raspunsuri la aceeasi intrebare."
+    },
+    "twoPhantomNpxPackages": {
+      "note": "Doar aceste doua erau npx. Le-au masurat, nu le-au presupus.",
+      "web-tools": "@modelcontextprotocol/server-fetch -> 404. mcp-server-fetch -> 200 dar latest=0.0.1-security (rezervare npm squat, nu server).",
+      "git": "@modelcontextprotocol/server-git -> 404. mcp-server-git -> 200 dar latest=0.0.1-security.",
+      "decision": "NU s-a inlocuit numele cu pachetul squat. Ar fi transformat un check rosu in verde peste doua pachete care nu fac nimic. Capacitatea a fost construita local: web_tools_server.py (10415 B, 3 tool-uri) si git_tools_server.py (13959 B, 6 tool-uri).",
+      "untouched": "'filesystem' si 'browser' raman npx pentru ca chiar se rezolva. Nu au fost atinse."
+    }
+  },
+
+  "corrections": {
+    "_rule": "Corectia se face in FAVOR, printr-o intrare noua care o refera. Stergerea intrarii altui scriitor este ireversibila, deci nu se face.",
+    "corrects": "superseded.consolidatedIntoSentinelHub",
+    "verdict": "Fals, masurat 2026-10-10.",
+    "evidence": [
+      "Cele cinci servere PORNESC si SERVESC: handshake real, protocolVersion 2024-11-05, stdout 100% JSON-RPC pur, 17/17 atacuri de escape refuzate cu is_error=true.",
+      "Absorbition into sentinel-hub este falsa: hubul expune 26 de tool-uri, dintre care ZERO cu profil filesystem/workspace. Declaratia mapeaza prime-bridge -> sentinel_browser_scrape, dar sentinel_browser_scrape nu atinge sistemul de fisiere. Deci prime-bridge NU e absorbit - este capabilitate noua.",
+      "Etichetarea celor patru fisiere de ~1.2 KB drept 'stub-uri scrise ca sa satisfaca ACEST fisier' ignora faptul ca patrul de module de ~1.2 KB sunt fatada de delegare deliberata catre o singura implementare, prin design, nu datorita dimensiunii.",
+      "Verificator independent: arborele proiectului 1301 fisiere / 31.582.098 B, identic inainte si dupa - zero scrieri."
+    ],
+    "status": "B blocul 'superseded' a ramas neatins intentionat, ca intrare a altui scriitor. Ramane deschis ca intrebere pentru Popy: cine a scris blocul la 2026-10-10 15:29:35."
+  },
+
+  "capabilities": {
+    "filesystem": {
+      "read": ["C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\**"],
+      "write": ["C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\**"],
+      "delete": false,
+      "note": "Doar self-modification e permis. Nimic din afara workspace-ului."
+    },
+    "network": {
+      "web_search": true,
+      "web_fetch": true,
+      "browser_navigation": true
+    },
+    "execution": {
+      "powershell": true,
+      "python": true,
+      "bash": false,
+      "git": true
+    }
+  },
+
+  "security": {
+    "sandbox": "workspace-only",
+    "no_modify_external": true,
+    "no_force_push": true,
+    "no_payments": true,
+    "no_external_uploads": true,
+    "approval_required_for": [
+      "rm -rf",
+      "force_push",
+      "real_money_transactions",
+      "irreversible_external_actions"
+    ]
+  },
+
+  "monitoring": {
+    "log_level": "INFO",
+    "log_path": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\09_LOGS\\mcp.log",
+    "metrics_path": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\09_LOGS\\mcp_metrics.json"
+  }
+}

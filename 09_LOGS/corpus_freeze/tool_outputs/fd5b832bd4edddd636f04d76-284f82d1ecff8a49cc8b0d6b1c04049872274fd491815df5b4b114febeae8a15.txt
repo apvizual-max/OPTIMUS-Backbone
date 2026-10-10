@@ -1,0 +1,42 @@
+{
+  "code": 0,
+  "message": "ok",
+  "results": [
+    {
+      "title": "Luceafărul (poem)",
+      "link": "https://en.wikipedia.org/wiki/Luceaf%C4%83rul_(poem)",
+      "snippet": "|Meter|iambic tetrameter, iambic trimeter|\n|Rhyme scheme|abab|\n...\n|Lines|392|\n|Full text|Full text|\n...\n***Luceafărul** * (originally spelled *Luceafĕrul* according to obsolete norms; pronunciation: [luˈtʃe̯afərul]; variously rendered as \"The Morning Star\", \"The Evening Star\", \"The Vesper\", ",
+      "source": "",
+      "content": "|Meter|iambic tetrameter, iambic trimeter|\n|Rhyme scheme|abab|\n...\n|Lines|392|\n|Full text|Full text|\n...\n***Luceafărul** * (originally spelled *Luceafĕrul* according to obsolete norms; pronunciation: [luˈtʃe̯afərul]; variously rendered as \"The Morning Star\", \"The Evening Star\", \"The Vesper\", \"The Daystar\", or \"Lucifer\") is a narrative poem by Romanian author Mihai Eminescu.\n...\n*Luceafărul* opens as a typical fairy tale, with a variation of \"once upon a time\" and a brief depiction of its female character, a \"wondrous maiden\", the only child of a royal couple—her name, Cătălina, will only be mentioned once, in the poem's 46th stanza.\n...\nIn terms of vocabulary and linguistic purism, scholar Iorgu Iordan assessed that three out of 98 *Luceafărul* stanzas have words of exclusively old-layer Latin provenance, with some 30 additional stanzas featuring only one or two non-Latin words.\nRunning at 392 lines in its unabridged version, the work alternates iambic tetrameter and iambic trimeter."
+    },
+    {
+      "title": "Full text of \"Mihai Eminescu Luceafarul\"",
+      "link": "https://archive.org/stream/MihaiEminescuLuceafarul_201503/Mihai+Eminescu+-+Luceafarul_djvu.txt",
+      "snippet": "# Full text of \"Mihai Eminescu Luceafarul\"",
+      "source": "",
+      "content": "# Full text of \"Mihai Eminescu Luceafarul\""
+    },
+    {
+      "title": "LUCEAFĂRUL Mihai Eminescu A fost odată ca 'n poveşti, ...",
+      "link": "https://www.upit.ro/_document/110937/luceafarul_tezaur.pdf",
+      "snippet": "Mihai Eminescu \nA fost odată ca ’n poveşti, \nA fost ca niciodată, \nDin rude mari împărăteşti, \nO prea frumoasă fată.\n* \nŞi era una la părinţi \nŞi mândră ’n toate cele,\nCum e Fecioara între sfinţi \nŞi luna între stele.\n* \nDin umbra falnicelor bolţi \nEa pasul şi-l îndreaptă ",
+      "source": "",
+      "content": "Mihai Eminescu \nA fost odată ca ’n poveşti, \nA fost ca niciodată, \nDin rude mari împărăteşti, \nO prea frumoasă fată.\n* \nŞi era una la părinţi \nŞi mândră ’n toate cele,\nCum e Fecioara între sfinţi \nŞi luna între stele.\n* \nDin umbra falnicelor bolţi \nEa pasul şi-l îndreaptă \nLângă fereastră, unde ’n colţ \nLuceafărul aşteaptă.\n*\nPrivea în zare cum pe mări \nRăsare şi străluce, \nPe mişcătoarele cărări \nCorăbii negre duce.\n* \nÎl vede azi, îl vede mâni, \nAstfel dorinţa-i gata: \nEl iar privind de săptămâni,\nÎi cade dragă fata.\n* \nCum ea pe coate-şi răzima \nVisând ale ei tâmple, \nDe dorul lui şi inema \nŞi sufletu-i se împle.\n* \nŞi cât de viu s’aprinde el \nÎn orişicare sară,\nSpre umbra negrului castel \nCând ea o să-i apară.\n* \nŞi pas cu pas pe urma ei \nAlunecă ’n odaie, \nŢesând cu recile-i scîntei \nO mreajă de văpaie.\n*\nŞi când în pat se ’ntinde drept \nCopila să se culce, \nI-atinge mânile pe piept, \nI ’nchide geana dulce; \n* \nŞi din oglindă luminiş \nPe trupu-i se revarsă, \nPe ochii mari, bătând închişi\nPe faţa ei întoarsă.\n* \nCa o mireasă ’n ziua ’ntâi \nE dulce şi înnaltă \nŞi de la creştet la călcâi \nUn chip tăiat de daltă.\n* \nEa îl privea cu un surâs, \nEl tremura ’n oglindă, \n...\n* \nIar ea vorbind cu el în somn, \nOftând din greu suspină:\n„O, dulce-al nopţii mele Domn, \nDe ce nu vii tu?\nVină!\n* \nCobori în jos, luceafăr blând, \nAlunecînd pe-o rază, \nPătrunde ’n casă şi în gând \nŞi vieaţa-mi luminează!”\n* \n...\nTrecu o zi, trecură trei \nŞi iarăşi, noaptea, vine\n...\nPorni luceafărul."
+    },
+    {
+      "title": "Luceafarul Varianta Completa - Mihai Eminescu | PDF - Scribd",
+      "link": "https://www.scribd.com/document/484551598/Luceafarul-varianta-completa-Mihai-Eminescu",
+      "snippet": "Luceafarul Varianta Completa - Mihai Eminescu\nAI-enhanced title\nA fost ca niciodată.Din rude mari împărăteşti,O prea frumoasă fată.\n...\nEa îl privea cu un surâs,El tremura-n oglindă,Căci o urma adânc în visDe suflet să se prindă.\nEl asculta tremurător,Se aprindea mai tareŞi s-arunca",
+      "source": "",
+      "content": "Luceafarul Varianta Completa - Mihai Eminescu\nAI-enhanced title\nA fost ca niciodată.Din rude mari împărăteşti,O prea frumoasă fată.\n...\nEa îl privea cu un surâs,El tremura-n oglindă,Căci o urma adânc în visDe suflet să se prindă.\nEl asculta tremurător,Se aprindea mai tareŞi s-arunca fulgerător,Se cufunda în mare;\nCa în cămara ta să vin,Să te privesc de-aproape,Am coborât cu-al meu seninŞi m-am născut din ape.\n...Trecu o zi, trecură treiŞi iarăşi, noaptea, vineLuceafărul deasupra eiCu razele-i senine.\nEa trebui de el în somnAminte să-şi aducăŞi dor de-al valurilor domnDe inim-o apucă:\n...Porni luceafărul.\nCreşteauÎn cer a lui aripe,Şi căi de mii de ani treceauÎn tot atâtea clipe.\nNu e nimic şi totuşi eO sete care-l soarbe,E un adânc asemeneUitării celei oarbe.\nTu vrei un om să te socoţiCu ei să te asameni?Dar piară oamenii cu toţi,S-ar naşte iarăşi oameni.\nMiroase florile-argintiiŞi cad, o dulce ploaie,Pe creştetele-a doi copiiCu plete lungi, bălaie."
+    },
+    {
+      "title": "Romanian Poem - Luceafărul by Mihai Eminescu",
+      "link": "https://www.clevelandpeople.com/groups/romanian/luceafarul.htm",
+      "snippet": "Romanian poet Mihai Eminescu wrote an epic poem called Luceafărul, or the Evening Star.\nIt begins:A fost odată ca-n povesti, A fost ca niciodată, Din rude mări împărătesti, O prea frumoasă fată.\nSi era una la părinti Si mîndră-n toate cele, Cum e Fecioara între sfinti Si luna între ste",
+      "source": "",
+      "content": "Romanian poet Mihai Eminescu wrote an epic poem called Luceafărul, or the Evening Star.\nIt begins:A fost odată ca-n povesti, A fost ca niciodată, Din rude mări împărătesti, O prea frumoasă fată.\nSi era una la părinti Si mîndră-n toate cele, Cum e Fecioara între sfinti Si luna între stele.\nDin umbra falnicelor bolti Ea pasul si-l îndreaptă Lîngă fereastră, unde-n colt Luceafărul asteaptă.\nPrivea în zare cum pe mări Răsare si străluce, Pe miscătoarele cărări Corăbii negre duce.\nîl vede azi, îl vede mîni, Astfel dorinta-i gata; El iar, privind de săptămîni, îi cade dragă fată.\nCum ea pe coate-si răzima Visînd ale ei tîmple De dorul lui si inima Si sufletu-i se împle.\nSi cît de viu s-aprinde el în orisicare sară, Spre umbra negrului castel Cînd ea o să-i apară.\nwhich translate in English to There was, as in the fairy tales, As ne'er in the time's raid, There was, of famous royal blood A most beautiful maid.\nShe was her parents' only child, Bright like the sun at noon, Like the Virgin midst the saints And among stars the moon.\nFrom the deep shadow of the vaults Her step now she directs Toward a window; at its nook Bright Evening-star expects.\nShe looks as in the distant seas He rises, darts his rays And leads the blackish, loaded ships On the wet, moving, ways.\nTo look at him every night Her soul her instincts spur; And as he looks at her for weeks He falls in love with her.\nAnd as on her elbows she leans Her temple and her whim She feels in her heart and soul that She falls in love with him.\nAnd ev'ry night his stormy flames More stormily renew When in the shadow of the castle She shows to his bright view.\nWatch this explanation of Luceafărul from Mariya Turk at the 2010 Romanian Festival Back to Top Back to Cleveland Romanians"
+    }
+  ],
+  "total": 5
+}

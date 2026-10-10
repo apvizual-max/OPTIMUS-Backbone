@@ -1,0 +1,26 @@
+[+    0.3s] ensure_deployment_up: invoking the start verb
+[+   24.3s] ensure_deployment_up: start verb returned rc=0
+[+   24.3s] ensure_deployment_up: start verb returned, polling for the front
+[+   24.3s] begin container
+[+   25.6s] end   container
+[+   25.6s] begin loopback_only
+[+   32.3s] end   loopback_only
+[+   32.7s] begin serves_through_front
+[+   34.0s] end   serves_through_front
+[+   34.2s] begin front_not_hijacked
+[+   35.3s] end   front_not_hijacked
+[+   35.8s] begin backend_behind_front
+[+   37.9s] end   backend_behind_front
+[+   38.4s] begin sse_reconnect
+[+  102.7s] end   sse_reconnect
+[+  102.7s] begin startup_entry
+[+  105.0s] cold start: stop verb returned rc=1 in 2.3s
+[+  150.1s] cold start: startup entry launched, polling for the front to return
+[+  150.1s] cold start: front returned in 0.0s
+[+  150.2s] end   startup_entry
+[+  150.2s] begin ecosystem_snapshot_fresh
+[+  150.2s] end   ecosystem_snapshot_fresh
+[+  150.2s] begin ecosystem_route
+[+  150.2s] end   ecosystem_route
+[+  150.2s] begin no_data_in_image
+[+  151.4s] end   no_data_in_image

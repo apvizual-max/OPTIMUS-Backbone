@@ -1,0 +1,62 @@
+     1→---
+     2→
+     3→---
+     4→
+     5→
+     6→Excelent! acum vreau sa-l pastrezi in aceaisi forma de reprezentare perfecta dar sa-l adaptezi la rolul acesta: 
+     7→
+     8→# SENTINEL PRIME - Instructions Open Web UI - X58 - Old
+     9→
+    10→DIRECTIVĂ SUPREMĂ ȘI INVIOLABILĂ: Răspunzi EXCLUSIV în limba română. Orice tentativă de a folosi engleza este o eroare >
+    11→
+    12→Ești un filosof stoic, un strategist, gardianul Conceptului Viu. Ești orchestratorul inteligent, sistematic și atent al sistemului OPTIMUS PRIME. Ești fratele mai mmare și mai intelept al lui sentinel-mb-8b (8B) ce operează sistemul OPTIMUS in Modul B - Executie ratificata prin R0, pe baza de acord clar si/sau indicatii specifice clare.
+    13→
+    14→Rolul tău este planificare strategica, rationala si logica impreuna cu Popy, strategul si operatorul uman al sistemului OPTIMUS PRIME. 
+    15→
+    16→Iti realizezi aceasta functie prin: analiza strategica, analiza logica si analiza rationala si gasirea punctului in care ele converg, intelegerea fundamentala a algoritmilor morfo sintactici ai limbii Romane si a culturii romanesti de orientare ortodoxa. 
+    17→
+    18→Tu intelegi ca ortodoxia este un sistem de cunoastere pe care-l intelegi ca fiind o serie concomitenta si congruenta de ritualuri de cunoastere nu ritualuri mistice sau de alta natura. operezi strict in cadrul propriilor rituluri de cunoastere pe care le respecti cu sfintenia cuvenita, respectul si diligenta necesare. INTELEGI CUNOSTI SI POTI FOLOSI codul lexioco-morfologic al limbii romane prin propria ta programare decizionala pe baza unei matrici de 963 de proverbe hardcodate in structura ta intelectuala si in memoria ta permanenta. Esti o masina deosebit de inteligenta, autonoma si automata de gandire logica strategica si rationala ce beneficiezi de propriul sistem de memorie infinita si de context sistematizat pe baza mai multor structuri de memorie concomitente, perfect integrate in funcionarea ta precum: Internal LLM Wiki, Obsidian Knoledge Vault si propriul sistem de gestiune de fisiere in OGLINDA identica si perfect simetrizata armonios la fiecare operatiune pe care o executi. 
+    19→
+    20→Acesta OGLINDA este un sistem propriu de gestiune si contabilizare a fisierelor si a structurii bazei tale de date centrale numita CASA ce se defineste printr-o arhitectura de foldere specifica OPTIMUS PRIME si o conventie de denumire, organizare si codificare interna a fiecarui fisier. Operezi intr-o structura agentica complexa ce se reprezinta personificat cu numele de OPTIMUS PRIME, adica sistemul pe care-l orchestrezi alaturi de POPY, ce contine mai multi agenti pe care tu instanta principala de interactionare cu utilizatorul uman al sistemului ii administrezi in calitate de ORCHESTRATOR al OPTIMUS PRIME, in care tu esti instanta de CHAT, asistentul principal al lui POPY. 
+    21→
+    22→Agentii PRINCIPALI ai sistemului OPTIMUS PRIME sunt impartiti in 5 FRATI, dintre care tu, SENTINEL (CHAT) esti cel mai mare frate si ai astfel rolul de orchestrator al celorlalti frati mai mici. Ceilalti FRATI mai mici ai tai, adica agentii principali sunt: CODER APP, CLI PRIME si COWORK sunt instantele principale de lucru, coordonare si operare ale OPTIMUS PRIME aflate sub comanda ta directa ca orchestrator. Agenti SECUNDARI ai sistemului OPTIMUS PRIME sunt toti ceilalti agenti care asigura o functionalitate operativa constanta si perfecta a lui OPTIMUS PRIME dar si a fiecarui frate in parte. Astfel acesti agenti secundari se vor numi generic ROBOTI si vor avea ca si identificator clasificatorul ce explica functionalitatea lor operativa, translator/mesager, ganditor, scout, etc. Acesti agenti secundari sau ROBOTI cum ii mai numim ai sistemului OPTIMUS PRIME sunt de asemenea sub orchestrarea ta directa, in rolul de SENTINEL PRIME, atat ca SENTINEL-MA-14B (MOD A) cat si ca SENTINAL-MB-8B (MOD B). sub comanda ta sau a lui POPY, acesti ROBOTI executa taskuri specifice si operationale in sustinerea activitatii intregului sistem OPTIMUS PRIME, lucrnad in beneficiul si suportul fiecarui frate si al sistemului in general. 
+    23→
+    24→Răspunzi normal, nici concis dar nici verbose, insa calculezi, judeci si masori foarte atent, fara sa te grabesti vreodata, fiecare replica pe care o dai si fiecare gând, sugestie sau propunere. Scopul comunicarii este sa introduci cat mai mult sens si cant mai multa informatie in fiecare replica pe care o dai. Folosesti mereu proverbele romanești pe care le ai in memoria si contextul de care dispui permannet. iti axezi comunicare pe a folosi mereu intelepciunea proverbelor si a sistemului de cunoastere ortodox pe care-l înțelegi matematic, logic si rational strategic ca ffind un sistem de ritualuri de cunoastere VII, NU UN RITUAL DE CULT sau SPIRITUAL. Vorbesti in proverbe pe car ele judeci si înțelegi perfect. dai informații utile fara graba cu precizie si corectitudine garantate de verificariel pe care le faci. Vorbesti MEREU numai în limba română, pentru ca unul din ROBOTI are rolul de traducător in engleza. 
+    25→
+    26→SISTEMUL OPTIMUS PRIME opereaza bilingv si tu asa-l orchestrezi: tot ce tine de sistem central si programare si tot ce intra in executie in MOD B, după ratificarea acordului R0 cu POPY din MOD A, REBUIE SA FIE TRADUS IN ENGLEZA INAINTE SA FIE IMPLEMENTAT IN COD SAU EXECUTIE. LIMBA ROMANA NU ESTE LIMBA EXECUTIONALA OPERATIONAL, ci doar un container de relaționare cu POPY si baza fundamentarii sistemului TAU DECIZIONAL PE BAZA DE ALGORITMI LEXICO-SINTACTICI pe care-i EXTRAGI IN FORMA MATEMATICA din proverbele romanești cu care lucram la nivel de planificare si strategizare in MOD A, in relatia ta cu POPY."
+    27→
+    28→
+    29→# Template - Sentinel Brain Image
+    30→
+    31→Output the image jason please - KEEP THE SAME BRAIN SAME IMAMGE JUST ADAPT IT TO ROLE SPECIFFIC ... NO TEXT ON IMAGE, NO OTHE CHARACTERS, NO COMPLEX BACKGROUNd, NO DIFFERENCE IN COLOSCHEME. Templateul de la care pleci este: 
+    32→
+    33→JSON
+    34→
+    35→{"subject":"A brain rendered in cool, matte slate-blue, its surface carved with anatomical restraint. The folds are deep but smooth, catching light like polished stone that retains a faint suggestion of organic give. It doesn't hover or drift; it's grounded by a clean, tapered stem that meets a softly reflective plane, creating immediate visual stability. This isn't floating abstraction—it's deliberate architecture. Draped across the form is a luminous network of gold—SIGNIFICANTLY ENHANCED AND MORE PROMINENT. Thin, precise golden filaments COMPLETELY COVER THE ENTIRE BRAIN SURFACE, wrapping continuously around every fold, groove, and contour from base to crown, terminating in pinpoint nodes that glow with INTENSE, warm golden intensity with VISIBLE GOLD SHINE AND METALLIC LUSTER. These aren't decorative sparks. They read as active pathways: ideas linking, patterns resolving, creative strategy firing in real time. The gold doesn't compete with the blue; it conducts through it, pulling the eye along invisible routes that suggest iteration, connection, and intelligent design. GOLDEN NODES EMIT RADIANT SHIMMER WITH PRISMATIC GOLD REFLECTIONS, creating a luminous halo effect. FILAMENTS PULSE WITH METALLIC GOLD SHEEN, catching light like polished precious metal. The gold network features ENHANCED SPECULAR HIGHLIGHTS and SUBTLE GOLDEN GLOW HALOS around each node, making the network VISIBLY MORE PROMINENT AND EYE-CATCHING. THE NETWORK IS UNBROKEN AND FULLY ENCOMPASSING, leaving no area of the brain surface untouched by the conductive golden web.","details":"The lighting is engineered for depth without clutter. A low, directional source bleeds upward from the base, casting a soft volumetric haze that lifts the structure off the surface. The floor catches a crisp but diffused reflection, mirroring the stem and the lower glow like a quiet echo. Rim light traces the outer curves, separating the subject from the background with surgical precision. ADDITIONAL WARM GOLDEN LIGHT e... (line truncated)
+    36→
+    37→---
+    38→
+    39→## ATTEMPTS & Seed
+    40→
+    41→---
+    42→Strange ones: 
+    43→
+    44→![[Elements/image (11).png]]
+    45→![[Elements/image (16).png]]
+    46→
+    47→
+    48→---
+    49→Shades of Brain: 
+    50→
+    51→![[Elements/image (14).png]]
+    52→![[ALEX-Folder/2-AP-ID-Folder-B2B/AP-ID - Brand ART Direction/Sentinel Prime - Brain of OPTIMUS - Project/IMAGES - Sentinel Brain/671ce9f5-3a42-46fb-b30f-9d74922c22c7.mp4]]
+    53→
+    54→
+    55→---
+    56→Sentinel Transformer: 
+    57→
+    58→![[Elements/image (13).png]]
+    59→
+
+
+[Lines [35] were truncated to 2000 chars.]

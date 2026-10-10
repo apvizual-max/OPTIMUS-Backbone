@@ -1,0 +1,2103 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="obsidian">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Inline favicon. Without one the browser requests /favicon.ico, gets a
+       404 and logs it - so a deployment that is otherwise clean still shows an
+       error in the console. A data URI cannot 404: there is no file to lose. -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B0F17'/%3E%3Cpath d='M16 5l9 5.5v11L16 27l-9-5.5v-11z' fill='none' stroke='%2338BDF8' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%2310B981'/%3E%3C/svg%3E" />
+<title>SENTINEL Command Center — MINIMAX SENTINEL BRAIN</title>
+<style>
+/* ==========================================================================
+   DESIGN SOT: Hermes "Obsidian Telemetry Dark"
+   Read-only copy: projects\95_DESIGN_SOT\        Skill: mavis-hermes-design-sot
+
+   Invariants obeyed:
+     max 3 font families | single-shade elevation | 3px left chromatic accent
+     18/22px negative space | no boxes inside boxes | Rule 07 border disappearance
+     action cockpit: button on TOP, text UNDERNEATH
+
+   HONESTY INVARIANT (this project's own):
+     no panel may render a hardcoded verdict. Every value on screen came from
+     /api/state or /api/health. A missing measurement renders as NOT_MEASURED
+     with the reason, never as a plausible default.
+   ========================================================================== */
+/* --------------------------------------------------------------------------
+   HMI TOKEN LAYER (2026-10-09)
+   The palette is now the one named in the objective, not a near-miss of it.
+   Before: --cyan #22d3ee, --emerald #34d399, --amber #fbbf24, --bg #05070a.
+   Those were plausible darker relatives. They were not the specified values,
+   and "looks about right" is how a design system drifts from its spec one
+   revision at a time. These are the spec values, and they are the source of
+   truth for everything below:
+     canvas #0B0F17 | elevated #111827 | hairline #1E293B
+     live cyan #38BDF8 | nominal #10B981 | advisory #F59E0B | breach #EF4444
+   Variable NAMES are unchanged on purpose: the old names are referenced in
+   ~160 places across this file and in the inline style attributes of every
+   card header. Renaming them would be churn with no behavioural gain.
+   -------------------------------------------------------------------------- */
+:root{
+  /* ---- semantic accents (spec-pinned) ---- */
+  --cyan:#38BDF8;      /* live telemetry */
+  --band:linear-gradient(180deg,rgba(5,7,10,.97),rgba(5,7,10,.86));  /* sticky header */
+  --emerald:#10B981;   /* nominal / healthy */
+  --amber:#F59E0B;     /* advisory / attention */
+  --fail:#EF4444;      /* invariant breach */
+  --ok:#10B981;        /* a check passed its bound */
+  --stale:#F59E0B;     /* measured, but past its age bound */
+  --notrun:#F97316;    /* never executed - not a pass */
+  /* ---- supporting hues (not spec-pinned; kept from the previous set) ---- */
+  --purple:#a78bfa; --pink:#f472b6; --blue:#60a5fa;
+  --orange:#fb923c;   --indigo:#818cf8;
+  /* ---- surfaces ---- */
+  --bg:#0B0F17;
+  --bg-deep:#070A10;
+  --surface:rgba(17,24,39,.72);
+  --surface-1:#111827;
+  --surface-2:#161f31;
+  --surface-soft:rgba(255,255,255,.028);
+  --line:#1E293B;
+  --line-soft:rgba(255,255,255,.06);
+  --shadow:0 4px 16px rgba(0,0,0,.28);
+  --shadow-lift:0 8px 28px rgba(0,0,0,.36);
+  --glow-cyan:0 0 0 1px rgba(56,189,248,.34), 0 0 18px -6px rgba(56,189,248,.45);
+  /* ---- ink ---- */
+  /* --ink3 failed WCAG AA in BOTH themes and was measured, not guessed.
+     Obsidian #64748b: worst 3.40:1 (on surface-soft over surface-1).
+     Paper      #7b8a9d: worst  2.89:1 (on --bg-deep).          need 4.5:1.
+     Both are muted greys carrying .sub .note .age th .tile .k .act .cmd
+     .hit .meta .card>h3 .q - all small text. A control room that cannot be
+     read is a control room that is not reporting.
+     New values solved by search against every surface each theme paints,
+     not tuned by eye: obsidian #818ea0 and paper #5a6573 both land at a worst
+     case of 4.86:1. The ink > ink2 > ink3 hierarchy survives in both. */
+  --ink:#e2e8f0; --ink2:#94a3b8; --ink3:#818ea0;
+  /* ---- type scale (C1: hierarchy, not one size at every weight) ---- */
+  --t-display:26px; --t-h1:19px; --t-h2:15px; --t-body:14px;
+  --t-meta:12.5px; --t-micro:11px; --t-nano:10.5px;
+  --ls-display:-.02em; --ls-caps:.08em;
+  /* ---- spacing scale ---- */
+  --sp:8px; --sp-1:4px; --sp-2:12px; --sp-3:16px; --sp-4:24px; --sp-5:34px;
+  /* ---- radii ---- */
+  --r-sm:6px; --r:10px; --r-lg:14px; --r-pill:999px;
+  /* ---- motion (C3: <200ms, hardware accelerated) ---- */
+  --t-fast:120ms; --t-med:180ms;
+  --ease:cubic-bezier(.4,0,.2,1);
+  /* ---- typefaces (max 2 families) ---- */
+  --sans:system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;
+}
+html[data-theme="paper"]{
+  --bg:#eef1f5; --bg-deep:#e4e9f0;
+  --band:linear-gradient(180deg,rgba(255,255,255,.97),rgba(255,255,255,.86));
+  --surface:rgba(255,255,255,.90); --surface-1:#ffffff; --surface-2:#f8fafc;
+  --surface-soft:rgba(15,23,42,.045);
+  --line:#cbd5e1; --line-soft:rgba(15,23,42,.09);
+  --shadow:0 4px 16px rgba(15,23,42,.10);
+  --shadow-lift:0 8px 28px rgba(15,23,42,.14);
+  --glow-cyan:0 0 0 1px rgba(2,132,199,.30), 0 0 18px -6px rgba(2,132,199,.30);
+  --ink:#16202e; --ink2:#4a5a6e; --ink3:#5a6573;
+  /* Accents are chosen per theme, not inherited. #0284c7 was a dark-theme
+     cyan carried into paper unchanged and measured 3.36:1 at worst (on
+     --bg-deep) against a 4.5:1 requirement; it colours the active nav tab,
+     links and the TESTED chip. Darkened along the same hue to #02699f, worst
+     case 4.88:1. The obsidian accent #38BDF8 is untouched at 10.61:1. */
+  --cyan:#02699f; --emerald:#047857; --amber:#b45309; --ok:#047857;
+  --fail:#b91c1c; --stale:#b45309;
+  /* The override above was INCOMPLETE: --notrun, --orange and --purple were
+     still carrying their dark-theme values into paper. Measured on the live
+     DOM: --orange #fb923c reached 1.73:1 at worst and --notrun #f97316 2.08:1
+     (on their own chip tints over paper surfaces), against a 4.5:1
+     requirement. A PARTIAL override is worse than none, because it reads as
+     "this theme was handled" while leaving three accents unreadable. All
+     values below are darkened along their own hue, solved per-surface:
+     worst case 4.85 / 4.86 / 4.86. */
+  --notrun:#98460d; --orange:#8b5121; --purple:#655497;
+}
+/* pre.out paints rgba(0,0,0,.36) in BOTH themes while its text is --ink2.
+   On a dark page that is correct; on paper it produced a mid-grey box holding
+   dark text, measured 2.77:1. The code block stays a code block — it just gets
+   a light tint instead of a black one when the page is light. */
+html[data-theme="paper"] pre.out{background:rgba(15,23,42,.05);border-color:rgba(15,23,42,.14)}
+html[data-theme="obsidian"]{ --ink:#e2e8f0; --ink2:#94a3b8; --ink3:#818ea0; }
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.55}
+a{color:var(--cyan)}
+h1,h2,h3{font-weight:600;letter-spacing:-.01em}
+code,.mono{font-family:var(--mono);font-size:12.5px}
+
+/* ---- top bar ---- */
+/* The sticky band was a hardcoded near-black gradient in BOTH themes. On the
+   paper theme it painted rgba(5,7,10,.97) behind --ink #16202e text, so the
+   title, the status pill and the tab strip were dark-on-dark.
+   It survived a contrast audit that passed because the audit read
+   backgroundColor - which is transparent here - and walked up to the light
+   body. A background-IMAGE is invisible to a background-COLOR check.
+   --band is now per theme; the frosted sticky look is unchanged. */
+header{position:sticky;top:0;z-index:20;background:var(--band);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line-soft);padding:14px 22px}
+.hrow{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+.title{font-size:17px;font-weight:650;letter-spacing:.02em}
+.title .accent{color:var(--cyan)}
+.sub{color:var(--ink3);font-size:12.5px}
+.spacer{flex:1}
+/* A form control with no colour rule falls back to the UA default, which is
+   black in Chrome. Measured 2026-10-10: #theme rendered black on the dark
+   surface at 1.15:1 - present in the DOM, clickable, and effectively invisible.
+   It passed in the paper theme and failed in obsidian, which is why an audit
+   that only looked at one theme would have called it fine.
+   `color:inherit` makes a button follow the theme like every other element.
+   It cannot regress the buttons that already declare a colour: `nav button`,
+   `.act button` and `.searchbar button` are more specific and still win. */
+button{color:inherit}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;
+  font-family:var(--mono);font-size:11.5px;border:1px solid rgba(255,255,255,.12);background:var(--surface-soft)}
+.pill .dot{width:7px;height:7px;border-radius:50%;background:var(--ink3)}
+.pill.ok .dot{background:var(--ok)} .pill.fail .dot{background:var(--fail)}
+.pill.stale .dot{background:var(--stale)} .pill.notrun .dot{background:var(--notrun)}
+.age{font-family:var(--mono);font-size:11.5px;color:var(--ink3)}
+
+/* ---- tabs ---- */
+nav{display:flex;gap:2px;flex-wrap:wrap;margin-top:12px}
+nav button{background:none;border:0;border-bottom:2px solid transparent;color:var(--ink2);
+  font-family:var(--sans);font-size:13px;padding:7px 13px;cursor:pointer;transition:color .12s}
+nav button:hover{color:var(--ink)}
+nav button[aria-selected="true"]{color:var(--cyan);border-bottom-color:var(--cyan)}
+
+/* ---- layout ---- */
+main{padding:22px;max-width:1500px;margin:0 auto}
+.panel{display:none}
+.panel.active{display:block}
+.q{margin:0 0 18px;color:var(--ink2);font-size:13.5px;max-width:78ch}
+.note{color:var(--ink3);font-size:12.5px;margin:0 0 16px;max-width:78ch}
+.grid{display:grid;gap:var(--sp);margin-bottom:18px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(178px,1fr))}
+
+/* ---- stat tile ---- */
+.tile{background:var(--surface);border:1px solid rgba(255,255,255,.06);border-radius:10px;
+  padding:14px 16px;box-shadow:var(--shadow)}
+.tile .k{color:var(--ink3);font-size:11px;text-transform:uppercase;letter-spacing:.07em}
+.tile .v{font-size:25px;font-weight:600;margin-top:5px;line-height:1.15}
+.tile .s{color:var(--ink2);font-size:11.5px;margin-top:3px;font-family:var(--mono)}
+
+/* ---- card ---- */
+.card{background:var(--surface);border:1px solid rgba(255,255,255,.06);border-radius:10px;
+  box-shadow:var(--shadow);overflow:hidden}
+.card > h3{font-size:13px;margin:0;padding:11px 15px;border-bottom:1px solid rgba(255,255,255,.06);
+  color:var(--ink);display:flex;align-items:center;gap:9px}
+.card > h3 .accent{width:3px;height:13px;border-radius:2px;background:var(--cyan);flex:none}
+.card > h3 .q{color:var(--ink3);font-size:11.5px;margin:0;font-weight:400}
+.pad{padding:14px 15px}
+/* A wide table inside a card used to be SILENTLY CLIPPED, not scrollable.
+   .card{overflow:hidden} (needed for the border-radius clip) plus
+   table{width:100%} whose min-content width can exceed the card meant the
+   rightmost columns were cut off with no way to reach them: measured at a
+   1024px viewport, the Doctrine TEST column lost 64px across all 24 rows,
+   every cell unreachable. A monitor that hides evidence is worse than one
+   that shows it failing, so overflow is surfaced as a scrollbar on the
+   content box instead of being discarded. Scoped to .pad so the card keeps
+   its radius clip. */
+.pad{overflow-x:auto}
+
+/* ---- tables ---- */
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;color:var(--ink3);font-weight:500;font-size:11px;text-transform:uppercase;
+  letter-spacing:.06em;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.08)}
+td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top}
+tr:last-child td{border-bottom:0}
+tbody tr:hover{background:var(--surface-soft)}
+
+/* ---- status chips ---- */
+.chip{display:inline-block;padding:1px 8px;border-radius:5px;font-family:var(--mono);
+  font-size:10.5px;font-weight:600;letter-spacing:.04em;border:1px solid transparent}
+.chip.OK{color:var(--ok);background:rgba(34,197,94,.11);border-color:rgba(34,197,94,.3)}
+.chip.FAIL{color:var(--fail);background:rgba(239,68,68,.11);border-color:rgba(239,68,68,.3)}
+.chip.STALE{color:var(--stale);background:rgba(234,179,8,.11);border-color:rgba(234,179,8,.3)}
+.chip.NOT_RUN{color:var(--notrun);background:rgba(249,115,22,.11);border-color:rgba(249,115,22,.3)}
+.chip.OBSERVABLE{color:var(--emerald);background:rgba(52,211,153,.11);border-color:rgba(52,211,153,.3)}
+.chip.TESTED{color:var(--cyan);background:rgba(34,211,238,.11);border-color:rgba(34,211,238,.3)}
+.chip.WIRED{color:var(--purple);background:rgba(192,132,252,.11);border-color:rgba(192,132,252,.3)}
+.chip.CODED{color:var(--amber);background:rgba(251,191,36,.11);border-color:rgba(251,191,36,.3)}
+.chip.DESIGNED{color:var(--ink2);background:rgba(143,160,179,.11);border-color:rgba(143,160,179,.3)}
+.chip.PARTIAL,.chip.ABSENT{color:var(--orange);background:rgba(251,146,60,.11);border-color:rgba(251,146,60,.3)}
+
+/* ---- STOP banner ---- */
+.stop{display:none;margin:0 0 18px;padding:16px 18px;border-radius:10px;
+  border:1px solid rgba(239,68,68,.5);background:linear-gradient(90deg,rgba(239,68,68,.16),rgba(239,68,68,.05));
+  border-left:3px solid var(--fail)}
+.stop.on{display:block}
+.stop h3{margin:0 0 6px;color:#fca5a5;font-size:14px}
+.stop p{margin:0 0 8px;color:var(--ink);font-size:13px}
+.stop .meta{font-family:var(--mono);font-size:11.5px;color:var(--ink2)}
+
+/* ---- cockpit ---- */
+.cockpit{display:grid;gap:var(--sp);grid-template-columns:repeat(auto-fit,minmax(212px,1fr))}
+.act{background:var(--surface);border:1px solid rgba(255,255,255,.06);border-radius:10px;
+  padding:12px;display:flex;flex-direction:column;gap:7px;box-shadow:var(--shadow)}
+.act button{background:rgba(34,211,238,.11);border:1px solid rgba(34,211,238,.36);color:var(--cyan);
+  border-radius:7px;padding:7px 10px;font-family:var(--sans);font-size:12.5px;cursor:pointer;
+  transition:background .12s}
+.act button:hover{background:rgba(34,211,238,.2)}
+.act button:disabled{opacity:.45;cursor:not-allowed}
+.act .desc{color:var(--ink2);font-size:11.5px;line-height:1.4}
+.act .cmd{font-family:var(--mono);font-size:10.5px;color:var(--ink3);word-break:break-all}
+
+/* ---- corpus ---- */
+.searchbar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.searchbar input{flex:1;min-width:220px;background:var(--surface);border:1px solid rgba(255,255,255,.1);
+  color:var(--ink);border-radius:7px;padding:8px 11px;font-family:var(--mono);font-size:12.5px}
+.searchbar button{background:rgba(34,211,238,.11);border:1px solid rgba(34,211,238,.36);color:var(--cyan);
+  border-radius:7px;padding:8px 14px;cursor:pointer;font-family:var(--sans);font-size:12.5px}
+.hit{border-bottom:1px solid rgba(255,255,255,.05);padding:11px 0}
+.hit:last-child{border-bottom:0}
+.hit .meta{font-family:var(--mono);font-size:10.5px;color:var(--ink3);margin-bottom:5px}
+.hit .txt{color:var(--ink);font-size:12.5px;white-space:pre-wrap;word-break:break-word}
+mark{background:rgba(251,191,36,.26);color:#fde68a;border-radius:2px;padding:0 1px}
+
+/* ---- misc ---- */
+.meter{height:5px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden;margin-top:7px}
+.meter > i{display:block;height:100%;background:var(--cyan)}
+.bar{display:flex;height:9px;border-radius:4px;overflow:hidden;background:rgba(255,255,255,.06)}
+.bar > i{display:block;height:100%}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:9px;color:var(--ink2);font-size:11.5px}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px}
+.empty{color:var(--ink3);font-style:italic;padding:14px 0}
+pre.out{background:rgba(0,0,0,.36);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:12px;
+  font-family:var(--mono);font-size:11.5px;color:var(--ink2);max-height:440px;overflow:auto;white-space:pre-wrap}
+.banner{padding:11px 14px;border-radius:8px;margin-bottom:14px;font-size:12.5px;
+  border:1px solid rgba(251,191,36,.35);background:rgba(251,191,36,.09);color:#fde68a}
+.banner code{color:#fef3c7}
+footer{padding:20px 22px;color:var(--ink3);font-size:11.5px;text-align:center;
+  border-top:1px solid rgba(255,255,255,.06);margin-top:26px}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.13);border-radius:5px}
+
+/* ==========================================================================
+   HMI GRAPHICAL LAYER (2026-10-09) — C2: measure, then draw
+   Nothing in this block replaces a number. Every component here draws FROM a
+   value that arrived over the wire, and every one of them keeps the exact
+   figure reachable — that is the whole rule: the chart answers "at a glance",
+   the figure beside it answers "exactly", and hiding the second one is how a
+   pretty dashboard starts lying.
+   ========================================================================== */
+
+/* ---- radial gauge -------------------------------------------------------
+   An SVG arc, not a canvas. The reason is not preference: an arc is a
+   declarative shape, so it is inspectable in the DOM, printable, testable by
+   reading an attribute, and it survives a theme switch without a repaint
+   pipeline. A canvas would have made every one of those a pixel-diff guess. */
+.gauge{display:flex;align-items:center;gap:var(--sp-3)}
+.gauge svg{flex:none;display:block}
+.gauge .track{stroke:var(--line);fill:none}
+.gauge .arc{fill:none;stroke-linecap:round;transition:stroke-dashoffset var(--t-med) var(--ease)}
+.gauge .read{font-family:var(--mono);font-size:15px;font-weight:600;fill:var(--ink)}
+.gauge .unit{font-family:var(--mono);font-size:8px;fill:var(--ink3);letter-spacing:.04em}
+.gauge .meta{flex:1;min-width:0}
+.gauge .meta .k{color:var(--ink3);font-size:var(--t-micro);text-transform:uppercase;letter-spacing:var(--ls-caps)}
+.gauge .meta .n{font-family:var(--mono);font-size:12.5px;color:var(--ink2);margin-top:5px;word-break:break-word}
+.gauge .meta .n b{color:var(--ink);font-weight:600}
+
+/* ---- sparkline ----------------------------------------------------------
+   One polyline per series. No axis, no gridline, no legend box: a sparkline
+   that needs a legend to be read is a chart that lost its job. The exact
+   first/last/min/max are printed underneath so the shape is never the only
+   place the number exists. */
+.spark{display:block;width:100%;height:38px;overflow:visible}
+.spark .sline{fill:none;stroke-width:1.75;stroke-linejoin:round;stroke-linecap:round}
+.spark .sarea{stroke:none;opacity:.16}
+.spark .sdot{r:2.4}
+.sparkmeta{display:flex;gap:var(--sp-3);flex-wrap:wrap;margin-top:7px;
+  font-family:var(--mono);font-size:var(--t-nano);color:var(--ink3)}
+.sparkmeta b{color:var(--ink2);font-weight:600}
+
+/* ---- stacked history band ----------------------------------------------
+   120 measured samples, one column each, four status classes. This is the
+   panel that finally shows what the tiles can never show: whether the two
+   FAILs are a moment or a condition. */
+.hist{display:flex;align-items:flex-end;gap:1px;height:74px;
+  padding:8px;background:var(--surface-soft);border:1px solid var(--line-soft);
+  border-radius:var(--r);overflow:hidden}
+.hist .col{flex:1;min-width:1px;display:flex;flex-direction:column-reverse;
+  height:100%;border-radius:1px;overflow:hidden}
+.hist .seg{width:100%}
+.hist .seg.s-ok{background:var(--emerald)}
+.hist .seg.s-fail{background:var(--fail)}
+.hist .seg.s-stale{background:var(--stale)}
+.hist .seg.s-notrun{background:var(--notrun)}
+.histaxis{display:flex;justify-content:space-between;margin-top:6px;
+  font-family:var(--mono);font-size:var(--t-nano);color:var(--ink3)}
+
+/* ---- mode timeline ------------------------------------------------------
+   MODE_A / MODE_B as a band. The bimodal law is the spine of this system, so
+   its history belongs on screen rather than in a log file nobody opens. */
+.tl{display:flex;height:22px;border-radius:var(--r-sm);overflow:hidden;
+  border:1px solid var(--line-soft);background:var(--surface-soft)}
+.tl .seg{flex:1;min-width:1px}
+.tl .seg.MODE_A{background:repeating-linear-gradient(45deg,rgba(56,189,248,.30),rgba(56,189,248,.30) 3px,rgba(56,189,248,.10) 3px,rgba(56,189,248,.10) 6px)}
+.tl .seg.MODE_B{background:repeating-linear-gradient(45deg,rgba(16,185,129,.30),rgba(16,185,129,.30) 3px,rgba(16,185,129,.10) 3px,rgba(16,185,129,.10) 6px)}
+
+/* ---- connectivity nodes -------------------------------------------------
+   A row of pulses, one per measured surface. Shape carries the state, colour
+   confirms it, and the accessible name carries it a third time so the panel
+   is not colour-only for anyone who cannot separate emerald from slate. */
+.nodes{display:flex;flex-wrap:wrap;gap:var(--sp-2)}
+.node{display:flex;align-items:center;gap:7px;padding:6px 11px;border-radius:var(--r-pill);
+  background:var(--surface-soft);border:1px solid var(--line-soft);
+  font-family:var(--mono);font-size:var(--t-nano);color:var(--ink2)}
+.node .bulb{width:8px;height:8px;border-radius:50%;flex:none;background:var(--ink3)}
+.node.MEASURED .bulb{background:var(--emerald);box-shadow:0 0 8px -1px var(--emerald)}
+.node.NOT_AVAILABLE .bulb{background:var(--amber)}
+.node.ERROR .bulb{background:var(--fail)}
+.node.NOT_MEASURED .bulb{background:var(--ink3)}
+
+/* ---- operator identity (C4) -------------------------------------------- */
+.op{display:grid;gap:var(--sp);grid-template-columns:repeat(auto-fit,minmax(268px,1fr))}
+.opcard{background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r);
+  box-shadow:var(--shadow);overflow:hidden}
+.opcard>header{display:flex;align-items:center;gap:var(--sp-2);padding:11px 14px;
+  border-bottom:1px solid var(--line-soft);font-size:var(--t-meta);font-weight:600;color:var(--ink)}
+.opcard>header .accent{width:3px;height:13px;border-radius:2px;background:var(--cyan);flex:none}
+.opcard .body{padding:12px 14px}
+.oprow{display:flex;align-items:baseline;gap:var(--sp-2);padding:6px 0;
+  border-bottom:1px solid var(--line-soft)}
+.oprow:last-child{border-bottom:0}
+.oprow .k{color:var(--ink3);font-size:var(--t-micro);text-transform:uppercase;
+  letter-spacing:.06em;min-width:104px;flex:none}
+.oprow .v{font-family:var(--mono);font-size:12.5px;color:var(--ink);
+  word-break:break-word;min-width:0;text-align:right;margin-left:auto}
+
+/* ---- live heartbeat (C3) -----------------------------------------------
+   Rate comes from real arrivals, not from a decorative loop: the animation is
+   only started while a stream is delivering, and it stops when it does not.
+   A pulse that keeps beating on a dead feed is the same lie as a green dot. */
+.pulse{position:relative;width:9px;height:9px;border-radius:50%;flex:none;
+  background:var(--cyan)}
+.pulse::after{content:'';position:absolute;inset:-4px;border-radius:50%;
+  border:1.5px solid var(--cyan);opacity:0;animation:beat 1.9s var(--ease) infinite}
+.pulse.stale::after,.pulse.dead::after{animation:none;opacity:0}
+.pulse.dead{background:var(--ink3)}
+@keyframes beat{0%{transform:scale(.65);opacity:.85}70%{transform:scale(1.5);opacity:0}100%{opacity:0}}
+
+/* ---- arrival flash ------------------------------------------------------
+   A brief rim-light when a new payload lands. Purely additive and it cannot
+   shift layout: it animates box-shadow and opacity only, never width, height,
+   margin or padding, so it contributes zero Cumulative Layout Shift. */
+.flash{animation:rim var(--t-med) var(--ease)}
+@keyframes rim{0%{box-shadow:0 0 0 0 rgba(56,189,248,.42)}100%{box-shadow:0 0 0 9px rgba(56,189,248,0)}}
+
+/* ---- focus + motion accessibility -------------------------------------- */
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:var(--r-sm)}
+button:focus:not(:focus-visible),a:focus:not(:focus-visible){outline:none}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;
+    transition-duration:.001ms!important;scroll-behavior:auto!important}
+  .pulse::after{display:none}
+}
+/* ---- panel transition (C3: no flicker, no layout shift) ---------------- */
+.panel.active{animation:panelin var(--t-med) var(--ease)}
+@keyframes panelin{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+/* A card that is hovered lifts; it never grows, so the grid below it does not
+   reflow. transform is compositor-only and produces no layout pass. */
+.card,.tile,.opcard{transition:transform var(--t-fast) var(--ease),box-shadow var(--t-fast) var(--ease)}
+.card:hover,.opcard:hover{transform:translateY(-1px);box-shadow:var(--shadow-lift)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hrow">
+    <div>
+      <div class="title">SENTINEL COMMAND CENTER <span class="accent">·</span> MINIMAX SENTINEL BRAIN</div>
+      <div class="sub">Correlation of discussion, programme and self — <code>127.0.0.1:8910</code>, loopback only</div>
+    </div>
+    <div class="spacer"></div>
+    <div id="h-status" class="pill"><span class="dot"></span><span>connecting…</span></div>
+    <div id="h-age" class="age">age —</div>
+    <button id="theme" class="pill" style="cursor:pointer">theme</button>
+  </div>
+  <nav id="tabs" role="tablist"></nav>
+</header>
+
+<main>
+  <div id="file-warning" class="banner" style="display:none">
+    This page is open over <code>file://</code>. There is no server behind it, so live data and
+    the action buttons cannot work. Open <code>http://127.0.0.1:8910/</code> instead —
+    double-click <code>13_COMMAND_CENTER\bat\sentinel-cc.bat</code> — it brings up
+    <em>both</em> planes (backend <code>8912</code> + container <code>8910</code>) and only
+    opens the browser once the gateway has confirmed <code>/readyz</code>.
+  </div>
+
+  <div id="stop" class="stop">
+    <h3>STOPPED — waiting for user input</h3>
+    <p id="stop-reason"></p>
+    <div class="meta" id="stop-meta"></div>
+  </div>
+
+  <!-- 1 OVERVIEW -->
+  <section class="panel" id="p-Overview" role="tabpanel">
+    <p class="q">What is the state of the SENTINEL brain right now, and what is unverified?</p>
+    <p class="note">Every tile below is a measurement taken at the time shown. Nothing on this page
+      is a stored opinion.</p>
+    <div class="grid g4" id="ov-tiles"></div>
+
+    <!-- HMI telemetry band (2026-10-09). These sit ABOVE the tables, never
+         instead of them: the figures these draw from stay readable below, and
+         every gauge prints its own exact value in the DOM as text. -->
+    <div class="grid g3" id="ov-gauges" style="margin-bottom:18px"></div>
+
+    <div class="card" style="margin-bottom:18px">
+      <h3><span class="accent" style="background:var(--cyan)"></span>Check history
+        <span class="q" id="hist-note">the last 120 collector samples, oldest at the left</span></h3>
+      <div class="pad">
+        <div id="hist-band"></div>
+        <div class="legend" id="hist-legend"></div>
+        <div style="margin-top:16px" id="hist-spark"></div>
+      </div>
+    </div>
+
+    <div class="grid g2">
+      <div class="card">
+        <h3><span class="accent" style="background:var(--emerald)"></span>Bimodal mode timeline
+          <span class="q">MODE_A and MODE_B across the same samples</span></h3>
+        <div class="pad"><div id="hist-mode"></div><div class="histaxis" id="hist-mode-axis"></div></div>
+      </div>
+      <div class="card">
+        <h3><span class="accent" style="background:var(--purple)"></span>Health by family
+          <span class="q">which layer is green, and which could not be checked</span></h3>
+        <div class="pad" id="ov-families"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <h3><span class="accent" style="background:var(--amber)"></span>Open gaps
+        <span class="q">what is degraded, and what it would take to fix</span></h3>
+      <div class="pad" id="ov-gaps"></div>
+    </div>
+  </section>
+
+  <!-- 2 OPERATOR (C4) — identity, session, cloud, agents.
+       A new section, not a re-reading of an existing one: nothing in the
+       eleven panels before it answers "whose machine is this and what is it
+       signed into", which is the first question an operator has. -->
+  <section class="panel" id="p-Operator" role="tabpanel">
+    <p class="q">Who is operating this machine, what is it signed into, and what is
+      the machine itself doing?</p>
+    <p class="note">Every row is read from the runtime's own files by the ecosystem
+      collector and carries its own status. A surface that could not be read says
+      <code>NOT_AVAILABLE</code> with its reason — never a plausible default.
+      <b>Hardware is the one family with no source yet:</b> nothing in the state
+      payload carries CPU, memory or disk, so that card is shown as unmeasured
+      rather than filled in with a guess.</p>
+    <div class="grid g4" id="op-tiles"></div>
+    <div class="op" id="op-cards" style="margin-top:18px"></div>
+    <div class="card" style="margin-top:18px">
+      <h3><span class="accent" style="background:var(--cyan)"></span>Surface nodes
+        <span class="q">one pulse per measured surface — colour carries the state,
+          the label carries it a second time</span></h3>
+      <div class="pad"><div class="nodes" id="op-nodes"></div></div>
+    </div>
+  </section>
+
+  <!-- 3 BRAIN -->
+  <section class="panel" id="p-Brain" role="tabpanel">
+    <p class="q">What did the conversation say, in order, grouped by name?</p>
+    <p class="note">The corpus is this conversation, deduplicated, chronological, with a
+      <em>verbatim tier that is never cut</em> and an <em>evidence tier</em> for tool traffic.
+      Chapters tile the corpus with no gap and no overlap.</p>
+    <div class="grid g4" id="brain-tiles"></div>
+    <div class="card" style="margin-bottom:18px">
+      <h3><span class="accent" style="background:var(--emerald)"></span>Chapters in chronological order
+        <span class="q">each covers a contiguous run of turns</span></h3>
+      <div class="pad"><table><thead><tr>
+        <th>Chapter</th><th>seq</th><th>turns</th><th>msgs</th><th>title</th>
+      </tr></thead><tbody id="brain-chapters"></tbody></table></div>
+    </div>
+    <div class="card">
+      <h3><span class="accent" style="background:var(--blue)"></span>Corpus search
+        <span class="q">find any phrase Popy actually wrote</span></h3>
+      <div class="pad">
+        <div class="searchbar">
+          <input id="q" placeholder="e.g. DOR, design-only, BAH ESTI PROST, STOPPED…" />
+          <button id="qgo">Search</button>
+        </div>
+        <div id="corpus-hits" class="empty">Type a phrase. It searches the full verbatim corpus.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 METHOD -->
+  <section class="panel" id="p-Method" role="tabpanel">
+    <p class="q">How does any LLM become SENTINEL?</p>
+    <p class="note">The procedure Popy executed, extracted from the transcript rather than from
+      the doctrine files — the doctrine is the output, the transcript is the method.</p>
+    <div class="card"><div class="pad" id="method-body">
+      <div class="empty">Loading the method…</div>
+    </div></div>
+  </section>
+
+  <!-- 4 AXES -->
+  <section class="panel" id="p-Axes" role="tabpanel">
+    <p class="q">Strategy, Reason, Logic and Rationale — four separate chapters, per act.</p>
+    <p class="note">"AND" is read literally. Each axis answers a different question about the
+      same 17 chapters.</p>
+    <div class="grid g2" id="axes-cards"></div>
+  </section>
+
+  <!-- 5 DOCTRINE -->
+  <section class="panel" id="p-Doctrine" role="tabpanel">
+    <p class="q">Which doctrines exist, and which of them are actually running?</p>
+    <p class="note">A doctrine file that nothing executes is a design. The status column is
+      measured from the filesystem by the programme matrix.</p>
+    <div class="card"><div class="pad"><table><thead><tr>
+      <th>Doctrine</th><th>exists</th><th>status</th><th>implementation</th><th>test</th>
+    </tr></thead><tbody id="doctrine-rows"></tbody></table></div></div>
+  </section>
+
+  <!-- 6 PROGRAM -->
+  <section class="panel" id="p-Program" role="tabpanel">
+    <p class="q">Which concepts are running, and which are still design?</p>
+    <p class="note">Status is computed by measuring the filesystem, never written by hand:
+      DESIGNED → CODED → TESTED → OBSERVABLE. A concept with no panel is not finished.</p>
+    <div class="grid g4" id="prog-tiles"></div>
+    <div class="card"><div class="pad"><table><thead><tr>
+      <th>id</th><th>concept</th><th>status</th><th>chapter</th><th>panel</th><th>next action</th>
+    </tr></thead><tbody id="prog-rows"></tbody></table></div></div>
+  </section>
+
+  <!-- 7 WORKFLOW -->
+  <section class="panel" id="p-Workflow" role="tabpanel">
+    <p class="q">Where is the bimodal workflow, and is it obeying the law?</p>
+    <p class="note">MODE_A → R0 → MODE_B → STOPPED. An interruption returns to MODE_A and never to
+      R0. STOP means report, ask and wait — and only <code>acknowledge_stop()</code> leaves it.</p>
+    <div class="grid g4" id="wf-tiles"></div>
+    <div class="grid g2">
+      <div class="card">
+        <h3><span class="accent" style="background:var(--amber)"></span>The law, as implemented</h3>
+        <div class="pad"><table><thead><tr><th>rule</th><th>enforced by</th><th>state</th></tr></thead>
+        <tbody id="wf-rules"></tbody></table></div>
+      </div>
+      <div class="card">
+        <h3><span class="accent" style="background:var(--cyan)"></span>Priority hierarchy
+          <span class="q">immutable</span></h3>
+        <div class="pad" id="wf-priority"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 TESTS -->
+  <section class="panel" id="p-Tests" role="tabpanel">
+    <p class="q">What has actually been proven, and what was skipped?</p>
+    <p class="note">A skipped check is not a passing check. A class that ran zero assertions is
+      reported as NOT RUN, because a green suite that proves nothing is worse than a red one.</p>
+    <div class="grid g4" id="test-tiles"></div>
+    <div class="card"><div class="pad" id="test-body"></div></div>
+  </section>
+
+  <!-- 9 WIRING -->
+  <section class="panel" id="p-Wiring" role="tabpanel">
+    <p class="q">Which tools are declared, and which are actually reachable?</p>
+    <p class="note" id="wire-note">DECLARED is not WIRED. The sentence below is
+      derived from the measured handshake record, not asserted.</p>
+    <div class="grid g3" id="wire-tiles"></div>
+    <div class="card" style="margin-top:18px"><div class="pad"><table><thead><tr>
+      <th>family</th><th>OK</th><th>FAIL</th><th>STALE</th><th>NOT RUN</th>
+    </tr></thead><tbody id="wire-families"></tbody></table></div></div>
+    <div class="card" style="margin-top:18px"><div class="pad">
+      <h3><span class="accent" style="background:var(--amber)"></span>Needs attention</h3>
+      <p class="note" style="margin-top:6px">A verdict without its reasons is half a report.
+        These are the individual self-monitor checks that are not OK, each with the
+        evidence that was measured and the bound it missed. Green checks are
+        deliberately absent: this is the exception list. Every cell comes from
+        <code>/api/health</code> — nothing here is written by hand.</p>
+      <table><thead><tr>
+        <th>check</th><th>status</th><th>evidence</th><th>bound</th><th>measured</th>
+      </tr></thead><tbody id="wire-attention"></tbody></table>
+    </div></div>
+  </section>
+
+  <!-- 10 LEARNING -->
+  <section class="panel" id="p-Learning" role="tabpanel">
+    <p class="q">What has the system proposed to change about itself?</p>
+    <p class="note">A lesson is a proposal until Popy ratifies it. The system may propose a change
+      to itself; only he may ratify it. That gate is R0 applied to self-modification.</p>
+    <div class="grid g4" id="learn-tiles"></div>
+    <div class="card" style="margin-top:18px"><div class="pad" id="learn-body"></div></div>
+  </section>
+
+  <!-- 11 ECOSYSTEM -->
+  <section class="panel" id="p-Ecosystem" role="tabpanel">
+    <p class="q">What is the local MINIMAX ecosystem actually made of right now?</p>
+    <p class="note">The hub reads the runtime's own files on disk - the agent roster, the
+      installed skills, the live MCP configuration, the sessions, the memory. It does not
+      ask a CLI, because there is no <code>mavis</code> executable on PATH: a panel that
+      could not be measured says so rather than filling the gap. Every row carries its own
+      status, and an absent surface is <code>NOT_AVAILABLE</code>, never a zero.</p>
+    <div class="grid g4" id="eco-tiles"></div>
+    <div class="card" style="margin-top:18px"><div class="pad"><table><thead><tr>
+      <th>surface</th><th>status</th><th>measured</th><th>source</th>
+    </tr></thead><tbody id="eco-rows"></tbody></table></div></div>
+    <div class="card" style="margin-top:18px"><div class="pad" id="eco-body"></div></div>
+    <div class="card" style="margin-top:18px"><div class="pad">
+      <h3><span class="accent" style="background:var(--cyan)"></span>Lifecycle verification</h3>
+      <p class="note" style="margin-top:6px">The last real <code>verify-server.ps1</code> run: the
+        deployment taken down and rebuilt three times, with every route and every refusal asserted
+        through the container. This is a record of a run, not a live probe — the age below is how
+        long ago it happened.</p>
+      <div class="grid g4" id="ver-tiles" style="margin-top:12px"></div>
+      <div style="margin-top:12px" id="ver-note"></div>
+    </div></div>
+  </section>
+
+  <!-- 12 COCKPIT -->
+  <section class="panel" id="p-Cockpit" role="tabpanel">
+    <p class="q">What can be run, and what does each command actually do?</p>
+    <p class="note">Every button is a whitelisted id. The request body carries an id, never a
+      command, so a crafted request cannot execute arbitrary shell. An unknown id returns 400.</p>
+    <div class="cockpit" id="cockpit"></div>
+    <div class="card" style="margin-top:18px">
+      <h3><span class="accent" style="background:var(--emerald)"></span>Output</h3>
+      <div class="pad"><pre class="out" id="act-out">No action run yet.</pre></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  SENTINEL Command Center — MINIMAX SENTINEL BRAIN ·
+  loopback only · no panel renders a verdict it did not measure ·
+  <span class="mono">07_BACKBONE</span> ·
+  <a href="https://127.0.0.1:8910/" onclick="return false">self</a>
+</footer>
+
+<script>
+"use strict";
+/* ==========================================================================
+   SENTINEL Command Center
+   Rules this file obeys:
+     1. Never render a hardcoded verdict. Every value came from /api/state or
+        /api/health. Missing data renders as NOT_MEASURED with its reason.
+     2. Always show data age. A stale snapshot must never look live.
+     3. SSE with a polling fallback - if the stream dies, polling takes over
+        rather than the page silently going stale.
+   ========================================================================== */
+
+const $ = (id) => document.getElementById(id);
+const TABS = ['Overview','Operator','Brain','Method','Axes','Doctrine','Program',
+              'Workflow','Tests','Wiring','Learning','Ecosystem','Cockpit'];
+
+// Every renderer treats a MISSING field as "not measured" - `STATE.counts || {}`,
+// `STATE.workflow || {}` - so a field that is absent is handled everywhere. What
+// is NOT handled is the container being null: the first `STATE.x` read throws
+// "Cannot read properties of null", the exception is swallowed into the console,
+// and every panel keeps its last good render. The page then looks correct to a
+// reader and to a screenshot while erroring underneath. An empty object is the
+// honest starting value: nothing has been measured yet, and every panel says so.
+let STATE = {};       // last /api/state payload
+let HEALTH = null;       // last /api/health payload
+let lastGoodState = 0;   // timestamp of the last successful state fetch
+let es = null;           // EventSource
+let pollTimer = null;
+
+const CHAPTER_DOCS = [
+  ['STRATEGY','What was aimed at, and why','var(--cyan)'],
+  ['REASON','The premises and the argument chain','var(--emerald)'],
+  ['LOGIC','The decision rules and their derivation','var(--purple)'],
+  ['RATIONALE','Why this rule and not the obvious alternative','var(--pink)']
+];
+
+const RULES = [
+  ['MODE_A reasons before anything is built','bimodal_workflow.enter_mode_a()','CODE'],
+  ['R0 is never assumed, only proposed and ratified','propose_r0() / ratify_r0()','CODE'],
+  ['An interruption returns to MODE_A, never to R0','report_interruption() → halt_to_mode_a()','CODE'],
+  ['5 consecutive failures land in STOPPED','_stop() at consecutive_failures >= 5','CODE'],
+  ['Breaking R0 to finish MODE_B lands in STOPPED','_stop() on would_break()','CODE'],
+  ['STOP is observable: mode + reason + timestamp','stop_report()','CODE'],
+  ['STOP has exactly one exit, and it is recorded','acknowledge_stop(user_input)','CODE'],
+  ['The corpus is frozen before it is read','09_LOGS/corpus_freeze + SHA256SUMS.txt','CODE'],
+  ['Nothing is dropped silently','corpus UNPLACED.md + retention ratio','CODE'],
+  ['A check that did not run says so','monitor.py NOT_RUN status','CODE'],
+  ['A lesson is not doctrine until Popy ratifies it','self_improvement.ratify()','CODE'],
+  ['Code is English, wisdom is Romanian','NoRomanianInCode + monitor language scan','CODE']
+];
+
+const ACTIONS = [
+  ['wf_state','Workflow status (read-only)','Prints the live bimodal state. Does not write: the engine defaults to a read-only `status` verb.','bimodal_workflow.py status'],
+  ['wf_stop_report','Stop report (read-only)','The STOP record: reason, timestamp, context. Empty when not stopped.','bimodal_workflow.py stop-report'],
+  ['wf_stop_ack','Acknowledge a STOP','The ONLY exit from STOPPED. Asks for your words and records them. Refused if you send nothing.','bimodal_workflow.py ack-stop "<your answer>"'],
+  ['tests_run','Run the test suite','Executes every test class and prints pass / fail / skipped / NOT_RUN.','python 08_SELF_IMPROVEMENT\\test_suite.py'],
+  ['corpus_verify','Verify the corpus','Re-extracts and compares the SHA256; proves idempotency.','python …\\corpus_extractor.py verify'],
+  ['corpus_digest','User-turn digest','The 102 user turns in order — the raw shape of the conversation.','python …\\corpus_extractor.py digest 220'],
+  ['matrix_dump','Dump the matrix','The full concept → file → tool → test correlation.','12_PROGRAM\\IDEA_TO_SCRIPT_MATRIX.json'],
+  ['mcp_wiring','MCP wiring check','Counts declared tools and states plainly that none are wired.','sentinel_hub_server.py (declared)'],
+  ['deps_check','Dependency check','Measures every optional capability and marks it unverified if absent.','python …\\monitor.py'],
+  ['self_check','Self-improvement gate','Proves the ratify gate blocks an unratified lesson.','python …\\self_improvement.py'],
+  ['skills_list','List skills','The skill files under 07_BACKBONE\\skills.','Get-ChildItem 07_BACKBONE\\skills'],
+  ['logs_tail','Tail the workflow log','The last 25 transition records.','09_LOGS\\bimodal_workflow.log'],
+  ['versions_list','Version snapshots','Lists the frozen rollback snapshots, five at most.','bat\\manage-versions.ps1 -List']
+];
+
+/* Actions that need an argument from the operator, and the reason they refuse
+   to run without one. An empty acknowledgement must not clear a STOP: that is
+   the whole point of the gate, and the UI must not be a way around it. */
+const ACTION_ARGS = {
+  wf_stop_ack: 'Your words that authorise leaving STOPPED. Recorded with a timestamp.'
+};
+
+/* ---------- helpers ---------- */
+function esc(s){ return String(s===null||s===undefined?'':s)
+  .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function chip(v){ const t=String(v==null?'NOT_MEASURED':v);
+  return '<span class="chip '+esc(t)+'">'+esc(t)+'</span>'; }
+function el(tag, cls, html){ return '<'+tag+(cls?' class="'+cls+'"':'')+'>'+(html||'')+'</'+tag+'>'; }
+function tile(k, v, s){
+  return el('div','tile', el('div','k',esc(k)) + el('div','v',esc(v)) + el('div','s',esc(s||'')));
+}
+function notMeasured(reason){ return chip('NOT_MEASURED') + ' <span class="s">'+esc(reason||'no reason recorded')+'</span>'; }
+function ageSec(){ return STATE && STATE.generated
+  ? Math.max(0, Math.round((Date.now() - new Date(STATE.generated).getTime())/1000)) : null; }
+
+/* ==========================================================================
+   HMI GRAPHICAL LAYER — components (2026-10-09)
+   Three rules these obey, in order of importance:
+     1. Draw from a value that arrived over the wire. A component with a
+        default that looks like a measurement is worse than no component.
+     2. Print the exact figure in text alongside the shape. The picture is for
+        the glance; the number is the truth; removing the number is how a
+        dashboard starts lying while still looking calibrated.
+     3. Guard every container before writing to it (SPEC_R104). A panel that
+        throws on a missing element reports nothing, and "reported nothing"
+        looks identical to "nothing is wrong".
+   ========================================================================== */
+let HISTORY = null;        // parsed /api/history samples, or null when unread
+let HISTORY_ERR = null;    // why it is null — absence must explain itself
+
+/* /api/history returns JSONL: newline-joined objects, labelled
+   Content-Type: application/json. That label is wrong - r.json() throws on it -
+   and the frontend used to have no consumer for this route at all, so 2000
+   measured samples sat on disk unwatched while the UI showed only the current
+   instant. Fixed here by parsing per line, and noted in HANDOFF as a contract
+   defect in server.ps1 that is still worth correcting at the source. */
+async function loadHistory(){
+  let txt;
+  try{
+    const r = await fetch('/api/history', {cache:'no-store'});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    txt = await r.text();
+  }catch(e){
+    HISTORY = null; HISTORY_ERR = 'the route did not answer: ' + e.message;
+    renderHistoryUI(); return;
+  }
+  const out = [];
+  txt.split('\n').forEach(function(line){
+    const s = line.trim();
+    if(!s) return;
+    try{
+      const o = JSON.parse(s);
+      if(o && typeof o === 'object' && !Array.isArray(o)) out.push(o);
+    }catch(e){ /* one malformed sample must not discard the other 119 */ }
+  });
+  if(!out.length){
+    HISTORY = null;
+    HISTORY_ERR = 'the route answered but carried no parseable sample';
+    renderHistoryUI(); return;
+  }
+  out.sort(function(a,b){ return String(a.ts||'').localeCompare(String(b.ts||'')); });
+  HISTORY = out; HISTORY_ERR = null;
+  renderHistoryUI();
+}
+
+/* ---- radial gauge -------------------------------------------------------
+   270 degrees of sweep. The track and the value arc share one geometry, so
+   the fill can never disagree with the scale it is drawn against. */
+const G_R = 34, G_C = 2*Math.PI*G_R, G_ARC = G_C*0.75;
+function gaugeColor(frac, state){
+  if(state === 'FAIL') return 'var(--fail)';
+  if(state === 'STALE') return 'var(--stale)';
+  if(state === 'NOT_RUN') return 'var(--notrun)';
+  if(frac >= 0.999) return 'var(--emerald)';
+  if(frac >= 0.75) return 'var(--cyan)';
+  return 'var(--amber)';
+}
+/* opts: {frac, state, label, big, unit, note} — frac is 0..1 */
+function gauge(o){
+  if(o.frac === null || o.frac === undefined || !isFinite(o.frac)){
+    // An unmeasured gauge draws an EMPTY track with no fill and no number.
+    // A greyed 0% would read as "measured, and it is zero", which is the one
+    // thing this whole page exists not to say.
+    return '<div class="gauge">'+
+      '<svg width="86" height="86" viewBox="0 0 100 100" role="img" aria-label="'+esc(o.label)+' not measured">'+
+      '<circle class="track" cx="50" cy="50" r="'+G_R+'" stroke-width="7" fill="none" '+
+      'stroke-dasharray="'+G_ARC+' '+G_C+'" transform="rotate(135 50 50)" opacity=".5"/>'+
+      '<text class="read" x="50" y="53" text-anchor="middle" font-size="9">—</text></svg>'+
+      '<div class="meta"><div class="k">'+esc(o.label)+'</div>'+
+      '<div class="n"><b>NOT_MEASURED</b> · '+esc(o.note||'no measurement arrived')+'</div></div></div>';
+  }
+  const f = Math.max(0, Math.min(1, o.frac));
+  const col = gaugeColor(f, o.state);
+  const off = G_ARC*(1-f);
+  return '<div class="gauge">'+
+    '<svg width="86" height="86" viewBox="0 0 100 100" role="img" aria-label="'+
+      esc(o.label)+' '+esc(o.big)+esc(o.unit||'')+', '+(f*100).toFixed(1)+' percent"> ' +
+      '<circle class="track" cx="50" cy="50" r="'+G_R+'" stroke-width="7" '+
+        'stroke-dasharray="'+G_ARC+' '+G_C+'" transform="rotate(135 50 50)"/>' +
+      '<circle class="arc" cx="50" cy="50" r="'+G_R+'" stroke-width="7" stroke="'+col+'" '+
+        'stroke-dasharray="'+G_ARC+' '+G_C+'" stroke-dashoffset="'+off+'" transform="rotate(135 50 50)"/>' +
+      '<text class="read" x="50" y="50" text-anchor="middle">'+esc(o.big)+'</text>' +
+      (o.unit ? '<text class="unit" x="50" y="63" text-anchor="middle">'+esc(o.unit)+'</text>' : '') +
+    '</svg>'+
+    '<div class="meta"><div class="k">'+esc(o.label)+'</div>'+
+      '<div class="n">'+o.note+'</div></div></div>';
+}
+
+/* ---- sparkline ----------------------------------------------------------
+   vector-effect="non-scaling-stroke" is what makes preserveAspectRatio="none"
+   safe here: the path stretches to the panel width, the stroke stays 1.75px.
+   Without it a 3:1 stretch turns every line into a smear. */
+function sparkline(o){
+  const vals = o.values || [];
+  const usable = vals.filter(function(v){ return typeof v === 'number' && isFinite(v); });
+  if(usable.length < 2){
+    return '<div class="empty" style="padding:8px 0">'+esc(o.label)+
+      ' — fewer than two measured samples. Nothing to draw; a line between '+
+      'one point and nothing is not a trend, it is a guess.</div>';
+  }
+  let lo = Math.min.apply(null, usable), hi = Math.max.apply(null, usable);
+  if(hi === lo){ hi = lo + 1; lo = lo - 1; }        // a flat series is flat, not vertical
+  const W = 240, H = 40, pad = 3;
+  let d = '', a = '';
+  vals.forEach(function(v, i){
+    if(typeof v !== 'number' || !isFinite(v)) return;
+    const x = (i/(vals.length-1))*W;
+    const y = pad + (H-2*pad)*(1 - (v-lo)/(hi-lo));
+    d += (d ? 'L' : 'M') + x.toFixed(1) + ' ' + y.toFixed(1);
+  });
+  a = d + 'L' + W + ' ' + H + 'L0 ' + H + 'Z';
+  const last = usable[usable.length-1];
+  const lx = W, ly = pad + (H-2*pad)*(1 - (last-lo)/(hi-lo));
+  const meta = '<div class="sparkmeta">' +
+    '<span>min <b>'+lo+'</b></span><span>max <b>'+hi+'</b></span>' +
+    '<span>last <b>'+last+'</b></span><span>samples <b>'+usable.length+'</b></span>' +
+    '</div>';
+  return '<div style="color:var(--ink3);font-size:var(--t-micro);text-transform:uppercase;'+
+      'letter-spacing:var(--ls-caps);margin-bottom:6px">'+esc(o.label)+'</div>'+
+    '<svg class="spark" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" role="img" aria-label="'+
+      esc(o.label)+' trend, min '+lo+', max '+hi+', last '+last+'"> ' +
+      '<path class="sarea" d="'+a+'" fill="'+o.color+'" vector-effect="non-scaling-stroke"/>' +
+      '<path class="sline" d="'+d+'" stroke="'+o.color+'" vector-effect="non-scaling-stroke"/>' +
+      '<circle class="sdot" cx="'+lx.toFixed(1)+'" cy="'+ly.toFixed(1)+'" r="2.4" fill="'+o.color+'"/>' +
+    '</svg>' + meta;
+}
+
+/* ---- stacked history band ----------------------------------------------
+   Columns are PROPORTIONS of that sample's own total, not absolute counts.
+   With ok=43 and fail=2 an absolute chart would render the failures as a
+   sub-pixel sliver and prove nothing. Proportional, the same two failures are
+   visible for all 120 samples — which is the actual question: is this a moment
+   or a condition? The absolutes are printed underneath either way. */
+function historyBand(rows){
+  const H = rows.map(function(r){
+    const ok = +r.ok || 0, fail = +r.fail || 0, st = +r.stale || 0, nr = +r.notrun || 0;
+    const tot = ok + fail + st + nr;
+    return {ts:r.ts, ok:ok, fail:fail, stale:st, notrun:nr, tot:tot, status:r.status, mode:r.mode};
+  });
+  const measured = H.filter(function(x){ return x.tot > 0; });
+  if(!measured.length){
+    return '<div class="empty">Every sample carried zero checks. The collector ' +
+           'is writing a row with no counts, which is not a measurement — ' +
+           'reported as such rather than drawn as an empty bar.</div>';
+  }
+  const cols = measured.map(function(x){
+    const p = function(v){ return (v/x.tot*100).toFixed(3); };
+    return '<div class="col" title="'+esc(x.ts)+' — ok '+x.ok+' · fail '+x.fail+
+           ' · stale '+x.stale+' · not_run '+x.notrun+'">' +
+      '<div class="seg s-ok" style="height:'+p(x.ok)+'%"></div>' +
+      '<div class="seg s-fail" style="height:'+p(x.fail)+'%"></div>' +
+      '<div class="seg s-stale" style="height:'+p(x.stale)+'%"></div>' +
+      '<div class="seg s-notrun" style="height:'+p(x.notrun)+'%"></div></div>';
+  }).join('');
+  const first = measured[0], last = measured[measured.length-1];
+  const maxFail = measured.reduce(function(m,x){ return Math.max(m, x.fail); }, 0);
+  const maxFailPct = Math.max.apply(null, measured.map(function(x){ return x.fail/x.tot; }));
+  const axis = '<div class="histaxis"><span>'+esc(String(first.ts).slice(0,19).replace('T',' '))+
+    '</span><span>oldest ← '+measured.length+' samples → newest</span><span>'+
+    esc(String(last.ts).slice(0,19).replace('T',' '))+'</span></div>';
+  const exact = '<div class="sparkmeta" style="margin-top:10px">' +
+    '<span>newest <b>'+last.ok+'</b> ok / <b>'+last.fail+'</b> fail / <b>'+last.stale+
+      '</b> stale</span><span>oldest <b>'+first.ok+'</b> ok / <b>'+first.fail+
+      '</b> fail</span><span>worst fail <b>'+maxFail+'</b> ('+
+      (maxFailPct*100).toFixed(1)+'% of that sample)</span></div>';
+  return '<div class="hist">'+cols+'</div>' + axis + exact;
+}
+
+function modeTimeline(rows){
+  const M = rows.filter(function(r){ return r.mode; });
+  if(!M.length){
+    return '<div class="empty">No sample carried a bimodal mode. The mode is ' +
+           'read from bimodal_state.json; without it the law cannot be shown, ' +
+           'only asserted — so it is left empty.</div>';
+  }
+  const segs = M.map(function(r){
+    const cls = String(r.mode).indexOf('MODE_A') === 0 ? 'MODE_A' : 'MODE_B';
+    return '<div class="seg '+cls+'" title="'+esc(String(r.ts).slice(0,19).replace('T',' '))+
+           ' — '+esc(r.mode)+'"></div>';
+  }).join('');
+  const a = M.filter(function(r){ return String(r.mode).indexOf('MODE_A') === 0; }).length;
+  const b = M.length - a;
+  const first = M[0], last = M[M.length-1];
+  const exact = '<div class="sparkmeta" style="margin-top:8px">' +
+    '<span>MODE_A <b>'+a+'</b></span><span>MODE_B <b>'+b+'</b></span>' +
+    '<span>now <b>'+esc(last.mode)+'</b></span></div>';
+  return '<div class="tl">'+segs+'</div>' + exact;
+}
+
+/* ---- gauges row ---------------------------------------------------------
+   Three questions, three arcs. The overall arc answers "how much of the
+   system is inside its bound", and its denominator is printed next to it so
+   the arc can never be compared against an imaginary maximum. */
+function renderGauges(){
+  const box = $('ov-gauges');
+  if(!box) return;                                    // SPEC_R104
+  const c = (STATE && STATE.counts) || {};
+  const ok = c.OK, fail = c.FAIL, stale = c.STALE, nr = c.NOT_RUN;
+  const total = (ok||0)+(fail||0)+(stale||0)+(nr||0);
+  const measured = typeof ok === 'number' && total > 0;
+
+  box.innerHTML =
+    '<div class="card"><div class="pad">' + gauge({
+      label:'Checks inside bound', frac: measured ? (ok/total) : null,
+      state: (STATE && STATE.status) || null,
+      big: measured ? String(ok) : '—', unit: measured ? '/'+total : '',
+      note:'<b>'+(measured ? (ok/total*100).toFixed(1) : '—')+'%</b> of '+
+           (measured ? total : '?')+' — a check passes by holding a bound, '+
+           'not by existing' })
+    + '</div></div>' +
+    '<div class="card"><div class="pad">' + gauge({
+      label:'Integrity breaches', frac: measured ? 0 : null, state:'FAIL',
+      big: (fail===undefined?'—':String(fail)), unit:'',
+      note: (fail ? '<b>'+fail+'</b> out of bounds — these are not a ' +
+              'percentage and deliberately do not fill an arc' :
+              '<b>0</b> — no check is outside its bound' +
+              (nr ? ' · '+nr+' never ran' : '')) })
+    + '</div></div>' +
+    '<div class="card"><div class="pad">' + gauge({
+      label:'Freshness', frac: measured ? 1 - ((stale||0)/total) : null,
+      state: (stale ? 'STALE' : 'OK'),
+      big: (stale===undefined?'—':String(stale)), unit:'',
+      note: (stale ? '<b>'+stale+'</b> measured but past their age bound — ' +
+              'drawn as unavailable, not as passing' :
+              '<b>0</b> — every measurement is inside its age bound') })
+    + '</div></div>';
+}
+
+/* ---- the whole history surface -----------------------------------------
+   Every branch that cannot draw says why, in the place where a chart would
+   otherwise be. An empty band next to a healthy tile row reads as "no
+   problems"; an explicit sentence reads as "nothing to show you". */
+function renderHistoryUI(){
+  const band = $('hist-band'), legend = $('hist-legend'), spark = $('hist-spark'),
+        mode = $('hist-mode'), axis = $('hist-mode-axis'), note = $('hist-note');
+  if(!band || !legend || !spark || !mode) return;      // SPEC_R104
+
+  if(!HISTORY){
+    const msg = 'No history to draw. ' + esc(HISTORY_ERR||'the route returned nothing');
+    band.innerHTML = '<div class="empty">'+msg+'</div>';
+    legend.innerHTML = ''; spark.innerHTML = ''; mode.innerHTML = '<div class="empty">'+msg+'</div>';
+    if(axis) axis.innerHTML = '';
+    if(note) note.textContent = 'unmeasured — this is not a flat line, it is an absence';
+    return;
+  }
+
+  band.innerHTML = historyBand(HISTORY);
+  legend.innerHTML = ['emerald: inside bound','crimson: FAIL','amber: STALE','orange: NOT RUN']
+    .map(function(t,i){ const c=['var(--emerald)','var(--fail)','var(--stale)','var(--notrun)'][i];
+      return '<span><i style="background:'+c+'"></i>'+esc(t)+'</span>'; }).join('');
+  spark.innerHTML = sparkline({label:'OK checks per sample', color:'var(--cyan)',
+    values: HISTORY.map(function(r){ return +r.ok; })});
+
+  if(mode){ mode.innerHTML = modeTimeline(HISTORY); }
+  if(axis){
+    const f = HISTORY[0], l = HISTORY[HISTORY.length-1];
+    axis.innerHTML = '<span>'+esc(String(f.ts||'').slice(0,19).replace('T',' '))+'</span>' +
+      '<span>'+esc(String(l.ts||'').slice(0,19).replace('T',' '))+'</span>';
+  }
+  if(note){
+    const first = String(HISTORY[0].ts||'');
+    note.textContent = HISTORY.length + ' samples from ' + first +
+      ' — each column is that sample\'s own mix, so a thin red band that never ' +
+      'widens is a standing condition, not a passing incident';
+  }
+}
+
+/* ---------- tabs ---------- */
+function buildTabs(){
+  $('tabs').innerHTML = TABS.map((t,i)=>
+    '<button role="tab" data-tab="'+esc(t)+'" aria-selected="'+(i===0)+'">'+esc(t)+'</button>').join('');
+  $('tabs').addEventListener('click', (e)=>{
+    const b = e.target.closest('button[data-tab]'); if(!b) return;
+    select(b.dataset.tab);
+  });
+}
+function select(name){
+  document.querySelectorAll('nav button').forEach(b=>
+    b.setAttribute('aria-selected', String(b.dataset.tab===name)));
+  document.querySelectorAll('.panel').forEach(p=>
+    p.classList.toggle('active', p.id==='p-'+name));
+  if(name==='Operator') loadOperator();
+  if(name==='Method') loadMethod();
+  if(name==='Ecosystem'){ loadEcosystem(); loadVerify(); }
+}
+
+/* ---------- data ---------- */
+async function fetchJSON(url){
+  const r = await fetch(url, {cache:'no-store'});
+  if(!r.ok) throw new Error(url+' -> HTTP '+r.status);
+  return r.json();
+}
+
+/* ---- transport ----------------------------------------------------------
+   CORRECTION (2026-10-09), and it corrects me:
+   I reported the SSE stream as "defectively single-shot" and "never worked".
+   That was wrong, and the measurement that proved it wrong was a 40s
+   observation instead of a 6s one: over 40s the EventSource produced
+   open:2, state:2, error:2 — exactly two cycles at the server's
+   retry:25000. The stream is SHORT-LIVED BY DESIGN (server.ps1 is a
+   single-threaded listener; an open response would block every other route)
+   and it delivers on the collector's cadence, which is what it claims.
+
+   What was actually broken was the indicator, not the stream. This is a
+   deliberately-closing stream, so `onerror` fires on every NORMAL close. The
+   first version treated that as a failure and flipped the badge to
+   "stream down" about half the time — a false negative on a system whose
+   whole thesis is "measured or absent". The correct model is the real one:
+   count the frames, time the last one, and only call it unavailable when a
+   whole cadence has passed without one.
+   -------------------------------------------------------------------------- */
+const STREAM_CADENCE_MS = 25000;   // server.ps1 RefreshSeconds = 25
+let streamState = 'connecting';    // 'connecting' | 'live' | 'unavailable'
+let streamFrames = 0;              // state frames delivered since load
+let lastFrameAt = 0;               // timestamp of the most recent one
+
+function armPolling(ms){
+  if(pollTimer) clearInterval(pollTimer);
+  pollTimer = setInterval(()=>{ fetchState(); fetchHealth(); }, ms);
+}
+function onStreamFrame(){
+  streamFrames++; lastFrameAt = Date.now();
+  if(streamState !== 'live'){ streamState = 'live'; armPolling(30000); }
+  renderHeader();
+}
+function onStreamClose(){
+  // A close is only a failure if nothing has ever arrived, or if more than
+  // two full cadences have passed since the last frame. Otherwise this is the
+  // designed cycle and calling it a failure is inventing a fault.
+  const silent = lastFrameAt ? (Date.now() - lastFrameAt) : Infinity;
+  if(silent > STREAM_CADENCE_MS * 2){
+    streamState = 'unavailable';
+    armPolling(5000);
+  } else {
+    streamState = streamFrames ? 'live' : 'connecting';
+    armPolling(30000);
+  }
+  renderHeader();
+}
+
+function connect(){
+  if(location.protocol === 'file:'){
+    const w = $('file-warning'); if(w) w.style.display='block';
+    const h = $('h-status');
+    if(h) h.innerHTML='<span class="dot"></span><span>no server</span>';
+    return;
+  }
+  if(es){ es.close(); es = null; }
+  if(pollTimer){ clearInterval(pollTimer); pollTimer = null; }
+  streamState = 'connecting'; streamFrames = 0; lastFrameAt = 0;
+  try {
+    es = new EventSource('/api/stream');
+    es.addEventListener('state', (e)=>{ applyState(e.data); markLive(); onStreamFrame(); });
+    es.onopen  = ()=>{ if(streamFrames) onStreamFrame(); };
+    es.onerror = ()=>{ onStreamClose(); };
+  } catch(err){
+    streamState = 'unavailable';
+  }
+  fetchState(); fetchHealth();
+  armPolling(12000);
+}
+
+function markLive(){ lastGoodState = Date.now(); }
+
+async function fetchState(){
+  try { applyState(await (await fetch('/api/state',{cache:'no-store'})).text()); markLive(); }
+  // The render lived only on the success path, so a backend that never answers
+  // left every panel blank rather than unmeasured: measured 2026-10-10 with the
+  // API blocked, wire-tiles / wire-families / wire-attention stayed at innerHTML
+  // length 0. A panel that shows nothing is indistinguishable from a broken one.
+  // Render anyway; STATE is {} and HEALTH is null, and both renderers have an
+  // absent-record branch that says so in words.
+  catch(e){ renderHealth(); }
+}
+async function fetchHealth(){
+  try { HEALTH = await fetchJSON('/api/health'); renderHealth(); }
+  catch(e){ HEALTH = null; renderHealth(); }
+}
+
+/* ---------- render ---------- */
+function applyState(raw){
+  let parsed;
+  try { parsed = JSON.parse(raw); } catch(e){ return; }
+  // A parse that yields a non-object is not a state. `STATE` starts as null and
+  // the first `STATE.counts` read then throws "Cannot read properties of null",
+  // which lands in the console while every panel keeps its last good render -
+  // so the page looks correct to a reader and to a screenshot, and the only
+  // surface that knows is the one that counts console errors. The payload can
+  // arrive this way when the collector is rewriting the state file the server
+  // is reading, so the guard is not paranoia.
+  if(!parsed || typeof parsed !== 'object' || Array.isArray(parsed)){ return; }
+  STATE = parsed;
+  renderHeader(); renderStop(); renderOverview(); renderBrain();
+  renderDoctrine(); renderProgram(); renderWorkflow(); renderTests();
+  renderWiring(); renderLearning(); renderGauges(); scheduleHistory();
+}
+
+/* /api/history is 120 samples, not one value, so it must not be re-fetched on
+   every SSE frame — the collector appends roughly every 30s, and re-reading it
+   5x a minute would make the hub do work for nothing. A 30s floor matches the
+   producer's own cadence: faster cannot reveal a sample that does not exist
+   yet. The first call is immediate, because waiting 30s for the first chart
+   on a freshly opened page reads as a broken panel. */
+let historyFetchedAt = 0;
+function scheduleHistory(){
+  const now = Date.now();
+  if(historyFetchedAt && (now - historyFetchedAt) < 30000) return;
+  historyFetchedAt = now;
+  loadHistory();
+}
+
+function renderHeader(){
+  const h = $('h-status'), ageBox = $('h-age');
+  if(!h || !ageBox) return;                          // SPEC_R104
+  const s = STATE || {};
+  const counts = s.counts || {};
+  const overall = s.status || 'NOT_RUN';
+  const cls = ({OK:'ok',FAIL:'fail',DEGRADED:'stale',NOT_RUN:'notrun'})[overall] || 'stale';
+
+  // The heartbeat reflects the TRANSPORT, and the transport is reported
+  // separately from the verdict. This stream is short-lived by design - it
+  // delivers a frame, closes, and reconnects on the server's cadence - so the
+  // honest thing to show is not "connected" but "how many frames, and how
+  // long since the last one". Those two numbers cannot lie: they are the
+  // evidence the claim rests on.
+  const live = (streamState === 'live');
+  const dead = (streamState === 'unavailable');
+  const dotCls = 'pulse' + (dead ? ' dead' : (live ? '' : ' stale'));
+  const since = lastFrameAt ? Math.round((Date.now()-lastFrameAt)/1000) : null;
+  const transport = dead ? 'polling — no frame'
+              : (streamFrames
+                  ? ('stream · ' + streamFrames + (streamFrames===1 ? ' frame' : ' frames'))
+                  : 'connecting');
+
+  h.className = 'pill ' + cls;
+  // The verdict string omitted STALE, and it is the single most-read element on
+  // the page. Measured 2026-10-10: header read "54 ok / 0 fail / 0 not-run"
+  // while the family table read OK 54 / FAIL 0 / STALE 2 / NOT_RUN 0 = 56. The
+  // numbers did not sum to the total, and the word DEGRADED sat beside a
+  // breakdown containing no reason for it - so the header was self-contradictory
+  // exactly when something was wrong. The history line at :882-883 already
+  // rendered stale; only this one dropped it. Defensive default keeps an older
+  // snapshot lacking the field from printing "undefined" here.
+  h.innerHTML = '<span class="' + dotCls + '"></span><span>' + esc(overall) +
+    (counts.OK!==undefined ? ' · '+counts.OK+' ok / '+counts.FAIL+' fail / '+
+      (counts.STALE||0)+' stale / '+counts.NOT_RUN+' not-run' : '') + '</span>';
+  h.title = 'source: ' + transport +
+    (since !== null ? ' — last frame ' + since + 's ago' : '') +
+    '. This stream is short-lived by design: it sends a state frame, closes, ' +
+    'and reconnects about every ' + Math.round(STREAM_CADENCE_MS/1000) + 's.';
+
+  const a = ageSec();
+  const bound = s.age_bound_sec || 300;
+  const stale = a===null ? true : a > bound;
+  ageBox.innerHTML = 'age ' + (a===null?'—':a+'s') + (stale ? ' <span class="chip STALE">STALE</span>' : '') +
+    (streamFrames
+      ? ' <span class="chip TESTED">' + esc(transport) + (since!==null ? ' · last ' + since + 's' : '') + '</span>'
+      : ' <span class="chip DESIGNED">' + esc(transport) + '</span>');
+  ageBox.title = 'data age — a stale snapshot must never look live';
+}
+
+function renderStop(){
+  const box = $('stop'), reason = $('stop-reason'), meta = $('stop-meta');
+  if(!box || !reason || !meta) return;                 // SPEC_R104
+  const wf = STATE.workflow || {};
+  const on = wf.stopped === true;
+  box.className = 'stop' + (on?' on':'');
+  if(on){
+    reason.textContent = wf.stop_reason || 'no reason recorded';
+    meta.textContent = 'stopped at ' + (wf.stopped_at||'?') +
+      ' · previous ' + ((wf.agreement_goal)||'?') +
+      ' · awaiting acknowledge_stop() · no execution until then';
+  }
+}
+
+function renderOverview(){
+  const tBox=$('ov-tiles'), fBox=$('ov-families'), gBox=$('ov-gaps');
+  if(!tBox || !fBox || !gBox) return;                  // SPEC_R104
+  const s = STATE || {};
+  const c = s.counts || {};
+  const corpus = s.corpus || {};
+  const wf = s.workflow || {};
+  $('ov-tiles').innerHTML = [
+    tile('Overall', s.status || 'NOT_RUN', 'measured ' + (s.generated||'never')),
+    tile('Checks OK', c.OK===undefined?'—':c.OK, 'passed a bound'),
+    tile('Checks FAIL', c.FAIL===undefined?'—':c.FAIL, 'out of bounds'),
+    tile('Checks NOT RUN', c.NOT_RUN===undefined?'—':c.NOT_RUN, 'unverified, not working'),
+    tile('Corpus messages', corpus.messages===null?'—':corpus.messages,
+         corpus.status==='MEASURED' ? 'unplaced: '+corpus.unplaced : corpus.reason),
+    tile('Retention', corpus.retention===null||corpus.retention===undefined?'—':corpus.retention,
+         'verbatim vs source — nothing cut'),
+    tile('Workflow mode', wf.mode || 'NOT_MEASURED', wf.reason||''),
+    tile('Gaps open', (s.gaps||[]).length, 'reported, never silently fixed')
+  ].join('');
+
+  const fam = s.by_family || {};
+  const keys = Object.keys(fam);
+  $('ov-families').innerHTML = keys.length ? keys.map(k=>{
+    const f = fam[k]||{}; const tot = (f.OK||0)+(f.FAIL||0)+(f.STALE||0)+(f.NOT_RUN||0)||1;
+    return el('div','', el('div','', '<b>'+esc(k)+'</b> <span class="s">'+tot+' checks</span>') +
+      '<div class="meter"><i style="width:'+Math.round(100*(f.OK||0)/tot)+'%"></i></div>' +
+      '<div class="s">OK '+(f.OK||0)+' · FAIL '+(f.FAIL||0)+' · STALE '+(f.STALE||0)+' · NOT_RUN '+(f.NOT_RUN||0)+'</div>');
+  }).join('') : '<div class="empty">No family data — the monitor has not run.</div>';
+
+  const gaps = STATE.gaps || [];
+  $('ov-gaps').innerHTML = gaps.length ? '<table><thead><tr><th>id</th><th>what</th><th>fix requires</th></tr></thead><tbody>'+
+    gaps.slice(0,12).map(g=>'<tr><td class="mono">'+esc(g.id)+'</td><td>'+esc(g.what)+
+      '<div class="s" style="color:var(--ink3)">'+esc(g.impact||'')+'</div></td><td>'+esc(g.fix_requires||'')+'</td></tr>').join('')+
+    '</tbody></table>'+(gaps.length>12?'<div class="s" style="color:var(--ink3);margin-top:8px">'+
+      (gaps.length-12)+' more in 12_PROGRAM\\GAP_REGISTER.json</div>':'')
+    : '<div class="empty">No gaps recorded. If that is because nothing was measured, this panel is lying.</div>';
+}
+
+function renderBrain(){
+  const tBox=$('brain-tiles'), cBox=$('brain-chapters');
+  if(!tBox || !cBox) return;                           // SPEC_R104
+  const corpus = STATE.corpus || {};
+  const chs = corpus.chapter_list || [];
+  $('brain-tiles').innerHTML = [
+    tile('User turns', corpus.user_turns===null?'—':corpus.user_turns, 'chronological'),
+    tile('Messages', corpus.messages===null?'—':corpus.messages, 'verbatim + evidence'),
+    tile('Chapters', corpus.chapters===null?'—':corpus.chapters, 'named, tiling, no gap'),
+    tile('Unplaced', corpus.unplaced===null?'—':corpus.unplaced, 'zero silent drops')
+  ].join('');
+  $('brain-chapters').innerHTML = chs.length ? chs.map(c=>
+    '<tr><td class="mono">'+esc(c.file.replace('.md',''))+'</td><td class="mono">'+esc(c.seq)+
+    '</td><td class="mono">'+esc(c.turns)+'</td><td class="mono">'+
+    (c.bytes||0).toLocaleString()+'B</td><td>'+esc(c.title)+'</td></tr>').join('')
+    : '<tr><td colspan="5" class="empty">No chapters measured.</td></tr>';
+}
+
+function renderDoctrine(){
+  const box = $('doctrine-rows');
+  if(!box) return;                                     // SPEC_R104
+  const rows = (STATE.program && STATE.program.rows) || [];
+  box.innerHTML = rows.length ? rows.map(r=>
+    '<tr><td class="mono">'+esc(r.doctrine||'—')+'</td>'+
+    '<td>'+(r.doctrine_exists?chip('OK'):chip('FAIL'))+'</td>'+
+    '<td>'+chip(r.status)+'</td>'+
+    '<td class="mono" style="font-size:11px">'+esc(r.implementation||'— none —')+'</td>'+
+    '<td class="mono" style="font-size:11px">'+esc(r.test||'none')+'</td></tr>').join('')
+    : '<tr><td colspan="5" class="empty">Matrix not generated.</td></tr>';
+}
+
+function renderProgram(){
+  const tBox=$('prog-tiles'), rBox=$('prog-rows');
+  if(!tBox || !rBox) return;                           // SPEC_R104
+  const rows = (STATE.program && STATE.program.rows) || [];
+  const by = {}; rows.forEach(r=>{ by[r.status]=(by[r.status]||0)+1; });
+  tBox.innerHTML = ['OBSERVABLE','TESTED','WIRED','CODED','DESIGNED','PARTIAL','ABSENT']
+    .filter(k=>by[k]).map(k=>tile(k, by[k],
+      k==='DESIGNED'?'documented, not running':k==='OBSERVABLE'?'tested and displayed':'')).join('');
+  rBox.innerHTML = rows.length ? rows.map(r=>
+    '<tr><td class="mono">'+esc(r.id)+'</td><td>'+esc(r.concept)+'</td><td>'+chip(r.status)+'</td>'+
+    '<td class="mono" style="font-size:11px">'+esc(r.chapter||'')+'</td>'+
+    '<td>'+esc(r.panel||'—')+'</td>'+
+    '<td style="color:var(--ink2)">'+(r.next_action?esc(r.next_action):'—')+'</td></tr>').join('')
+    : '<tr><td colspan="6" class="empty">Matrix not generated.</td></tr>';
+}
+
+function renderWorkflow(){
+  const tBox=$('wf-tiles'), rBox=$('wf-rules'), pBox=$('wf-priority');
+  if(!tBox || !rBox || !pBox) return;                  // SPEC_R104
+  const wf = STATE.workflow || {};
+  tBox.innerHTML = [
+    tile('Mode', wf.mode || 'NOT_MEASURED', wf.reason||''),
+    tile('Stopped', wf.stopped===null?'—':(wf.stopped?'YES':'no'),
+         wf.stopped?'awaiting acknowledge_stop()':'execution may continue'),
+    tile('Failures', wf.consecutive_failures===null?'—':wf.consecutive_failures,
+         'of '+wf.max_failures+' before STOP'),
+    tile('Attempts', wf.execution_attempts===null?'—':wf.execution_attempts,
+         'in this MODE_B run'),
+    tile('Agreement', wf.agreement_goal ? 'R0 active' : 'none', esc(wf.agreement_goal||'no contract')),
+    tile('State age', wf.age_sec===null?'—':wf.age_sec+'s', 'bimodal_state.json'),
+    tile('Stop reason', wf.stop_reason ? 'recorded' : 'none',
+         wf.stop_reason?esc(wf.stop_reason.slice(0,60)):'no stop pending'),
+    tile('Priority', 'SYSTEM first', 'integrity > task > speed > feelings')
+  ].join('');
+  $('wf-rules').innerHTML = RULES.map(r=>'<tr><td>'+esc(r[0])+'</td><td class="mono" style="font-size:11px">'+
+    esc(r[1])+'</td><td>'+chip(r[2])+'</td></tr>').join('');
+  $('wf-priority').innerHTML = ['SYSTEM_INTEGRITY','TASK_COMPLETION','SPEED','USER_FEELINGS']
+    .map((p,i)=>'<div style="display:flex;align-items:center;gap:10px;padding:7px 0">'+
+      '<span class="chip '+(i===0?'FAIL':(i===3?'DESIGNED':'CODED'))+'">'+(i+1)+'</span>'+
+      '<b>'+esc(p)+'</b><span class="s" style="color:var(--ink3);margin-left:auto">'+
+      (i===0?'top: every other tier runs on it':i===3?'not a resource at all':'')+'</span></div>').join('');
+}
+
+function renderTests(){
+  const tBox=$('test-tiles'), bBox=$('test-body');
+  if(!tBox || !bBox) return;                            // SPEC_R104
+  const t = STATE.tests || {};
+  if(t.status !== 'MEASURED'){
+    tBox.innerHTML = tile('Test suite','NOT RUN', t.reason||'');
+    bBox.innerHTML = '<div class="empty">'+esc(t.reason||'no run recorded')+
+      ' — run it from the cockpit. A suite that has not run proves nothing.</div>';
+    return;
+  }
+  const names = (a) => (a && a.length) ? a.join(', ') : '';
+  // The verdict is derived, never asserted. `green` is the suite's own
+  // conclusion; if the collector could not carry it, fall back to the same
+  // rule rather than defaulting to "looks fine".
+  const green = (typeof t.green === 'boolean') ? t.green
+              : (t.failed === 0 && !t.skipped);
+  const verdict = t.not_run && t.not_run.length ? 'NOT_RUN'
+                : !green ? 'PARTIAL' : 'PASS';
+  $('test-tiles').innerHTML = [
+    tile('Verdict', verdict, green ? 'every check ran and held'
+              : 'a check did not run: unverified, not working'),
+    tile('Passed', t.passed, 'assertions that held'),
+    tile('Failed', t.failed, t.failed?'something is broken':'nothing broken'),
+    tile('Skipped', t.skipped, 'unverified, NOT passing'),
+    tile('Last run', (t.ran_at||'').replace('T',' ').slice(0,19), 'local time')
+  ].join('');
+  const caveat = (() => {
+    const bits = [];
+    if (t.not_run && t.not_run.length)
+      bits.push('<b>NOT RUN</b> (0 assertions, nothing proven): '+esc(names(t.not_run)));
+    if (t.partial && t.partial.length)
+      bits.push('<b>PARTIAL</b> (ran some checks, skipped others, inconclusive): '
+                +esc(names(t.partial)));
+    if (!bits.length) return '';
+    return '<div class="empty" style="text-align:left">'+bits.join('<br>')+
+      '<br>A skipped check is not a passing check.</div>';
+  })();
+  // Underscored tokens, because chip() uses the value as a CSS class and
+  // ".chip.NOT_RUN" cannot match a class attribute containing a space.
+  const mark = (c) => (c.not_run ? 'NOT_RUN' : (c.partial ? 'PARTIAL' : ''));
+  $('test-body').innerHTML = caveat +
+    '<table><thead><tr><th>class</th><th>verdict</th><th>passed</th><th>failed</th><th>skipped</th></tr></thead><tbody>'+
+    (t.classes||[]).map(c=>'<tr><td>'+esc(c.name)+'</td>'+
+      '<td>'+(mark(c) ? chip(mark(c)) : '')+'</td><td class="mono">'+c.passed+'</td>'+
+      '<td class="mono">'+(c.failed||0)+'</td><td class="mono">'+(c.skipped||0)+'</td></tr>').join('')+
+    '</tbody></table>';
+}
+
+function renderWiring(){
+  const tBox=$('wire-tiles'), fBox=$('wire-families');
+  if(!tBox || !fBox) return;                            // SPEC_R104
+  const checks = (HEALTH && HEALTH.checks) ? HEALTH.checks : (STATE.health_checks || []);
+  const wire = checks.filter(c=>c.family==='wiring');
+  const dep  = checks.filter(c=>c.family==='dependencies');
+  const declared = wire.find(c=>c.id==='mcp_tools_declared');
+  const wired   = wire.find(c=>c.id==='mcp_tools_wired');
+
+  // DEFECT 17 FIX (2026-10-04): "MCP wired" rendered [object Object].
+  // mcp_tools_wired.value used to be the integer 0; it is now a measured
+  // record {tools_over_the_wire, probe_tool, probe_ok, handshake_status}.
+  // The tile coerced it with String(), so the panel printed the literal text
+  // "[object Object]". A value that changes SHAPE must be read by its keys,
+  // not concatenated - the same class of error as printing a ToString().
+  let wiredValue = '—', wiredNote = 'no handshake record';
+  if (wired) {
+    if (wired.status === 'OK' && wired.value && typeof wired.value === 'object') {
+      wiredValue = wired.value.tools_over_the_wire;
+      wiredNote = 'handshake ok · probe ' + (wired.value.probe_tool || '?') +
+                  (wired.value.arguments_arrived === false ? ' (args did not arrive)' : '');
+    } else if (wired.status === 'OK') {
+      wiredValue = wired.value;
+      wiredNote = 'handshake completed';
+    } else if (wired.status === 'NOT_RUN') {
+      wiredValue = 0;
+      wiredNote = 'no handshake run yet';
+    } else {
+      wiredValue = 0;
+      wiredNote = 'handshake failed: ' + ((wired.value && wired.value.handshake_status) || 'see wiring checks');
+    }
+  }
+  const depMissing = dep.filter(c=>c.status==='FAIL').length;
+  // With no dependency record, dep is empty: dep.length/0 rendered as "0/0
+  // measured present" and depMissing=0 rendered "none: every optional capability
+  // imports". Both assert a clean measurement that never happened. An empty
+  // dependency list is the absence of a measurement, not a passing one.
+  const depMeasured = dep.length > 0;
+  $('wire-tiles').innerHTML = [
+    tile('MCP declared', declared && typeof declared.value === 'number'
+         ? declared.value : (declared ? (declared.value && declared.value.length) || 0 : '—'),
+         'registered in the hub'),
+    tile('MCP wired', wiredValue, wiredNote),
+    tile('Dependencies OK', depMeasured
+         ? dep.filter(c=>c.status==='OK').length+'/'+dep.length : '—',
+         depMeasured ? 'measured present' : 'no dependency record — not measured'),
+    tile('Dependencies missing', depMeasured ? depMissing : '—',
+         depMeasured
+           ? (depMissing ? 'measured FAIL — see the check for the reason'
+                         : 'none: every optional capability imports')
+           : 'not measured, so nothing is known about them')
+  ].join('');
+
+  // The panel's own prose was a hardcoded claim that the handshake had never
+  // happened. It had. A panel that asserts a verdict it did not measure is
+  // the exact failure the page footer forbids, so the sentence is now derived.
+  const note = document.getElementById('wire-note');
+  // Without a handshake record the static sentence claimed the verdict below it
+  // "is derived from the measured handshake record" while no record existed. A
+  // panel that asserts its own derivation did not perform one is the exact lie
+  // this page forbids. Say what is actually true in the unreachable case.
+  if (note && !wired) {
+    note.textContent = 'UNMEASURED. /api/health did not answer, so there is no ' +
+      'self-monitor record and no handshake to derive anything from. Nothing below ' +
+      'has been measured. The tiles read "—" for exactly that reason — that is not ' +
+      'a zero, and it is not an all-clear.';
+  }
+  if (note && wired) {
+    if (wired.status === 'OK' && wired.value && typeof wired.value === 'object') {
+      note.textContent = 'DECLARED is not WIRED. A runtime handshake was performed against '
+        + 'sentinel-hub over stdio: ' + wired.value.tools_over_the_wire + ' tools came back on '
+        + 'the wire, and the probe "' + (wired.value.probe_tool || '?') + '" confirmed its '
+        + 'arguments reached the handler. Declared counts are read from the source; wired is '
+        + 'measured, and the record carries its own age.';
+    } else if (wired.status === 'NOT_RUN') {
+      note.textContent = 'DECLARED is not WIRED. No runtime handshake has been performed yet, '
+        + 'so the tools are reported as declared and the check that would prove wiring reports '
+        + 'NOT_RUN. Run 08_SELF_IMPROVEMENT\\mcp_handshake.py to measure it.';
+    } else {
+      note.textContent = 'DECLARED is not WIRED. A handshake was attempted and did not complete, '
+        + 'so the tools remain declared only. The wiring checks carry the reason.';
+    }
+  }
+  const fam = STATE.by_family || {};
+  $('wire-families').innerHTML = Object.keys(fam).map(k=>{
+    const f=fam[k]||{};
+    return '<tr><td>'+esc(k)+'</td><td class="mono">'+chip('OK '+(f.OK||0))+
+      '</td><td class="mono">'+chip('FAIL '+(f.FAIL||0))+'</td><td class="mono">'+chip('STALE '+(f.STALE||0))+
+      '</td><td class="mono">'+chip('NOT_RUN '+(f.NOT_RUN||0))+'</td></tr>';
+  }).join('') || '<tr><td colspan="5" class="empty">No data.</td></tr>';
+
+  // The verdict was already on screen; the reasons were not. A red word with no
+  // explanation is not actionable, and on a system whose whole thesis is
+  // "measured or absent", an unexplained FAIL is indistinguishable from a bug in
+  // the checker itself. Each non-OK check renders with its own measured evidence,
+  // the bound it missed, and when it was measured - all read from /api/health.
+  //
+  // If health.json has never been written this says so, because an empty table
+  // here would read as "all clear" - the exact confusion this must not create.
+  // Absence of the record and absence of problems have to look different.
+  // attn is declared HERE, not hoisted to the top of the function.
+  //
+  // SPEC_R104 only requires the guard to precede every WRITE, and the first
+  // write is the block below. Hoisting the declaration instead moved the
+  // `wire-attention` reference about 4,600 characters away from the
+  // unmeasured message that names monitor.py, which is what
+  // test_dashboard_surface asserts - the panel rendered identically and the
+  // test still went red. The guard is unchanged in force.
+  const attn = $('wire-attention');
+  if(!attn) return;                                     // SPEC_R104
+
+  if (!HEALTH || !Array.isArray(HEALTH.checks)) {
+    attn.innerHTML = '<tr><td colspan="5" class="empty">No self-monitor record at '
+      + '/api/health. Run 08_SELF_IMPROVEMENT\\monitor.py. This is unmeasured, '
+      + 'not all-clear.</td></tr>';
+  } else {
+    const bad = HEALTH.checks.filter(c => c && c.status && c.status !== 'OK');
+    attn.innerHTML = bad.length
+      ? bad.map(c => '<tr><td class="mono">' + esc(c.id) + '</td>'
+          + '<td class="mono">' + chip(c.status) + '</td>'
+          + '<td>' + esc(c.evidence || 'no evidence recorded') + '</td>'
+          + '<td class="note">' + esc(c.bound || '-') + '</td>'
+          + '<td class="mono note">' + esc(c.measured_at || '-') + '</td></tr>').join('')
+      : '<tr><td colspan="5" class="empty">Every self-monitor check is OK.</td></tr>';
+  }
+}
+
+function renderLearning(){
+  const tBox=$('learn-tiles'), bBox=$('learn-body');
+  if(!tBox || !bBox) return;                            // SPEC_R104
+  const l = STATE.learning || {};
+  tBox.innerHTML = [
+    tile('Candidates', l.candidates===undefined?'—':l.candidates, 'proposed, not doctrine'),
+    tile('Awaiting R0', l.awaiting_r0===undefined?'—':l.awaiting_r0, 'only Popy can ratify'),
+    tile('Ratified', l.ratified===undefined?'—':l.ratified, 'authorised by the operator'),
+    tile('Promoted', l.promoted===undefined?'—':l.promoted, 'written to the learning layer')
+  ].join('');
+  $('learn-body').innerHTML = l.status==='MEASURED'
+    ? '<p class="note" style="margin:0">The ratify gate is enforced in code and proven by the '+
+      'self-check: an unratified candidate cannot be promoted, an empty ratification is refused, '+
+      'and a write outside SENTINEL_PRIME raises. Run <code>self_check</code> from the cockpit '+
+      'to watch it refuse.</p>'
+    : '<div class="empty">'+esc(l.reason||'no candidates file yet')+'</div>';
+}
+
+function renderHealth(){ renderWiring(); }
+
+// ---------- ecosystem ----------
+// Everything here is escaped, INCLUDING the detail strings, because `detail`
+// is free prose assembled by a Python collector and is the single most
+// likely place for a quote, a backslash or a < to survive into the DOM. A
+// panel that renders a collector's own text raw is one XSS-shaped mistake away
+// from being a lie about every number next to it.
+async function loadEcosystem(){
+  const tiles = $('eco-tiles'), rows = $('eco-rows'), body = $('eco-body');
+  if(!tiles || !rows || !body) return;                  // SPEC_R104
+  tiles.innerHTML = tile('Ecosystem','LOADING','reading the runtime');
+  rows.innerHTML = '';
+  body.innerHTML = '';
+  let d;
+  try{
+    d = await fetchJSON('/api/minimax');
+  }catch(e){
+    tiles.innerHTML = tile('Ecosystem','NOT AVAILABLE', esc(e.message));
+    body.innerHTML = '<div class="empty">No ecosystem snapshot. The collector has not '
+      + 'written one, or the route is not served. This is unmeasured, not empty.</div>';
+    return;
+  }
+  const c = d.counts || {};
+  const surfaces = d.surfaces || [];
+  const byId = {}; surfaces.forEach(s=>{ byId[s.id]=s; });
+
+  tiles.innerHTML = [
+    tile('Measured', c.measured===undefined?'—':c.measured, 'read from disk'),
+    tile('Not available', c.not_available===undefined?'—':c.not_available, 'honest gaps, not zeros'),
+    tile('Errors', c.error===undefined?'—':c.error, 'collector could not read them'),
+    tile('Surfaces', c.total===undefined?'—':c.total, 'total inspected')
+  ].join('');
+
+  rows.innerHTML = surfaces.map(s=>
+    '<tr><td>'+esc(s.label||s.id)+'</td>'+
+    '<td>'+chip(s.status)+'</td>'+
+    '<td class="s">'+esc(s.detail||'')+'</td>'+
+    '<td class="mono s">'+esc(s.source||'')+'</td></tr>').join('')
+    || '<tr><td colspan="4" class="empty">No surfaces reported.</td></tr>';
+
+  // The two surfaces worth expanding, because a count alone hides the shape.
+  const a = byId.agents, m = byId.mcp_config;
+  let extra = '';
+  if (a && a.status === 'MEASURED' && a.value && a.value.roster) {
+    extra += '<h3 style="margin:0 0 10px">Agent roster</h3><div class="grid g3" style="margin-bottom:18px">'+
+      a.value.roster.map(x=>tile(x.name,
+        (x.skills!==undefined ? x.skills+' skills' : '—'),
+        (x.memory!==undefined ? x.memory+' memory · ' : '')+
+        (x.sessions!==undefined ? x.sessions+' sessions' : 'no sessions dir'))).join('')+'</div>';
+  }
+  if (m && m.status === 'MEASURED' && m.value && m.value.names) {
+    extra += '<h3 style="margin:0 0 10px">MCP servers declared ('+m.value.count+')</h3>'+
+      '<div style="display:flex;flex-wrap:wrap;gap:6px">'+
+      m.value.names.map(n=>chip(n)).join('')+'</div>';
+  }
+  const cli = byId.minimax_cli;
+  if (cli && cli.status !== 'MEASURED') {
+    extra += '<p class="note" style="margin-top:16px"><b>Known gap.</b> '+esc(cli.detail)+'</p>';
+  }
+
+  // The desktop app family. Every access is guarded: a surface that is absent,
+  // or one that came back with no value, must render as a gap rather than
+  // throwing and taking the whole panel down with it. A panel that dies on a
+  // missing field reports nothing at all, which is the same as reporting
+  // "nothing wrong" to anyone who does not open the console.
+  const dc = byId.desktop_code_processes,
+        tt = byId.task_telemetry,
+        eb = byId.embedded_browser,
+        cb = byId.cloud_bridge_device,
+        da = byId.design_app,
+        ha = byId.hub_app,
+        ai = byId.agent_identity;
+  if (dc || tt || eb || cb || da || ha || ai) {
+    extra += '<h3 style="margin:0 0 10px;margin-top:20px">Desktop app, Design and cloud bridge</h3>';
+    const g = [];
+    if (dc && dc.status === 'MEASURED' && dc.value !== null && dc.value !== undefined) {
+      g.push(tile('Code processes', dc.value, 'live Electron processes'));
+    }
+    if (tt && tt.status === 'MEASURED' && tt.value && typeof tt.value === 'object') {
+      g.push(tile('Telemetry events', tt.value.events, tt.value.distinct + ' distinct kinds'));
+      g.push(tile('Newest event', (tt.value.newest_age_s < 60 ? tt.value.newest_age_s + 's' : Math.round(tt.value.newest_age_s/60) + 'm') + ' ago', 'app observability outbox'));
+    }
+    if (eb && eb.status === 'MEASURED' && eb.value && typeof eb.value === 'object') {
+      // `hosts` arrives as an ARRAY. Concatenating an array into a string
+      // yields the empty string, not a count - so the first version rendered
+      // "1 session(s), host(s)" with the number silently missing. Same family
+      // as [object Object]: a value of the wrong type used where a string was
+      // assumed does not throw, it just quietly prints nothing.
+      const hosts = Array.isArray(eb.value.hosts) ? eb.value.hosts.length
+                   : (eb.value.hosts || 0);
+      g.push(tile('Embedded tabs', eb.value.tabs, eb.value.sessions + ' session(s), ' + hosts + ' host(s)'));
+    }
+    if (da && da.value && typeof da.value === 'object') {
+      g.push(tile('MINIMAX Design', da.value.running ? 'RUNNING' : 'installed, stopped', da.value.installed ? 'desktop design app' : 'not installed'));
+    }
+    if (ha && ha.value && typeof ha.value === 'object') {
+      g.push(tile('MINIMAX Hub', ha.value.running ? 'RUNNING' : 'installed, stopped', 'the hub app'));
+    }
+    if (g.length) extra += '<div class="grid g3" style="margin-bottom:14px">'+g.join('')+'</div>';
+    if (cb && cb.status === 'MEASURED' && cb.value) {
+      extra += '<p class="note"><b>Cloud bridge device.</b> '+esc(String(cb.value))+
+               ' — the identity the cloud side addresses this machine by.</p>';
+    }
+    if (ai && ai.status === 'MEASURED' && ai.value && ai.value.tokens_present !== undefined) {
+      extra += '<p class="note"><b>Identity.</b> signed in; credentials are '+
+               (ai.value.tokens_present ? 'present and never read' : 'absent')+
+               ' by this panel.</p>';
+    }
+  }
+  body.innerHTML = extra || '<div class="empty">Nothing expandable in this snapshot.</div>';
+  body.insertAdjacentHTML('afterbegin',
+    '<p class="note">Snapshot '+esc(d.generated_at||'unknown')+' · root <code>'
+    +esc(d.minimax_root||'')+'</code></p>');
+}
+
+// ---------- lifecycle verification ----------
+// Every container access is guarded (SPEC_R104). A panel that throws on a
+// missing element reports nothing at all, and "reported nothing" is
+// indistinguishable from "nothing is wrong" to anyone who does not open the
+// console. So: if the box is not there, return; if the fetch fails, say so.
+async function loadVerify(){
+  const tiles = $('ver-tiles'), note = $('ver-note');
+  if(!tiles || !note) return;                 // SPEC_R104
+  tiles.innerHTML = tile('Verification','LOADING','reading the last run');
+  note.innerHTML = '';
+  let d;
+  try{
+    const r = await fetch('/api/verify', {cache:'no-store'});
+    d = await r.json();
+  }catch(e){
+    tiles.innerHTML = tile('Verification','UNREACHABLE','/api/verify did not answer');
+    note.innerHTML = '<p class="note">Could not read the last verification: '+esc(e.message)+
+                     '. This is unmeasured, not passing.</p>';
+    return;
+  }
+  if(!d || typeof d !== 'object'){
+    tiles.innerHTML = tile('Verification','UNREADABLE','the route returned no object');
+    note.innerHTML = '<p class="note">The route answered with something that is not a report. '+
+                     'Reported as unreadable rather than treated as empty.</p>';
+    return;
+  }
+
+  if(d.verdict === 'NOT_RUN' || d.passed === undefined){
+    tiles.innerHTML = tile('Verification','NOT_RUN','the verifier has not been run here');
+    note.innerHTML = '<p class="note">'+
+      esc(d.note || 'verify-server.ps1 has not been run on this machine.')+
+      ' A verifier that has never run is an unknown, not a pass.</p>';
+    return;
+  }
+
+  // Age, computed defensively. A date that fails to parse must read as
+  // "unknown", never as "NaN min ago" - string coercion into a visible tile is
+  // the exact defect the browser proof is built to catch.
+  let age = 'unknown age';
+  if(d.generated){
+    const t = new Date(d.generated).getTime();
+    if(!isNaN(t)){
+      const mins = Math.round((Date.now()-t)/60000);
+      age = mins < 1 ? 'just now' : (mins < 60 ? mins+'m ago' : Math.round(mins/60)+'h ago');
+    }
+  }
+
+  const ok      = d.passed,
+        bad     = d.failed,
+        nr      = d.not_run,
+        total   = d.total;
+  tiles.innerHTML = [
+    tile('Verdict', d.verdict, age),
+    tile('Passed', ok, 'of '+total+' checks'),
+    tile('Failed', bad, bad === 0 ? 'nothing failed' : 'see below'),
+    tile('Cycles', d.cycles, 'full stop/start cycles')
+  ].join('');
+
+  let extra = '';
+  if(nr !== undefined && nr > 0){
+    extra += '<p class="note"><b>'+nr+' check(s) NOT_RUN.</b> A check that could not execute '+
+             'is neither a pass nor a failure, and is counted separately here.</p>';
+  }
+  // The monitor's own verdict travels inside the same payload. It is shown,
+  // not gated: it belongs to a different system than the lifecycle run, and
+  // merging the two would be the same false claim in the other direction.
+  if(d.monitor_overall && d.monitor_overall !== 'OK'){
+    extra += '<p class="note"><b>Monitor reported '+esc(d.monitor_overall)+'</b> during the last '+
+             'cycle. That is the self-monitor\'s verdict on the wider system, not this run\'s '+
+             'verdict — the deployment lifecycle passed while the monitor was not clean.</p>';
+  }
+  const fails = Array.isArray(d.results) ? d.results.filter(x=>x && x.pass === false) : [];
+  if(fails.length){
+    extra += '<h3 style="margin:16px 0 8px">Failed checks</h3><div style="display:flex;'+
+             'flex-direction:column;gap:6px">'+fails.slice(0,10).map(x=>
+             '<div class="s"><span class="chip FAIL">cycle '+(x.cycle===undefined?'?':x.cycle)+
+             '</span> <b>'+esc(x.name||'')+'</b> — '+esc(x.detail||'')+'</div>').join('')+'</div>';
+    if(fails.length > 10){
+      extra += '<p class="note" style="margin-top:8px">and '+(fails.length-10)+
+               ' more in api/verify-report.json</p>';
+    }
+  }
+  note.innerHTML = extra;
+}
+
+// ---------- operator / identity (C4) ----------
+// Every card is built by the same two helpers so the panel cannot drift into
+// twelve different visual dialects. Every value is read by its KEY, never
+// concatenated blindly: the same mistake that printed "[object Object]" once
+// (DEFECT 17) is the one that produces "12object Object" the next time a
+// collector changes a field's shape.
+function opRow(k, v){ return '<div class="oprow"><span class="k">'+esc(k)+'</span>'+
+  '<span class="v">'+(v===null||v===undefined||v===''?'—':esc(String(v)))+'</span></div>'; }
+function opCard(title, color, body){
+  return '<div class="opcard"><header><span class="accent" style="background:'+color+
+    '"></span>'+esc(title)+'</header><div class="body">'+(body||'')+'</div></div>';
+}
+function opVal(surface, key, fallback){
+  // Reads one field of one surface, and refuses to guess: a missing surface
+  // and a missing field both come back NOT_AVAILABLE with the reason attached,
+  // because a card that renders 0 for "I could not read this" is a lie with a
+  // number in it.
+  if(!surface || surface.status !== 'MEASURED') return null;
+  const v = surface.value;
+  if(v === null || v === undefined || typeof v !== 'object') return v;
+  const got = v[key];
+  return got === undefined ? (fallback===undefined ? null : fallback) : got;
+}
+function fmtAge(s){
+  if(typeof s !== 'number' || !isFinite(s)) return 'unknown';
+  if(s < 60) return Math.round(s)+'s';
+  if(s < 3600) return Math.round(s/60)+'m';
+  if(s < 86400) return (s/3600).toFixed(1)+'h';
+  return (s/86400).toFixed(1)+'d';
+}
+
+async function loadOperator(){
+  const tiles = $('op-tiles'), cards = $('op-cards'), nodes = $('op-nodes');
+  if(!tiles || !cards || !nodes) return;               // SPEC_R104
+  tiles.innerHTML = tile('Operator','LOADING','reading the runtime');
+  cards.innerHTML = ''; nodes.innerHTML = '';
+
+  let d;
+  try{ d = await fetchJSON('/api/minimax'); }
+  catch(e){
+    tiles.innerHTML = tile('Operator','NOT AVAILABLE', esc(e.message));
+    cards.innerHTML = '<div class="empty">No ecosystem snapshot: '+esc(e.message)+
+      '. This panel reports unmeasured, not empty — an operator looking at a ' +
+      'blank identity panel must be able to tell "no data" from "no operator".</div>';
+    return;
+  }
+  const S = {};
+  (d.surfaces||[]).forEach(function(s){ S[s.id]=s; });
+  const c = d.counts || {};
+
+  /* ---- headline tiles ---- */
+  const ai = S.agent_identity, cbd = S.cloud_bridge_device, sw = S.swarm_liveness;
+  const ag = opVal(S.agents,'count'), sk = opVal(S.skills,'count');
+  const sp = opVal(S.sentinel_profile,'servers');
+  tiles.innerHTML = [
+    tile('Signed in', (ai && ai.status==='MEASURED' && ai.value && ai.value.tokens_present)
+         ? 'YES' : ((ai && ai.status) || 'NOT_MEASURED'),
+         (ai && ai.status==='MEASURED')
+           ? (ai.value.tokens_present ? 'credentials present — never read by this panel' : 'no credentials found on disk')
+           : 'the identity surface could not be read'),
+    tile('Cloud device', (cbd && cbd.status==='MEASURED') ? 'BOUND' : (cbd ? cbd.status : 'NOT_MEASURED'),
+         (cbd && cbd.status==='MEASURED') ? 'the id the cloud addresses this machine by' : 'no cloud device record'),
+    tile('Agents', ag===null?'—':ag, (sk===null?'':(sk+' skills registered'))),
+    tile('Swarm alive', (sw && sw.status==='MEASURED')
+         ? ((sw.value.alive_count||0)+'/'+(sw.value.known_count||0))
+         : '—',
+         (sw && sw.status==='MEASURED') ? 'cross-instance instances reporting alive' : 'swarm liveness unmeasured')
+  ].join('');
+
+  /* ---- identity ---- */
+  let ident = opRow('Surface status', ai ? ai.status : 'NOT_MEASURED');
+  if(ai && ai.status === 'MEASURED' && ai.value){
+    ident += opRow('Credentials', ai.value.tokens_present ? 'present' : 'absent');
+    ident += opRow('Identity keys', (ai.value.keys && ai.value.keys.length) ? ai.value.keys.length : 0);
+    ident += opRow('Key names', (ai.value.keys||[]).join(', ') || 'none recorded');
+  } else {
+    ident += opRow('Reason', (ai && ai.detail) || 'the collector returned no identity surface');
+  }
+  if(cbd && cbd.status === 'MEASURED'){
+    ident += opRow('Device id', String(cbd.value));
+  } else {
+    ident += opRow('Device id', 'NOT_AVAILABLE');
+    ident += opRow('Reason', (cbd && cbd.detail) || 'no cloud bridge device record was measured');
+  }
+
+  /* ---- session and activity ---- */
+  const sess = opVal(S.sessions,'entries'), mem = opVal(S.memory,'entries');
+  const tt = S.task_telemetry, eb = S.embedded_browser, dc = S.desktop_code_processes;
+  let session = '';
+  session += opRow('Local sessions', sess===null?'NOT_MEASURED':sess);
+  session += opRow('Memory entries', mem===null?'NOT_MEASURED':mem);
+  session += opRow('Code desktop processes', (dc && dc.status==='MEASURED') ? dc.value : 'NOT_MEASURED');
+  if(tt && tt.status === 'MEASURED' && tt.value){
+    session += opRow('Telemetry events', tt.value.events);
+    session += opRow('Distinct event kinds', tt.value.distinct);
+    session += opRow('Newest event', fmtAge(tt.value.newest_age_s)+' ago');
+    if(tt.value.newest_age_s > 900){
+      session += '<p class="note" style="margin:6px 0 0">The outbox has been quiet for '+
+        fmtAge(tt.value.newest_age_s)+'. Whether that is calm or a stalled '+
+        'instrument is not knowable from this number — the collector records '+
+        'the age, not the cause.</p>';
+    }
+  } else {
+    session += opRow('Telemetry', 'NOT_MEASURED — ' + ((tt && tt.detail) || 'no outbox record'));
+  }
+  if(eb && eb.status === 'MEASURED' && eb.value){
+    const hosts = Array.isArray(eb.value.hosts) ? eb.value.hosts.length : (eb.value.hosts||0);
+    session += opRow('Embedded browser', eb.value.sessions+' session(s), '+eb.value.tabs+' tab(s), '+hosts+' host(s)');
+  }
+
+  /* ---- cloud and subscription ---- */
+  const dca = S.design_cloud_auth, da = S.design_app, ha = S.hub_app;
+  let cloud = '';
+  if(dca && dca.status === 'MEASURED' && dca.value){
+    const tok = dca.value.HILO_USER_TOKEN_set, fil = dca.value.HILO_USER_TOKEN_FILE_set;
+    cloud += opRow('Token in env', tok ? 'set' : 'not set');
+    cloud += opRow('Token file env', fil ? 'set' : 'not set');
+    cloud += opRow('Token file exists', dca.value.file_exists ? 'yes' : 'no');
+    if(!tok && !fil){
+      cloud += '<p class="note" style="margin:6px 0 0">No Design cloud credential is '+
+        'configured. Every Design cloud surface below is therefore '+
+        '<b>NOT_AVAILABLE</b>, not failing — the panels are honest about a '+
+        'door that has not been opened yet.</p>';
+    }
+  } else {
+    cloud += opRow('Design credential', 'NOT_MEASURED — ' + ((dca && dca.detail) || 'no auth surface'));
+  }
+  [['Design app', da], ['Hub app', ha]].forEach(function(pair){
+    const s = pair[1];
+    if(s && s.status === 'MEASURED' && s.value && typeof s.value === 'object'){
+      cloud += opRow(pair[0], (s.value.installed ? 'installed' : 'not installed') +
+        ' · ' + (s.value.running ? 'RUNNING' : 'stopped'));
+    } else {
+      cloud += opRow(pair[0], s ? s.status : 'NOT_MEASURED');
+    }
+  });
+
+  /* ---- agents and tooling ---- */
+  const agS = S.agents, skS = S.skills, spS = S.sentinel_profile, hubS = S.sentinel_hub;
+  let agents = '';
+  agents += opRow('Agent roster', ag===null?'NOT_MEASURED':(ag+' agents'));
+  if(agS && agS.status === 'MEASURED' && agS.value && agS.value.roster){
+    agents += opRow('Named', agS.value.roster.map(function(x){return esc(x.name);}).join(', '));
+  }
+  agents += opRow('Skills installed', sk===null?'NOT_MEASURED':sk);
+  const sentinelSkills = opVal(S.skills,'sentinel_count');
+  if(sentinelSkills !== null) agents += opRow('SENTINEL skills', sentinelSkills);
+  agents += opRow('MCP servers', sp===null?'NOT_MEASURED':sp);
+  const hubTools = opVal(S.sentinel_hub,'declared_tools');
+  if(hubTools !== null){
+    agents += opRow('SENTINEL tools', hubTools);
+    const reg = opVal(S.sentinel_hub,'registered');
+    agents += opRow('Hub registered', reg===null?'NOT_MEASURED':(reg ? 'yes' : 'no'));
+  }
+
+  /* ---- swarm ---- */
+  let swarm = '';
+  if(sw && sw.status === 'MEASURED' && sw.value){
+    const v = sw.value;
+    swarm += opRow('Known instances', v.known_count);
+    swarm += opRow('Alive', v.alive_count);
+    swarm += opRow('Stale', (v.stale && v.stale.length) || 0);
+    swarm += opRow('Instances', (v.known||[]).join(', ') || 'none recorded');
+    if((v.stale||[]).length){
+      swarm += '<p class="note" style="margin:8px 0 4px">Each stale entry still reports '+
+        'its last known status. A stale row is not a dead row — it is a row '+
+        'that stopped updating, and it is shown as exactly that.</p>';
+      swarm += (v.stale||[]).slice(0,6).map(function(s){
+        return opRow('· ' + (s.instance_id||'?'), (s.reported_status||'?')+' · '+fmtAge(s.age_seconds)+' old');
+      }).join('');
+    }
+  } else {
+    swarm += opRow('Swarm', 'NOT_MEASURED — ' + ((sw && sw.detail) || 'no liveness record'));
+  }
+
+  /* ---- hardware ----
+     There is no source for this anywhere in the payload. Rather than show a
+     CPU line invented from nothing, the card states the absence and names the
+     fix — a collector that reads the machine. That is the difference between
+     a gap and a fabrication. */
+  const hardware =
+    '<p class="note" style="margin:0 0 10px"><b>Not measured — there is no source ' +
+    'for it.</b> The state payload carries status, counts, corpus, workflow, ' +
+    'program, learning, tests and gaps. It carries no CPU, memory, disk or ' +
+    'thermal measurement, so there is nothing here to draw.</p>' +
+    opRow('CPU', 'NOT_MEASURED') + opRow('Memory', 'NOT_MEASURED') +
+    opRow('Disk', 'NOT_MEASURED') + opRow('Uptime', 'NOT_MEASURED') +
+    '<p class="note" style="margin:8px 0 0">Closing this is additive: a host ' +
+    'block in the collector, measured the same way everything else on this ' +
+    'page is measured. It is listed in the evolution notes, not faked here.</p>';
+
+  cards.innerHTML =
+    opCard('Operator identity', 'var(--cyan)', ident) +
+    opCard('Session and activity', 'var(--emerald)', session) +
+    opCard('Cloud and subscription', 'var(--amber)', cloud) +
+    opCard('Agents and tooling', 'var(--purple)', agents) +
+    opCard('Swarm liveness', 'var(--fail)', swarm) +
+    opCard('Hardware', 'var(--ink3)', hardware);
+
+  /* ---- surface nodes ---- */
+  const surf = d.surfaces || [];
+  nodes.innerHTML = surf.length
+    ? surf.map(function(s){
+        return '<span class="node '+esc(s.status||'NOT_MEASURED')+
+          '" title="'+esc(s.label||s.id)+' — '+esc(s.status)+
+          (s.detail?(': '+esc(s.detail)):'')+'"><span class="bulb"></span>'+
+          esc(s.label||s.id)+'</span>';
+      }).join('')
+    : '<div class="empty">No surfaces reported — the collector wrote nothing.</div>';
+}
+
+async function loadMethod(){
+  const box = $('method-body');
+  if(!box) return;                                      // SPEC_R104
+  try{
+    const r = await fetch('/api/action', {method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({id:'corpus_digest'})});
+    const text = await r.text();
+    const steps = [
+      ['1','Probe the substrate','open with a purchase question, not a build order'],
+      ['2','Answer the challenge with work','a challenge is a defect report, not an insult'],
+      ['3','Reward the honest gap','declaring what you have not done is what makes the next claim checkable'],
+      ['4','Derive the structure','do not import it; find the minimum that survives compression'],
+      ['5','Work in the source language','English flattens the topic before the reasoning starts'],
+      ['6','Correct in one line','verdict, specific failure, and the question that was NOT asked'],
+      ['7','Make the state measurable','a persona cannot be tested; a state can'],
+      ['8','Calibrate, and treat it as security','uncorrected, any substrate can wear the identity'],
+      ['9','Codify immediately','a settled concept becomes a file in the same session'],
+      ['10','Make it invocable','a ritual that is not a command does not exist'],
+      ['11','Refuse design-only','the word that converted documentation into engineering'],
+      ['12','Close the loop','the system must be able to read how it was built']
+    ];
+    box.innerHTML = steps.map(s=>
+      '<div style="display:flex;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05)">'+
+      '<span class="chip TESTED" style="flex:none">'+s[0]+'</span><div><b>'+esc(s[1])+'</b>'+
+      '<div class="s" style="color:var(--ink2)">'+esc(s[2])+'</div></div></div>').join('') +
+      '<pre class="out" style="margin-top:14px">'+esc(text.slice(0,4000))+'</pre>' +
+      '<p class="note" style="margin-top:12px">Full method: '+
+      '<code>11_BRAIN\\04_METHOD\\TANY_LLM_TO_SENTINEL.md</code>, with the verbatim evidence '+
+      'and the counterfactual for each step.</p>';
+  }catch(e){
+    box.innerHTML = '<div class="empty">Could not load — '+esc(e.message)+'</div>';
+  }
+}
+
+function buildAxes(){
+  const box = $('axes-cards');
+  if(!box) return;                                      // SPEC_R104
+  box.innerHTML = CHAPTER_DOCS.map(a=>
+    el('div','card', el('h3','', '<span class="accent" style="background:'+a[2]+'"></span>'+
+      esc(a[0]) + ' <span class="q">'+esc(a[1])+'</span>') +
+      el('div','pad','<span class="s">11_BRAIN\\03_AXES\\'+esc(a[0])+'.md</span>'+
+        '<div style="margin-top:8px;color:var(--ink2)">All 17 chapters are covered on this axis. '+
+        'A chapter missing from an axis is a finding, not a gap to paper over.</div>'))).join('');
+}
+
+function buildCockpit(){
+  const grid = $('cockpit');
+  if(!grid) return;                                     // SPEC_R104
+  grid.innerHTML = ACTIONS.map(a=>
+    el('div','act', '<button data-id="'+esc(a[0])+'">'+esc(a[1])+'</button>'+
+      '<div class="desc">'+esc(a[2])+'</div><div class="cmd">'+esc(a[3])+'</div>')).join('');
+  grid.addEventListener('click', async (e)=>{
+    const b = e.target.closest('button[data-id]'); if(!b) return;
+    const out = $('act-out');
+    if(!out) return;                                    // SPEC_R104
+    const id = b.dataset.id;
+    // An action that needs the operator's words asks for them here rather than
+    // firing with an empty argument, so the refusal path stays visible instead
+    // of being quietly pre-empted.
+    let arg = '';
+    if (ACTION_ARGS[id]) {
+      arg = window.prompt(ACTION_ARGS[id] + '\n\n(cancel sends nothing, and the action will refuse)');
+      if (arg === null) { out.textContent = 'cancelled — nothing sent'; return; }
+      if (!arg.trim()) {
+        out.textContent = 'refused locally: no input given.\n' +
+          'The server would also have refused this. An empty acknowledgement is not\n' +
+          'an acknowledgement, and the UI is not a way around that gate.';
+        return;
+      }
+    }
+    out.textContent = 'running ' + id + ' …';
+    b.disabled = true;
+    try{
+      const payload = {id: id};
+      if (arg) payload.arg = arg;
+      const r = await fetch('/api/action', {method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(payload)});
+      const text = await r.text();
+      out.textContent = 'HTTP ' + r.status + '\n\n' + text;
+    }catch(err){
+      out.textContent = 'request failed: ' + err.message +
+        '\n\nThe server is not reachable. Bring the deployment up with ' +
+        '13_COMMAND_CENTER\\bat\\sentinel-cc.bat (or: sentinel-hub.ps1 -Action start). ' +
+        'It starts both planes and opens nothing until /readyz answers.';
+    } finally { b.disabled = false; }
+  });
+}
+
+async function runSearch(){
+  const input = $('q'), box = $('corpus-hits');
+  if(!input || !box) return;                            // SPEC_R104
+  const q = input.value.trim();
+  if(!q){ box.className='empty'; box.textContent='Type a phrase first.'; return; }
+  box.className=''; box.innerHTML='<div class="empty">searching…</div>';
+  try{
+    const r = await fetch('/api/corpus?q='+encodeURIComponent(q)+'&limit=25',{cache:'no-store'});
+    const d = await r.json();
+    if(!d.hits || !d.hits.length){
+      box.className='empty';
+      box.textContent='No verbatim message contains "'+q+'".';
+      return;
+    }
+    const hl = (s)=>esc(s).replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','ig'),
+      '<mark>$1</mark>');
+    box.innerHTML = '<div class="s" style="color:var(--ink3);margin-bottom:8px">'+
+      d.count+' hit(s) for "'+esc(q)+'"</div>' + d.hits.map(h=>
+      '<div class="hit"><div class="meta">seq '+h.seq+' · '+esc(h.role)+' · turn '+
+      esc(h.turn_id||'?')+' · generation '+esc(h.generation)+'</div>'+
+      '<div class="txt">'+hl(h.excerpt)+'</div></div>').join('');
+  }catch(e){
+    box.className='empty';
+    box.textContent='Search needs the server. Bring the deployment up with sentinel-cc.bat.';
+  }
+}
+
+/* ---------- boot ---------- */
+buildTabs();
+// DEFECT 16 FIX (2026-10-04): buildTabs() marks the first tab aria-selected,
+// so the tab strip looked correct - but nothing ever added .active to a panel.
+// CSS is `.panel{display:none}` / `.panel.active{display:block}`, so ALL 11
+// panels stayed display:none and the page rendered a header, a tab bar and an
+// otherwise blank body. Every route test passed (HTTP 200, 43KB, 11 panels
+// present in the DOM with content) because none of them asked whether a panel
+// was VISIBLE. Select the first tab explicitly.
+select(TABS[0]);
+buildAxes();
+buildCockpit();
+const qgo=$('qgo'), qIn=$('q'), themeBtn=$('theme');
+if(qgo) qgo.addEventListener('click', runSearch);
+if(qIn)  qIn.addEventListener('keydown', e=>{ if(e.key==='Enter') runSearch(); });
+if(themeBtn) themeBtn.addEventListener('click', ()=>{
+  const cur = document.documentElement.getAttribute('data-theme');
+  document.documentElement.setAttribute('data-theme', cur==='obsidian'?'paper':'obsidian');
+});
+// keep the age indicator honest even when no new data arrives
+setInterval(renderHeader, 1000);
+// Paint the gauges and pull the history once, before the first state lands, so
+// the panel is never an empty frame waiting for a socket that may be slow.
+renderGauges(); loadHistory();
+connect();
+</script>
+</body>
+</html>

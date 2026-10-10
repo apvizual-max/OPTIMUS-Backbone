@@ -1,0 +1,1051 @@
+
+=== startup Mon 10/05/2026  5:01:54.94 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 3368)
+
+  backend          127.0.0.1:8912  LISTENING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Mon 10/05/2026  8:08:52.37 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Already listening on 8912 - not starting a second.
+  http://127.0.0.1:8912/
+
+  backend          127.0.0.1:8912  LISTENING
+  container        already running (idempotent)
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Mon 10/05/2026  8:21:24.31 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Already listening on 8912 - not starting a second.
+  http://127.0.0.1:8912/
+
+  backend          127.0.0.1:8912  LISTENING
+  container        already running (idempotent)
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Mon 10/05/2026  8:24:28.66 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Already listening on 8912 - not starting a second.
+  http://127.0.0.1:8912/
+
+  backend          127.0.0.1:8912  LISTENING
+  container        already running (idempotent)
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Mon 10/05/2026  8:25:16.29 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Already listening on 8912 - not starting a second.
+  http://127.0.0.1:8912/
+
+  backend          127.0.0.1:8912  LISTENING
+  container        already running (idempotent)
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Mon 10/05/2026  8:26:14.30 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Already listening on 8912 - not starting a second.
+  http://127.0.0.1:8912/
+
+  backend          127.0.0.1:8912  LISTENING
+  container        already running (idempotent)
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Mon 10/05/2026  8:29:05.08 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 80176)
+
+  backend          127.0.0.1:8912  LISTENING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Mon 10/05/2026  8:44:39.66 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 37344)
+
+  backend          127.0.0.1:8912  LISTENING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Mon 10/05/2026  8:56:08.77 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 7600)
+
+  backend          127.0.0.1:8912  LISTENING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Mon 10/05/2026  9:01:58.13 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 37204)
+
+  backend          127.0.0.1:8912  LISTENING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Mon 10/05/2026  9:20:33.91 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 85348)
+
+  backend          127.0.0.1:8912  LISTENING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Mon 10/05/2026  9:26:40.70 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 100828)
+
+  backend          127.0.0.1:8912  LISTENING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Mon 10/05/2026  9:35:37.63 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 29104)
+
+  backend          127.0.0.1:8912  LISTENING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Mon 10/05/2026  9:57:48.30 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 55964)
+
+  backend          127.0.0.1:8912  LISTENING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Mon 10/05/2026 10:24:28.10 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 93980)
+
+  backend          127.0.0.1:8912  LISTENING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Mon 10/05/2026 11:04:17.65 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 5904)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Mon 10/05/2026 11:19:11.80 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 39424)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Mon 10/05/2026 12:22:00.62 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 65556)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Mon 10/05/2026 12:32:33.22 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 28380)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Mon 10/05/2026 19:45:32.51 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 76968)
+
+  backend          127.0.0.1:8912  SERVING
+  container        already running (idempotent)
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Tue 10/06/2026  3:52:30.62 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  not up within 45 s (pid 41076; still starting, NOT failed - the caller may keep waiting).
+  backend          127.0.0.1:8912  SERVING
+  container        already running (idempotent)
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Tue 10/06/2026 16:33:49.31 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 16224)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Tue 10/06/2026 17:33:47.99 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Already listening on 8912 - not starting a second.
+  http://127.0.0.1:8912/
+
+  backend          127.0.0.1:8912  SERVING
+  container        already running (idempotent)
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Tue 10/06/2026 17:35:36.34 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Already listening on 8912 - not starting a second.
+  http://127.0.0.1:8912/
+
+  backend          127.0.0.1:8912  SERVING
+  container        already running (idempotent)
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Tue 10/06/2026 17:36:53.11 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 47980)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Tue 10/06/2026 17:39:56.25 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 1780)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+
+=== startup Tue 10/06/2026 17:43:48.61 ===
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 56628)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+ 
+=== startup Tue 10/06/2026 17:56:55.57 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 49324)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+ 
+=== startup Tue 10/06/2026 18:00:40.59 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 40280)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+ 
+=== startup Tue 10/06/2026 18:00:40.59 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 40280)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+ 
+=== startup Tue 10/06/2026 18:02:37.00 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 57292)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+ 
+=== startup Tue 10/06/2026 18:00:40.59 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 40280)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+ 
+=== startup Tue 10/06/2026 18:02:37.00 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 57292)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+ 
+=== startup Tue 10/06/2026 18:06:10.32 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Already listening on 8912 - not starting a second.
+  http://127.0.0.1:8912/
+
+  backend          127.0.0.1:8912  SERVING
+  container        already running (idempotent)
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Tue 10/06/2026 18:06:14.43 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Already listening on 8912 - not starting a second.
+  http://127.0.0.1:8912/
+
+  backend          127.0.0.1:8912  SERVING
+  container        already running (idempotent)
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Tue 10/06/2026 18:07:48.73 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 51472)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+ 
+=== startup Tue 10/06/2026 18:14:03.04 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Already listening on 8912 - not starting a second.
+  http://127.0.0.1:8912/
+
+  backend          127.0.0.1:8912  SERVING
+  container        already running (idempotent)
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Tue 10/06/2026 18:14:08.57 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Already listening on 8912 - not starting a second.
+  http://127.0.0.1:8912/
+
+  backend          127.0.0.1:8912  SERVING
+  container        already running (idempotent)
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Tue 10/06/2026 18:14:11.63 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Already listening on 8912 - not starting a second.
+  http://127.0.0.1:8912/
+
+  backend          127.0.0.1:8912  SERVING
+  container        already running (idempotent)
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Tue 10/06/2026 18:14:24.88 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 25840)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+ 
+=== startup Tue 10/06/2026 18:14:48.16 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Already listening on 8912 - not starting a second.
+  http://127.0.0.1:8912/
+
+  backend          127.0.0.1:8912  SERVING
+  container        already running (idempotent)
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Tue 10/06/2026 18:16:41.53 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 62304)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Tue 10/06/2026 18:21:46.18 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 31168)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Tue 10/06/2026 18:24:18.12 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 33696)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+ 
+=== startup Tue 10/06/2026 18:30:46.11 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 12824)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Tue 10/06/2026 18:34:59.56 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 39708)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Tue 10/06/2026 18:41:57.88 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 56076)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Tue 10/06/2026 18:42:37.60 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Already listening on 8912 - not starting a second.
+  http://127.0.0.1:8912/
+
+  backend          127.0.0.1:8912  SERVING
+  container        already running (idempotent)
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Tue 10/06/2026 18:44:04.54 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 31880)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Tue 10/06/2026 18:48:44.91 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 35312)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Tue 10/06/2026 18:52:49.32 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 32096)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Tue 10/06/2026 18:54:52.26 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 62280)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Tue 10/06/2026 18:58:00.51 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 19532)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Tue 10/06/2026 19:50:32.52 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 6060)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Tue 10/06/2026 19:57:03.59 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 20704)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Tue 10/06/2026 21:43:37.02 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 46220)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Tue 10/06/2026 22:05:27.93 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 68344)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Tue 10/06/2026 22:15:01.98 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 60284)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Tue 10/06/2026 22:25:28.51 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 67416)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Tue 10/06/2026 22:33:59.48 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 41516)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Tue 10/06/2026 23:21:22.19 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Starting SENTINEL Command Center...
+  UP   http://127.0.0.1:8912/   (pid 67800)
+
+  backend          127.0.0.1:8912  SERVING
+  container        starting existing
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Wed 10/07/2026 14:30:43.54 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Already listening on 8912 - not starting a second.
+  http://127.0.0.1:8912/
+
+  backend          127.0.0.1:8912  SERVING
+  container        already running (idempotent)
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Fri 10/09/2026 19:16:32.27 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Already listening on 8912 - not starting a second.
+  http://127.0.0.1:8912/
+
+  backend          127.0.0.1:8912  SERVING
+  container        already running (idempotent)
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
+ 
+=== startup Sat 10/10/2026 13:05:14.97 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Already listening on 8912 - not starting a second.
+  http://127.0.0.1:8912/
+
+  backend          127.0.0.1:8912  SERVING
+  container        already running (idempotent)
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 

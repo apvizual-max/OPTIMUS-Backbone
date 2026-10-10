@@ -1,0 +1,66 @@
+{
+  "generated": "2026-10-04T22:08:35.205640",
+  "corpus_sha256": "e4d3cbb7795560e1d2e668108bf98cc999c648feb0f18ba81620f911ba7e0e42",
+  "messages_total": 955,
+  "verbatim": 504,
+  "evidence": 448,
+  "compaction": 3,
+  "user_turns": 102,
+  "assistant_turns": 402,
+  "accounting": {
+    "input_records": 1384,
+    "parse_errors": 0,
+    "excluded_no_message_id": 0,
+    "excluded_scaffolding_only": 12,
+    "source_records": 1384
+  },
+  "retention": {
+    "verbatim_text_bytes": 692874,
+    "source_text_bytes": 692874,
+    "verbatim_retention_ratio": 1.0
+  },
+  "checks": [
+    {
+      "id": "anchor",
+      "name": "first verbatim message is message zero",
+      "status": "OK",
+      "detail": "If I buy a subscription, can I use MiniMax as my Hermes Agent's brain? I really need a sup"
+    },
+    {
+      "id": "seq",
+      "name": "seq is a dense 1..N sequence",
+      "status": "OK",
+      "detail": "955 messages"
+    },
+    {
+      "id": "dedupe",
+      "name": "every message_id is unique in the corpus",
+      "status": "OK",
+      "detail": "955 ids, 955 unique"
+    },
+    {
+      "id": "verbatim_retention",
+      "name": "emitted verbatim text >= 95% of extracted source text",
+      "status": "OK",
+      "detail": "emitted=692874 source=692874 ratio=1.0000"
+    },
+    {
+      "id": "no_silent_drop",
+      "name": "every source record is output or explicitly excluded",
+      "status": "OK",
+      "detail": "parse_errors=0 no_message_id=0 scaffolding_only=12"
+    },
+    {
+      "id": "user_turns",
+      "name": "unique user turns >= the largest single generation",
+      "status": "OK",
+      "detail": "unique_user_turns=102 max_per_generation=38"
+    },
+    {
+      "id": "language_law",
+      "name": "Romanian wisdom text preserved verbatim in the corpus",
+      "status": "OK",
+      "detail": "diacritics found in verbatim tier"
+    }
+  ]
+}

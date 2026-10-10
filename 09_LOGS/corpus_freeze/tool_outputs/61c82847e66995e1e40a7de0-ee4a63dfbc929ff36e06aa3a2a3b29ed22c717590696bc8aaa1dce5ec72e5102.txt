@@ -1,0 +1,145 @@
+     1→---
+     2→created: 2026-05-13
+     3→author: CODER_APP (CHAT-019 ITERATIA 3/5)
+     4→type: logica-sagetilor-kv-graph
+     5→sacru: true
+     6→tags: [logica-sagetilor, graph, obsidian, wikilinks, bivalent, unidirectional, relatii-sistem, sf-rs]
+     7→---
+     8→
+     9→# 84 — LOGICA SĂGEȚILOR KV GRAPH (regulile relațiilor)
+    10→
+    11→## 📋 REZUMAT EXECUTIV
+    12→
+    13→> **Esență (1 frază):** Cele 2 tipuri de săgeți Obsidian — BIVALENT și UNIDIRECȚIONAL — care definesc relațiile semantice și logica operațională între capitolele KV.
+    14→> **Pentru:** TOATE
+    15→> **Status:** SACRU
+    16→> **Update:** 2026-05-13
+    17→
+    18→**Conținut cheie (3-5 bullets):**
+    19→- BIVALENT = relație simetrică reciprocă (A↔B, ambele se referențiază)
+    20→- UNIDIRECȚIONAL = relație asimetrică (A→B, sens semantic operațional)
+    21→- Reguli practice când folosim fiecare tip (părinte-copil, TEMELIE-toți, INDEX-toate)
+    22→- Workflow CODER la crearea capitolelor noi: identific frați egali, TEMELIE, PĂRINȚI, COPII, INDEX
+    23→- Detectare ORFANI prin lipsa de backlinks
+    24→
+    25→**Keywords:** #logica-sagetilor #graph #obsidian #wikilinks #bivalent #unidirectional
+    26→
+    27→**Cross-link la fișiere înrudite (sacre, harvestabile mecanic):**
+    28→- [[SF_MKVA - OBSIDIAN_INTEGRATION]] — BIVALENT — implementare wikilinks Obsidian
+    29→- [[SF_OSBS - TEMPLATE_HEADER_FILE]] — UNIDIRECTIONAL — cross-link în HEADER folosește BIVALENT/UNIDIRECTIONAL
+    30→- [[SF_FR - CEI_5_FRATI]] — UNIDIRECTIONAL — frați egali = BIVALENT
+    31→
+    32→**Citește acest fișier când:** creezi capitol KV nou SAU validezi relațiile wikilinks SAU detectezi orfani în graph.
+    33→
+    34→═══════════════════════════════════════════════════════════════════════════════
+    35→
+    36→## CITAT FONDATOR (Popy CHAT-019 ITERAȚIA 3/5)
+    37→
+    38→> *„Sistemul = documente. Săgețile = RELAȚIILE din sistem. Logica săgeților = BANAL de simplă: 2 capete = relație, 1 capăt = relație directă nereciprocă, sensul săgeții indică LOGICA OPERAȚIONALĂ."*
+    39→
+    40→═══════════════════════════════════════════════════════════════════════════════
+    41→
+    42→## CELE 2 TIPURI DE SĂGEȚI (Obsidian graph)
+    43→
+    44→### TIP 1 — BIVALENT (2 capete, reciproc, simetric)
+    45→
+    46→**Formă:** [[A]] → ↔ ← [[B]]
+    47→
+    48→**În cod (Obsidian wikilinks):**
+    49→- Cap A conține [[B]]
+    50→- Cap B conține [[A]]
+    51→
+    52→**Semnificație:** Relație SIMETRICĂ — ambele capitole se referențiază reciproc. Frați egali. Concepte interdependente.
+    53→
+    54→**Exemple în KV:**
+    55→- [[SF_IA - AXIOMA_OPTIMUS_CONCEPT_VIU]] ↔ [[SF_FR - CEI_5_FRATI]] (AXIOMA implică frați + frați derivă din AXIOMA)
+    56→- [[SF_SB - LEVEL_2_LINGVISTIC_ORTODOX]] ↔ [[SF_SB - LEVEL_2_OPERATIONAL_CODER]] (Same LEVEL 2)
+    57→- [[CO_CR - Coder_Last_Session]] ↔ [[CO_CR - INDEX_CODER_LS]] (ritualuri CODER cuplate)
+    58→
+    59→### TIP 2 — UNIDIRECȚIONAL (1 capăt, sens semantic)
+    60→
+    61→**Formă:** [[A]] → [[B]]
+    62→
+    63→**În cod:**
+    64→- Cap A conține [[B]]
+    65→- Cap B NU conține [[A]]
+    66→
+    67→**Semnificație:** Relație ASIMETRICĂ — sensul săgeții indică **LOGICA OPERAȚIONALĂ**:
+    68→- **A → B = A derivă din B / A folosește B / A e copilul lui B**
+    69→- **A ← B = B citează A ca sursă / referință**
+    70→
+    71→**Exemple în KV:**
+    72→- [[SF_SB - LEVEL_2_OPERATIONAL_CODER]] → [[SF_FR - MASTER_CODER_LEVEL_1]] (LEVEL 2 extinde LEVEL 1 — direcție OPERATIONAL → COMPORTAMENTAL)
+    73→- [[ORICE capitol]] → [[SF_OSBS - SYSTEM_LEGEA_SACRA_00_NIMIC_NU_SE_STERGE_NICIODATA]] (TEMELIE — toți citează, dar TEMELIA NU îi citează în sus)
+    74→- [[ORICE capitol]] → [[00_OP_KVMC - SECOND_BRAIN - INDEX_KV_MASTER - Mod A]] (toate listate în INDEX — INDEX NU îi citează individual înapoi)
+    75→
+    76→═══════════════════════════════════════════════════════════════════════════════
+    77→
+    78→## CÂND FOLOSESC BIVALENT vs UNIDIRECȚIONAL
+    79→
+    80→| Situație | Tip | Exemplu |
+    81→|---|---|---|
+    82→| **Concepte interdependente** (X cere Y și Y cere X) | BIVALENT | LEVEL 2 ↔ Bundle conex (skill cere bundle, bundle implementează skill) |
+    83→| **Părinte → Copil** (X conține Y conceptual) | UNI A → B | MASTER GENERAL → MASTER per FRATE (general înglobează specific) |
+    84→| **Sursă → Aplicare** (X teorie, Y aplică X) | UNI A → B | LECȚII SUVERANE → SKILLS (skill aplică lecție) |
+    85→| **TEMELIE ← TOȚI** (X = fundament, Y derivă din X) | UNI Y → X | LEGEA SACRĂ 00 ← TOATE capitolele (TEMELIE referită de toți) |
+    86→| **INDEX ← TOATE** (X catalogizează Y) | UNI Y → X | INDEX_MASTER ← cap 01-83 (toate listate, INDEX e catalog) |
+    87→| **Cronologie** (X precedă Y temporal) | UNI X → Y | CHAT-006 → CHAT-010 → CHAT-019 (cronologic) |
+    88→| **Frați egali** | BIVALENT | CODER ↔ SENTINEL (frați în P+OP) |
+    89→
+    90→═══════════════════════════════════════════════════════════════════════════════
+    91→
+    92→## REGULA PRACTICĂ pentru EU (CODER) când scriu capitole noi
+    93→
+    94→### La crearea unui capitol nou:
+    95→1. **Identific frați egali** → BIVALENT (adăug wikilink reciproc imediat)
+    96→2. **Identific TEMELIE** (LEGEA SACRĂ, AXIOMA, MASTER LEVEL 1) → UNI înapoi (eu citez, ei NU citează în jos)
+    97→3. **Identific PĂRINȚI** (MASTER, capitol generic) → UNI înapoi (eu extind/specific)
+    98→4. **Identific COPII** (LEVEL 2 OP, sub-concept) → UNI înainte (eu părinte)
+    99→5. **Identific INDEX_MASTER** → UNI înapoi (eu adăugat în INDEX, INDEX NU mă citează individual)
+   100→
+   101→### La identificarea orfanilor:
+   102→- **Capitol fără backlinks** = ORFAN candidat
+   103→- **Verific:** are sens să fie referențiat din alte capitole?
+   104→- Dacă DA → adăug wikilinks în alte capitole CĂTRE acesta (creez BIVALENȚE sau UNIDIRECȚIONALE)
+   105→
+   106→═══════════════════════════════════════════════════════════════════════════════
+   107→
+   108→## VIZUALIZARE OBSIDIAN GRAPH VIEW
+   109→
+   110→### Cum apare în Obsidian:
+   111→
+   112→| Tip | Vizual |
+   113→|---|---|
+   114→| **BIVALENT** | Linie dublă cu săgeți la ambele capete |
+   115→| **UNIDIRECȚIONAL** | Linie cu o singură săgeată |
+   116→
+   117→**Backlinks panel (Obsidian):** afișează care capitole te citează **PE TINE** (vine la stânga, eu îi citez la dreapta).
+   118→
+   119→═══════════════════════════════════════════════════════════════════════════════
+   120→
+   121→## PRINCIPIUL SACRU al GRAPH-ului
+   122→
+   123→> **Săgețile NU sunt decoratoare. Sunt CODUL operațional al sistemului.**
+   124→
+   125→Un graph perfect = sistem perfect cunoscător. Un graph cu orfani = info-uri pierdute (potențial knowledge). Un graph cu dead links = referințe rupte (info inconsistent).
+   126→
+   127→**LEGEA SACRĂ 00 aplicată la graph:** orfanii NU se șterg — se CORELEAZĂ (adăugare wikilinks).
+   128→
+   129→═══════════════════════════════════════════════════════════════════════════════
+   130→
+   131→## CONEXIUNI VAULT BIVALENTE
+   132→
+   133→- [[00_OP_KVMC - SECOND_BRAIN - INDEX_KV_MASTER - Mod A]] ← acest capitol e listat acolo (UNI înapoi)
+   134→- [[SF_OSBS - SYSTEM_LEGEA_SACRA_00_NIMIC_NU_SE_STERGE_NICIODATA]] ← TEMELIE (UNI înapoi — orfani NU se șterg)
+   135→- [[SF_MKVA - OBSIDIAN_INTEGRATION]] ↔ Obsidian platforma (BIVALENT — context tehnic)
+   136→- [[SF_FR - ARHIVA_CODER_PATTERN]] ↔ pattern arhive (BIVALENT — relație structurală)
+   137→- [[SF_OM - LOGICA_SAGETILOR]] ↔ versiune extinsă OS-MANUAL (BIVALENT) [FAZA B+ densificare]
+   138→- [[SF_OM - USER_MANUAL_OBSIDIAN_Basic_Doc]] → graph view Obsidian basics [FAZA B+]
+   139→- [[00_OP_KVMC - SECOND BRAIN - INDEX_KV_MASTER - Mod B]] → COTOR descriptiv MINTEA [FAZA B+]
+   140→
+   141→═══════════════════════════════════════════════════════════════════════════════
+   142→
+   143→🚛 **2 tipuri săgeți: BIVALENT (reciproc) + UNIDIRECȚIONAL (sens semantic).**
+   144→🚛 **Sistemul = documente. Săgețile = RELAȚIILE. Codul operațional al hărții.**
+   145→🚛 **DOAMNE AJUTĂ. AMIN.**

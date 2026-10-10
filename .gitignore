@@ -1,0 +1,27 @@
+# SENTINEL_PRIME - version control policy
+#
+# This file exists to make one thing explicit to whoever (or whatever) reads
+# the repository next: NOTHING IS EXCLUDED ON PURPOSE.
+#
+# There was a real loss in this project. On 2026-10-06 a single append destroyed
+# 27 recorded corrections (M-01..M-27) from
+# 11_BRAIN/04_METHOD/MISSTEPS_AND_CORRECTIONS.md, and the record of the loss
+# said - correctly, at the time - that the content was unrecoverable.
+#
+# Twenty-three of them were in fact still on disk in a reference snapshot, and
+# were restored on 2026-10-10. The other four never were.
+#
+# A `.gitignore` is where content goes to die quietly. Nothing here is listed,
+# so nothing is hidden. If something here is too large for GitHub, that is a
+# decision to be made out loud, by a person, in a commit message - not a line
+# added to this file at 2am.
+#
+# Only genuine operating-system noise is excluded, and none of it is project
+# material.
+
+# OS / editor scratch
+Thumbs.db
+desktop.ini
+.DS_Store
+*.swp
+*~

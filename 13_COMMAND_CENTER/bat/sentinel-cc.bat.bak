@@ -1,0 +1,52 @@
+@echo off
+REM ===========================================================================
+REM  SENTINEL Command Center - MINIMAX SENTINEL BRAIN
+REM
+REM  Double-click to bring the dashboard up and open it.
+REM
+REM  Replaces the previous foreground launcher, which had three failure modes
+REM  Popy actually hit: it died with its window (so the open link went to
+REM  connection-refused), two invocations collided on the port, and there was
+REM  no way to ask whether it was running. All three are handled by
+REM  sentinel-cc.ps1 -Action start, which is idempotent and detached.
+REM
+REM  A page loaded over file:// cannot reach the API, so live monitoring and the
+REM  action buttons both need this local HTTP origin. It binds 127.0.0.1 ONLY
+REM  and is never reachable from off-box.
+REM
+REM  Port 8910. Port 8900 belongs to the separate OPTIMUS Control Center;
+REM  the two must never collide.
+REM ===========================================================================
+setlocal
+set "CC=C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\13_COMMAND_CENTER\api\sentinel-cc.ps1"
+set "PORT=8910"
+
+echo.
+echo   SENTINEL Command Center - MINIMAX SENTINEL BRAIN
+echo   ------------------------------------------------
+echo   URL : http://127.0.0.1:%PORT%/
+echo   loopback only.
+echo.
+
+powershell -NoProfile -ExecutionPolicy Bypass -File "%CC%" start -Port %PORT%
+if errorlevel 1 (
+  echo.
+  echo   FAILED to start. Diagnostics:
+  echo.
+  powershell -NoProfile -ExecutionPolicy Bypass -File "%CC%" status -Port %PORT%
+  echo.
+  echo   stderr, if any: %CC%\..\api\sentinel-cc.err.log
+  echo.
+  pause
+  exit /b 1
+)
+
+echo   Opening http://127.0.0.1:%PORT%/ ...
+start "" "http://127.0.0.1:%PORT%/"
+echo.
+echo   The server runs in the background and survives this window closing.
+echo   To stop it:  powershell -NoProfile -ExecutionPolicy Bypass ^
+echo                -File "%CC%" stop
+echo.
+timeout /t 4 >nul
+endlocal

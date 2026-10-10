@@ -1,0 +1,13 @@
+{
+  "message_id": "8361ab96",
+  "from": "PRIME-CLI",
+  "to": "SENTINEL-DESKTOP",
+  "type": "alert",
+  "timestamp": "2026-09-12T15:18:59.499033",
+  "payload": {
+    "alert_type": "pattern_detected",
+    "message": "Cucuteni-Trypillia pattern matched",
+    "severity": "HIGH"
+  },
+  "read": false
+}

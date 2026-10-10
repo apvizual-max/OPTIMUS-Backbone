@@ -1,0 +1,57 @@
+
+C:\Users\apviz\.minimax\v2\sessions\2026\09\11\17-28-31-773-session_bXZzXzE2ZTk2YTI1MGRiNTQwMjFiMzhjNTQ0YjgwZDc1YTZl\re
+ports\tool-outputs\6ab1f52184591c4d80928a2e-bef7bbe5ba71cfee30f0054253e3acfaece6686380f47a1ffdc5d1bfd87097cc.txt:71:   
+     "text": "Yearly 2 months free",
+C:\Users\apviz\.minimax\v2\sessions\2026\09\11\17-28-31-773-session_bXZzXzE2ZTk2YTI1MGRiNTQwMjFiMzhjNTQ0YjgwZDc1YTZl\re
+ports\tool-outputs\6ab1f52184591c4d80928a2e-bef7bbe5ba71cfee30f0054253e3acfaece6686380f47a1ffdc5d1bfd87097cc.txt:91:   
+     "text": "Monthly",
+C:\Users\apviz\.minimax\v2\sessions\2026\09\11\17-28-31-773-session_bXZzXzE2ZTk2YTI1MGRiNTQwMjFiMzhjNTQ0YjgwZDc1YTZl\re
+ports\tool-outputs\6ab1f52184591c4d80928a2e-bef7bbe5ba71cfee30f0054253e3acfaece6686380f47a1ffdc5d1bfd87097cc.txt:255:  
+        "href": "/protocol/cookie-policy"
+C:\Users\apviz\.minimax\v2\sessions\2026\09\11\17-28-31-773-session_bXZzXzE2ZTk2YTI1MGRiNTQwMjFiMzhjNTQ0YjgwZDc1YTZl\re
+ports\tool-outputs\6ab1f52184591c4d80928a2e-bef7bbe5ba71cfee30f0054253e3acfaece6686380f47a1ffdc5d1bfd87097cc.txt:480:  
+      "text": "Pro",
+C:\Users\apviz\.minimax\v2\sessions\2026\09\11\17-28-31-773-session_bXZzXzE2ZTk2YTI1MGRiNTQwMjFiMzhjNTQ0YjgwZDc1YTZl\re
+ports\tool-outputs\6ab1f52184591c4d80928a2e-bef7bbe5ba71cfee30f0054253e3acfaece6686380f47a1ffdc5d1bfd87097cc.txt:742:  
+                    "name": "Yearly / Monthly",
+C:\Users\apviz\.minimax\v2\sessions\2026\09\11\17-28-31-773-session_bXZzXzE2ZTk2YTI1MGRiNTQwMjFiMzhjNTQ0YjgwZDc1YTZl\re
+ports\tool-outputs\6ab1f52184591c4d80928a2e-bef7bbe5ba71cfee30f0054253e3acfaece6686380f47a1ffdc5d1bfd87097cc.txt:746:  
+                        "name": "Yearly 2 months free",
+C:\Users\apviz\.minimax\v2\sessions\2026\09\11\17-28-31-773-session_bXZzXzE2ZTk2YTI1MGRiNTQwMjFiMzhjNTQ0YjgwZDc1YTZl\re
+ports\tool-outputs\6ab1f52184591c4d80928a2e-bef7bbe5ba71cfee30f0054253e3acfaece6686380f47a1ffdc5d1bfd87097cc.txt:764:  
+                        "name": "Monthly",
+C:\Users\apviz\.minimax\v2\sessions\2026\09\11\17-28-31-773-session_bXZzXzE2ZTk2YTI1MGRiNTQwMjFiMzhjNTQ0YjgwZDc1YTZl\re
+ports\tool-outputs\6ab1f52184591c4d80928a2e-bef7bbe5ba71cfee30f0054253e3acfaece6686380f47a1ffdc5d1bfd87097cc.txt:892:  
+                    "name": "Pro",
+C:\Users\apviz\.minimax\v2\sessions\2026\09\11\17-28-31-773-session_bXZzXzE2ZTk2YTI1MGRiNTQwMjFiMzhjNTQ0YjgwZDc1YTZl\re
+ports\tool-outputs\6ab1f52184591c4d80928a2e-bef7bbe5ba71cfee30f0054253e3acfaece6686380f47a1ffdc5d1bfd87097cc.txt:963:  
+                    "name": "Starter",
+C:\Users\apviz\.minimax\v2\sessions\2026\09\11\17-28-31-773-session_bXZzXzE2ZTk2YTI1MGRiNTQwMjFiMzhjNTQ0YjgwZDc1YTZl\re
+ports\tool-outputs\6ab1f52184591c4d80928a2e-bef7bbe5ba71cfee30f0054253e3acfaece6686380f47a1ffdc5d1bfd87097cc.txt:992:  
+                                "name": "Starter",
+C:\Users\apviz\.minimax\v2\sessions\2026\09\11\17-28-31-773-session_bXZzXzE2ZTk2YTI1MGRiNTQwMjFiMzhjNTQ0YjgwZDc1YTZl\re
+ports\tool-outputs\6ab1f52184591c4d80928a2e-bef7bbe5ba71cfee30f0054253e3acfaece6686380f47a1ffdc5d1bfd87097cc.txt:1008: 
+                                 "name": "Pro POPULAR",
+C:\Users\apviz\.minimax\v2\sessions\2026\09\11\17-28-31-773-session_bXZzXzE2ZTk2YTI1MGRiNTQwMjFiMzhjNTQ0YjgwZDc1YTZl\re
+ports\tool-outputs\6ab1f52184591c4d80928a2e-bef7bbe5ba71cfee30f0054253e3acfaece6686380f47a1ffdc5d1bfd87097cc.txt:1021: 
+                                 "name": "Monthly Credits"
+C:\Users\apviz\.minimax\v2\sessions\2026\09\11\17-28-31-773-session_bXZzXzE2ZTk2YTI1MGRiNTQwMjFiMzhjNTQ0YjgwZDc1YTZl\re
+ports\tool-outputs\6ab1f52184591c4d80928a2e-bef7bbe5ba71cfee30f0054253e3acfaece6686380f47a1ffdc5d1bfd87097cc.txt:1105: 
+                                 "name": "Nano Banana Pro"
+C:\Users\apviz\.minimax\v2\sessions\2026\09\11\17-28-31-773-session_bXZzXzE2ZTk2YTI1MGRiNTQwMjFiMzhjNTQ0YjgwZDc1YTZl\re
+ports\tool-outputs\6ab1f52184591c4d80928a2e-bef7bbe5ba71cfee30f0054253e3acfaece6686380f47a1ffdc5d1bfd87097cc.txt:1176: 
+                     "name": "Buy credits",
+C:\Users\apviz\.minimax\v2\sessions\2026\09\11\17-28-31-773-session_bXZzXzE2ZTk2YTI1MGRiNTQwMjFiMzhjNTQ0YjgwZDc1YTZl\re
+ports\tool-outputs\6ab1f52184591c4d80928a2e-bef7bbe5ba71cfee30f0054253e3acfaece6686380f47a1ffdc5d1bfd87097cc.txt:1181: 
+                     "name": "Starter $10 9,250 credits Purchase Now",
+C:\Users\apviz\.minimax\v2\sessions\2026\09\11\17-28-31-773-session_bXZzXzE2ZTk2YTI1MGRiNTQwMjFiMzhjNTQ0YjgwZDc1YTZl\re
+ports\tool-outputs\6ab1f52184591c4d80928a2e-bef7bbe5ba71cfee30f0054253e3acfaece6686380f47a1ffdc5d1bfd87097cc.txt:1189: 
+                     "name": "Growth $50 46,250 credits Purchase Now",
+C:\Users\apviz\.minimax\v2\sessions\2026\09\11\17-28-31-773-session_bXZzXzE2ZTk2YTI1MGRiNTQwMjFiMzhjNTQ0YjgwZDc1YTZl\re
+ports\tool-outputs\6ab1f52184591c4d80928a2e-bef7bbe5ba71cfee30f0054253e3acfaece6686380f47a1ffdc5d1bfd87097cc.txt:1197: 
+                     "name": "High Volume 5% more credits $200 194,250 credits Purchase Now",
+C:\Users\apviz\.minimax\v2\sessions\2026\09\11\17-28-31-773-session_bXZzXzE2ZTk2YTI1MGRiNTQwMjFiMzhjNTQ0YjgwZDc1YTZl\re
+ports\tool-outputs\6ab1f52184591c4d80928a2e-bef7bbe5ba71cfee30f0054253e3acfaece6686380f47a1ffdc5d1bfd87097cc.txt:1205: 
+                     "name": "Pro 10% more credits $500 508,750 credits Purchase Now",
+
+

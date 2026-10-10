@@ -1,0 +1,244 @@
+{
+  "ran_at": "2026-10-10T19:06:12.814262",
+  "passed": 505,
+  "failed": 0,
+  "skipped": 0,
+  "not_run": [],
+  "partial": [],
+  "green": true,
+  "classes": [
+    {
+      "name": "Foundation",
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "Scripts",
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "JSON",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "NoRomanianInCode",
+      "passed": 64,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "Orchestrator",
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "SelfModify",
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "MultiModal",
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "Performance",
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "Backup",
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "BrowserAutomation",
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "CrossInstance",
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "UniversalCompat",
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "BimodalWorkflow",
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "MimicryDetectors",
+      "passed": 34,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "HubToolAudit",
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "BimodalStopPersistence",
+      "passed": 28,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "BrainAndMonitor",
+      "passed": 47,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "ScrapeArtifactEmptiness",
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "McpHandshakeMeasure",
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "DashboardBoot",
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "UiNoObjectCoercion",
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "McpConfigServersExist",
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "ToolResolution",
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "DashboardSurface",
+      "passed": 35,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "EcosystemCollector",
+      "passed": 59,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "MonitorCoverage",
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "The plan is never pruned",
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "AppendOnlyIntegrity",
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "Project references resolve",
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    }
+  ],
+  "total_classes": 29
+}
