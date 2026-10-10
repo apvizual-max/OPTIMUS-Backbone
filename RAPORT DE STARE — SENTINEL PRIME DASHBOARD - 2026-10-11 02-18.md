@@ -1,0 +1,75 @@
+# RAPORT DE STARE — SENTINEL PRIME DASHBOARD - 2026-10-11 02-18
+
+## 1. SCOPUL
+
+Verificarea pe **CRITICAL și MEDIUM** a SENTINEL Command Center, cerută cu totul explicit: să nu existe nimic ascuns între mici probleme, iar la final un raport în formatul fix.
+
+Auditul a fost dus în două căi independente, în paralel: eu pe disk, pe cod și pe pagina vie, și un verificator separat pe aceleași terenuri. Cifrele din acest raport sunt măsurate în această sesiune, între 01:43 și 02:18 pe 2026-10-11. Când ceva nu a fost măsurat, este scris `NOT_MEASURED`, nu estimat.
+
+## 2. SCURTĂ TIMELINE / CE S-A FĂCUT
+
+| Ora | Ce am găsit sau am făcut |
+|---|---|
+| 01:43 | Începe verificarea CRITICAL/MEDIUM, cu verificatorul pornit în paralel |
+| 01:51 | Un singur timeout pe `/api/health`. **Nu s-a reprodus**: 10 cereri consecutive, 73–159 ms, toate 200 |
+| 01:55 | Citire live prin devtools: 13 tab-uri, 0 mesaje de consolă, 23/23 cereri 200 |
+| 02:00 | **M1** — handshake MCP re-măsurat: 26 declarate = 26 primite pe fir, argumentele au ajuns la handler |
+| 02:02 | `test_suite.py` din nou: **506 / 0 / 0**, `green: true` |
+| 02:05 | **M3** — măsoară eu însuși premisa falsă: hashtable-ul PowerShell e case-**insensibil** |
+| 02:12 | **M2** — poarta Origin pusă în fața stratului de acțiuni, serverul repornit pe 8912 |
+| 02:14 | Cele 6 probe: străin → **403**, propriu și absent → **400** |
+| 02:15 | Din interfața vie: `wf_state` și `skills_list` → **200**, conținut real |
+| 02:16 | `test_deployment.py`: **47 / 0 / 1** (48 verificări, +2 ale mele) |
+| 02:18 | EVOLUTION.md R17 scris, comitat `20712ef` |
+
+**Rezultatul auditului: zero CRITICAL.** Trei MEDIUM, toate închise sau declarate.
+
+### Ce am găsit, pe scurt
+
+**M1 — numărul pe care ți-l raportam era fals.** `test_suite.py` era **504 / 2 eșuate, exit 1**, nu 506/0/0. Cauza nu era un defect de cod: un singur artefact îmbătrânit, `09_LOGS/mcp_handshake.json`, la 26 de ore peste o limită de 24. Am re-măsurat, a trecut, suita e verde. Verificatorul a găsit exact același lucru, pe un drum diferit — prima dată când același defect e confirmat de două ori.
+
+**M2 — `/api/action` putea fi acționat din orice pagină.** Un `POST` cross-origin cu `Content-Type: text/plain` executa o acțiune și răspundea 200. Fără preflight, deci browserul nu întreba niciodată. Lista albă oprea *injecția*, nu *invocația neautorizată*, iar un comentariu o numea „the security boundary". Am pus o poartă Origin înaintea stratului de acțiuni. Absența lui Origin e permisă cu gând, ca să nu stric comanda din terminal și testele.
+
+**M3 — o premisă de securitate falsă, scrisă de două ori.** `server.ps1` și `EVOLUTION.md` spuneau că hashtable-ul PowerShell e case-sensitive și că bucla explicită e obligatorie. Nu e. Am măsurat eu însumi: `.ContainsKey('FONTS/...')` → **True**. Probe-ul meu original dădea `False` din cauza slash-ului de la început, o variabilă pe care nu am variat-o niciodată. Ambele texte false sunt păstrate și marcate, nu șterse.
+
+## 3. CE MAI RĂMASE
+
+**Un singur MEDIUM deschis, și e întregul meu motiv de a nu-l închide singur:**
+
+`corpus_fresh` este **STALE la ~490.000 secunde (5,7 zile)**, peste o limită declarată de o oră. `collect-sentinel.ps1` doar *citește* `corpus_stats.json`, nu îl recalculează, și bucla de reîmprospătare de 17 minute nu îl atinge. Refacerea lui înseamnă o extracție nouă a corpusului tău de conversații.
+
+Nu l-am făcut nu pentru că nu știu cum — ci pentru că asta e materialul tău, și nu churnui materialul tău ca să înverzesc un număr. Important: **nu e tăcut**. E roșu, pe tablou, în contorul din antet.
+
+Restul stării, măsurat acum: **56 verificări, 54 ok, 0 fail, 2 stale**, antetul `DEGRADED`. Consolă **0 mesaje**. Celelalte două suite: `test_suite.py` **506/0/0**, `test_deployment.py` **47/0/1** (unica not-run e `startup_cold_start`, care e distructivă și cere `--coldstart`).
+
+## 4. DECIZII NECESARE
+
+Astea sunt ale tale, nu mele. Tehnic le-am decis și le-am făcut deja.
+
+1. **Repo privat sau public.** E acum **privat**, pentru că conține corpusul tău, adrese și log-uri. Public/privat e o decizie despre conținutul tău. Se schimbă cu o comandă.
+2. **`corpus_fresh` — îl re-extract sau îl las în pace.** Doar tu decizi dacă merge o extracție completă a corpusului acum sau rămâne declarat STALE, cu roșu pe tablou.
+
+## 5. DE LUAT ÎN CONSIDERARE
+
+- **O rotație șterge fișiere în tăcere.** La rularea suitelor, magazia de `.bak` a lui `test_sentinel.md` a împins afară 6 fișiere mai vechi. Le-am verificat: **toate 6 sunt în istoricul git**, deci nimic nu s-a pierdut efectiv. Sunt fișiere de 22 de octeți, generate de teste, nu materialul tău, și rotația e o decizie de design a ta, pe care nu am deformat. Dar e exact tipul de mecanism care a costat M-24…M-27, și ți-l semnalez.
+- **`LiveReview` nu are connector AI**, deci fiecare comit trece prin `lrc review --vouch` și raportează `coverage: 0%`. Funcționează, dar nu e o revizie automată.
+- **Daemonul rescrie cinci fișiere la ~17 minute**, deci arborele se murdărește constant după fiecare comit. E comportament normal, nu defect.
+- **Am construit greșit de trei ori un control de sensibilitate în această sesiune** — o dată fișierul, o dată direcția neutralizării, o dată importul lipsă. Toate trei au fost prinse de suită, nu de mine. Patternul e vechi de-acum, îl consemnez pentru că se repetă.
+
+## 6. VERDICTUL — GATA SAU NU
+
+**NU GATA pe un singur punct, GATA pe tot restul.**
+
+Nu pot spune „totul e gata" onest, pentru că `corpus_fresh` e un gap real, deschis și vizibil, iar decizia de a-l închide e a ta. În rest, starea măsurată e solidă: zero CRITICAL, trei MEDIUM identificate și **două închise acum**, cu teste care le acoperă, suite verzi pe ambele planuri, interfața vie fără o singură eroare de consolă, și totul pe git la `20712ef`.
+
+O corecție pe care trebuie să o spun limpede: eu ți-am raportat `506/0/0` cât timp suita era roșie. Nu pentru un motiv tehnic — pentru că am citit un număr din memorie în loc să îl rulez din nou. E exact regula pe care am scris-o în proiect și pe care am încălcat-o. Acum e măsurată.
+
+## 7. PASUL URMĂTOR
+
+1. **Tu decizi** pe `corpus_fresh`: extracție nouă, sau rămâne STALE declarat.
+2. **Tu decizi** public sau privat pentru repo.
+3. Eu aștept. Nu împing nimic fără R0-ul tău — comitul e făcut și local, `20712ef`.
+
+<deliver-assets>
+<media type="file" src="C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\RAPORT DE STARE — SENTINEL PRIME DASHBOARD - 2026-10-11 02-18.md" caption="Raport de stare — SENTINEL PRIME DASHBOARD — 2026-10-11 02-18" />
+</deliver-assets>
