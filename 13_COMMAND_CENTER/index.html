@@ -19,15 +19,24 @@
   <link rel="preload" href="fonts/jetbrains-mono-400.ttf" as="font" type="font/ttf" crossorigin />
   <link rel="preload" href="fonts/jetbrains-mono-600.ttf" as="font" type="font/ttf" crossorigin />
 <style>
-  /* TTF, not WOFF2, and that is a measured decision rather than a preference.
-     The .woff2 files from the fontsource CDN download intact - 21,088 bytes
-     with a valid wOF2 signature, byte-identical over HTTP - and Chrome's
-     font sanitizer still rejects both:
-        "OTS parsing error: Failed to convert WOFF 2.0 font to SFNT"
-     Every browser here serves the TTF without complaint. The trade is real
-     and stated rather than hidden: 112 KB per weight instead of 21 KB, for a
-     page served from loopback off a local disk, where the bytes cost nothing
-     to deliver and a rejected font costs everything. */
+  /* TTF, not WOFF2. CORRECTED 2026-10-10 22:30 after an independent verifier
+     refuted my own reason.
+       I had written here that Chrome's font sanitizer "still rejects both"
+       the .woff2 files. That was FALSE. The verifier served both files
+       unmodified over HTTP as font/woff2 and measured in Chrome 155:
+         w400 -> 600px, loaded, check true, console 0
+         w600 -> 600px, loaded, check true, console 0
+       The OTS errors I saw were real, but they came from MY server bug -
+       Send-Response used to UTF8-encode a string, destroying the brotli
+       stream (21,088 bytes -> 37,816). The byte[] fix alone was sufficient;
+       the WOFF2 would have worked at 21 KB.
+
+     So TTF is kept on two honest grounds, not the false one:
+       1. it is the format verified END TO END through this server, twice -
+          by me and by the verifier - so it is what is actually proven here;
+       2. 112 KB vs 21 KB costs almost nothing on loopback off a local disk.
+     The .woff2 files are kept, not deleted, in
+     _QUARANTINE\woff2-rejected-2026-10-10\ with the correction written down. */
   @font-face{
     font-family:'JetBrains Mono';
     src:url('fonts/jetbrains-mono-400.ttf') format('truetype');

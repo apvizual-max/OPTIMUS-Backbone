@@ -2153,3 +2153,152 @@ skipped**, exit 0.
 into the page as a declaration and was invisible on screen; it is now a file
 on disk, served by the backend, loaded by the browser, and measured three
 separate ways.
+---
+
+## R16 - the verifier refuted my own reason, and I am writing that down
+
+Measured 2026-10-10 22:30. An independent verifier reviewed commit `b5b14c4`
+and returned **PARTIAL**: everything functional confirmed, one written claim
+false. This section is the correction. Nothing was quietly deleted; the false
+text is quoted above and struck here.
+
+### What it confirmed
+
+- The allowlist held against **33 probes**. No non-TTF file was readable.
+  The structural reason matters more than the probe list: `Join-Path`
+  receives `$key`, a literal out of the hardcoded hashtable, never `$rel`.
+  Attacker input can only *select* an allowlisted name, never *compose* a
+  path.
+- All 18 `Send-Response` call sites pass strings; the new `--byte[]` branch
+  broke none of them.
+- `check400`/`check600` true, console 0, 24 SPEC_R104 guards, 13 panels,
+  13 render functions - all identical to the parent commit.
+- Both suites re-run by the verifier, sequentially: 505/0/0 and 41/0/1.
+- The four font files are byte-identical to their committed git blobs.
+
+### What it found false - and it was mine
+
+**R15 claimed Chrome's sanitizer "still rejects both" WOFF2 files.** False.
+The verifier served both quarantined files unmodified over HTTP as
+`font/woff2` and measured in Chrome 155:
+
+| | measured |
+|---|---|
+| w400 WOFF2 | 600px, `loaded`, `check400` true |
+| w600 WOFF2 | 600px, `loaded`, `check600` true |
+| generic | 549.81px |
+| console | **0 messages** |
+| OTS errors | **zero** |
+
+The OTS errors I saw were real, but they were caused by my own server bug -
+`Send-Response` UTF-8-encoding a string, which the verifier reproduced
+independently: **21,088 -> 37,816 bytes**. The brotli stream is destroyed and
+the `wOF2` signature survives only because its first bytes are ASCII.
+
+So the `--byte[]` fix alone was sufficient. The WOFF2 files were never at
+fault, the format switch to TTF was unnecessary, and the 5x size penalty I
+wrote a justification for was self-inflicted.
+
+### Why the error happened, stated as a method failure
+
+I changed **two things** between the failing observation and the working one:
+the byte path, and the file format. With two variables moving I could not
+tell which one fixed it - so I attributed the win to the change I found
+last, and wrote that into the code as if it were established fact.
+
+There was a third candidate I never tested: `Cache-Control: immutable,
+max-age=31536000` had been set on the **corrupted** body. A browser holding a
+one-year cached corrupt font is exactly the symptom I observed after the byte
+fix. I suspected cache once, in passing, and then moved on to blaming the
+file. I never ran the test.
+
+That is the same shape as the R11 and R14 mistakes: **when two things change,
+change one.** The rule is already written in this file and I broke it anyway.
+
+### Two smaller false statements, also corrected
+
+- MOTIV.txt said *"prin HTTP: 21.088 B, sha IDENTIC cu cel de pe disc"*.
+  That measurement was taken **after** the byte fix, so it cannot describe
+  the moment the font was refused. It contradicted the very comment beside
+  it in `server.ps1`. MOTIV.txt now carries a correction block appended, not
+  a rewrite.
+- MOTIV.txt said the curl re-download proved the same hash. It is not
+  reproducible: no source URL was recorded anywhere, and a fresh download
+  today returns different bytes (20,740 / 21,488). That is a different
+  subset, not tampering - but the provenance was never demonstrated.
+
+### Dead code and a comment that described a fiction
+
+`server.ps1` computed `$name = [IO.Path]::GetFileName($path)` and never used
+it, while the security comment above it claimed *"$name is taken from the
+URL and then matched literally against a fixed set"*. Anyone auditing that
+boundary later would have been reading a description of a mechanism that did
+not exist. The variable is removed and the comment now states the real gate.
+
+### What is kept, and on what grounds
+
+TTF stays. Not because Chrome rejects WOFF2 - it does not - but because:
+
+1. it is the format verified **end to end through this server**, twice,
+   by me and by the verifier independently;
+2. 112 KB against 21 KB costs almost nothing on loopback off a local disk,
+   while an unverified swap would cost a restart and a retest.
+
+The `.woff2` files stay in quarantine, intact, with the correction written
+next to them. Switching to them is a real option and a real saving, and it
+is now recorded as an option rather than left as a false claim.
+
+### Honest gaps the verifier named
+
+- I cannot reproduce what my browser literally showed at the time; the buggy
+  code path is gone. What is proven is that the files are valid and Chrome
+  accepts them when the bytes arrive intact.
+- The WOFF2 CDN provenance is unverifiable - no URL was ever recorded.
+- The browser proof is headless. I have no measurement of the headed browser
+  Popy actually looks at.
+- **The new route has no automated test.** Its traversal safety currently
+  rests on a verifier's probe list, not on a check that runs every time.
+  That is the most substantive of the four, and it is construction, not a
+  repair.
+### The route now has a test, and getting one took two broken controls
+
+The verifier's sharpest remaining point was that the new route had **no
+automated coverage** - its traversal safety rested on a manual probe list.
+Added: `static_route` in `test_deployment.py`, four checks.
+
+1. `serves_intact` - both fonts 200, byte length equal to disk, TrueType header.
+2. `refuses_traversal` - 11 traversal shapes, asserted on the PAYLOAD rather
+   than the status, because HttpListener answers 400 or 403 for some shapes
+   before the route is reached. What must never happen is bytes coming back.
+3. `gate_is_literal` - static: every `Join-Path $ROOT` receives `$key`.
+4. `control_discriminates` - the same predicate re-run against the gate
+   rewritten in memory to take `$rel`; it must FAIL.
+
+**Control v1 was worthless and proved it by failing.** It wrote a neutralised
+copy of `server.ps1` to disk and then probed the LIVE server. The copy was
+never executed, so the control reached exactly as far as the live route - the
+check reported `0 vs 0 - not measuring the gate`, which was correct.
+
+**Control v2 was the same defect in a new hat.** It actually started the
+neutralised copy on port 8925 and probed that. The process started but never
+bound the port; every probe got no connection. A control that cannot attach to
+the thing it attacks measures nothing regardless of how carefully it was
+written.
+
+**v3 asserts the invariant statically** - the same shape the suite already
+uses for `test_verb_argv_is_not_joined` - and neutralises in memory so the
+predicate is exercised without needing a second listener. The suite then also
+caught a third authoring bug: the rewrite consumed the line defining `src`, so
+the check died with `NameError` at line 1220 instead of running. Three
+failures in one test, each caught by the test rather than by me.
+
+Final: **45 passed / 0 failed / 1 not-run**, including all four `static_route`
+checks.
+
+### Suite totals after every correction
+
+| Stage | test_suite.py | test_deployment.py |
+|---|---|---|
+| after the C1 build | 505 / 0 / 0 | 41 / 0 / 1 |
+| after R16 corrections | 505 / 0 / 0 | 41 / 0 / 1 |
+| after adding route coverage | - | **45 / 0 / 1** |

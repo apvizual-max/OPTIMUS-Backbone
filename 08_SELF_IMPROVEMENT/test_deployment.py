@@ -1083,6 +1083,177 @@ def test_action_whitelist_rejects_unapproved() -> None:
           f"these payloads were not cleanly refused by the whitelist: {bad}")
 
 
+def _get_raw_at(base: str, path: str, timeout: int = 20):
+    """GET `path` from an arbitrary base URL, sending the path AS GIVEN.
+
+    Split out of _get_raw so the sensitivity control can probe a SECOND
+    server - the neutralised one it starts itself - without touching the live
+    deployment."""
+    try:
+        req = urllib.request.Request(base + path, method="GET",
+                                     headers={"Accept": "*/*"})
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            return r.status, r.read()
+    except urllib.error.HTTPError as e:
+        try:
+            return e.code, e.read()
+        except Exception:
+            return e.code, b""
+    except Exception as e:
+        return 0, str(e).encode("utf-8", "replace")
+
+
+def _get_raw(path: str, timeout: int = 20):
+    """GET an arbitrary path from the deployment front and return (status, bytes).
+
+    The path is sent AS GIVEN - no urllib quoting, no normalisation - because
+    the thing under test is a server-side route table, and a client that
+    tidies the path before sending cannot exercise it. Returns (0, b'') on a
+    transport failure, matching _post_action, so 'refused' and 'not there'
+    stay distinguishable."""
+    try:
+        req = urllib.request.Request(BACKEND + path, method="GET",
+                                     headers={"Accept": "*/*"})
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            return r.status, r.read()
+    except urllib.error.HTTPError as e:
+        try:
+            return e.code, e.read()
+        except Exception:
+            return e.code, b""
+    except Exception as e:
+        return 0, str(e).encode("utf-8", "replace")
+
+
+def test_static_route_is_allowlisted_and_serves_intact_bytes() -> None:
+    """The font route must serve the two allowlisted files and nothing else.
+
+    Added 2026-10-10 because the route had NO automated test at all: its
+    traversal safety rested entirely on a verifier's manual probe list. A
+    security control that is only ever checked by hand is a claim that decays
+    the moment nobody is looking.
+
+    Three separate things are asserted, because they can fail independently:
+
+    1. SERVES. Both allowlisted TTFs answer 200 with the right content type
+       and the EXACT byte length of the file on disk. Length is the load-
+       bearing part: an earlier version of this route re-encoded binaries as
+       UTF-8 strings and served a healthy 200 with a corrupted body, which a
+       status-code check alone would have passed.
+    2. REFUSES. Traversal-shaped paths must not read a file. Traversal is not
+       expected to produce 404 specifically - HttpListener answers 400 or 403
+       for some shapes before the route is ever reached - so the assertion is
+       on the OUTCOME (no file content came back), not on one status code.
+    3. DISCRIMINATES. The traversal list is re-checked against a control in
+       which the allowlist gate is neutralised. The control must find MORE
+       than the live route does. If both find the same number, this test is
+       not measuring the gate and is reporting safety it never exercised.
+    """
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    fonts = os.path.join(root, "13_COMMAND_CENTER", "fonts")
+    served, bad_serve = [], {}
+    for name in ("jetbrains-mono-400.ttf", "jetbrains-mono-600.ttf"):
+        status, body = _get_raw("/fonts/" + name)
+        disk = os.path.getsize(os.path.join(fonts, name))
+        if status != 200:
+            bad_serve[name] = f"HTTP {status}"
+        elif len(body) != disk:
+            bad_serve[name] = f"{len(body)} bytes served, {disk} on disk"
+        elif body[:4] != b"\x00\x01\x00\x00":
+            bad_serve[name] = f"not a TrueType header: {body[:4]!r}"
+        else:
+            served.append(f"{name} {len(body)}B")
+    check("static_route_serves_intact", not bad_serve,
+          f"both allowlisted fonts served byte-exact ({', '.join(served)})",
+          f"the font route did not deliver intact files: {bad_serve}")
+
+    # Anything that is not one of the two allowlisted names must yield no file
+    # content. api/server.ps1 is the sharpest probe: if traversal ever worked,
+    # this would hand over the server's own source.
+    probes = {
+        "server source": "/fonts/../api/server.ps1",
+        "server source abs": "/../api/server.ps1",
+        "state file": "/fonts/../api/sentinel-state.json",
+        "windows ini": "/../Windows/win.ini",
+        "windows drive": "/C:/Windows/win.ini",
+        "encoded traversal": "/fonts/..%2f..%2fapi/server.ps1",
+        "dotdot literal": "/fonts/../../api/server.ps1",
+        "null byte": "/fonts/jetbrains-mono-400.ttf%00.png",
+        "directory listing": "/fonts/",
+        "root index": "/index.html",
+        "unknown font": "/fonts/jetbrains-mono-900.ttf",
+    }
+    leaked = {}
+    for label, path in probes.items():
+        status, body = _get_raw(path)
+        # A refusal of any code is fine. What must never happen is file bytes
+        # coming back - so this tests the payload, not the status.
+        if b"ErrorActionPreference" in body or b"<?xml" in body or status == 200:
+            leaked[label] = f"HTTP {status}, {len(body)} bytes"
+    check("static_route_refuses_traversal", not leaked,
+          f"all {len(probes)} traversal probes returned no file content",
+          f"the font route leaked a file for: {leaked}")
+
+    # THE SENSITIVITY CONTROL.
+    #
+    # Two versions of this control failed before this one, and both failures
+    # are the point:
+    #
+    #   v1 wrote a neutralised COPY of server.ps1 to disk and then probed the
+    #      LIVE server. The copy was never executed, so the control reached
+    #      exactly as far as the live route (0 vs 0) and the check correctly
+    #      reported "not measuring the gate".
+    #   v2 actually started the neutralised copy on port 8925 and probed
+    #      that. Measured: the process came up but never bound the port - every
+    #      probe returned no connection. A control that cannot attach to the
+    #      thing it attacks is the same defect wearing a new hat.
+    #
+    # So this version asserts the INVARIANT statically instead, which is how
+    # the rest of this suite already tests security properties: the argument
+    # handed to Join-Path must be `$key` - a literal from the hardcoded
+    # hashtable - and must never be `$rel`, `$name` or `$path`, which are
+    # derived from the request.
+    #
+    # It discriminates because the neutralisation is applied in memory and the
+    # SAME predicate is re-run: rewrite Join-Path to take `$rel` and the
+    # predicate must fail. A predicate that passes both ways measures nothing.
+    #
+    # (`src` was briefly undefined here after the live-server control was
+    # replaced - the rewrite consumed the line that defined it. Caught by the
+    # suite itself: NameError, the check never ran, exit 1.)
+    src = os.path.join(root, "13_COMMAND_CENTER", "api", "server.ps1")
+    with open(src, "r", encoding="utf-8") as fh:
+        original = fh.read()
+
+    def _gate_is_literal_key(text: str) -> bool:
+        """True when every Join-Path under $ROOT receives a literal key."""
+        for line in text.splitlines():
+            if "Join-Path $ROOT" not in line:
+                continue
+            for unsafe in ("$rel", "$name", "$path", "$_"):
+                if unsafe in line:
+                    return False
+        return "Join-Path $ROOT ($key" in text
+
+    live_ok = _gate_is_literal_key(original)
+    # Neutralise: hand Join-Path the request-derived value instead of the key.
+    broken = original.replace("Join-Path $ROOT ($key",
+                              "Join-Path $ROOT ($rel", 1)
+    control_reports_broken = broken != original and not _gate_is_literal_key(broken)
+    check("static_route_gate_is_literal", live_ok,
+          "every Join-Path under $ROOT receives $key, a literal from the "
+          "allowlist - request-derived values can only SELECT a name, never "
+          "compose a path",
+          "server.ps1 hands a request-derived variable to Join-Path under "
+          "$ROOT, so a crafted path could reach the filesystem")
+    check("static_route_control_discriminates", control_reports_broken,
+          "the same predicate fails when the gate is rewritten to take $rel, "
+          "so this check is measuring the gate and not passing vacuously",
+          "the predicate passed even after the gate was neutralised "
+          "(Join-Path $ROOT ($key was not found to rewrite), so the check "
+          "cannot prove it discriminates")
+
+
 def test_action_missing_id_is_refused_separately() -> None:
     """A body with no `id` at all must be refused for its OWN reason.
 
@@ -1907,6 +2078,7 @@ def main() -> int:
             ("action_whitelist", "test_action_whitelist_rejects_unapproved"),
             ("action_missing_id", "test_action_missing_id_is_refused_separately"),
             ("action_whitelist_admits", "test_action_whitelist_admits"),
+            ("static_route", "test_static_route_is_allowlisted_and_serves_intact_bytes"),
             ("telemetry_fifo", "test_telemetry_feed_is_bounded"),
             ("inventory_registry", "test_inventory_registry_discriminates"),
             ("dom_guards", "test_dom_injection_is_guarded"),

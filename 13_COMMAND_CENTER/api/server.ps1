@@ -570,23 +570,34 @@ try {
           # and silently absent on screen.
           #
           # SECURITY. This is an allowlist, not a path handler. Anything not
-          # named here is still 404. $name is taken from the URL and then
-          # matched literally against a fixed set, so no traversal string can
-          # reach the filesystem: '..', '%2e%2e', and an absolute path are all
+          # named here is still 404.
+          #
+          # CORRECTED 2026-10-10 22:30. The previous comment said "$name is
+          # taken from the URL and then matched literally against a fixed
+          # set". That described a mechanism that did not exist: $name was
+          # computed and never used, so the comment named a fiction to anyone
+          # auditing this boundary later. $name is gone.
+          #
+          # The real gate, stated exactly: $rel (derived from the URL) is only
+          # ever COMPARED against the fixed keys, and it is $key - a literal
+          # out of that table - that reaches Join-Path. Attacker-controlled
+          # input can therefore only SELECT an allowlisted name; it can never
+          # COMPOSE a path. '..', '%2e%2e', absolute paths and NUL are all
           # rejected by the comparison itself, not by a later sanitiser.
-          $name = [IO.Path]::GetFileName($path)
+          # The verifier probed this 33 ways and read no non-TTF file.
           $ASSETS = @{
             'fonts/jetbrains-mono-400.ttf' = 'font/ttf'
             'fonts/jetbrains-mono-600.ttf' = 'font/ttf'
           }
           $rel = $path.TrimStart('/')
           # Windows paths are case-insensitive and PowerShell's hashtable is
-          # case-SENSITIVE by default. Measured: before this line the request
-          # '/FONTS/JETBRAINS-MONO-400.WOFF2' was rejected while the same file
-          # requested in lower case was served - an inconsistency that would
-          # have become a bypass the moment anyone added a differently-cased
-          # entry. Ordinal-ignore-case makes the comparison match the
-          # filesystem, so allowlisted means allowlisted regardless of case.
+          # case-SENSITIVE by default. The verifier confirmed this rather than
+          # assuming it:
+          #   @{'fonts/jetbrains-mono-400.ttf'='font/ttf'}.ContainsKey(
+          #     '/FONTS/JETBRAINS-MONO-400.TTF')  ->  False
+          # so the loop below is genuinely required, not defensive padding.
+          # Ordinal-ignore-case makes the comparison match the filesystem's
+          # own rule: allowlisted means allowlisted regardless of case.
           $key = $null
           foreach ($k in $ASSETS.Keys) {
             if ([string]::Equals($k, $rel, [StringComparison]::OrdinalIgnoreCase)) { $key = $k; break }
