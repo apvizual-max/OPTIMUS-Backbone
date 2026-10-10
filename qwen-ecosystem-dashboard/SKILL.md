@@ -639,3 +639,108 @@ declaration lives in `registry.json`.
 default, while the patched build lives elsewhere (`scripts\deploy-local-patched-qwen.ps1`).
 Reconciling the two is an R0 item, never a chore — see the R0 queue, item 3. Read
 `docs\ARCHITECTURE.md` §asar before touching it, and never `Remove-Item` it.
+
+## 17. STATE AFTER THE T27 REPAIR — measured 2026-10-10, plus two tool verifications
+
+Everything below was read off disk or off a live process. Where it disagrees with §15, that
+section is `SUPERSEDED`, not deleted.
+
+### 17.1 The supervisor fault is closed, and closed with a precondition
+
+The cause was a string/number comparison in `supervisor.js`, at **two** sites — catalogued
+as B23 and B24 in `minimax-optimus-dashboard`:
+
+    readOwnerPid() === process.pid       // L104 — string vs number
+    readOwnerPid() === String(process.pid)  // L118 — same fault, opposite sign
+
+L104 made a process that had just written its own pid believe it was not the owner: it
+exited 0 and left a lock owned by a dead pid, which the next five minutes of starts refused
+to clear. L118 meant the legitimate holder could never remove its own lock. Both repaired.
+
+Measured after the repair, **without any manual restart**:
+
+| Check | Result |
+|---|---|
+| `supervisor.pid` | 31652, alive |
+| `GET /health` | HTTP 200 |
+| Pods UP | 7 of 7 — 3098, 3011, 3012, 3013, 3015, 3016, 3017 |
+| Pods healthy | 7 of 7 |
+| Refusal loop | stopped — last `supervisor.status_change` 12:20:41Z, ~55 min quiet |
+
+The quiet is the real evidence. A live loop wrote every 15 s ≈ 220 lines in that window.
+
+Gate: `_t27-ownership-gate.js`, 7/7, mutant included. It was built **after** the repair
+(B26); `core/state.json` T27 records that.
+
+### 17.2 The guardrail window is not losing history
+
+The 1.7 h `guardrail.jsonl` window was investigated and cleared: 1000 lines, **0** property
+lines, **0** healthy events, 6 distinct pairs, 9.88 writes/min. Sibling journals run far
+longer — `supervisor.jsonl` 72.7 h, `supervision-trend.jsonl` 120.8 h, `root-guardian.jsonl`
+161.5 h. The short window is correct for what it holds. There is no history to lose because
+there is no history.
+
+### 17.3 LiveReview — authenticated and configured, waiting on one key
+
+Verified from three independent angles, because one angle is a belief:
+
+| Angle | Result |
+|---|---|
+| `lrc ensure` | `authenticated for apvizual@gmail.com, but no AI connector is configured` — exit 1 |
+| UI page | "AI Connectors (0)" |
+| `GET /api/ui/connectors` | raw `[]` — the property `connectors` is absent, not empty |
+
+`~/.lrc.toml` carries all 8 keys (`api_key`, `api_url`, `jwt`, `org_id`, `org_name`,
+`refresh_token`, `user_email`, `user_id`), 812 B. Key **names** only — values are never read
+into a report. Org 743, role owner, store server-side at `https://livereview.hexmos.com`.
+
+The only provider listed without a key is `Ollama`: installed, **0 models**, stopped.
+
+**The single missing thing is a provider API key. That is ACCESS, full stop** — it is not on
+this disk and cannot be obtained without destroying the plan. Everything upstream of it is
+done. `lrc ui` on `:8091` must be started by Popy when he wants it; the server does not stay
+up (it dies after 50–60 min).
+
+An earlier claim in this session that a connector had been added was **false**, caused by
+`@($null).Count = 1` in PowerShell. It was retracted in public. See B25.
+
+### 17.4 Jules — installed and authenticated, with zero sessions ever created
+
+| Check | Result |
+|---|---|
+| Binary | `C:\Users\apviz\AppData\Roaming\npm\jules.ps1` — installed |
+| Repos visible | **7** — `apvizual-max/Mavis`, `Optimus-Mavis-Skills`, `Optimus-Minimax-Qwen-Bridge`, `Optimus-Qwen-Assurance`, `hermes-agent-temp`, `hermes-local-backup`, `pkms-vault-automation` |
+| `jules remote list --session` | header row, **0 sessions** |
+| Falsification control | a non-existent repo returns the same empty table, exit 0 |
+
+Seeing 7 private repos is the authentication proof — an unauthenticated client cannot
+enumerate them. The empty table is the honest reading: **no review has ever been generated.**
+Popy believed some existed; measured, none do.
+
+`jules` has no `auth` subcommand (the CLI rejects it as unknown); authentication is carried
+by `gh`, logged in as `apvizual-max` with `repo`, `workflow` and `admin:org` scopes.
+
+**Nothing was implemented.** Creating sessions is next-version work.
+
+### 17.5 The five stale MCP names are marked, not removed
+
+`SENTINEL_PRIME\07_BACKBONE\mcp\OPTIMUS_MCP_CONFIG.json` declared five Python servers whose
+functions had been absorbed into `sentinel-hub`. Each was confirmed against the hub's own tool
+surface before being called stale — `sentinel_check_context`, `sentinel_get_state`,
+`sentinel_check_r_triggers` and `sentinel_log_event` all exist there. A `superseded` block was
+added: **zero deletions**, all 9 live servers intact, 6 842 B, valid JSON, no BOM, no CR.
+
+Three of the same names are **renamed, not stale**, and were left alone:
+`filesystem` → `mcp-server-filesystem`, `browser` → `agent-browser-mcp`, `git` → `git-mcp`.
+
+### 17.6 The git procedure changed on 2026-10-10 — read this before the next stage
+
+Popy's ruling, superseding the earlier R0-per-commit rule:
+
+- **Commits are autonomous.** Commit on every measured success, without asking.
+- **Work happens on `main` directly.** No branches until Popy says otherwise.
+- **R0 remains required** for irreversible actions, permanent deletion, and major state
+  transitions.
+- **P2 is cancelled permanently.** Nothing is deleted from GitHub.
+
+Apply when: any commit in this project after 2026-10-10.

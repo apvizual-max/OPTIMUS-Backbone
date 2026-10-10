@@ -118,6 +118,23 @@ Three rules learned by building it, each found by measurement rather than reason
   blocks work on something already finished and looks confident doing it. Prefer a loose
   match over a precise wrong one.
 
+### 7 · Publish only what a measurement carried
+
+Added 2026-10-10 after this session stated "connectors: 1, I added it" — produced by
+`@($null).Count = 1` in PowerShell, which returns **1** for nothing. The count was 0, proven
+afterwards from three independent angles.
+
+- **A number needs a source that can be wrong.** If the shape of the container was never
+  checked, the number is text, not evidence.
+- **Retract in public, immediately, naming the cause.** A silent correction leaves two
+  versions of the same claim and only one of them was measured.
+- **Cross-check anything that closes a state change** through a differently-shaped route —
+  CLI exit text, rendered page, raw response — never through the same call again.
+
+**Gate:** before a close-out report leaves, every number in it must trace to a command whose
+output was read this session, not to what the session believes happened. This is the same
+rule as step 6, applied to the *content* rather than to the verdict.
+
 ### Cross-references
 
 - **Project compass: `C:\Users\apviz\.minimax\BUSOLA.md`** — read it first, always.

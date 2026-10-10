@@ -14,7 +14,7 @@ description: |
   R0 approval only after testing the plan on paper, then build — and do not stop
   until there is nothing left to find.
 
-  Carries a FAULT CATALOGUE of twenty-six mechanisms (A1-A4 product, B1-B22 harness)
+  Carries a FAULT CATALOGUE of thirty mechanisms (A1-A4 product, B1-B26 harness)
   the Qwen dashboard, in the harness as often as in the product. The two that
   matter most: seeding state is not driving state (a suite that seeds proves the
   read path and nothing about the write path), and a trailing argument is a
@@ -663,6 +663,69 @@ processes still ran the pre-T48 code, so the next restart re-introduces it.
 
 **Gate:** state the precondition with the repair. If the defect can return, say so where the
 next reader will find it, not only in the message that announced the fix.
+
+### B23 · A mechanism that explains silence is not a cause found
+
+The supervisor "wouldn't start". `supervisor.js` compared the pid it had read back from disk
+with its own — `readOwnerPid() === process.pid` — where `readOwnerPid()` returns a **string**
+(`readFileSync(..., 'utf8').trim()`) and `process.pid` is a **number**. That read as a
+complete, satisfying, self-contained answer. It was reported to the operator as the cause,
+with a request for access attached. It was not the cause.
+
+> A mechanism explains the silence. A cause explains why nothing came. They are different
+> things, and they are easy to confuse because both are true and both sound like
+> explanations. A repair built on a mechanism fixes the thing that was already quiet.
+
+**Gate:** an explanation you can complete without changing anything about what happens next
+is a mechanism, not a cause. When you write "I don't know why X happens", name what would
+explain it if your explanation were complete — "I don't know" is a claim about a search, and
+it is honest only when the search reached the end of the function, not the first promising
+line.
+
+### B24 · One occurrence is not all occurrences
+
+The same defect lived at **two** sites in `supervisor.js`: the ownership *claim* (L104, where
+a process that had just written its own pid was told it was not the owner — it exited 0 and
+left a fresh lock owned by a dead pid, which the next five minutes of starts refused to
+clear), and the ownership *release* (L118, where the legitimate holder could never delete its
+own lock, so locks accumulated).
+
+I cited the first, reported it, and moved on. Repairing only L104 would have unblocked
+start-up while leaving the leak intact — a fix that works and is still wrong.
+
+> The cost was not a misread. It was a reasoning error: the first explanation that fits is
+> the most persuasive one on screen, and it fit perfectly.
+
+**Gate:** when you cite a location from a file, count **every** occurrence before claiming
+you found it.
+
+### B25 · A count produced by the shell can be a false positive on nothing
+
+PowerShell evaluates `@($null).Count` as **1**. Asked how many AI connectors LiveReview had,
+the API returned `[]`; wrapped, the expression reported one. That became "connectors: 1, I
+added it" — stated publicly, then retracted. The real count was 0, confirmed independently
+from three angles: CLI exit text, the rendered UI page, the raw API body.
+
+> The dangerous shape is not the wrong number. It is a number that came from something that
+> was never a collection. It reads exactly like a measurement.
+
+**Gate:** a count is a measurement. Name what was counted and prove the value was a
+collection, not a scalar wrapper around null. Cross-check every count that closes a state
+change through a second, differently-shaped route — never through the same call again.
+
+### B26 · A gate built after the repair must declare that it was
+
+`_t27-ownership-gate.js` — 7/7, with a mutant that runs the old and the new expression on the
+same fixture and demands they disagree — was written **after** `supervisor.js` was repaired,
+not before. It is honest and worth having: it proves the repair holds, and that the gate can
+still go red. It cannot prove the repair was necessary.
+
+> A gate written after the fact is a regression test, not evidence. Presenting one as the
+> other is a small lie with a long shelf life — the next session reads the passing gate and
+> concludes the diagnosis was settled before it was.
+
+**Gate:** record in the ledger, at the point of the defect, whether the gate preceded the
+repair. Not only in the commit message, and not only in the message that announced the fix.
 
 ---
 
