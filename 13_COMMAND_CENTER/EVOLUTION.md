@@ -2029,3 +2029,127 @@ still carrying build work; nothing in it is broken.
 That number is a measurement, not a completion. Building the typefaces is
 new construction, and it is the honest next step rather than a defect to
 repair.
+---
+
+## R15 - C1 closed: the named typeface, and three bugs on the way
+
+Measured 2026-10-10 19:0x-19:1x. This builds what R14 recorded as missing.
+`index.html` 119,368 -> 121,131 B. `api\server.ps1` 27,715 -> 30,482 B.
+Backups: `index.html.bak7`, `server.ps1.bak-font`, `EVOLUTION.md.bak9`.
+
+### What went in
+
+- `fonts\jetbrains-mono-400.ttf` and `-600.ttf`, self-hosted, 112,172 and
+  112,160 B.
+- Two `@font-face` rules with `font-display:swap`, plus two `<link rel=preload>`.
+- `--mono` now reads
+  `'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace`
+  - the named family first, the previous stack untouched behind it.
+- One static-asset route in `server.ps1`.
+
+### The server never served anything static. That was the first bug.
+
+The `@font-face` URLs resolved to **404**, not to the font. The reason is in
+the shape of the server: its `switch` had a `default` branch that answered
+`404 'not found'` for every path that was not one of its named API routes.
+There was no static file handler at all. The font declaration was correct and
+completely inert - which is the C5 failure mode this project has been
+tracking all along, one level up.
+
+The fix is an **allowlist, not a path handler**:
+
+    $ASSETS = @{
+      'fonts/jetbrains-mono-400.ttf' = 'font/ttf'
+      'fonts/jetbrains-mono-600.ttf' = 'font/ttf'
+    }
+
+Two files, named literally. Anything not named is still 404. No traversal
+string reaches the filesystem, because the URL is compared against a fixed
+set before a path is ever built.
+
+Measured against that allowlist:
+
+| Request | Result |
+|---|---|
+| `/fonts/jetbrains-mono-400.ttf` | serves |
+| `/../../../Windows/System32/drivers/etc/hosts` | 404 |
+| `/..%2f..%2fWindows/win.ini` | 404 |
+| `/fonts/../../api/server.ps1` | 404 - source unreachable |
+| `/fonts/jetbrains-mono-400.ttf%00.png` | 404 |
+| `/etc/passwd` | 404 |
+| `/api/../../index.html` | 404 |
+
+### The second bug: a 200 that delivered a corrupted font.
+
+`Send-Response` ends with `[Text.Encoding]::UTF8.GetBytes($body)`. It takes a
+**string**. I passed the font through `[IO.File]::ReadAllBytes` and then
+converted it to a string to hand it over, which round-trips the bytes through
+a text encoding and corrupts them.
+
+Measured, same input file:
+
+    on disk             : 21088 bytes
+    via string (old)    : 37816 bytes   <- length changed, so corrupted
+    via byte[] (new)    : 21088 bytes   <- identical
+
+The HTTP status was a healthy **200** with the right `Content-Type` on a
+corrupt body. Nothing above `Send-Response` can tell that apart from success.
+This is why the font failed to load on the first attempt and why "the server
+returns 200" was never sufficient evidence that it worked.
+
+`Send-Response` now passes a `byte[]` through untouched and only encodes a
+string when it is given one.
+
+### The third bug: the WOFF2 files were valid and still rejected.
+
+After the byte fix, Chrome still refused both faces:
+
+    OTS parsing error: Failed to convert WOFF 2.0 font to SFNT
+    OTS parsing error: Size of decompressed WOFF 2.0 is less than compressed size
+
+Before blaming the browser I checked the bytes on both sides:
+
+- disk: 21,088 B, sha256 `7C53386F...`
+- over HTTP: 21,088 B, sha256 `7C53386F...` - **identical**
+- magic bytes `77 4f 46 32` = `wOF2`, a correct signature
+- redownloaded with curl: 21,088 B, same hash
+
+So the files were intact and were being delivered intact, and the browser
+still rejected them. I did not spend longer proving the file was good - the
+measurable move was to change one thing and see. Google Fonts serves this
+family as TTF, so both weights were fetched as TTF (112 KB each, magic
+`00 01 00 00`) and the console went to **zero messages**.
+
+The trade is stated in the file rather than hidden: 112 KB per weight instead
+of 21 KB, on a page served from loopback off a local disk. The bytes cost
+nothing to deliver there and a rejected font costs everything.
+
+### One more inconsistency, caught by attacking my own fix
+
+My first allowlist used `ContainsKey`, which in PowerShell is
+**case-sensitive**, while Windows paths are not. Measured: `/FONTS/JETBRAINS-MONO-400.WOFF2`
+was **rejected** while the same file in lower case was served. That is not a
+hole yet, because nothing differently-cased is in the table - but the first
+entry somebody adds in the wrong case would have opened one. The lookup is
+now an explicit `OrdinalIgnoreCase` scan, which matches the filesystem's own
+rule: allowlisted means allowlisted regardless of case.
+
+### Proof it is actually on screen
+
+- `document.fonts.check("400 16px 'JetBrains Mono'")` -> **true**
+- `document.fonts.check("600 16px 'JetBrains Mono'")` -> **true**
+- 2 faces declared
+- Rendered width of `0123456789` at 100px: **600px** with JetBrains Mono vs
+  **550px** generic - the glyphs are measurably different, so this is the real
+  font and not the fallback wearing its name.
+- Browser console: **0 messages**.
+
+Suites after the change: `test_suite.py` **505 passed / 0 failed / 0
+skipped**, exit 0.
+
+### C1 status
+
+**MET.** All nine perspectives are now covered. The requirement was written
+into the page as a declaration and was invisible on screen; it is now a file
+on disk, served by the backend, loaded by the browser, and measured three
+separate ways.

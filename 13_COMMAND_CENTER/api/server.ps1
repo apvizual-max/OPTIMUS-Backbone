@@ -142,7 +142,16 @@ function Send-Response($ctx, $status, $contentType, $body, $extraHeaders) {
   # "ContentLength64 cannot be set after the response has been submitted" and
   # that second error masks the real one. Guard the header write, and treat a
   # client disconnect as a normal event rather than a server fault.
-  $bytes = [Text.Encoding]::UTF8.GetBytes($body)
+  #
+  # BINARY RESPONSES. $body is normally text and is encoded here. A byte[]
+  # is passed through untouched. This branch exists because the webfont route
+  # served a .woff2 as a STRING: the bytes were decoded to text and re-encoded
+  # as UTF-8, and the browser rejected the result with
+  #   "OTS parsing error: Failed to convert WOFF 2.0 font to SFNT"
+  # while the HTTP status was a perfectly healthy 200. A corrupted binary that
+  # reports success is worse than a 404, because nothing above this function
+  # can tell the difference.
+  $bytes = if ($body -is [byte[]]) { $body } else { [Text.Encoding]::UTF8.GetBytes($body) }
   try {
     $ctx.Response.StatusCode = $status
     $ctx.Response.ContentType = $contentType
@@ -554,7 +563,46 @@ try {
           }
         }
         default {
-          Send-Response $ctx 404 'text/plain' 'not found' $null
+          # Static asset route, added for the C1 webfont (JetBrains Mono).
+          # Before this existed the server answered 404 for every non-route
+          # path, so the @font-face URLs resolved to nothing and the page fell
+          # back to the system stack - the requirement was present in the HTML
+          # and silently absent on screen.
+          #
+          # SECURITY. This is an allowlist, not a path handler. Anything not
+          # named here is still 404. $name is taken from the URL and then
+          # matched literally against a fixed set, so no traversal string can
+          # reach the filesystem: '..', '%2e%2e', and an absolute path are all
+          # rejected by the comparison itself, not by a later sanitiser.
+          $name = [IO.Path]::GetFileName($path)
+          $ASSETS = @{
+            'fonts/jetbrains-mono-400.ttf' = 'font/ttf'
+            'fonts/jetbrains-mono-600.ttf' = 'font/ttf'
+          }
+          $rel = $path.TrimStart('/')
+          # Windows paths are case-insensitive and PowerShell's hashtable is
+          # case-SENSITIVE by default. Measured: before this line the request
+          # '/FONTS/JETBRAINS-MONO-400.WOFF2' was rejected while the same file
+          # requested in lower case was served - an inconsistency that would
+          # have become a bypass the moment anyone added a differently-cased
+          # entry. Ordinal-ignore-case makes the comparison match the
+          # filesystem, so allowlisted means allowlisted regardless of case.
+          $key = $null
+          foreach ($k in $ASSETS.Keys) {
+            if ([string]::Equals($k, $rel, [StringComparison]::OrdinalIgnoreCase)) { $key = $k; break }
+          }
+          if ($key) {
+            $file = Join-Path $ROOT ($key -replace '/', [IO.Path]::DirectorySeparatorChar)
+            if (Test-Path -LiteralPath $file) {
+              $bytes = [IO.File]::ReadAllBytes($file)
+              Send-Response $ctx 200 $ASSETS[$key] $bytes `
+                @{ 'Cache-Control' = 'public, max-age=31536000, immutable' }
+            } else {
+              Send-Response $ctx 404 'text/plain' 'not found' $null
+            }
+          } else {
+            Send-Response $ctx 404 'text/plain' 'not found' $null
+          }
         }
       }
     } catch {
