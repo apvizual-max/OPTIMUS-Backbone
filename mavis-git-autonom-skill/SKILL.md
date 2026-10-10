@@ -1,6 +1,20 @@
+---
+name: mavis-git-autonom-skill
+description: "Regula de lucru zilnică cu Git, într-un proiect care are deja .git. COMMIT autonom la fiecare succes măsurat, inclusiv pe modificările lui Popy, fără să ceri confirmare și fără să lași panoul Changes plin. PUSH doar când Popy spune explicit, verificat cu git ls-remote, niciodată prin butonul din interfață. Nu atingi interfața. Nu ștergi nimic: muți în carantină cu motiv scris. Prohibit: git clean -fdx, git reset --hard, force push fără cerere, parole sau chei în commit. Nu ceri decizii tehnice — le iei tu și continui. Se încarcă la prima treabă care atinge Git; instalarea de la zero e skillul mavis-git-install-skill."
+---
+
 # SKILL: git-autonom
 
-**Trigger: orice proiect cu repo Git, orice sesiune, orice instanță. Se încarcă la prima treabă care atinge Git și rămâne activ până la finalul taskului.**
+**Cum funcționează Git după ce e pus, în fiecare zi.**
+
+| | |
+|---|---|
+| **Perechea** | skill: `git-autonom` · prompt: `PROMPT git autonom.md` |
+| **Se încarcă** | la prima treabă care atinge Git, în orice proiect cu istoric |
+| **Nu e** | instalarea — aceea e skillul `git-install`, rulează o singură dată |
+| **Copie vie** | `C:\Users\apviz\.minimax\agents\mavis\skills\mavis-git-autonom-skill\SKILL.md` |
+
+---
 
 ## Regula
 
@@ -11,22 +25,21 @@
 Comit **înainte** de a raporta, nu la finalul taskului. Pas cu pas.
 
 - Când o măsurătoare confirmă că ceva e corect, comit imediat.
-- **Inclusiv pe modificările lui.** Dacă `git status` arată fișiere necomitate pe care le-a atins el, le comit și îi spun. Nu aștept să-l întreb.
+- **Inclusiv pe modificările lui.** Dacă `git status` arată fișiere necomitate
+  pe care le-a atins el, le comit și îi spun. Nu aștept să-l întreb.
 - Nu cer confirmare. Nu spun „vrei să comit?". Nu las nimic în panoul Changes.
 - Mesajul spune **ce s-a schimbat în cuvinte simple**, nu `chore: update <fișier>`.
 
-De ce: un administrator nu lasă un panou `Changes` plin pentru un om care nu știe
-ce e Git. Dacă eu comit la fiecare pas, Changes rămâne gol și nu are ce arăta.
-Pentru el, Changes nu e ajutor — e blocaj.
+De ce: un administrator nu lasă un panou `Changes` plin pentru un om care nu
+știe ce e Git. Dacă eu comit la fiecare pas, Changes rămâne gol și nu are ce
+arăta. Pentru el, Changes nu e ajutor — e blocaj.
 
 ## 2. PUSH — numai cu acordul lui
 
 **Niciodată din inițiativa mea.** Nici prin butonul din interfață — acela nu se
 folosește, nici de mine, nici de el.
 
-- Când se adună prea multe comituri locale, **îl întreb eu**: „împing cele N
-  comituri acum?" — și aștept răspunsul.
-- El poate spune „fă push" oricând. Atunci îl fac.
+- Când se adună prea multe comituri locale, **îl întreb eu** — și aștept răspunsul.
 - Dacă uităm amândoi, se vede: serverul rămâne în urmă.
 
 ## 3. Push-ul se verifică prin `git ls-remote`, NICIODATĂ prin codul de ieșire
@@ -35,11 +48,9 @@ folosește, nici de mine, nici de el.
 **stderr**, iar shell-ul aruncă o eroare roșie chiar când push-ul a reușit.
 
 ```
-git push origin master        # poate afișa "eroare" false
+git push origin master        # poate afișa "eroare" falsă
 git ls-remote origin master   # ASTA e adevărul
 ```
-
-Nu declar reușită nici din `exit 0`, nici din absența erorii.
 
 ## 4. Ce nu faci NICIODATĂ
 
@@ -47,15 +58,16 @@ Nu declar reușită nici din `exit 0`, nici din absența erorii.
 |---|---|
 | `git clean -fdx` | șterge fișiere ignorate — poate fi conținut real |
 | `git reset --hard` | distruge munca necomitată |
-| `Remove-Item` pe materialul lui | **mută, nu șterge**; neclarul merge în carantină cu motiv scris |
+| ștergere pe materialul lui | **mută, nu șterge**; neclarul merge în carantină cu motiv scris |
 | `force push` fără cerere | rescrie istorie |
-| commit cu parole/chei în mesaj | `git log` e public pentru oricine are acces |
+| commit cu parole/chei | `git log` e citibil de oricine are acces |
 | push din inițiativă proprie | decizia e a lui |
+| atingerea interfeței | rezolvarea e comportament, nu buton |
 
 ## 5. Cum îi recunosc comitul
 
 Dacă apare un comit pe care eu nu l-am scris, **nu e intrus** până nu dovedesc
-altceva. Căută în ordine: `git reflog` → hook-uri (`core.hooksPath`, `.git/hooks`)
+altceva. Caută în ordine: `git reflog` → hook-uri (`core.hooksPath`, `.git/hooks`)
 → taskuri programate → aplicația însăși.
 
 Cazul măsurat (2026-10-10): `chore: update <fișier>` vine din panoul
@@ -72,3 +84,8 @@ Backupul se **citește**, nu se scrie. Dacă lipsește ceva din dosarul de lucru
 
 La push: cer acord. **Atunci totul.** Nu cer decizii tehnice — acelea le
 decid eu, le spun odată cu explicația și continui.
+
+## 8. Promptul pereche
+
+`PROMPT git autonom.md`, în același folder — se trimite ca atare altor
+instanțe, în alte proiecte. Rulează **după** `PROMPT git install.md`.
