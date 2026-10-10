@@ -1,0 +1,161 @@
+---
+name: mavis-git-install-skill
+description: "Punerea pe picioare a infrastructurii Git + GitHub într-un proiect nou, fără .git. Măsoară (git --version, gh --version, gh auth status, remote -v) și continuă fără să întrebi; git init, core.autocrlf false, core.eol native, ramură aleasă de AI; .gitignore prin NEGARE (/* interzice totul, deschizi explicit căile reale) verificat cu git check-ignore în ambele sensuri; primul comit, gh repo create --private --push, primul push e parte din instalare. Verifică push-ul cu git ls-remote, nu cu ieșirea shell-ului. Rulează o singură dată, înaintea lui mavis-git-autonom-skill; retrimis, face un al doilea repo pe același proiect."
+---
+
+# SKILL: git-install
+
+**Cum se pune pe picioare Git + GitHub, de la zero, o singură dată.**
+
+| | |
+|---|---|
+| **Perechea** | skill: `git-install` · prompt: `PROMPT git install.md` |
+| **Se încarcă** | la proiect nou, sau proiect fără `.git`, sau fără remote pe GitHub |
+| **Rulează** | o singură dată, la ridicare — **nu** la fiecare ședință |
+| **Nu e** | funcționarea de zi cu zi — aceea e skillul `git-autonom` |
+| **Copie vie** | `C:\Users\apviz\.minimax\agents\mavis\skills\mavis-git-install-skill\SKILL.md` |
+
+---
+
+## Cum aleg între cele două skilluri
+
+| Situația | Skill |
+|---|---|
+| proiectul n-are încă `.git` | **`git-install`** — îl ridici |
+| proiectul are deja istoric | **`git-autonom`** — îl folosești |
+
+Nu se rulează amândouă. `git-install` e o dată, `git-autonom` e restul vieții
+proiectului.
+
+## REGULA DE AUTORITATE — nu întrebi nimic
+
+**Tu faci totul, tu decizi totul, eu doar primesc raportul.**
+
+Nu e voie să te oprești la mijloc și să întrebi. Nu întrezi cum se numește
+repo-ul, ce ramură, ce extensii, ce mesaj. **Alezi tu, corect, și îmi spui
+ce ai ales.**
+
+| Situație | Ce faci |
+|---|---|
+| `git` sau `gh` lipsesc | îi instalezi. Permisiunea e deja dată — asta e sarcina ta |
+| nu ai drept de administrator | instalezi ce poți, termini tot ce se poate, raportzi restul |
+| nu ești autentificat pe GitHub | încerci `gh auth login`; dacă cere interacțiune, e **singurul** motiv pentru care te oprești |
+| nu știi numele repo-ului | îl derivi din numele folderului |
+| nu știi ce ramură | alegi `main`, o setezi explicit, nu întrebi |
+| nu știi ce `.gitignore` | scrii cel cu **negație**, îl verifici, îl corectezi |
+
+**Singurul motiv legitim de oprire:** ai nevoie de ceva ce numai omul îți poate
+da — un cod de autentificare, o plată, o acțiune fizică. Atunci spui exact
+ce lipsește, într-o proluză, și te oprești. **Nu pentru nume, nu pentru
+opțiuni, nu pentru „nu sunt sigur".**
+
+Semnul că ai făcut bine: **nu apare nicio întrebare în care să aleg între
+două variante pe care le-am putea numi eu înainte.**
+
+## Ordinea, fără întreruperi
+
+1. **Măsoară** `git --version`, `gh --version`, `gh auth status`, identitatea
+   globală, dacă există `.git`, ce remote are. Nu raporta și aștepta —
+   continuă.
+
+2. **Identitatea**: o citești, o lași. Nu o schimbi, nu o ceri, nu o inventezi.
+   Dacă lipsește, alegi tu una stabilă pentru proiect și o spui în raport.
+
+3. **Pregătește**: instalezi ce lipsește, `git init`, și configurezi **pe nivel
+   de repo**, nu global:
+
+```
+git config core.autocrlf false
+git config core.eol native
+git config core.filemode false
+git checkout -b main
+```
+
+`autocrlf false` e per-repo pentru că e decizie a proiectului. Global ar
+forța toate proiectele de pe mașină, inclusiv ale altcuia.
+
+4. **`.gitignore` prin NEGARE, nu enumerare.** Interzici totul cu `/*`, apoi
+   deschizi **tu**, singur, căile pe care le conține proiectul — le afli
+   citind structura lui, nu întrebând.
+
+5. **Primul comit, ramura, repo-ul privat:**
+
+```
+git add -A
+git commit -m "prima stare a proiectului"
+gh auth login                      (doar dacă nu ești deja autentificat)
+gh repo create <nume-derivat-din-folder> --private --source=. --remote=origin --push
+```
+
+Nume-ul îl derivi tu din numele folderului: litere mici, cifre, cratime.
+**Primul push face parte din instalare** — fără el repo-ul nu există încă,
+deci nu ceri acord pentru el și îl anunți în raport.
+
+6. **Verifică singur**, cu `git ls-remote origin main`. Nu cu codul de ieșire:
+   `git` scrie progresul pe stderr și poate arunca o eroare roșie chiar când a
+   mers bine. Dacă verificarea nu confirmă, **repară și reîncearci**, nu
+   raportezi succes.
+
+7. **Predă către `git-autonom`.** Ridicarea e gata; de acum înainte regulile
+   de fiecare zi sunt ale skillului `git-autonom` — inclusiv interdicția de a
+   mai împinge fără acordul meu.
+
+## Regula `.gitignore` care costă cel mai mult — măsurată, nu auzită
+
+Pe 2026-10-10, în acest vault, prima excepție scrisă corect **nu a funcționat**.
+Două comituri consecutive au raportat doar logul, fără niciun avertisment.
+Cauza, găsită prin măsură cu `git check-ignore -v`:
+
+- Git nu coboară într-un director interzis. Ca să redeschizi un fișier,
+  redeschide și **părintele** lui.
+- `**` se potrivește și cu **zero componente**: `/_x/**` închide și directorul
+  `_x` însuși, nu doar conținutul lui.
+- Ultima regulă care se potrivește câștigă. Redeschiderile puse **înaintea**
+  regulii de excludere sunt anulate de aceasta.
+
+```
+/_x/**
+!/_x/
+!/_x/sub/
+!/_x/sub/**
+```
+
+Verifică cu `git check-ignore -v`: pe un fișier care trebuie urmărit,
+răspunsul corect e că **NU** e ignorat. Pe unul care nu trebuie, trebuie să
+rămână ignorat. **Verifică ambele sensuri** — fără control pe partea a doua,
+poarta nu poate deveni roșie.
+
+## Prohibit, fără excepție
+
+`git clean -fdx` · `git reset --hard` · `force push` fără cerere · secrete în
+fișiere urmărite · ștergerea conținutului utilizatorului (muți, cu motiv
+scris, în carantină).
+
+## De la prima zi, fără excepție
+
+**Commit autonom la fiecare succes măsurat. Push doar cu acordul meu — cu
+singura excepție a primului push din instalare. Interfața aplicației nu se
+atinge:** rezolvarea e comportament, nu buton.
+
+## Ce raportezi la final
+
+Un raport, cu cifre măsurate acum, nu cu impresii:
+
+- ce a existat înainte și ce ai creat
+- numele repo-ului și **de ce l-ai ales așa**
+- ramura, comitul, adresa
+- ce verificări ai făcut și ce au răspuns, cu răspunsul
+- singurul lucru rămas, dacă a rămas ceva, și de ce nu l-ai putut face
+
+## Măsurat pe această mașină (2026-10-10)
+
+git `2.56.0.windows.2` · `gh 2.97.0`, instalat și autentificat ·
+`credential.https://github.com.helper=store` · identitate și `core.hooksPath`
+la nivel global. **`gh` e deja prezent și logat** — așa că la o instalare pe
+această mașină, singurul punct unde te-ai opri nu apare.
+
+## Promptul pereche
+
+`PROMPT git install.md`, în același folder — se trimite ca atare într-o
+sesiune nouă. Rulează **o singură dată**; retrimiterea lui face un al doilea
+repo pe același proiect.
