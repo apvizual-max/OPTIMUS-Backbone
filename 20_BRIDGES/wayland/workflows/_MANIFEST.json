@@ -1,0 +1,437 @@
+{
+  "source": "C:\\Program Files\\Wayland\\resources\\bundled-workflows",
+  "output": "C:\\Users\\apviz\\.minimax-agent\\projects\\20_BRIDGES\\wayland\\workflows",
+  "blob_bytes": 327837,
+  "index_version": 1,
+  "extracted": 71,
+  "failed": 0,
+  "failures": [],
+  "workflows": [
+    {
+      "path": "bodies/business-ops-monthly-review/SKILL.md",
+      "bytes": 2566,
+      "sha256": "71ececac9eb120aa",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/business-ops-operations-handbook/SKILL.md",
+      "bytes": 5404,
+      "sha256": "abd24fb7d81a5e69",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/business-ops-runbook-generator/SKILL.md",
+      "bytes": 4073,
+      "sha256": "dd3625ea4f9ab356",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/business-ops-sop-generator/SKILL.md",
+      "bytes": 4532,
+      "sha256": "4a51d2e2ad5ddb13",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/business-ops-weekly-review/SKILL.md",
+      "bytes": 2701,
+      "sha256": "f71028077555717c",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-abandoned-cart-recovery/SKILL.md",
+      "bytes": 4902,
+      "sha256": "d6e6b9352081b4f6",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-batch-investor-update/SKILL.md",
+      "bytes": 2803,
+      "sha256": "37409cc6a1e0a1d6",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-blog-publish/SKILL.md",
+      "bytes": 4925,
+      "sha256": "fe73e3e9ca175f55",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-brand-audit/SKILL.md",
+      "bytes": 5125,
+      "sha256": "08eb6b95b384527b",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-budget-build/SKILL.md",
+      "bytes": 4996,
+      "sha256": "d99025453897904a",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-budget-variance-check/SKILL.md",
+      "bytes": 2596,
+      "sha256": "7d5185baa285e177",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-build-financial-model/SKILL.md",
+      "bytes": 6654,
+      "sha256": "694aa2747ff3dae0",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-build-investor-deck/SKILL.md",
+      "bytes": 6362,
+      "sha256": "9c7db320c925bfe9",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-bullshit-clean-batch/SKILL.md",
+      "bytes": 3230,
+      "sha256": "6ee3d0f18c6ca304",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-bullshit-clean/SKILL.md",
+      "bytes": 2469,
+      "sha256": "40f2b71371632f7a",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-campaign-brief/SKILL.md",
+      "bytes": 4205,
+      "sha256": "cbe3a268e8bd4799",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-case-study-build/SKILL.md",
+      "bytes": 4420,
+      "sha256": "c5a2ff52ef52c82e",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-cashflow-batch-review/SKILL.md",
+      "bytes": 2784,
+      "sha256": "a42cb38115f98d34",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-cashflow-review/SKILL.md",
+      "bytes": 4933,
+      "sha256": "954d67d0fcfee004",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-channel-mix/SKILL.md",
+      "bytes": 4778,
+      "sha256": "63604049290b99c3",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-close-rebuild/SKILL.md",
+      "bytes": 4555,
+      "sha256": "d25b796d9cb1a14c",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-competitor-deep-research/SKILL.md",
+      "bytes": 5453,
+      "sha256": "e12390b098eb5dc7",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-competitor-watch/SKILL.md",
+      "bytes": 3201,
+      "sha256": "1562bbeb888f6047",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-content-batch-process/SKILL.md",
+      "bytes": 4004,
+      "sha256": "2f1ba74f052e4eb0",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-content-calendar-build/SKILL.md",
+      "bytes": 4289,
+      "sha256": "f25c840b49fc3e55",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-contract-review/SKILL.md",
+      "bytes": 5930,
+      "sha256": "de7c4aad7807e9eb",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-conversion-audit/SKILL.md",
+      "bytes": 5190,
+      "sha256": "8e9913899523e95a",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-course-build/SKILL.md",
+      "bytes": 4854,
+      "sha256": "80ad6dba4b0d3d2d",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-deal-forensic/SKILL.md",
+      "bytes": 5550,
+      "sha256": "e617fc0023effdfc",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-discovery-prep/SKILL.md",
+      "bytes": 4714,
+      "sha256": "e6a7ab0e1b31c8bd",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-draft-investor-update/SKILL.md",
+      "bytes": 4105,
+      "sha256": "7f77db324646ef3e",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-employment-package/SKILL.md",
+      "bytes": 5887,
+      "sha256": "129e9649c115b953",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-evergreen-conversion/SKILL.md",
+      "bytes": 5155,
+      "sha256": "81ff49b6402c8c67",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-forecast-build/SKILL.md",
+      "bytes": 5425,
+      "sha256": "62bbd9a346dcbc9c",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-full-funnel-design/SKILL.md",
+      "bytes": 6516,
+      "sha256": "926daa7fd7feb89e",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-full-launch/SKILL.md",
+      "bytes": 8228,
+      "sha256": "91fd5acf9123f3a5",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-full-sales-asset/SKILL.md",
+      "bytes": 5577,
+      "sha256": "af348f1009b4382c",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-funnel-audit/SKILL.md",
+      "bytes": 4198,
+      "sha256": "aa86e5908c723758",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-headline-lab/SKILL.md",
+      "bytes": 2981,
+      "sha256": "5804b9a0484ec5f4",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-hr-comp-band/SKILL.md",
+      "bytes": 4189,
+      "sha256": "9f93e0c3e8b65bcc",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-hr-handbook/SKILL.md",
+      "bytes": 5382,
+      "sha256": "8057dae3d8b89180",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-hr-hire-loop/SKILL.md",
+      "bytes": 5020,
+      "sha256": "294609cdcc941ab1",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-hr-onboard-package/SKILL.md",
+      "bytes": 3865,
+      "sha256": "290cc172e498e947",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-hr-performance-review/SKILL.md",
+      "bytes": 3753,
+      "sha256": "0db1a726b77a1f13",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-icp-build/SKILL.md",
+      "bytes": 5093,
+      "sha256": "41374b588bc939be",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-launch-readiness-audit/SKILL.md",
+      "bytes": 3700,
+      "sha256": "7c9224181fe1b80d",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-launch-status-batch/SKILL.md",
+      "bytes": 3088,
+      "sha256": "cdf3f6c887c018ec",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-listing-audit-pick/SKILL.md",
+      "bytes": 3762,
+      "sha256": "a966a6fa33b970fe",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-listing-optimize/SKILL.md",
+      "bytes": 4914,
+      "sha256": "4ff7ba499d1a4238",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-morning-report/SKILL.md",
+      "bytes": 6706,
+      "sha256": "50f19bf781adfb07",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-nda-pack/SKILL.md",
+      "bytes": 4113,
+      "sha256": "38c3445ea85e554c",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-objection-library-build/SKILL.md",
+      "bytes": 5083,
+      "sha256": "f51a0ce4855f32d4",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-offer-build/SKILL.md",
+      "bytes": 7400,
+      "sha256": "4c6d2d7818c737b1",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-outreach-build/SKILL.md",
+      "bytes": 4003,
+      "sha256": "e32d5c7fa17d3dcc",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-pipeline-batch-review/SKILL.md",
+      "bytes": 3411,
+      "sha256": "e9dbb7913435830f",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-policy-stack/SKILL.md",
+      "bytes": 6218,
+      "sha256": "4a9d6c22018645db",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-positioning-sprint/SKILL.md",
+      "bytes": 5279,
+      "sha256": "b996272ff34babe2",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-prep-due-diligence/SKILL.md",
+      "bytes": 5394,
+      "sha256": "420ae2da2834f0ca",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-pricing-stress-test/SKILL.md",
+      "bytes": 4522,
+      "sha256": "30ddfcb842669b55",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-re-launch/SKILL.md",
+      "bytes": 3684,
+      "sha256": "97f453b14bb49429",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-runway-projection/SKILL.md",
+      "bytes": 4061,
+      "sha256": "46192b459db21f26",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-sku-launch/SKILL.md",
+      "bytes": 5344,
+      "sha256": "7cff4346db517f3e",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-support-churn-investigate/SKILL.md",
+      "bytes": 4765,
+      "sha256": "70593c913ca38ac4",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-support-kb-article/SKILL.md",
+      "bytes": 4196,
+      "sha256": "09790eac91914cf3",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-support-macro-library/SKILL.md",
+      "bytes": 4042,
+      "sha256": "a9dc2e93655bf122",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-support-ticket-triage/SKILL.md",
+      "bytes": 4010,
+      "sha256": "9ba18a0f4fac8c5d",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-support-week-batch/SKILL.md",
+      "bytes": 3394,
+      "sha256": "c228c1f76e789a8c",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-voice-bootstrap/SKILL.md",
+      "bytes": 4891,
+      "sha256": "4ad3fde43d7da146",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-vsl-build/SKILL.md",
+      "bytes": 4547,
+      "sha256": "aad58ef7fc982aff",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-webinar-funnel/SKILL.md",
+      "bytes": 5483,
+      "sha256": "8faec551e09145d7",
+      "first_line": "---"
+    },
+    {
+      "path": "bodies/wayland-winback-campaign/SKILL.md",
+      "bytes": 4255,
+      "sha256": "e0a69c1dda79970c",
+      "first_line": "---"
+    }
+  ]
+}

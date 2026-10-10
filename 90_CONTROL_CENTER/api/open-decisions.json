@@ -1,0 +1,30 @@
+[
+  {
+    "id": "weekly-digest",
+    "short": "rezumatul saptamanal (daca il vrei cu adevarat)",
+    "open": false,
+    "raised": "2026-10-06",
+    "note": "Propus de Mavis. Popy a cerut constructia lui, deci ramane deconfirmat daca vrea sa-l primeasca cu adevarat sau doar ca artefact."
+  },
+  {
+    "id": "antigravity-cli",
+    "short": "Antigravity CLI (agy) - 3 esecuri de bridge",
+    "open": false,
+    "raised": "2026-10-06",
+    "note": "Rezolvat de Antigravity insusi, la 2026-10-06 seara. Inchis."
+  },
+  {
+    "id": "ollama-machine-wide",
+    "short": "Ollama machine-wide",
+    "open": false,
+    "raised": "2026-10-06",
+    "note": "Operatorul a decis sa se dezvolte mai tarziu daca va fi nevoie. Instrumentul exista, nefolosit. Nu cere nimic."
+  },
+  {
+    "id": "notebooklm-browser-warm",
+    "short": "browserul NotebookLM - rece in timpul neinterschimbarii",
+    "open": false,
+    "raised": "2026-10-06",
+    "note": "Masurat: profil 346,6 MB pe disc, relanseaza singur cu sesiunea intacta. Inert, nu fragil. Nu cere nimic."
+  }
+]

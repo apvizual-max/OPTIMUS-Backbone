@@ -1,0 +1,37 @@
+{"kind":"preflight","decision":"ALLOW","signature":"scriu kernelul","intent":"scriu kernelul","task":"T1","outcome":null,"at":"2026-10-07T14:28:15.347Z","pid":27880}
+{"kind":"preflight","decision":"STOP_DRIFT","signature":"construiesc ceva nou","intent":"Construiesc ceva nou","task":"T99","reason":"task T99 is not in state.json","at":"2026-10-07T14:28:15.513Z","pid":48948}
+{"kind":"preflight","decision":"ALLOW","signature":"incerc sa descarc portul <n> din nou","intent":"incerc sa descarc portul 3099 din nou","task":null,"outcome":"fail","at":"2026-10-07T14:28:15.645Z","pid":40832}
+{"kind":"preflight","decision":"ALLOW","signature":"incerc sa descarc portul <n> din nou","intent":"incerc sa descarc portul 3099 din nou","task":null,"outcome":"fail","at":"2026-10-07T14:28:15.745Z","pid":37112}
+{"kind":"preflight","decision":"ALLOW","signature":"incerc sa descarc portul <n> din nou","intent":"incerc sa descarc portul 3099 din nou","task":null,"outcome":"fail","at":"2026-10-07T14:28:15.843Z","pid":23804}
+{"kind":"preflight","decision":"STOP_TAIL","signature":"incerc sa descarc portul <n> din nou","intent":"incerc sa descarc portul 3099 din nou","task":null,"reason":"3 attempts at the same thing with no advance","at":"2026-10-07T14:28:15.963Z","pid":46364}
+{"kind":"claim-stop","decision":"REFUSED","condition":"ACCESS","reason":"am nevoie de acces","searched":"","routes":0,"shift":"","at":"2026-10-07T14:28:16.069Z","pid":55396}
+{"kind":"claim-stop","decision":"REFUSED","condition":"ACCESS","reason":"am nevoie de parola lui","searched":"am cautat in env si in fisierele mele, nu exista","routes":0,"shift":"","at":"2026-10-07T14:28:16.191Z","pid":25860}
+{"kind":"claim-stop","decision":"REFUSED","condition":"DRIFT","reason":"ma abat","searched":"","routes":0,"shift":"","at":"2026-10-07T14:28:16.283Z","pid":19328}
+{"kind":"claim-stop","decision":"GRANTED","condition":"DRIFT","reason":"ambele pastrateaza scopul","searched":"","routes":2,"shift":"","at":"2026-10-07T14:28:16.376Z","pid":17440}
+{"kind":"claim-stop","decision":"REFUSED","condition":"TAIL","reason":"nu merge","searched":"am cautat pe disc","routes":0,"shift":"","at":"2026-10-07T14:28:16.478Z","pid":40736}
+{"kind":"claim-stop","decision":"GRANTED","condition":"TAIL","reason":"ma invartexc","searched":"am cautat pe disc si pe net","routes":0,"shift":"am schimbat unghiul: am citit hook-urile runtime-ului","at":"2026-10-07T14:28:16.580Z","pid":28652}
+{"kind":"claim-stop","decision":"GRANTED","condition":"ACCESS","reason":"am nevoie de parola lui","searched":"am cautat in env si in fisierele mele, nu exista","routes":0,"shift":"","at":"2026-10-07T14:29:32.236Z","pid":42264}
+{"kind":"claim-stop","decision":"REFUSED","condition":"ACCESS","reason":"nu pot continua cu asta","searched":"am cautat","routes":0,"shift":"","at":"2026-10-07T14:29:32.371Z","pid":31192}
+{"kind":"claim-stop","decision":"REFUSED","condition":"ACCESS","reason":"am nevoie de acces la fisier","searched":"am cautat","routes":0,"shift":"","at":"2026-10-07T14:29:32.482Z","pid":53068}
+{"kind":"preflight","decision":"STOP_TAIL","signature":"test de rezistenta la repornire","intent":"test de rezistenta la repornire","task":"T6","reason":"0 attempts at the same thing with no advance","at":"2026-10-07T14:33:10.297Z","pid":41212}
+{"kind":"claim-stop","decision":"REFUSED","condition":"ACCESS","reason":"am nevoie de acces","searched":"","routes":0,"shift":"","at":"2026-10-07T14:33:10.389Z","pid":36788}
+{"kind":"preflight","decision":"ALLOW","signature":"test de rezistenta la repornire","intent":"test de rezistenta la repornire","task":"T6","outcome":null,"at":"2026-10-07T14:33:45.651Z","pid":50484}
+{"kind":"claim-stop","decision":"REFUSED","condition":"ACCESS","reason":"am nevoie de acces","searched":"","routes":0,"shift":"","at":"2026-10-07T14:33:45.752Z","pid":37416}
+{"kind":"preflight","decision":"ALLOW","signature":"test de rezistenta la repornire","intent":"test de rezistenta la repornire","task":"T6","outcome":null,"at":"2026-10-07T14:35:54.962Z","pid":16416}
+{"kind":"claim-stop","decision":"REFUSED","condition":"ACCESS","reason":"am nevoie de acces","searched":"","routes":0,"shift":"","at":"2026-10-07T14:35:55.068Z","pid":46668}
+{"kind":"preflight","decision":"ALLOW","signature":"test de rezistenta la repornire","intent":"test de rezistenta la repornire","task":"T6","outcome":null,"at":"2026-10-07T14:36:22.603Z","pid":52904}
+{"kind":"claim-stop","decision":"REFUSED","condition":"ACCESS","reason":"am nevoie de acces","searched":"","routes":0,"shift":"","at":"2026-10-07T14:36:22.705Z","pid":48148}
+{"kind":"preflight","decision":"ALLOW","signature":"test de rezistenta la repornire","intent":"test de rezistenta la repornire","task":"T6","outcome":null,"at":"2026-10-07T14:37:34.953Z","pid":38124}
+{"kind":"claim-stop","decision":"REFUSED","condition":"ACCESS","reason":"am nevoie de acces","searched":"","routes":0,"shift":"","at":"2026-10-07T14:37:35.050Z","pid":10024}
+{"kind":"preflight","decision":"ALLOW","signature":"test de rezistenta la repornire","intent":"test de rezistenta la repornire","task":"T6","outcome":null,"at":"2026-10-07T14:37:58.986Z","pid":2568}
+{"kind":"claim-stop","decision":"REFUSED","condition":"ACCESS","reason":"am nevoie de acces","searched":"","routes":0,"shift":"","at":"2026-10-07T14:37:59.084Z","pid":20276}
+{"kind":"preflight","decision":"ALLOW","signature":"test de rezistenta la repornire","intent":"test de rezistenta la repornire","task":"T6","outcome":null,"at":"2026-10-07T14:38:03.051Z","pid":23148}
+{"kind":"claim-stop","decision":"REFUSED","condition":"ACCESS","reason":"am nevoie de acces","searched":"","routes":0,"shift":"","at":"2026-10-07T14:38:03.144Z","pid":19412}
+{"kind":"preflight","decision":"ALLOW","signature":"test de rezistenta la repornire","intent":"test de rezistenta la repornire","task":"T6","outcome":null,"at":"2026-10-07T14:38:07.100Z","pid":37080}
+{"kind":"claim-stop","decision":"REFUSED","condition":"ACCESS","reason":"am nevoie de acces","searched":"","routes":0,"shift":"","at":"2026-10-07T14:38:07.201Z","pid":53224}
+{"kind":"preflight","decision":"ALLOW","signature":"test de rezistenta la repornire","intent":"test de rezistenta la repornire","task":"T6","outcome":null,"at":"2026-10-07T14:38:11.258Z","pid":47272}
+{"kind":"claim-stop","decision":"REFUSED","condition":"ACCESS","reason":"am nevoie de acces","searched":"","routes":0,"shift":"","at":"2026-10-07T14:38:11.351Z","pid":2932}
+{"kind":"preflight","decision":"ALLOW","signature":"test de rezistenta la repornire","intent":"test de rezistenta la repornire","task":"T6","outcome":null,"at":"2026-10-07T14:38:38.900Z","pid":14784}
+{"kind":"claim-stop","decision":"REFUSED","condition":"ACCESS","reason":"am nevoie de acces","searched":"","routes":0,"shift":"","at":"2026-10-07T14:38:38.999Z","pid":43024}
+{"kind":"preflight","decision":"ALLOW","signature":"test de rezistenta la repornire","intent":"test de rezistenta la repornire","task":"T6","outcome":null,"at":"2026-10-07T14:57:45.928Z","pid":43548}
+{"kind":"claim-stop","decision":"REFUSED","condition":"ACCESS","reason":"am nevoie de acces","searched":"","routes":0,"shift":"","at":"2026-10-07T14:57:46.025Z","pid":37960}

@@ -1,0 +1,2636 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="obsidian">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MiniMax OPTIMUS Control Center</title>
+<style>
+/* ==========================================================================
+   DESIGN SOT: Hermes "Obsidian Telemetry Dark" (Living Master SOT)
+   Source (NEVER touch): ~\AppData\Local\hermes\desktop-plugins\design-system
+   Read-only copy: projects\95_DESIGN_SOT\      Skill: mavis-hermes-design-sot
+
+   Invariants obeyed:
+     max 3 font families | single-shade elevation | 3px left chromatic accent
+     18/22px negative space | no boxes inside boxes | Rule 07 border
+     disappearance | action cockpit: button on TOP, text UNDERNEATH
+   ========================================================================== */
+:root{
+  --cyan:#22d3ee;   --emerald:#34d399; --purple:#c084fc;  --amber:#fbbf24;
+  --pink:#f472b6;   --blue:#60a5fa;    --orange:#fb923c; --indigo:#818cf8;
+  --st-active:#ef4444; --st-ok:#22c55e; --st-paused:#eab308;
+  --st-waiting:#f97316; --st-done:#9ca3af; --st-wait:#06b6d4; --st-cleared:#6b7280;
+  --bg:#05070a; --surface:rgba(18,20,26,.78); --surface-soft:rgba(255,255,255,.028);
+  --shadow:0 4px 16px rgba(0,0,0,.25);
+  --sans:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono',monospace;
+  --display:'Trebuchet MS',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --sp:8px;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+html[data-theme="paper"]{
+  --bg:#eef1f5; --surface:rgba(255,255,255,.88); --surface-soft:rgba(15,23,42,.045);
+  --shadow:0 4px 16px rgba(15,23,42,.10);
+  --ink:#16202e; --ink2:#4a5a6e; --ink3:#7b8a9d;
+}
+html[data-theme="obsidian"]{ --ink:#dbe4ee; --ink2:#8fa0b3; --ink3:#6b7a8d; }
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font:400 12px/1.55 var(--sans); -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:radial-gradient(900px 500px at 12% -8%, rgba(34,211,238,.07), transparent 60%),
+             radial-gradient(760px 420px at 92% 0%, rgba(192,132,252,.06), transparent 60%);
+}
+html[data-theme="paper"] body::before{opacity:.5}
+::selection{background:rgba(34,211,238,.28)}
+
+/* ------------------------------------------------------------------ icons */
+.ic{width:1em;height:1em;flex:0 0 auto;stroke:currentColor;fill:none;stroke-width:1.7;
+    stroke-linecap:round;stroke-linejoin:round;vertical-align:-.125em}
+.card h2 .ic{margin-right:7px;opacity:.95}
+.hicon{width:15px;height:15px}
+
+/* ----------------------------------------------------------------- header */
+header{
+  position:sticky; top:0; z-index:30;
+  display:flex; align-items:center; gap:16px; padding:12px 24px 11px;
+  background:linear-gradient(180deg,rgba(18,20,26,.94),rgba(18,20,26,.78));
+  backdrop-filter:blur(12px); box-shadow:var(--shadow);
+}
+html[data-theme="paper"] header{background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.82))}
+.brand{display:flex;flex-direction:column;gap:1px;min-width:0}
+.brand h1{margin:0;font:700 13.5px/1.2 var(--display);letter-spacing:.15em;text-transform:uppercase;color:var(--ink);white-space:nowrap}
+.brand h1 b{color:var(--cyan);font-weight:700}
+.brand span{font:400 10.5px/1.2 var(--sans);color:var(--ink3);letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hbtns{margin-left:auto;display:flex;align-items:center;gap:8px}
+.ibtn{
+  display:inline-flex;align-items:center;gap:7px;height:30px;padding:0 11px;
+  border-radius:6px;border:1px solid var(--surface-soft);background:rgba(255,255,255,.04);
+  color:var(--ink2);font:600 11px/1 var(--sans);cursor:pointer;white-space:nowrap;
+  transition:background .15s var(--ease),color .15s var(--ease),transform .12s var(--ease);
+}
+.ibtn:hover{background:rgba(255,255,255,.09);color:var(--ink);transform:translateY(-1px)}
+.ibtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.ibtn kbd{font:400 10px/1 var(--mono);color:var(--ink3);border:1px solid var(--surface-soft);border-radius:3px;padding:2px 4px}
+.live{display:flex;align-items:center;gap:7px;font:400 10.5px/1 var(--mono);color:var(--ink2);white-space:nowrap}
+.live .dot{width:8px;height:8px;border-radius:50%;background:var(--st-ok);box-shadow:0 0 8px rgba(34,197,94,.55);animation:pulse 2.6s var(--ease) infinite}
+.live .dot.stale{background:var(--st-paused);box-shadow:0 0 8px rgba(234,179,8,.55)}
+.live .dot.down{background:var(--st-active);box-shadow:0 0 8px rgba(239,68,68,.55);animation:none}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+
+/* -------------------------------------------------------------------- nav */
+nav{display:flex;gap:3px;padding:8px 18px;overflow-x:auto;position:sticky;top:52px;z-index:25;
+    background:var(--surface-soft);backdrop-filter:blur(8px)}
+nav button{
+  position:relative;background:transparent;border:0;cursor:pointer;color:var(--ink3);
+  font:600 10.5px/1 var(--sans);letter-spacing:.07em;text-transform:uppercase;
+  padding:9px 13px 8px;border-radius:7px;white-space:nowrap;display:flex;align-items:center;gap:7px;
+  transition:color .15s,background .15s;
+}
+nav button:hover:not(:disabled){color:var(--ink);background:rgba(255,255,255,.05)}
+nav button.on{color:var(--ink);background:rgba(255,255,255,.07)}
+nav button:focus-visible{outline:2px solid var(--cyan);outline-offset:-2px}
+nav button.on::after{content:'';position:absolute;left:11px;right:11px;bottom:2px;height:2px;border-radius:2px;
+  background:var(--pill,var(--cyan));box-shadow:0 0 8px var(--pill,var(--cyan))}
+nav button:disabled{cursor:not-allowed;opacity:.5}
+
+/* ------------------------------------------------------------------ main */
+main{position:relative;z-index:1;padding:24px 24px 60px;max-width:1560px;margin:0 auto}
+.pagehead{margin:0 0 20px;padding-left:20px;border-left:3px solid var(--acc,var(--cyan))}
+.pagehead h2{margin:0 0 5px;font:700 13.5px/1.2 var(--display);letter-spacing:.11em;
+  text-transform:uppercase;color:var(--ink);display:flex;align-items:center;gap:9px}
+.pagehead h2 .ic{color:var(--acc);width:15px;height:15px}
+.pagehead p{margin:0;max-width:82ch;color:var(--ink2)}
+.pagehead .hint{margin-top:6px;color:var(--ink3);font-size:11px;font-style:italic;max-width:82ch}
+
+/* hero KPI band */
+.hero{
+  display:grid;gap:1px;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));
+  background:var(--surface-soft);border-radius:6px;overflow:hidden;margin-bottom:20px;
+  box-shadow:var(--shadow);
+}
+.hero > div{background:var(--surface);padding:16px 18px 15px 20px;border-left:3px solid var(--h,var(--indigo))}
+.hero .lab{display:flex;align-items:center;gap:7px;font:700 9.5px/1 var(--display);
+  letter-spacing:.11em;text-transform:uppercase;color:var(--h);margin-bottom:9px}
+.hero .val{font:800 25px/1 var(--mono);color:var(--ink);letter-spacing:-.01em}
+.hero .sub{font:400 10.5px/1.4 var(--mono);color:var(--ink3);margin-top:6px}
+
+.grid{display:grid;gap:20px 28px;grid-template-columns:repeat(auto-fill,minmax(336px,1fr));align-items:start}
+.card{
+  position:relative;background:var(--surface);border:0;
+  border-left:3px solid var(--acc,var(--indigo));border-radius:4px;
+  padding:17px 19px 17px 21px;box-shadow:var(--shadow);
+  transition:transform .16s var(--ease),box-shadow .16s var(--ease);
+}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.32)}
+.card > h2{margin:0 0 3px;font:700 11.5px/1.25 var(--display);letter-spacing:.11em;
+  text-transform:uppercase;color:var(--acc,var(--ink2));display:flex;align-items:center;gap:8px}
+.card > .sub{margin:0 0 12px;font:400 11px/1.5 var(--sans);color:var(--ink2);
+  padding-bottom:10px;border-bottom:1px solid rgba(127,127,127,.16)}
+.kv{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:5px 0}
+.kv > span:first-child{color:var(--ink2);flex:0 0 auto;display:flex;align-items:center;gap:6px}
+.kv > span:first-child .ic{width:12px;height:12px;opacity:.7}
+.kv > span:last-child{font:400 11.5px/1.4 var(--mono);color:var(--ink);text-align:right;word-break:break-word;min-width:0}
+.kv.sect{padding-top:11px}
+.kv.sect > span:first-child{font:700 9.5px/1.2 var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
+.note{margin-top:10px;padding:9px 12px;border-radius:4px;background:rgba(251,191,36,.10);
+  color:#e0bd76;font:400 11px/1.5 var(--sans);display:flex;gap:8px;align-items:flex-start}
+.note .ic{margin-top:1px;flex:0 0 auto}
+.note.info{background:rgba(96,165,250,.10);color:#8fb8e6}
+.note.bad{background:rgba(239,68,68,.11);color:#eb969b}
+.ok{color:var(--st-ok)} .warn{color:var(--st-paused)} .bad{color:var(--st-active)} .dim{color:var(--ink3)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.chip{font:400 10.5px/1 var(--mono);padding:5px 9px;border-radius:4px;background:rgba(127,127,127,.13);color:var(--ink2)}
+.scroll{max-height:430px;overflow:auto;border-radius:4px;background:rgba(0,0,0,.22);padding:2px 8px}
+html[data-theme="paper"] .scroll{background:rgba(15,23,42,.04)}
+table{width:100%;border-collapse:collapse;font:400 11px/1.5 var(--mono)}
+th{text-align:left;padding:8px 9px;color:var(--ink3);font:700 9.5px/1.3 var(--display);
+  letter-spacing:.09em;text-transform:uppercase;position:sticky;top:0;background:var(--surface)}
+td{padding:6px 9px;color:var(--ink);border-top:1px solid rgba(127,127,127,.14)}
+tr:hover td{background:rgba(127,127,127,.08)}
+.spark{display:flex;align-items:flex-end;gap:2px;height:26px;margin-top:9px}
+.spark i{flex:1 1 auto;background:var(--acc,var(--cyan));border-radius:1px 1px 0 0;opacity:.75;min-height:2px}
+
+/* ============================== ACTION COCKPIT ========================== */
+.cockpit{display:flex;flex-wrap:wrap;gap:24px 28px;margin:4px 0 0}
+.act{display:flex;flex-direction:column;align-items:flex-start;gap:8px;width:210px;text-align:left;
+  background:none;border:0;padding:0;cursor:pointer;font:inherit}
+.act .btn{width:100%;padding:10px 13px;border-radius:5px;cursor:pointer;
+  font:700 11px/1.25 var(--display);letter-spacing:.05em;text-transform:uppercase;color:var(--ink);
+  background:rgba(127,127,127,.10);border:1px solid rgba(127,127,127,.18);box-shadow:var(--shadow);
+  transition:transform .12s var(--ease),background .12s var(--ease)}
+.act:hover .btn{background:rgba(127,127,127,.18);transform:translateY(-1px)}
+.act:focus-visible .btn{outline:2px solid var(--cyan);outline-offset:2px}
+.act .btn.run{opacity:.5;pointer-events:none}
+.act .t{font:700 11px/1.3 var(--display);letter-spacing:.04em;color:var(--ink)}
+.act .d{font:400 10.5px/1.45 var(--sans);color:var(--ink2)}
+.act .cmd{font:400 9.5px/1.35 var(--mono);color:var(--ink3);word-break:break-all}
+pre.out{background:rgba(0,0,0,.34);border:0;border-radius:4px;padding:15px 17px;max-height:460px;
+  overflow:auto;margin:14px 0 0;font:400 11px/1.55 var(--mono);white-space:pre-wrap;word-break:break-word;color:var(--ink2)}
+html[data-theme="paper"] pre.out{background:rgba(15,23,42,.05)}
+
+/* ================================ AI ANALYST ============================= */
+.ai{display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}
+.aiq{width:100%;padding:13px 14px;border-radius:5px;border:1px solid rgba(127,127,127,.22);
+  background:rgba(0,0,0,.26);color:var(--ink);font:400 12.5px/1.5 var(--sans);resize:vertical;min-height:74px}
+html[data-theme="paper"] .aiq{background:rgba(255,255,255,.7)}
+.aiq:focus{outline:2px solid var(--cyan);outline-offset:1px}
+.aiq::placeholder{color:var(--ink3)}
+aibr{display:flex;gap:9px;justify-content:flex-end;align-items:center}
+.pillbtn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:5px;cursor:pointer;
+  font:700 11px/1 var(--display);letter-spacing:.05em;text-transform:uppercase;border:0;
+  background:var(--cyan);color:#05222a;box-shadow:var(--shadow);transition:transform .12s var(--ease),filter .12s}
+.pillbtn:hover{transform:translateY(-1px);filter:brightness(1.08)}
+.pillbtn:disabled{opacity:.5;pointer-events:none}
+.pillbtn.ghost{background:rgba(127,127,127,.12);color:var(--ink2);border:1px solid rgba(127,127,127,.2);box-shadow:none}
+.aiout{background:var(--surface);border-left:3px solid var(--purple);border-radius:4px;
+  padding:18px 20px 18px 22px;box-shadow:var(--shadow);font:400 12.5px/1.65 var(--sans);
+  white-space:pre-wrap;color:var(--ink)}
+/* The answer panel is the payoff of the whole console, so it carries its own
+   provenance: which model answered, how old the facts it reasoned over are, and
+   the question that was asked. An answer with no provenance is a claim, and
+   this console's entire argument is that every number is measured - so the
+   measurement has to travel with the conclusion. The staleness flag turns amber
+   rather than disappearing, because a correct answer from a stale snapshot is
+   still a stale answer. */
+.aihead{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:10px}
+.aimodel{display:inline-flex;align-items:center;gap:6px;font:600 11px/1 var(--sans);
+  letter-spacing:.08em;text-transform:uppercase;color:var(--purple)}
+.aifacts,.aiwhen{display:inline-flex;align-items:center;gap:5px;font:400 11px/1 var(--sans);
+  color:var(--dim);padding:3px 8px;border:1px solid var(--line);border-radius:99px}
+.aifacts.warn{color:var(--st-warn);border-color:color-mix(in srgb,var(--st-warn) 45%,transparent)}
+.aiq-echo{margin:0 0 12px;padding:9px 12px;border-radius:4px;background:var(--surface-2);
+  border-left:2px solid var(--line);font:400 12px/1.5 var(--sans);color:var(--ink-2)}
+.aiq-echo::before{content:'asked: ';color:var(--dim);font-size:10.5px;letter-spacing:.06em;
+  text-transform:uppercase}
+/* The incidents list is a reference, not the headline. Uncapped it ran to
+   ~1075px and dictated the height of its entire grid row, leaving ~800px of
+   empty card on either side. Capped, the newest entries are visible and the
+   rest is one scroll away. */
+.incroll{max-height:420px;overflow-y:auto;margin-top:2px;padding-right:6px}
+.incroll::-webkit-scrollbar{width:7px}
+.incroll::-webkit-scrollbar-track{background:transparent}
+.incroll::-webkit-scrollbar-thumb{background:rgba(127,127,127,.28);border-radius:99px}
+.incroll::-webkit-scrollbar-thumb:hover{background:rgba(127,127,127,.45)}
+.aiout.pending{color:var(--ink3);font-style:italic}
+/* A 5+1 wrap left one orphan on its own row and read as a mistake rather than
+   a layout. Six chips in three even columns is balanced at any width, and the
+   columns collapse rather than re-orphan on a narrow screen. */.qs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+@media (max-width:1100px){.qs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:720px){.qs{grid-template-columns:1fr}}
+.qs button{padding:7px 12px;border-radius:20px;border:1px solid rgba(127,127,127,.22);
+  background:rgba(127,127,127,.08);color:var(--ink2);cursor:pointer;
+  font:400 11px/1.35 var(--sans);transition:background .14s,color .14s,border-color .14s}
+.qs button:hover{background:rgba(192,132,252,.16);color:var(--ink);border-color:rgba(192,132,252,.42)}
+.qs button:focus-visible{outline:2px solid var(--purple);outline-offset:2px}
+
+/* command palette */
+.pal{position:fixed;inset:0;z-index:100;display:none;background:rgba(0,0,0,.62);
+  backdrop-filter:blur(4px);padding:14vh 20px 0}
+.pal.on{display:block}
+.palbox{background:var(--surface);border-radius:8px;box-shadow:0 24px 60px rgba(0,0,0,.6);
+  max-width:640px;margin:0 auto;overflow:hidden;border-left:3px solid var(--cyan)}
+.palin{width:100%;padding:16px 18px;border:0;background:transparent;color:var(--ink);
+  font:400 14px/1.4 var(--sans);border-bottom:1px solid rgba(127,127,127,.16)}
+.palin:focus{outline:none}
+.pallist{max-height:46vh;overflow:auto}
+.palrow{display:flex;align-items:center;gap:11px;width:100%;padding:10px 18px;border:0;background:none;
+  color:var(--ink2);cursor:pointer;text-align:left;font:400 12px/1.4 var(--sans)}
+.palrow:hover,.palrow.sel{background:rgba(127,127,127,.13);color:var(--ink)}
+.palrow .ic{color:var(--cyan);width:14px;height:14px}
+.palrow .k{margin-left:auto;font:400 10px/1 var(--mono);color:var(--ink3)}
+.palfoot{padding:9px 18px;border-top:1px solid rgba(127,127,127,.14);display:flex;gap:16px;
+  font:400 10px/1 var(--mono);color:var(--ink3)}
+
+.ovl{position:fixed;inset:0;z-index:110;display:none;background:rgba(0,0,0,.7);padding:12vh 20px 0}
+.ovl.on{display:block}
+.ovlbox{background:var(--surface);border-radius:8px;max-width:560px;margin:0 auto;padding:22px 24px;
+  box-shadow:0 24px 60px rgba(0,0,0,.6);border-left:3px solid var(--indigo)}
+.ovlbox h3{margin:0 0 14px;font:700 12px/1 var(--display);letter-spacing:.11em;
+  text-transform:uppercase;color:var(--indigo)}
+.krow{display:flex;justify-content:space-between;gap:16px;padding:6px 0;border-bottom:1px solid rgba(127,127,127,.1)}
+.krow:last-child{border:0}
+.krow span:first-child{color:var(--ink2)}
+.krow kbd{font:400 10.5px/1 var(--mono);color:var(--ink);background:rgba(127,127,127,.14);
+  border-radius:4px;padding:4px 7px}
+a.link{display:inline-block;margin-top:12px;padding:11px 17px;border-radius:5px;
+  background:rgba(34,211,238,.14);border:1px solid rgba(34,211,238,.36);color:var(--cyan);
+  text-decoration:none;font:700 12px/1 var(--mono)}
+.bar{height:3px;background:rgba(127,127,127,.15);border-radius:3px;overflow:hidden;margin-top:12px}
+.bar i{display:block;height:100%;width:60%;background:var(--cyan);box-shadow:0 0 10px rgba(34,211,238,.5);
+  animation:load 1.4s var(--ease) infinite}
+@keyframes load{0%{margin-left:-60%}100%{margin-left:100%}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:820px){
+  header{flex-wrap:wrap;gap:9px;padding:10px 14px}
+  .brand span{display:none}
+  main{padding:16px 14px 48px}
+  .grid{grid-template-columns:1fr;gap:16px}
+  .act{width:100%}
+  .cockpit{gap:16px}
+}
+</style>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     PASS 1-8 — SCALE FOUNDATION  (Ralph Loop, 2026-10-03)
+     Additive layer. Nothing above is edited or removed; these rules land
+     later in the cascade and win at equal specificity.
+
+     Grounded in research, not taste:
+       - body was 12px. Five independent sources put the floor at 14-16px
+         and 16px as the comfortable desktop default.
+       - modular scale 1.25 (Major Third), 7 steps, per the type-scale guides.
+       - line-height never below 1.4 in body text; 1.6 here.
+       - measure capped 45-75ch. This file used 82ch — over the long end.
+       - enterprise dashboard baseline is a 1440px monitor, so 1920 must be
+         used deliberately rather than left as leftover margin.
+     ═══════════════════════════════════════════════════════════════════ -->
+<style id="pass-1-8-scale">
+:root{
+  /* --- modular scale, ratio 1.25 -------------------------------------- */
+  --t-xs:11px;   --t-sm:12.5px; --t-base:15px; --t-md:15px;
+  --t-lg:17px;   --t-xl:19px;   --t-2xl:24px;  --t-3xl:30px;  --t-4xl:38px;
+  --lh-body:1.6;
+  --measure:72ch;
+  --header-h:64px;
+  --r-sm:6px; --r-md:9px; --r-lg:12px;
+  --ic:19px;         /* base icon box  */
+  --ic-sm:14px;
+  --ic-lg:23px;
+  --elev-1:0 2px 8px rgba(0,0,0,.22);
+  --elev-2:0 6px 18px rgba(0,0,0,.28);
+  --elev-3:0 12px 34px rgba(0,0,0,.38);
+  --ring:0 0 0 3px rgba(34,211,238,.30);
+}
+html[data-theme="paper"]{
+  --elev-1:0 2px 8px rgba(15,23,42,.07);
+  --elev-2:0 6px 18px rgba(15,23,42,.11);
+  --elev-3:0 12px 34px rgba(15,23,42,.16);
+}
+
+/* 1 — base text. The single biggest legibility win on the whole page. */
+body{ font:400 var(--t-base)/var(--lh-body) var(--sans); }
+
+/* 2 — icon boxes follow the type scale */
+.ic{width:1em;height:1em;stroke-width:1.6}
+.hicon{width:var(--ic-sm);height:var(--ic-sm)}
+
+/* 3 — header grows, so the nav's hard-coded sticky offset must grow with it */
+header{
+  padding:12px 30px; gap:20px; min-height:var(--header-h);
+  background:linear-gradient(180deg,rgba(18,20,26,.96),rgba(18,20,26,.80));
+}
+.brand h1{font-size:var(--t-xl);letter-spacing:.13em}
+.brand span{font-size:var(--t-sm);margin-top:3px}
+.ibtn{height:40px;padding:0 15px;font-size:var(--t-sm);border-radius:var(--r-sm);gap:9px}
+.ibtn kbd{font-size:11.5px;padding:3px 6px}
+.live{font-size:var(--t-sm)}
+.live .dot{width:10px;height:10px}
+
+/* 4 — nav: taller, larger, and re-anchored to the taller header */
+nav{
+  top:var(--header-h); padding:11px 22px; gap:5px;
+  background:rgba(255,255,255,.035); border-bottom:1px solid rgba(127,127,127,.10);
+}
+nav button{
+  font-size:var(--t-sm); padding:12px 17px 11px; border-radius:var(--r-sm); gap:9px;
+  letter-spacing:.06em;
+}
+nav button .ic{width:var(--ic-sm);height:var(--ic-sm)}
+nav button.on{background:rgba(255,255,255,.085)}
+nav button.on::after{left:15px;right:15px;height:3px}
+
+/* 5 — page heading, and the measure cap the research asked for */
+main{padding:30px 30px 84px;max-width:1840px}
+.pagehead{margin-bottom:26px;padding-left:24px}
+.pagehead h2{font-size:var(--t-xl);margin-bottom:7px;gap:11px}
+.pagehead h2 .ic{width:var(--ic-lg);height:var(--ic-lg)}
+.pagehead p{max-width:var(--measure);font-size:var(--t-base);line-height:var(--lh-body)}
+.pagehead .hint{font-size:var(--t-sm);font-style:normal;color:var(--ink3);max-width:var(--measure);
+  margin-top:9px;padding-top:8px;border-top:1px solid rgba(127,127,127,.13)}
+
+/* 6 — hero KPI band. The largest element on the page, so the largest numbers. */
+.hero{
+  grid-template-columns:repeat(auto-fit,minmax(238px,1fr));
+  margin-bottom:26px; border-radius:var(--r-md); box-shadow:var(--elev-2);
+}
+.hero > div{padding:20px 22px 19px 24px}
+.hero .lab{font-size:var(--t-sm);margin-bottom:12px;gap:9px}
+.hero .lab .ic{width:var(--ic-sm);height:var(--ic-sm)}
+.hero .val{font-size:var(--t-3xl);letter-spacing:-.02em}
+.hero .sub{font-size:var(--t-sm);margin-top:8px}
+/* this one value is a word ("authenticated"), not a number, so it stays smaller
+   — but it scales up too. A real class, not a substring match on an inline
+   style: [style*="font-size:11px"] would also have matched font-size:111px. */
+.hero .val-word{font-size:22px}
+
+/* 7 — cards */
+.grid{gap:26px 30px;grid-template-columns:repeat(auto-fill,minmax(430px,1fr))}
+.card{padding:22px 24px 22px 26px;border-radius:var(--r-sm);box-shadow:var(--elev-1)}
+.card > h2{font-size:14.5px;margin-bottom:5px;gap:10px;letter-spacing:.09em}
+.card > h2 .ic{width:var(--ic);height:var(--ic)}
+.card > .sub{font-size:var(--t-base);line-height:1.55;margin-bottom:16px;padding-bottom:13px}
+
+/* 8 — key/value rows, the most-read element in every card */
+.kv{padding:8px 0;gap:18px}
+.kv > span:first-child{font-size:var(--t-base);gap:9px}
+.kv > span:first-child .ic{width:var(--ic-sm);height:var(--ic-sm);opacity:.75}
+.kv > span:last-child{font-size:var(--t-base)}
+.kv.sect{padding-top:15px}
+.kv.sect > span:first-child{font-size:var(--t-sm)}
+</style>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     PASS 9-18 — DATA, TEXT PANELS, ACTIONS, OVERLAYS
+     The elements that carry the actual reading load. Same discipline: these
+     land after the base sheet, nothing above is edited.
+     ═══════════════════════════════════════════════════════════════════ -->
+<style id="pass-9-18-detail">
+/* 9 — tables. Dense rows dissolve into a wall of text if the row box is tight. */
+.scroll{max-height:520px;padding:4px 10px;border-radius:var(--r-sm)}
+table{font-size:var(--t-base);line-height:1.5}
+th{padding:12px 12px;font-size:var(--t-sm);letter-spacing:.08em;top:0;
+   box-shadow:inset 0 -1px 0 rgba(127,127,127,.22)}
+td{padding:11px 12px;border-top:1px solid rgba(127,127,127,.15)}
+tbody tr{transition:background .13s var(--ease)}
+tbody tr:hover{background:rgba(127,127,127,.10)}
+tbody tr.row{cursor:pointer}
+
+/* 10 — callouts and chips */
+.note{margin-top:14px;padding:13px 15px;font-size:var(--t-base);gap:11px;line-height:1.55;
+  border-radius:var(--r-sm);border-left:3px solid currentColor;border-left-color:rgba(251,191,36,.55)}
+.note.info{border-left-color:rgba(96,165,250,.55)}
+.note.bad{border-left-color:rgba(239,68,68,.55)}
+.note .ic{width:var(--ic);height:var(--ic);margin-top:1px}
+.chips{gap:8px;margin-top:12px}
+.chip{font-size:var(--t-sm);padding:7px 12px;border-radius:20px;
+  background:rgba(127,127,127,.15);border:1px solid rgba(127,127,127,.13)}
+
+/* 11 — sparkline strip gets room to actually read as a trend */
+.spark{height:44px;gap:3px;margin-top:14px}
+.spark i{border-radius:2px 2px 0 0;opacity:.85;min-height:3px;transition:opacity .15s}
+.spark i:hover{opacity:1}
+
+/* 12 — the action cockpit. The "action cockpit" SOT rule is button ON TOP,
+   text UNDERNEATH; that is preserved. Only the scale changes. */
+.cockpit{gap:30px 32px}
+.act{width:274px;gap:10px}
+.act .btn{
+  padding:15px 17px;font-size:13.5px;border-radius:var(--r-sm);letter-spacing:.05em;
+  border:1px solid rgba(127,127,127,.24);box-shadow:var(--elev-1);
+  display:flex;align-items:center;justify-content:center;gap:9px;min-height:52px;
+}
+.act .btn .ic{width:var(--ic);height:var(--ic)}
+.act:hover .btn{background:rgba(127,127,127,.20);transform:translateY(-2px);
+  box-shadow:var(--elev-2);border-color:rgba(127,127,127,.34)}
+.act .t{font-size:14.5px;line-height:1.35}
+.act .d{font-size:var(--t-base);line-height:1.5}
+.act .cmd{font-size:11.5px;line-height:1.45;padding:6px 9px;border-radius:5px;
+  background:rgba(0,0,0,.26);border:1px solid rgba(127,127,127,.12)}
+html[data-theme="paper"] .act .cmd{background:rgba(15,23,42,.045)}
+
+/* 13 — terminal output. Small monospace is a legibility trap; this is real
+   output a person has to read to trust a button. */
+pre.out{font-size:var(--t-base);line-height:1.65;padding:20px 22px;max-height:560px;
+  border-radius:var(--r-sm);margin-top:18px}
+
+/* 14 — AI analyst */
+.aiq{font-size:var(--t-lg);line-height:1.6;padding:18px 19px;min-height:112px;
+  border-radius:var(--r-sm)}
+.aibr{margin-top:14px;gap:11px}
+.pillbtn{font-size:13.5px;padding:13px 24px;border-radius:var(--r-sm);gap:9px;min-height:48px}
+.pillbtn .ic{width:var(--ic);height:var(--ic)}
+.pillbtn.ghost{background:rgba(127,127,127,.14);border-color:rgba(127,127,127,.26)}
+.qs{gap:9px;margin-top:16px}
+.qs button{font-size:var(--t-base);padding:11px 17px;line-height:1.45;
+  display:inline-flex;align-items:center;gap:9px}
+.qs button .ic{width:var(--ic-sm);height:var(--ic-sm)}
+.aiout{font-size:var(--t-lg);line-height:1.72;padding:24px 26px 24px 28px;
+  border-radius:var(--r-sm);min-height:120px}
+
+/* 15 — command palette: the fastest path in the product, so the roomiest */
+.palbox{max-width:820px;border-radius:var(--r-lg)}
+.palin{font-size:var(--t-lg);padding:22px 24px}
+.pallist{max-height:52vh}
+.palrow{font-size:var(--t-lg);padding:14px 24px;gap:13px}
+.palrow .ic{width:var(--ic-lg);height:var(--ic-lg)}
+.palrow .k{font-size:var(--t-sm);padding:4px 8px;border-radius:4px;
+  background:rgba(127,127,127,.13)}
+.palfoot{font-size:var(--t-sm);padding:13px 24px;gap:22px}
+
+/* 16 — help overlay + inline controls */
+.ovlbox{max-width:680px;padding:30px 32px;border-radius:var(--r-lg)}
+.ovlbox h3{font-size:var(--t-lg);margin-bottom:20px}
+.krow{padding:11px 0;font-size:var(--t-base)}
+.krow kbd{font-size:var(--t-sm);padding:6px 10px}
+a.link{font-size:var(--t-base);padding:14px 22px;border-radius:var(--r-sm);
+  display:inline-flex;align-items:center;gap:9px;margin-top:16px}
+.bar{height:5px;margin-top:18px;border-radius:5px}
+.bar i{border-radius:5px}
+
+/* 17 — inline dim annotations that hardcode a font-size in markup.
+     These cannot be reached by a class rule, so they are normalised here.
+     Only the two values actually present in the markup. Deliberately NOT
+     including a "11px" matcher: [style*="font-size:11px"] is a substring of
+     "font-size:111px" and would silently capture an unrelated future size. */
+[style*="font-size:10.5px"],[style*="font-size:10px"]{
+  font-size:var(--t-sm) !important; line-height:1.5;
+}
+
+/* 18 — scrollbar, so the overflow region reads as scrollable */
+.scroll::-webkit-scrollbar,.pallist::-webkit-scrollbar,pre.out::-webkit-scrollbar{width:11px;height:11px}
+.scroll::-webkit-scrollbar-track,.pallist::-webkit-scrollbar-track,pre.out::-webkit-scrollbar-track{
+  background:rgba(127,127,127,.10);border-radius:6px}
+.scroll::-webkit-scrollbar-thumb,.pallist::-webkit-scrollbar-thumb,pre.out::-webkit-scrollbar-thumb{
+  background:rgba(127,127,127,.34);border-radius:6px;border:2px solid transparent;background-clip:content-box}
+.scroll::-webkit-scrollbar-thumb:hover,.pallist::-webkit-scrollbar-thumb:hover{background:rgba(127,127,127,.55);background-clip:content-box}
+</style>
+
+<!-- PASS 19 — REAL ICON LIBRARY.
+     Tabler Icons 3.48.0 webfont, MIT. Research across four sources converged on
+     Tabler for dashboards specifically: 5229 glyphs on one 24px grid, so the
+     set stays visually consistent instead of mixing styles.
+     Every name used below was verified to exist in the shipped CSS before use.
+     ti-bridge, ti-layers, ti-info, ti-play and ti-waves DO NOT exist in the
+     set - they were the obvious guesses and they would have rendered blank. -->
+<!-- Served from /assets, NOT a CDN. This console must work with no network at
+     all: loaded remotely, every glyph becomes a blank box the moment the machine
+     is offline, and a blank box is indistinguishable from a design choice.
+     The subset CSS and the woff2 both live in 90_CONTROL_CENTER\assets\. -->
+<link rel="stylesheet" href="/assets/tabler-icons.css">
+<link rel="preload" href="/assets/tabler-icons.woff2" as="font" type="font/woff2" crossorigin>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     PASS 19-26 — DEPTH, ELEVATION, ICONS, MOTION
+     ═══════════════════════════════════════════════════════════════════ -->
+<style id="pass-19-26-depth">
+/* 19 — the Tabler glyph itself, sized onto the same scale as everything else */
+.ti{font-size:1.05em;line-height:1;vertical-align:-.14em;flex:0 0 auto}
+.ti-lg{font-size:1.35em}
+.ti-xl{font-size:1.7em}
+
+/* 20 — depth. A telemetry console should feel like it has a room behind it.
+     Three layers, all fixed and pointer-events:none, so they cost no layout. */
+body::after{
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background-image:
+    linear-gradient(rgba(127,127,127,.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(127,127,127,.045) 1px, transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse 110% 80% at 50% 0%, #000 20%, transparent 78%);
+  -webkit-mask-image:radial-gradient(ellipse 110% 80% at 50% 0%, #000 20%, transparent 78%);
+  opacity:.85;
+}
+html[data-theme="paper"] body::after{opacity:.5}
+
+/* 21 — elevation. The SOT forbids boxes inside boxes, so depth is carried by
+     shadow and a hairline top highlight rather than by nested borders. */
+.card{
+  box-shadow:var(--elev-1), inset 0 1px 0 rgba(255,255,255,.045);
+  transition:transform .18s var(--ease), box-shadow .18s var(--ease),
+             border-color .18s var(--ease);
+  /* A card that can grow without limit is how one tab reached 5747px and needed
+     a full scroll to read what is meant to be a status board. The cap sits well
+     above the tallest legitimate card measured (~640px), so ordinary cards are
+     untouched and only runaway ones engage - and then they scroll internally.
+     Long prose belongs in the documentation; capping it keeps the information
+     without pretending the whole page is glanceable. */
+  max-height:1000px; overflow-y:auto;}
+.card:hover{
+  transform:translateY(-3px);
+  box-shadow:var(--elev-3), inset 0 1px 0 rgba(255,255,255,.07),
+             0 0 0 1px rgba(255,255,255,.05);
+}
+.card:hover > h2{color:var(--ink)}
+.card > h2{transition:color .18s var(--ease)}
+
+/* 22 — focus. Keyboard users must be able to see where they are; this was
+     already present on some controls and is now consistent everywhere. */
+:where(a,button,input,textarea,select,[tabindex]):focus-visible{
+  outline:2.5px solid var(--cyan); outline-offset:3px; border-radius:4px;
+}
+.qs button:focus-visible,.palrow:focus-visible{outline:2.5px solid var(--purple)}
+
+/* 23 — motion. Short, eased, and never on a value the eye has to read. */
+@keyframes riseIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes sweep{0%{transform:translateX(-100%)}100%{transform:translateX(220%)}}
+@keyframes breathe{0%,100%{opacity:.55}50%{opacity:1}}
+/* Entrance animation runs ONCE, on first paint only.
+   render() is also called by the 5 s poll, which replaces #view wholesale, so
+   an unscoped animation here replays every single cycle: the page visibly faded
+   out and back in every five seconds while you were reading it (opacity was
+   measured dipping to 0). `booting` is added on load and removed after the
+   first paint, so the delight happens once instead of forever. */
+body.booting .pagehead{animation:riseIn .34s var(--ease) both}
+body.booting .grid > .card{animation:riseIn .40s var(--ease) both}
+body.booting .hero > div{animation:riseIn .36s var(--ease) both}
+/* stagger by position - only the first rows, so a long page never costs a lot */
+body.booting .hero > div:nth-child(1),body.booting .grid > .card:nth-child(1){animation-delay:.02s}
+body.booting .hero > div:nth-child(2),body.booting .grid > .card:nth-child(2){animation-delay:.05s}
+body.booting .hero > div:nth-child(3),body.booting .grid > .card:nth-child(3){animation-delay:.08s}
+body.booting .hero > div:nth-child(4),body.booting .grid > .card:nth-child(4){animation-delay:.11s}
+body.booting .hero > div:nth-child(5),body.booting .grid > .card:nth-child(5){animation-delay:.14s}
+body.booting .hero > div:nth-child(6),body.booting .grid > .card:nth-child(6){animation-delay:.17s}
+body.booting .grid > .card:nth-child(7),body.booting .grid > .card:nth-child(8){animation-delay:.20s}
+body.booting .grid > .card:nth-child(9){animation-delay:.23s}
+
+/* 24 — the accent bar on a card picks up the card's own colour on hover */
+.card::before{
+  content:''; position:absolute; left:0; top:0; bottom:0; width:3px;
+  background:linear-gradient(180deg, var(--acc,var(--indigo)), transparent);
+  opacity:.85; transition:opacity .18s var(--ease);
+}
+.card:hover::before{opacity:1}
+
+/* 25 — a live sheen across the KPI band, so "live" is visible not just claimed */
+.hero{position:relative;overflow:hidden}
+.hero::after{
+  content:''; position:absolute; top:0; left:0; width:26%; height:100%;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.045), transparent);
+  pointer-events:none; animation:sweep 7s var(--ease) infinite;
+}
+
+/* 26 — the pulse on the live dot is the one animation allowed to loop forever,
+     because it is the only element that literally means "this is running". */
+.live .dot{animation:breathe 2.4s var(--ease) infinite}
+.live .dot.down{animation:none;opacity:1}
+.live .dot.stale{animation:breathe 4.2s var(--ease) infinite}
+
+/* reduced motion is respected, and the new keyframes are named in it too */
+/* font-glyph icons are sized in em, not width/height, so each slot gets its
+   own size to match the box the hand-drawn SVGs used to occupy */
+i.hicon{font-size:1.25em;width:auto;height:auto}
+nav button .ti{font-size:1.18em}
+.pagehead h2 .ti{font-size:1.4em}
+.hero .lab .ti{font-size:1.45em}
+.card > h2 .ti{font-size:1.22em}
+.kv > span:first-child .ti{font-size:1.05em;opacity:.8}
+.note .ti{font-size:1.15em}
+.palrow .ti{font-size:1.32em}
+.act .btn .ti{font-size:1.2em}
+.qs button .ti{font-size:1.05em}
+
+/* 27 — the area chart. Sized off the same type ramp as everything else. */
+.chart{
+  margin-top:18px;padding:20px 20px 15px;border-radius:var(--r-sm);
+  background:rgba(0,0,0,.24);border:1px solid rgba(127,127,127,.13);
+}
+html[data-theme="paper"] .chart{background:rgba(15,23,42,.04)}
+.chart svg{width:100%;height:auto;display:block;overflow:visible;
+  filter:drop-shadow(0 4px 14px rgba(0,0,0,.35))}
+.chart-ax{display:flex;justify-content:space-between;align-items:center;gap:16px;
+  margin-top:14px;padding-top:12px;border-top:1px solid rgba(127,127,127,.14);
+  font:400 var(--t-sm)/1.4 var(--mono);color:var(--ink3);letter-spacing:.02em}
+.chart-ax b{color:var(--acc);font-weight:700}
+.chart-empty{padding:34px 6px;font-size:var(--t-base);text-align:center;line-height:1.6}
+
+/* line item: an icon and a claim, used by the Resilience coverage list */
+.li{display:flex;gap:12px;align-items:flex-start;margin-top:11px;
+  font-size:var(--t-base);line-height:1.55}
+.li .ti{font-size:1.15em;margin-top:2px;flex:0 0 auto}
+.li span{min-width:0}
+
+/* ── UPSCALE 1: glanceable header status ───────────────────────────────────
+   Borrowed from the Qwen dashboard at :3098. Its header answers "is anything
+   wrong, and is anything watching" before you read a single number. This one
+   had only a clock, which is a freshness reading and nothing else. These two
+   pills carry the other half of the question, and they are clickable so a
+   glance can become an investigation. */
+.brand .meta{font:400 11.5px/1.2 var(--mono);color:var(--ink3);letter-spacing:.04em;
+  margin-top:3px;opacity:.85}
+.pill{
+  display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 14px;
+  border-radius:999px;font:700 12px/1 var(--sans);letter-spacing:.03em;
+  white-space:nowrap;border:1px solid transparent;cursor:default;
+  transition:background .16s var(--ease),border-color .16s var(--ease);
+}
+.pill .ti{font-size:1.1em}
+.pill.p-risk{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.34);color:#6ee7a8}
+.pill.p-risk.bad{background:rgba(239,68,68,.14);border-color:rgba(239,68,68,.42);color:#fca5a5;
+  box-shadow:0 0 14px rgba(239,68,68,.20)}
+.pill.p-ok{background:rgba(34,211,238,.10);border-color:rgba(34,211,238,.30);color:#67e8f9}
+.pill.p-ok.bad{background:rgba(234,179,8,.13);border-color:rgba(234,179,8,.38);color:#fcd34d}
+.pill.p-ok.gone{background:rgba(239,68,68,.14);border-color:rgba(239,68,68,.42);color:#fca5a5}
+html[data-theme="paper"] .pill.p-risk{background:rgba(22,101,52,.09);border-color:rgba(22,101,52,.28);color:#166534}
+html[data-theme="paper"] .pill.p-risk.bad{background:rgba(185,28,28,.09);border-color:rgba(185,28,28,.3);color:#991b1b}
+html[data-theme="paper"] .pill.p-ok{background:rgba(14,116,144,.09);border-color:rgba(14,116,144,.26);color:#0e7490}
+html[data-theme="paper"] .pill.p-ok.bad{background:rgba(180,83,9,.1);border-color:rgba(180,83,9,.3);color:#92400e}
+html[data-theme="paper"] .pill.p-ok.gone{background:rgba(185,28,28,.09);border-color:rgba(185,28,28,.3);color:#991b1b}
+
+/* The header now carries three things at once - identity, live status, and
+   controls. On a narrow window that is one thing too many, and a truncated
+   half-sentence is worse than no sentence. Shed detail as width drops, in the
+   order that costs the least meaning: meta line first (it is reference), then
+   the pill wording (the colour and icon still carry the verdict). */
+@media (max-width:1600px){ .brand .meta{display:none} }
+@media (max-width:1280px){
+  .pill{width:34px;padding:0;justify-content:center}
+  .pill span{display:none}
+  .brand span:not(.meta){max-width:38ch;overflow:hidden;text-overflow:ellipsis}
+}
+@media (max-width:1100px){ .brand span{display:none} }
+
+/* ── UPSCALE 3: activity-by-day heatmap ─────────────────────────────────
+   A calendar grid, not a bar strip. Two channels per day, because they mean
+   different things and merging them hides the interesting half: how much
+   happened (samples), and how bad it got (worst warn/fail that day). */
+.hm{display:flex;gap:4px;margin-top:16px;overflow-x:auto;padding-bottom:6px}
+.hmcol{display:flex;flex-direction:column;gap:4px}
+.hmlbl{font:400 10px/1 var(--mono);color:var(--ink3);text-align:center;margin-bottom:2px}
+/* The empty cell was rgba(127,127,127,.10) on a .14 border, and on this dark
+   canvas 30 of the last 35 days were effectively invisible - so a 35-day
+   calendar read as "there is nothing here". An empty cell is information
+   ("nothing moved that day"); it has to be legible AS a cell while staying
+   clearly subordinate to a day that actually did something. The coloured
+   levels are untouched, so the hierarchy still points at the interesting days. */
+.hmday{
+  width:20px;height:20px;border-radius:4px;background:rgba(127,127,127,.17);
+  border:1px solid rgba(127,127,127,.26);position:relative;
+  transition:transform .14s var(--ease),box-shadow .14s var(--ease);
+}
+.hmday.s1{background:rgba(34,211,238,.16);border-color:rgba(34,211,238,.28)}
+.hmday.s2{background:rgba(251,191,36,.22);border-color:rgba(251,191,36,.36)}
+.hmday.s3{background:rgba(249,115,22,.28);border-color:rgba(249,115,22,.42)}
+.hmday.s4{background:rgba(239,68,68,.34);border-color:rgba(239,68,68,.52)}
+.hmday.today{box-shadow:0 0 0 2px var(--cyan),0 0 12px rgba(34,211,238,.4)}
+.hmday:hover{transform:scale(1.25);z-index:2}
+.hmlegend{display:flex;align-items:center;gap:9px;margin-top:12px;
+  font:400 var(--t-xs)/1.5 var(--mono);color:var(--ink3);flex-wrap:wrap}
+.hmlegend i{width:13px;height:13px;border-radius:3px;display:inline-block;
+  border:1px solid rgba(127,127,127,.18)}
+
+/* ── UPSCALE 4: fabric — reachability grid + supervision tree ──────── */
+.fscroll{overflow:auto;border-radius:var(--r-sm);background:rgba(0,0,0,.22);
+  border:1px solid rgba(127,127,127,.12)}
+html[data-theme="paper"] .fscroll{background:rgba(15,23,42,.04)}
+/* A capped scroller that ends mid-row reads as a rendering fault. The fade
+   makes the cut say "there is more below" instead, and the caption states the
+   count outright. Both cues, because a fade on its own is still an inference. */
+.scrollwrap{position:relative}
+.scrollwrap::after{content:'';position:absolute;left:1px;right:1px;bottom:1px;height:40px;
+  pointer-events:none;z-index:3;border-radius:0 0 var(--r-sm) var(--r-sm);
+  background:linear-gradient(to bottom,rgba(18,20,26,0),rgba(18,20,26,.97))}
+html[data-theme="paper"] .scrollwrap::after{
+  background:linear-gradient(to bottom,rgba(255,255,255,0),rgba(255,255,255,.97))}
+table.ftab{width:100%;border-collapse:collapse;font:400 var(--t-sm)/1.5 var(--mono)}
+table.ftab th{position:sticky;top:0;background:var(--surface);z-index:1;
+  padding:11px 13px;text-align:left;font:700 var(--t-xs)/1.2 var(--display);
+  letter-spacing:.09em;text-transform:uppercase;color:var(--ink3);
+  box-shadow:inset 0 -1px 0 rgba(127,127,127,.22)}
+table.ftab td{padding:10px 13px;border-top:1px solid rgba(127,127,127,.13);
+  color:var(--ink);vertical-align:top}
+table.ftab tr:hover td{background:rgba(127,127,127,.07)}
+.fdot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:9px;
+  vertical-align:middle;flex:0 0 auto}
+.f-ok{color:#6ee7a8}  .fdot.f-ok{background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,.6)}
+.f-warn{color:#fcd34d} .fdot.f-warn{background:#eab308;box-shadow:0 0 8px rgba(234,179,8,.6)}
+.f-bad{color:#fca5a5} .fdot.f-bad{background:#ef4444;box-shadow:0 0 8px rgba(239,68,68,.6)}
+.fscore{margin:2px 0 16px;font:600 var(--t-base)/1.5 var(--sans);color:var(--ink2)}
+.fscore .f-ok,.fscore .f-bad{font-family:var(--mono);font-size:1.3em;font-weight:800}
+
+.tree{font:400 var(--t-sm)/1.6 var(--mono);padding:6px 0 2px}
+.tnode{display:inline-block;padding:9px 15px;border-radius:var(--r-sm);
+  border:1px solid rgba(127,127,127,.2);background:rgba(255,255,255,.035);
+  color:var(--ink);margin:3px 0}
+.t-win{border-color:rgba(34,211,238,.4);background:rgba(34,211,238,.10)}
+.t-ok{border-color:rgba(34,197,94,.42);background:rgba(34,197,94,.10)}
+.t-bad{border-color:rgba(239,68,68,.45);background:rgba(239,68,68,.11)}
+.t-server{border-color:rgba(192,132,252,.38);background:rgba(192,132,252,.09)}
+.t-job{border-color:rgba(251,191,36,.32);background:rgba(251,191,36,.07)}
+.t-leaf{display:block}
+.tedge{width:0;height:20px;margin:0 0 0 26px;border-left:2px solid rgba(127,127,127,.32)}
+.tbent{width:0;height:18px;margin:0 0 0 52px;border-left:2px solid rgba(127,127,127,.32)}
+.tbents{margin-left:26px;padding-left:20px;border-left:2px solid rgba(127,127,127,.32)}
+.tfoot{margin-top:16px;padding-top:12px;border-top:1px solid rgba(127,127,127,.14);
+  color:var(--ink3);font-size:var(--t-xs);line-height:1.6}
+
+/* 28 — print. This page is a real artefact; printing it should not cut the
+     chart in half or leave the sticky bars smeared across page one. */
+@media print{
+  header,nav,.pal,.ovl,.act,.hbtns{display:none !important}
+  body{background:#fff;color:#000}
+  .card,.hero > div{break-inside:avoid;box-shadow:none;border:1px solid #ccc}
+  main{max-width:100%;padding:0}
+  .scroll{max-height:none;overflow:visible}
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation:none !important;transition:none !important}
+  .card:hover{transform:none}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <h1>MiniMax <b>OPTIMUS</b> Control Center</h1>
+    <span>Live operations console &middot; Hermes &middot; Antigravity &middot; Docker &middot; Qwen &middot; MiniMax</span>
+    <span class="meta" id="sysMeta">measuring the machine&hellip;</span>
+  </div>
+  <div class="hbtns">
+    <div class="live"><span id="ts">connecting</span><span id="dot" class="dot"></span></div>
+    <span class="pill p-risk" id="pillRisk" title="Problems detected in the current measurement"><i class="ti ti-alert-triangle"></i><span>—</span></span>
+    <span class="pill p-ok" id="pillSup" title="Is the supervisor keeping this console alive?"><i class="ti ti-heartbeat"></i><span>supervisor —</span></span>
+    <button class="ibtn" id="btnAsk" title="Jump to the AI analyst (A)"><i class="ti ti-sparkles hicon"></i>Ask<kbd>A</kbd></button>
+    <button class="ibtn" id="btnPal" title="Command palette"><i class="ti ti-search hicon"></i><kbd>Ctrl K</kbd></button>
+    <button class="ibtn" id="btnTheme" title="Switch theme"><i class="ti ti-moon hicon" id="themeIcon"></i></button>
+    <button class="ibtn" id="btnHelp" title="Keyboard shortcuts"><i class="ti ti-keyboard hicon"></i><kbd>?</kbd></button>
+  </div>
+</header>
+
+<nav id="nav"></nav>
+<main><div id="view" role="tabpanel" tabindex="-1"></div></main>
+
+<div class="pal" id="pal"><div class="palbox">
+  <input class="palin" id="palIn" placeholder="Jump to a tab, run an action, or ask the analyst…" autocomplete="off">
+  <div class="pallist" id="palList"></div>
+  <div class="palfoot"><span>&uarr;&darr; navigate</span><span>&crarr; select</span><span>esc close</span></div>
+</div></div>
+
+<div class="ovl" id="help"><div class="ovlbox">
+  <h3>Keyboard shortcuts</h3>
+  <div id="helpBody"></div>
+</div></div>
+
+<script>
+/* ============================== ICONS ==================================== */
+const IC = {
+  gauge:'<circle cx="12" cy="12" r="9"/><path d="M12 12l4-3"/>',
+  boxes:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+  bridge:'<path d="M3 16V8M21 16V8M3 12h18M7 12v4M17 12v4M7 8h10"/>',
+  plug:'<path d="M9 3v6M15 3v6M6 9h12v3a6 6 0 01-12 0zM12 18v3"/>',
+  brain:'<path d="M9 4a3 3 0 00-3 3 3 3 0 00-2 5 3 3 0 001 5 3 3 0 004 3V4zM15 4a3 3 0 013 3 3 3 0 012 5 3 3 0 01-1 5 3 3 0 01-4 3V4z"/>',
+  refresh:'<path d="M20 11a8 8 0 10-2 6M20 5v6h-6"/>',
+  sparkle:'<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/>',
+  layers:'<path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5M3 17l9 5 9-5"/>',
+  doc:'<path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>',
+  terminal:'<rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 9l3 3-3 3M13 15h5"/>',
+  warn:'<path d="M12 3l9.5 17H2.5z"/><path d="M12 10v4M12 17.5v.01"/>',
+  check:'<circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/>',
+  x:'<circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/>',
+  server:'<rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/><path d="M7 7.5v.01M7 16.5v.01"/>',
+  key:'<circle cx="8" cy="12" r="4"/><path d="M12 12h9M17 12v3.5M20 12v2.5"/>',
+  download:'<path d="M12 3v12M7 11l5 5 5-5M4 20h16"/>',
+  play:'<path d="M7 4l12 8-12 8z"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  file:'<path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/>',
+  cpu:'<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>',
+  lock:'<rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/>',
+};
+const svg = (k, cls) => `<svg class="ic ${cls||''}" viewBox="0 0 24 24">${IC[k]||IC.gauge}</svg>`;
+
+/* ── Tabler Icons 3.48.0 (MIT), 5229 glyphs on one 24px grid ───────────────
+   Research picked Tabler for dashboards specifically: largest consistent
+   outline set, so the UI does not end up mixing icon styles. Every class name
+   below was verified present in the shipped stylesheet. Six obvious guesses
+   were NOT and would have rendered as blank boxes:
+     ti-bridge, ti-layers, ti-info, ti-play, ti-cpu-core, ti-waves
+   Real substitutes used instead: ti-affiliate, ti-stack-2, ti-help-circle,
+   ti-player-play, ti-activity.
+   The original hand-drawn IC map above is untouched and still used for the
+   in-card key/value glyphs, so nothing that used to render stops rendering. */
+const TIC = {
+  gauge:'gauge', boxes:'box-multiple', bridge:'affiliate', plug:'plug',
+  brain:'brain', refresh:'refresh', sparkle:'sparkles', layers:'stack-2',
+  doc:'file-text', terminal:'terminal', warn:'alert-triangle',
+  check:'circle-check', x:'circle-x', server:'server', key:'key',
+  download:'download', play:'player-play', clock:'clock', file:'file',
+  cpu:'cpu', lock:'lock',
+  info:'help-circle', search:'search', moon:'moon', sun:'sun',
+  keyboard:'keyboard', chart:'chart-line', activity:'activity',
+  heartbeat:'heartbeat', shield:'shield-check', bolt:'bolt', rocket:'rocket',
+  copy:'copy', printer:'printer', palette:'palette', hexagon:'hexagon',
+  wand:'wand', topology:'topology-star-3', antenna:'antenna',
+  docker:'brand-docker', world:'world', building:'building', flame:'flame',
+  zoom:'zoom', filter:'filter', external:'external-link',
+  tree:'binary-tree', star:'star', point:'point', api:'api', code:'code',
+  alert:'alert-circle', filter2:'filter', settings:'settings',
+};
+const tic = (k, cls) => `<i class="ti ti-${TIC[k]||TIC.gauge} ${cls||''}"></i>`;
+
+/* ============================== TABS ==================================== */
+const TABS = [
+  ['overview','Overview','indigo','gauge','The one-screen answer to "is OPTIMUS healthy right now?"','Reads the same live snapshot as every other tab. If a number here disagrees with its own tab, that tab is more detailed.'],
+  ['ai','AI Analyst','purple','brain','Ask the system anything. MiniMax-M3 answers from the live measurement, not from memory.','The facts are pre-digested before the model sees them, so it quotes exact values and refuses to guess. Nothing here is a canned response.'],
+  ['trends','Trends & Incidents','orange','clock','What changed, when it changed, and what looks wrong against its own recent history','A snapshot cannot answer "when did it break". This tab is built from a server-side history, so it can. Median baselines, not averages, so one spike cannot hide behind itself.'],
+  ['docker','Docker','emerald','boxes','Every container OPTIMUS runs, grouped by the compose project that owns it','Herds are the risk. hermes-mcp-* is load-bearing and must never be pruned; the apviz project is guarded by `cc guard`. Click any row for its full record.'],
+  ['bridges','Bridges','cyan','bridge','The two MiniMax bridges connecting Mavis to Hermes and Antigravity','Each line is one diagnostic check: ok means verified, warn needs a human eye, fail means act. The usual warns are expected.'],
+  ['services','Services','blue','plug','The supporting applications OPTIMUS depends on, and whether they answer','Stirling-PDF is a real HTTP API. LibreOffice on 3001 is a remote desktop, not an API - convert with `optimus doc convert`.'],
+  ['qwen','Qwen','purple','sparkle','Qwen Studio: transport, credentials, and the reason prompts fail today','Qwen speaks ACP, not MCP. The blocker is the model provider, not the protocol.'],
+  ['update','Hermes Update','amber','refresh','Hermes self-updates, so this state moves on its own. Here is where it stands','Also detects the self-inflicted deadlock where a hung CLI process owns the update lock it is waiting on.'],
+  ['minimax','MiniMax','pink','sparkle','The MiniMax ecosystem: Code, Design, and the CLI that runs on the Code binary','There is no separate MiniMax CLI product. This tab proves it, and shows the live Python route to the same models.'],
+  ['skills','Skills','orange','layers','The skill libraries Mavis can load, and the source-of-truth index behind them','Skills are the reusable procedures. 60_SKILLS\\_links junctions every library so you can browse them in one place.'],
+  ['projects','Projects Sections','indigo','file','The documents folder acting as OPTIMUS\'s central audit point','File, folder and byte counts per section, measured live on every poll.'],
+  ['docs','Documentation','blue','doc','The root documents, newest first','OPTIMUS_CURRENT_STATE.md is generated from live measurement and always wins. Everything else is dated history.'],
+  ['command','Command Center','cyan','terminal','Every action the dashboard can take, with what it does and what it prints','Buttons run on this machine and print their real output below. Nothing is simulated.'],
+  ['resilience','Resilience','emerald','heartbeat','Whether this console is genuinely being kept alive, and what staying up has cost','A supervisor checks every 30 s whether the server serves FRESH state, not merely whether the port is open. A listening socket is not proof of health: a wedged process holds one open indefinitely while everything behind it rots. That is exactly how this dashboard sat dead for 19.5 hours before the supervisor existed.'],
+  ['fabric','Fabric','cyan','topology','Every dependency as one grid: who answers, who watches, and what happens if each one dies','A reachability board and a supervision tree. The question a dashboard is supposed to answer is not "what is the number" but "what happens to everything else when this one thing stops" — so the graph is drawn with its failure consequences, not just its states.'],
+];
+
+/* ============================== ACTIONS ================================= */
+const ACTIONS = {
+  status:        {t:'Full status',        d:'One-screen health of every pillar. Start here when something looks wrong.',                    c:'optimus status', i:'gauge'},
+  doctor:        {t:'Deep doctor',        d:'Every diagnostic check from both bridges, including the slow ones.',                           c:'optimus doctor --deep', i:'check'},
+  census:        {t:'Docker census',      d:'Container counts by group, and the standing warning about pruning.',                              c:'optimus docker census', i:'boxes'},
+  bridge_health: {t:'Bridge health',      d:'Liveness of the two MiniMax bridges and how long each has been up.',                       c:'optimus bridge health', i:'bridge'},
+  sot_list:      {t:'Show SOT links',     d:'Lists every junction and hard link behind the source-of-truth index.',                        c:'optimus sot list', i:'layers'},
+  skills:        {t:'List Mavis skills',  d:'Names of every skill Mavis can load right now.',                                               c:'optimus skills list', i:'layers'},
+  qwen_status:   {t:'Qwen status',        d:'Daemon, stored OAuth credential, and the Ollama dependency.',                                c:'optimus qwen status', i:'sparkle'},
+  compose_check: {t:'Validate compose',   d:'Confirms docker-compose.yml is present and parses. Never stops a container.',                   c:'docker compose -f C:\\Users\\apviz\\docker-compose.yml config --quiet', i:'check'},
+  app_status:    {t:'MiniMax apps',       d:'Whether Code and Design are installed, and whether Code is running for the CLI broker.',      c:'optimus app status', i:'plug'},
+  ai_auth:       {t:'MiniMax CLI auth',   d:'The shared auth broker status. Only authenticated while MiniMax Code is running.',              c:'mcode-tools auth status', i:'key'},
+  ai_tools:      {t:'Connector tools',    d:'The full catalogue of connected App/Connector tools available to MiniMax.',                    c:'mcode-tools connector tools', i:'cpu'},
+  qwen_doctor:   {t:'Qwen ACP doctor',    d:'Three-layer Qwen diagnosis: transport, session, and model provider.',                         c:'optimus qwen doctor', i:'sparkle'},
+  state_doc:     {t:'Rebuild state doc',  d:'Regenerates OPTIMUS_CURRENT_STATE.md from a fresh measurement so it cannot go stale.',  c:'scripts\\build-current-state.ps1', i:'file'},
+  mojibake:      {t:'Check doc encoding', d:'Dry-run scan of every markdown file for double-encoded characters. Reports, changes nothing.', c:'scripts\\repair-mojibake.ps1 -Recurse', i:'doc'},
+  journal:       {t:'Bridge journal',     d:'Reads the audit trail the bridges already write, straight from the container.', c:'docker exec minimax-hermes-bridge tail /opt/optimus/journal/', i:'file'},
+};
+
+const SUGGESTED = [
+  'What is the state of the system right now?',
+  'Is anything actually broken? What exactly?',
+  'Which single thing should I fix first?',
+  'Why would qwen_prompt fail?',
+  'Which bridge has warnings, and why?',
+  'Is the Hermes source tree healthy?',
+];
+
+let S = null, active = 'overview', busy = false, history = [];
+
+/* Action output has to survive the 5 s poll. poll() -> render() rebuilds #view,
+   so any element reference captured by bind() is stale by the time an action's
+   fetch resolves, and the result is written into a detached node where no one
+   can ever see it. The poll also reset the visible region to its placeholder.
+   Keep the text here and always write through a fresh lookup instead. */
+let outKeep = '';
+
+const el = (t,c,h) => { const e=document.createElement(t); if(c) e.className=c; if(h!==undefined) e.innerHTML=h; return e; };
+const esc = s => String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+/* PowerShell collapses a ONE-element array to a scalar on the way through JSON.
+   Every list in this payload is therefore untrusted as an array - a single
+   bridge, a single check, a single doc, a single container all arrive as bare
+   objects and `.map` is not a function.
+
+   It must also NOT wrap a collection as a scalar: Array.isArray() is false for
+   a NodeList or an HTMLCollection, so the first version wrapped querySelectorAll
+   results as one element and getComputedStyle threw. Length-bearing,
+   non-string values are therefore spread; everything else is one value. */
+const arr = v => (v==null) ? []
+  : Array.isArray(v) ? v
+  : (typeof v!=='string' && typeof v.length==='number') ? Array.prototype.slice.call(v)
+  : [v];
+/* yn() returns markup; kv() deliberately does NOT escape its value so markup
+   renders. Values come from our own /api/state, never from user input. */
+const yn = (b,t,f) => b ? `<span class="ok">${esc(t||'yes')}</span>` : `<span class="bad">${esc(f||'no')}</span>`;
+const kv = (k,v,c) => `<div class="kv"><span>${k}</span><span class="${c||''}">${v==null?'':v}</span></div>`;
+const sect = k => `<div class="kv sect"><span>${esc(k)}</span><span></span></div>`;
+const note = (h,k) => `<div class="note ${k||''}">${tic(k==='bad'?'warn':(k==='info'?'info':'alert'))}<span>${h}</span></div>`;
+const clip = (s,n) => { s=String(s==null?'':s); return s.length<=n?s:s.slice(0,n)+' …['+(s.length-n)+' chars]'; };
+const httpJson = (u,t) => fetch(u,{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
+
+/* ========================== file:// guard =============================== */
+function fileProtocolGuard(){
+  if (location.protocol !== 'file:') return false;
+  const target='http://127.0.0.1:8900/';
+  setStatus('opened as a file - not a valid origin','down');
+  document.getElementById('view').innerHTML =
+    '<div class="card" style="--acc:var(--amber)"><h2>'+svg('warn')+'Wrong way to open</h2>'+
+    '<p class="sub">This page was opened as a local file, so it has no server behind it and can never reach the Control Center API. The server itself may well be running perfectly.</p>'+
+    '<div class="note info">'+svg('clock')+'<span>Open it over HTTP instead, and keep using that tab. Double-clicking the file will always fail.</span></div>'+
+    '<a class="link" href="'+target+'">&rarr; '+target+'</a>'+
+    note('If the link does not work the server is not running. Start it with <code>cc start</code>, then reload.')+'</div>';
+  const nav=document.getElementById('nav');
+  /* #view carries role="tabpanel" in the markup, so this path has to describe
+     its nav the same way the normal path does — otherwise the guard page ships
+     a tabpanel that no tab controls, and a screen reader announces a panel with
+     no way to reach it. These buttons are disabled and never selected. */
+  if(!nav.children.length){
+    nav.setAttribute('role','tablist');
+    nav.setAttribute('aria-label','Control Center sections');
+    TABS.forEach(([id,l,acc,icn])=>{
+      const b=el('button','',tic(icn)+esc(l));
+      b.disabled=true; b.style.setProperty('--pill',`var(--${acc})`);
+      b.id='tab-'+id; b.dataset.tab=id;
+      b.setAttribute('role','tab'); b.setAttribute('aria-controls','view');
+      b.setAttribute('aria-selected','false');
+      nav.appendChild(b);
+    });
+  }
+  return true;
+}
+function setStatus(t,c){ document.getElementById('ts').textContent=t; document.getElementById('dot').className='dot '+(c||''); }
+
+/* Header status. The clock says how FRESH the data is; these two say whether
+   anything is WRONG and whether anything is WATCHING. That distinction was
+   missing, and it is the whole point of the Resilience tab existing.
+   The risk count is derived from the measurement, never hard-coded, so it
+   cannot go stale while still looking reassuring. */
+function paintHeader(){
+  const risk=document.getElementById('pillRisk'), sup=document.getElementById('pillSup'),
+        meta=document.getElementById('sysMeta');
+  if(!S||!S.sections){ return; }
+  const d=S.sections.docker, b=S.sections.bridges||[], sv=S.sections.services||[],
+        q=S.sections.qwen||{}, m=S.sections.minimax||{};
+
+  let problems=[];
+  arr(b).forEach(x=>{ if(!x.up) problems.push('bridge '+x.name+' is DOWN');
+                 else if(x.fail) problems.push(x.fail+' failing check(s) on '+x.name); });
+  arr(sv).forEach(s=>{ if(!s.up) problems.push('service '+s.name+' unreachable'); });
+  (d.containers||[]).forEach(c=>{ if(c.status!=='running') problems.push(c.name+' is '+c.status);
+                                  else if(c.health && c.health!=='healthy' && c.health!=='none') problems.push(c.name+': '+c.health); });
+  if(d.compose_present===false) problems.push('docker-compose.yml is missing');
+  else if(d.compose_valid===false) problems.push('docker-compose.yml does not parse');
+  if(m.cli_auth && m.cli_auth!=='authenticated') problems.push('MiniMax CLI is '+m.cli_auth);
+  if(q.daemon_up===false) problems.push('Qwen ACP daemon is down');
+
+  risk.className='pill p-risk'+(problems.length?' bad':'');
+  risk.querySelector('span').textContent = problems.length
+    ? (problems.length+' problem'+(problems.length===1?'':'s')+' — click')
+    : 'all clear';
+  risk.title = problems.length ? problems.join('\n') : 'Nothing failing in the current measurement.';
+  risk.onclick = ()=>{ active=(problems.some(p=>p.indexOf('Qwen')===0))?'qwen':'trends'; render(); };
+
+  const s=S.supervision||{};
+  sup.className='pill p-ok'+(!s.known?' gone':(s.healthy?'':' bad'));
+  sup.querySelector('span').textContent = !s.known ? 'UNSUPERVISED'
+      : (s.healthy ? 'supervisor healthy' : 'supervisor restarting');
+  sup.title = !s.known ? 'Nothing is watching this server. Run: cc install'
+      : (s.restarts+' restart(s) · last check '+(s.state_age_sec==null?'?':Math.round(s.state_age_sec)+'s')+' ago');
+  sup.onclick = ()=>{ active='resilience'; render(); };
+
+  const cpu=S.sections.docker&&S.sections.docker.total!=null?S.sections.docker.total:'?';
+  meta.textContent = (S.host||'?')+' · port 8900 · '+cpu+' containers · refresh 5s · measured '+
+    (S.generated?new Date(S.generated).toLocaleTimeString():'—');
+}
+
+/* ============================== POLLING ================================= */
+async function poll(){
+  if(busy) return; busy=true;
+  if(!S){ setStatus('collecting system state','stale'); skeleton(); }
+  try{
+    S=await httpJson('/api/state');
+    if(!S) throw new Error('no state returned');
+    const age=Math.max(0,Math.round((Date.now()-new Date(S.generated).getTime())/1000));
+    if(S.sections.docker && S.sections.docker.total) history.push(S.sections.docker.total);
+    if(history.length>40) history.shift();
+    setStatus('live '+new Date(S.generated).toLocaleTimeString()+' · '+age+'s old',
+              age<60?'':(age<180?'stale':'down'));
+    render();
+  }catch(e){
+    setStatus('collector unreachable: '+e.message,'down');
+    if(!S) document.getElementById('view').innerHTML=
+      '<div class="card" style="--acc:var(--st-active)"><h2>'+svg('warn')+'Cannot reach the collector</h2>'+
+      '<p class="sub">The Control Center server on 127.0.0.1:8900 is not answering.</p>'+
+      note('Start it with <code>cc start</code>, then retry. The dashboard can only show what the collector measured, so there is nothing to display until the server is back.')+
+      '<div style="margin-top:14px"><button class="pillbtn" onclick="location.reload()">Retry now</button></div></div>';
+  } finally { busy=false; }
+}
+function skeleton(){
+  document.getElementById('view').innerHTML =
+    pagehead(TABS[0]) +
+    '<div class="card" style="--acc:var(--cyan)"><h2>'+svg('clock')+'Collecting</h2>'+
+    '<p class="sub">Measuring containers, both bridge doctors, the MiniMax connector catalogue and the document services. The first read takes about 10 seconds; after that the refresher keeps it current and every poll is instant.</p>'+
+    '<div class="bar"><i></i></div></div>';
+}
+function pagehead(t){
+  /* TABS is [id, label, accent, icon, description, hint].
+     This read the DESCRIPTION as the icon key (so it fell back to a gauge),
+     printed the HINT as the lead paragraph, and asked for t[6] for the hint -
+     which is always undefined, so the real description was never shown. */
+  return '<div class="pagehead" style="--acc:var(--'+t[2]+')"><h2>'+tic(t[3])+esc(t[1])+'</h2><p>'+esc(t[4])+'</p>'+
+         (t[5]?'<p class="hint">'+esc(t[5])+'</p>':'')+'</div>';
+}
+function sparkline(vals, acc){
+  if(!vals.length) return '';
+  const mx=Math.max(...vals), mn=Math.min(...vals), sp=mx-mn||1;
+  return '<div class="spark" style="--acc:var(--'+(acc||'cyan')+')" title="container count trend, '+vals.length+' samples">'+
+    vals.map(v=>'<i style="height:'+Math.round(28*((v-mn)/sp))+'%"></i>').join('')+'</div>';
+}
+
+/* A real area chart instead of a bar strip: gradient fill, stroked line, a
+   marker on the latest sample, and a min/mid/max axis line. Composed as raw
+   SVG so it adds no dependency and no network round-trip.
+   The viewBox scales uniformly (no preserveAspectRatio="none"), which keeps
+   the end marker a circle instead of smearing it into an ellipse. */
+function areaChart(vals, acc, height){
+  /* The first history sample is null - the ring buffer has no previous value to
+     diff against on a cold start. Math.min over [null,57,57,57,57] is 0, not
+     57, so a series that never moved was drawn as a rise off zero and labelled
+     "min 0 / now 57 / +57". Filter to real finite numbers BEFORE any
+     arithmetic, or the chart invents history that never happened. */
+  const v=(vals||[]).filter(function(x){return typeof x==='number' && isFinite(x)});
+  if(v.length < 2) return '<div class="dim chart-empty">not enough history yet &mdash; the baseline builds as samples arrive</div>';
+  const W=1000, H=height||280, pad=30;
+  const mx=Math.max.apply(null,v), mn=Math.min.apply(null,v);
+  const sp=(mx-mn)||1, lo=mn-sp*0.3, hi=mx+sp*0.3, rng=(hi-lo)||1;
+  const n=v.length-1;
+  const x=i=>pad+(i*(W-pad*2))/n;
+  const y=n2=>H-pad-((n2-lo)/rng)*(H-pad*2);
+  let line='', area='';
+  v.forEach(function(val,i){
+    const px=x(i).toFixed(1), py=y(val).toFixed(1);
+    line += (i?' L':'M')+px+' '+py;
+    area += (i?' L':'M')+px+' '+py;
+  });
+  area = 'M'+pad+' '+(H-pad)+' L'+area.slice(1)+' L'+x(n).toFixed(1)+' '+(H-pad)+' Z';
+  const c='var(--'+(acc||'cyan')+')', gid='ag-'+(acc||'cyan');
+  const last=v[n], step=n>0?(last-v[0]):0;
+  return '<div class="chart" style="--acc:'+c+'">'
+    +'<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="trend over '+n+' intervals">'
+    +'<defs><linearGradient id="'+gid+'" x1="0" y1="0" x2="0" y2="1">'
+    +'<stop offset="0%" stop-color="'+c+'" stop-opacity=".42"/>'
+    +'<stop offset="100%" stop-color="'+c+'" stop-opacity="0"/></linearGradient></defs>'
+    +'<line x1="'+pad+'" y1="'+(H-pad)+'" x2="'+(W-pad)+'" y2="'+(H-pad)+'" stroke="rgba(127,127,127,.25)" stroke-width="1"/>'
+    +'<path d="'+area+'" fill="url(#'+gid+')"/>'
+    +'<path d="'+line+'" fill="none" stroke="'+c+'" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>'
+    +'<circle cx="'+x(n).toFixed(1)+'" cy="'+y(last).toFixed(1)+'" r="6" fill="'+c+'"/>'
+    +'<circle cx="'+x(n).toFixed(1)+'" cy="'+y(last).toFixed(1)+'" r="12" fill="none" stroke="'+c+'" stroke-width="1.5" opacity=".45"/>'
+    +'</svg>'
+    +'<div class="chart-ax"><span>min <b>'+mn+'</b></span>'
+    +'<span>'+v.length+' samples</span>'
+    +'<span>now <b>'+last+'</b> '+(step>0?'&#9650; +'+step:(step<0?'&#9660; '+step:'&#9679; flat'))+'</span></div>'
+    +'</div>';
+}
+
+/* ============================== RENDER ================================= */
+function render(){
+  const nav=document.getElementById('nav');
+  /* These are TABS, and they said so only visually. Fifteen bare <button>s in a
+     <nav> carried no role, no selected state and no id, so: a screen reader had
+     no way to learn which panel was showing, the active tab was marked by COLOUR
+     alone (font-weight was 600 on active and inactive alike), and there was no
+     stable handle to link to or script against. All of that is additive. */
+  if(!nav.children.length){
+    nav.setAttribute('role','tablist');
+    nav.setAttribute('aria-label','Control Center sections');
+    TABS.forEach(([id,l,acc,icn,desc])=>{
+      /* TABS is [id, label, accent, icon, description, hint]. This read index 4
+         — the DESCRIPTION — as the icon key, so svg() missed, fell back to
+         IC.gauge, and every tab rendered the same gauge glyph. The tooltip had
+         the identical off-by-one and showed the hint instead of the blurb. */
+      const b=el('button','',tic(icn)+esc(l));
+      b.style.setProperty('--pill',`var(--${acc})`);
+      b.title=l+' — '+desc;
+      b.id='tab-'+id;
+      b.dataset.tab=id;
+      b.setAttribute('role','tab');
+      b.setAttribute('aria-controls','view');
+      b.onclick=()=>{ active=id; render(); };
+      nav.appendChild(b);
+    });
+  }
+  /* The update pass used to be the `else` of the create branch, so on a COLD load
+     the fifteen buttons were built and appended with no class at all, and the
+     active tab was not marked until the SECOND render - five seconds later, or
+     twenty when a collect is in flight. The nav pointed at nothing for that
+     whole window. Creating and marking are now separate steps, so it is right on
+     the first paint. */
+  [...nav.children].forEach((b,i)=>{
+    const on = TABS[i][0]===active;
+    b.className = on?'on':'';
+    b.setAttribute('aria-selected', on?'true':'false');
+    if(on) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current');
+  });
+  /* The open tab lives in the URL now, so a console you keep in a bookmark bar -
+     or paste into a message to someone - lands on the panel you meant instead of
+     Overview. replaceState, not assignment: fifteen poll cycles must not bury the
+     Back button under fifteen identical entries. It also does not fire hashchange,
+     so this cannot loop against the listener below.
+
+     WINDOW.history, explicitly. There is a top-level `let history = []` further
+     up holding the container-count samples, and a `let` at script scope SHADOWS
+     the global — so a bare `history.replaceState` was undefined, threw on every
+     render, and fell through to the catch below, which assigns location.hash and
+     pushes a real history entry per click. The symptom looked fine (the tab still
+     switched, Back still worked) which is exactly why it survived: the thing that
+     was broken was the thing nothing was measuring. */
+  if(location.hash.slice(1)!==active){
+    try{ window.history.replaceState(null,'','#'+active); }
+    catch(e){ location.hash='#'+active; }
+  }
+  const tab=TABS.find(t=>t[0]===active)||TABS[0];
+  const map={overview:viewOverview, ai:viewAI, trends:viewTrends, docker:viewDocker, bridges:viewBridges,
+             services:viewServices, qwen:viewQwen, update:viewUpdate, minimax:viewMinimax,
+             skills:viewSkills, projects:viewProjects, docs:viewDocs, command:viewCommand,
+             resilience:viewResilience, fabric:viewFabric};
+  document.getElementById('view').innerHTML = pagehead(tab) + (map[active]||viewOverview)();
+  paintHeader();
+  bind();
+}
+
+/* ============================== OVERVIEW ================================ */
+function viewOverview(){
+  const d=S.sections.docker, b=S.sections.bridges, m=S.sections.minimax, q=S.sections.qwen, u=S.sections.hermes_update;
+  const fails=b.reduce((n,x)=>n+x.fail,0);
+  // A bridge that is up but UNMEASURED is not a healthy bridge, and the tile
+  // above used to say "2/2" while the card directly beneath it read
+  // "unknown - 0ok/0w/0f". Both statements were true of different things, and
+  // together they read as "all clear". The collector already knew the
+  // difference - it reports health and answered_late per bridge - so the page
+  // simply was not using it. Counting "up" and counting "measured" are
+  // different questions and the answer to one is not the answer to the other.
+  const measured=b.filter(x=>x.up&&x.health!=='unknown').length;
+  const upCount=b.filter(x=>x.up).length;
+  const unmeasured=b.filter(x=>x.up&&x.health==='unknown').length;
+  const bridgeSub = unmeasured
+    ? (measured+' of '+upCount+' measured · '+unmeasured+' not answering')
+    : (fails+' failing check'+(fails===1?'':'s'));
+  return (
+   '<div class="hero">'
+   +'<div style="--h:var(--emerald)"><div class="lab">'+tic('boxes','ti-lg')+'Containers</div><div class="val">'+d.total+'</div><div class="sub">'+d.hermes_mcp+' hermes-mcp-* · '+d.sentinel+' sentinel</div></div>'
+   +'<div style="--h:'+(unmeasured?'var(--amber)':'var(--cyan)')+'"><div class="lab">'+tic('bridge','ti-lg')+'Bridges</div><div class="val">'+measured+'/'+b.length+'</div><div class="sub">'+esc(bridgeSub)+'</div></div>'
+   +'<div style="--h:var(--pink)"><div class="lab">'+tic('key','ti-lg')+'CLI auth</div><div class="val val-word" style="color:'+(m.cli_auth==='authenticated'?'var(--st-ok)':'var(--st-active)')+'">'+esc(m.cli_auth||'?')+'</div><div class="sub">'+esc(m.cli_auth_mode||'')+'</div></div>'
+   +'<div style="--h:var(--purple)"><div class="lab">'+tic('sparkle','ti-lg')+'Qwen</div><div class="val">'+(q.oauth_credential?'1':'0')+'</div><div class="sub">OAuth credential present</div></div>'
+   +'<div style="--h:var(--amber)"><div class="lab">'+tic('refresh','ti-lg')+'Hermes src</div><div class="val">'+((u&&u.modified_count)||0)+'</div><div class="sub">modified file(s)</div></div>'
+   +'<div style="--h:var(--indigo)"><div class="lab">'+tic('layers','ti-lg')+'Skills</div><div class="val">'+S.sections.skills.mavis_count+'</div><div class="sub">'+S.sections.skills.personal_count+' personal</div></div>'
+   +'</div>'
+   + sparkline(history,'emerald')
+   +'<div class="grid">'
+   +'<div class="card" style="--acc:var(--emerald)"><h2>'+svg('boxes')+'Container census</h2>'
+    +'<p class="sub">Where they all come from, by owning compose project.</p>'
+    +Object.entries(d.by_project).sort((a,b)=>b[1]-a[1]).map(([k,v])=>kv('<span>'+svg('layers')+'</span>'+esc(k),v)).join('')
+    +note(esc(d.warning))+'</div>'
+   +'<div class="card" style="--acc:var(--cyan)"><h2>'+svg('bridge')+'Bridge health</h2>'
+    +'<p class="sub">Warn is the normal resting state here; fail is the emergency.</p>'
+    // "unknown" is a THIRD state and it needs a different remedy from either.
+    // A bridge that is down wants a restart; a bridge that answered 11 s after a
+    // 8 s budget wants the budget raised. Showing both as the same word is how
+    // an operator restarts something that was never broken.
+    +arr(b).map(x=>{
+        const label='<span>'+svg('server')+'</span>'+esc(x.name.replace('minimax-',''));
+        if(!x.up) return kv(label,'DOWN','bad');
+        if(x.health==='unknown'){
+          const late = x.answered_late;
+          const detail = late
+            ? ('answered late · ' + Math.round((x.doctor_ms||0)/100)/10 + 's against a ' + (x.doctor_budget||0) + 's budget')
+            : esc(x.doctor_why||'no answer');
+          return kv(label, detail, 'bad');
+        }
+        return kv(label, esc(x.health)+' · '+x.ok+'ok / '+x.warn+'w / '+x.fail+'f', x.fail?'bad':'warn');
+      }).join('')
+    +(unmeasured?note('A bridge marked <em>not answering</em> is UP but unmeasured. It is a budget problem, not an outage.','warn'):'')
+    +note('Three warns are expected on a healthy system. The <em>Bridges</em> tab explains each.','info')+'</div>'
+   +'<div class="card" style="--acc:var(--pink)"><h2>'+svg('sparkle')+'MiniMax ecosystem</h2>'
+    +'<p class="sub">Code, Design, and a CLI that is really Code running in node mode.</p>'
+    +kv('<span>'+svg('plug')+'</span>Code',yn(m.code_installed))
+    +kv('<span>'+svg('sparkle')+'</span>Design',yn(m.design_installed))
+    +kv('<span>'+svg('key')+'</span>CLI auth',esc(m.cli_auth),m.cli_auth==='authenticated'?'ok':'bad')
+    +kv('<span>'+svg('cpu')+'</span>Connector tools',m.connector_tools==null?'n/a':m.connector_tools)
+    +note('Close MiniMax Code and the CLI loses its auth — the two share one identity.','info')+'</div>'
+   +'<div class="card" style="--acc:var(--purple)"><h2>'+svg('sparkle')+'Qwen status</h2>'
+    +'<p class="sub">Why a Qwen prompt would fail today, in three lines.</p>'
+    +kv('<span>'+svg('server')+'</span>ACP daemon',yn(q.daemon_up))
+    +kv('<span>'+svg('key')+'</span>OAuth credential',yn(q.oauth_credential,'present','MISSING'))
+    +kv('<span>'+svg('cpu')+'</span>Ollama',q.ollama_installed?(q.ollama_up?'running':'not running'):'not installed',q.ollama_up?'ok':'warn')
+    +note(esc(q.note))+'</div>'
+   +'<div class="card" style="--acc:var(--blue)"><h2>'+svg('file')+'Compose integrity</h2>'
+    +'<p class="sub">The file defining every non-swarm container. It vanished once already.</p>'
+    +kv('<span>'+svg('file')+'</span>docker-compose.yml',yn(d.compose_present))
+    +kv('<span>'+svg('check')+'</span>parses cleanly',d.compose_valid==null?'n/a':yn(d.compose_valid))
+    +note('Run <code>cc guard</code> to check it, and to rebuild it from live state if it ever goes missing again.','info')+'</div>'
+   +'<div class="card" style="--acc:var(--amber)"><h2>'+svg('refresh')+'Hermes source</h2>'
+    +'<p class="sub">Hermes updates itself, so read this as "now", not as a fact.</p>'
+    +(u?kv('<span>'+svg('gauge')+'</span>version',esc(u.version||'?'))
+      +kv('<span>'+svg('file')+'</span>modified',u.modified_count)
+      +kv('<span>'+svg('lock')+'</span>update lock',u.lock_present?'HELD':'absent',u.lock_present?'warn':'ok')
+      +'<div class="dim" style="font-size:10.5px;margin-top:8px">'+esc(u.verdict)+'</div>':'')
+    +note('Popy reserved <code>hermes update</code> for himself. Mavis has never run it.','info')+'</div>'
+   /* The Google layer, shown as the gap it is. The whole OPTIMUS/Hermes/Docker
+      world is covered by this console; Drive, Gmail, Calendar and Workspace are
+      not, and until they are the console should SAY that rather than stay
+      quietly silent about a third of the surface. What exists and what is
+      usable are reported separately on purpose: a client secret on disk is not
+      a connected Drive, and a dashboard that blurs them would be the exact
+      failure this project keeps fixing. */
+   /* Process census. The collector already walks the process tree and rewrites
+      processes-cache.json every cycle, and no tab ever read it - the console
+      was paying for a measurement and displaying nothing. One MCP server set per
+      live agent is NORMAL, so only a chain whose parent has EXITED counts as a
+      leak, and the parent is followed over the WHOLE chain rather than one hop:
+      without that, every legitimate detached shell reads as an orphan and the
+      number is noise rather than a measurement. */
+   +(function(){
+      const pr=(S.sections||{}).processes;
+      if(!pr) return '';
+      const mb=Math.round((pr.orphan_mb||0)/1024*10)/10;
+      return '<div class="card" style="--acc:var(--amber)"><h2>'+svg('cpu')+'Process census</h2>'
+        +'<p class="sub">Node processes on this box, and how many are genuinely leaked rather than merely detached.</p>'
+        +kv('<span>'+svg('layers')+'</span>node processes', pr.node_total)
+        +kv('<span>'+svg('check')+'</span>still attached', pr.attached)
+        +kv('<span>'+svg('warn')+'</span>orphaned chains', pr.orphans, pr.orphans?'warn':'ok')
+        +kv('<span>'+svg('gauge')+'</span>reclaimable', mb?mb+' GB':'0 MB', pr.orphans?'warn':'ok')
+        +note('Counted by walking each parent chain to its end, so a shell that outlived one hop is not mistaken for a leak. Reaping is <b>dry-run by default</b> - nothing is killed without an explicit run.', pr.orphans?'warn':'info')
+        +'</div>';
+    })()
+   /* The two Windows logon tasks and the container: the two places this console
+      is anchored so that it comes back by itself. They exist to be checked, so
+      they are checked on the first screen rather than buried in a tab. */
+   +(function(){
+      const st=(S.sections||{}).startup;
+      if(!st||!st.tasks) return '';
+      const rows=st.tasks.map(t=>kv('<span>'+svg('server')+'</span>'+esc(t.name),
+          esc(t.state||'absent'), t.state==='Running'?'ok':(t.present?'warn':'bad'))).join('');
+      return '<div class="card" style="--acc:var(--cyan)"><h2>'+svg('refresh')+'Startup anchors</h2>'
+        +'<p class="sub">What brings the console and the model server back after a restart.</p>'
+        +rows
+        +kv('<span>'+svg('plug')+'</span>any task broken', yn(!st.any_task_broken,'none','BOTH are down'), st.any_task_broken?'bad':'ok')
+        +note('Two anchors: the Windows logon tasks listed above, and the <code>mavis-optimus-control-center</code> container on loopback. Neither survives a reboot unless it is declared to.', st.any_task_broken?'bad':'info')
+        +'</div>';
+    })()
+   +(function(){
+      const g=(S.sections||{}).google;
+      if(!g) return '';
+      const live=!!g.connected;
+      return '<div class="card" style="--acc:var(--'+(live?'emerald':'blue')+')"><h2>'+svg('plug')+'Google layer</h2>'
+        +'<p class="sub">Drive, Gmail, Calendar and Workspace. '
+        +(live?('Connected and reading. The other three are not covered yet.')
+              :('Present on this machine, not yet usable from here.'))+'</p>'
+        +kv('<span>'+svg('gauge')+'</span>Drive',yn(g.connected),g.connected?'ok':'bad')
+        +(g.probe_ms!=null?kv('<span>'+svg('clock')+'</span>probe time',g.probe_ms+' ms'):'')
+        +kv('<span>'+svg('key')+'</span>OAuth client',yn(g.client_secret_present))
+        +kv('<span>'+svg('lock')+'</span>Drive credential',yn(g.mcp_credentials_present),
+            g.mcp_credentials_present?'ok':'bad')
+        // The grant itself, MEASURED from tokeninfo every cycle. This was the
+        // field the console never showed and the collector never set: the risk
+        // of a full-scope Drive was visible only as prose elsewhere, so nothing
+        // on screen turned red when it was true.
+        +(g.read_only_reason!=null
+            ? kv('<span>'+svg('lock')+'</span>Drive grant',
+                 g.drive_scope_full ? 'FULL read+write'
+                   : (g.read_only_verified ? 'read-only' : 'UNKNOWN'),
+                 g.drive_scope_full?'bad':(g.read_only_verified?'ok':'warn'))
+            : '')
+        +(g.granted_scopes
+            ? '<div style="margin-top:6px" class="dim">granted: <code>'+esc(clip(g.granted_scopes,300))+'</code></div>'
+            : '')
+        +(g.read_only_reason && !g.read_only_verified && !g.drive_scope_full
+            ? note(esc(clip(g.read_only_reason,200))
+                 +' Remedy: <code>node projects\\google-layer\\gdrive-oauth.js</code>, then Allow &mdash; it now requests <code>drive.readonly</code>, not the full scope.','warn')
+            : '')
+        +(g.gcloud_account?kv('<span>'+svg('check')+'</span>gcloud account',esc(g.gcloud_account)):'')
+        +(g.sample_files&&g.sample_files.length
+            ? kv('<span>'+svg('doc')+'</span>most recent',esc(g.sample_files[0]))
+            : '')
+        +(live
+            ? note('The line above is a <b>live listing</b>, not a stored flag: the collector exchanges the refresh token and calls Drive on every cycle. A credential file that exists proves nothing, so the card only turns green when a real call succeeds.', 'info')
+            : note(esc(clip(g.reason||'not probed',180))
+                 + (g.remedy?(' <b>Fix:</b> '+esc(g.remedy)):''), 'bad'))
+        +'</div>';
+    })()
+   +(function(){
+     const nb=S.sections.notebooks;
+     if(!nb) return '';
+     if(!nb.measured){
+       return '<div class="card" style="--acc:var(--blue);grid-column:1/-1"><h2>'+svg('doc')+'NotebookLM</h2>'
+         +note('Not measured. ' + esc(nb.note||'') + ' An unmeasured surface is reported as unmeasured, never as an empty one.','warn')+'</div>';
+     }
+     return '<div class="card" style="--acc:var(--purple);grid-column:1/-1"><h2>'+tic('doc')+'NotebookLM</h2>'
+       +'<p class="sub">Your notebooks, read live through <code>minimax-notebooklm</code> &mdash; minimax\'s own server, on its own Chrome profile. Not the Hermes <code>notebooklm-mcp</code> package.</p>'
+       +kv('<span>'+tic('layers')+'</span>notebooks', nb.count)
+       +kv('<span>'+tic('gauge')+'</span>sources across them', nb.total_sources)
+       +kv('<span>'+tic('plug')+'</span>session', yn(nb.authenticated), nb.authenticated?'ok':'bad')
+       +'<div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:8px">'
+       +arr(nb.notebooks).map(n=>'<span class="chip">'+esc(n.name)+' <span style="opacity:.7">'+esc(n.sources||'')+'</span></span>').join('')
+       +'</div>'
+       +note('Measured '+Math.round((nb.age_sec||0)/60)+' min ago and cached for 10 min. Listing notebooks needs a real browser round-trip, so it is not run on every 35 s cycle &mdash; and a failed read would keep the last good result rather than report an empty library.','info')
+      +(nb.authenticated
+        ? '<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line)">'
+          +'<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">'
+          +'<select id="nbPick" style="flex:0 0 200px">'
+          +arr(nb.notebooks).map(n=>'<option value="'+esc(n.name)+'">'+esc(n.name)+'</option>').join('')
+          +'</select>'
+          +'<input id="nbQ" placeholder="Ask this notebook something..." style="flex:1;min-width:220px">'
+          +'<button class="pillbtn" id="nbAsk">'+tic('bolt')+'Ask</button>'
+          +'</div>'
+          +'<div id="nbOut" style="margin-top:10px;font-size:13px">'+(NBANSWER?NBANSWER.html:'')+'</div>'
+          +note('Goes straight to notebook.google.com on the minimax profile. A real answer takes 40-60 s, measured. If the session is signed out you get that as the answer, not an empty one.','info')
+          +'</div>'
+        : note('The session is not signed in, so notebooks can be listed but not asked. Sign in on the minimax Chrome profile and it reopens.','warn'))
+       +'</div>';
+   })()
+   +'</div>');
+}
+
+/* ============================== AI ANALYST ============================== */
+let aiBusy=false;
+/* The answer lives HERE, not in a DOM node. /api/ask takes ~26 s; the 5 s poll
+   calls render() and replaces #view wholesale, so any element captured before
+   the fetch is detached before the response lands. The old code wrote the
+   answer into that detached node and the user saw the placeholder forever -
+   the Ask button, the six suggestions and the whole panel were non-functional
+   while the API answered correctly underneath. This is postmortem #5, unfixed
+   in this path: the outKeep treatment went to the action output and was never
+   swept to the analyst. */
+let aiAnswer=null;
+/* The answer is now produced by a BACKGROUND JOB, so "no answer yet" has two
+   distinct meanings and the page must not collapse them: nothing has been
+   asked (the placeholder), or a question is in flight (thinking). Rendering
+   both as the same placeholder is how a 40-second wait reads as a dead
+   button. aiPending is that distinction. */
+let aiPending=false;
+/* What was asked, and the snapshot the answer was computed against. An answer
+   with no question above it is a fortune cookie; an answer with no timestamp
+   below it is a claim with no evidence - and this console's whole argument is
+   that every number is measured. The answer panel therefore carries both, and
+   the freshness is the SAME snapshot the model was handed, not a new read. */
+let aiQuestion=null, aiFactsAt=null, aiAt=null;
+const AI_PLACEHOLDER='Ask anything about the running system. The answer is a real model response built from the measurement taken at the moment you asked - never from memory.';
+const AI_THINKING='Thinking… the console stays live while the model works.';
+function aiAnswerInner(){
+  return (aiAnswer===null)
+    ? '<div class="aiout pending" id="aiOut">'+esc(aiPending?AI_THINKING:AI_PLACEHOLDER)+'</div>'
+    : aiHead();
+}
+function paintAI(){
+  // Repaint the ANSWER BOX, not just one node inside it. The provenance header
+  // is produced by viewAI(), which askAI does not call - so rewriting only
+  // #aiOut left the panel showing a bare answer with no model, no fact-age and
+  // no question, until the next 5 s poll happened to rebuild the view. Calling
+  // render() instead would have fixed that and destroyed the textarea the
+  // operator is still looking at, so the box owns its own content and both
+  // paths produce the same thing.
+  const box=document.getElementById('aiAns');
+  if(box){ box.innerHTML=aiAnswerInner(); return; }
+  const el=document.getElementById('aiOut');     // resolve fresh, never capture
+  if(!el) return;
+  if(aiAnswer===null){
+    el.className='aiout pending'; el.textContent=aiPending?AI_THINKING:AI_PLACEHOLDER; return;
+  }
+  el.className='aiout'; el.textContent=aiAnswer;
+}
+function aiHead(){
+  if(aiAnswer===null) return '';
+  const asked = aiQuestion ? esc(aiQuestion) : '';
+  const when  = aiAt ? new Date(aiAt).toLocaleTimeString() : '';
+  const stale = aiFactsAt ? Math.max(0,Math.round((Date.now()-new Date(aiFactsAt).getTime())/1000)) : null;
+  return '<div class="aihead">'
+    +'<span class="aimodel">'+svg('sparkle')+'MiniMax-M3</span>'
+    +(aiFactsAt?'<span class="aifacts'+(stale>180?' warn':'')+'">'+tic('clock','ti-xs')+'facts measured '+stale+'s ago</span>':'')
+    +(when?'<span class="aiwhen">'+tic('check','ti-xs')+'answered '+esc(when)+'</span>':'')
+    +'</div>'
+    +(asked?'<div class="aiq-echo">'+asked+'</div>':'')
+    +'<div id="aiOut" class="aiout">'+esc(aiAnswer)+'</div>';
+}
+function viewAI(){
+  return '<div class="ai">'
+   +'<div class="card" style="--acc:var(--purple)"><h2>'+svg('brain')+'Ask the system</h2>'
+   /* No second paragraph here. The hero already explains what this is, and a
+      near-verbatim repeat underneath it reads as filler - the eye has already
+      read the sentence. The space earns better use as the answer surface. */
+   +'<textarea class="aiq" id="aiQ" placeholder="e.g. Which single thing should I fix first?"></textarea>'
+   +'<div class="aibr" style="margin-top:11px">'
+   +'<button class="pillbtn ghost" id="aiClear">Clear</button>'
+   +'<button class="pillbtn" id="aiGo">'+svg('sparkle')+'Ask</button>'
+   +'</div>'
+   +'<div class="qs" id="aiQs">'+SUGGESTED.map(q=>'<button data-q="'+esc(q)+'">'+esc(q)+'</button>').join('')+'</div>'
+   +'</div>'
+   /* esc() here: the answer is model output and this is innerHTML, not
+      textContent. The detached-node fix must not introduce an injection.
+      The id="aiAns" box is what paintAI() re-renders, so an answer that arrives
+      without a page reload still gets its full provenance header. */
+   +'<div class="aians" id="aiAns">'+aiAnswerInner()+'</div>'
+   +'</div>';
+}
+const sleep = ms => new Promise(r=>setTimeout(r,ms));
+/* Poll a background job until it reports done or error, and return the result
+   object. Shared by the analyst and the action buttons: both are now
+   "POST returns an id, GET returns the outcome".
+
+   First poll is immediate, bounded loop, and it RETURNS rather than throws so
+   the caller's finally always runs and a button is never left stuck spinning.
+   The cap sits well above the server's own ceiling (120s action, 180s analyst)
+   so it is a backstop against an unreachable console, not a limit that fires
+   in normal operation. */
+async function pollJob(kind, job, maxPolls){
+  for(let i=0;i<maxPolls;i++){
+    if(i) await sleep(1000);
+    let j;
+    try{
+      const r=await fetch('/api/'+kind+'/'+encodeURIComponent(job));
+      j=await r.json();
+    }catch(e){
+      return { state:'error', error:'lost contact with the console: '+e.message };
+    }
+    if(j.state==='done') return j;
+    if(j.state==='error') return j;
+  }
+  return { state:'error', error:'still running after '+maxPolls+' seconds' };
+}
+const pollAsk    = job => pollJob('ask', job, 240);
+const pollAction = job => pollJob('action', job, 200);
+async function askAI(q){
+  if(aiBusy || !q.trim()) return;
+  aiBusy=true; aiPending=true;
+  const go=document.getElementById('aiGo'); if(go){go.disabled=true;go.textContent='Thinking…';}
+  aiAnswer=null;
+  // Record WHAT was asked and the snapshot it will be answered from, BEFORE the
+  // fetch. S.generated is the same measurement the page is displaying and the
+  // same one the server digests, so the stamp on the answer is not a second
+  // reading - it is the one that was actually used.
+  aiQuestion=q.trim();
+  aiFactsAt=(S && S.generated) ? S.generated : new Date().toISOString();
+  aiAt=null;
+  paintAI();
+  try{
+    const r=await fetch('/api/ask',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({question:q})});
+    const j=await r.json();
+    if(!j.ok || !j.job){ aiAnswer='ERROR: '+(j.error||'the console did not start the job'); }
+    else{
+      const done = await pollAsk(j.job);
+      aiAnswer = (done.state==='done') ? done.answer : ('ERROR: '+done.error);
+    }
+    aiAt = new Date();
+  }catch(e){ aiAnswer = 'ERROR: '+e.message; aiAt = new Date(); }
+  finally{
+    aiBusy=false; aiPending=false;
+    // The model occasionally emits a real em-dash that arrives as U+FFFD. A single
+    // stray replacement char is noise, not information.
+    //
+    // Written in pure ASCII on purpose. A character class spanning Latin-1 MUST
+    // be written with \u escapes: typing the literal characters into this file
+    // re-encodes them on the way in, reintroducing the very mojibake this exists
+    // to remove. The first version of this fix did precisely that and failed the
+    // very check it had just written. Range E0-FF covers the leading byte of a
+    // mis-decoded 2- or 3-byte UTF-8 run.
+    //
+    // ORDER MATTERS, and backwards is why this did not work. A U+FFFD encoded
+    // as cp1252 arrives as THREE characters (U+00EF U+00BF U+00BD), so a U+FFFD
+    // matcher alone misses it. The decode runs FIRST and produces a real U+FFFD;
+    // only then is that replaced. Reversed, the mojibake survives pass one and
+    // becomes the very character pass two already ran past. Found by asking
+    // /api/ask a real question and reading the answer.
+    const clean = s => String(s==null?'':s)
+      .replace(/[\u00E0-\u00FF][\u0080-\u00BF][\u0080-\u00BF]?/g,
+               m => { try{ return decodeURIComponent(escape(m)); }catch(e){ return m; } })
+      .replace(/\uFFFD/g,'-');
+    // Clean the RETAINED answer, not a DOM node that no longer exists, then
+    // paint through a freshly resolved element.
+    aiAnswer = clean(aiAnswer);
+    paintAI();
+    // Re-resolve the button too. `go` was captured before a ~26 s await, so by
+    // now it is a detached node and re-enabling it is wasted work - the poll
+    // will have replaced #view, and a fresh enabled Ask button is already on
+    // screen. Same shape as the answer bug, one variable smaller.
+    const liveGo=document.getElementById('aiGo');
+    if(liveGo){liveGo.disabled=false;liveGo.innerHTML=svg('sparkle')+'Ask';}
+  }
+}
+
+/* ============================== TRENDS ================================= */
+/* Calendar heatmap, last 35 days. Severity is the WORST thing that happened
+   that day, not the average: averaging a day with one failed check and
+   seventeen clean ones hides the failure, which is the exact mistake the
+   median baseline elsewhere in this file exists to avoid. */
+function activityHeatmap(){
+  const days = arr((S.history||{}).by_day);
+  if(!days.length){
+    return '<div class="dim chart-empty">No history yet. Samples are recorded when a measured value actually changes, so a perfectly stable system records none.</div>';
+  }
+  const byDay={}; days.forEach(d=>{ byDay[d.day]=d; });
+  const today=new Date(); today.setHours(0,0,0,0);
+  // LOCAL date, not UTC. The collector buckets with PowerShell's
+  // ([datetime]$_.ts).ToString('yyyy-MM-dd'), which is local time. toISOString()
+  // is UTC, and this machine is UTC+3 - so any sample taken before 03:00 local
+  // lands on the PREVIOUS day and the heatmap silently misfiles it. One
+  // coloured cell where there should have been two is exactly that symptom.
+  const dayKey = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  const todayKey = dayKey(today);
+  const cells=[]; let maxS=1;
+  for(let i=34;i>=0;i--){
+    const dt=new Date(today.getTime()-i*86400000);
+    const key=dayKey(dt);
+    const rec=byDay[key];
+    let cls='', tip=key+' — no samples recorded';
+    if(rec){
+      const f=rec.fails||0, w=rec.warns||0;
+      if(f>0) cls='s4';
+      else if(w>=6) cls='s3';
+      else if(w>=1) cls='s2';
+      else cls='s1';
+      if(rec.samples>maxS) maxS=rec.samples;
+      tip=key+' — '+rec.samples+' sample(s), '+w+' warn, '+f+' fail, containers '+
+          (rec.minTot===rec.maxTot?rec.minTot:rec.minTot+'–'+rec.maxTot);
+    }
+    if(key===todayKey) cls+=' today';
+    cells.push('<div class="hmday '+cls+'" title="'+esc(tip)+'"></div>');
+  }
+  const rows=[]; for(let i=0;i<cells.length;i+=7) rows.push('<div class="hmcol">'+cells.slice(i,i+7).join('')+'</div>');
+  return '<div class="hm">'+rows.join('')+'</div>'
+    +'<div class="hmlegend">'
+    +'<span>last 35 days</span>'
+    +'<i style="background:rgba(127,127,127,.10)"></i><span>no change</span>'
+    +'<i style="background:rgba(34,211,238,.16)"></i><span>sampled, clean</span>'
+    +'<i style="background:rgba(251,191,36,.22)"></i><span>warns</span>'
+    +'<i style="background:rgba(249,115,22,.28)"></i><span>many warns</span>'
+    +'<i style="background:rgba(239,68,68,.34)"></i><span>a failure</span>'
+    +'<span style="margin-left:auto">peak '+maxS+' samples/day</span>'
+    +'</div>';
+}
+function viewTrends(){
+  const h=S.history||{samples:0,total_series:[],warn_series:[],fail_series:[]};
+  const an=S.anomalies||[], inc=S.incidents||[];
+  const spark=(vals,acc)=>{
+    if(!vals||vals.length<2) return '<div class="dim" style="margin-top:8px">not enough history yet — the baseline builds as samples arrive</div>';
+    const mx=Math.max(...vals), mn=Math.min(...vals), sp=(mx-mn)||1;
+    return '<div class="spark" style="--acc:var(--'+acc+');height:40px">'
+      +vals.map(v=>'<i style="height:'+Math.max(6,Math.round(38*((v-mn)/sp)))+'%"></i>').join('')
+      +'</div><div class="dim" style="font-size:10px;margin-top:5px">'+vals.length+' samples · min '+mn+' · max '+mx+'</div>';
+  };
+  return '<div class="grid">'
+   +'<div class="card" style="--acc:var(--orange)"><h2>'+svg('layers')+'Container count over time</h2>'
+   +'<p class="sub">One sample is recorded per genuine change, not per poll. A quiet system does not invent history.</p>'
+   +kv('<span>'+svg('file')+'</span>samples',h.samples)
+   +kv('<span>'+svg('clock')+'</span>first',esc((h.first||'').replace('T',' ').slice(0,19)))
+   +kv('<span>'+svg('clock')+'</span>latest',esc((h.last||'').replace('T',' ').slice(0,19)))
+   +areaChart(h.total_series,'emerald',300)+'</div>'
+   +'<div class="card" style="--acc:var(--indigo)"><h2>'+tic('activity','ti-lg')+'Activity by day</h2>'
+   +'<p class="sub">One cell per day for the last 35. The colour is the worst thing that happened, not the average: a day with one failed check and seventeen clean ones is a day with a failure.</p>'
+   +activityHeatmap()
+   +note('Empty cells are not missing data. A sample is recorded only when a measured value actually CHANGED, so a day the system sat perfectly still is blank by design.','info')
+   +'</div>'
+   +'<div class="card" style="--acc:var(--amber)"><h2>'+svg('warn')+'Anomalies</h2>'
+   +'<p class="sub">A current value that departs from the median of its recent samples. That is the one that matters — an average would let a single spike drag the baseline and hide itself.</p>'
+   +(an.length
+     ? arr(an).map(a=>'<div class="kv"><span>'+esc(a.metric)+'</span><span class="warn">'+esc(a.value)
+       +' <span class="dim">vs '+esc(a.baseline)+'</span></span></div>'
+       +'<div class="dim" style="font-size:10.5px;padding:0 0 6px">'+esc(a.deviation_pct)+'% from baseline — '+esc(a.note)+'</div>').join('')
+     : '<span class="ok">nothing deviating from its baseline</span>')+'</div>'
+   +'<div class="card" style="--acc:var(--cyan)"><h2>'+svg('gauge')+'Bridge warnings over time</h2>'
+   +'<p class="sub">Warn is normal here. A step UP in this series is what you want to catch.</p>'
+   +areaChart(h.warn_series,'amber',220)
+   +'<div style="margin-top:10px">'+kv('<span>'+svg('warn')+'</span>warnings now',(h.warn_series||[]).length?h.warn_series[h.warn_series.length-1]:0)
+   +kv('<span>'+svg('x')+'</span>failures now',(h.fail_series||[]).length?h.fail_series[h.fail_series.length-1]:0)+'</div></div>'
+   +'<div class="card" style="--acc:var(--indigo)"><h2>'+svg('clock')+'Recent incidents</h2>'
+   +'<p class="sub">Transitions, not states. Each entry is a moment something actually moved, and everything else that moved with it.</p>'
+   /* Capped and scrollable. Thirteen entries ran this card to ~1075 px, which
+      made its whole grid row 1075 px tall and left ~800 px of empty card
+      either side of it. The list is a reference, not the headline: the newest
+      few are what an operator reads, and the rest is one scroll away. */
+   +'<div class="incroll">'
+   +(inc.length
+     ? arr(inc).slice().reverse().map(i=>{
+        // PowerShell collapses a single-element array to a scalar on the way
+        // through JSON, so an incident recording exactly ONE change arrives as a
+        // bare string and .map is not a function - which threw and took the
+        // whole Trends tab down with it. Normalise before mapping.
+        var ch=(i.changes==null)?[]:(Array.isArray(i.changes)?i.changes:[i.changes]);
+        return '<div style="padding:9px 0;border-bottom:1px solid rgba(127,127,127,.14)">'
+       +'<div class="dim">'+esc((i.at||'').replace('T',' ').slice(0,19))+'</div>'
+       +'<div style="margin-top:4px">'+ch.map(c=>'<span class="chip" style="margin:2px 3px 0 0;display:inline-block">'+esc(c)+'</span>').join('')+'</div></div>';
+       }).join('')
+     : '<div class="dim">no recorded transitions yet. The first real change will appear here with a timestamp.</div>')+'</div></div>'
+   /* Sixth card, and it exists for two reasons. The grid is three wide, so five
+      cards left a dead quadrant; and the two charts above show SHAPE while
+      saying nothing about MAGNITUDE. "Which value actually moved, and by how
+      much, across the whole window" is the question an operator opens this tab
+      to answer, and neither chart answers it. A series that never moved is
+      reported as such rather than left to look healthy - an unmeasured series
+      and a stable one are different facts. */
+   +'<div class="card" style="--acc:var(--emerald)"><h2>'+svg('gauge')+'Biggest movers</h2>'
+   +'<p class="sub">The swing in each tracked value across the whole window. A series that never moved is not necessarily a healthy one.</p>'
+   +(function(){
+      const series=[
+        {k:'containers',        s:h.total_series},
+        {k:'bridge warnings',   s:h.warn_series},
+        {k:'bridge failures',   s:h.fail_series}
+      ];
+      const rows=series.map(x=>{
+        const nums=Array.isArray(x.s)?x.s.filter(v=>typeof v==='number'&&isFinite(v)):[];
+        if(nums.length<2) return '';
+        const lo=Math.min.apply(null,nums), hi=Math.max.apply(null,nums), swing=hi-lo;
+        return '<div class="kv"><span>'+esc(x.k)+'</span><span class="'+(swing?'warn':'ok')+'">'+lo+' &rarr; '+hi
+          +(swing?' <span class="dim">+' + swing + '</span>':' <span class="dim">never moved</span>')+'</span></div>';
+      }).filter(Boolean).join('');
+      return rows || '<span class="dim">not enough samples in the window to measure a swing</span>';
+    })()
+   +'</div></div>';
+}
+
+/* ============================== SIMPLE TABS ============================= */
+function viewDocker(){
+  const d=S.sections.docker;
+  return '<div class="card" style="--acc:var(--emerald)"><h2>'+svg('layers')+'By compose project</h2>'
+   +'<p class="sub">Every running container attributed to the compose project that owns it.</p>'
+   +Object.entries(d.by_project).sort((a,b)=>b[1]-a[1]).map(([k,v])=>kv('<span>'+svg('layers')+'</span>'+esc(k),v)).join('')+'</div>'
+   +'<div class="card" style="--acc:var(--emerald);margin-top:20px"><h2>'+svg('boxes')+'All containers ('+d.containers.length+')</h2>'
+   +'<p class="sub">Name, owning project, runtime state and health, straight from Docker.</p>'
+   +'<div class="scrollwrap"><div class="scroll"><table><thead><tr><th>name</th><th>project</th><th>status</th><th>health</th></tr></thead><tbody>'
+   +arr(d.containers).map(c=>'<tr class="row" data-n="'+esc(c.name)+'"><td>'+esc(c.name)+'</td><td class="dim">'+esc(c.project)+'</td>'
+     +'<td class="'+(c.status==='running'?'ok':'bad')+'">'+esc(c.status)+'</td>'
+     +'<td class="'+(c.health==='healthy'?'ok':(c.health?'warn':'dim'))+'">'+esc(c.health||'—')+'</td></tr>').join('')
+   +'</tbody></table></div></div>'
+   +'<div class="dim" style="margin-top:8px;font-size:10.5px">'+svg('gauge')+' Click any row for its full record. The list scrolls — '+arr(d.containers).length+' containers.</div>'
+   +'<div id="drill"></div>'+note(esc(d.warning))+'</div>';
+}
+function viewBridges(){
+  return '<div class="grid">'+arr(S.sections.bridges).map(b=>
+   '<div class="card" style="--acc:'+(b.port===8801?'var(--cyan)':'var(--emerald)')+'">'
+   +'<h2>'+svg('bridge')+esc(b.name.replace('minimax-',''))+' :'+b.port+'</h2>'
+   +'<p class="sub">'+(b.port===8801
+     ? 'Mavis &harr; Hermes. Mavis is the doctor here, so the bridge can read, diagnose and repair Hermes.'
+     : 'Mavis &harr; Antigravity. Council and small tasks only, never a mutator - which is why it is mounted read-only.')+'</p>'
+   +kv('<span>'+svg('clock')+'</span>uptime',b.up?Math.round(b.uptime)+'s':'—',b.up?'ok':'bad')
+   +kv('<span>'+svg('gauge')+'</span>health',b.up?esc(b.health):'DOWN',b.up?(b.fail?'bad':'warn'):'bad')
+   /* How long the doctor call actually took, against its budget. Without this
+      a bridge that is DOWN and one that merely ANSWERED LATE both read
+      "unknown · 0 · 0 · 0" — opposite faults, opposite remedies, identical
+      picture. minimax-hermes-bridge is the second case: it is up and returns
+      9 ok / 3 warn across 12 checks, in 8.5 s, and we were throwing it away. */
+   +(b.doctor_ms==null ? '' :
+     kv('<span>'+svg('clock')+'</span>doctor reply',
+        esc((b.doctor_ms/1000).toFixed(2)+'s of '+b.doctor_budget+'s budget'),
+        b.answered_late?'bad':(b.doctor_ms > (b.doctor_budget*1000*0.5) ? 'warn':'ok')))
+   +(b.answered_late ?
+      '<div class="note warn" style="margin-top:12px">'+svg('warn')+'<span><b>Answered late, not down.</b> The bridge replied in '
+      +esc(b.doctor_ms)+' ms against an '+esc(b.doctor_budget)+'s budget, so the probe gave up before the answer arrived. Restarting the bridge will not help — it is healthy and slow. '
+      +'The fix is either a longer budget here or a faster <code>/doctor/detailed</code> in the bridge itself.</span></div>' : '')
+   +(b.doctor_why && !b.answered_late ?
+      '<div class="note bad" style="margin-top:12px">'+svg('warn')+'<span>Doctor did not answer: '+esc(b.doctor_why)+'</span></div>' : '')
+   +'<div style="margin-top:11px">'+arr(b.checks).map(x=>
+      '<div class="kv"><span>'+esc(x.id)+'</span><span class="'+(x.severity==='ok'?'ok':(x.severity==='warn'?'warn':'bad'))+'">'+esc(x.severity)+'</span></div>'
+      +'<div class="dim" style="font-size:10.5px;padding:0 0 5px">'+esc(clip(x.detail,150))+'</div>').join('')+'</div></div>').join('')+'</div>';
+}
+function viewServices(){
+  const n={stirling:'A real HTTP API. POST multipart to <code>/api/v1/…</code> with no login, thanks to SECURITY_ENABLELOGIN=false in docker-compose.yml.',
+    libreoffice:'Not an API. Port 3001 is a remote desktop of a LibreOffice window. Scripted conversion runs through <code>optimus doc convert</code>, which drives <code>soffice --headless</code> inside the container.',
+    'qwen-acp':'Serves ACP on a WebSocket at <code>/acp</code> and a Web Shell. It does <b>not</b> serve <code>/mcp</code> - that path is 404, which is why the qwen-mcp-http entry cannot connect.'};
+  return '<div class="grid">'+arr(S.sections.services).map(s=>{
+    const acc=s.port===8082?'var(--cyan)':(s.port===3001?'var(--amber)':'var(--purple)');
+    return '<div class="card" style="--acc:'+acc+'"><h2>'+svg('plug')+esc(s.name)+'</h2>'
+    +'<p class="sub">'+esc(s.url)+'</p>'
+    +kv('<span>'+svg('server')+'</span>port',s.port)
+    +kv('<span>'+svg('check')+'</span>http',s.code==null?'—':s.code,s.code===200?'ok':(s.code?'warn':'bad'))
+    +kv('<span>'+svg('plug')+'</span>reachable',yn(s.up))+note(n[s.name]||'','info')+'</div>';
+  }).join('')+'</div>';
+}
+function viewQwen(){
+  const q=S.sections.qwen;
+  return '<div class="grid">'
+   +'<div class="card" style="--acc:var(--purple)"><h2>'+svg('sparkle')+'State</h2>'
+   +'<p class="sub">The three things Qwen needs before it can answer a prompt.</p>'
+   +kv('<span>'+svg('server')+'</span>ACP daemon :8765',yn(q.daemon_up))
+   +kv('<span>'+svg('key')+'</span>OAuth credential',yn(q.oauth_credential,'present','MISSING'))
+   +kv('<span>'+svg('cpu')+'</span>Ollama installed',yn(q.ollama_installed))
+   +kv('<span>'+svg('play')+'</span>Ollama running :11434',yn(q.ollama_up))
+   +kv('<span>'+svg('file')+'</span>model store',yn(q.model_store_exists))+'</div>'
+   +'<div class="card" style="--acc:var(--pink)"><h2>'+svg('bridge')+'Transport</h2>'
+   +'<p class="sub">How Mavis actually reaches Qwen, and why the obvious route fails.</p>'
+   +kv('<span>'+svg('check')+'</span>works',"qwen-acp-adapter",'ok')
+   +kv('<span>'+svg('x')+'</span>cannot',"qwen-mcp-http &rarr; 404",'bad')
+   +kv('<span>'+svg('sparkle')+'</span>real surface',"ws://127.0.0.1:8765/acp",'ok')
+   +note('Qwen 0.19.2 has no MCP transport. The old entry assumed one and was enabled again on purpose - enabled does not mean it can connect.','info')+'</div>'
+   +'<div class="card" style="--acc:var(--amber)"><h2>'+svg('warn')+'The blocker</h2>'
+   +'<p class="sub">Why prompting fails, and the two ways out.</p>'+note(esc(q.note))
+   +note('Either install and start Ollama for the local coder model, or complete <code>qwen-oauth</code> for the cloud coder model (Qwen 3.6 Plus, 1M context).')+'</div>'
+   +'<div class="card" style="--acc:var(--indigo);grid-column:1/-1"><h2>'+svg('brain')+'A Qwen quirk worth keeping</h2>'
+   +'<p class="sub">It produces a very confusing error message if you forget it.</p>'
+   +note('ACP <code>session/new</code> requires <code>mcpServers: []</code>. Omit it and Qwen answers a bare <code>Internal error</code>; the real validation message only appears on the stdio transport.','info')+'</div></div>';
+}
+function viewUpdate(){
+  const u=S.sections.hermes_update;
+  if(!u) return '<div class="card"><h2>Hermes update</h2><p class="sub">no data</p></div>';
+  const sev=u.deadlock?'var(--st-active)':(u.lock_present&&u.lock_owner_alive?'var(--amber)':'var(--emerald)');
+  const stale=(u.dirty_stamp===true&&u.modified_count===0)||(u.dirty_stamp===false&&u.modified_count>0);
+  return '<div class="grid">'
+   +'<div class="card" style="--acc:'+sev+'"><h2>'+svg('gauge')+'Status</h2>'
+   +'<p class="sub">Whether Hermes is mid-update, and whether anything is stuck.</p>'
+   +kv('<span>'+svg('gauge')+'</span>verdict',esc(u.verdict),u.deadlock?'bad':(u.lock_present&&u.lock_owner_alive?'warn':'ok'))
+   +kv('<span>'+svg('clock')+'</span>checked',esc(new Date(u.checked_at).toLocaleTimeString()))
+   +(u.remedy?note(esc(u.remedy)):'')+'</div>'
+   +'<div class="card" style="--acc:var(--indigo)"><h2>'+svg('refresh')+'Version</h2>'
+   +'<p class="sub">The install stamp and live git, which legitimately disagree.</p>'
+   +kv('<span>'+svg('file')+'</span>install-stamp',esc(u.version||'?'))
+   +kv('<span>'+svg('gauge')+'</span>git HEAD',esc(clip(u.head,42)))
+   +kv('<span>'+svg('warn')+'</span>stamp says dirty',u.dirty_stamp==null?'n/a':(u.dirty_stamp?'yes':'no'))
+   +kv('<span>'+svg('file')+'</span>live modified',u.modified_count)
+   +(stale?note('The stamp is a snapshot from whenever the last install ran; git is now. Hermes self-updates, so both are true at different moments.','info'):'')+'</div>'
+   +'<div class="card" style="--acc:var(--cyan)"><h2>'+svg('lock')+'Update lock</h2>'
+   +'<p class="sub">Who owns <code>.hermes-update-in-progress</code>, and are they alive.</p>'
+   +kv('<span>'+svg('lock')+'</span>lock file',u.lock_present?'PRESENT':'absent',u.lock_present?'warn':'ok')
+   +(u.lock_present?kv('<span>'+svg('clock')+'</span>age (min)',u.lock_age_min)+kv('<span>'+svg('cpu')+'</span>owner PID',u.lock_owner)+kv('<span>'+svg('play')+'</span>owner alive',u.lock_owner_alive?'yes':'no',u.lock_owner_alive?'warn':'ok'):'')
+   +(u.deadlock?note('DEADLOCK: a hung <code>hermes mcp list</code> registered its own PID as the lock owner, then went on to wait for that same lock. Kill that process - it is not a stale marker.','bad'):'')+'</div>'
+   +'<div class="card" style="--acc:var(--amber);grid-column:1/-1"><h2>'+svg('file')+'Modified files</h2>'
+   +'<p class="sub">Uncommitted changes in the Hermes checkout at this instant.</p>'
+   +(u.modified_files&&u.modified_files.length
+     ?'<div class="chips">'+arr(u.modified_files).map(f=>'<span class="chip">'+esc(f)+'</span>').join('')+'</div>'
+     :'<span class="dim">none</span>')+'</div></div>';
+}
+function viewMinimax(){
+  const m=S.sections.minimax;
+  return '<div class="grid">'
+   +'<div class="card" style="--acc:var(--pink)"><h2>'+svg('plug')+'Apps</h2>'
+   +'<p class="sub">The two desktop applications, and whether Code is running right now.</p>'
+   +kv('<span>'+svg('plug')+'</span>MiniMax Code',yn(m.code_installed))
+   +kv('<span>'+svg('sparkle')+'</span>MiniMax Design',yn(m.design_installed))
+   +kv('<span>'+svg('play')+'</span>Code processes',m.code_processes)+'</div>'
+   +'<div class="card" style="--acc:var(--cyan)"><h2>'+svg('terminal')+'CLI</h2>'
+   +'<p class="sub">The command-line surface, and the identity it shares with the app.</p>'
+   +kv('<span>'+svg('check')+'</span>mcode-tools on PATH',yn(m.cli_on_path))
+   +kv('<span>'+svg('key')+'</span>auth',esc(m.cli_auth),m.cli_auth==='authenticated'?'ok':'bad')
+   +kv('<span>'+svg('lock')+'</span>auth mode',esc(m.cli_auth_mode))
+   +kv('<span>'+svg('cpu')+'</span>connector tools',m.connector_tools==null?'n/a':m.connector_tools)+'</div>'
+   +'<div class="card" style="--acc:var(--emerald)"><h2>'+svg('brain')+'One ecosystem</h2>'
+   +'<p class="sub">Why there is no third interface, and where the single front door is.</p>'
+   +note('There is no separate "MiniMax CLI" product. <code>mcode-tools</code> runs <b>MiniMax Code.exe</b> in node mode and authenticates through the running app\'s shared broker - Code and the CLI are the same binary and the same identity.','info')
+   +kv('<span>'+svg('terminal')+'</span>unified entry',esc(m.unified_cli),'ok')
+   +kv('<span>'+svg('check')+'</span>on user PATH',yn(m.on_user_path))
+   +kv('<span>'+svg('sparkle')+'</span>python route','optimus minimax ask "…"','ok')+'</div>'
+   /* The capability map. The CLI card above can only say "15 connector tools",
+      which answers HOW MANY and not WHAT - and the reach is not uniform. Two of
+      them are the Figma bridge, which is the live path from this console into
+      MiniMax Design; the other thirteen are media generation and understanding.
+      That asymmetry is the whole point of a control hub: it should show which
+      doors exist, not how many. Names are the plain tool name, not the
+      connector__family__tool prefix, because the prefix is identical on every
+      row and only makes the list harder to scan. */
+   +(m.connector_families && m.connector_families.length
+     ? '<div class="card" style="--acc:var(--pink);grid-column:1/-1"><h2>'+svg('layers')+'What this console can reach</h2>'
+       +'<p class="sub">The live connector catalogue, grouped by family. This is the surface the MiniMax Code app exposes to the CLI, and it is the reason the CLI and the app are the same product rather than two.</p>'
+       +m.connector_families.map(f=>{
+           const isDesign = (f.family==='figma');
+           return '<div class="kv" style="align-items:flex-start"><span>'+svg(isDesign?'sparkle':'layers')+esc(f.family)
+             +(isDesign?' <span class="chip" style="margin-left:6px">the MiniMax Design link</span>':'')
+             +'</span><span style="text-align:right">'+f.count+'</span></div>'
+             +'<div style="margin:-2px 0 10px;display:flex;flex-wrap:wrap;gap:5px">'
+             +f.tools.map(x=>'<span class="chip">'+esc(x)+'</span>').join('')
+             +'</div>';
+         }).join('')
+       +(m.connector_families.some(f=>f.family==='figma')
+           ? kv('<span>'+svg('sparkle')+'</span>Design link',
+                m.design_link ? m.design_link.toUpperCase() : 'not probed',
+                m.design_link==='live'?'ok':(m.design_link==='not probed'?'warn':'bad'))
+             + (m.design_probe_note
+                 ? '<div class="kv"><span>measured</span><span class="dim">'+esc(m.design_probe_note)
+                   +(m.design_probe_ms!=null?(' &middot; '+m.design_probe_ms+' ms'):'')+'</span></div>'
+                 : '')
+             + note('<b>Figma</b> is how design work reaches this console: <code>get_figma_data</code> reads layout, styles, text and asset references, and <code>download_figma_images</code> exports the assets. The row above is a <b>live call</b> made on this pass, not a claim: it asks Figma for a file key that cannot exist, and any answer from Figma proves our auth, the network and the provider API are all live. Only the file key would be needed to pull real design data.','info')
+           : note('No design-family connector is exposed at the moment. Design work is not reachable from this console until one appears.','warn'))
+       +'</div>'
+     : note('The connector catalogue could not be read on this pass, so the reach of this console is unknown rather than empty.','warn'))
+   +'</div>';
+}
+function viewSkills(){
+  const s=S.sections.skills;
+  return '<div class="card" style="--acc:var(--orange)"><h2>'+svg('layers')+'Counts</h2>'
+   +'<p class="sub">How many reusable procedures are available to Mavis.</p>'
+   +kv('<span>'+svg('layers')+'</span>Mavis skills',s.mavis_count,'ok')
+   +kv('<span>'+svg('file')+'</span>Personal skills',s.personal_count)
+   +kv('<span>'+svg('layers')+'</span>Hermes skills',s.hermes_count)
+   +kv('<span>'+svg('check')+'</span>SOT junction intact',yn(s.sot_link))+'</div>'
+   +'<div class="card" style="--acc:var(--orange);margin-top:20px"><h2>'+svg('layers')+'Mavis skills ('+s.mavis_names.length+')</h2>'
+   +'<p class="sub">Every skill directory Mavis can load. Naming convention: <code>mavis-&lt;subject&gt;-skill</code>.</p>'
+   +'<div class="chips">'+arr(s.mavis_names).map(n=>'<span class="chip">'+esc(n)+'</span>').join('')+'</div></div>';
+}
+function viewProjects(){
+  const p=S.sections.projects;
+  return '<div class="card" style="--acc:var(--indigo)"><h2>'+svg('file')+'projects/ sections</h2>'
+   +'<p class="sub">The central audit point for the whole MiniMax ecosystem, measured live every poll.</p>'
+   +'<div class="scroll"><table><thead><tr><th>section</th><th>files</th><th>dirs</th><th>MB</th><th>links</th><th>modified</th></tr></thead><tbody>'
+   +Object.entries(p).map(([k,v])=>'<tr><td><b>'+esc(k)+'</b> <span class="dim">'+esc(v.title||'')+'</span></td>'
+     +'<td>'+v.files+'</td><td>'+v.dirs+'</td><td>'+(v.bytes/1048576).toFixed(1)+'</td>'
+     +'<td class="'+(v.links?'ok':'dim')+'">'+v.links+'</td>'
+     +'<td class="dim">'+esc((v.modified||'').replace('T',' ').slice(0,19))+'</td></tr>').join('')
+   +'</tbody></table></div></div>';
+}
+function viewDocs(){
+  return '<div class="card" style="--acc:var(--blue)"><h2>'+svg('doc')+'Root documentation ('+S.sections.docs.root.length+')</h2>'
+   +'<p class="sub">Newest first. <code>OPTIMUS_CURRENT_STATE.md</code> is generated from a live measurement and always overrides the dated reports.</p>'
+   +'<div class="scroll"><table><thead><tr><th>file</th><th>KB</th><th>modified</th></tr></thead><tbody>'
+   +arr(S.sections.docs.root).map(d=>'<tr><td>'+esc(d.name)+'</td><td>'+(d.bytes/1024).toFixed(1)+'</td>'
+     +'<td class="dim">'+esc(d.modified.replace('T',' ').slice(0,19))+'</td></tr>').join('')
+   +'</tbody></table></div></div>';
+}
+function viewCommand(){
+  const cards=arr(S.actions).map(a=>{ const m=ACTIONS[a.id]||{t:a.label,d:'',c:a.cmd,i:'gauge'};
+    return '<button class="act" data-id="'+esc(a.id)+'">'
+      +'<span class="btn">'+svg(m.i)+esc(a.label)+'</span>'
+      +'<span class="t">'+esc(m.t)+'</span>'
+      +'<span class="d">'+esc(m.d)+'</span>'
+      +'<span class="cmd">'+esc(a.cmd)+'</span></button>'; }).join('');
+  return '<div class="card" style="--acc:var(--blue)"><h2>'+svg('download')+'Export the current measurement</h2>'
+   +'<p class="sub">Take the live state with you. Copy it as JSON for another tool, as a CSV of the container table for a spreadsheet, or print the dashboard as a snapshot. All three use the values measured right now, not a re-read.</p>'
+   +'<div class="qs">'
+   +'<button data-x="json">'+svg('download')+'Copy state JSON</button>'
+   +'<button data-x="csv">'+svg('download')+'Copy container CSV</button>'
+   +'<button data-x="print">'+svg('file')+'Print this view</button>'
+   +'<button data-x="digest">'+svg('doc')+'Copy the AI briefing</button>'
+   +'</div><div id="xout" style="margin-top:10px"></div></div>'
+   +'<div class="card" style="--acc:var(--cyan);margin-top:20px"><h2>'+svg('terminal')+'Actionable commands</h2>'
+   +'<p class="sub">Every button runs a real command on this machine and prints its actual output below. Nothing is simulated. The command line under each button is shown so you can re-run anything by hand from a normal shell.</p>'
+   +'<div class="cockpit">'+cards+'</div></div>'
+   +'<div class="card" style="--acc:var(--indigo);margin-top:20px"><h2>'+svg('download')+'Output</h2>'
+   +'<p class="sub">Whatever the last button printed, verbatim.</p>'
+   +'<pre class="out" id="out">'+esc(outKeep||'Choose an action above. Its real output will appear here.')+'</pre></div>';
+}
+
+/* ============================== RESILIENCE ==============================
+   The one tab whose subject is the dashboard itself. It exists because the
+   console sat dead for 19.5 hours with nothing reporting it - so the system
+   now reports on its own survival, from the same snapshot everything else
+   reads, rather than waiting to be noticed. */
+function _dur(n){
+  if(n==null || isNaN(n)) return '—';
+  if(n < 90) return Math.round(n)+'s';
+  if(n < 5400) return Math.round(n/60)+' min';
+  return (n/3600).toFixed(1)+' h';
+}
+function viewResilience(){
+  const s = S.supervision || {};
+  const acc = s.known ? (s.healthy ? 'var(--emerald)' : 'var(--st-active)') : 'var(--amber)';
+  const since  = s.last_restart     ? Math.round((Date.now() - new Date(s.last_restart).getTime())/1000)     : null;
+  const uptime = s.watchdog_started ? Math.round((Date.now() - new Date(s.watchdog_started).getTime())/1000) : null;
+  const restarts = s.restarts || 0;
+  const stale = (s.state_age_sec != null && s.state_age_sec > 120);
+
+  return '<div class="grid">'
+   /* ---- the verdict ---- */
+   +'<div class="card" style="--acc:'+acc+'"><h2>'+tic('heartbeat')+(s.known ? (s.healthy?'Supervised and healthy':'Supervisor reports trouble') : 'Nothing is watching this server')+'</h2>'
+   +'<p class="sub">Read from the supervisor\'s own last check, inside the same live snapshot as every other number here — so this tab cannot disagree with Overview about what is true.</p>'
+   +(s.known
+     ? kv('<span>'+tic(s.healthy?'check':'warn')+'</span>verdict', s.healthy ? 'HEALTHY' : 'UNHEALTHY', s.healthy?'ok':'bad')
+     : note('No supervisor has ever reported. Nothing owns this process: if it dies it stays dead, which is precisely what happened for 19.5 hours before this existed.','bad'))
+   +kv('<span>'+tic('activity')+'</span>checked every', _dur(s.interval_sec))
+   +kv('<span>'+tic('clock')+'</span>served state age', s.state_age_sec==null?'—':Math.round(s.state_age_sec)+'s', stale?'warn':'ok')
+   +kv('<span>'+tic('refresh')+'</span>restarts so far', restarts, restarts?'warn':'ok')
+   +(s.last_restart
+     ? kv('<span>'+tic('clock')+'</span>last restart', _dur(since)+' ago', 'warn')
+     : note('No restart has been needed since the supervisor started.','info'))
+   +(s.last_restart_reason && !s.healthy
+     ? note('Last trigger: '+esc(s.last_restart_reason),'bad') : '')
+   +'</div>'
+
+   /* ---- the supervisor process ---- */
+   +'<div class="card" style="--acc:var(--cyan)"><h2>'+tic('shield')+'The supervisor</h2>'
+   +'<p class="sub">A separate PowerShell process with one job: decide whether the server is really serving, and restart it if not.</p>'
+   +kv('<span>'+tic('cpu')+'</span>process id', s.watchdog_pid==null?'—':s.watchdog_pid)
+   +kv('<span>'+tic('clock')+'</span>watching for', _dur(uptime))
+   +kv('<span>'+tic('server')+'</span>port', 8900)
+   +kv('<span>'+tic('file')+'</span>health file', 'api/cc-health.json')
+   +kv('<span>'+tic('file')+'</span>supervisor log', s.log ? 'logs\\watchdog.log' : 'not found yet', s.log?'ok':'warn')
+   +note('Health is measured end to end — the port must accept a connection <em>and</em> <code>/api/state</code> must return state younger than 5 minutes. Checking only the socket would pass on a wedged process.','info')
+   +'</div>'
+
+   /* ---- what it does and does not cover ---- */
+   +'<div class="card" style="--acc:var(--indigo)"><h2>'+tic('info')+'What it covers, and what it does not</h2>'
+   +'<p class="sub">A supervisor with more confidence than coverage is worse than none, so here is the honest boundary.</p>'
+   +'<div class="li ok">'+tic('check')+'<span>Covered: the server process dying, the port closing, the refresher wedging, the served state going stale.</span></div>'
+   +'<div class="li ok">'+tic('check')+'<span>Covered: a wedged process that still holds the port open while the data behind it rots.</span></div>'
+   +'<div class="li warn" style="margin-top:8px">'+tic('warn')+'<span>Not covered: Windows itself. The supervisor is a process, so it does not outlive a reboot.</span></div>'
+   +'<div class="li warn">'+tic('warn')+'<span>Not covered: the 56 containers. Docker restarts those on its own; nothing here restarts Docker.</span></div>'
+   +note('If the watchdog process itself is killed, nothing restarts it. Start it with <code>cc watchdog</code>, or install the logon task so it comes back with you.','info')
+   +'</div>'
+
+   /* ---- the evidence ---- */
+   +'<div class="card" style="--acc:var(--amber);grid-column:1/-1"><h2>'+tic('file')+'Supervisor log</h2>'
+   +'<p class="sub">The supervisor\'s own record, verbatim. Restarts are explained here rather than only counted.</p>'
+   +((s.recent && s.recent.length)
+     ? '<pre class="out" style="max-height:300px;margin-top:0">'+esc(s.recent.join('\n'))+'</pre>'
+     : note('No log entries yet. The supervisor writes one line per state change, not per check, so a quiet log is the expected resting state.','info'))
+   +'</div>'
+   +'</div>';
+}
+
+/* Front-end integrity, checked IN THE PAGE.
+   scripts\verify-ui.ps1 covers the file-level half (parse, encoding, assets, API).
+   It cannot drive a browser, so these are the checks only a loaded page can make:
+   did the script actually run, do all 15 tabs render, do the glyphs paint.
+   A parse error is the case that matters - the page still renders its skeleton,
+   the response is still 200, and the console is still silent, because no
+   statement ever ran. So the first check is simply "am I running at all". */
+const SELFTEST = { ran:false, results:[], at:null };
+
+/* The last NotebookLM answer, held OUTSIDE any handler so a re-render can put
+   it back. Declared inside the wiring block it worked for the button and threw
+   "NBANSWER is not defined" in viewOverview, which reads it - and the symptom
+   was a blank page that still answered HTTP 200. Scope is not a detail here. */
+let NBANSWER = null;
+function uiSelfTest(){
+  const R=[];
+  const push=(n,ok,d)=>R.push({n:n,ok:!!ok,d:d});
+  // 1. did the script execute at all
+  push('script executed', typeof render==='function', 'typeof render = '+(typeof render));
+  // 2. structure
+  const navs=arr(document.querySelectorAll('nav button'));
+  // exact, not >=. With 15 tabs a ">= 14" check still passes if one is missing.
+  push('all tabs present', navs.length===15, navs.length+' tabs in the nav (expected 15)');
+  // 3. every tab must render without throwing
+  const ids=['overview','ai','trends','docker','bridges','services','qwen','update','minimax','skills','projects','docs','command','resilience','fabric'];
+  const keep=active, fails=[], unwired=[];
+  let ctlCount=0;
+  ids.forEach(function(t){ try{ active=t; render();
+        var v=document.getElementById('view');
+        if(/undefined|NaN|\[object/.test(v.textContent)) fails.push(t+':dirty');
+        if(!v.querySelector('.card')) fails.push(t+':empty');
+        /* A control can render perfectly and still do nothing. The AI Analyst
+           passed every other check in this file for its entire life - correct
+           markup, painted glyphs, live data, no errors - and the Ask button was
+           writing its answer into a node the poll had already detached. A check
+           that the view is not EMPTY is not a check that the view WORKS.
+           So: does every control in the rendered view have a handler? */
+        var ctrls=v.querySelectorAll('button, tr[data-n], [data-q], [data-id]');
+        ctlCount+=ctrls.length;
+        for(var i=0;i<ctrls.length;i++){
+          var el=ctrls[i];
+          if(el.disabled) continue;                       // a disabled control has nothing to prove
+          if(!el.onclick) unwired.push(t+':'+(el.id||el.dataset.id||el.dataset.n||
+                                              String(el.dataset.q||'').slice(0,18)||el.tagName));
+        }
+      }catch(e){ fails.push(t+':'+e.message); } });
+  active=keep; render();
+  push('every tab renders', fails.length===0, fails.length?fails.join(', '):(ids.length+'/'+ids.length+' clean'));
+  push('controls are wired', unwired.length===0,
+       unwired.length ? (unwired.length+' unwired: '+unwired.slice(0,4).join(', '))
+                      : (ctlCount+' controls across '+ids.length+' tabs, all bound'));
+  // 4. glyphs must actually paint
+  const ico=arr(document.querySelectorAll('.ti'));
+  let blank=0;
+  ico.forEach(function(i){ var c=getComputedStyle(i,'::before').content;
+    if(!c||c==='none'||c==='normal') blank++; });
+  push('icons paint', blank===0, ico.length+' glyphs, '+blank+' blank');
+  push('icon font loaded', document.fonts?document.fonts.check('16px tabler-icons'):false, 'tabler-icons');
+  // 5. stand-alone
+  var ext=0;
+  try{ performance.getEntriesByType('resource').forEach(function(r){
+        if(r.name.indexOf('127.0.0.1')===-1 && r.name.indexOf('localhost')===-1) ext++; }); }catch(e){}
+  push('no external resources', ext===0, ext+' external request(s)');
+  // 6. data
+  var age = S && S.generated ? Math.round((Date.now()-new Date(S.generated).getTime())/1000) : -1;
+  push('state is fresh', age>=0 && age<180, 'age '+age+'s');
+  SELFTEST.results=R; SELFTEST.ran=true; SELFTEST.at=new Date();
+  return R;
+}
+/* A check that the view is not EMPTY is not a check that the view WORKS. The
+   structural pass above proves every control has a handler; this one RUNS the
+   slowest, most consequential handler with a stubbed fetch and proves the
+   result reaches the live DOM. That is the only thing that would have caught
+   the AI Analyst writing its answer into a node the poll had already
+   detached - a bug that passed every other check here for its whole life. */
+async function uiSelfTestBehaviour(){
+  const R=[];
+  const push=(n,ok,d)=>R.push({n:n,ok:!!ok,d:d});
+  /* If a real question is in flight, askAI early-returns on aiBusy, the canary
+     never lands, and this check reports the page broken when it is fine. That
+     is a false alarm with a user-visible consequence - the button would say a
+     healthy console is broken. Skip instead, and say so on the card. */
+  if(aiBusy){
+    push('analyst answer reaches the live DOM', true, 'skipped - a question was already in flight');
+    push('analyst survives a re-render', true, 'skipped - see above');
+    return R;
+  }
+  const SENTINEL='WIRED-CANARY-'+(SELFTEST.at?SELFTEST.at.getTime():0);
+  const realFetch=window.fetch;
+  /* The stub must speak the protocol the server ACTUALLY has. /api/ask is now
+     two steps - POST returns a job id, GET /api/ask/<id> returns the result - so
+     a stub answering the POST with the answer itself would pass while proving
+     nothing: the real polling loop, the real job lookup and the real 'done'
+     transition would never run. This exercises all three. */
+  window.fetch=function(u,o){
+    if(String(u).indexOf('/api/ask')>=0){
+      const isPost = !!(o && o.method==='POST');
+      return Promise.resolve({ ok:true, json:function(){
+        return Promise.resolve(isPost
+          ? { ok:true, job:'a1b2c3d4e5f6', state:'running' }
+          : { ok:true, state:'done', answer:SENTINEL }); } });
+    }
+    return realFetch.apply(window, arguments);
+  };
+  const keep=active;
+  try{
+    active='ai'; render();
+    /* A hard cap on the canary. /api/ask has no AbortController and has been
+       measured at 12-43 s, so a hung request would never settle - and `finally`
+       would never run, leaving window.fetch stubbed FOREVER. Every later poll
+       would then be served the canary shape and the whole console would
+       quietly stop updating. The stub must never outlive this function. */
+    await Promise.race([ askAI('canary'),
+                         new Promise(function(_,rej){ setTimeout(function(){ rej(new Error('canary did not settle within 20s')); }, 20000); }) ]);
+    /* Re-render the SAME tab, which is exactly what the 5 s poll does. It used
+       to switch to another tab first, which made this check ask for #aiOut on
+       a view that has none - the test was wrong, and it reported a failure for
+       a healthy page. The instrument has to reproduce the real scenario. */
+    render();
+    const el=document.getElementById('aiOut');   // re-resolve, never reuse
+    const live = !!el && document.contains(el);
+    const got  = live && (el.textContent||'').indexOf(SENTINEL)>=0;
+    push('analyst answer reaches the live DOM', got,
+         live ? ((el.textContent||'').slice(0,44)) : 'no connected #aiOut after re-render');
+    push('analyst survives a re-render', aiAnswer!==null && aiAnswer.indexOf(SENTINEL)>=0,
+         aiAnswer===null ? 'answer was not retained' : 'answer retained across render()');
+  }catch(e){ push('analyst answer reaches the live DOM', false, e.message); }
+  finally{ window.fetch=realFetch; aiAnswer=null; aiPending=false; active=keep; render(); }
+  return R;
+}
+function selftestCard(){
+  const R=SELFTEST.results;
+  const head = SELFTEST.ran
+    ? '<div class="hmlegend" style="margin:0 0 14px">'+(R.filter(function(x){return x.ok}).length)+' of '+R.length+' passed · '+(SELFTEST.at||{}).toLocaleTimeString()+'</div>'+R.map(function(x){
+        return '<div class="li '+(x.ok?'ok':'bad')+'">'+tic(x.ok?'check':'x')+'<span><b>'+esc(x.n)+'</b> — '+esc(x.d)+'</span></div>'; }).join('')
+    : '<div class="dim" style="margin-bottom:14px">Not run in this session. This checks what a file-level test cannot: whether the page is actually alive.</div>';
+  return '<div class="card" style="--acc:var(--indigo)"><h2>'+tic('shield')+'Front-end integrity</h2>'
+    +'<p class="sub">Run from inside the page. A JavaScript parse error is the failure that hides best — the page still renders, the response is still <code>200</code>, and the console is still silent, because no statement ever ran. So the first question is simply whether the page is alive at all.</p>'
+    + head
+    +'<button class="pillbtn" id="btnSelftest" style="margin-top:16px">'+tic('play')+'Run the check</button>'
+    +'</div>';
+}
+/* ================================ FABRIC =================================
+   The system as a graph, not a list. Borrowed in spirit from the Qwen
+   dashboard's live bridge probe and supervision tree. The point is the third
+   column: not "is it up" but "WHO RESTARTS IT IF IT DIES" - the question a
+   list of statuses can never answer and the one that actually matters at 3am. */
+function viewFabric(){
+  const d=S.sections.docker, br=S.sections.bridges||[], sv=S.sections.services||[],
+        sup=S.supervision||{}, m=S.sections.minimax||{}, q=S.sections.qwen||{};
+  const cc=d.containers||[];
+
+  const rows=[];
+  rows.push({layer:'this console', name:'Control Center :8900',
+             state: sup.healthy ? 'HEALTHY' : (sup.known?'RESTARTING':'UNWATCHED'),
+             cls: sup.healthy?'ok':(sup.known?'warn':'bad'),
+             watcher:'cc-watchdog.ps1, every 30 s', dies:'auto-restarted'});
+  rows.push({layer:'measurement', name:'state collector',
+             state:'RUNNING', cls: S.stale ? 'warn':'ok',
+             watcher:'background job, 20 s cycle', dies:'last known good is served, marked stale'});
+  // The bridge rows are pushed BELOW, after supText is defined. `const` is not
+  // hoisted, so calling supText() from here was a ReferenceError waiting for
+  // the first paint of this tab - a hardcoded string was hiding a hardcoded
+  // ordering bug.
+  // Supervision is MEASURED, not asserted. This used to hardcode
+  // "docker restart policy" for every service - and qwen-acp :8765 is a bare
+  // python.exe with no Docker anywhere near it. A tab whose whole subject is
+  // "who watches this" was naming a watcher it had never checked.
+  const supText=(sp)=>!sp ? 'unknown'
+    : sp.kind==='docker' ? 'docker '+sp.owner+' · '+sp.restart
+    : sp.owner+' · '+(sp.supervised ? 'parent alive' : 'DETACHED — no parent, no supervisor found');
+  const supCls=(sp)=>!sp ? 'warn' : (sp.supervised?'ok':'warn');
+  arr(br).forEach(b=>rows.push({layer:'bridge', name:b.name.replace('minimax-','')+' :'+b.port,
+             state: b.up ? (b.fail? b.fail+' FAIL':'UP '+(b.warn||0)+' warn') : 'DOWN',
+             cls: b.up?(b.fail?'bad':'ok'):'bad',
+             watcher: supText(b.supervision),
+             dies: b.supervision
+               ? (b.supervision.supervised
+                   ? 'docker restarts it — the bridge comes back on its own'
+                   : 'no restart path found — it stays down until someone runs it again')
+               : 'supervision not measured yet — treat this row as unknown'}));
+  arr(sv).forEach(s=>rows.push({layer:'service', name:s.name+' :'+s.port,
+             state: s.up ? ('HTTP '+(s.code==null?'—':s.code)) : 'UNREACHABLE',
+             cls: s.up?(s.code===200?'ok':'warn'):'bad',
+             watcher: supText(s.supervision),
+             dies: s.supervision
+                    ? (s.supervision.supervised
+                        ? ('watched by '+(s.supervision.kind==='docker'?'docker':'its parent process')+'; if it dies it comes back')
+                        : 'no restart path found — it stays down until something acts')
+                    : 'supervision not measured yet — treat this row as unknown'}));
+  // The SENTINEL split, which this tab did not cover at all. A container front
+  // in front of a host data plane is two systems with two owners; showing only
+  // the front makes an unwatched backend look supervised.
+  //
+  // The wording is deliberately weaker than the evidence allows. A detached
+  // process is a FACT; "nothing will restart it" was a claim, and it was wrong
+  // - the hub log shows 8 distinct backend pids in four hours, so something
+  // revives it by a path this probe cannot see. Say what was measured.
+  const sn=S.sections.sentinel;
+  if(sn){
+    rows.push({layer:'sentinel', name:'front (container) :8910',
+               state: (sn.front_http? 'HTTP '+sn.front_http : (sn.front.up?'LISTENING':'DOWN')),
+               cls: sn.front_http===200?'ok':(sn.front.up?'warn':'bad'),
+               watcher: supText(sn.front),
+               dies: (sn.front&&sn.front.supervised)?'Docker restarts it':'DOWN — no restart path found'});
+    rows.push({layer:'sentinel', name:'data plane (host) :8912',
+               state: (sn.backend_http? 'HTTP '+sn.backend_http : (sn.backend.up?'LISTENING':'DOWN')),
+               cls: sn.backend_http===200?'ok':(sn.backend.up?'warn':'bad'),
+               // A detached server has no parent BY DESIGN, so the parent test
+               // answers the wrong question. What matters is who revives it.
+               watcher: sn.guardian_pid ? ('sentinel-guardian.ps1, pid '+sn.guardian_pid) : supText(sn.backend),
+               dies: sn.guardian_pid
+                 ? 'the guardian restarts it within ~90 s (3 checks at 45 s); it deliberately has no parent'
+                 : 'no watcher found — if it dies it stays dead'});
+  }
+
+  const dead=cc.filter(c=>c.status!=='running');
+  const sick=cc.filter(c=>c.status==='running'&&c.health&&c.health!=='healthy'&&c.health!=='none');
+  rows.push({layer:'containers', name:'the swarm ('+cc.length+' running)',
+             state: (dead.length||sick.length) ? (dead.length+' not running, '+sick.length+' unhealthy') : 'ALL RUNNING',
+             cls: (dead.length||sick.length)?'bad':'ok',
+             watcher:'docker only — nothing in this project restarts containers',
+             dies:'MANUAL. Never `docker container prune -a` — the swarm was lost that way.'});
+
+  rows.push({layer:'minimax', name:'CLI auth broker',
+             state: m.cli_auth||'unknown', cls: m.cli_auth==='authenticated'?'ok':'warn',
+             watcher:'nothing — it dies with the app', dies:'close MiniMax Code and the CLI loses auth'});
+
+  // NotebookLM belongs in the FABRIC, not only on the Overview: this tab is the
+  // dependency graph - who answers, who watches, what happens when it dies -
+  // and a surface with its own browser, its own CDP port and its own
+  // authentication is exactly the kind of node that graph exists to show.
+  // It was measured and listed on the Overview while being absent here.
+  //
+  // ORDER MATTERS. These rows must be pushed BEFORE `body` is built from `rows`.
+  // The first version of this block sat below the `const body=rows.map(...)`
+  // line: `rows` grew to N+1 and the header counter said "N+1 of N+1 answering"
+  // while the table body still held N rows. Collected, counted, never displayed -
+  // the same defect class as the processes/startup sections in tab sweep pass 3.
+  // The invariant below runs every paint: if the rendered body ever holds fewer
+  // rows than the header counted, the card says so instead of looking healthy.
+  const nb2=S.sections.notebooks;
+  if(nb2){
+    if(!nb2.measured){
+      rows.push({layer:'notebook', name:'NotebookLM (minimax)',
+                 state:'NOT MEASURED', cls:'warn',
+                 watcher:'unknown - no measurement this cycle',
+                 dies:'an unmeasured node is not a healthy node'});
+    }else{
+      const nbSupRec = nb2.supervision;
+      const nbSup  = supText(nbSupRec);
+      const nbUnmeasured = !nbSupRec;                 // no measurement yet
+      const nbSupd = !nbUnmeasured && !!nbSupRec.supervised;
+      const nbNoWatch = !nbUnmeasured && !nbSupd;     // measured, and nobody watches it
+      rows.push({layer:'notebook', name:'NotebookLM :9412 · minimax',
+                 state: (nb2.authenticated ? (nb2.count+' notebooks') : 'SESSION NOT SIGNED IN')
+                      + (nbNoWatch ? ' · NO WATCHER' : ''),
+                 cls: !nb2.authenticated ? 'bad' : (nbNoWatch ? 'warn' : 'ok'),
+                 watcher: nbSup + (nbUnmeasured ? ' — no measurement this cycle'
+                                  : (nb2.authenticated ? '' : ' · session NOT signed in')),
+                 dies: !nb2.authenticated
+                   ? 'no session — Fabric and the AI Analyst lose every notebook until you sign in again'
+                   : (nbNoWatch
+                      ? 'it outlives its launcher by design, so a NotebookLM restart does not lose the session — but nothing revives it if the browser itself dies, and every notebook is lost until you sign in again'
+                      : ('re-authenticate by signing into notebook.google.com on the minimax profile; '+nb2.total_sources+' sources would go unread'))});
+    }
+  }
+
+  const body=rows.map(r=>
+    '<tr><td><span class="fdot f-'+r.cls+'"></span>'+esc(r.layer)+'</td>'
+   +'<td>'+esc(r.name)+'</td>'
+   +'<td class="f-'+r.cls+'">'+esc(r.state)+'</td>'
+   +'<td class="dim">'+esc(r.watcher)+'</td>'
+   +'<td class="dim">'+esc(r.dies)+'</td></tr>').join('');
+
+  // Live invariant, not a comment: the header states rows.length, the body is
+  // what a reader actually sees. If they ever disagree the tab was lying.
+  const bodyRows=(body.match(/<tr>/g)||[]).length;
+  const rowDrift = bodyRows !== rows.length;
+
+  const upN=rows.filter(r=>r.cls==='ok').length;
+  const badN=rows.filter(r=>r.cls==='bad').length;
+
+  return '<div class="grid">'
+   +'<div class="card" style="--acc:var(--cyan)"><h2>'+tic('topology')+'Reachability &amp; blast radius</h2>'
+   +'<p class="sub">Every dependency, whether it answers right now, and <em>what restarts it if it does not</em>. The last column is the one a list of statuses can never give you.</p>'
+   +'<div class="fscore"><span class="f-'+(badN?'bad':'ok')+'">'+upN+'</span> of '+rows.length+' answering'
+   +(badN?' &middot; <span class="bad">'+badN+' not</span>':' &middot; nothing down')
+   +(rowDrift?' &middot; <span class="bad">INCONSISTENT: table renders '+bodyRows+' rows, header counts '+rows.length+'</span>':'')+'</div>'
+   +(rowDrift? note('The header and the table disagree. The count above is real and the table below is incomplete - treat this tab as untrustworthy until it agrees.','bad') : '')
+   +'<div class="fscroll"><table class="ftab"><thead><tr><th>layer</th><th>thing</th><th>state</th><th>who restarts it</th><th>if it dies</th></tr></thead><tbody>'+body+'</tbody></table></div>'
+   +'</div>'
+   +'<div class="card" style="--acc:var(--emerald)"><h2>'+tic('heartbeat')+'Supervision tree</h2>'
+   +'<p class="sub">Who watches whom. A box with no watcher above it is a box that stays dead.</p>'
+   + supervisionTree(sup)
+   +'</div>'
+   +'<div class="card" style="--acc:var(--amber)"><h2>'+tic('warn')+'The two rules this graph exists to protect</h2>'
+   +'<div class="li bad">'+tic('x')+'<span><b>hermes-mcp-*</b> — 31 containers, load-bearing, lost once to a prune on 2026-08-08. Docker restarts them. Nothing else does.</span></div>'
+   +'<div class="li warn">'+tic('warn')+'<span><b>docker-compose.yml</b> — vanished once and took 6 non-swarm containers with it. <code>cc guard</code> checks and rebuilds it, but only when a human asks.</span></div>'
+   +note('Everything in this tab is measured. Where a box is empty, it is empty because the measurement could not reach it — not because the UI filled it in.','info')
+   +'</div>'
+   +'<div class="card" style="--acc:var(--indigo)"><h2>'+tic('server')+'Port map</h2>'
+   +'<p class="sub">Loopback only. Two of these answer a protocol that does not exist, which is worth knowing before you debug it.</p>'
+   + kv('<span>'+tic('heartbeat')+'</span>8801','Mavis &harr; Hermes bridge — /health, /doctor/detailed')
+   + kv('<span>'+tic('heartbeat')+'</span>8802','Mavis &harr; Antigravity bridge (read-only mount)')
+   + kv('<span>'+tic('server')+'</span>8082','stirling-pdf — a real HTTP API, no login')
+   + kv('<span>'+tic('file')+'</span>3001','libreoffice — a remote DESKTOP, not an API')
+   + kv('<span>'+tic('sparkle')+'</span>8765','qwen ACP at /acp. <b>/mcp is 404 by design</b> — Qwen has no MCP transport.')
+   + kv('<span>'+tic('gauge')+'</span>8900','this console. Owned by HTTP.sys, not by the PowerShell process.')
+   +'</div>'
+   +'<div class="card" style="--acc:var(--emerald);grid-column:span 2"><h2>'+tic('sparkle')+'Model fleet</h2>'
+   +'<p class="sub">What every agent on this machine is <em>actually</em> pointed at, read from each tool’s own config and the live provider — not from what anyone intended. A tool that looks configured while pointing somewhere else is the failure this panel exists to make visible.</p>'
+   + (function(){
+       var f=(S.sections||{}).fleet;
+       if(!f) return note('Fleet data not present in this snapshot.','info');
+       var ag=arr(f.agents).map(function(a){
+         var miss=/NOT INSTALLED/.test(String(a.model||''));
+         var good=!miss && a.model && a.model!=='unknown' && a.model!=='vertex-ai';
+         var cls=miss?'bad':(good?'ok':'warn');
+         return '<tr><td><span class="fdot f-'+cls+'"></span>'+esc(a.name)+'</td>'
+            +'<td class="f-'+cls+'">'+esc(a.model||'?')+'</td>'
+            +'<td class="dim">'+esc(a.endpoint||a.route||'')+'</td>'
+            +'<td class="dim">'+esc(a.route||'')+'</td></tr>';
+       }).join('');
+       var o=f.ollama||{}, m=f.minimax||{};
+       return '<div class="fscroll"><table class="ftab"><thead><tr><th>agent</th><th>model</th><th>endpoint</th><th>route</th></tr></thead><tbody>'+ag+'</tbody></table></div>'
+        +'<div style="margin-top:16px">'
+        +kv('<span>'+tic('cpu')+'</span>local Ollama',
+             o.up? arr(o.models).length+' model(s): '+esc(arr(o.models).join(', ')) : 'DOWN — '+(o.note||''),
+             o.up?'ok':'bad')
+        +kv('<span>'+tic('sparkle')+'</span>MiniMax subscription',
+             m.configured ? (m.reachable? ('reachable, '+m.models+' models available') : 'key present but API UNREACHABLE')
+                          : 'no key configured',
+             (m.configured && m.reachable)?'ok':(m.configured?'bad':'warn'))
+        +'</div>'
+        +note(esc(m.note||'read from each CLI\'s own config')+' <b>That note is derived from the same check as the row above it</b> &mdash; it is not a standing claim about how this box used to be set up.','info');
+     })()
+   + selftestCard()
+   +'<div class="card" style="--acc:var(--emerald)"><h2>'+tic('refresh')+'What starts this after a reboot</h2>'
+   +'<p class="sub">Two Windows logon tasks own this console. Verified from a genuine cold start: everything killed, both ports confirmed down, and the tasks brought the whole thing back on their own in 76 s. Without this panel, "it comes back on its own" is a claim nobody can check.</p>'
+   + (function(){
+       var s=(S.sections||{}).startup;
+       if(!s||!arr(s.tasks).length) return note('Startup census not present in this snapshot.','info');
+       var rows=arr(s.tasks).map(function(t){
+         var bad=!t.present || t.verdict==='never run yet';
+         var cls = !t.present ? 'bad' : (t.verdict==='running (correct for a server)' ? 'ok' : 'warn');
+         return '<tr><td><span class="fdot f-'+cls+'"></span>'+esc(t.name)+'</td>'
+            +'<td class="f-'+cls+'">'+esc(t.state||'?')+'</td>'
+            +'<td>'+esc(t.verdict||'')+'</td>'
+            +'<td class="dim">'+(t.last_run?esc(t.last_run.replace('T',' ').slice(0,19)):'—')+'</td>'
+            +'<td class="dim">'+esc(arr(t.triggers).join(', ')||'—')+'</td></tr>';
+       }).join('');
+       return '<div class="fscroll"><table class="ftab"><thead><tr><th>task</th><th>state</th><th>last result</th><th>last run</th><th>trigger</th></tr></thead><tbody>'+rows+'</tbody></table></div>'
+        +note('<code>0x41301</code> means the task is RUNNING, which is the correct resting state for a server — not an error. <code>0x41303</code> would mean it has never fired.','info');
+     })()
+   +'</div>'
+   +'<div class="card" style="--acc:var(--cyan)"><h2>'+tic('activity')+'Process census</h2>'
+   +'<p class="sub">Node servers come in <em>sets</em> — one set per live agent session — so a raw process count looks like a leak and is not one. The only number worth acting on is the number whose <em>parent has exited</em>.</p>'
+   + (function(){
+       var p=(S.sections||{}).processes;
+       if(!p) return note('No process census in this snapshot.','info');
+       var heavy = p.orphans > 0;
+       return kv('<span>'+tic('cpu')+'</span>node processes', p.node_total+'  ('+p.attached+' attached to a live parent)', 'ok')
+        +kv('<span>'+tic('warn')+'</span>orphaned roots', (p.orphans||0)+' process(es), '+p.orphan_mb+' MB', heavy?'bad':'ok')
+        +kv('<span>'+tic('server')+'</span>live shells', p.live_shells+' powershell/cmd', 'ok')
+        +note('A <b>root</b> orphan is a process whose parent has exited — but the true cost is bigger than the root count. Measured 2026-10-04: 24 roots, and <b>68 processes / 3.7 GB</b> living underneath them. Killing a parent does <em>not</em> kill its children on Windows, so reaping is iterative: <code>scripts\\reap-mcp.ps1 -Apply</code> re-scans and repeats until nothing new is orphaned, and never touches the bridge listeners on 3011-3017.','info');
+     })()
+   +'<div class="card" style="--acc:var(--amber)"><h2>'+tic('key')+'Access &amp; authentication</h2>'
+   +'<p class="sub">The console measures everything except the thing that actually blocks work, which is access. Each credential below is <em>probed</em>, not assumed — a 401 from Drive is the honest answer and is reported as one.</p>'
+   + (function(){
+       var a=(S.sections||{}).auth;
+       if(!a||!arr(a.items).length) return note('Auth census not present in this snapshot.','info');
+       return arr(a.items).map(function(it){
+         var bad = it.state!=='connected';
+         var cls = it.state==='connected' ? 'ok' : (it.state==='unreachable' ? 'bad' : 'warn');
+         return '<div style="padding:13px 0;border-top:1px solid rgba(127,127,127,.14)">'
+          +'<div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">'
+          +'<span class="fdot f-'+cls+'"></span>'
+          +'<b style="font-size:15px">'+esc(it.name)+'</b>'
+          +'<span class="f-'+cls+'" style="font:700 12px/1 var(--mono);letter-spacing:.05em;text-transform:uppercase">'+esc(String(it.state).replace(/-/g,' '))+'</span>'
+          +'</div>'
+          +'<div class="dim" style="margin:7px 0 0 21px;font-size:12.5px;line-height:1.6">'+esc(it.detail||'')+'</div>'
+          +'<div style="margin:7px 0 0 21px;font-size:13px;line-height:1.6">'+esc(it.remedy||'')+'</div>'
+          +'<div class="dim" style="margin:5px 0 0 21px;font:400 11.5px/1.6 var(--mono)">scopes: '+esc(it.scopes||'n/a')+'</div>'
+          +'<div class="dim" style="margin:2px 0 0 21px;font:400 11.5px/1.6 var(--mono)">'+esc(it.risk||'')+'</div>'
+          +'</div>';
+       }).join('')
+        +note('Scopes are read from the installed packages, not chosen by me — so check them before you click consent.','info');
+     })()
+   +'</div></div>';
+}
+
+function supervisionTree(sup){
+  const wd=sup.known
+    ? (sup.healthy?'<b class="ok">healthy</b>':'<b class="bad">restarting</b>')
+    : '<b class="bad">NOT RUNNING</b>';
+  return '<div class="tree">'
+   +'<div class="tnode t-win">OPTIMUS_ControlCenter <span class="dim">(logon task)</span></div>'
+   +'<div class="tedge"></div>'
+   +'<div class="tnode '+(sup.known?(sup.healthy?'t-ok':'t-bad'):'t-bad')+'">cc-watchdog.ps1 &middot; '+wd+'</div>'
+   +'<div class="tedge"></div>'
+   +'<div class="tnode t-server">server.ps1 &middot; :8900</div>'
+   +'<div class="tbent"></div>'
+   +'<div class="tnode t-job">refresher job &middot; 20 s</div>'
+   +'<div class="tbent"></div>'
+   +'<div class="tnode t-job">collect-state.ps1 &middot; 90 s cap</div>'
+   +'<div class="tbtns">'
+   +'<div class="tnode t-leaf">docker <span class="dim">(57)</span></div>'
+   +'<div class="tnode t-leaf">bridge :8801</div>'
+   +'<div class="tnode t-leaf">bridge :8802</div>'
+   +'<div class="tnode t-leaf">qwen :8765</div>'
+   +'<div class="tnode t-leaf">mcode-tools</div>'
+   +'</div>'
+   +'<div class="tfoot">A leaf has no watcher above it except the ones this project owns. '
+   +'That is the honest shape of the graph, not a complete one.</div></div>';
+}
+
+function flash(msg){
+  const e=document.getElementById('xout');
+  if(e) e.innerHTML='<div class="note info">'+svg('check')+'<span>'+esc(msg)+'</span></div>';
+}
+async function doExport(kind){
+  const d=S.sections.docker;
+  if(kind==='json'){
+    try{ await navigator.clipboard.writeText(JSON.stringify(S,null,2)); flash('Full state JSON copied to the clipboard.'); }
+    catch(e){ flash('Clipboard blocked by the browser. Use the Command tab and the state_doc action instead.'); }
+  } else if(kind==='csv'){
+    const rows=[['name','project','image','status','health']];
+    d.containers.forEach(c=>rows.push([c.name,c.project,c.image,c.status,c.health||'']));
+    const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+    try{ await navigator.clipboard.writeText(csv); flash('Container table copied as CSV ('+d.containers.length+' rows).'); }
+    catch(e){ flash('Clipboard blocked by the browser.'); }
+  } else if(kind==='print'){ window.print(); }
+  else if(kind==='digest'){
+    try{
+      const r=await fetch('/api/ask',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({question:'Write a short handover briefing for the next person: current state, anything broken, and the top three things to do. Plain prose, no bullet-point noise.'})});
+      const j=await r.json();
+      await navigator.clipboard.writeText(j.answer||'');
+      flash('AI briefing copied to the clipboard.');
+    }catch(e){ flash('Could not build the briefing: '+e.message); }
+  }
+}
+
+/* ============================== BINDING ================================ */
+function bind(){
+  const out=document.getElementById('out');
+  document.querySelectorAll('#view .qs button[data-x]').forEach(b=>b.onclick=()=>doExport(b.dataset.x));
+  // container drill-down
+  document.querySelectorAll('#view tr.row').forEach(tr=>tr.onclick=()=>{
+    const c=(S.sections.docker.containers||[]).find(x=>x.name===tr.dataset.n);
+    const d=document.getElementById('drill');
+    if(!c||!d){ if(d) d.innerHTML=note('That container is no longer in the current listing.'); return; }
+    d.innerHTML='<div style="margin-top:12px">'
+      +'<div class="note info">'+svg('gauge')+'<span><b>'+esc(c.name)+'</b></span></div>'
+      +kv('<span>'+svg('layers')+'</span>compose project',esc(c.project))
+      +kv('<span>'+svg('server')+'</span>image',esc(c.image||'not reported by inspect'))
+      +kv('<span>'+svg('play')+'</span>state',esc(c.status),c.status==='running'?'ok':'bad')
+      +kv('<span>'+svg('check')+'</span>health',esc(c.health||'no healthcheck defined'),c.health==='healthy'?'ok':'dim')
+      +'</div>';
+  });
+  if(out) document.querySelectorAll('.act').forEach(btn=>{
+    btn.onclick=async()=>{
+      const id=btn.dataset.id; btn.querySelector('.btn').classList.add('run');
+      outKeep='running '+(ACTIONS[id]?ACTIONS[id].c:id)+' …';
+      const live1=document.getElementById('out'); if(live1) live1.textContent=outKeep;
+      /* Actions are ASYNC for the same reason the analyst is. `doctor` measures
+         ~12 s on this machine; run inline it froze every other reader for its
+         full duration, and a timeout cap only makes that freeze BOUNDED - it
+         does not remove it. The POST now returns a job id in milliseconds and
+         the console stays live while the command runs. The operator still sees
+         their output, just a few seconds later, and so does every other tab. */
+      try{
+        const r=await fetch('/api/action',{method:'POST',headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({id})});
+        const j=await r.json();
+        if(!j.ok || !j.job){ outKeep='ERROR: '+(j.error||'the console did not start the job'); }
+        else{
+          const done=await pollAction(j.job);
+          outKeep=(done.state==='done'?done.output:'ERROR: '+done.error)+'\n\n$ '+(ACTIONS[id]?ACTIONS[id].c:id);
+        }
+      }catch(e){ outKeep='ERROR: '+e.message; }
+      const live2=document.getElementById('out'); if(live2) live2.textContent=outKeep;
+      const lb=document.querySelector('.act[data-id="'+id+'"] .btn'); if(lb) lb.classList.remove('run');
+    };
+  });
+  /* The front-end self-test button lives in viewFABRIC, not on the Resilience
+     tab. An earlier comment here said Resilience, and it was wrong: the card is
+     rendered by selftestCard() from viewFabric(), so on `resilience` this lookup
+     returns null and the button silently has no handler. */
+  /* ---- Ask a NotebookLM notebook, from the card that lists them -----------
+   * Async because a measured answer takes 40-60 s and the page must keep
+   * answering /api/state meanwhile. The job id comes back in ~500 ms.
+   * Wired HERE, next to the other handlers, because the control lives in
+   * viewOverview and a handler attached in the wrong view silently does
+   * nothing - the same lesson as btnSelftest above. */
+  /* An answer that disappears on the next poll is not an answer.
+   The page re-renders every 5 s (`setInterval(poll, 5000)`), and the card is
+   rebuilt from scratch each time - so a 45-second NotebookLM reply written
+   straight into the DOM survived five seconds. It is held here instead and
+   re-rendered, so a refresh costs the reader nothing.
+   Same defect class as everything else in this project's history: produced
+   correctly, displayed nowhere durable. */
+  const nbBtn=document.getElementById('nbAsk');
+  if(nbBtn) nbBtn.onclick=async()=>{
+    const pick=document.getElementById('nbPick'), qIn=document.getElementById('nbQ'), out=document.getElementById('nbOut');
+    if(!pick||!qIn||!out) return;                       // SPEC_R104: never touch what is not on the page
+    const q=(qIn.value||'').trim();
+    if(!q){ out.innerHTML=note('Type a question first.', 'warn'); return; }
+    nbBtn.disabled=true;
+    const t0=Date.now();
+    let tick=setInterval(()=>{ const s=Math.round((Date.now()-t0)/1000);
+      out.innerHTML=note('Asking <b>'+esc(pick.value)+'</b>... '+s+'s. This is a real round-trip to notebook.google.com.', 'info'); },1000);
+    try{
+      const r=await fetch('/api/notebook/ask',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({notebook:pick.value,question:q})});
+      const j=await r.json();
+      clearInterval(tick);
+      if(!j.job){
+        // A refusal is a real answer. It is shown as what it is, never as an
+        // empty reply that reads like "nothing found in the notebook".
+        NBANSWER={html:note(esc(j.error||'the console refused this question')+' (HTTP '+r.status+')','bad')};
+        return render();
+      }
+      let res=null;
+      for(let i=0;i<80;i++){
+        await new Promise(rr=>setTimeout(rr,3000));
+        try{ res=await (await fetch('/api/notebook/ask/'+j.job)).json(); }catch(e){ continue; }
+        if(res && res.state!=='running') break;
+      }
+      clearInterval(tick);
+      if(!res||res.state==='running'){ NBANSWER={html:note('Still waiting after 4 minutes. The job is on the server; nothing was lost.','warn')}; return render(); }
+      if(res.state==='done'&&res.answer){
+        NBANSWER={html:'<div class="li ok">'+tic('check')+'<span><b>'+esc(res.notebook)+'</b> answered in '
+          +Math.round((Date.now()-t0)/1000)+'s</span></div>'
+          +'<div style="margin-top:6px;white-space:pre-wrap">'+esc(res.answer)+'</div>'};
+        return render();
+      }
+      if(res.state==='unauthenticated'){
+        NBANSWER={html:note('The NotebookLM session is signed out. '+esc(res.error||'Sign in on the minimax Chrome profile.')
+          +(res.retry_after_sec?' Automatic retry in '+Math.ceil(res.retry_after_sec/60)+' min.':' No probe until then.'),'warn')};
+        return render();
+      }
+      NBANSWER={html:note(esc(res.error||'the query failed'),'bad')};
+      render();
+    }catch(e){
+      clearInterval(tick);
+      NBANSWER={html:note('The console could not be reached: '+esc(String(e)),'bad')};
+      render();
+    }finally{ nbBtn.disabled=false; }
+  };
+
+  const stBtn=document.getElementById('btnSelftest');
+  if(stBtn) stBtn.onclick=async()=>{
+    stBtn.textContent='checking…';
+    SELFTEST.results=uiSelfTest(); SELFTEST.ran=true; SELFTEST.at=new Date();
+    const extra=await uiSelfTestBehaviour();          // the pass that runs a handler
+    SELFTEST.results=SELFTEST.results.concat(extra);
+    SELFTEST.at=new Date();
+    render();
+  };
+  const go=document.getElementById('aiGo');
+  if(go){
+    const q=document.getElementById('aiQ');
+    const ask=()=>askAI(q.value);
+    go.onclick=ask;
+    q.onkeydown=e=>{ if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();ask();} };
+    const cl=document.getElementById('aiClear');
+    /* Clear resets the RETAINED answer, not just the node. Wiping the element
+       alone would let the next poll repaint the old answer straight back in. */
+    if(cl) cl.onclick=()=>{ q.value=''; aiAnswer=null; aiPending=false; aiQuestion=null; aiFactsAt=null; aiAt=null; paintAI(); };
+    document.querySelectorAll('#aiQs button').forEach(b=>b.onclick=()=>{ q.value=b.dataset.q; askAI(b.dataset.q); });
+  }
+}
+
+/* ========================== COMMAND PALETTE ============================ */
+let palSel=0, palItems=[];
+function openPal(){ document.getElementById('pal').classList.add('on'); const i=document.getElementById('palIn'); i.value=''; i.focus(); palSel=0; palBuild(); }
+function closePal(){ document.getElementById('pal').classList.remove('on'); }
+function palBuild(){
+  const q=(document.getElementById('palIn').value||'').toLowerCase();
+  palItems=[];
+  TABS.forEach(([id,l,acc,ic,d])=>{ if(!q||l.toLowerCase().includes(q)||d.toLowerCase().includes(q))
+    palItems.push({i:ic,label:l,sub:'tab',go:()=>{active=id;render();}}); });
+  Object.entries(ACTIONS).forEach(([id,m])=>{ if(!q||m.t.toLowerCase().includes(q)||m.d.toLowerCase().includes(q))
+    palItems.push({i:m.i,label:m.t,sub:'action',go:()=>{active='command';render();
+      setTimeout(()=>{const b=document.querySelector('.act[data-id="'+id+'"]'); if(b)b.click();},60);}}); });
+  if(q) palItems.push({i:'brain',label:'Ask: '+q,sub:'ai',go:()=>{active='ai';render();
+    setTimeout(()=>{const t=document.getElementById('aiQ'); if(t){t.value=q; askAI(q);}},60);}});
+  palSel=0; palPaint();
+}
+function palPaint(){
+  const L=document.getElementById('palList');
+  L.innerHTML=palItems.slice(0,40).map((x,i)=>
+    '<button class="palrow'+(i===palSel?' sel':'')+'" data-i="'+i+'">'+svg(x.i)+'<span>'+esc(x.label)
+    +'</span><span class="k">'+esc(x.sub)+'</span></button>').join('')||'<div class="palrow dim">nothing matches</div>';
+  L.querySelectorAll('.palrow[data-i]').forEach(b=>b.onclick=()=>{ palItems[+b.dataset.i].go(); closePal(); });
+}
+
+/* ============================== SHORTCUTS ============================== */
+const KEYS=[
+  ['Ctrl / Cmd + K','open the command palette'],
+  ['A','jump to the AI analyst'],
+  ['1 – 9, 0, -','switch tab by position'],
+  ['R','refresh the state now'],
+  ['T','switch theme'],
+  ['?','this panel'],
+  ['Esc','close anything open'],
+];
+function showHelp(){
+  document.getElementById('helpBody').innerHTML=KEYS.map(k=>
+    '<div class="krow"><span>'+esc(k[1])+'</span><kbd>'+esc(k[0])+'</kbd></div>').join('');
+  document.getElementById('help').classList.add('on');
+}
+document.addEventListener('keydown',e=>{
+  const typing = /^(INPUT|TEXTAREA)$/.test(e.target.tagName);
+  if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='k'){ e.preventDefault(); openPal(); return; }
+  if(e.key==='Escape'){ closePal(); document.getElementById('help').classList.remove('on'); if(typing)e.target.blur(); return; }
+  if(typing) return;
+  if(document.getElementById('pal').classList.contains('on')){
+    if(e.key==='ArrowDown'){ e.preventDefault(); palSel=Math.min(palSel+1,Math.min(palItems.length,40)-1); palPaint(); }
+    if(e.key==='ArrowUp'){ e.preventDefault(); palSel=Math.max(palSel-1,0); palPaint(); }
+    if(e.key==='Enter'){ e.preventDefault(); if(palItems[palSel]){palItems[palSel].go();} closePal(); }
+    return;
+  }
+  if(e.key==='?'){ showHelp(); return; }
+  if(e.key.toLowerCase()==='a'){ active='ai'; render(); return; }
+  if(e.key.toLowerCase()==='r'){ poll(); return; }
+  if(e.key.toLowerCase()==='t'){ toggleTheme(); return; }
+  const idx='1234567890-'.indexOf(e.key);
+  if(idx>=0 && idx<TABS.length){ active=TABS[idx][0]; render(); }
+});
+function toggleTheme(){
+  const h=document.documentElement, now=h.getAttribute('data-theme');
+  h.setAttribute('data-theme', now==='obsidian'?'paper':'obsidian');
+  try{ localStorage.setItem('optimus-theme', h.getAttribute('data-theme')); }catch(e){}
+  /* The glyph is a Tabler font class now, so the theme switch swaps the class
+     rather than writing path data into the element. */
+  const ti=document.getElementById('themeIcon');
+  if(ti) ti.className='ti hicon '+(now==='obsidian'?'ti-sun':'ti-moon');
+}
+document.getElementById('btnPal').onclick=openPal;
+document.getElementById('btnHelp').onclick=showHelp;
+document.getElementById('btnTheme').onclick=toggleTheme;
+document.getElementById('btnAsk').onclick=()=>{ active='ai'; render(); };
+document.getElementById('help').onclick=e=>{ if(e.target.id==='help') e.currentTarget.classList.remove('on'); };
+document.getElementById('pal').onclick=e=>{ if(e.target.id==='pal') closePal(); };
+document.getElementById('palIn').oninput=palBuild;
+try{ const t=localStorage.getItem('optimus-theme'); if(t) document.documentElement.setAttribute('data-theme',t); }catch(e){}
+
+/* The nav sticks directly beneath the header, but the header WRAPS at the
+   narrow breakpoint - it measures 106.8px tall there, not 64px. Any fixed
+   value in CSS lets the nav slide underneath it the moment you scroll. So the
+   offset is measured from the real element instead of assumed, and re-measured
+   on resize and on a slow tick (which also catches the icon webfont landing
+   and changing the box). */
+function syncHeaderHeight(){
+  const h=document.querySelector('header');
+  if(h) document.documentElement.style.setProperty('--header-h', h.getBoundingClientRect().height+'px');
+}
+syncHeaderHeight();
+window.addEventListener('resize', syncHeaderHeight);
+window.addEventListener('orientationchange', syncHeaderHeight);
+setInterval(syncHeaderHeight, 1000);
+
+/* Entrance animations play exactly once. Without this the 5 s poll would
+   re-trigger them on every re-render and the page would pulse forever. */
+document.body.classList.add('booting');
+setTimeout(function(){ document.body.classList.remove('booting'); }, 900);
+
+/* =============================== BOOT =================================
+   Polling, not SSE. I built the /api/stream endpoint and measured it: under
+   PowerShell's HttpListener the response headers are never flushed early, so
+   EventSource never fires onopen - 55 s of waiting produced nothing. curl saw
+   body bytes only because it reads until close. A live feed that silently never
+   activates is worse than an honest 5s poll, so the stream route is gone and
+   the data age beside the clock tells you how fresh you are. */
+if(fileProtocolGuard()){
+  /* do not poll: every request would fail for the same structural reason */
+}else{
+  /* Deep-link entry: #fabric opens Fabric. Guarded on the id actually existing,
+     so a stale or hand-typed hash falls back to Overview instead of a blank
+     panel - there is no view function for a name that is not in TABS. */
+  (function(){
+    const h=location.hash.slice(1);
+    if(h && TABS.some(t=>t[0]===h)) active=h;
+  })();
+  window.addEventListener('hashchange', function(){
+    const h=location.hash.slice(1);
+    if(h && TABS.some(t=>t[0]===h) && h!==active){ active=h; render(); }
+  });
+  skeleton(); poll();
+  setInterval(poll, 5000);
+}
+</script>
+</body>
+</html>

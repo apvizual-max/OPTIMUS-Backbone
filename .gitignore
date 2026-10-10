@@ -1,0 +1,86 @@
+# OPTIMUS — ce nu intră în istorie, și DE CE.
+#
+# Regula de sus: istoria conține SURSA. Nu conține copii ale sursei,
+# nu conține ce se regenerează singur și nu conține niciodată secrete.
+
+# ── BACKUP + VERSION STORES ────────────────────────────────────────────────
+# Sunt 488 MB / ~26.600 de fișiere. Intrate în istorie, fiecare commit ar
+# îngropa o copie întreagă a proiectului, iar "backupul nu conține backup"
+# ar fi încălcat chiar de git.
+FULL_BACKUP*/
+VERSION_REFERINTA*/
+RESTORE_POINT*/
+*_DIPLOID*/
+_QUARANTINE*/
+*_probe*/
+*DIPLOID*/
+
+# ── REPO-URI CARE AU DEJA REMOTE PROPRIU ──────────────────────────────────
+# SENTINEL_PRIME are istoria lui. Încă un strat de git peste el ar produce
+# gitlink-uri (mod 160000) — intrări de tip "submodul" care nu sunt submodule.
+SENTINEL_PRIME/
+60_SKILLS/_links/
+
+# ── SPAȚIU AL LUI HERMES ──────────────────────────────────────────────────
+# Regula de namespace: minimax și Hermes sunt universuri separate. Nu trag
+# conținutul produsului lui Hermes în istoria mea.
+# 70_CONNECTORS/_links conține și un repo încorporat (hermes-desktop-plugins).
+# scripts/external/ conține scripturile lui Hermes + sursele MCP ale lui,
+# vândute aici, cu build artifacts (*.egg-info) în ele.
+70_CONNECTORS/_links/
+scripts/external/
+*.egg-info/
+
+# ── CHEIE DE GITHUB, NEEXPIRATĂ, ÎN PLAIN TEXT ────────────────────────────
+# backup-hermes.py și weekly-backup.bat conțin un token personal ghp_ hardcodat
+# ca valoare implicită. O cheie în istorie e o cheie publică: rămâne acolo
+# oricând s-ar rescrie codul. Fișierele NU intră în repo până nu e rotită și
+# tokenul nu e mutat într-o variabilă de mediu.
+scripts/hermes-custom/
+
+# ── BACKUP-URI ȘI STARE DE INSTRUMENT ─────────────────────────────────────
+# "Backupul nu conține backup": și consola își are propriul version store
+# (90_CONTROL_CENTER/backups/versions), plus o versiune mai veche a ei însăși.
+90_CONTROL_CENTER/backups/
+*.stdin
+logs/
+.ijfw/
+
+# ── FIXTURE DE TEST, nu sursă ──────────────────────────────────────────────
+# scripts/_jtest e un repo git de test (318 fișiere) folosit la proba runner-ului
+# bounded. Fără remote, git l-ar transforma în gitlink, nu în conținut.
+scripts/_jtest/
+
+# ── RUNTIME: se regenerează la fiecare pornire ─────────────────────────────
+# live-state.json se rescrie ~la 40 s. Dacă ar intra în istorie, fiecare
+# commit al meu ar fi o urmă de 83 KB de JSON măsurătoare, nu o schimbare.
+*.log
+*.pid
+*.tmp
+90_CONTROL_CENTER/api/live-state.json
+90_CONTROL_CENTER/api/state-history.jsonl
+90_CONTROL_CENTER/api/health-report.json
+90_CONTROL_CENTER/api/cc-health.json
+90_CONTROL_CENTER/api/nbask/
+90_CONTROL_CENTER/api/ask/
+90_CONTROL_CENTER/api/*-cache.json
+90_CONTROL_CENTER/logs/
+scratch/
+
+# .log.before-fix / .PRE-* NU sunt excluse: sunt dovezi păstrate ale unor
+# corectii. Stergerea lor din istorie ar sterge singura urma a corectiei.
+
+# ── SECRETE ────────────────────────────────────────────────────────────────
+# Nu au ce căuta aici. Dacă apar, se exclud — nu se comit niciodată.
+#(token-uri Google OAuth găsite dezgolite într-un folder "~" lăsat de o
+# comandă shell cu virgulă în loc de slash — vezi raportul)
+.lrc.toml
+*.env
+.env
+**/tokens/
+~/
+
+# ── DEPENDINȚE INSTALATE ───────────────────────────────────────────────────
+node_modules/
+__pycache__/
+*.pyc

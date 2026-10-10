@@ -1,0 +1,99 @@
+# OPTIMUS — Minimax bridge group
+#
+# Two containers, each a dedicated connector between MiniMax Code (Mavis) and one
+# other AI ecosystem. Named so the source AI and the target AI are obvious to
+# anyone reading `docker ps`.
+#
+#   minimax-hermes-bridge        :8801  ->  Hermes (CLI agent + Desktop + 31 mcp containers)
+#   minimax-antigravity-bridge   :8802  ->  Antigravity (CLI + IDE + App + terminal)
+#
+# Windows host paths are bind-mounted under /host/ inside each container, so the
+# bridge code uses the same Windows paths on the host and translates them in
+# the container (see shared/minimax_bridge_core.py: host_path / find_binary).
+#
+# Usage:
+#   docker compose -f docker-compose.yml up -d --build
+#   docker compose -f docker-compose.yml ps
+#   docker compose -f docker-compose.yml down
+#
+# NEVER run `docker compose down -v` — that drops the optimus_journal named volume.
+
+name: optimus-minimax
+
+services:
+
+  minimax-hermes-bridge:
+    build:
+      context: .
+      dockerfile: minimax-hermes-bridge/Dockerfile
+    image: optimus/minimax-hermes-bridge:1.0.0
+    container_name: minimax-hermes-bridge
+    hostname: minimax-hermes-bridge
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8801:8801"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      BRIDGE_PORT: "8801"
+      PYTHONUNBUFFERED: "1"
+    volumes:
+      # Specific host paths as sibling mounts. Nesting a mount inside a
+      # read-only parent mount is rejected by the OCI runtime, so each
+      # rw path gets its own top-level mount point.
+      - 'C:\Users\apviz\AppData\Local\hermes:/hermes:rw'
+      - 'C:\Users\apviz\.hermes:/hermes-home:rw'
+      - 'C:\Users\apviz\AppData\Local\agy:/agy-local:ro'
+      - 'C:\Users\apviz\AppData\Local\hermes\mcp-servers:/mcp-servers:ro'
+      - 'C:\Program Files\Docker\Docker\resources\bin:/hostbin:ro'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+      - optimus_journal:/opt/optimus/journal
+    networks:
+      - optimus
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys;sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8801/health',timeout=4).status==200 else 1)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  minimax-antigravity-bridge:
+    build:
+      context: .
+      dockerfile: minimax-antigravity-bridge/Dockerfile
+    image: optimus/minimax-antigravity-bridge:1.0.0
+    container_name: minimax-antigravity-bridge
+    hostname: minimax-antigravity-bridge
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8802:8802"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      BRIDGE_PORT: "8802"
+      PYTHONUNBUFFERED: "1"
+    volumes:
+      # Read-only: Antigravity is the council back-up, not a system of record.
+      # Sibling mounts only — never nest under a read-only parent.
+      - 'C:\Users\apviz\AppData\Local\agy:/agy-local:ro'
+      - 'C:\Users\apviz\AppData\Roaming\Antigravity:/ag-roaming:ro'
+      - 'C:\Users\apviz\AppData\Local\Programs\Antigravity IDE:/agy-ide:ro'
+      - 'C:\Users\apviz\AppData\Local\Programs\antigravity:/agy-app:ro'
+      - 'C:\Program Files\Docker\Docker\resources\bin:/hostbin:ro'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+      - optimus_journal:/opt/optimus/journal
+    networks:
+      - optimus
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys;sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8802/health',timeout=4).status==200 else 1)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  optimus_journal:
+
+networks:
+  optimus:
+    driver: bridge

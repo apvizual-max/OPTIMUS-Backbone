@@ -1,0 +1,1 @@
+Am reparat gaura din poarta: cere masuratoare, nu nume de fisier. Test falsificare 3/3, node --check exit 0, fisier 5915 B, CR=0 LF=107, sha ADDC2B6C0ECA77179A653626028EDFA7F3C7C050E80B016CF90B5029EB644D24.

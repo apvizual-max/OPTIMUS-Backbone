@@ -1,0 +1,5 @@
+﻿# OPTIMUS bridge dependencies.
+# The bridge core is stdlib-only (http.server, subprocess, json, pathlib).
+# PyYAML is needed only by the Hermes bridge to read .hermes/config.yaml.
+PyYAML>=6.0
+docker>=7.0

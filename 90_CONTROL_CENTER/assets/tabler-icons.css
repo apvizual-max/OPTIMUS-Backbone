@@ -1,0 +1,66 @@
+/* Tabler Icons 3.48.0 (MIT, https://tabler.io) - LOCAL SUBSET, GENERATED
+
+   Served from /assets so this console needs NO NETWORK. Loaded remotely, every
+   glyph becomes a blank box the moment the machine is offline, and a blank box
+   is indistinguishable from a deliberate design choice.
+
+   Regenerate with scripts\gen-icon-subset.ps1 after adding an icon. The
+   front-end self-test on the Fabric tab fails loudly on any blank glyph.
+*/
+@font-face{font-family:"tabler-icons";font-style:normal;font-weight:400;
+  src:url("tabler-icons.woff2") format("woff2");font-display:swap}
+.ti{font-family:"tabler-icons" !important;speak:none;font-style:normal;font-weight:normal;
+  font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased}
+.ti-activity:before{content:"\ed23"}
+.ti-affiliate:before{content:"\edff"}
+.ti-alert-circle:before{content:"\ea05"}
+.ti-alert-triangle:before{content:"\ea06"}
+.ti-antenna:before{content:"\f094"}
+.ti-api:before{content:"\effd"}
+.ti-binary-tree:before{content:"\f5d4"}
+.ti-bolt:before{content:"\ea38"}
+.ti-box-multiple:before{content:"\ee17"}
+.ti-brain:before{content:"\f59f"}
+.ti-brand-docker:before{content:"\edca"}
+.ti-building:before{content:"\ea4f"}
+.ti-chart-line:before{content:"\ea5c"}
+.ti-circle-check:before{content:"\ea67"}
+.ti-circle-x:before{content:"\ea6a"}
+.ti-clock:before{content:"\ea70"}
+.ti-code:before{content:"\ea77"}
+.ti-copy:before{content:"\ea7a"}
+.ti-cpu:before{content:"\ef8e"}
+.ti-download:before{content:"\ea96"}
+.ti-external-link:before{content:"\ea99"}
+.ti-file:before{content:"\eaa4"}
+.ti-file-text:before{content:"\eaa2"}
+.ti-filter:before{content:"\eaa5"}
+.ti-flame:before{content:"\ec2c"}
+.ti-gauge:before{content:"\eab1"}
+.ti-heartbeat:before{content:"\ef92"}
+.ti-help-circle:before{content:"\f91d"}
+.ti-hexagon:before{content:"\ec02"}
+.ti-key:before{content:"\eac7"}
+.ti-keyboard:before{content:"\ebd6"}
+.ti-lock:before{content:"\eae2"}
+.ti-moon:before{content:"\eaf8"}
+.ti-palette:before{content:"\eb01"}
+.ti-player-play:before{content:"\ed46"}
+.ti-plug:before{content:"\ebd9"}
+.ti-point:before{content:"\eb0c"}
+.ti-printer:before{content:"\eb0e"}
+.ti-refresh:before{content:"\eb13"}
+.ti-rocket:before{content:"\ec45"}
+.ti-search:before{content:"\eb1c"}
+.ti-server:before{content:"\eb1f"}
+.ti-settings:before{content:"\eb20"}
+.ti-shield-check:before{content:"\eb22"}
+.ti-sparkles:before{content:"\f6d7"}
+.ti-stack-2:before{content:"\eef7"}
+.ti-star:before{content:"\eb2e"}
+.ti-sun:before{content:"\eb30"}
+.ti-terminal:before{content:"\ebdc"}
+.ti-topology-star-3:before{content:"\f5e1"}
+.ti-wand:before{content:"\ebcb"}
+.ti-world:before{content:"\eb54"}
+.ti-zoom:before{content:"\fdaa"}

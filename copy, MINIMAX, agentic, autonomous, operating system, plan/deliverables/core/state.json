@@ -1,0 +1,109 @@
+{
+  "kernel": "agentic-os/1",
+  "createdAt": "2026-10-07T17:26:00+03:00",
+  "scope": {
+    "allowed": [
+      "C:\\Users\\apviz\\.minimax",
+      "C:\\Users\\apviz\\.minimax\\agents\\mavis",
+      "C:\\Users\\apviz\\QWEN_BACKUP",
+      "C:\\Users\\apviz\\.minimax-agent\\projects",
+      "Windows: startup, scheduled tasks, file system"
+    ],
+    "forbidden": [
+      "C:\\Users\\apviz\\AI_Tools\\qwen-system",
+      "Hermes containers and profiles",
+      "the live dashboard process and index.html",
+      "any MCP server config that is not mine"
+    ],
+    "mode": "ADDITIVE_ONLY",
+    "note": "Popy, 2026-10-07: 'doar pe tine și eventual Windows-ul'. Touching anything else loses everything. Every write outside allowed[] is a kernel violation, not a judgement call."
+  },
+
+  "goal": {
+    "id": "G-AUTONOMY",
+    "text": "Be an agentic, autonomous operating system for the user: the three stop conditions enforced mechanically, the task position durable on disk, and the kernel able to refuse me.",
+    "owner": "Popy",
+    "acceptance": "The kernel refuses a fabricated stop, refuses drift, detects tail-chasing, survives a restart, and runs on a Windows schedule without me in the conversation. Each demonstrated with a falsification control."
+  },
+
+  "returnPoint": {
+    "whenGoalReached": "Resume PROGRESS_GRABEN.md. Nothing from this file replaces it; this file only says the autonomy layer is done.",
+    "qwenPending": [
+      "D3 stays unknown: measured 2026-10-07, grep over all of qwen-system found no consumer for measured/non_negotiables/doctrine. Planting the three numbers to turn D3 green is decoration, not work.",
+      "wire.boundary: BUILT and proven 2026-10-07, 10/10 with sabotage on both primitives. Needs wiring into dashboard-build.dsl.js so the node stops being UNKNOWN.",
+      "restart resistance of the qwen supervision stack: not started",
+      "version control on qwen-system: repo exists; not committed, not touched"
+    ]
+  },
+
+  "stopConditions": {
+    "ACCESS": {
+      "id": "ACCESS",
+      "when": "You need something only the user can give: a credential, an MFA code, a payment confirmation, a physical action.",
+      "andNot": "Not difficulty, not permission, not a technical decision. You may always decide technical matters yourself.",
+      "andNot2": "Not anything you could obtain another way. If obtaining it another way would destroy the plan, the goal, or the system, that is a real ACCESS stop.",
+      "exit": 3
+    },
+    "DRIFT": {
+      "id": "DRIFT",
+      "when": "Your action is not traceable to the active task, or progression is blocked and every remaining path deviates from goal/plan.",
+      "andNot": "Never because something is technically hard. Never to hand back a choice that is yours.",
+      "procedure": "First exhaust logical, strategic and rational routes that preserve goal and plan. Only when none remain, stop.",
+      "exit": 4
+    },
+    "TAIL": {
+      "id": "TAIL",
+      "when": "You have fought the same problem repeatedly — GitHub, the internet, your own reasoning — and nothing new is produced.",
+      "why": "A fool with himself is the most dangerous thing. Repeating a failed move is worse than admitting it.",
+      "procedure": "Stop. Change perspective. Look at what you have NOT looked at and have NOT analysed. Search the disk. Search the internet. Somewhere the solution exists. If nothing respecting goal and plan exists after searching, THEN stop.",
+      "exit": 5
+    },
+    "illegalStops": [
+      "Asking Popy to choose between options I invented.",
+      "Claiming something is impossible without searching first.",
+      "Stopping because a step is technically difficult.",
+      "Stopping to restate a rule instead of executing it."
+    ]
+  },
+
+  "tasks": [
+    { "id": "T1", "title": "Kernel with the three stop conditions as a decision function", "status": "done" },
+    { "id": "T2", "title": "Drift detector — action not traceable to the active task", "status": "done" },
+    { "id": "T3", "title": "Tail detector — repeated failed signature with no advance", "status": "done" },
+    { "id": "T4", "title": "Falsification controls for all three, including a fabricated stop", "status": "done" },
+    { "id": "T5", "title": "Windows heartbeat: the kernel records decisions while I am not in the conversation", "status": "done" },
+    { "id": "T6", "title": "Restart resistance — state survives, recovery with no human input", "status": "done" },
+    { "id": "T7", "title": "§00 in the global AGENTS.md carries the three conditions and the kernel command", "status": "done" }
+  ],
+
+  "activeTask": "T8",
+  "position": "All eight kernel tasks done. acceptance.js measured 10/10, three consecutive clean passes on 2026-10-07 14:37-14:40 local, exit 0 each time. Return point: PROGRESS_GRABEN.md.",
+
+  "evidence": {
+    "acceptanceCommand": "node C:\\Users\\apviz\\QWEN_BACKUP\\core\\acceptance.js",
+    "acceptanceExit": 0,
+    "consecutiveCleanPasses": 3,
+    "criteria": 10,
+    "kernelControls": "core/kernel.test.js 10/10 — includes three fabricated stops refused",
+    "restartControls": "core/restart.test.js 9/9",
+    "gateControls": "_gate-run.js 4/4",
+    "wireBoundary": "wire-boundary.js 10/10, both primitives sabotage-proven",
+    "scheduledTask": "AgenticOS Heartbeat, every 5 minutes, Enabled, 7 distinct pids observed",
+    "stopsRefusedForLackOfEvidence": 10,
+    "forbiddenFilesUnchanged": "qwen-system dashboard index.html 6055FD82..., server.js 0E689CC3... — asserted by A10 on every run"
+  },
+
+  "defectsThisBuildCaught": [
+    "wire-boundary first version failed 5/9: spawnSync blocked until the holder exited; isStale declared and never called; verify argv offsets wrong",
+    "kernel substance pattern was English-only, so a legitimate Romanian stop was refused while its English twin passed",
+    "ACCESS_SUPPLY.match instead of .test — passed node --check, died at runtime",
+    "TAIL detector fired on a cross-signature window, reporting STOP_TAIL for an unrelated intent",
+    "acceptance parser read line-by-line and reported 'gap NaN' from a self-test that had passed",
+    "a first sabotage of wire-boundary passed 10/10 because it only broke a redundant line — the sabotage, not the harness, was ineffective"
+  ],
+
+  "declaredLimits": [
+    "No pre-send hook exists in this runtime: no hooks directory, no hook config, mavis CLI not installed, config.yaml permissionMode is bypassPermissions. The kernel must be invoked; nothing compels me to invoke it. That limit is in the file, not hidden.",
+    "self-audit.js can only judge turns recorded in turn-log.jsonl. This session's transcript is not flushed to disk (sessions/ holds empty dirs), so an unrecorded turn is invisible to the audit rather than failed by it."
+  ]
+}
