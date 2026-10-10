@@ -183,3 +183,5 @@
 {"ts": "2026-10-10T17:07:15.690656", "event": "CANDIDATE", "id": "C0001", "classification": "NOVEL", "lesson": "Unclassified event. Popy decides whether this is a lesson."}
 {"ts": "2026-10-10T17:15:34.012791", "event": "CANDIDATE", "id": "C0001", "classification": "NOVEL", "lesson": "Unclassified event. Popy decides whether this is a lesson."}
 {"ts": "2026-10-10T19:04:20.778921", "event": "CANDIDATE", "id": "C0001", "classification": "NOVEL", "lesson": "Unclassified event. Popy decides whether this is a lesson."}
+{"ts": "2026-10-10T22:15:28.440207", "event": "CANDIDATE", "id": "C0001", "classification": "NOVEL", "lesson": "Unclassified event. Popy decides whether this is a lesson."}
+{"ts": "2026-10-10T22:23:11.057288", "event": "CANDIDATE", "id": "C0001", "classification": "NOVEL", "lesson": "Unclassified event. Popy decides whether this is a lesson."}
