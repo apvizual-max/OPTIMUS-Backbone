@@ -1866,3 +1866,166 @@ to say something already settled. Before carrying a loss forward as a permanent
 fact - especially as a question to the operator - search for the thing first, and
 when a document asserts its own permanence, treat that as the claim most worth
 re-measuring.
+---
+
+## R14 - C1..C9 re-verified against the build that actually ships
+
+Measured 2026-10-10 21:5x, against the live page on `http://127.0.0.1:8910/`
+and against `index.html` at 119,086 characters. Every figure below was read
+off a file or off the DOM; nothing here is carried over from an earlier
+proposal section.
+
+### Where the criteria actually live
+
+C1..C9 were not on disk. They were recovered by grepping the goal resource
+(a pasted brief) for `\bC[1-9]\b` after a disk search returned nothing.
+Recorded because the disk search failing is what sent me looking in the
+first place - and the criteria turned out to be nine *perspectives*, not
+nine tasks.
+
+| | Perspective | Verdict |
+|---|---|---|
+| C1 | Aesthetic / HMI visual direction | **PARTIAL** |
+| C2 | Graphical representation, data preserved | **MET** |
+| C3 | Interactivity and organic motion | **MET** |
+| C4 | Operator identity cockpit | **MET** |
+| C5 | Full debugging / gap closure | **MET** |
+| C6 | DOM integrity, SPEC_R104 null-pointer guard | **MET** |
+| C7 | Dual-plane architecture, local deployment | **MET** |
+| C8 | Evolution proposals, constructive spirit | **MET** |
+| C9 | Non-destructive invariant, grow don't cut | **MET** |
+
+### C1 - PARTIAL, and the two things that are missing are named
+
+What the build has, measured: `--bg:#0B0F17` and `--surface-1:#111827` are
+literally the two colours the brief names (2 occurrences each), the whole
+accent set is tokenised (`--cyan` 24 uses, `--fail` 13, `--notrun` 9), and the
+muted-ink chain was solved numerically after AA failures in both themes:
+`--ink2:#94a3b8 / --ink3:#818ea0` in obsidian and `#4a5a6e / #5a6573` in paper.
+
+What it does not have:
+
+1. **No `JetBrains Mono` and no `Fira Code` anywhere in the file** - 0 hits
+   for each. `--mono` resolves to `ui-monospace,SFMono-Regular,Menlo,
+   Consolas,'Liberation Mono',monospace`, which is the generic stack, not the
+   named typeface. The brief asked for one of those two *specifically* for
+   numeric data, ports and journals.
+2. **No webfont loading at all** - 0 `@font-face`, 0 `fonts.googleapis`,
+   0 preconnect. Nothing is self-hosted either. So the request is not merely
+   unmet, it is unmet *and* not portable: on a machine that has neither
+   face installed the numerals fall back to whatever the OS picks.
+
+This is a real gap, and it is the only one in C1. It is a build task, not a
+defect - nothing is broken, a named thing is absent.
+
+### C2 - MET, and the data-preservation half is what makes it met
+
+Graphical layer measured live: 4 `svg[role=img]` gauges (3 `.gauge` tracks
+plus the header rim), a `#hist-spark` and a `#hist-band` for latency/history,
+37 `.tile` value blocks.
+
+The half that C2 actually cares about - *"fără a elimina sau ascunde cifrele
+brute"* - holds by construction rather than by promise: all **37** tiles carry
+both a graphic and the raw number beside it. A gauge that hid its own value
+would score C2 and fail Popy; this one does not.
+
+The `gauge()` function also refuses to invent a reading: on a non-finite
+fraction it returns an empty track with no fill and no number, because a
+greyed `0%` reads as "measured, and it is zero", which is the one thing this
+page exists not to say.
+
+### C3 - MET
+
+Four `transition` declarations, all under the brief's 200ms bar
+(`background .12s`, `color .12s`, and two on `--t-fast`/`--t-med`), one
+`cubic-bezier` easing token, three `@keyframes` (`beat`, `rim`, `panelin`),
+and `prefers-reduced-motion` is honoured. Tab activation sets `.active` and
+runs `panelin`; the 13 buttons all carry `role="tab"` with `aria-selected`.
+Measured by clicking all 13 tabs in sequence: no throw, no flicker state
+left behind.
+
+### C4 - MET
+
+The Operator panel is not a stub. Measured after activating the tab:
+4 summary tiles (`SIGNED IN YES`, `CLOUD DEVICE BOUND`, `AGENTS 6`,
+`SWARM ALIVE 0/5`), 4 `opcard` sections (Operator identity / Session and
+activity / Cloud and subscription / Agents and tooling), and **32** pulsing
+surface nodes each carrying class `node MEASURED`.
+
+It also honours the no-invention rule where the data genuinely is absent:
+`TOKEN IN ENV not set`, `TOKEN FILE EXISTS no`, and the sentence *"No Design
+cloud credential is configured. Every Design cloud surface below is therefore
+NOT_AVAILABLE, not failing"*. Hardware is the one family with no source in the
+payload and is shown unmeasured rather than guessed - stated in the panel
+copy, not buried.
+
+### C5 - MET (carried forward from the audit section, restated here)
+
+13 whitelisted action buttons in the cockpit, each sending an id and never a
+command string; an unknown id returns 400. 24 SPEC_R104 guards, both suites
+green (505 passed / 41 passed 1 not-run), seven defects found and fixed with
+measurements in R1..R13.
+
+### C6 - MET, and I got the measurement wrong before I got it right
+
+The brief demands `if (!element) return;` before every write. My first pass
+counted `if (!` and `if( !` and reported **0 guards**, and a live sabotage of
+five render targets produced 0 errors - which read like a clean bill.
+
+Both halves were wrong, in opposite directions:
+
+- The regex missed the real syntax. The file uses `if(!tBox || !fBox ||
+  !gBox) return;` with no space. A line-by-line scan for `SPEC_R104` finds
+  **24 guard lines**, at 973, 1013, 1203, 1253, 1267, 1305, 1323, 1336, 1352,
+  1379, 1427, 1534, 1554, 1580, 1693, 1804, 1984, 2019, 2030, 2037, 2074.
+- The browser test was empty because the renderers are not on `window` as
+  bare names, so my `renderOverview()` call threw `not defined` and the
+  "0 errors" I recorded was the absence of a test, not the presence of
+  safety.
+
+The test that actually proves it: remove `ov-tiles`, `op-cards`,
+`wire-families`, `ov-gauges`, `eco-rows` from the live DOM, then click all 13
+tabs. Result - **0 errors, main alive, 13 tabs still present**, every
+renderer returning early at its guard. This is the falsification control
+done right: the sabotage is real, and the guards are what absorb it.
+
+All 48 DOM targets the script writes to exist statically in the markup, so
+the guards are protecting a real failure mode rather than a hypothetical one.
+
+### C7 - MET, with the standing naming deviation unchanged
+
+Measured, not assumed: port 8910 open, port 8912 open, `/readyz` returns 200,
+header `X-SENTINEL-Deployment: mavis-sentinel-hub`. The Startup batch is
+4,557 bytes and contains **0** occurrences of `#Requires -RunAsAdministrator`,
+`RunAsAdministrator`, `net session`, `takeown`, `icacls` or
+`-Verb RunAs` - the non-admin convention the brief names is genuinely held.
+
+The deviation stands as recorded in `DEPLOYMENT.md`: the brief says
+`gemini-minimax-hub`, the build ships `mavis-sentinel-hub`, per Popy's own
+spoken instruction to include the builder's name. Not re-decided here.
+
+### C8 - MET
+
+All eight proposals P1..P8 are present as their own `## Pn —` sections in
+this file (96,071 characters). P4 is explicitly flagged rather than
+recommended as-is, which is the honest form of the instruction "document
+clearly as future evolutions".
+
+### C9 - MET
+
+13 panels, none removed; 27 `NOT_MEASURED`, 26 `NOT_RUN`, 6 `NOT_AVAILABLE`
+markers in the page; `never silently` appears in the file's own rule comment.
+Every fix across R1..R13 was additive, and `.gitignore` was written to
+exclude no content at all.
+
+### What this changes
+
+The gap named in the handoff and in the 20-04 report - "the construction
+layer is not covered" - is now measured. It resolves to **one named missing
+thing** (the two typefaces in C1, with no webfont loading to make them
+portable) and **eight covered perspectives**. C1 is the only perspective
+still carrying build work; nothing in it is broken.
+
+That number is a measurement, not a completion. Building the typefaces is
+new construction, and it is the honest next step rather than a defect to
+repair.
