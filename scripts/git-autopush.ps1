@@ -38,22 +38,40 @@ $LRC = 'C:\Users\apviz\AppData\Local\Programs\lrc\lrc.exe'
 function Say($msg) { Write-Host $msg }
 function Line($msg = '') { Write-Host $msg }
 
+# git scrie PROGRESUL pe stderr chiar cand reuseste. Cu
+# ErrorActionPreference='Stop' shell-ul arunca o eroare rosie si ar opri
+# scriptul chiar cand push-ul a mers. Masurat pe 2026-10-11: push reusit,
+# scriptul a murit inainte de verificare. De aici functia de mai jos.
+function Invoke-Git {
+    param([Parameter(ValueFromRemainingArguments = $true)][string[]]$Args)
+    $prev = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    try {
+        $out = & git @Args 2>&1
+        $code = $LASTEXITCODE
+    } finally {
+        $ErrorActionPreference = $prev
+    }
+    return [pscustomobject]@{ Out = $out; Code = $code }
+}
+
 # --- 0. masurare baza ------------------------------------------------------
-$top = (& git rev-parse --show-toplevel 2>$null)
-if ($LASTEXITCODE -ne 0 -or -not $top) { Say 'EROARE: nu e repo git.'; exit 2 }
+$top = (Invoke-Git rev-parse --show-toplevel).Out
+if (-not $top) { Say 'EROARE: nu e repo git.'; exit 2 }
+$top = ($top | Select-Object -First 1)
 Set-Location $top
 
-$localSha = (& git rev-parse HEAD 2>$null)
-if ($LASTEXITCODE -ne 0) { Say 'EROARE: HEAD ilizibil.'; exit 2 }
+$localSha = ((Invoke-Git rev-parse HEAD).Out | Select-Object -First 1)
+if (-not $localSha) { Say 'EROARE: HEAD ilizibil.'; exit 2 }
 $localShort = $localSha.Substring(0,7)
 
-$serverLine = (& git ls-remote $Remote $Branch 2>$null | Select-Object -First 1)
+$serverLine = ((Invoke-Git ls-remote $Remote $Branch).Out | Select-Object -First 1)
 $serverSha = if ($serverLine) { ($serverLine -split '\s+')[0] } else { $null }
 
 if (-not $serverSha) { Say ("EROARE: ramura '$Branch' nu exista pe $Remote."); exit 2 }
 
 $toPush = 0
-$cnt = & git rev-list --count "$Remote/$Branch..HEAD" 2>$null | Select-Object -First 1
+$cnt = (Invoke-Git rev-list --count "$Remote/$Branch..HEAD").Out | Select-Object -First 1
 if ($cnt) { $toPush = [int]$cnt }
 
 Line '=============================================='
@@ -70,7 +88,7 @@ if ($toPush -eq 0) {
 }
 
 Line '  comiturile care urca:'
-& git log --oneline "$Remote/$Branch..HEAD" | ForEach-Object { Say ("    $_") }
+(Invoke-Git log --oneline "$Remote/$Branch..HEAD").Out | ForEach-Object { Say ("    $_") }
 Line
 
 if ($DryRun) {
@@ -131,14 +149,13 @@ Line
 # --- 3. PUSH ---------------------------------------------------------------
 # intentionat DUPA review si intentionat neconditionat de rezultatul lui
 Say '  push...'
-$pushOut = & git push $Remote "HEAD:refs/heads/$Branch" 2>&1
-$pushCode = $LASTEXITCODE
-Say ("  push exit: " + $pushCode)
+$pushRes = Invoke-Git push $Remote "HEAD:refs/heads/$Branch"
+Say ("  push exit: " + $pushRes.Code)
 Line
 
 # --- 4. VERIFICARE pe server ----------------------------------------------
 # singurul loc unde se afla adevarul. niciodata codul de iesire al shell-ului.
-$after = (& git ls-remote $Remote $Branch 2>$null | Select-Object -First 1)
+$after = ((Invoke-Git ls-remote $Remote $Branch).Out | Select-Object -First 1)
 $afterSha = if ($after) { ($after -split '\s+')[0] } else { $null }
 
 Line '=============================================='
