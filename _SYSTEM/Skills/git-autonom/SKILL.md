@@ -231,6 +231,18 @@ De aceea apelurile `git` trec prin `Invoke-Git`, care coboară
 
 Un singur loc spune adevărul: SHA-ul de pe server.
 
+**O singură citire nu e suficientă.** Imediat după push, serverul sau un proxy
+din fața lui poate răspunde încă din cache, cu valoarea veche. Atunci
+`ls-remote` spune „nu a ajuns" pentru un push care chiar a ajuns — și atunci îi
+raportez o eroare care nu există. De aceea verificarea se **reîncearcă**: patru
+încercări, câte două secunde între ele, și eșecul se declară doar dacă SHA-ul
+nu s-a potrivit la niciuna. Costă cel mult 6 secunde în cazul rău; în cazul
+bun, prima încercare trece și nu se pierde nimic.
+
+La fel, dacă `git push` e **refuzat**, se arată motivul exact cum l-a scris
+`git` — ramură protejată, autentificare, divergență. „Nu a ajuns" singur nu
+spune de ce, și Popy nu are ce să mărească.
+
 ## 7. Ce nu faci NICIODATĂ
 
 | Nu | De ce |

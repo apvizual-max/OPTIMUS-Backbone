@@ -172,12 +172,36 @@ Line '================================================================'
 Say '  push pur. Fara LiveReview inainte de push. Fara poarta.'
 $r = Invoke-Git push $Remote "HEAD:refs/heads/$Branch"
 Say ("  push exit: " + $r.Code)
+if ($r.Code -ne 0) {
+    # Un refuz are un MOTIV, si el trebuie sa apara. Altfel singurul lucru
+    # raportat e "nu a ajuns", iar Popy nu poate sti de ce - ramura protejata,
+    # autentificare, divergenta. Nu se da nicio vina lui: se arata ce a zis git.
+    Say '  git push a refuzat. Motivul, cum l-a scris git:'
+    @($r.Out) | Where-Object { ([string]$_).Trim() } | Select-Object -First 8 |
+        ForEach-Object { Say ("    " + ([string]$_)) }
+}
 Line
 
 # --- 3. VERIFICARE (adevarul e aici, nu in codul de iesire) -----------------
-$afterSha = Get-LsRemoteSha (Invoke-Git ls-remote $Remote $Branch).Out
+# ls-remote citit O SINGURA DATA, imediat dupa push, poate intoarce valoarea
+# veche: serverul, sau un proxy in fata lui, poate raspunde din cache. Atunci
+# comparatia da "nu a ajuns" pentru un push care chiar a ajuns - exact genul de
+# eroare pe care nu i-l aratam lui Popy. E ceva ce se poate intampla si nu se
+# poate vedea daca nu stii sa-l cauti.
+# De aceea se reincearca, iar esecul se declara DOAR daca SHA-ul nu s-a potrivit
+# la niciuna dintre incercari. Cost: cel mult 6 secunde in cazul rau.
+$afterSha = $null
+$verificat = $false
+for ($i = 1; $i -le 4; $i++) {
+    $afterSha = Get-LsRemoteSha (Invoke-Git ls-remote $Remote $Branch).Out
+    if ($afterSha -and ($afterSha -eq $localSha)) { $verificat = $true; break }
+    if ($i -lt 4) {
+        Say ("  serverul nu intoarce inca SHA-ul nou (incercarea " + $i + "/4); reintalez in 2s")
+        Start-Sleep -Seconds 2
+    }
+}
 
-if (-not $afterSha -or $afterSha -ne $localSha) {
+if (-not $verificat) {
     Line '================================================================'
     Line '  PUSH - NU A AJUNS'
     Line '================================================================'

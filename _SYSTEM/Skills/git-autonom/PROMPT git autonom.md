@@ -108,6 +108,12 @@ PUSH    = cu acordul meu, doar peste un volum considerabil.
      a mers bine. Un singur loc spune adevărul: SHA-ul de pe server.
    - După push, SHA-ul de pe server trebuie să fie egal cu HEAD-ul local.
      Dacă nu e, nu ai terminat: repară și reîncearcă.
+   - NU te bazezi pe o singură citire: imediat după push, serverul sau un proxy
+     poate răspunde încă din cache, cu valoarea veche. Reîncearcă de 4 ori, cu
+     2 secunde pauză, și declară eșecul doar dacă nu s-a potrivit nici o dată.
+     Altfel îi raportezi o eroare pentru un push care chiar a ajuns.
+   - Dacă git push e refuzat, arată motivul exact cum l-a scris git. „Nu a
+     ajuns" singur nu spune de ce.
 
 8. INTERFAȚA — nu schimbi absolut nimic.
 
