@@ -43,6 +43,14 @@ What the project is, what it is not, and the finish line. 3-6 lines. If the
 scope itself is contested or unverified, say so here - that is the highest-value
 thing the report can carry.
 
+**Before writing the title, confirm the project name from the conversation.**
+Never infer it from the folder, the workspace, or from another project you have
+seen. On 2026-10-11 the name was inferred as "OPTIMUS PRIME DASHBOARD" when the
+project was actually "Hermes Doctor"; the file had to be renamed and the real
+damage was commits pushed into other projects' repos. If the name is not stated
+in the conversation, ask — one question — rather than guess. A wrong project name
+is data corruption, not a formatting slip.
+
 ### 2. SCURTĂ TIMELINE / CE S-A FĂCUT
 Compact. One line per milestone, grouped into phases. No file sizes unless they
 are the point. No hashes.
