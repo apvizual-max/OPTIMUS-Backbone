@@ -101,10 +101,25 @@ foreach ($r in $Repo) {
         if (-not $localSha) { $m.Eroare = 'nu e repo git'; $masurari += $m; continue }
         $m.Ramura    = ([string](Invoke-Git rev-parse --abbrev-ref HEAD).Out | Select-Object -First 1).Trim()
         $m.LocalSha  = ([string]$localSha).Trim()
-        $srv = Get-LsRemoteSha (Invoke-Git ls-remote $Remote $Branch).Out
+        # Remote-ul INACCESIBIL e o masuratoare picata, nu "nu sunt comituri".
+        # Masurat 2026-10-11: repo real, remote inexistent, ls-remote dade
+        # cod 128, peretele scria "FARA RAMURA" + 0 neimpinse + "LA ZI" si
+        # iesea cu 0. Un senzor mort care raporteaza sanatate. Codul de iesire
+        # al lui ls-remote este singurul care distinge asta de bootstrap.
+        $lr = Invoke-Git ls-remote $Remote $Branch
+        $srv = Get-LsRemoteSha $lr.Out
+        if (-not $srv -and $lr.Code -ne 0) {
+            $m.Eroare = 'remote inaccesibil (cod ' + $lr.Code + '): ' + (([string](@($lr.Out) | Where-Object { $_ -and $_.Trim() } | Select-Object -First 1))).Trim()
+            $masurari += $m
+            continue
+        }
         $m.ServerSha = $(if ($srv) { $srv } else { 'FARA RAMURA' })
         $c = (Invoke-Git rev-list --count "$Remote/$Branch..HEAD").Out | Where-Object { $_ -match '^\d+$' } | Select-Object -First 1
-        if ($c) { $m.Neimpinse = [int]$c }
+        if ($c) { $m.Neimpinse = [int]$c } else {
+            $m.Eroare = 'nu pot numara comiturile neimpinse'
+            $masurari += $m
+            continue
+        }
         $m.Dirty = Get-DirtyCount (Invoke-Git status --porcelain).Out
         if ($m.Neimpinse -gt 0) {
             $m.Comituri = @((Invoke-Git log --oneline "$Remote/$Branch..HEAD").Out | Where-Object { $_ -and $_.Trim() })
