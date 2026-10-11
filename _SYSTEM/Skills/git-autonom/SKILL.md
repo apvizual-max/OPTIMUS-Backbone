@@ -191,12 +191,19 @@ rata un mesaj:
 1. **Tabelul în fiecare raport.** Cât timp `COMITURI NEIMPINSE > 0`, tabelul
    intră în raportul meu. Nu ca notă de subsol — ca secțiune.
 2. **Balon în tavă**, cu `NotifyIcon` — mecanismul deja folosit de digest-ul
-   săptămânal, deci e dovedit pe această mașină. Durată 15 s.
+   săptămânal, deci e dovedit pe această mașină. Durată 15 s, și **trăiește**
+   15 s: balonul dispare odată cu iconul, deci iconul se aruncă abia după ce
+   balonul și-a făcut timpul. Măsurat 2026-10-11: codul dormea 4 s și apoi
+   arunca iconul — promisiunea era cu 11 s mai lungă decât realitatea.
 3. **Fișier de stare** `90_CONTROL_CENTER\api\push-pending.json` — supraviețuiește
    restartului de sesiune. Dacă nu mai sunt eu aici, peretele rămâne scris.
 
 Dacă balonul nu se arată, scriptul **spune că nu s-a arătat**. Nu pretinde că a
-livrat ceva ce n-a livrat.
+livrat ceva ce n-a livrat. Iar dacă sesiunea n-are desktop interactiv — caz în
+care balonul n-are *ce* să apară, indiferent cât de bine arată codul — spune
+și asta, înainte de a încerca. Cee ce poate fi măsurat e desktopul interactiv
+și faptul că apelul nu aruncă; faptul că l-ai *văzut* nu poate fi măsurat de
+script, și nu se pretinde.
 
 ## 5. LIVE REVIEW — doar pe GitHub, doar după push
 

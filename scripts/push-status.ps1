@@ -136,19 +136,43 @@ Write-Host ''
 if (-not $SilentBalloon) {
     $titlu = "PUSH NECESAR - $neimpinse comituri neimpinse"
     $mesaj = "Server: $($srvSha.Substring(0,7)) | Local: $($localSha.Substring(0,7)) | Prag: $neimpinse/$Prag. Impinge doar cu acordul lui Popy."
+    # Cat timp balonul e anuntat ca 15 secunde, el trebuie sa TRAIASCA 15
+    # secunde. Masurat 2026-10-11: codul dormea 4 secunde si apoi arunca
+    # iconul - iar balonul dispare odata cu iconul. Promisiunea era mai lunga
+    # decat realitatea, cu 11 secunde.
+    $durataBalonMs = 15000
+    # ATENTIE la unitati: $durataBalonMs/1000 da SECUNDE. Cum era scris cu
+    # -Milliseconds, se dormea 15 ms, iar raportul zicea "balon programat 15s".
+    # Masurat 2026-10-11: peretele cu balon s-a terminat in 4 secunde, nu in
+    # 15. Exact clasa de minciuna pe care o reparei la fiecare pas - si pe care
+    # o lasam sa se strecoare inapoi intr-un colt nou.
     try {
         Add-Type -AssemblyName System.Windows.Forms
         Add-Type -AssemblyName System.Drawing
-        $ni = New-Object System.Windows.Forms.NotifyIcon
-        $ni.Icon = [System.Drawing.SystemIcons]::Warning
-        $ni.Visible = $true
-        $ni.BalloonTipTitle = $titlu
-        $ni.BalloonTipText = $mesaj
-        $ni.BalloonTipIcon = [System.Windows.Forms.ToolTipIcon]::Warning
-        $ni.ShowBalloonTip(15000)
-        Start-Sleep -Seconds 4
-        $ni.Dispose()
-        Write-Host '  balon trimis in tavita'
+
+        # Fara desktop interactiv balonul NU ARE CUM sa apara, oricat de bine
+        # arata codul de mai jos. Se cere desktopul, nu se presupune.
+        if (-not [System.Windows.Forms.SystemInformation]::UserInteractive) {
+            Write-Host '  BALOAN NU A MERS: sesiune fara desktop interactiv.'
+            Write-Host '  peretele e tot pe ecran, dar balonul nu s-a putut arata'
+        } else {
+            $ni = New-Object System.Windows.Forms.NotifyIcon
+            $ni.Icon = [System.Drawing.SystemIcons]::Warning
+            $ni.Visible = $true
+            $ni.BalloonTipTitle = $titlu
+            $ni.BalloonTipText = $mesaj
+            $ni.BalloonTipIcon = [System.Windows.Forms.ToolTipIcon]::Warning
+            $ni.ShowBalloonTip($durataBalonMs)
+            # ShowBalloonTip trimite ASINCRON: revine imediat, iar balonul
+            # traieste cat timp iconul e viu. De aceea se asteapta durata
+            # completa inainte de Dispose.
+            Start-Sleep -Seconds ([int]($durataBalonMs / 1000))
+            $ni.Dispose()
+            # Se raporteaza ce s-a MASURAT: desktop interactiv confirmat,
+            # apel fara eroare. Nu se pretinde livrare - asta n-o poate
+            # confirma niciun apel, pentru ca s-ar vedea sau nu s-ar vedea.
+            Write-Host ("  balon programat " + [int]($durataBalonMs / 1000) + "s pe desktop interactiv, fara eroare raportata")
+        }
     } catch {
         Write-Host ('  BALOAN NU A MERS: ' + $_.Exception.Message)
         Write-Host '  peretele e tot pe ecran, dar balonul nu s-a aratat'
