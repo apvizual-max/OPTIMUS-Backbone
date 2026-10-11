@@ -188,11 +188,13 @@ scris, în carantină) · **ramuri de lucru nesolicitate**.
 
 ## De la prima zi, fără excepție
 
-**`main`, nu ramuri. Commit autonom la fiecare succes măsurat. Push peste un
-prag de comituri și doar cu acordul lui — cu singura excepție a primului push
-din instalare. LiveReview doar după push, pe ce e pe GitHub, și niciodată
-înainte. Interfața aplicației nu se atinge:** rezolvarea e comportament, nu
-buton.
+**`main`, nu ramuri. Commit autonom la fiecare succes măsurat, inclusiv pe
+modificările mele, fără să mă întrebi. Push peste un prag de comituri și doar
+cu acordul lui — cu singura excepție a primului push din instalare. LiveReview
+doar după push, pe ce e pe GitHub, și niciodată înainte. Interfața aplicației
+nu se atinge:** rezolvarea e comportament, nu buton.
+
+Taskul nu e gata cât timp `git status` arată ceva. Comit, apoi raportez.
 
 ## Ce raportezi la final
 

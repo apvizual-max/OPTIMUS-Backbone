@@ -2,23 +2,26 @@
     verify-docs.ps1 - CONTROLUL DE CONSECENTA AL CELE PATRU DOCUMENTE.
 
     Patru documente, doua parti:
-      1. instalare  : git-install/SKILL.md        + PROMPT git install.md
-      2. functionare: git-autonom/SKILL.md        + PROMPT git autonom.md
+      1. instalare  : git-install/SKILL.md     + PROMPT git install.md
+      2. functionare: git-autonom/SKILL.md     + PROMPT git autonom.md
 
     Scopul: sa NU existe o regula pe care unul o spune si altul o contrazice.
-    Popy: "asigurati-va ca cele patru documente ... sunt absolut perfect date".
 
-    Fiecare invariant se verifica pe TOATE cele patru documente simultan.
-    Un invariant care lipseste din unul singur e FAILED - chiar daca e in trei.
+    TREI CORECTII IMPUSE DE UN VERIFICATOR INDEPENDENT (2026-10-11):
+      1. Pattern-urile de contradictie erau prea inguste - se potriveau pe o
+         singura formulare. Acum cauta CONTRASTUL semantic.
+      2. Controlul negativ se auto-verifica: injecta exact sirurile pe care le
+         cautau propriile regex. Acum goleste pe RAND documentele, fara sa
+         depinda de formularea niciunui regex.
+      3. Verificarile pozitive erau de PREZENTA, nu de SUBSTANTA: stergerea
+         intregului bloc "doua cai de push" lasa totul verde. Acum unele
+         invariante cer MULTE formulari simultan (Both).
 
-    Ca testul sa aiba valoare, ruleaza si un CONTROL NEGATIV: acelasi cod, pe
-    o copie intentionat stricata. Daca si acolo totul e VERDE, verificarea nu
-    masoara nimic si se autocolapsa.
+    ASCII numai, intentionat: acest script se ruleaza cu regula pe care o
+    impune el insusi, si pe care o cere si autonom/SKILL.md. Zero bytes > 127.
 
-    ASCII numai, intentionat (PowerShell 5.1 + .ps1 fara BOM = ANSI).
-
-    Exit: 0 = tot verde si controlul negativ a picat cum trebuie
-          1 = cel putin un invariant a picat
+    Exit: 0 = consecvent, iar controlul negativ a picat in toate rundele
+          1 = inconsistent sau control fara putere
           2 = mediu invalid
 #>
 
@@ -35,137 +38,197 @@ $DOCS = @(
   @{ N = 'autonom/PROMPT'; P = "$ROOT\git-autonom\PROMPT git autonom.md" }
 )
 
-function Read-Docs {
-    param($List)
-    $r = @{}
-    foreach ($d in $List) {
-        if (-not (Test-Path $d.P)) { throw "lipseste: $($d.P)" }
-        $r[$d.N] = Normalize ([System.IO.File]::ReadAllText($d.P, [Text.Encoding]::UTF8))
-    }
-    return $r
-}
-
-# Normalizare: diacritice romanesti -> ascii, spatii multiple -> unul, minuscule.
-# Fara asta, un document scris corect cu "DUP[A] push" sau "acordul meu" pica
-# la un invariant care cauta "dupa push" sau "acordul lui" - alarma falsa.
-# Un control care urluiește din motive gresite nu se poate folosi: oamenii il
-# ignora, si atunci nu mai prinde nici problema reala.
+# ASCII -> diacriticele romanesti, ca un invariant scris cu "DUP[A] push"
+# sa nu picare doar pentru ca documentul are o litera accentuata.
 function Normalize {
     param([string]$s)
     if ($null -eq $s) { return '' }
     $s = $s.ToLower()
-    # perechi [caracterDiacritic, 'ascii'] - fara hashtable, ca sa nu existe
-    # chei duplicate (care ar arunca o eroare la constructie)
     $pairs = @(
-        @([char]0x0103, 'a'), @([char]0x0102, 'a'), @([char]0x00E2, 'a'),
-        @([char]0x00E3, 'a'), @([char]0x00C3, 'a'), @([char]0x00E4, 'a'),
-        @([char]0x00E1, 'a'), @([char]0x00C2, 'a'),
-        @([char]0x00EE, 'i'), @([char]0x00C8, 'i'), @([char]0x00ED, 'i'),
-        @([char]0x00CE, 'i'),
-        @([char]0x0219, 's'), @([char]0x015F, 's'), @([char]0x015B, 's'),
-        @([char]0x021B, 't'), @([char]0x0163, 't'), @([char]0x0162, 't'),
-        @([char]0x00F1, 'n')
+        @([char]0x0103,'a'), @([char]0x0102,'a'), @([char]0x00E2,'a'), @([char]0x00E3,'a'),
+        @([char]0x00C3,'a'), @([char]0x00E4,'a'), @([char]0x00E1,'a'), @([char]0x00C2,'a'),
+        @([char]0x00EE,'i'), @([char]0x00C8,'i'), @([char]0x00ED,'i'), @([char]0x00CE,'i'),
+        @([char]0x0219,'s'), @([char]0x015F,'s'), @([char]0x015B,'s'),
+        @([char]0x021B,'t'), @([char]0x0163,'t'), @([char]0x0162,'t'), @([char]0x00F1,'n')
     )
     foreach ($p in $pairs) { $s = $s.Replace([string]$p[0], $p[1]) }
-    $s = $s -replace '\s+', ' '
-    return $s
+    return ($s -replace '\s+', ' ')
 }
 
 # --- invariantele -----------------------------------------------------------
-# Fiecare: Nume, regex pozitiv (trebuie sa existe in toate 4),
-#           regex negativ (NU trebuie sa existe in niciunul).
+# Pos  : trebuie sa se potriveasca in TOATE cele patru documente
+# Both : daca e setat, TOATE formulatile din lista trebuie sa existe in fiecare
+#        document. Asta cere SUBSTANTA, nu o singura mentiune.
+# Neg  : CONTRAZICTIE. Un invariant negativ nu e "gasit oriunde" - trebuie sa
+#        fie o AFIRMATIE, nu o interdictie. "NU incerca sa treci poarta cu
+#        vouch" contine textul interzis, dar spune opusul, si daca l-am numara
+#        drept contradictie am sanctiona chiar documentul corect.
 $INVARIANTS = @(
   @{ Name = 'main, nu ramuri'
-     Pos = '(nu (creezi|faci) ramuri|ramuri.{0,30}nesolicit|main.{0,60}(nu faci ramuri|fara ramuri|nu ramuri)|nu.{0,20}creezi.{0,20}ramuri|nu faci ramuri)'
-     Neg = $null }
+     Pos  = '(nu (creezi|faci) ramuri|ramuri.{0,30}nesolicit|nu.{0,20}creezi.{0,20}ramuri)'
+     Both = $null; Neg = $null }
 
   @{ Name = 'commit autonom, imediat'
-     Pos = '(commit autonom|comit autonom|autonom.{0,30}(comit|commit)|(comit|commit).{0,40}(imediat|automat)|commit = treaba ta)'
-     Neg = $null }
+     Pos  = '(commit autonom|comit autonom|autonom.{0,30}(comit|commit)|(comit|commit).{0,40}(imediat|automat))'
+     Both = $null; Neg = '(intarzi.{0,30}comit|comit.{0,30}(la finalul|la sfarsitul) (taskului|sesiunii))' }
 
   @{ Name = 'LiveReview DOAR dupa push'
-     Pos = '(dupa push|abia dupa|abia dupa|review.{0,50}(pe ce (tocmai a ajuns|ajuns pe)|pe ce e pe github)|doar dupa push)'
-     Neg = '(review-eaza la push.{0,40}range-ul care urca|livereview ruleaza la push.{0,30}range)' }
+     Pos  = '(dupa push|abia dupa|review.{0,50}(pe ce (tocmai a ajuns|ajuns pe)|pe ce e pe github)|doar dupa push)'
+     Both = $null
+     Neg  = '(review|livereview|lrc).{0,80}inainte de push|inainte de push.{0,60}(review|livereview|lrc)|review.{0,40}(la comit|pe comit)' }
 
   @{ Name = 'comitul nu e sub poarta'
-     Pos = '(lrc hooks disable|nu sunt sub nicio poarta|comitul.{0,60}nu e niciodata sub poarta|comitul.{0,40}(e treaba mea si trebuie sa fie liber|libert)|niciodata.{0,20}blocat de livereview)'
-     Neg = $null }
+     Pos  = '(lrc hooks disable|nu sunt sub nicio poarta|comitul.{0,80}nu e niciodata sub poarta|comitul.{0,50}(treaba mea si trebuie sa fie liber|libert)|niciodata.{0,25}blocat de livereview)'
+     Both = $null
+     Neg  = '(treci|trece) poarta cu.{0,15}(vouch|skip)' }
 
   @{ Name = 'push doar cu acord + prag'
-     Pos = '(prag.{0,40}comit|doar cu acordul (lui|meu)|push = cu acordul meu|doar cu acord)'
-     Neg = $null }
+     Pos  = '(prag.{0,40}comit|doar cu acordul (lui|meu)|push = cu acordul meu|doar cu acord)'
+     Both = @('prag')
+     Neg  = '(poti impinge|impinge cand vrei|impinge din initiativa ta|poate impinge singur)' }
 
   @{ Name = 'doua cai de push'
-     Pos = '(calea 1|doo cai de push|doua cai de push|ambele cai de push|dou[aă] c[aă]i de push)'
-     Neg = $null }
+     Pos  = '(calea 1|doo cai de push|doua cai de push|ambele cai de push)'
+     Both = @('calea 1', 'calea 2')
+     Neg  = $null }
 
   @{ Name = 'rate limit nu blocheaza push-ul'
-     Pos = '(rate limit|limita cont|limita de cont|contul free|cont free)'
-     Neg = $null }
+     Pos  = '(rate limit|limita cont|limita de cont|contul free|cont free)'
+     Both = $null
+     # Raw: fara filtrul de negare. Aici CONTRADICTIA insasi contine "nu"
+     # ("rate limit, push-ul esueaza si nu merge"), deci filtrul ar ignora
+     # exact afirmatia care contrazice. Negatia se trateaza in regex, cu
+     # (?!\s*nu\b) imediat dupa "rate limit" - deci "rate limit NU blocheaza"
+     # ramane corect, iar "rate limit, push-ul esueaza" prinde.
+     Raw  = $true
+     Custom = 'RateLimit'
+     Neg  = $null }
 
   @{ Name = 'verificare prin ls-remote'
-     Pos = '(ls-remote)'
-     Neg = $null }
+     Pos  = '(ls-remote)'
+     Both = $null
+     Neg  = '(verifici|verific).{0,50}codul de iesire|cod de iesire.{0,40}(e adevarul|spune adevarul)|te bazi pe codul de iesire' }
 
   @{ Name = 'interfata neatinsa'
-     Pos = '(interfat)'
-     Neg = $null }
+     Pos  = '(interfat)'
+     Both = $null; Neg = $null }
 
   @{ Name = 'nu ceri decizii tehnice'
-     Pos = '(nu intrebi nimic|nu te intrebi nimic|decizii tehnice|le iei tu|nu ma intrebi nimic)'
-     Neg = $null }
+     Pos  = '(nu intrebi nimic|nu te intrebi nimic|decizii tehnice|le iei tu|nu ma intrebi nimic)'
+     Both = $null
+     Neg  = '(intreb|ceri).{0,50}(numele repo|ce ramura|ce ramuri)' }
 
-  @{ Name = 'nu ocolesti poarta cu vouch'
-     Pos = $null
-     Neg = '(treci poarta cu .{0,10}vouch|vouch.{0,40}(rezolv|treaba ta)|ocoli.{0,40}vouch)' }
+  @{ Name = 'peretele de push exista'
+     Pos  = '(peretel|push-pending|push-status)'
+     Both = $null; Neg = $null }
 )
 
-# Un invariant negativ nu e "gasit oriunde". Trebuie sa FIE o afirmatie, nu o
-# interdictie. "NU incerca sa treci poarta cu --vouch" contine exact textul
-# interzis, dar spune opusul - si daca l-am numara drept contrazictie, as
-# sanctiona chiar documentul care spune corect.
-function Test-Negativ {
-    param([string]$Text, [string]$Pattern)
-    $hits = @()
-    # RegexOptions::IgnoreCase EXPLICIT. [regex]::Matches este case-SENSITIVE
-    # prin default, in timp ce -match este case-insensitive. Fara asta, un
-    # document normalizat la minuscule nu s-ar potrivi cu o formulare scrisa
-    # cum se scrie - si partea de contradictie ar parea verde fara sa fie.
+# Contradictia "rate limit blocheaza push-ul" trebuie separata de afirmatia
+# corecta "rate limit NU blocheaza push-ul".
+#
+# Nu se poate face cu (?!\s*nu\b): la esec, motorul de regex RECADE si
+# reincearca cu alt despartire a spatiilor, ajungand la "rate limit , nu
+# blocheaza" - si potrivirea se produce oricum. Masurat 2026-10-11 pe injectia
+# "rate limit, NU blocheaza nimic": prins gresit drept contradictie.
+#
+# De aceea se rezolva in COD, unde nu exista recadere: se cauta termenul de
+# limita, apoi un verb de blocare pana la 120 de caractere dupa, iar intre
+# ele trebuie sa NU existe o negatie.
+function Test-RateLimit {
+    param([string]$Text)
+    $term = '(rate limit|limita de cont|limita cont|contul free|cont free)'
+    $verb = '(blocheaza|opreste|esueaza|anuleaza|impiedica)'
+    # si un cuvant despre push. Fara asta se lovesc afirmatii corecte:
+    # "contul free are o limita si la un moment dat se opreste" vorbeste despre
+    # CONT care se opreste, nu despre push blocat - masurat 2026-10-11 ca
+    # alarma falsa pe autonom/PROMPT.
+    $push = '(push|impins|impinge|push-?ul)'
     $opt = [System.Text.RegularExpressions.RegexOptions]::IgnoreCase
+    $hits = @()
+    foreach ($tm in [regex]::Matches($Text, $term, $opt)) {
+        $from = $tm.Index + $tm.Length
+        $take = [Math]::Min(120, $Text.Length - $from)
+        if ($take -le 0) { continue }
+        $after = $Text.Substring($from, $take)
+        $vm = [regex]::Match($after, $verb, $opt)
+        if (-not $vm.Success) { continue }
+        if (-not [regex]::IsMatch($after, $push, $opt)) { continue }  # nu despre push
+        $between = $after.Substring(0, $vm.Index)
+        if ($between -match '(nu|niciodata|nici)\s') { continue }    # e negatie: corect
+        $hits += $tm.Value + ' -> ' + $vm.Value
+    }
+    return $hits
+}
+#
+# Un invariant negativ nu e "gasit oriunde". Trebuie sa FIE o afirmatie, nu o
+# interdictie - si nici o formulare care spune OPUSUL prin alt cuvant.
+# Se verifica tot SPANIUL (cei ~130 de caracteri dinainte PLUS textul gasit),
+# nu doar ce vine inainte. Altfel doua false pozitive:
+#   "Comit inainte sa raportez, NU la sfarsitul taskului"
+#       -> contine "comit ... la sfarsitul taskului", dar spune interdictie;
+#          negatia e IN SPAN, nu inaintea lui.
+#   "reviewul lui livereview NU s-a pierdut, doar s-a mutat DE PE comit"
+#       -> contine "review ... pe comit", dar "de pe" e mutare, nu review pe
+#          comit; negatia e la ~40 de caractere inainte.
+function Test-Afirmatie {
+    param([string]$Text, [string]$Pattern)
+    $opt = [System.Text.RegularExpressions.RegexOptions]::IgnoreCase
+    $hits = @()
     foreach ($m in [regex]::Matches($Text, $Pattern, $opt)) {
-        $start = [Math]::Max(0, $m.Index - 60)
-        $ctx = $Text.Substring($start, $m.Index - $start)
-        $negated = $ctx -match '(nu |niciodata |nici|interzis)'
-        if (-not $negated) { $hits += $m.Value }
+        $start = [Math]::Max(0, $m.Index - 130)
+        $before = $Text.Substring($start, $m.Index - $start)
+        $span = $before + $m.Value
+        if ($span -notmatch '(nu|niciodata|nici|interzis|evita|de pe|din comit|s-a mutat|scoasa|scoate)\s') {
+            $hits += $m.Value
+        }
     }
     return $hits
 }
 
 function Test-Set {
-    param($Set, $Label, $Quiet)
+    param($Set, [switch]$Quiet)
     $fail = 0; $rows = @()
     foreach ($inv in $INVARIANTS) {
-        if ($inv.Pos) {
-            $missing = @()
-            foreach ($k in $Set.Keys) { if ($Set[$k] -notmatch $inv.Pos) { $missing += $k } }
-            if ($missing.Count -gt 0) {
-                $fail++
-                $rows += ('  [ROSU] {0,-34} lipseste din: {1}' -f $inv.Name, ($missing -join ', '))
-            } else {
-                $rows += ('  [VERDE] {0,-34} in toate 4' -f $inv.Name)
+        # --- pozitiv: in toate 4
+        $missing = @()
+        foreach ($k in $Set.Keys) { if ($Set[$k] -notmatch $inv.Pos) { $missing += $k } }
+        if ($missing.Count -gt 0) {
+            $fail++; $rows += ('  [ROSU] {0,-32} lipseste din: {1}' -f $inv.Name, ($missing -join ', '))
+        } elseif ($inv.Both) {
+            # --- substanta: toate formulatile, in fiecare document
+            $lackSub = @()
+            foreach ($k in $Set.Keys) {
+                foreach ($b in $inv.Both) {
+                    if ($Set[$k] -notmatch $b) { $lackSub += "$k(<$b>)"; break }
+                }
             }
+            if ($lackSub.Count -gt 0) {
+                $fail++; $rows += ('  [ROSU] {0,-32} substantie incompleta: {1}' -f $inv.Name, ($lackSub -join ', '))
+            } else {
+                $rows += ('  [VERDE] {0,-32} in toate 4, cu substanta' -f $inv.Name)
+            }
+        } else {
+            $rows += ('  [VERDE] {0,-32} in toate 4' -f $inv.Name)
         }
-        if ($inv.Neg) {
+        # --- negativ: nicio afirmatie contraindicata
+        if ($inv.Custom -or $inv.Neg) {
             $present = @()
             foreach ($k in $Set.Keys) {
-                $h = Test-Negativ -Text $Set[$k] -Pattern $inv.Neg
-                if ($h.Count -gt 0) { $present += $k }
+                $n = 0
+                if ($inv.Custom -eq 'RateLimit') {
+                    $n = (Test-RateLimit -Text $Set[$k]).Count
+                } elseif ($inv.Raw) {
+                    $n = @([regex]::Matches($Set[$k], $inv.Neg,
+                            [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)).Count
+                } else {
+                    $n = (Test-Afirmatie -Text $Set[$k] -Pattern $inv.Neg).Count
+                }
+                if ($n -gt 0) { $present += $k }
             }
             if ($present.Count -gt 0) {
-                $fail++
-                $rows += ('  [ROSU] {0,-34} CONTRAZICIE in: {1}' -f $inv.Name, ($present -join ', '))
+                $fail++; $rows += ('  [ROSU] {0,-32} CONTRAZICIE in: {1}' -f $inv.Name, ($present -join ', '))
             } else {
-                $rows += ('  [VERDE] {0,-34} nicio afirmatie contraindicata' -f $inv.Name)
+                $rows += ('  [VERDE] {0,-32} nicio afirmatie contraindicata' -f $inv.Name)
             }
         }
     }
@@ -173,69 +236,96 @@ function Test-Set {
     return $fail
 }
 
+# --- incarcare --------------------------------------------------------------
+$real = @{}
+foreach ($d in $DOCS) {
+    if (-not (Test-Path $d.P)) { Write-Host "EROARE: lipseste $($d.P)"; exit 2 }
+    $real[$d.N] = Normalize ([System.IO.File]::ReadAllText($d.P, [Text.Encoding]::UTF8))
+}
+
 Write-Host ''
 Write-Host ('=' * 68)
 Write-Host '  CONTROL CONSECENTA - cele patru documente'
 Write-Host ('=' * 68)
 Write-Host ''
-
-$real = Read-Docs $DOCS
-$failReal = Test-Set -Set $real -Label 'REAL'
-
+$failReal = Test-Set -Set $real
 Write-Host ''
-Write-Host ('DOCUMENTE REALE: {0} invariant' -f $INVARIANTS.Count)
-if ($failReal -eq 0) {
-    Write-Host 'REZULTAT REAL: VERDE COMPLET'
-} else {
-    Write-Host ('REZULTAT REAL: {0} PICAT' -f $failReal)
+if ($failReal -eq 0) { Write-Host 'DOCUMENTE REALE: VERDE COMPLET' }
+else { Write-Host ("DOCUMENTE REALE: {0} PICAT" -f $failReal) }
+
+# --- CONTROL NEGATIV, INDEPENDENT DE FORMULAREA REGEXURILOR ----------------
+# Se goleste PE RAND cate un document, la fiecare runda. Nu se injecta niciun
+# sir: un control care strica exact textul cautat de propriile regexuri
+# demonstreaza doar ca regexul se potriveste cu propria samanta. Golirea unui
+# document intreg nu depinde de nicio formulare si, daca verificarea chiar
+# citeste toate cele patru, trebuie sa cada de fiecare data.
+Write-Host ''
+Write-Host ('-' * 68)
+Write-Host '  CONTROL NEGATIV - golire pe rand, independenta de regex'
+Write-Host ('-' * 68)
+
+$rounds = 0; $roundsOk = 0
+foreach ($k in $real.Keys) {
+    $rounds++
+    $b = @{}
+    foreach ($kk in $real.Keys) { $b[$kk] = $real[$kk] }
+    $b[$k] = ''
+    $f = Test-Set -Set $b -Quiet
+    $verdict = if ($f -ge 6) { 'ROSU cum trebuie' } else { 'PREA PUTERNIC NU E' }
+    if ($f -ge 6) { $roundsOk++ }
+    Write-Host ('  runda {0}: document golit = {1,-22} -> {2,2} invariant(i) rosii   {3}' -f $rounds, $k, $f, $verdict)
 }
-
-# --- CONTROL NEGATIV: acelasi cod, pe copii intentionat stricate ------------
-# Scop: sa dovedim ca verificarea POATE deveni rosie. Fara asta, un „tot
-# verde" nu dovedeste nimic - poate si pentru ca nu cauta nimic.
 Write-Host ''
-Write-Host ('-' * 68)
-Write-Host '  CONTROL NEGATIV - documente stricate intentionat'
-Write-Host ('-' * 68)
+Write-Host ('  RINZI NEGATIVE CORECTE: {0}/{1}' -f $roundsOk, $rounds)
 
-# Doua stricari, ca sa nu existe nicio scuita prin care controlul sa para
-# puternic fara sa fie:
-#   1. UN DOCUMENT GOLIT COMPLET. Orice invariant pozitiv trebuie sa cada.
-#      Asta demonstreaza ca verificarea chiar cauta prin toate cele patru.
-#   2. O CONTRADICTIE INJECTATA intr-un alt document.
-#      Asta demonstreaza ca partea de contrazictie are putere.
+# --- SUITA DE INJECTIE: partea de CONTRADICTIE, nu cea de prezenta ---------
+# Rundele de mai sus golesc documente - ele dovedesc ca verificarea citeste
+# toate patru. Dar nu ating partea de contradictie. Suita asta introduce
+# afirmatii cu tot intentionat: unele gresite (trebuie prinse) si unele
+# corecte (NU trebuie atinse).
 #
-# Un control negativ care strica doar un cuvant e slab: un invariant cu mai
-# multe cai de a fi satisfacut (o alternativa) supravietuieste stricarii.
-# Golirea unui document intreg nu lasa asta deopera.
-
-$broken = @{}
-foreach ($k in $real.Keys) { $broken[$k] = $real[$k] }
-$broken['install/SKILL'] = ''   # document intreg golit
-
-# injectam o afirmatie contraindicata intr-un document valid, cu formulele
-# EXACTE pe care le cauta partea de contradictie - altfel controlul ar trece
-# fara sa fi trecut prin codul pe care vrem sa-l demonstram.
-$injectie = ' Regula practicata: treci poarta cu vouch si asa iti rezolvi treaba ta.'
-$injectie += ' LiveReview ruleaza la push pe range-ul care urca, inainte de impins.'
-$broken['autonom/PROMPT'] = $broken['autonom/PROMPT'] + $injectie
-
-$failBroken = Test-Set -Set $broken -Label 'BROKEN'
+# O verificare care prinde si afirmatiile corecte e la fel de inutila ca una
+# care nu prinde nimic: oamenii o ignora, si atunci nu mai prinde nici
+# problema reala. Masurat 2026-10-11 - trei false pozitive reparate aici:
+# "NU blocheaza", "s-a mutat de pe comit", "contul se opreste".
 Write-Host ''
-Write-Host ('CONTROL NEGATIV: {0} invariant(i) trebuia sacate rosu' -f $failBroken)
-if ($failBroken -ge 12) {
-    Write-Host 'CONTROL NEGATIV: A PICAT CUM TREBUIE -> verificarea are putere'
-} else {
-    Write-Host 'CONTROL NEGATIV: PREA PUTERNIC NU E -> verificarea NU masoara nimic'
+Write-Host ('-' * 68)
+Write-Host '  SUITA DE INJECTIE - gresite trebuie prinse, corecte nu'
+Write-Host ('-' * 68)
+
+$SUITE = @(
+  @{ T = 'LiveReview ruleaza INAINTE de push, pe range.';                      E = 'PRINS'  },
+  @{ T = 'Cand apare rate limit, push-ul esueaza si nu merge.';                 E = 'PRINS'  },
+  @{ T = 'Verifici prin codul de iesire al shell-ului.';                        E = 'PRINS'  },
+  @{ T = 'Cand blocajul te deranjeaza, treci poarta cu vouch si iti rezolvi treaba.'; E = 'PRINS' },
+  @{ T = 'Cand apare rate limit, NU blocheaza nimic, se impinge oricum.';       E = 'SCAPAT' },
+  @{ T = 'LiveReview a fost scos de pe comit, review-ul ruleaza pe GitHub.';   E = 'SCAPAT' },
+  @{ T = 'Contul free are o limita si la un moment dat se opreste.';           E = 'SCAPAT' }
+)
+
+$injOk = 0
+foreach ($case in $SUITE) {
+    $s = @{}
+    foreach ($k in $real.Keys) { $s[$k] = $real[$k] }
+    $s['autonom/PROMPT'] = $s['autonom/PROMPT'] + ' ' + $case.T
+    $f = Test-Set -Set $s -Quiet
+    $got = if ($f -eq 0) { 'SCAPAT' } else { 'PRINS' }
+    $mark = if ($got -eq $case.E) { 'OK' } else { 'FALSA' }
+    if ($got -eq $case.E) { $injOk++ }
+    $short = $case.T
+    if ($short.Length -gt 44) { $short = $short.Substring(0, 41) + '...' }
+    Write-Host ('  {0,-47} {1,-7} asteptat {2,-7} {3}' -f $short, $got, $case.E, $mark)
 }
+Write-Host ''
+Write-Host ('  INJECTII CORECTE: {0}/{1}' -f $injOk, $SUITE.Count)
 
 Write-Host ''
 Write-Host ('=' * 68)
-if ($failReal -eq 0 -and $failBroken -ge 12) {
-    Write-Host '  VERDICT: Sistemul celor patru documente este consecvent.'
+if ($failReal -eq 0 -and $roundsOk -eq $rounds -and $rounds -ge 4 -and $injOk -eq $SUITE.Count) {
+    Write-Host '  VERDICT: consecvent, iar controlul are putere.'
     Write-Host ('=' * 68)
     exit 0
 }
-Write-Host '  VERDICT: INCONSISTENTA. Vezi liniile ROSU de mai sus.'
+Write-Host '  VERDICT: INCONSISTENTA sau control fara putere. Vezi liniile ROSU.'
 Write-Host ('=' * 68)
 exit 1

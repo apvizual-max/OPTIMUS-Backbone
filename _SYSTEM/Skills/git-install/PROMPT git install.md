@@ -170,19 +170,37 @@ verifici cu git check-ignore în ambele sensuri), primul comit, gh repo create
 <nume-derivat-din-folder> --private --push. Primul push face parte din
 instalare: nu ceri acord. Verifici cu git ls-remote, nu cu codul de ieșire.
 
-De acum înainte: main, nu ramuri. Commit autonom la fiecare pas, taskul nu e
-gata cât timp git status arată ceva. Push doar peste un prag de comituri și
-doar cu acordul meu. LiveReview rulează DOAR după push, pe ce e deja pe
-GitHub, și nu poate bloca push-ul; două căi de push, cu review și fără, pentru
-când contul free se termină — rate limit nu e eroare. Nu rula niciodată git
-clean -fdx sau git reset --hard. Nu comite parole. Interfața nu o schimbi.
+De acum înainte: main, nu ramuri. Commit autonom la fiecare pas, **inclusiv pe
+modificările mele**, fără să mă întrebi; taskul nu e gata cât timp git status
+arată ceva. Push doar peste un prag de comituri și doar cu acordul meu. Când se
+adună, îmi repeți peretele push (tabel mare cu SHA local, SHA server, număr
+neîmpinse, prag) până decidem push-ul. LiveReview rulează DOAR după push, pe ce
+e deja pe GitHub, și nu poate bloca push-ul; două căi de push, cu review și fără,
+pentru când contul free se termină — rate limit nu e eroare. Nu rula niciodată
+git clean -fdx sau git reset --hard. Nu comite parole. Interfața nu o schimbi.
 ```
 
 ## Ce vine după
 
-Instalarea e terminată aici. De acum înainte, la fiecare ședință, merge `PROMPT git autonom.md` — commit autonom, push doar cu acordul meu, interfață neatinsă. Invers, acesta n-are pe ce lucra.
+Instalarea e terminată aici. De acum înainte, la fiecare ședință, merge `PROMPT git autonom.md` — commit autonom, push doar peste un prag și cu acordul meu, interfață neatinsă. Invers, acesta n-are pe ce lucra.
 
 **Nu retrimite acest prompt.** Rulat de două ori, face un al doilea repo pe același proiect.
+
+### Peretele de push — predat odată cu infrastructura
+
+Instalarea nu e completă fără el, și trece în sarcina zilei de zi de la
+`git-autonom`:
+
+- `scripts\push-status.ps1` — tipărește **PERETELE PUSH**: un tabel mare cu
+  ramura, SHA-ul local, SHA-ul de pe server, câte comituri sunt neîmpinse,
+  pragul, câte fișiere sunt necomitate, și lista celor neîmpinse. Plus un
+  **balon în tavă** și starea scrisă în `90_CONTROL_CENTER\api\push-pending.json`,
+  ca peretele să supraviețuiască restartului de sesiune.
+- **Cât timp `COMITURI NEIMPINSE > 0`, tabelul intră în raportul agentului**,
+  ca secțiune, nu ca notă de subsol — și se repetă până când decidem push-ul.
+- Eu nu împing niciodată din inițiativă proprie și niciodată sub prag. Dacă
+  poarta de la LiveReview se scapă vreodată, peretele rămâne în picioare și
+  eu rămân pe `main`, unde lucrez.
 
 ## Ce am măsurat pe această mașină, ca să fie verificabil
 

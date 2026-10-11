@@ -35,23 +35,45 @@ function Invoke-Git {
     $ErrorActionPreference = 'Continue'
     try { $o = & git @GitArgs 2>&1; $c = $LASTEXITCODE }
     finally { $ErrorActionPreference = $prev }
-    return [pscustomobject]@{ Out = $o; Code = $c }
+    # normalizare explicita: un obiect ErrorRecord NU are .Trim() si arunca
+    # MethodNotFoundException. Masurat 2026-10-11 cu git push --dry-run.
+    $s = @()
+    foreach ($x in @($o)) { $s += [string]$x }
+    return [pscustomobject]@{ Out = $s; Code = $c }
+}
+
+# ls-remote intoarce "<sha>\t<refs/...>". Daca git a scris ceva pe stderr
+# inainte, primul element nu e hash-ul. Se cauta forma exacta a unui SHA.
+function Get-LsRemoteSha {
+    param([string[]]$Lines)
+    foreach ($l in $Lines) {
+        $t = ([string]$l).Trim()
+        if ($t -match '^([0-9a-f]{40})\s') { return $Matches[1] }
+    }
+    return $null
+}
+
+function Get-DirtyCount {
+    param($Lines)
+    $n = 0
+    foreach ($x in @($Lines)) { if (([string]$x).Trim()) { $n++ } }
+    return $n
 }
 
 if (-not (Test-Path $Repo)) { Write-Host "EROARE: repo lipsa: $Repo"; exit 2 }
 Set-Location $Repo
 
-$localSha = (Invoke-Git rev-parse HEAD).Out | Select-Object -First 1
+$localSha = (Invoke-Git rev-parse HEAD).Out | Where-Object { $_ -match '^[0-9a-f]{40}' } | Select-Object -First 1
 if (-not $localSha) { Write-Host 'EROARE: nu e repo git.'; exit 2 }
 $branchReal = (Invoke-Git rev-parse --abbrev-ref HEAD).Out | Select-Object -First 1
-$srvLine = (Invoke-Git ls-remote $Remote $Branch).Out | Select-Object -First 1
-$srvSha  = if ($srvLine) { ($srvLine -split '\s+')[0] } else { 'FARA RAMURA' }
+$srvSha  = Get-LsRemoteSha (Invoke-Git ls-remote $Remote $Branch).Out
+if (-not $srvSha) { $srvSha = 'FARA RAMURA' }
 
 $neimpinse = 0
-$c = (Invoke-Git rev-list --count "$Remote/$Branch..HEAD").Out | Select-Object -First 1
+$c = (Invoke-Git rev-list --count "$Remote/$Branch..HEAD").Out | Where-Object { $_ -match '^\d+$' } | Select-Object -First 1
 if ($c) { $neimpinse = [int]$c }
-$dirtyList = @((Invoke-Git status --porcelain).Out | Where-Object { $_ -and $_.Trim() })
-$dirty = $dirtyList.Count
+$dirtyList = (Invoke-Git status --porcelain).Out
+$dirty = Get-DirtyCount $dirtyList
 
 $laZi = ($neimpinse -eq 0)
 $comituri = @()

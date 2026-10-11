@@ -50,6 +50,11 @@ function Line($m = '') { Write-Host $m }
 # ErrorActionPreference='Stop' asta devine eroare terminala si omoara scriptul.
 # Masurat 2026-10-11: push reusit, ls-remote a confirmat SHA-ul, scriptul a
 # iesit totusi cu 1 si NU a verificat nimic.
+#
+# ATENTIE la 2>&1: un obiect ErrorRecord ajunge in iesire, NU un sir. Un
+# $_.Trim() pe ErrorRecord arunca MethodNotFoundException - si pentru ca
+# ErrorActionPreference e repus pe 'Stop', asta e TERMINANT: scriptul moare in
+# loc sa raporteze. Masurat 2026-10-11 cu `git push --dry-run`.
 function Invoke-Git {
     param([Parameter(ValueFromRemainingArguments = $true)][string[]]$GitArgs)
     $prev = $ErrorActionPreference
@@ -58,7 +63,33 @@ function Invoke-Git {
         $o = & git @GitArgs 2>&1
         $c = $LASTEXITCODE
     } finally { $ErrorActionPreference = $prev }
-    return [pscustomobject]@{ Out = $o; Code = $c }
+    # normalizare explicita: orice element devine SIR, inclusiv ErrorRecord
+    $s = @()
+    foreach ($x in @($o)) { $s += [string]$x }
+    return [pscustomobject]@{ Out = $s; Code = $c }
+}
+
+# ls-remote intoarce "<sha>\t<refs/heads/main>". Daca git a scris ceva pe
+# stderr inainte, primul element NU e linia de hash - si un CompareString
+# degeaba ar da "PUSH NU A AJUNS" la un push reusit. Deci se cauta EXACT
+# forma unui SHA, nu "primul element".
+function Get-LsRemoteSha {
+    param([string[]]$Lines)
+    foreach ($l in $Lines) {
+        $t = ([string]$l).Trim()
+        if ($t -match '^([0-9a-f]{40})\s') { return $Matches[1] }
+    }
+    return $null
+}
+
+function Get-DirtyCount {
+    param($Lines)
+    $n = 0
+    foreach ($x in @($Lines)) {
+        $t = ([string]$x).Trim()
+        if ($t) { $n++ }
+    }
+    return $n
 }
 
 # --- 1. masurare ------------------------------------------------------------
@@ -70,14 +101,13 @@ $branchReal = (Invoke-Git rev-parse --abbrev-ref HEAD).Out | Select-Object -Firs
 $localSha  = (Invoke-Git rev-parse HEAD).Out | Select-Object -First 1
 if (-not $localSha) { Say 'EROARE: HEAD ilizibil.'; exit 2 }
 
-$srvLine = (Invoke-Git ls-remote $Remote $Branch).Out | Select-Object -First 1
-$srvSha  = if ($srvLine) { ($srvLine -split '\s+')[0] } else { $null }
+$srvSha  = Get-LsRemoteSha (Invoke-Git ls-remote $Remote $Branch).Out
 if (-not $srvSha) { Say ("EROARE: ramura '$Branch' nu exista pe '$Remote'."); exit 2 }
 
 $neimpinse = 0
-$c = (Invoke-Git rev-list --count "$Remote/$Branch..HEAD").Out | Select-Object -First 1
+$c = (Invoke-Git rev-list --count "$Remote/$Branch..HEAD").Out | Where-Object { $_ -match '^\d+$' } | Select-Object -First 1
 if ($c) { $neimpinse = [int]$c }
-$dirty = @((Invoke-Git status --porcelain).Out | Where-Object { $_ -and $_.Trim() }).Count
+$dirty = Get-DirtyCount (Invoke-Git status --porcelain).Out
 
 Line '================================================================'
 Line '  PUSH - masurare'
@@ -106,7 +136,7 @@ if (($neimpinse -lt $Prag) -and (-not $Force) -and (-not $DryRun)) {
     Line '----------------------------------------------------------------'
     Say ("COMITURI NEIMPINSE: " + $neimpinse + " / prag " + $Prag)
     Line '----------------------------------------------------------------'
-    (Invoke-Git log --oneline "$Remote/$Branch..HEAD").Out | ForEach-Object { Say ("  " + $_) }
+    (Invoke-Git log --oneline "$Remote/$Branch..HEAD").Out | ForEach-Object { Say ("  " + [string]$_) }
     Line '----------------------------------------------------------------'
     Say 'Sub prag. NU se impinge fara acordul lui Popy.'
     Say ('Cu -Force se impinge oricum. Sau spune "faci push".')
@@ -117,7 +147,7 @@ if ($DryRun) {
     Say 'DRY-RUN: masurat, nimic impins.'
     Line
     Line '  comiturile care ar urca:'
-    (Invoke-Git log --oneline "$Remote/$Branch..HEAD").Out | ForEach-Object { Say ("    " + $_) }
+    (Invoke-Git log --oneline "$Remote/$Branch..HEAD").Out | ForEach-Object { Say ("    " + [string]$_) }
     exit 0
 }
 
@@ -131,8 +161,7 @@ Say ("  push exit: " + $r.Code)
 Line
 
 # --- 3. VERIFICARE (adevarul e aici, nu in codul de iesire) -----------------
-$after = (Invoke-Git ls-remote $Remote $Branch).Out | Select-Object -First 1
-$afterSha = if ($after) { ($after -split '\s+')[0] } else { $null }
+$afterSha = Get-LsRemoteSha (Invoke-Git ls-remote $Remote $Branch).Out
 
 if (-not $afterSha -or $afterSha -ne $localSha) {
     Line '================================================================'
