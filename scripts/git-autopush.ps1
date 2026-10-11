@@ -181,8 +181,20 @@ if (-not $Acord) {
 Line '================================================================'
 Line '  PUSH - incepere'
 Line '================================================================'
-Say '  push pur. Fara LiveReview inainte de push. Fara poarta.'
-$r = Invoke-Git push $Remote "HEAD:refs/heads/$Branch"
+# ACORDUL SE CONSEMNEAZA, NU SE PRESUPUNE.
+# Portile din script se ocolesc prin `git push` direct: masurat 2026-10-11,
+# 12 comituri au ajuns pe GitHub fara acord. Asa se face poarta reala - hook
+# pre-push local acestui repo, care refuza orice push fara un martor scris aici
+# chiar inaintea apelului. Un acord = o impingere: hookul consuma martorul.
+$marker = Join-Path (Invoke-Git rev-parse --git-dir).Out[0] 'PUSH-ACORD'
+try {
+    [System.IO.File]::WriteAllText($marker, [string](Get-Date -Format 'o'))
+    $r = Invoke-Git push $Remote "HEAD:refs/heads/$Branch"
+} finally {
+    # Martorul nu ramane niciodata, nici la esec: un accord nefolosit sau
+    # jumatatit e o gaura, nu o siguranta.
+    if (Test-Path $marker) { Remove-Item $marker -Force -ErrorAction SilentlyContinue }
+}
 Say ("  push exit: " + $r.Code)
 if ($r.Code -ne 0) {
     # Un refuz are un MOTIV, si el trebuie sa apara. Altfel singurul lucru
@@ -289,8 +301,14 @@ if ($FaraReview) {
             $reviewState = 'trimis'
             $reviewNote  = "review #$rid"
         } elseif ($code -eq 0) {
-            $reviewState = 'trimis'
-            $reviewNote  = 'lrc a iesit cu 0, dar fara ID de review in iesire'
+            # NU spunem 'trimis'. Un cod de iesire 0 fara ID nu dovedeste
+            # nimic despre trimitere - si 'trimis' e exact cuvantul pe care
+            # Popy l-ar citi drept confirmare. Masurat 2026-10-11 de
+            # verificator (defect D1): ramura asta afirma reusita fara
+            # dovada, adica aceeasi minciuna pe care restul blocului o
+            # elimina. Se spune ce se stie, nu ce s-ar bucura sa fie.
+            $reviewState = 'fara confirmare'
+            $reviewNote  = 'lrc a iesit cu 0, dar fara ID de review in iesire - trimiterea NU e dovedita'
         } else {
             $why = ''
             foreach ($pat in @('rate.?limit','too many requests','quota','429','plan')) {

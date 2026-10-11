@@ -311,7 +311,33 @@ Reguli de implementare, măsurate nu auzite:
   `.gitignore`, fiindcă se rescrie la fiecare măsurătoare și altfel ar face
   un comit nou de fiecare dată.
 
-## 12. Promptul pereche
+## 12. Poarta reală la push — hook `pre-push`
+
+Măsurat 2026-10-11: 12 comituri au ajuns pe GitHub fără acordul lui Popy.
+Poarta din script cere `-Acord`, dar **se ocolește prin `git push` direct**. Un
+script impune o regulă doar față de cel care cooptează. Nu era o poartă, era
+o cutie.
+
+De aceea, în acest repo:
+
+- `scripts/git-hooks/pre-push` — copia canonică, în istorie, **ASCII, cu LF**.
+- `git config core.hooksPath .git/hooks` — **doar pe acest repo**. Calea globală
+  de hook-uri rămâne neatină; nu se mișcă proiectele lui.
+- `git-autopush.ps1` scrie `.git/PUSH-ACORD` **imediat înainte** de push, într-un
+  `try/finally` care îl șterge oricum. Hookul consumă martorul: **un acord = o
+  singură împingere**.
+
+Măsurat, în ambele sensuri, pe remote local: `git push` direct → refuzat, server
+neatins; prin `-Acord` → trece, server egal cu HEAD, martorul dispărut.
+
+Refuzul se face **local**. Nimic nu se schimbă pe GitHub și nimic din interfața
+lui Popy nu se atinge. Dacă vrea poarta și pe server, e decizia lui, nu a mea.
+
+Scoaterea, dacă cere vreodată: `git config --local --unset core.hooksPath`.
+Dacă repo-ul se reclonează, poarta dispare și trebuie repusă din
+`scripts/git-hooks/pre-push` — de aceea copia e în istorie, nu doar în `.git`.
+
+## 13. Promptul pereche
 
 `PROMPT git autonom.md`, în același folder — se trimite ca atare altor
  instanțe, în alte proiecte. Rulează **după** `PROMPT git install.md`.
