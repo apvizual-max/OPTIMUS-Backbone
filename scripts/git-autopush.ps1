@@ -98,11 +98,23 @@ if (-not $top) { Say 'EROARE: nu e repo git.'; exit 2 }
 Set-Location $top
 
 $branchReal = (Invoke-Git rev-parse --abbrev-ref HEAD).Out | Select-Object -First 1
-$localSha  = (Invoke-Git rev-parse HEAD).Out | Select-Object -First 1
+# Trim pe amandoua: comparatia SHA-uri de mai jos e coloana de vergele a
+# intregului flux, si o spatiu la capat ar da "nu a ajuns" la un push reusit.
+# Masurat in proba end-to-end pe remote local, 2026-10-11.
+$branchReal = ([string]$branchReal).Trim()
+$localSha   = ([string](Invoke-Git rev-parse HEAD).Out | Select-Object -First 1).Trim()
 if (-not $localSha) { Say 'EROARE: HEAD ilizibil.'; exit 2 }
 
 $srvSha  = Get-LsRemoteSha (Invoke-Git ls-remote $Remote $Branch).Out
-if (-not $srvSha) { Say ("EROARE: ramura '$Branch' nu exista pe '$Remote'."); exit 2 }
+if (-not $srvSha) {
+    Say ("EROARE: ramura '" + $Branch + "' nu exista pe '" + $Remote + "'.")
+    Say 'Doua cazuri posibile, si amandaua sunt normale:'
+    Say '  - remote-ul e GOL. Atunci PRIMA push nu se face cu acest script:'
+    Say '    apartine instalarii, unde gh repo create --private --push o face.'
+    Say '  - remote-ul e plin, dar ramura se numeste altfel.'
+    Say 'Masurat in proba end-to-end pe remote local, 2026-10-11.'
+    exit 2
+}
 
 $neimpinse = 0
 $c = (Invoke-Git rev-list --count "$Remote/$Branch..HEAD").Out | Where-Object { $_ -match '^\d+$' } | Select-Object -First 1
