@@ -59,6 +59,9 @@ scripts/_jtest/
 *.tmp
 90_CONTROL_CENTER/api/live-state.json
 90_CONTROL_CENTER/api/state-history.jsonl
+# push-pending.json: starea peretelui de push, se rescrie la fiecare masuratoare.
+# Daca ar intra in istorie, fiecare masuratoare ar face un comit nou.
+90_CONTROL_CENTER/api/push-pending.json
 90_CONTROL_CENTER/api/health-report.json
 90_CONTROL_CENTER/api/cc-health.json
 90_CONTROL_CENTER/api/nbask/
