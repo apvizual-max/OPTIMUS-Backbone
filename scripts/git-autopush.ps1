@@ -252,6 +252,12 @@ if ($FaraReview) {
         $p = Start-Process -FilePath $LRC -PassThru -NoNewWindow `
              -RedirectStandardOutput $log -RedirectStandardError "$log.err" `
              -ArgumentList @('review','--range',"$Remote/$Branch..$localSha",'--no-serve','--output','json')
+        # $p.Handle trebuie ATINS inainte sa termin procesul. Altfel .NET nu
+        # retine handle-ul, iar $p.ExitCode vine NULL - masurat 2026-10-11 pe
+        # proba end-to-end: a raportat "lrc a raspuns negativ (exit )", fara
+        # niciun numar. Rau: un review REUSIT cu ExitCode nul cade in ramura
+        # de esec si i se spune lui Popy ca nu a mers, cand de fapt a mers.
+        $null = $p.Handle
     } catch {
         $p = $null
         $reviewState = 'limita'
@@ -274,15 +280,26 @@ if ($FaraReview) {
         if (Test-Path $log) { $out = [System.IO.File]::ReadAllText($log) }
         $rid = ''
         if ($out -match 'Review submitted, ID:\s*(\d+)') { $rid = $Matches[1] }
-        if ($code -eq 0) {
+        # Un review TRIMIS se dovedeste prin ID-ul din iesire, NU prin codul
+        # de iesire - acelasi principiu ca la push: adevarul e in ce s-a
+        # intamplat, nu in numarul returnat. Altfel un review reusit, cu
+        # ExitCode necitibil, ar fi raportat ca esec: o minciuna cu costume de
+        # diagnostic, exact ce nu i se spune lui Popy.
+        if ($rid) {
             $reviewState = 'trimis'
-            $reviewNote  = $(if ($rid) { "review #$rid" } else { 'ok' })
+            $reviewNote  = "review #$rid"
+        } elseif ($code -eq 0) {
+            $reviewState = 'trimis'
+            $reviewNote  = 'lrc a iesit cu 0, dar fara ID de review in iesire'
         } else {
             $why = ''
             foreach ($pat in @('rate.?limit','too many requests','quota','429','plan')) {
                 if ($out -match $pat) { $why = 'limita cont / rate limit'; break }
             }
-            if (-not $why) { $why = "lrc a raspuns negativ (exit $code)" }
+            if (-not $why) {
+                $shown = $(if ($null -eq $code) { 'cod iesire necunoscut' } else { [string]$code })
+                $why = "lrc a raspuns negativ ($shown)"
+            }
             $reviewState = 'limita'
             $reviewNote  = "$why - calea 2, pushul oricum e gata"
         }
