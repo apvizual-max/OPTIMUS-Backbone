@@ -122,7 +122,11 @@ if ($SkipReview) {
         $reviewState = 'timeout'
         $reviewNote  = "nu a raspuns in ${ReviewTimeoutSec}s"
     } else {
+        # WaitForExit(ms) lasa ExitCode nepopulat uneori; a doua chemare
+        # fara timeout ruleaza procesul deacaboi pana la capat si il citeste.
+        $p.WaitForExit()
         $code = $p.ExitCode
+        if ($null -eq $code) { $code = 'necunoscut' }
         $out  = ''
         if (Test-Path $log) { $out = [System.IO.File]::ReadAllText($log) }
         $rid  = ''

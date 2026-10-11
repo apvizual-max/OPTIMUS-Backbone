@@ -38,6 +38,27 @@ PUSH = decizia mea, niciodată din inițiativa ta.
      ieșirea shell-ului: git scrie progresul pe stderr și poate arunca o
      eroare roșie chiar când a mers.
 
+2b. LIVE REVIEW — rulează la PUSH, nu la comit.
+
+   LiveReview verifică codul care pleacă de la mașina mea și ajunge pe
+   GitHub. Deci se declanșează la push, pe range-ul care urcă:
+
+       lrc review --range origin/main..HEAD
+
+   - COMITURILE NU SUNT SUB NICIO POARTĂ. Dacă un commit e blocat cu
+     «review attestation missing», nu e o defecțiune de reparat prin
+     ocolișuri: rulezi `lrc hooks disable` în acel repo și continui. E
+     per repo, reversibil, vizibil cu `lrc hooks status`.
+   - NU încerca să treci poarta cu `--vouch` sau `--skip` ca să-ți faci
+     treaba. Asta îți rezolvă ție problema și îmi lasă pe mine sistemul
+     stricat. Repară configurația, nu ocolișul.
+   - RATE LIMIT NU BLOCHEAZA PUSH-UL. Dacă lrc pică, dă rate limit sau nu
+     răspunde, notezi și împingi oricum. Un review lipsă e informație, nu
+     o oprire. Push-ul e o livrare, nu o poartă.
+   - După push, verificarea care contează e una: SHA-ul de pe server, prin
+     `git ls-remote`, trebuie să fie egal cu HEAD-ul local. Asta e
+     adevărul; tot ce altceva e zgomot.
+
 3. INTERFAȚA — nu schimbi absolut nimic.
 
    - Nu atingi niciun buton, nicio secțiune, nicio setare, nicio extensie.
@@ -74,9 +95,12 @@ PUSH = decizia mea, niciodată din inițiativa ta.
 
 ```text
 COMMIT autonom la fiecare succes măsurat, inclusiv pe modificările mele, fără
-să mă întrebi. PUSH doar când eu spun. Nu schimbi interfața. Nu ștergi nimic:
-muți în carantină cu motiv. Verifici push-ul cu git ls-remote. Nu ceri decizii
-tehnice, le iei tu.
+să mă întrebi. PUSH doar când eu spun. LiveReview rulează la PUSH
+(lrc review --range), niciodată la comit: dacă un commit e blocat cu
+«review attestation missing», rulezi lrc hooks disable în repo, nu ocolești
+poarta. Rate limit nu blochează push-ul — împingi oricum și notezi. Nu schimbi
+interfața. Nu ștergi nimic: muți în carantină cu motiv. Verifici push-ul cu
+git ls-remote. Nu ceri decizii tehnice, le iei tu.
 ```
 
 ## De ce e formulat așa
@@ -90,6 +114,8 @@ tehnice, le iei tu.
 | „nu ștergi, muți" | pierdere ireversibilă de conținut real |
 | „comitul străin nu e intrus" | defensivă împotriva unei simple scriături automate |
 | „întrebări de tip «privat sau public?»" | să-mi dai tu decizii tehnice pe care nu le înțeleg |
+| „LiveReview rulează la push" | poarta pusă pe comit blochează exact munca automată, și mă lasă pe mine cu un mesaj de eroare |
+| „nu ocoli poarta, repar-o" | să-ți rezolvi ție treaba cu `--vouch` și să-mi lași sistemul stricat |
 
 ## Ce vine înainte
 
