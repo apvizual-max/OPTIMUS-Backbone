@@ -3,7 +3,7 @@
 <!-- NUCLEU-GIT v1 -->
 RAMURA = main. Nu creezi ramuri.
 COMMIT = imediat la fiecare pas, inclusiv pe modificarile mele. Nu intrebi.
-PUSH = peste prag, doar cu acordul meu. -Force doar cand eu spun "faci push".
+PUSH = peste prag si doar cu -Acord, care eu dau cand spun "faci push".
 LIVEREVIEW = doar DUPA push, pe ce a ajuns pe GitHub. Niciodata inainte, niciodata la comit.
 DOUA CAI = calea 1 cu LiveReview, calea 2 fara. Rate limit nu blocheaza push-ul.
 VERIFICARE = git ls-remote. Niciodata prin codul de iesire.
@@ -224,11 +224,14 @@ scripts\push-status.ps1     → PERETELE PUSH: tabel mare cu ramura, SHA local,
 
 ### Ce nu pot face cu push-ul
 
-- **`-Force` nu e o scurtătură, e traducerea cuvântului lui Popy.** Îl folosesc
+- **`-Acord` nu e o scurtătură, e traducerea cuvântului lui Popy.** Îl folosesc
   numai când el spune explicit „faci push". Nu pentru a sări peste prag din
   inițiativă mea, și nu ca să îmi fac treaba mai repede.
-- **Nu împing sub prag fără acord.** Sub prag, scriptul refuză și iese cu `3`.
-  Nu e o eroare — e o poartă, și e prima din sistem.
+- **Fără `-Acord` nu se împinge nimic** — nici sub prag, nici peste prag.
+  Scriptul afișează peretele și iese cu `3`. Nu e o eroare, e o poartă, și e
+  prima din sistem.
+- **`-DryRun` nu e supus porții.** Măsoară fără să împingă nimic, deci nu
+  cere acord.
 - **Nu schimb ramura ca să evadez o poartă.** Se repară poarta, nu se ocolește.
 
 ## Ce raportezi la final

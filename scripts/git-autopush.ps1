@@ -35,9 +35,9 @@ param(
     [string] $Branch   = 'main',
     [int]    $Prag     = 25,
     [int]    $ReviewTimeoutSec = 120,
+    [switch] $Acord,
     [switch] $FaraReview,
-    [switch] $DryRun,
-    [switch] $Force
+    [switch] $DryRun
 )
 
 $ErrorActionPreference = 'Stop'
@@ -131,24 +131,38 @@ if ($neimpinse -eq 0) {
     exit 0
 }
 
-# prag: nu se atinge nimic fara acord
-if (($neimpinse -lt $Prag) -and (-not $Force) -and (-not $DryRun)) {
-    Line '----------------------------------------------------------------'
-    Say ("COMITURI NEIMPINSE: " + $neimpinse + " / prag " + $Prag)
-    Line '----------------------------------------------------------------'
-    (Invoke-Git log --oneline "$Remote/$Branch..HEAD").Out | ForEach-Object { Say ("  " + [string]$_) }
-    Line '----------------------------------------------------------------'
-    Say 'Sub prag. NU se impinge fara acordul lui Popy.'
-    Say ('Cu -Force se impinge oricum. Sau spune "faci push".')
-    exit 3
-}
-
+# DRY-RUN INAINTE DE POARTA. Masuratoarea nu impinge nimic, deci nu are ce
+# cere acord. Masurat 2026-10-11: -DryRun era DUPA poarta de acord si iesea
+# cu 3, adica singurul mod de a masura fara sa impinga nu mai functiona -
+# iar singurul mod de a verifica daca se poate impinge era chiar masurarea.
 if ($DryRun) {
     Say 'DRY-RUN: masurat, nimic impins.'
     Line
     Line '  comiturile care ar urca:'
     (Invoke-Git log --oneline "$Remote/$Branch..HEAD").Out | ForEach-Object { Say ("    " + [string]$_) }
     exit 0
+}
+
+# ACORDUL: pragul spune CAND se poate, -Acord spune CA ISE IMPINGE.
+# Fara -Acord nu se impinge NIMICATI - nici sub prag, nici peste prag.
+# Asa cerinta 3 devine impusa de masina, nu doar o propozitie: un agent care
+# uita acordul primeste exit 3, nu un push facut in plus pe main.
+# Masurat 2026-10-11 de verificator: peste prag, scriptul impingea necondi-
+# cionat, iar acordul ramanea doar o regula scrisa.
+if (-not $Acord) {
+    Line '----------------------------------------------------------------'
+    Say ("COMITURI NEIMPINSE: " + $neimpinse + " / prag " + $Prag)
+    Line '----------------------------------------------------------------'
+    (Invoke-Git log --oneline "$Remote/$Branch..HEAD").Out | ForEach-Object { Say ("  " + [string]$_) }
+    Line '----------------------------------------------------------------'
+    if ($neimpinse -lt $Prag) {
+        Say ("Sub prag (" + $neimpinse + "/" + $Prag + "). Se aduna.")
+    } else {
+        Say ("Prag atins (" + $neimpinse + "/" + $Prag + "). Se poate face push.")
+    }
+    Say 'NU se impinge fara acordul lui Popy.'
+    Say 'Cum el spune "faci push", ruleaza din nou cu -Acord.'
+    exit 3
 }
 
 # --- 2. PRAG ATINS: push, cu acord ------------------------------------------
@@ -192,9 +206,26 @@ if ($FaraReview) {
 } else {
     Say '  review LiveReview pe ce tocmai a ajuns pe GitHub...'
     $log = Join-Path $env:TEMP ("lrc-post-" + [guid]::NewGuid().ToString('N') + '.log')
-    $p = Start-Process -FilePath $LRC -PassThru -NoNewWindow `
-         -RedirectStandardOutput $log -RedirectStandardError "$log.err" `
-         -ArgumentList @('review','--range',"$Remote/$Branch~$neimpinse..$localSha",'--no-serve','--output','json')
+    # Start-Process POATE arunca (executable corupt sau strain). Cu
+    # ErrorActionPreference='Stop' ar fi TERMINANT si scriptul ar iesi cu
+    # cod nenul DUPA un push deja reusit si verificat - adica un push bun
+    # raportat ca esuat. Masurat 2026-10-11 de verificator.
+    # Aici push-ul e deja GATA. Review-ul doar raporteaza, deci orice
+    # abatere merge in calea 2, fara sa atingem rezultatul push-ului.
+    try {
+        $p = Start-Process -FilePath $LRC -PassThru -NoNewWindow `
+             -RedirectStandardOutput $log -RedirectStandardError "$log.err" `
+             -ArgumentList @('review','--range',"$Remote/$Branch..$localSha",'--no-serve','--output','json')
+    } catch {
+        $p = $null
+        $reviewState = 'limita'
+        $reviewNote  = "lrc nu a pornit ($($_.Exception.GetType().Name)); pushul e deja gata"
+    }
+    # $p e null doar daca Start-Process a aruncat: atunci reviewState e deja
+    # 'limita' de mai sus, se ramane pe calea 2 si nu se porneste nimic.
+    # (Inainte era `if ($p -eq $null) { } else {` - ramanea o acolada deschisa
+    # fara pereche si scriptul NU se mai parsa. Masurat 2026-10-11.)
+    if ($p -ne $null) {
     $gata = $p.WaitForExit($ReviewTimeoutSec * 1000)
     if (-not $gata) {
         try { $p.Kill() } catch { }
@@ -222,6 +253,11 @@ if ($FaraReview) {
     }
     foreach ($f in @($log, "$log.err")) { if (Test-Path $f) { Remove-Item $f -Force -ErrorAction SilentlyContinue } }
 }
+}   # inchide: if ($p -ne $null)  |  inchide: else-ul ramurii de review
+    # MASURAT 2026-10-11: aceasta a doua acolada LIPSEA. Scriptul nu se parsa
+    # deloc, deci nu rula nici masuratoarea - si un script care nu ruleaza nu
+    # poate fi "functionand". Lipsa era sub linia de un comentariu despre
+    # aceeasi problema, ceea ce o facea usor de ratacit la citit.
 Say ("  review: $reviewState - " + $reviewNote)
 Line
 

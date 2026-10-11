@@ -296,15 +296,42 @@ if ($distinct.Count -gt 1) {
 $rows | ForEach-Object { Write-Host $_ }
 
 # runda negativa proprie: drift intr-un singur document trebuie sa cada
+#
+# INJECTIA TREBUIE SA MODIFICE BLOCUL, NU O PROPOZITIE.
+# Masurat 2026-10-11: injectia veche cauta propozitia "push = peste prag, doar
+# cu acordul meu." - care nu mai exista, pentru ca NUCLEU a fost rescris cu
+# formularea -Acord. -replace pe un sir inexistent NU face nimic, hashul ramanea
+# identic, iar runda raporta ESCAPAT. Scriptul avea dreptate ca sa cada, dar
+# motivul real era ca jocul nu se dasea deloc: un control care nu injecteaza
+# nu testeaza comparatorul de hash.
+#
+# De aceea, aici:
+#   (1) se injecteaza pe MARCAJUL de deschidere -> valabil indiferent de
+#       versiunea NUCLEU si de orice formulare a regulilor;
+#   (2) se verifica EXPLICIT ca documentul s-a schimbat; daca nu s-a schimbat,
+#       se raporteaza defect de control, nu se apeleaza comparatorul;
+#   (3) se verifica ca blocul e inca gasit - altfel comparatorul nu e testat.
 $drift = @{}
 foreach ($k in $real.Keys) { $drift[$k] = $real[$k] }
-$drift['autonom/PROMPT'] = $drift['autonom/PROMPT'] -replace 'push = peste prag, doar cu acordul meu\.', 'push = cand vrei tu.'
-$driftNuc = Get-Nucleu -Text $drift['autonom/PROMPT']
+$driftTarget = 'autonom/PROMPT'
+$drift[$driftTarget] = $drift[$driftTarget].Replace('<!-- nucleu-git', '<!-- nucleu-git-drift')
+$driftApplied = ($drift[$driftTarget] -cne $real[$driftTarget])
+$driftNuc = Get-Nucleu -Text $drift[$driftTarget]
 $driftOk = $false
-if ($driftNuc -and (Get-TextSha $driftNuc) -ne $distinct[0]) { $driftOk = $true }
 Write-Host ''
-Write-Host ('  runda negativa NUCLEU: drift intr-un document -> {0}' -f $(if ($driftOk) { 'ROSU cum trebuie' } else { 'ESCAPAT' }))
-if (-not $driftOk) { $failNucleu++ }
+if (-not $driftApplied) {
+    Write-Host '  [ROSU] runda negativa NUCLEU: injectia NU a modificat documentul - control fara putere'
+    $failNucleu++
+} elseif (-not $driftNuc) {
+    Write-Host '  [ROSU] runda negativa NUCLEU: blocul nu mai e gasit dupa injectie - comparatorul nu e testat'
+    $failNucleu++
+} elseif ((Get-TextSha $driftNuc) -ne $distinct[0]) {
+    $driftOk = $true
+    Write-Host '  runda negativa NUCLEU: drift intr-un document -> ROSU cum trebuie'
+} else {
+    Write-Host '  [ROSU] runda negativa NUCLEU: blocul a fost modificat, dar hashul a ramas identic - comparatorul nu masoara'
+    $failNucleu++
+}
 
 Write-Host ''
 $failReal = Test-Set -Set $real
