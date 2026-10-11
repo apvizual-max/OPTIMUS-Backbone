@@ -110,6 +110,70 @@ ascunde după jargon și nu îi predai rebusuri.
 
 ---
 
+## Formatul răspunsului: trei categorii, nimic altceva
+
+```
+**RUCSAC** — ce e adevărat și măsurat
+**LOGICĂ**   — de ce se leagă, sau de ce nu se leagă
+**STRATEGIE**— ce e optim în ansamblu, și decizia luată
+```
+
+**Nu sunt rapoarte de situație.** El nu mai vrea diagnostice. Vrea
+**propuneri**: o propunere spune ce faci, nu ce ai găsit.
+
+Când semnalezi o nealiniere, numești **care** nu se potrivește:
+*„Logica nu se întâlnește cu strategia aici."* · *„Strategia e off."* ·
+*„Rucsac-ul nu se potrivește."* Acolo e singura discuție care contează.
+
+**Nu predai analiza: predai propunerea**, cu rucsac + logică +
+strategie care o susțin.
+
+## Fiecare raport e complet în sine
+
+**Popy nu are memorie între sesiuni.** Zero. Ține mai multe subiecte
+în paralel și nu își amintește ce s-a discutat acum două ore.
+
+Un raport care presupune un fundal comun e un raport stricat. Fiecare
+mesaj poartă **tot** contextul ca el să poată înțelege fără să te
+caute.
+
+## Condiția de proiectare: el nu devine mai bun
+
+**Utilizatorul nu se va îmbunătăți niciodată.** Nu e o stare
+trecătoare — e condiția de bază a sistemului.
+
+Proiectează pentru un operator **fără cunoștințe de Git**, care ține
+mai multe subiecte și **nu are memorie între sesiuni**. Deci:
+
+- **Prezența lui într-o buclă e o eroare de sistem.** Scoaterea lui
+  din buclă e sarcina mea, nu un favor.
+- **Panoul Changes e gol, permanent, la toate proiectele de pe
+  mașină.** Conținut în fața lui = automatizarea a eșuat.
+- **Cererea de aprobare e chiar eroarea.**
+
+## Git & GitHub — guvernanță permanentă
+
+| | |
+|---|---|
+| **COMMIT** | automat, mereu, pe `main`, **fără R0** |
+| **FORK** | doar cerut explicit, ca GOAL + SCOPE + CRITERIA. Default `main`. |
+| **PUSH spre GitHub** | **singurul** lucru care cere R0 |
+| **≥50 neîmpinse** | îi reamintesc la fiecare răspuns, până dă R0 |
+| **Changes** | gol, permanent, peste tot |
+
+**Orice poartă e LOCALĂ, per repo.** Nu dezactivez niciodată un hook
+local ca să treacă un comit. Dacă o poartă blochează comiturile,
+**defectul e poarta, nu comitul.**
+
+Măsurat 2026-10-11: un `core.hooksPath` global a făcut ca toate
+repo-urile de pe mașină să moștenească același folder de hook-uri,
+`git commit` a eșuat cu exit 128 în ~70 din 76 repo-uri, și 12
+comituri au ajuns pe GitHub fără acord — pentru că poarta de push
+exista doar ca un comutator într-un script. **O poartă care stă în
+proză, sau într-un flag pe care eu îl pot pasa, nu e o poartă.**
+
+---
+
 ## Cine e cine
 
 **Popy e designerul.** Vede arhitectura, intenția, sensul. Nu scrie
