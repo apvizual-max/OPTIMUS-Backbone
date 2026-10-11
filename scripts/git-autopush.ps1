@@ -1,185 +1,205 @@
 <#
-    git-autopush.ps1 - fluxul de PUSH al lui Popy.
+    git-autopush.ps1 - singurul drum prin care iese codul spre GitHub.
 
-    LRC (LiveReview) ruleaza la PUSH pe GitHub, NICIODATA la comit.
-    Comiturile sunt libere si autonome; poarta nu are ce le opreasca.
+    ORDINEA, care nu se schimba:
+        1. masoara   - HEAD local, server prin git ls-remote, comituri neimpinse
+        2. decide    - sub prag? NU se atinge nimic. peste prag? cere acord
+        3. push      - git push PUR. Fara LiveReview. Fara review. Fara poarta.
+        4. verifica  - git ls-remote; SHA server == SHA HEAD
+        5. review    - LiveReview, DOAR DUPA ce push-ul e confirmat pe GitHub
 
-    Ordinea e fixa:
-      1. masoara   - HEAD local, adevarul de pe server, cate comituri urca
-      2. review    - LRC pe RANGE-ul care urca, cu timeout, fara blocare
-      3. push      - oricum, chiar daca review-ul a picat sau a dat rate limit
-      4. verifica  - git ls-remote; SHA-ul serverului trebuie sa fie HEAD-ul
+    LiveReview nu apare inainte de push, niciodata. Ce a ajuns pe GitHub se
+    review-eaza acolo; ce sta local nu e treaba lui.
 
-    RATE LIMIT NU BLOCHEAZA PUSH-UL. Daca lrc picat, se raporteaza si se
-    impinge oricum. Un review lipsa e informatie, nu o oprire.
+    DOUA CAI, cum a cerut Popy:
+        calea 1  - push, apoi review cu LiveReview
+        calea 2  - push FARA review (rate limit atins, cont epuizat, LRC cazut)
+    In ambele cazuri push-ul se face SI se verifica. Calea 2 nu e degradare:
+    e calea de rezerva prevazuta. Un review lipsa nu e o eroare si nu apare
+    niciodata in panoul lui Popy ca un push esuat.
 
-    NU face: commit, stash, reset, checkout, force. Nu atinge interfata.
+    COMMIT: nu se atinge. Scriptul nu comita, nu stash-eaza, nu face branch.
 
-    ASCII only, intentionat: PowerShell 5.1 citeste .ps1 ca ANSI daca nu are
-    BOM, iar orice semn ne-ASCII (ex. linie lunga, diacritice) rupe parserul.
+    ASCII numai, intentionat: PowerShell 5.1 citeste .ps1 fara BOM ca ANSI si
+    parserul moare pe primul semn ne-ASCII.
 
-    Exit:  0 = pushat si verificat pe server
-           1 = push esuat SAU serverul nu corespunde
-           2 = nu exista remote / git lipsa / repo invalid
+    Exit: 0 = pushat si verificat / nimic de urcat
+          1 = push NU a ajuns, sau serverul nu corespunde
+          2 = mediu invalid (nu e repo, nu exista remote)
+          3 = sub prag - nu s-a atins nimic
 #>
 
 [CmdletBinding()]
 param(
-    [string]   $Remote = 'origin',
-    [string]   $Branch = 'main',
-    [int]      $ReviewTimeoutSec = 90,
-    [switch]   $SkipReview,
-    [switch]   $DryRun
+    [string] $Remote   = 'origin',
+    [string] $Branch   = 'main',
+    [int]    $Prag     = 25,
+    [int]    $ReviewTimeoutSec = 120,
+    [switch] $FaraReview,
+    [switch] $DryRun,
+    [switch] $Force
 )
 
 $ErrorActionPreference = 'Stop'
 $LRC = 'C:\Users\apviz\AppData\Local\Programs\lrc\lrc.exe'
 
-function Say($msg) { Write-Host $msg }
-function Line($msg = '') { Write-Host $msg }
+function Say($m) { Write-Host $m }
+function Line($m = '') { Write-Host $m }
 
-# git scrie PROGRESUL pe stderr chiar cand reuseste. Cu
-# ErrorActionPreference='Stop' shell-ul arunca o eroare rosie si ar opri
-# scriptul chiar cand push-ul a mers. Masurat pe 2026-10-11: push reusit,
-# scriptul a murit inainte de verificare. De aici functia de mai jos.
+# git scrie PROGRESSUL pe stderr chiar cand reuseste. Cu
+# ErrorActionPreference='Stop' asta devine eroare terminala si omoara scriptul.
+# Masurat 2026-10-11: push reusit, ls-remote a confirmat SHA-ul, scriptul a
+# iesit totusi cu 1 si NU a verificat nimic.
 function Invoke-Git {
-    param([Parameter(ValueFromRemainingArguments = $true)][string[]]$Args)
+    param([Parameter(ValueFromRemainingArguments = $true)][string[]]$GitArgs)
     $prev = $ErrorActionPreference
     $ErrorActionPreference = 'Continue'
     try {
-        $out = & git @Args 2>&1
-        $code = $LASTEXITCODE
-    } finally {
-        $ErrorActionPreference = $prev
-    }
-    return [pscustomobject]@{ Out = $out; Code = $code }
+        $o = & git @GitArgs 2>&1
+        $c = $LASTEXITCODE
+    } finally { $ErrorActionPreference = $prev }
+    return [pscustomobject]@{ Out = $o; Code = $c }
 }
 
-# --- 0. masurare baza ------------------------------------------------------
-$top = (Invoke-Git rev-parse --show-toplevel).Out
+# --- 1. masurare ------------------------------------------------------------
+$top = (Invoke-Git rev-parse --show-toplevel).Out | Select-Object -First 1
 if (-not $top) { Say 'EROARE: nu e repo git.'; exit 2 }
-$top = ($top | Select-Object -First 1)
 Set-Location $top
 
-$localSha = ((Invoke-Git rev-parse HEAD).Out | Select-Object -First 1)
+$branchReal = (Invoke-Git rev-parse --abbrev-ref HEAD).Out | Select-Object -First 1
+$localSha  = (Invoke-Git rev-parse HEAD).Out | Select-Object -First 1
 if (-not $localSha) { Say 'EROARE: HEAD ilizibil.'; exit 2 }
-$localShort = $localSha.Substring(0,7)
 
-$serverLine = ((Invoke-Git ls-remote $Remote $Branch).Out | Select-Object -First 1)
-$serverSha = if ($serverLine) { ($serverLine -split '\s+')[0] } else { $null }
+$srvLine = (Invoke-Git ls-remote $Remote $Branch).Out | Select-Object -First 1
+$srvSha  = if ($srvLine) { ($srvLine -split '\s+')[0] } else { $null }
+if (-not $srvSha) { Say ("EROARE: ramura '$Branch' nu exista pe '$Remote'."); exit 2 }
 
-if (-not $serverSha) { Say ("EROARE: ramura '$Branch' nu exista pe $Remote."); exit 2 }
+$neimpinse = 0
+$c = (Invoke-Git rev-list --count "$Remote/$Branch..HEAD").Out | Select-Object -First 1
+if ($c) { $neimpinse = [int]$c }
+$dirty = @((Invoke-Git status --porcelain).Out | Where-Object { $_ -and $_.Trim() }).Count
 
-$toPush = 0
-$cnt = (Invoke-Git rev-list --count "$Remote/$Branch..HEAD").Out | Select-Object -First 1
-if ($cnt) { $toPush = [int]$cnt }
-
-Line '=============================================='
+Line '================================================================'
 Line '  PUSH - masurare'
-Line '=============================================='
-Say ("  local   : " + $localShort)
-Say ("  server  : " + $serverSha.Substring(0,7))
-Say ("  de urcat: $toPush comit" + $(if ($toPush -eq 1) { '' } else { 'uri' }))
+Line '================================================================'
+Say ("  ramura   : " + $branchReal + $(if ($branchReal -ne $Branch) { "  (ATENTIE: nu e '$Branch')" } else { '' }))
+Say ("  local    : " + $localSha.Substring(0,7))
+Say ("  server   : " + $srvSha.Substring(0,7))
+Say ("  neimpinse: " + $neimpinse)
+Say ("  necomitat: " + $dirty)
+Say ("  prag     : " + $Prag)
 Line
 
-if ($toPush -eq 0) {
-    Say 'Nimic de urcat. Serverul e deja la HEAD.'
+if ($neimpinse -eq 0 -and $dirty -eq 0) {
+    Say 'Nimic de urcat. Serverul e la HEAD, arbore curat.'
     exit 0
 }
 
-Line '  comiturile care urca:'
-(Invoke-Git log --oneline "$Remote/$Branch..HEAD").Out | ForEach-Object { Say ("    $_") }
-Line
+if ($neimpinse -eq 0) {
+    Say ("ATENTIE: " + $dirty + " fisier(e) necomitat(e), dar nimic de impins.")
+    Say 'Comit mai intai, apoi reia.'
+    exit 0
+}
+
+# prag: nu se atinge nimic fara acord
+if (($neimpinse -lt $Prag) -and (-not $Force) -and (-not $DryRun)) {
+    Line '----------------------------------------------------------------'
+    Say ("COMITURI NEIMPINSE: " + $neimpinse + " / prag " + $Prag)
+    Line '----------------------------------------------------------------'
+    (Invoke-Git log --oneline "$Remote/$Branch..HEAD").Out | ForEach-Object { Say ("  " + $_) }
+    Line '----------------------------------------------------------------'
+    Say 'Sub prag. NU se impinge fara acordul lui Popy.'
+    Say ('Cu -Force se impinge oricum. Sau spune "faci push".')
+    exit 3
+}
 
 if ($DryRun) {
-    Say 'DRY-RUN: nu s-a impins nimic.'
+    Say 'DRY-RUN: masurat, nimic impins.'
+    Line
+    Line '  comiturile care ar urca:'
+    (Invoke-Git log --oneline "$Remote/$Branch..HEAD").Out | ForEach-Object { Say ("    " + $_) }
     exit 0
 }
 
-# --- 2. REVIEW pe range ----------------------------------------------------
-# Non-blocant prin constructie: orice esec, orice timeout, orice rate limit
-# se inregistreaza si se merge la push oricum.
-$reviewState = 'cerut'
+# --- 2. PRAG ATINS: push, cu acord ------------------------------------------
+Line '================================================================'
+Line '  PUSH - incepere'
+Line '================================================================'
+Say '  push pur. Fara LiveReview inainte de push. Fara poarta.'
+$r = Invoke-Git push $Remote "HEAD:refs/heads/$Branch"
+Say ("  push exit: " + $r.Code)
+Line
+
+# --- 3. VERIFICARE (adevarul e aici, nu in codul de iesire) -----------------
+$after = (Invoke-Git ls-remote $Remote $Branch).Out | Select-Object -First 1
+$afterSha = if ($after) { ($after -split '\s+')[0] } else { $null }
+
+if (-not $afterSha -or $afterSha -ne $localSha) {
+    Line '================================================================'
+    Line '  PUSH - NU A AJUNS'
+    Line '================================================================'
+    Say ("  server: " + $(if ($afterSha) { $afterSha.Substring(0,7) } else { 'nu raspunde' }))
+    Say ("  local : " + $localSha.Substring(0,7))
+    Say 'Pushul nu a ajuns. Nu raporta succes.'
+    exit 1
+}
+
+Say ("  PUSH CONFIRMAT PE SERVER: " + $afterSha.Substring(0,7))
+Say ("  comituri urcate: " + $neimpinse)
+Line
+
+# --- 4. LIVE REVIEW, DOAR ACUM, PE CE E PE GITHUB ---------------------------
+# Ruleaza pe ce tocmai a ajuns. Nu poate bloca push-ul: push-ul deja s-a facut
+# si a fost verificat. Rolul lui e sa raporteze, nu sa opreasca ceva.
+$reviewState = 'neprocerat'
 $reviewNote  = ''
 
-if ($SkipReview) {
-    $reviewState = 'sarit'
-    $reviewNote  = '--SkipReview'
+if ($FaraReview) {
+    $reviewState = 'calea 2'
+    $reviewNote  = '-FaraReview: push fara LiveReview, intentionat'
 } elseif (-not (Test-Path $LRC)) {
-    $reviewState = 'absent'
-    $reviewNote  = 'lrc.exe nu e pe loc'
+    $reviewState = 'neprocerat'
+    $reviewNote  = 'lrc.exe nu e pe loc; pushul e deja confirmat'
 } else {
-    Say '  review LRC pe range-ul care urca (nu blocheaza)...'
-    $log = Join-Path $env:TEMP ("lrc-push-" + [guid]::NewGuid().ToString('N') + '.log')
-
-    $p = Start-Process -FilePath $LRC -PassThru -NoNewWindow -RedirectStandardOutput $log `
-         -RedirectStandardError "$log.err" `
-         -ArgumentList @('review','--range',"$Remote/$Branch..HEAD",'--no-serve','--output','json')
-
-    $done = $p.WaitForExit($ReviewTimeoutSec * 1000)
-    if (-not $done) {
+    Say '  review LiveReview pe ce tocmai a ajuns pe GitHub...'
+    $log = Join-Path $env:TEMP ("lrc-post-" + [guid]::NewGuid().ToString('N') + '.log')
+    $p = Start-Process -FilePath $LRC -PassThru -NoNewWindow `
+         -RedirectStandardOutput $log -RedirectStandardError "$log.err" `
+         -ArgumentList @('review','--range',"$Remote/$Branch~$neimpinse..$localSha",'--no-serve','--output','json')
+    $gata = $p.WaitForExit($ReviewTimeoutSec * 1000)
+    if (-not $gata) {
         try { $p.Kill() } catch { }
         $reviewState = 'timeout'
         $reviewNote  = "nu a raspuns in ${ReviewTimeoutSec}s"
     } else {
-        # WaitForExit(ms) lasa ExitCode nepopulat uneori; a doua chemare
-        # fara timeout ruleaza procesul deacaboi pana la capat si il citeste.
         $p.WaitForExit()
         $code = $p.ExitCode
-        if ($null -eq $code) { $code = 'necunoscut' }
         $out  = ''
         if (Test-Path $log) { $out = [System.IO.File]::ReadAllText($log) }
-        $rid  = ''
+        $rid = ''
         if ($out -match 'Review submitted, ID:\s*(\d+)') { $rid = $Matches[1] }
-
         if ($code -eq 0) {
-            $reviewState = 'trecut'
+            $reviewState = 'trimis'
             $reviewNote  = $(if ($rid) { "review #$rid" } else { 'ok' })
         } else {
             $why = ''
-            foreach ($pat in @('rate.?limit','too many requests','quota','429')) {
-                if ($out -match $pat) { $why = 'rate limit'; break }
+            foreach ($pat in @('rate.?limit','too many requests','quota','429','plan')) {
+                if ($out -match $pat) { $why = 'limita cont / rate limit'; break }
             }
-            if (-not $why) { $why = "lrc exit $code" }
-            $reviewState = 'picat'
-            $reviewNote  = "$why (push merge oricum)"
+            if (-not $why) { $why = "lrc a raspuns negativ (exit $code)" }
+            $reviewState = 'limita'
+            $reviewNote  = "$why - calea 2, pushul oricum e gata"
         }
     }
     foreach ($f in @($log, "$log.err")) { if (Test-Path $f) { Remove-Item $f -Force -ErrorAction SilentlyContinue } }
 }
-Say ("  review: $reviewState - $reviewNote")
+Say ("  review: $reviewState - " + $reviewNote)
 Line
 
-# --- 3. PUSH ---------------------------------------------------------------
-# intentionat DUPA review si intentionat neconditionat de rezultatul lui
-Say '  push...'
-$pushRes = Invoke-Git push $Remote "HEAD:refs/heads/$Branch"
-Say ("  push exit: " + $pushRes.Code)
-Line
-
-# --- 4. VERIFICARE pe server ----------------------------------------------
-# singurul loc unde se afla adevarul. niciodata codul de iesire al shell-ului.
-$after = ((Invoke-Git ls-remote $Remote $Branch).Out | Select-Object -First 1)
-$afterSha = if ($after) { ($after -split '\s+')[0] } else { $null }
-
-Line '=============================================='
-Line '  PUSH - verificare pe server'
-Line '=============================================='
-
-if ($afterSha -and $afterSha -eq $localSha) {
-    Say ("  OK  server = " + $afterSha.Substring(0,7) + " = HEAD local")
-    Say ("  comituri urcate: " + $toPush)
-    if ($reviewState -eq 'picat' -or $reviewState -eq 'timeout') {
-        Say ("  NOTE: review LRC a picat (" + $reviewNote + "). Push-ul a mers oricum, intentionat.")
-    }
-    exit 0
-}
-
-if (-not $afterSha) {
-    Say '  FAILED: serverul nu mai raspunde. Nu raporta succes.'
-    exit 1
-}
-
-Say ("  FAILED: server = " + $afterSha.Substring(0,7) + "  !=  local = " + $localShort)
-Say '  Pushul NU a ajuns. Nu raporta succes.'
-exit 1
+Line '================================================================'
+Line '  PUSH - REZULTAT'
+Line '================================================================'
+Say ("  server = " + $afterSha.Substring(0,7) + " = HEAD local")
+Say ("  " + $neimpinse + " comituri au ajuns pe GitHub")
+if ($dirty -gt 0) { Say ("  ATENTIE: " + $dirty + " fisiere inca necomitate") }
+exit 0
