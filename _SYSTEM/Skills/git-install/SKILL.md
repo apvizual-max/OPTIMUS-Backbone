@@ -212,10 +212,15 @@ Taskul nu e gata cât timp `git status` arată ceva. Comit, apoi raportez.
 `git-autonom` nu poate semnala ce nu are. I se predă aici, la ridicare:
 
 ```
-scripts\push-status.ps1     → PERETELE PUSH: tabel mare cu ramura, SHA local,
-                             SHA server, comituri neîmpinse, prag, necomitate,
-                             lista neîmpinse + balon în tavă + stare pe disc
+scripts\push-status.ps1     → PERETELE PUSH: câte un tabel pentru FIECARE repo
+                             (ramura, SHA local, SHA server, comituri neîmpinse,
+                             prag, necomitate, lista neîmpinse) + TOTAL + un
+                             balon în tavă + stare pe disc cu toate repo-urile
 ```
+
+Peretele nu spune „e totul în ordine" dacă un repo n-a putut fi măsurat:
+titlul devine „MĂSURĂTURĂ INCOMPLETĂ" și ieșirea e `2`. Un senzor mort care
+raportează sănătate e mai prost decât un senzor care lipsește.
 
 - **Cât timp `COMITURI NEIMPINSE > 0`, tabelul intră în raport** ca secțiune,
   nu ca notă de subsol, și se repetă până când decidem push-ul.

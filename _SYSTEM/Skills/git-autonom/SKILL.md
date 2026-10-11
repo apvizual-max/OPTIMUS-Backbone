@@ -190,13 +190,18 @@ rata un mesaj:
 
 1. **Tabelul în fiecare raport.** Cât timp `COMITURI NEIMPINSE > 0`, tabelul
    intră în raportul meu. Nu ca notă de subsol — ca secțiune.
-2. **Balon în tavă**, cu `NotifyIcon` — mecanismul deja folosit de digest-ul
+2. **Toate repo-urile, nu unul.** Măsurat 2026-10-11: trei repo-uri aveau
+   comituri neîmpinse și peretele se uita la unul singur. Un perete care
+   acoperă o treime din realitate e un perete mincinos. Acum sunt trei blocuri
+   și un total: `projects`, `SENTINEL_PRIME`, `mavis-skills`.
+3. **Balon în tavă**, cu `NotifyIcon` — mecanismul deja folosit de digest-ul
    săptămânal, deci e dovedit pe această mașină. Durată 15 s, și **trăiește**
    15 s: balonul dispare odată cu iconul, deci iconul se aruncă abia după ce
    balonul și-a făcut timpul. Măsurat 2026-10-11: codul dormea 4 s și apoi
    arunca iconul — promisiunea era cu 11 s mai lungă decât realitatea.
-3. **Fișier de stare** `90_CONTROL_CENTER\api\push-pending.json` — supraviețuiește
+4. **Fișier de stare** `90_CONTROL_CENTER\api\push-pending.json` — supraviețuiește
    restartului de sesiune. Dacă nu mai sunt eu aici, peretele rămâne scris.
+   Conține acum un vector, cu numele fiecărui repo, nu o singură cale.
 
 Dacă balonul nu se arată, scriptul **spune că nu s-a arătat**. Nu pretinde că a
 livrat ceva ce n-a livrat. Iar dacă sesiunea n-are desktop interactiv — caz în
@@ -204,6 +209,11 @@ care balonul n-are *ce* să apară, indiferent cât de bine arată codul — spu
 și asta, înainte de a încerca. Cee ce poate fi măsurat e desktopul interactiv
 și faptul că apelul nu aruncă; faptul că l-ai *văzut* nu poate fi măsurat de
 script, și nu se pretinde.
+
+**Iar dacă un repo nu poate fi măsurat, peretele NU spune că e totul în
+ordine.** Titlul devine „MĂSURĂTURĂ INCOMPLETĂ" și ieșirea e `2`. Măsurat
+2026-10-11: cu un repo inaccesibil, totalul era 0 și scriptul ieșea cu `0`,
+adică un senzor mort care raportează sănătate.
 
 ## 5. LIVE REVIEW — doar pe GitHub, doar după push
 
