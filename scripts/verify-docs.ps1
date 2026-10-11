@@ -238,9 +238,14 @@ function Test-Set {
 
 # --- incarcare --------------------------------------------------------------
 $real = @{}
+$raw  = @{}
 foreach ($d in $DOCS) {
     if (-not (Test-Path $d.P)) { Write-Host "EROARE: lipseste $($d.P)"; exit 2 }
-    $real[$d.N] = Normalize ([System.IO.File]::ReadAllText($d.P, [Text.Encoding]::UTF8))
+    $t = [System.IO.File]::ReadAllText($d.P, [Text.Encoding]::UTF8)
+    $real[$d.N] = Normalize $t
+    # BRUT, cu singura exceptie a conventiei de sfarsit de linie (CRLF vs LF).
+    # Aceea nu e diferenta de continut - ar da un ROSU fara inteles.
+    $raw[$d.N] = ($t -replace "`r`n", "`n")
 }
 
 Write-Host ''
@@ -260,6 +265,11 @@ Write-Host ''
 # patru NU SE POT contrazice pe regulile de baza - pentru ca spun aceleasi
 # cuvinte, in aceeasi ordine. Drift-ul intr-un singur document devine
 # imposibil de ratat, pentru ca se masoara prin hash, nu prin sens.
+#
+# ATENTIE: comparatorul ruleaza pe text BRUT, nu pe text normalizat. Masurat
+# 2026-10-11 (verificator, runda 4): pe text normalizat, "RAMURA = main." si
+# "RAMURA = MAIN." dadeau ACELASI hash si controlul raporta verde. O regula
+# care accepta orice diferenta de majuscula nu e "octet cu octet".
 function Get-Nucleu {
     param([string]$Text)
     # (?i) OBLIGATORIU: textul a fost normalizat la minuscule inainte, iar
@@ -277,21 +287,37 @@ function Get-TextSha {
 
 $failNucleu = 0
 $rows = @()
-foreach ($k in $real.Keys) {
-    $nuc = Get-Nucleu -Text $real[$k]
+
+# COMPARATORUL STRICT: text BRUT. Vezi avertismentul de la Get-Nucleu.
+$strictHashes = @{}
+foreach ($k in $raw.Keys) {
+    $nuc = Get-Nucleu -Text $raw[$k]
     if (-not $nuc) {
         $failNucleu++
         $rows += ('  [ROSU] NUCLEU lipseste din: {0}' -f $k)
     } else {
-        $rows += ('  [VERDE] NUCLEU prezent in {0,-22} sha={1}' -f $k, (Get-TextSha $nuc).Substring(0, 16))
+        $h = Get-TextSha $nuc
+        $strictHashes[$k] = $h
+        $rows += ('  [VERDE] NUCLEU prezent in {0,-22} sha={1}' -f $k, $h.Substring(0, 16))
     }
 }
-$distinct = @($real.Keys | ForEach-Object { $n = Get-Nucleu -Text $real[$_]; if ($n) { Get-TextSha $n } } | Sort-Object -Unique)
+$distinct = @($strictHashes.Values | Sort-Object -Unique)
 if ($distinct.Count -gt 1) {
     $failNucleu++
-    $rows += ('  [ROSU] NUCLEU diferit intre documente: {0} variante' -f $distinct.Count)
+    # se spun EXPLICIT documentele fiecarei variante - un "diferit" fara
+    # nume nu poate fi reparat de nimeni.
+    $byHash = @{}
+    foreach ($k in $strictHashes.Keys) {
+        $h = $strictHashes[$k]
+        if (-not $byHash.ContainsKey($h)) { $byHash[$h] = @() }
+        $byHash[$h] += $k
+    }
+    $rows += ('  [ROSU] NUCLEU diferit OCTET CU OCTET: {0} variante' -f $distinct.Count)
+    foreach ($h in @($byHash.Keys | Sort-Object { -$byHash[$_].Count })) {
+        $rows += ('  [ROSU]   sha={0} -> {1}' -f $h.Substring(0, 16), (($byHash[$h] | Sort-Object) -join ', '))
+    }
 } elseif ($distinct.Count -eq 1) {
-    $rows += ('  [VERDE] NUCLEU identic in toate 4 documente (o singura varianta)')
+    $rows += ('  [VERDE] NUCLEU identic OCTET CU OCTET in toate 4 documente (o singura varianta)')
 }
 $rows | ForEach-Object { Write-Host $_ }
 
@@ -311,27 +337,59 @@ $rows | ForEach-Object { Write-Host $_ }
 #   (2) se verifica EXPLICIT ca documentul s-a schimbat; daca nu s-a schimbat,
 #       se raporteaza defect de control, nu se apeleaza comparatorul;
 #   (3) se verifica ca blocul e inca gasit - altfel comparatorul nu e testat.
+#   (3) se verifica ca blocul e inca gasit - altfel comparatorul nu e testat;
+#   (4) se testeaza DOI feluri de drift: de marcaj si de MAJUSCULA. Al doilea
+#       este exact cel care ESCAPA comparatorul vechi, pentru ca .ToLower()
+#       face "main" si "MAIN" identice. Daca driftul de majuscula n-ar fi
+#       prins, controlul ar fi iarasi decorativ - doar in sens opus: ar
+#       declara "octet cu octet" fara sa masoare octetii.
 $drift = @{}
-foreach ($k in $real.Keys) { $drift[$k] = $real[$k] }
+foreach ($k in $raw.Keys) { $drift[$k] = $raw[$k] }
 $driftTarget = 'autonom/PROMPT'
-$drift[$driftTarget] = $drift[$driftTarget].Replace('<!-- nucleu-git', '<!-- nucleu-git-drift')
-$driftApplied = ($drift[$driftTarget] -cne $real[$driftTarget])
-$driftNuc = Get-Nucleu -Text $drift[$driftTarget]
-$driftOk = $false
+
+# (a) drift de marcaj
+$d1 = $drift[$driftTarget].Replace('<!-- NUCLEU-GIT', '<!-- NUCLEU-GIT-drift')
+$a1 = ($d1 -cne $raw[$driftTarget])
+$n1 = Get-Nucleu -Text $d1
+$markerCaught = ($a1 -and $n1 -and ((Get-TextSha $n1) -ne $distinct[0]))
+
+# (b) drift de majuscula - o singura litera, tot restul identic
+$d2 = $drift[$driftTarget].Replace('RAMURA = main.', 'RAMURA = MAIN.')
+$a2 = ($d2 -cne $raw[$driftTarget])
+$n2 = Get-Nucleu -Text $d2
+$caseCaught = ($a2 -and $n2 -and ((Get-TextSha $n2) -ne $distinct[0]))
+
+# (c) control de sensibilitate: dupa normalizare, "main" si "MAIN" devin
+#     ACELASI sir. Daca ar fi altfel - adica daca normalizarea ar distinge
+#     driftul - atunci comparatorul vechi ar fi prins oricum, iar (b) nu ar
+#     dovedi nimic despre comparatorul strict. Hash-urile EGALE aici inseamna
+#     ca comparatorul vechi NU distinge, adica strict e chiar necesar.
+$refNuc = Get-Nucleu -Text $raw['autonom/SKILL']
+$vechiulNuDistinge = ((Get-TextSha (Normalize $n2)) -eq (Get-TextSha (Normalize $refNuc)))
+
+$driftOk = ($markerCaught -and $caseCaught)
 Write-Host ''
-if (-not $driftApplied) {
-    Write-Host '  [ROSU] runda negativa NUCLEU: injectia NU a modificat documentul - control fara putere'
-    $failNucleu++
-} elseif (-not $driftNuc) {
-    Write-Host '  [ROSU] runda negativa NUCLEU: blocul nu mai e gasit dupa injectie - comparatorul nu e testat'
-    $failNucleu++
-} elseif ((Get-TextSha $driftNuc) -ne $distinct[0]) {
-    $driftOk = $true
-    Write-Host '  runda negativa NUCLEU: drift intr-un document -> ROSU cum trebuie'
+if (-not $a1) {
+    Write-Host '  [ROSU] runda negativa NUCLEU: injectia (a) NU a modificat documentul - control fara putere'
+} elseif ($markerCaught) {
+    Write-Host '  runda negativa NUCLEU (a) drift de marcaj  -> ROSU cum trebuie'
 } else {
-    Write-Host '  [ROSU] runda negativa NUCLEU: blocul a fost modificat, dar hashul a ramas identic - comparatorul nu masoara'
-    $failNucleu++
+    Write-Host '  [ROSU] runda negativa NUCLEU (a): blocul s-a schimbat, hashul a ramas identic - comparatorul nu masoara'
 }
+if (-not $a2) {
+    Write-Host '  [ROSU] runda negativa NUCLEU: injectia (b) NU a modificat documentul - control fara putere'
+} elseif ($caseCaught) {
+    Write-Host '  runda negativa NUCLEU (b) drift de majuscula -> ROSU cum trebuie'
+} else {
+    Write-Host '  [ROSU] runda negativa NUCLEU (b): drift de majuscula ESCAPAT - comparatorul masoara doar sensuri'
+}
+if ($vechiulNuDistinge) {
+    Write-Host '  control de sensibilitate: comparatorul normalizat NU distinge "main" de "MAIN" - (b) e concludent'
+} else {
+    Write-Host '  [ROSU] control de sensibilitate: comparatorul normalizat DISTINGE driftul de majuscula - (b) nu dovedeste nimic despre comparatorul strict'
+    $driftOk = $false
+}
+if (-not $driftOk) { $failNucleu++ }
 
 Write-Host ''
 $failReal = Test-Set -Set $real

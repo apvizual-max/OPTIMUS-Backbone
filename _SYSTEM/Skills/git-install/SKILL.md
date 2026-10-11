@@ -228,8 +228,9 @@ scripts\push-status.ps1     → PERETELE PUSH: tabel mare cu ramura, SHA local,
   numai când el spune explicit „faci push". Nu pentru a sări peste prag din
   inițiativă mea, și nu ca să îmi fac treaba mai repede.
 - **Fără `-Acord` nu se împinge nimic** — nici sub prag, nici peste prag.
-  Scriptul afișează peretele și iese cu `3`. Nu e o eroare, e o poartă, și e
-  prima din sistem.
+  `git-autopush.ps1` afișează comiturile care ar urca și iese cu `3`. Nu e o
+  eroare, e o poartă, și e prima din sistem. Peretele în format de tabel vine
+  din `push-status.ps1`, care e instrumentul de măsurare, nu poarta.
 - **`-DryRun` nu e supus porții.** Măsoară fără să împingă nimic, deci nu
   cere acord.
 - **Nu schimb ramura ca să evadez o poartă.** Se repară poarta, nu se ocolește.
@@ -252,7 +253,8 @@ git `2.56.0.windows.2` · `gh 2.97.0`, instalat și autentificat ·
 la nivel global · **`gh` e deja prezent și logat** — așa că la o instalare pe
 această mașină, singurul punct unde te-ai opri nu apare.
 
-`lrc` v0.6.12, plan `free_30k` (30.000 LOC): review-ul **se trimite și e
+`lrc` v0.6.15 (măsurat 2026-10-11; de re-măsurat cu `lrc --version`),
+plan `free_30k` (30.000 LOC): review-ul **se trimite și e
 acceptat**, dar `ai_mode: BYOK required on free plan` — analiza AI cere o cheie
 a utilizatorului. De aceea contul se va epuiza: de aceea ambele căi de push
 există.
