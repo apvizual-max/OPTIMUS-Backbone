@@ -248,10 +248,70 @@ Write-Host ('=' * 68)
 Write-Host '  CONTROL CONSECENTA - cele patru documente'
 Write-Host ('=' * 68)
 Write-Host ''
+
+# --- NUCLEUL CANONIC: comparatie OCTET CU OCTET ---------------------------
+# Un control bazat pe cuvinte-cheie NU poate prinde o contradictie spusa cu
+# alte cuvinte. Masurat 2026-10-11, runda 2: sase contradictii formulate cu
+# cuvinte pe care regexurile nu le cautau au trecut toate verde. Asta e o
+# limita a metodei, nu o lipsa de cuvinte in lista.
+#
+# De aici solutia prin CONSTRUCTIE: cele patru documente poarta un bloc
+# NUCLEU canonic, IDENTIC OCTET CU OCTET. Cat timp blocul e acelasi, cele
+# patru NU SE POT contrazice pe regulile de baza - pentru ca spun aceleasi
+# cuvinte, in aceeasi ordine. Drift-ul intr-un singur document devine
+# imposibil de ratat, pentru ca se masoara prin hash, nu prin sens.
+function Get-Nucleu {
+    param([string]$Text)
+    # (?i) OBLIGATORIU: textul a fost normalizat la minuscule inainte, iar
+    # [regex]::Match este case-SENSITIVE. Fara (?i), nucleul era raportat
+    # "lipsa" din toate patru desi era prezent - masurat 2026-10-11.
+    $m = [regex]::Match($Text, '(?s)(?i)<!--\s*nucleu-git.*?<!--\s*/nucleu-git\s*-->')
+    if (-not $m.Success) { return $null }
+    return $m.Value
+}
+function Get-TextSha {
+    param([string]$s)
+    $sha = New-Object Security.Cryptography.SHA256Managed
+    return [System.BitConverter]::ToString($sha.ComputeHash([Text.Encoding]::UTF8.GetBytes($s))).Replace('-', '')
+}
+
+$failNucleu = 0
+$rows = @()
+foreach ($k in $real.Keys) {
+    $nuc = Get-Nucleu -Text $real[$k]
+    if (-not $nuc) {
+        $failNucleu++
+        $rows += ('  [ROSU] NUCLEU lipseste din: {0}' -f $k)
+    } else {
+        $rows += ('  [VERDE] NUCLEU prezent in {0,-22} sha={1}' -f $k, (Get-TextSha $nuc).Substring(0, 16))
+    }
+}
+$distinct = @($real.Keys | ForEach-Object { $n = Get-Nucleu -Text $real[$_]; if ($n) { Get-TextSha $n } } | Sort-Object -Unique)
+if ($distinct.Count -gt 1) {
+    $failNucleu++
+    $rows += ('  [ROSU] NUCLEU diferit intre documente: {0} variante' -f $distinct.Count)
+} elseif ($distinct.Count -eq 1) {
+    $rows += ('  [VERDE] NUCLEU identic in toate 4 documente (o singura varianta)')
+}
+$rows | ForEach-Object { Write-Host $_ }
+
+# runda negativa proprie: drift intr-un singur document trebuie sa cada
+$drift = @{}
+foreach ($k in $real.Keys) { $drift[$k] = $real[$k] }
+$drift['autonom/PROMPT'] = $drift['autonom/PROMPT'] -replace 'push = peste prag, doar cu acordul meu\.', 'push = cand vrei tu.'
+$driftNuc = Get-Nucleu -Text $drift['autonom/PROMPT']
+$driftOk = $false
+if ($driftNuc -and (Get-TextSha $driftNuc) -ne $distinct[0]) { $driftOk = $true }
+Write-Host ''
+Write-Host ('  runda negativa NUCLEU: drift intr-un document -> {0}' -f $(if ($driftOk) { 'ROSU cum trebuie' } else { 'ESCAPAT' }))
+if (-not $driftOk) { $failNucleu++ }
+
+Write-Host ''
 $failReal = Test-Set -Set $real
 Write-Host ''
-if ($failReal -eq 0) { Write-Host 'DOCUMENTE REALE: VERDE COMPLET' }
-else { Write-Host ("DOCUMENTE REALE: {0} PICAT" -f $failReal) }
+Write-Host ('DOCUMENTE REALE: {0} invariant' -f $INVARIANTS.Count)
+if (($failReal + $failNucleu) -eq 0) { Write-Host 'REZULTAT REAL: VERDE COMPLET' }
+else { Write-Host ("REZULTAT REAL: {0} PICAT" -f ($failReal + $failNucleu)) }
 
 # --- CONTROL NEGATIV, INDEPENDENT DE FORMULAREA REGEXURILOR ----------------
 # Se goleste PE RAND cate un document, la fiecare runda. Nu se injecta niciun
@@ -321,7 +381,7 @@ Write-Host ('  INJECTII CORECTE: {0}/{1}' -f $injOk, $SUITE.Count)
 
 Write-Host ''
 Write-Host ('=' * 68)
-if ($failReal -eq 0 -and $roundsOk -eq $rounds -and $rounds -ge 4 -and $injOk -eq $SUITE.Count) {
+if (($failReal + $failNucleu) -eq 0 -and $roundsOk -eq $rounds -and $rounds -ge 4 -and $injOk -eq $SUITE.Count -and $driftOk) {
     Write-Host '  VERDICT: consecvent, iar controlul are putere.'
     Write-Host ('=' * 68)
     exit 0

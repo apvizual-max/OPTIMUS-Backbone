@@ -1,5 +1,16 @@
 # PROMPT GIT AUTONOM — regula de lucru, zi de zi
 
+<!-- NUCLEU-GIT v1 -->
+RAMURA = main. Nu creezi ramuri.
+COMMIT = imediat la fiecare pas, inclusiv pe modificarile mele. Nu intrebi.
+PUSH = peste prag, doar cu acordul meu. -Force doar cand eu spun "faci push".
+LIVEREVIEW = doar DUPA push, pe ce a ajuns pe GitHub. Niciodata inainte, niciodata la comit.
+DOUA CAI = calea 1 cu LiveReview, calea 2 fara. Rate limit nu blocheaza push-ul.
+VERIFICARE = git ls-remote. Niciodata prin codul de iesire.
+PERETE = tabelul se repeta in fiecare raport pana la push.
+INTERFATA = nu se atinge.
+<!-- /NUCLEU-GIT -->
+
 Trimite-l în fiecare sesiune într-un proiect care are deja Git pus. Copiază blocul ca atare. Merge și fără GitHub Pages, merge într-un proiect nou sau într-unul vechi.
 
 Se folosește după `PROMPT git install.md`. Dacă proiectul n-are încă `.git`, întâi acela. Skillul pereche: `git-autonom`.

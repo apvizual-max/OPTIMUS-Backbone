@@ -1,4 +1,15 @@
 ---
+
+<!-- NUCLEU-GIT v1 -->
+RAMURA = main. Nu creezi ramuri.
+COMMIT = imediat la fiecare pas, inclusiv pe modificarile mele. Nu intrebi.
+PUSH = peste prag, doar cu acordul meu. -Force doar cand eu spun "faci push".
+LIVEREVIEW = doar DUPA push, pe ce a ajuns pe GitHub. Niciodata inainte, niciodata la comit.
+DOUA CAI = calea 1 cu LiveReview, calea 2 fara. Rate limit nu blocheaza push-ul.
+VERIFICARE = git ls-remote. Niciodata prin codul de iesire.
+PERETE = tabelul se repeta in fiecare raport pana la push.
+INTERFATA = nu se atinge.
+<!-- /NUCLEU-GIT -->
 name: mavis-git-install-skill
 description: "Punerea pe picioare a infrastructurii Git + GitHub într-un proiect nou, fără .git. Măsoară (git --version, gh --version, gh auth status, remote -v) și continuă fără să întrebi. git init pe ramura main, core.autocrlf false, core.eol native, core.filemode false — per repo, nu global. lrc hooks disable imediat după git init, ca poarta LiveReview să nu poată bloca primul comit. .gitignore prin NEGARE (/* interzice totul, deschizi explicit căile reale), verificat cu git check-ignore în AMBELE sensuri. Primul comit, gh repo create --private --push, primul push face parte din instalare. Verifici cu git ls-remote, niciodată prin ieșirea shell-ului. Fără ramuri: se lucrează pe main. Rulează o singură dată, înaintea lui mavis-git-autonom-skill; retrimis, face un al doilea repo pe același proiect."
 ---
@@ -195,6 +206,30 @@ doar după push, pe ce e pe GitHub, și niciodată înainte. Interfața aplicaț
 nu se atinge:** rezolvarea e comportament, nu buton.
 
 Taskul nu e gata cât timp `git status` arată ceva. Comit, apoi raportez.
+
+### Peretele de push — nu e opțional, se predă odată cu infrastructura
+
+`git-autonom` nu poate semnala ce nu are. I se predă aici, la ridicare:
+
+```
+scripts\push-status.ps1     → PERETELE PUSH: tabel mare cu ramura, SHA local,
+                             SHA server, comituri neîmpinse, prag, necomitate,
+                             lista neîmpinse + balon în tavă + stare pe disc
+```
+
+- **Cât timp `COMITURI NEIMPINSE > 0`, tabelul intră în raport** ca secțiune,
+  nu ca notă de subsol, și se repetă până când decidem push-ul.
+- Dacă balonul nu se arată, se spune că nu s-a arătat. Nu se pretinde ceva ce
+  nu s-a livrat.
+
+### Ce nu pot face cu push-ul
+
+- **`-Force` nu e o scurtătură, e traducerea cuvântului lui Popy.** Îl folosesc
+  numai când el spune explicit „faci push". Nu pentru a sări peste prag din
+  inițiativă mea, și nu ca să îmi fac treaba mai repede.
+- **Nu împing sub prag fără acord.** Sub prag, scriptul refuză și iese cu `3`.
+  Nu e o eroare — e o poartă, și e prima din sistem.
+- **Nu schimb ramura ca să evadez o poartă.** Se repară poarta, nu se ocolește.
 
 ## Ce raportezi la final
 

@@ -1,4 +1,15 @@
 ---
+
+<!-- NUCLEU-GIT v1 -->
+RAMURA = main. Nu creezi ramuri.
+COMMIT = imediat la fiecare pas, inclusiv pe modificarile mele. Nu intrebi.
+PUSH = peste prag, doar cu acordul meu. -Force doar cand eu spun "faci push".
+LIVEREVIEW = doar DUPA push, pe ce a ajuns pe GitHub. Niciodata inainte, niciodata la comit.
+DOUA CAI = calea 1 cu LiveReview, calea 2 fara. Rate limit nu blocheaza push-ul.
+VERIFICARE = git ls-remote. Niciodata prin codul de iesire.
+PERETE = tabelul se repeta in fiecare raport pana la push.
+INTERFATA = nu se atinge.
+<!-- /NUCLEU-GIT -->
 name: mavis-git-autonom-skill
 description: "Regula de lucru zilnică cu Git, într-un proiect care are deja .git. Lucrezi PE main, niciodată pe branch, fără să creezi ramuri. COMMIT imediat la fiecare succes măsurat, inclusiv pe modificările lui Popy, fără să ceri confirmare, fără poartă și fără LiveReview. PUSH doar cu acordul lui Popy și doar peste un prag de comituri, prin scripts\\git-autopush.ps1: push pur, LiveReview abia DUPĂ ce serverul e confirmat, două căi (cu review și fără), rate limit nu generează nicio eroare. Verifici cu git ls-remote, niciodată prin codul de ieșire. Semnezi prin scripts\\push-status.ps1, cu tabel mare și balon în tavă, repetat până la push. Nu atingi interfața. Nu ștergi nimic: muți în carantină cu motiv scris. Nu ceri decizii tehnice — le iei tu și continui. Se încarcă la prima treabă care atinge Git; instalarea de la zero e skillul mavis-git-install-skill."
 ---

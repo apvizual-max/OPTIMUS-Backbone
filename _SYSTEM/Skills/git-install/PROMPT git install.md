@@ -1,5 +1,16 @@
 # PROMPT GIT INSTALL — punerea pe picioare a infrastructurii
 
+<!-- NUCLEU-GIT v1 -->
+RAMURA = main. Nu creezi ramuri.
+COMMIT = imediat la fiecare pas, inclusiv pe modificarile mele. Nu intrebi.
+PUSH = peste prag, doar cu acordul meu. -Force doar cand eu spun "faci push".
+LIVEREVIEW = doar DUPA push, pe ce a ajuns pe GitHub. Niciodata inainte, niciodata la comit.
+DOUA CAI = calea 1 cu LiveReview, calea 2 fara. Rate limit nu blocheaza push-ul.
+VERIFICARE = git ls-remote. Niciodata prin codul de iesire.
+PERETE = tabelul se repeta in fiecare raport pana la push.
+INTERFATA = nu se atinge.
+<!-- /NUCLEU-GIT -->
+
 Trimite-l o singură dată, la începutul unei sesiuni noi, într-un proiect unde Git nu s-a atins niciodată. Copiază blocul ca atare.
 
 Se folosește înaintea lui `PROMPT git autonom.md`. Acesta ridică infrastructura; celălalt spune ce faci cu ea, în fiecare zi. Skillul pereche: `git-install`.
