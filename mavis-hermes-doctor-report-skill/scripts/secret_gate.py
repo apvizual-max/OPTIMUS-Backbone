@@ -1,4 +1,4 @@
-"""Secret gate for the Hermes Doctor repo.
+﻿"""Secret gate for the Hermes Doctor repo.
 
 Runs over exactly the files `git add -A` would stage — not a hypothetical tree.
 A whitelist can open a file whose CONTENT holds a token; the path check never
@@ -59,6 +59,28 @@ def is_placeholder(value: str) -> bool:
     if len(v) < 3:
         return True
     return any(rx.fullmatch(v) for rx in PLACEHOLDERS)
+
+
+# ---------------------------------------------------------------------------
+# DE CE TESTELE NU CONȚIN LITERALE
+# ---------------------------------------------------------------------------
+# Detectorul caută prin definiție tipare pe care un test care le verifică
+# trebuie să le aibă. Un test care le scrie literal ar urlă poarta pe
+# propriile fișiere — iar o poartă care urlă mereu e oprită, adică devine
+# decor. Așa s-a întâmplat: prima versiune se auto-flaga.
+#
+# SOLUȚIA: niciuna dintre fixturi nu e scrisă ca literal în sursă. Se
+# construiește la runtime prin concatenare ("ghp_" + "A"*36), deci tiparul
+# nu există niciodată în fișier.
+#
+# Explicit: NU se maschează nimic. O mască înlocuiește un literal exact
+# oriunde apare — deci o cheie privată adevărată, care începe cu același
+# header, ar fi ascunsă tocmai de ea. Suprimarea e mai periculoasă decât
+# alarma. Constrângerea e mai bună: cine nu scrie literal nu are ce fi
+# mascat, iar poarta rămâne roșie.
+#
+# Test de integritate: rulează `secret_gate.py` peste `test_secret_gate.py`.
+# Un singur hit înseamnă că cineva a scris un literal înapoi.
 
 
 def staged_files() -> list[Path]:

@@ -22,7 +22,14 @@ try:
 except Exception:
     pass
 
-GATE = Path(r"C:\Users\apviz\.minimax\agents\mavis\skills\mavis-hermes-doctor-report-skill\scripts\secret_gate.py")
+# The gate under test must be the one shipped NEXT TO THIS TEST.
+#
+# This path was absolute once, and it pointed at the SKILLS copy while the
+# autocommit actually runs the REPO copy. So the suite validated an object
+# nobody depended on: emptying the repo gate's PATTERNS still printed
+# "18 passed, 0 failed". A control that does not touch what it protects is
+# the failure mode this whole exercise exists to prevent.
+GATE = Path(__file__).resolve().parent / "secret_gate.py"
 spec = importlib.util.spec_from_file_location("gate", GATE)
 g = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(g)
@@ -46,11 +53,11 @@ hits = g.scan("Authorization: Bearer sk-or-v1-" + "c" * 64)
 check("bearer/openrouter caught", len(hits) > 0, f"got {[h[0] for h in hits]}")
 
 print("2. private key block MUST be caught")
-hits = g.scan("-----BEGIN RSA PRIVATE KEY-----\nMIIEow==\n-----END RSA PRIVATE KEY-----")
+hits = g.scan("-----BEGIN " + "RSA " + "PRIVATE KEY-----\nMIIEow==\n-----END RSA PRIVATE KEY-----")
 check("private key caught", any("private-key" in h[0] for h in hits), f"got {[h[0] for h in hits]}")
 
 print("3. assigned secret MUST be caught")
-hits = g.scan('password = "Tr0ub4dor&3xyz"')
+hits = g.scan('password' + ' = "Tr0ub4dor&3xyz"')
 check("assigned password caught", len(hits) > 0, f"got {[h[0] for h in hits]}")
 
 print("4. placeholders MUST NOT be flagged")
