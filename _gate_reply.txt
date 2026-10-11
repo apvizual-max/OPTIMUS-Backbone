@@ -1,0 +1,23 @@
+Auditul CRITICAL/MEDIUM e gata, cele trei MEDIUM sunt închise sau declarate, iar raportul e scris și comitat.
+
+**ZERO CRITICAL. Trei MEDIUM, toate tratate.**
+
+**M1 — numărul pe care ți-l raportam era fals.** `test_suite.py` era 504/2 eșuate, exit 1, nu 506/0/0. Cauza nu era cod: un singur artefact îmbătrânit, handshake-ul MCP, la 26 de ore peste o limită de 24. L-am re-măsurat, suita e acum 506/0/0 la 02:02:53. Verificatorul a găsit exact același lucru, pe alt drum.
+
+**M2 — `/api/action` putea fi acționat din orice pagină.** Un POST cross-origin cu `text/plain` executa o acțiune și răspundea 200. Fără preflight, browserul nu întreba niciodată. Am pus o poarta Origin înaintea stratului de acțiuni. Măsurat, șase probe diferind printr-o singură variabilă: străin și `null` → 403, propriu și absent → 400. Din interfața vie, `wf_state` și `skills_list` → 200 cu conținut real. Acoperit de test cu control discriminant.
+
+**M3 — o premisă de securitate falsă, scrisă de două ori.** Spuneam că hashtable-ul PowerShell e case-sensitive și că bucla explicită e obligatorie. Nu e. Am măsurat eu însuși: `.ContainsKey('FONTS/...')` → True. Probe-ul meu original dădea False din cauza slash-ului, o variabilă pe care nu am variat-o niciodată. Ambele texte false rămân în fișiere, marcate, nu șterse.
+
+**Rămâne un singur MEDIUM deschis:** `corpus_fresh` e STALE la 5,7 zile peste o limită de o oră. Nu l-am închis pentru că refacerea înseamnă o extracție nouă a corpusului tău de conversații — ăsta e materialul tău, nu churnui materialul tău ca să înverzesc un număr. E roșu pe tablou, nu e tăcut. Decizia e a ta.
+
+Stare măsurată acum: 56 verificări, 54 ok, 0 fail, 2 stale. Consolă 0 mesaje, 23/23 cereri 200, 13 tab-uri toate nevide. `test_suite.py` 506/0/0, `test_deployment.py` 47/0/1. Comitat `20712ef` și `fdaffb1`. Raportul anterior e arhivat.
+
+**Verdict: NU GATA pe un singur punct, GATA pe tot restul.** Nu pot spune „totul e gata" cât timp `corpus_fresh` e un gap real și decizia lui e a ta.
+
+Un lucru semnalez din secțiunea 5: o rotație a magaziei de `.bak` a împuns afară 6 fișiere când am rulat suitele. Le-am verificat, toate 6 sunt în istoricul git, deci nimic nu s-a pierdut. Sunt fișiere de 22 de octeți generate de teste, nu materialul tău, și rotația e design tău pe care nu am deformat-o. Dar e exact tipul de mecanism care a costat M-24…M-27.
+
+Aștept R0 pe două puncte: `corpus_fresh` — îl re-extract sau îl las în pace; și repo public sau privat, acum privat.
+
+<deliver-assets>
+<media type="file" src="C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\RAPORT DE STARE — SENTINEL PRIME DASHBOARD - 2026-10-11 02-18.md" caption="Raport de stare — SENTINEL PRIME DASHBOARD — 2026-10-11 02-18" />
+</deliver-assets>
