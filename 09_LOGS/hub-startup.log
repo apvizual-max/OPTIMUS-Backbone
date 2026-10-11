@@ -1049,3 +1049,20 @@ exit=0
   DEPLOYMENT UP   http://127.0.0.1:8910/
 
 exit=0 
+ 
+=== startup Sun 10/11/2026 13:28:56.00 === 
+
+  Starting SENTINEL deployment (backend + container)...
+
+  Already listening on 8912 - not starting a second.
+  http://127.0.0.1:8912/
+
+  backend          127.0.0.1:8912  SERVING
+  container        already running (idempotent)
+  container        mavis-sentinel-hub  running
+  front            127.0.0.1:8910  SERVING
+  readyz           backend answering behind the front
+
+  DEPLOYMENT UP   http://127.0.0.1:8910/
+
+exit=0 
