@@ -241,10 +241,15 @@ $real = @{}
 $raw  = @{}
 foreach ($d in $DOCS) {
     if (-not (Test-Path $d.P)) { Write-Host "EROARE: lipseste $($d.P)"; exit 2 }
-    $t = [System.IO.File]::ReadAllText($d.P, [Text.Encoding]::UTF8)
+    # BRUT prin ReadAllBytes, NU prin ReadAllText: ReadAllText elimina BOM-ul,
+    # deci un document cu BOM si unul fara dadeau acelasi sir - masurat 2026-10-11
+    # (verificator, runda 5): prefixarea cu EF BB BF trecea pe verde. GetString
+    # NU elimina BOM-ul, il decodeaza in U+FEFF, deci ramane in hash.
+    $bytes = [System.IO.File]::ReadAllBytes($d.P)
+    $t = [System.Text.Encoding]::UTF8.GetString($bytes)
     $real[$d.N] = Normalize $t
-    # BRUT, cu singura exceptie a conventiei de sfarsit de linie (CRLF vs LF).
-    # Aceea nu e diferenta de continut - ar da un ROSU fara inteles.
+    # singura uniformizare ramane conventia de sfarsit de linie (CRLF vs LF):
+    # aceea nu e diferenta de continut, ar da un ROSU fara inteles.
     $raw[$d.N] = ($t -replace "`r`n", "`n")
 }
 
@@ -272,9 +277,11 @@ Write-Host ''
 # care accepta orice diferenta de majuscula nu e "octet cu octet".
 function Get-Nucleu {
     param([string]$Text)
-    # (?i) OBLIGATORIU: textul a fost normalizat la minuscule inainte, iar
-    # [regex]::Match este case-SENSITIVE. Fara (?i), nucleul era raportat
-    # "lipsa" din toate patru desi era prezent - masurat 2026-10-11.
+    # (?i) NECESAR: comparatorul primeste si text NORMALIZAT (cel al invariantelor),
+    # unde textul e deja la minuscule, dar [regex]::Match e case-SENSITIVE. Fara
+    # (?i), nucleul era raportat "lipsa" din toate patru desi era prezent -
+    # masurat 2026-10-11. Pe text BRUT (?i) nu schimba nimic: hashul ramane
+    # strict, pentru ca regexul doar LOCALIZEAZA blocul, nu il modifica.
     $m = [regex]::Match($Text, '(?s)(?i)<!--\s*nucleu-git.*?<!--\s*/nucleu-git\s*-->')
     if (-not $m.Success) { return $null }
     return $m.Value
@@ -317,7 +324,9 @@ if ($distinct.Count -gt 1) {
         $rows += ('  [ROSU]   sha={0} -> {1}' -f $h.Substring(0, 16), (($byHash[$h] | Sort-Object) -join ', '))
     }
 } elseif ($distinct.Count -eq 1) {
-    $rows += ('  [VERDE] NUCLEU identic OCTET CU OCTET in toate 4 documente (o singura varianta)')
+    $rows += ('  [VERDE] BLOCUL NUCLEU e identic octet cu octet in toate 4 documente (o singura varianta)')
+    $rows += '  [INFO]   se compara BLOCUL, nu fisierul intreg: un BOM la inceput de'
+    $rows += '  [INFO]   fisier e in afara blocului, deci nu schimba nimic aici.'
 }
 $rows | ForEach-Object { Write-Host $_ }
 
@@ -336,7 +345,6 @@ $rows | ForEach-Object { Write-Host $_ }
 #       versiunea NUCLEU si de orice formulare a regulilor;
 #   (2) se verifica EXPLICIT ca documentul s-a schimbat; daca nu s-a schimbat,
 #       se raporteaza defect de control, nu se apeleaza comparatorul;
-#   (3) se verifica ca blocul e inca gasit - altfel comparatorul nu e testat.
 #   (3) se verifica ca blocul e inca gasit - altfel comparatorul nu e testat;
 #   (4) se testeaza DOI feluri de drift: de marcaj si de MAJUSCULA. Al doilea
 #       este exact cel care ESCAPA comparatorul vechi, pentru ca .ToLower()
@@ -358,6 +366,11 @@ $d2 = $drift[$driftTarget].Replace('RAMURA = main.', 'RAMURA = MAIN.')
 $a2 = ($d2 -cne $raw[$driftTarget])
 $n2 = Get-Nucleu -Text $d2
 $caseCaught = ($a2 -and $n2 -and ((Get-TextSha $n2) -ne $distinct[0]))
+# Daca ancora 'RAMURA = main.' nu mai exista, injectia nu are ce modifica. Atunci
+# (b) nu mai dovedeste nimic - dar motivul e DRIFT REAL, nu control defect.
+# Se spun lucrurile astea separat, ca sa nu se creada un "control fara putere"
+# pentru un document care e deja rupt.
+$bAncora = $drift[$driftTarget].Contains('RAMURA = main.')
 
 # (c) control de sensibilitate: dupa normalizare, "main" si "MAIN" devin
 #     ACELASI sir. Daca ar fi altfel - adica daca normalizarea ar distinge
@@ -376,8 +389,10 @@ if (-not $a1) {
 } else {
     Write-Host '  [ROSU] runda negativa NUCLEU (a): blocul s-a schimbat, hashul a ramas identic - comparatorul nu masoara'
 }
-if (-not $a2) {
-    Write-Host '  [ROSU] runda negativa NUCLEU: injectia (b) NU a modificat documentul - control fara putere'
+if (-not $bAncora) {
+    Write-Host '  [ROSU] runda negativa NUCLEU (b): ancora "RAMURA = main." nu mai exista - blocul a fost deja modificat'
+} elseif (-not $a2) {
+    Write-Host '  [ROSU] runda negativa NUCLEU (b): injectia NU a modificat documentul - control fara putere'
 } elseif ($caseCaught) {
     Write-Host '  runda negativa NUCLEU (b) drift de majuscula -> ROSU cum trebuie'
 } else {
