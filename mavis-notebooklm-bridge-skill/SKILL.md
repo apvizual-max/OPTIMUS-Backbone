@@ -109,7 +109,9 @@ numește propriile fișiere, ca să nu se suprascrie în repo-urile comune.
 - `Creafac` — **strict interzis**, brand corect: **Ducray**
 - email canonic unic: `apvizual@gmail.com`
 - Skin Media = Nikon / Aiper / Ninja · Smite = City Grill / Aderma Protect / Ducray
-- șablon obligatoriu: `proof of work provided on request`
+- șablon de dovedire: **`dovedire pe cerere`** / `dovezile video se furnizează la cerere`.
+  Ratificat de Popy 2026-10-12 ca echivalent contractual pentru deliverabilul RO.
+  `proof of work provided on request` este forma EN, **nu se mai cere în HTML-ul RO**.
 - sursa ATS exclusiv: `ALEX-KIT/TEMPLATES-POPY/` · `ALEX-KIT/SABLOANE/` = `DEPRECATED.md`
 
 ## 8. Starea reală — ce e probat și ce NU
