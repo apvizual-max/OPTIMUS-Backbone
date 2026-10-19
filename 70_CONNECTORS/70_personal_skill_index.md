@@ -1,6 +1,6 @@
 ﻿# Personal Skills Classifier â€” Index of 1,159 skills
 
-**Date**: 2026-10-12 04:01
+**Date**: 2026-10-19 04:03
 **Source**: `C:\Users\apviz\.minimax\skills\` (1,159 SKILL.md files)
 **Author**: Mavis (orchestrator) â€” auto-rebuilt weekly by cron
 **Status**: Auto-classified via keyword heuristics on SKILL.md `description:` frontmatter.
@@ -1333,7 +1333,7 @@
 
 ## Inferred purposes (SPECULATION) for the 243 skills with empty descriptions
 
-**Date**: 2026-10-12 04:01
+**Date**: 2026-10-19 04:03
 **Source**: Inferred from skill name only (no SKILL.md description available). All entries marked SPECULATION.
 **How to fix permanently**: Popy can open each skill SKILL.md and add a `description:` line - the next rebuild (cron weekly) will pick it up and remove the inference.
 
