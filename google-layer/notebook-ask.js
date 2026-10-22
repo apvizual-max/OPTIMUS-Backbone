@@ -23,37 +23,37 @@ if (!reqFile) {
   process.exit(2);
 }
 
-let req;
-try {
-  req = JSON.parse(fs.readFileSync(reqFile, "utf8"));
-} catch (e) {
-  console.log(JSON.stringify({ ok: false, error: "request file is unreadable: " + e.message }));
-  process.exit(2);
-}
-const notebook = String(req.notebook || "").trim();
-const question = String(req.question || "").trim();
-if (!notebook || !question) {
-  console.log(JSON.stringify({ ok: false, error: "both 'notebook' and 'question' are required" }));
-  process.exit(2);
-}
-
-const c = spawn(process.execPath, [SERVER], { stdio: ["pipe", "pipe", "pipe"] });
-const seen = [];
-readline.createInterface({ input: c.stdout }).on("line", (l) => { if (l.trim()) seen.push(l); });
-c.stderr.on("data", () => {});
-
-let id = 0;
-const call = (m, p, ms) => new Promise((res) => {
-  const my = ++id;
-  c.stdin.write(JSON.stringify({ jsonrpc: "2.0", id: my, method: m, params: p }) + "\n");
-  const t0 = Date.now();
-  const iv = setInterval(() => {
-    const h = seen.find((l) => { try { return JSON.parse(l).id === my; } catch { return false; } });
-    if (h || Date.now() - t0 > ms) { clearInterval(iv); res(h ? JSON.parse(h) : { error: "timeout" }); }
-  }, 200);
-});
-
 (async () => {
+  let req;
+  try {
+    req = JSON.parse(await fs.promises.readFile(reqFile, "utf8"));
+  } catch (e) {
+    console.log(JSON.stringify({ ok: false, error: "request file is unreadable: " + e.message }));
+    process.exit(2);
+  }
+  const notebook = String(req.notebook || "").trim();
+  const question = String(req.question || "").trim();
+  if (!notebook || !question) {
+    console.log(JSON.stringify({ ok: false, error: "both 'notebook' and 'question' are required" }));
+    process.exit(2);
+  }
+
+  const c = spawn(process.execPath, [SERVER], { stdio: ["pipe", "pipe", "pipe"] });
+  const seen = [];
+  readline.createInterface({ input: c.stdout }).on("line", (l) => { if (l.trim()) seen.push(l); });
+  c.stderr.on("data", () => {});
+
+  let id = 0;
+  const call = (m, p, ms) => new Promise((res) => {
+    const my = ++id;
+    c.stdin.write(JSON.stringify({ jsonrpc: "2.0", id: my, method: m, params: p }) + "\n");
+    const t0 = Date.now();
+    const iv = setInterval(() => {
+      const h = seen.find((l) => { try { return JSON.parse(l).id === my; } catch { return false; } });
+      if (h || Date.now() - t0 > ms) { clearInterval(iv); res(h ? JSON.parse(h) : { error: "timeout" }); }
+    }, 200);
+  });
+
   await call("initialize", { protocolVersion: "2024-11-05", capabilities: {}, clientInfo: { name: "ask", version: "1" } });
   c.stdin.write(JSON.stringify({ jsonrpc: "2.0", method: "notifications/initialized" }) + "\n");
 
