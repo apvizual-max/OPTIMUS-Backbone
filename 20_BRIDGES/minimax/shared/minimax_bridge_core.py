@@ -411,9 +411,23 @@ class BridgeCore:
     # ---------- server ----------
     def serve(self) -> None:
         core = self
+        expected_token = os.environ.get("BRIDGE_TOKEN")
 
         class Handler(BaseHTTPRequestHandler):
             protocol_version = "HTTP/1.1"
+
+            def _is_authorized(self, path: str) -> bool:
+                if path in ("/", "/health"):
+                    return True
+                if not expected_token:
+                    return False
+                auth_header = self.headers.get("Authorization", "")
+                if not auth_header:
+                    return False
+                import hmac
+                if hmac.compare_digest(auth_header, expected_token) or hmac.compare_digest(auth_header, f"Bearer {expected_token}"):
+                    return True
+                return False
 
             def _send(self, obj: dict[str, Any], code: int = 200) -> None:
                 body = json.dumps(obj, indent=2, default=str).encode()
@@ -425,6 +439,9 @@ class BridgeCore:
 
             def do_GET(self) -> None:  # noqa: N802
                 path = self.path.split("?")[0].rstrip("/") or "/"
+                if not self._is_authorized(path):
+                    self._send({"ok": False, "error": "Unauthorized"}, 401)
+                    return
                 try:
                     if path in ("/", "/health"):
                         self._send(core.health())
@@ -450,6 +467,9 @@ class BridgeCore:
 
             def do_POST(self) -> None:  # noqa: N802
                 path = self.path.split("?")[0].rstrip("/") or "/"
+                if not self._is_authorized(path):
+                    self._send({"ok": False, "error": "Unauthorized"}, 401)
+                    return
                 n = int(self.headers.get("Content-Length") or 0)
                 raw = self.rfile.read(n) if n else b"{}"
                 try:
