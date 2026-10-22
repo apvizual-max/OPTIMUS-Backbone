@@ -532,13 +532,21 @@ def check_health_endpoint(url: str, cid: str = "svc.health", title: str = "") ->
     return _c
 
 
-def check_cmd(cid: str, cmd: list[str], title: str, severity_if_nonzero: str = "warn",
-              timeout: int = 60) -> Check:
+@dataclass
+class CmdCheckConfig:
+    cid: str
+    cmd: list[str]
+    title: str
+    severity_if_nonzero: str = "warn"
+    timeout: int = 60
+
+
+def check_cmd(config: CmdCheckConfig) -> Check:
     def _c() -> Check:
-        rc, so, se = run(cmd, timeout=timeout)
+        rc, so, se = run(config.cmd, timeout=config.timeout)
         if rc == 0:
-            return Check(cid, "ok", title, so.strip()[:400])
-        return Check(cid, severity_if_nonzero, f"{title} -> rc={rc}",
+            return Check(config.cid, "ok", config.title, so.strip()[:400])
+        return Check(config.cid, config.severity_if_nonzero, f"{config.title} -> rc={rc}",
                      (se or so).strip()[:400], evidence={"rc": rc})
     return _c
 
