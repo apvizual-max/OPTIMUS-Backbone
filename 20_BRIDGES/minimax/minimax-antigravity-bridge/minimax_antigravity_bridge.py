@@ -83,102 +83,102 @@ class AntigravityBridge(BridgeCore):
 
     # ---------------- checks ----------------
     def _register(self) -> None:
-        def c_agy_present() -> Check:
-            p = Path(AGY_CLI)
-            if p.exists():
-                sz = p.stat().st_size
-                return Check("bin.agy", "ok", "agy CLI present", f"{p} ({sz} B)")
-            return Check("bin.agy", "fail", "agy CLI not found", AGY_CLI,
-                         remedy="Bind-mount AppData\\Local\\agy into the bridge.")
-        self.check(c_agy_present)
-
-        def c_version() -> Check:
-            """A Linux container cannot exec agy.exe. Report binary evidence instead."""
-            p = Path(AGY_CLI)
-            if not p.exists():
-                return Check("agy.version", "fail", "agy binary missing", str(p))
-            return Check("agy.version", "warn",
-                         "version probe is host-side (bridge cannot exec agy.exe)",
-                         f"{p.name} {p.stat().st_size} B",
-                         remedy="Run: & '" + _W_AGY_CLI + "' --version")
-
-        def c_ide() -> Check:
-            exe = AGY_IDE / "Antigravity IDE.exe"
-            if exe.exists():
-                return Check("agy.ide", "ok", "Antigravity IDE installed", str(exe))
-            return Check("agy.ide", "warn", "Antigravity IDE not found", str(exe))
-
-        def c_app() -> Check:
-            exe = AGY_APP / "Antigravity.exe"
-            if exe.exists():
-                return Check("agy.app", "ok", "Antigravity app installed", str(exe))
-            return Check("agy.app", "warn", "Antigravity app not found", str(exe))
-
-        def c_agents_list() -> Check:
-            """Cannot exec agy.exe in a Linux container; surface the host command."""
-            return Check("agy.agents", "warn",
-                         "agent list is host-side (bridge cannot exec agy.exe)",
-                         remedy="Run: & '" + _W_AGY_CLI + "' agent")
-
-        def c_memory_readable() -> Check:
-            """Antigravity keeps conversation/project state under AppData\\Roaming."""
-            if not AGY_ROAMING.exists():
-                return Check("agy.memory", "fail", "Antigravity roaming dir missing",
-                             str(AGY_ROAMING))
-            storage = AGY_ROAMING / "Local Storage"
-            size = 0
-            files = 0
-            if storage.exists():
-                for f in storage.rglob("*"):
-                    if f.is_file():
-                        files += 1
-                        try:
-                            size += f.stat().st_size
-                        except OSError:
-                            pass
-            return Check("agy.memory", "ok",
-                         f"Antigravity state readable ({files} files, {size} B)",
-                         str(AGY_ROAMING),
-                         evidence={"files": files, "bytes": size})
-
-        def c_past_work() -> Check:
-            app_storage = AGY_ROAMING / "app_storage.json"
-            if not app_storage.exists():
-                return Check("agy.past_work", "warn", "app_storage.json absent",
-                             str(app_storage))
-            try:
-                import json
-                data = json.loads(app_storage.read_text(encoding="utf-8", errors="replace"))
-            except Exception as e:  # noqa: BLE001
-                return Check("agy.past_work", "fail", "app_storage.json unreadable",
-                             f"{type(e).__name__}: {e}")
-            keys = list(data) if isinstance(data, dict) else []
-            convos = [k for k in keys if "convo" in k.lower() or "session" in k.lower()]
-            return Check("agy.past_work", "ok",
-                         f"{len(keys)} state keys, {len(convos)} conversation/session keys",
-                         evidence={"sample_keys": keys[:12]})
-
-        def c_terminal_container() -> Check:
-            ok, rows, err = list_containers(prefix="Antigravity_Ecosystem_Terminal")
-            if not ok:
-                return Check("agy.terminal_container", "warn",
-                             "docker not reachable in bridge", err,
-                             remedy="Check host-side: docker ps --filter name=Antigravity")
-            if not rows:
-                return Check("agy.terminal_container", "warn",
-                             "Antigravity_Ecosystem_Terminal not found")
-            r = rows[0]
-            return Check("agy.terminal_container",
-                         "ok" if r["status"] == "running" else "warn",
-                         f"Antigravity_Ecosystem_Terminal: {r['status']}", evidence=r)
-
-        for fn in (c_version, c_ide, c_app, c_agents_list, c_memory_readable,
-                   c_past_work, c_terminal_container):
+        for fn in (self._check_agy_present, self._check_version, self._check_ide,
+                   self._check_app, self._check_agents_list, self._check_memory_readable,
+                   self._check_past_work, self._check_terminal_container):
             self.check(fn)
         self.check(check_health_endpoint(AGY_TERMINAL, "agy.terminal_http",
                                          "Antigravity Ecosystem Terminal :9878"))
         self.check(check_path_exists("agy.local_bin", str(AGY_LOCAL / "bin"),
                                      "agy bin dir"))
+
+    def _check_agy_present(self) -> Check:
+        p = Path(AGY_CLI)
+        if p.exists():
+            sz = p.stat().st_size
+            return Check("bin.agy", "ok", "agy CLI present", f"{p} ({sz} B)")
+        return Check("bin.agy", "fail", "agy CLI not found", AGY_CLI,
+                     remedy="Bind-mount AppData\\Local\\agy into the bridge.")
+
+    def _check_version(self) -> Check:
+        """A Linux container cannot exec agy.exe. Report binary evidence instead."""
+        p = Path(AGY_CLI)
+        if not p.exists():
+            return Check("agy.version", "fail", "agy binary missing", str(p))
+        return Check("agy.version", "warn",
+                     "version probe is host-side (bridge cannot exec agy.exe)",
+                     f"{p.name} {p.stat().st_size} B",
+                     remedy="Run: & '" + _W_AGY_CLI + "' --version")
+
+    def _check_ide(self) -> Check:
+        exe = AGY_IDE / "Antigravity IDE.exe"
+        if exe.exists():
+            return Check("agy.ide", "ok", "Antigravity IDE installed", str(exe))
+        return Check("agy.ide", "warn", "Antigravity IDE not found", str(exe))
+
+    def _check_app(self) -> Check:
+        exe = AGY_APP / "Antigravity.exe"
+        if exe.exists():
+            return Check("agy.app", "ok", "Antigravity app installed", str(exe))
+        return Check("agy.app", "warn", "Antigravity app not found", str(exe))
+
+    def _check_agents_list(self) -> Check:
+        """Cannot exec agy.exe in a Linux container; surface the host command."""
+        return Check("agy.agents", "warn",
+                     "agent list is host-side (bridge cannot exec agy.exe)",
+                     remedy="Run: & '" + _W_AGY_CLI + "' agent")
+
+    def _check_memory_readable(self) -> Check:
+        """Antigravity keeps conversation/project state under AppData\\Roaming."""
+        if not AGY_ROAMING.exists():
+            return Check("agy.memory", "fail", "Antigravity roaming dir missing",
+                         str(AGY_ROAMING))
+        storage = AGY_ROAMING / "Local Storage"
+        size = 0
+        files = 0
+        if storage.exists():
+            for f in storage.rglob("*"):
+                if f.is_file():
+                    files += 1
+                    try:
+                        size += f.stat().st_size
+                    except OSError:
+                        pass
+        return Check("agy.memory", "ok",
+                     f"Antigravity state readable ({files} files, {size} B)",
+                     str(AGY_ROAMING),
+                     evidence={"files": files, "bytes": size})
+
+    def _check_past_work(self) -> Check:
+        app_storage = AGY_ROAMING / "app_storage.json"
+        if not app_storage.exists():
+            return Check("agy.past_work", "warn", "app_storage.json absent",
+                         str(app_storage))
+        try:
+            import json
+            data = json.loads(app_storage.read_text(encoding="utf-8", errors="replace"))
+        except Exception as e:  # noqa: BLE001
+            return Check("agy.past_work", "fail", "app_storage.json unreadable",
+                         f"{type(e).__name__}: {e}")
+        keys = list(data) if isinstance(data, dict) else []
+        convos = [k for k in keys if "convo" in k.lower() or "session" in k.lower()]
+        return Check("agy.past_work", "ok",
+                     f"{len(keys)} state keys, {len(convos)} conversation/session keys",
+                     evidence={"sample_keys": keys[:12]})
+
+    def _check_terminal_container(self) -> Check:
+        ok, rows, err = list_containers(prefix="Antigravity_Ecosystem_Terminal")
+        if not ok:
+            return Check("agy.terminal_container", "warn",
+                         "docker not reachable in bridge", err,
+                         remedy="Check host-side: docker ps --filter name=Antigravity")
+        if not rows:
+            return Check("agy.terminal_container", "warn",
+                         "Antigravity_Ecosystem_Terminal not found")
+        r = rows[0]
+        return Check("agy.terminal_container",
+                     "ok" if r["status"] == "running" else "warn",
+                     f"Antigravity_Ecosystem_Terminal: {r['status']}", evidence=r)
 
     # ---------------- healers ----------------
     def h_logs(self, _p: dict) -> Check:
