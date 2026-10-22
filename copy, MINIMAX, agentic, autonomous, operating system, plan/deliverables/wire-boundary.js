@@ -52,8 +52,8 @@ const sleepSync = (ms) => spawnSync(process.execPath, ['-e', 'setTimeout(()=>{},
 // boolean in memory is arbitrated by nothing; this is arbitrated by the kernel,
 // which is what "across processes" has to mean for the claim to be true.
 
-function readLock(lockPath) {
-  try { return JSON.parse(fs.readFileSync(lockPath, 'utf8')); }
+async function readLock(lockPath) {
+  try { return JSON.parse(await fs.promises.readFile(lockPath, 'utf8')); }
   catch (e) { return null; }
 }
 
@@ -65,7 +65,7 @@ function isStale(rec, nowMs, staleMs) {
   return (nowMs - rec.at) > (staleMs === undefined ? STALE_LOCK_MS : staleMs);
 }
 
-function acquire(lockPath, meta, nowMs, staleMs) {
+async function acquire(lockPath, meta, nowMs, staleMs) {
   // DEFECT 1, FIXED. The first version declared `isStale` and then never called
   // it — `acquire` only did openSync('wx') and so refused a lock abandoned by a
   // dead process forever. The check "stale-lock-takeover" FAILED on the first
@@ -73,7 +73,7 @@ function acquire(lockPath, meta, nowMs, staleMs) {
   const now = nowMs === undefined ? Date.now() : nowMs;
 
   if (fs.existsSync(lockPath)) {
-    const rec = readLock(lockPath);
+    const rec = await readLock(lockPath);
     if (!isStale(rec, now, staleMs)) {
       return { ok: false, reason: 'held', heldBy: rec };
     }
@@ -88,7 +88,7 @@ function acquire(lockPath, meta, nowMs, staleMs) {
     fd = fs.openSync(lockPath, 'wx');
   } catch (e) {
     if (e.code !== 'EEXIST') throw e;
-    return { ok: false, reason: 'held', heldBy: readLock(lockPath) };
+    return { ok: false, reason: 'held', heldBy: await readLock(lockPath) };
   }
   try {
     fs.writeSync(fd, JSON.stringify(Object.assign({
@@ -128,7 +128,9 @@ function verifyContent(payloadPath, expectedSha) {
 
 // ── the child: a separate OS process ────────────────────────────────────────
 
+(async function() {
 if (process.argv.indexOf('--child') >= 0) {
+
   const i = process.argv.indexOf('--child');
   const mode = process.argv[i + 1];
   const a1 = process.argv[i + 2];
@@ -138,7 +140,7 @@ if (process.argv.indexOf('--child') >= 0) {
     const lockPath = a1;
     const ms = Number(a2 || HOLD_MS);
     const ready = lockPath + '.ready';
-    const got = acquire(lockPath, { role: 'holder' });
+    const got = await acquire(lockPath, { role: 'holder' });
     fs.writeFileSync(ready, String(process.pid));   // signal AFTER we truly own it
     const t0 = Date.now();
     while (Date.now() - t0 < ms) { /* hold, so a second process can contend */ }
@@ -149,7 +151,7 @@ if (process.argv.indexOf('--child') >= 0) {
   }
 
   if (mode === 'try') {
-    const got = acquire(a1, { role: 'contender' });
+    const got = await acquire(a1, { role: 'contender' });
     if (got.ok) release(a1);
     process.stdout.write(JSON.stringify({
       role: 'contender', pid: process.pid, acquired: got.ok,
@@ -171,6 +173,7 @@ if (process.argv.indexOf('--child') >= 0) {
   process.stderr.write('unknown child mode\n');
   process.exit(1);
 }
+})();
 
 // ── the suite ────────────────────────────────────────────────────────────────
 
@@ -206,11 +209,11 @@ function runSuite() {
     holder.stdout.on('data', d => { holderOut += d.toString(); });
 
     let waited = 0;
-    const poll = setInterval(() => {
+    const poll = setInterval(async () => {
       // 1 — the holder is alive and provably owns the lock right now
       if (fs.existsSync(readyPath) && fs.existsSync(lockPath)) {
         clearInterval(poll);
-        const holderRec = readLock(lockPath);
+        const holderRec = await readLock(lockPath);
 
         const held = runChildSync(['--child', 'try', lockPath]);
         record('wire.boundary', 'holder-acquired-across-process',
@@ -224,8 +227,8 @@ function runSuite() {
             : 'no verdict from the contender');
 
         // let the holder finish and confirm it cleans up after itself
-        holder.on('exit', () => {
-          setTimeout(() => {
+        holder.on('exit', async () => {
+          setTimeout(async () => {
             const released = !fs.existsSync(lockPath);
 
             const after = runChildSync(['--child', 'try', lockPath]);
@@ -234,8 +237,8 @@ function runSuite() {
 
             // stale takeover — this is the check that caught the dead isStale()
             fs.writeFileSync(lockPath, JSON.stringify({ pid: 999999, role: 'holder', at: Date.now() - (STALE_LOCK_MS + 5000) }));
-            const stale = acquire(lockPath, { role: 'stale-taker', tookOver: true });
-            const staleRec = stale.ok ? readLock(lockPath) : null;
+            const stale = await acquire(lockPath, { role: 'stale-taker', tookOver: true });
+            const staleRec = stale.ok ? await readLock(lockPath) : null;
             record('wire.boundary', 'stale-lock-takeover',
               stale.ok && staleRec && staleRec.tookOver === true,
               stale.ok
@@ -244,14 +247,14 @@ function runSuite() {
             if (stale.ok) release(lockPath);
 
             fs.writeFileSync(lockPath, JSON.stringify({ pid: 999999, role: 'holder', at: Date.now() }));
-            const fresh = acquire(lockPath, { role: 'should-be-refused' });
+            const fresh = await acquire(lockPath, { role: 'should-be-refused' });
             record('wire.boundary', 'fresh-lock-not-stolen', fresh.ok === false,
               'a fresh lock is still refused even though a takeover rule exists — the takeover is bounded by age, it is not a back door');
             release(lockPath);
 
             // an unparseable lock must be treated as HELD, never as abandoned
             fs.writeFileSync(lockPath, 'not json at all');
-            const garbled = acquire(lockPath, { role: 'should-be-refused' });
+            const garbled = await acquire(lockPath, { role: 'should-be-refused' });
             record('wire.boundary', 'unreadable-lock-treated-as-held', garbled.ok === false,
               'a lock file that cannot be parsed is treated as HELD. Treating an unreadable lock as abandoned would hand it to two processes at once — precisely the failure this harness exists to prevent.');
             release(lockPath);
@@ -311,7 +314,7 @@ function runSuite() {
   });
 }
 
-if (require.main === module) {
+if (require.main === module && process.argv.indexOf('--child') === -1) {
   runSuite().then((out) => {
     process.stdout.write(JSON.stringify(out, null, 2) + '\n');
     process.exit(out.fail === 0 ? 0 : 1);
