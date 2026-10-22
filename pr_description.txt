@@ -1,0 +1,11 @@
+🎯 **What:** The testing gap addressed
+Tests have been added for the `qwen_doctor` function in `scripts/qwen_acp_mcp.py` to ensure it correctly diagnoses and handles all three operational layers it's meant to test (transport, session, and model provider).
+
+📊 **Coverage:** What scenarios are now tested
+1. **Happy Path (`test_qwen_doctor_all_ok`)**: Simulates a successful connection, valid models provided, and successful prompt response. Checks that it accurately reports 'ok' for all components.
+2. **Model Provider Unreachable (`test_qwen_doctor_prompt_fails`)**: Simulates successful transport and session initialization but fails the prompt execution (as when Ollama is unreachable). Verifies it records the "session/prompt failed" finding properly.
+3. **Session Creation Failure (`test_qwen_doctor_start_fails`)**: Simulates transport/session init failure and verifies it captures error outputs from `stderr`.
+4. **Resource Management (`test_qwen_doctor_closes_session`)**: Verifies that the `.close()` method is always called regardless of execution success or failure.
+
+✨ **Result:** The improvement in test coverage
+The critical diagnostic logic for Qwen is now fully covered under unit tests, preventing regressions where failure modes or error formatting in `qwen_doctor` could be inadvertently broken. The tests gracefully mock out missing MCP dependencies for local CI-like execution.
