@@ -39,9 +39,9 @@ function key(service, name) {
   return `${service}/${name}`;
 }
 
-function readAll() {
+async function readAll() {
   try {
-    return JSON.parse(fs.readFileSync(STORE, "utf8"));
+    return JSON.parse(await fs.promises.readFile(STORE, "utf8"));
   } catch {
     return {};
   }
@@ -56,19 +56,20 @@ function install() {
       // the return value directly as `new OAuth2(clientId, clientSecret)`.
       // Returning { value } here would be truthy-but-wrong and would surface as
       // a confusing auth failure rather than a missing credential.
-      const v = readAll()[key(service, name)];
+      const all = await readAll();
+      const v = all[key(service, name)];
       return v === undefined ? null : v;
     },
     async set({ service, name, value }) {
-      const all = readAll();
+      const all = await readAll();
       all[key(service, name)] = value;
-      fs.mkdirSync(path.dirname(STORE), { recursive: true });
-      fs.writeFileSync(STORE, JSON.stringify(all, null, 2), "utf8");
+      await fs.promises.mkdir(path.dirname(STORE), { recursive: true });
+      await fs.promises.writeFile(STORE, JSON.stringify(all, null, 2), "utf8");
     },
     async delete({ service, name }) {
-      const all = readAll();
+      const all = await readAll();
       delete all[key(service, name)];
-      fs.writeFileSync(STORE, JSON.stringify(all, null, 2), "utf8");
+      await fs.promises.writeFile(STORE, JSON.stringify(all, null, 2), "utf8");
     },
   };
 
