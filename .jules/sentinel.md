@@ -1,0 +1,4 @@
+## 2026-10-23 - Prevent SSRF via urllib.request.urlopen in check_health_endpoint
+**Vulnerability:** A Server-Side Request Forgery (SSRF) and local file read vulnerability was found in the `check_health_endpoint` function of `20_BRIDGES/minimax/shared/minimax_bridge_core.py`. The function accepted arbitrary URLs and passed them directly to `urllib.request.urlopen`.
+**Learning:** `urllib.request.urlopen` supports several schemes beyond just HTTP, including the `file://` scheme. An attacker could potentially supply a `file://` URL (e.g., `file:///etc/passwd`) as a "health endpoint" parameter to read arbitrary files from the server's filesystem, or exploit other internal schemes.
+**Prevention:** Always parse and validate the URL scheme using `urllib.parse.urlparse` prior to making requests. Specifically restrict the allowed schemes to `http` and `https`.
