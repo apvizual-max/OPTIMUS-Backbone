@@ -140,7 +140,14 @@ class Check:
     evidence: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+        return {
+            "id": self.id,
+            "severity": self.severity,
+            "title": self.title,
+            "detail": self.detail,
+            "remedy": self.remedy,
+            "evidence": self.evidence,
+        }
 
 
 @dataclass
@@ -157,15 +164,35 @@ class DoctorReport:
         return max((c.severity for c in self.checks), key=lambda s: order.get(s, 0), default="ok")
 
     def to_dict(self) -> dict[str, Any]:
+        ok = warn = fail = 0
+        worst_val = 0
+        worst = "ok"
+        order = {"ok": 0, "warn": 1, "fail": 2}
+        checks_out = []
+
+        for c in self.checks:
+            checks_out.append(c.to_dict())
+            if c.severity == "ok":
+                ok += 1
+            elif c.severity == "warn":
+                warn += 1
+            elif c.severity == "fail":
+                fail += 1
+
+            val = order.get(c.severity, 0)
+            if val > worst_val:
+                worst = c.severity
+                worst_val = val
+
         return {
             "bridge": self.bridge,
             "target": self.target,
             "ts": self.ts,
-            "health": self.worst,
-            "ok_count": sum(1 for c in self.checks if c.severity == "ok"),
-            "warn_count": sum(1 for c in self.checks if c.severity == "warn"),
-            "fail_count": sum(1 for c in self.checks if c.severity == "fail"),
-            "checks": [c.to_dict() for c in self.checks],
+            "health": worst,
+            "ok_count": ok,
+            "warn_count": warn,
+            "fail_count": fail,
+            "checks": checks_out,
             "meta": self.meta,
         }
 
