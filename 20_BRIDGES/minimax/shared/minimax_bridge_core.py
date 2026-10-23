@@ -500,7 +500,12 @@ def check_health_endpoint(url: str, cid: str = "svc.health", title: str = "") ->
         import re as _re
         import urllib.error
         import urllib.request
+        import urllib.parse
         try:
+            parsed_url = urllib.parse.urlparse(url)
+            if parsed_url.scheme not in ("http", "https"):
+                return Check(cid, "fail", title or f"{url} rejected", "Invalid URL scheme")
+
             with urllib.request.urlopen(url, timeout=5) as r:
                 ctype = (r.headers.get("Content-Type") or "").split(";")[0].strip()
                 raw = r.read(2000)
