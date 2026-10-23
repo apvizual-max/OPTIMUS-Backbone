@@ -788,7 +788,7 @@ table.ftab tr:hover td{background:rgba(127,127,127,.07)}
 <main><div id="view" role="tabpanel" tabindex="-1"></div></main>
 
 <div class="pal" id="pal"><div class="palbox">
-  <input class="palin" id="palIn" placeholder="Jump to a tab, run an action, or ask the analyst…" autocomplete="off">
+  <input class="palin" id="palIn" aria-label="Command palette input" placeholder="Jump to a tab, run an action, or ask the analyst…" autocomplete="off">
   <div class="pallist" id="palList"></div>
   <div class="palfoot"><span>&uarr;&darr; navigate</span><span>&crarr; select</span><span>esc close</span></div>
 </div></div>
@@ -1342,10 +1342,10 @@ function viewOverview(){
       +(nb.authenticated
         ? '<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line)">'
           +'<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">'
-          +'<select id="nbPick" style="flex:0 0 200px">'
+          +'<select id="nbPick" style="flex:0 0 200px" aria-label="Select notebook">'
           +arr(nb.notebooks).map(n=>'<option value="'+esc(n.name)+'">'+esc(n.name)+'</option>').join('')
           +'</select>'
-          +'<input id="nbQ" placeholder="Ask this notebook something..." style="flex:1;min-width:220px">'
+          +'<input id="nbQ" aria-label="NotebookLM query input" placeholder="Ask this notebook something..." style="flex:1;min-width:220px">'
           +'<button class="pillbtn" id="nbAsk">'+tic('bolt')+'Ask</button>'
           +'</div>'
           +'<div id="nbOut" style="margin-top:10px;font-size:13px">'+(NBANSWER?NBANSWER.html:'')+'</div>'
@@ -1423,7 +1423,7 @@ function viewAI(){
    /* No second paragraph here. The hero already explains what this is, and a
       near-verbatim repeat underneath it reads as filler - the eye has already
       read the sentence. The space earns better use as the answer surface. */
-   +'<textarea class="aiq" id="aiQ" placeholder="e.g. Which single thing should I fix first?"></textarea>'
+   +'<textarea class="aiq" id="aiQ" aria-label="AI query input" placeholder="e.g. Which single thing should I fix first?"></textarea>'
    +'<div class="aibr" style="margin-top:11px">'
    +'<button class="pillbtn ghost" id="aiClear">Clear</button>'
    +'<button class="pillbtn" id="aiGo">'+svg('sparkle')+'Ask</button>'

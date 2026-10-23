@@ -788,7 +788,7 @@ table.ftab tr:hover td{background:rgba(127,127,127,.07)}
 <main><div id="view" role="tabpanel" tabindex="-1"></div></main>
 
 <div class="pal" id="pal"><div class="palbox">
-  <input class="palin" id="palIn" placeholder="Jump to a tab, run an action, or ask the analyst…" autocomplete="off">
+  <input class="palin" id="palIn" aria-label="Command palette input" placeholder="Jump to a tab, run an action, or ask the analyst…" autocomplete="off">
   <div class="pallist" id="palList"></div>
   <div class="palfoot"><span>&uarr;&darr; navigate</span><span>&crarr; select</span><span>esc close</span></div>
 </div></div>
@@ -1393,7 +1393,7 @@ function viewAI(){
    /* No second paragraph here. The hero already explains what this is, and a
       near-verbatim repeat underneath it reads as filler - the eye has already
       read the sentence. The space earns better use as the answer surface. */
-   +'<textarea class="aiq" id="aiQ" placeholder="e.g. Which single thing should I fix first?"></textarea>'
+   +'<textarea class="aiq" id="aiQ" aria-label="AI query input" placeholder="e.g. Which single thing should I fix first?"></textarea>'
    +'<div class="aibr" style="margin-top:11px">'
    +'<button class="pillbtn ghost" id="aiClear">Clear</button>'
    +'<button class="pillbtn" id="aiGo">'+svg('sparkle')+'Ask</button>'
