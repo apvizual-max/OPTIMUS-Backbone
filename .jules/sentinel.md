@@ -1,0 +1,4 @@
+## 2023-10-24 - Path Traversal in Zone Checking
+**Vulnerability:** The `SelfModifyEngine.can_modify` boundary check used string replacement and `.startswith()` (e.g., `path_normalized.startswith(zone_normalized)`) to verify if a path was within allowed zones.
+**Learning:** Using simple string operations on paths is brittle and allows for bypasses using directory traversal components (like `..`) or case sensitivity issues, enabling an attacker to potentially modify forbidden files outside the workspace root if the inputs were not strictly sanitized.
+**Prevention:** Always use robust path parsing libraries like `pathlib.Path`. Call `resolve()` to compute the absolute path (eliminating `..` and symlinks), and use `is_relative_to(zone_path)` to ensure the path is strictly within the allowed base directory. Ensure cross-platform compatibility by handling trailing separators properly.

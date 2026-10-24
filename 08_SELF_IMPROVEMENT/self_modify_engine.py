@@ -57,29 +57,31 @@ class SelfModifyEngine:
     def can_modify(self, path: Path) -> bool:
         """Check if path is in allowed zone"""
         try:
-            path_str = str(path.resolve()).replace('/', '\\')
+            # Resolve the path to its absolute form, removing any '..' or symlinks
+            resolved_path = path.resolve()
         except Exception:
-            path_str = str(path).replace('/', '\\')
+            # If path cannot be resolved (e.g., invalid characters), deny modification
+            return False
 
-        # Ensure path ends without trailing separator for startswith check
-        path_normalized = path_str.rstrip('\\')
-
-        # Check forbidden zones first (with boundary verification)
+        # Check forbidden zones first
         for zone in FORBIDDEN_ZONES:
-            zone_normalized = zone.rstrip('\\')
-            # Verify boundary: must be exact match or followed by \
-            if path_normalized == zone_normalized:
-                return False
-            if path_normalized.startswith(zone_normalized + '\\'):
-                return False
+            try:
+                clean_zone = zone.rstrip('\\')
+                zone_path = Path(clean_zone).resolve()
+                if resolved_path == zone_path or resolved_path.is_relative_to(zone_path):
+                    return False
+            except Exception:
+                continue
 
-        # Check allowed zones (with boundary verification)
+        # Check allowed zones
         for zone in ALLOWED_ZONES:
-            zone_normalized = zone.rstrip('\\')
-            if path_normalized == zone_normalized:
-                return True
-            if path_normalized.startswith(zone_normalized + '\\'):
-                return True
+            try:
+                clean_zone = zone.rstrip('\\')
+                zone_path = Path(clean_zone).resolve()
+                if resolved_path == zone_path or resolved_path.is_relative_to(zone_path):
+                    return True
+            except Exception:
+                continue
 
         return False
 
