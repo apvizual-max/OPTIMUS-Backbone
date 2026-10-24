@@ -28,9 +28,9 @@ BACKUP = RUN_JSON.with_suffix('.json.bak_probe')
 
 
 def collect():
-    subprocess.run(['powershell', '-NoProfile', '-ExecutionPolicy', 'Bypass',
+    return subprocess.run(['powershell', '-NoProfile', '-ExecutionPolicy', 'Bypass',
                     '-File', str(COLLECT)],
-                   capture_output=True, text=True, timeout=300)
+                   capture_output=True, text=True, timeout=300, check=True)
 
 
 def read_tests_panel():
