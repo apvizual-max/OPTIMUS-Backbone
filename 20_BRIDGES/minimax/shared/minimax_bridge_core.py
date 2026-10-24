@@ -379,14 +379,19 @@ class BridgeCore:
             return {"ok": False, "error": "bridge declares no target CLI"}
 
         argv = self.delegate_spec.get("argv", ["{cli}", "-p", "{prompt}"])
-        cmd = [
-            a.replace("{cli}", self.TARGET_CLI)
-             .replace("{prompt}", str(prompt))
-             .replace("{project}", str(payload.get("project", "")))
-             .replace("{model}", str(payload.get("model", "")))
-            for a in argv
-        ]
-        cmd = [c for c in cmd if c != ""]
+
+        mapping = {
+            "{cli}": self.TARGET_CLI,
+            "{prompt}": str(prompt),
+            "{project}": str(payload.get("project", "")),
+            "{model}": str(payload.get("model", ""))
+        }
+
+        cmd = []
+        for a in argv:
+            val = re.sub(r"\{(cli|prompt|project|model)\}", lambda m: mapping[m.group(0)], a)
+            if val != "":
+                cmd.append(val)
         timeout = int(payload.get("timeout", payload.get("timeout_s", 300)))
 
         if not in_container():
@@ -404,7 +409,7 @@ class BridgeCore:
             "bridge": self.BRIDGE_NAME,
             "target": self.TARGET,
             "command": cmd,
-            "powershell": " & '" + "', '".join(cmd) + "'",
+            "powershell": " & '" + "', '".join(c.replace("'", "''") for c in cmd) + "'",
             "timeout_s": timeout,
             "note": (
                 "Run this on the Windows host. The bridge container cannot exec "
