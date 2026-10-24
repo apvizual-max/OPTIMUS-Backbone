@@ -166,22 +166,29 @@ class DoctorReport:
 
     def to_dict(self) -> dict[str, Any]:
         # ⚡ Bolt: consolidate loops to avoid multiple iterations over checks list
+        worst_idx = 0 # 0="ok", 1="warn", 2="fail"
         ok_count = warn_count = fail_count = 0
         checks_list = []
         for c in self.checks:
-            if c.severity == "ok":
-                ok_count += 1
-            elif c.severity == "warn":
-                warn_count += 1
-            elif c.severity == "fail":
+            s = c.severity
+            if s == "fail":
                 fail_count += 1
+                worst_idx = 2
+            elif s == "warn":
+                warn_count += 1
+                if worst_idx == 0:
+                    worst_idx = 1
+            elif s == "ok":
+                ok_count += 1
             checks_list.append(c.to_dict())
+
+        worst_health = ("ok", "warn", "fail")[worst_idx]
 
         return {
             "bridge": self.bridge,
             "target": self.target,
             "ts": self.ts,
-            "health": self.worst,
+            "health": worst_health,
             "ok_count": ok_count,
             "warn_count": warn_count,
             "fail_count": fail_count,
