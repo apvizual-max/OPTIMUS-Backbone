@@ -1807,188 +1807,175 @@ def test_telemetry_feed_is_bounded() -> None:
           f"inventory problems: {problems}")
 
 
-def test_inventory_registry_discriminates() -> None:
-    """The inventory registry must be able to FAIL, and must fail selectively.
-
-    Registering `tests.classes` to stop the suite reporting a permanent red is
-    the exact shape of a waiver, so this proves three things that have to hold
-    together or the registry is worthless:
-
-    1. A registered inventory over the bound is exempt - otherwise the check is
-       useless and the fix was cosmetic.
-    2. A DIFFERENT list with the SAME leaf name is NOT exempt. This is the case
-       that matters: a leaf-name registry would pass this silently, and would
-       then waive `rows.classes` forever.
-    3. A registered inventory whose declared total disagrees with what it ships,
-       or with the suite that produced it, is a problem - so the exemption costs
-       the payload something real.
-
-    It calls `_inventory_problems` itself, the same function the live check
-    calls. A self-test that re-implements the rule proves the copy.
-    """
+def test_inventory_registry_exempts_correctly() -> None:
     n = FEED_LIMIT + 1
-
-    # -- 1. the exemption works -----------------------------------------
     good = {"tests": {"classes": [{"name": f"C{i}"} for i in range(n)],
                       "total_classes": n}}
     r1 = _inventory_problems(good, registered=n, route="/api/state")
-    if r1:
-        check("inventory_registry_discriminates", False, "",
-              f"a correctly-declared {n}-entry tests.classes was reported as a "
-              f"problem: {r1} - the registry exempts the wrong thing or nothing")
-        return
+    check("inventory_registry_exempts_correctly", not r1,
+          f"exemption works: {n}-entry tests.classes is clean",
+          f"a correctly-declared {n}-entry tests.classes was reported as a "
+          f"problem: {r1} - the registry exempts the wrong thing or nothing")
 
-    # -- 2. the SAME LEAF NAME elsewhere is still caught ----------------
-    # A leaf-name registry returns {} here. This assertion is the whole test.
+
+def test_inventory_registry_catches_same_leaf_name() -> None:
+    n = FEED_LIMIT + 1
     impostor = {"rows": [{"classes": [1] * n}]}
     r2 = _inventory_problems(impostor, registered=1, route="/api/state")
-    caught2 = "unregistered" in r2 and any("rows[0].classes" in m for m in r2["unregistered"])
-    if not caught2:
-        check("inventory_registry_discriminates", False, "",
-              f"a {n}-entry rows[0].classes was NOT reported - the registry matches "
-              f"on the leaf name, so any list called 'classes' is waved through at "
-              f"any depth; it returned {r2}")
-        return
+    caught = "unregistered" in r2 and any("rows[0].classes" in m for m in r2["unregistered"])
+    check("inventory_registry_catches_same_leaf_name", caught,
+          f"same leaf name is caught: rows[0].classes is flagged",
+          f"a {n}-entry rows[0].classes was NOT reported - the registry matches "
+          f"on the leaf name, so any list called 'classes' is waved through at "
+          f"any depth; it returned {r2}")
 
-    # -- 3. a declared total that lies is caught ------------------------
+
+def test_inventory_registry_catches_lying_total() -> None:
+    n = FEED_LIMIT + 1
     liar = {"tests": {"classes": [{"name": f"C{i}"} for i in range(n)],
                       "total_classes": n + 5}}
     r3 = _inventory_problems(liar, registered=n, route="/api/state")
-    caught3 = "declared_total" in r3
+    caught = "declared_total" in r3
+    check("inventory_registry_catches_lying_total", caught,
+          "declared total that lies is caught",
+          f"declared total {n+5} for list of length {n} was not caught")
 
-    # -- 3b. a declared total with no list behind it is caught -----------
-    # The first version skipped the pair whenever the list was missing, which is
-    # the same hole from the other side: a payload could declare a total and
-    # ship nothing. There is no live route in that state today, so nothing would
-    # have caught it.
+
+def test_inventory_registry_catches_headless_total() -> None:
+    n = FEED_LIMIT + 1
     headless = {"tests": {"total_classes": n}}
     r3b = _inventory_problems(headless, registered=n, route="/api/state")
-    caught3b = "declared_total" in r3b and any(
-        "ships no" in m for m in r3b["declared_total"])
+    caught = "declared_total" in r3b and any("ships no" in m for m in r3b["declared_total"])
+    check("inventory_registry_catches_headless_total", caught,
+          "headless total is caught",
+          f"headless total not caught: {r3b}")
 
-    # -- 3c. an exemption with no declared total is a waiver, and is caught
-    # This is the registry auditing itself: exempt `surfaces` on /api/state,
-    # where no pair declares a total for it.
+
+def test_inventory_registry_catches_unbacked_exemption() -> None:
+    n = FEED_LIMIT + 1
     unbacked = {"surfaces": [{"id": f"s{i}"} for i in range(n)]}
     r3c = _inventory_problems(unbacked, registered=1, route="/api/state")
-    caught3c = "unbacked_exemption" in r3c
+    caught = "unbacked_exemption" in r3c
+    check("inventory_registry_catches_unbacked_exemption", caught,
+          "unbacked exemption is caught",
+          f"unbacked exemption not caught: {r3c}")
 
-    # -- 3d. a pair that names a key the producer NEVER writes ------------
-    # This is the defect the verifier found in the first version of this fix.
-    # The registry declared `("health.total_checks", "health_checks")`, but
-    # collect-sentinel.ps1 ships the total FLAT as `health_total_checks`. `_dig`
-    # on a nested path returned None, the loop skipped, and the exemption was
-    # inert - so this payload, declaring 99 and shipping 30, reported clean.
+
+def test_inventory_registry_catches_inert_pair() -> None:
+    n = FEED_LIMIT + 1
     inert = {"health_total_checks": 99, "health_checks": [1] * 30,
              "tests": {"classes": [1] * n, "total_classes": n}}
     r3d = _inventory_problems(inert, registered=n, route="/api/state")
-    caught3d = ("declared_total" in r3d and any(
-        "health_total_checks=99 but ships 30" in m for m in r3d["declared_total"]))
+    caught = "declared_total" in r3d and any("health_total_checks=99 but ships 30" in m for m in r3d["declared_total"])
+    check("inventory_registry_catches_inert_pair", caught,
+          "inert pair is caught",
+          f"inert pair not caught: {r3d}")
 
-    # -- 3e. an exempt list with NO declared total at all ----------------
-    # The pair exists but the payload simply omits the total. The first
-    # version skipped this silently, so dropping the field turned green.
+
+def test_inventory_registry_catches_exempt_list_with_no_total() -> None:
+    n = FEED_LIMIT + 1
     untotaled = {"health_checks": [1] * 30,
                  "tests": {"classes": [1] * n, "total_classes": n}}
     r3e = _inventory_problems(untotaled, registered=n, route="/api/state")
-    caught3e = "unbacked_exemption" in r3e and any(
-        "health_checks" in m and "no health_total_checks" in m
-        for m in r3e["unbacked_exemption"])
+    caught = "unbacked_exemption" in r3e and any("health_checks" in m and "no health_total_checks" in m for m in r3e["unbacked_exemption"])
+    check("inventory_registry_catches_exempt_list_with_no_total", caught,
+          "exempt list with no total is caught",
+          f"exempt list with no total not caught: {r3e}")
 
-    # -- 3f. a flat key that merely LOOKS like the nested inventory -----
-    # The registry is keyed on a path. A literal top-level "tests.classes"
-    # must not be accepted as the nested inventory.
+
+def test_inventory_registry_catches_flat_key_impostor() -> None:
+    n = FEED_LIMIT + 1
     impostor_path = {"tests.classes": [1] * n}
     r3f = _inventory_problems(impostor_path, registered=n, route="/api/state")
-    caught3f = "unregistered" in r3f and any(
-        "does not resolve to a list" in m for m in r3f["unregistered"])
+    caught = "unregistered" in r3f and any("does not resolve to a list" in m for m in r3f["unregistered"])
+    check("inventory_registry_catches_flat_key_impostor", caught,
+          "flat key impostor is caught",
+          f"flat key impostor not caught: {r3f}")
 
-    # -- 3g. the real flat payload IS accepted (control for 3d/3e) ------
+
+def test_inventory_registry_accepts_real_flat_payload() -> None:
+    n = FEED_LIMIT + 1
     real_flat = {"health_total_checks": 30, "health_checks": [1] * 30,
                  "tests": {"classes": [1] * n, "total_classes": n}}
     r3g = _inventory_problems(real_flat, registered=n, route="/api/state")
-    caught3g = not r3g
+    check("inventory_registry_accepts_real_flat_payload", not r3g,
+          "real flat payload is accepted",
+          f"real flat payload was flagged: {r3g}")
 
-    # -- 3h. a FEED NESTED INSIDE a registered inventory ----------------
-    # Round 2, N1 (HIGH). `_trail_key` strips indices, so `surfaces[0]`
-    # normalises to `surfaces`, which IS registered - so a 30-entry feed nested
-    # inside the exempt `surfaces` list inherited the parent's exemption, and the
-    # declared total matched the OUTER list, contradicting nothing. Reported as
-    # unregistered.
+
+def test_inventory_registry_catches_nested_feed() -> None:
     nested_feed = {"surfaces": [[0] * 30], "counts": {"total": 1}}
     r3h = _inventory_problems(nested_feed, registered=1, route="/api/minimax")
-    caught3h = "unregistered" in r3h and any(
-        "inherits no exemption" in m for m in r3h["unregistered"])
+    caught = "unregistered" in r3h and any("inherits no exemption" in m for m in r3h["unregistered"])
+    check("inventory_registry_catches_nested_feed", caught,
+          "nested feed is caught",
+          f"nested feed not caught: {r3h}")
 
     # control: a flat surfaces list of the declared length is still fine
     flat_ok = {"surfaces": [{"id": i} for i in range(30)], "counts": {"total": 30}}
-    caught3h_ok = not _inventory_problems(flat_ok, registered=1, route="/api/minimax")
+    caught_ok = not _inventory_problems(flat_ok, registered=1, route="/api/minimax")
+    check("inventory_registry_accepts_flat_surfaces_list", caught_ok,
+          "flat surfaces list is accepted",
+          "flat surfaces list was flagged")
 
-    # -- 3i. a flat impostor SHADOWED by a real nested inventory --------
-    # Round 2, N2. Both produce the trail `tests.classes`, so the flat key's
-    # count cannot be told from the nested one's; resolving the path proves a
-    # list exists but not WHICH list was counted.
+
+def test_inventory_registry_catches_shadowed_impostor() -> None:
+    n = FEED_LIMIT + 1
     shadowed = {"tests.classes": [0] * 40,
                 "tests": {"classes": [0] * n, "total_classes": n}}
     r3i = _inventory_problems(shadowed, registered=n, route="/api/state")
-    caught3i = "unregistered" in r3i and any(
-        "cannot be attributed" in m for m in r3i["unregistered"])
+    caught = "unregistered" in r3i and any("cannot be attributed" in m for m in r3i["unregistered"])
+    check("inventory_registry_catches_shadowed_impostor", caught,
+          "shadowed impostor is caught",
+          f"shadowed impostor not caught: {r3i}")
 
-    # -- 3j. a total that is not an integer count -----------------------
-    # Round 2, N3. `26.0 == 26` and `True == 1` are both True in Python, and
-    # `bool` subclasses `int`, so a float or a bool satisfied every comparison
-    # the contract makes - and the suite-source cross-check, guarded by
-    # `isinstance(x, int)`, was silently skipped for a float.
+
+def test_inventory_registry_catches_non_int_total() -> None:
+    n = FEED_LIMIT + 1
     as_float = {"tests": {"classes": [1] * n, "total_classes": float(n)}}
     r3j = _inventory_problems(as_float, registered=n, route="/api/state")
-    caught3j = ("declared_total" in r3j and "unverified" in r3j
-                and any("not an integer count" in m for m in r3j["declared_total"]))
+    caught = ("declared_total" in r3j and "unverified" in r3j
+              and any("not an integer count" in m for m in r3j["declared_total"]))
+    check("inventory_registry_catches_non_int_total", caught,
+          "non-int total is caught",
+          f"non-int total not caught: {r3j}")
 
     # control: a genuine int total still passes
-    caught3j_ok = not _inventory_problems(
+    caught_ok = not _inventory_problems(
         {"tests": {"classes": [1] * n, "total_classes": n}}, registered=n, route="/api/state")
+    check("inventory_registry_accepts_int_total", caught_ok,
+          "int total is accepted",
+          "int total was flagged")
 
-    # -- 4. a class count that contradicts the source is caught ---------
-    # registered=n+1 while the payload claims n: the payload is reporting a run
-    # of a suite that does not exist.
+
+def test_inventory_registry_catches_contradicting_class_count() -> None:
+    n = FEED_LIMIT + 1
+    good = {"tests": {"classes": [{"name": f"C{i}"} for i in range(n)],
+                      "total_classes": n}}
     r4 = _inventory_problems(good, registered=n + 1, route="/api/state")
-    caught4 = "unverified" in r4
+    caught = "unverified" in r4
+    check("inventory_registry_catches_contradicting_class_count", caught,
+          "contradicting class count is caught",
+          f"contradicting class count not caught: {r4}")
 
-    # -- 5. an unreadable source is UNVERIFIED, not agreement -----------
+
+def test_inventory_registry_reports_unverified_for_unreadable_source() -> None:
+    n = FEED_LIMIT + 1
+    good = {"tests": {"classes": [{"name": f"C{i}"} for i in range(n)],
+                      "total_classes": n}}
     r5 = _inventory_problems(good, registered=None, route="/api/state")
-    caught5 = "unverified" in r5
+    caught = "unverified" in r5
+    check("inventory_registry_reports_unverified_for_unreadable_source", caught,
+          "unreadable source is unverified",
+          f"unreadable source not caught: {r5}")
 
-    # -- 6. the source really is parseable and agrees with itself -------
+
+def test_inventory_registry_validates_parseable_source() -> None:
     src = _registered_suite_classes()
-    if not isinstance(src, int) or src <= 0:
-        check("inventory_registry_discriminates", False, "",
-              f"the suite registration list could not be parsed out of "
-              f"test_suite.py: {src!r}")
-        return
-
-    check("inventory_registry_discriminates",
-          caught3 and caught3b and caught3c and caught3d and caught3e
-          and caught3f and caught3g and caught3h and caught3h_ok and caught3i
-          and caught3j and caught3j_ok and caught4 and caught5,
-          f"the registry exempts tests.classes but still reports rows[0].classes "
-          f"under the same leaf name; a declared total that disagrees with the "
-          f"shipped list, a declared total with no list behind it, an exemption "
-          f"no declared total can contradict, a pair naming a key the producer "
-          f"never writes, an exempt list with no total at all, a flat key that "
-          f"only looks like the nested inventory, a feed nested INSIDE a "
-          f"registered inventory, a flat impostor shadowed by a real nested "
-          f"inventory, and a total that is not an integer count are each "
-          f"reported - while the real flat payload, a flat surfaces list of the "
-          f"declared length, and a genuine int total all still pass; a class "
-          f"count that contradicts the source and an unreadable source are each "
-          f"reported; test_suite.py registers {src} classes",
-          f"exemption works but the falsifiable halves do not: "
-          f"declared_total={caught3} headless_total={caught3b} "
-          f"unbacked={caught3c} inert_pair={caught3d} no_total={caught3e} "
-          f"flat_key={caught3f} real_flat_ok={caught3g} "
-          f"nested_feed={caught3h} nested_feed_ok={caught3h_ok} "
-          f"shadowed={caught3i} non_int_total={caught3j} int_total_ok={caught3j_ok} "
-          f"contradicts_source={caught4} unverified_source={caught5}")
+    ok = isinstance(src, int) and src > 0
+    check("inventory_registry_validates_parseable_source", ok,
+          f"parseable source validates: {src} classes",
+          f"the suite registration list could not be parsed out of test_suite.py: {src!r}")
 
 
 def test_dom_injection_is_guarded() -> None:
@@ -2202,7 +2189,21 @@ def main() -> int:
             ("static_route", "test_static_route_is_allowlisted_and_serves_intact_bytes"),
             ("action_origin_gate", "test_action_origin_gate_blocks_cross_origin"),
             ("telemetry_fifo", "test_telemetry_feed_is_bounded"),
-            ("inventory_registry", "test_inventory_registry_discriminates"),
+            ("inventory_registry_exempts_correctly", "test_inventory_registry_exempts_correctly"),
+            ("inventory_registry_catches_same_leaf_name", "test_inventory_registry_catches_same_leaf_name"),
+            ("inventory_registry_catches_lying_total", "test_inventory_registry_catches_lying_total"),
+            ("inventory_registry_catches_headless_total", "test_inventory_registry_catches_headless_total"),
+            ("inventory_registry_catches_unbacked_exemption", "test_inventory_registry_catches_unbacked_exemption"),
+            ("inventory_registry_catches_inert_pair", "test_inventory_registry_catches_inert_pair"),
+            ("inventory_registry_catches_exempt_list_with_no_total", "test_inventory_registry_catches_exempt_list_with_no_total"),
+            ("inventory_registry_catches_flat_key_impostor", "test_inventory_registry_catches_flat_key_impostor"),
+            ("inventory_registry_accepts_real_flat_payload", "test_inventory_registry_accepts_real_flat_payload"),
+            ("inventory_registry_catches_nested_feed", "test_inventory_registry_catches_nested_feed"),
+            ("inventory_registry_catches_shadowed_impostor", "test_inventory_registry_catches_shadowed_impostor"),
+            ("inventory_registry_catches_non_int_total", "test_inventory_registry_catches_non_int_total"),
+            ("inventory_registry_catches_contradicting_class_count", "test_inventory_registry_catches_contradicting_class_count"),
+            ("inventory_registry_reports_unverified_for_unreadable_source", "test_inventory_registry_reports_unverified_for_unreadable_source"),
+            ("inventory_registry_validates_parseable_source", "test_inventory_registry_validates_parseable_source"),
             ("dom_guards", "test_dom_injection_is_guarded"),
             ("polling_refresh", "test_polling_is_not_starved"),
             ("no_data_in_image", "test_no_data_in_image"),
