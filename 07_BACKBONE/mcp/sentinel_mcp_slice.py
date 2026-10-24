@@ -40,7 +40,7 @@ import sentinel_hub_server as hub  # noqa: E402  (path set above, on purpose)
 
 
 def _slug(server_name: str) -> str:
-    return server_name.replace('-', '_')
+    return server_name.lower().replace(' ', '-')
 
 
 async def plan(server_name: str, tool_names: Iterable[str]) -> Tuple[list, List[str]]:

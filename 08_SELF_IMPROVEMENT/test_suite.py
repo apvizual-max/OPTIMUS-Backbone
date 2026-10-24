@@ -1704,6 +1704,48 @@ def test_ui_never_stringifies_an_object():
     return result
 
 
+
+def test_mcp_slice_slug():
+    """Verify that _slug normalizes server names correctly."""
+    import sys
+    import ast
+    from pathlib import Path
+
+    result = TestResult('McpSliceSlug')
+
+    try:
+        slice_py = WORKSPACE / '07_BACKBONE' / 'mcp' / 'sentinel_mcp_slice.py'
+        if not slice_py.exists():
+            result.skip("sentinel_mcp_slice.py not found")
+            return result
+
+        tree = ast.parse(slice_py.read_text(encoding='utf-8'))
+        func_node = next(
+            (node for node in tree.body
+             if isinstance(node, ast.FunctionDef) and node.name == '_slug'),
+            None
+        )
+
+        if not func_node:
+            result.error("_slug function not found in sentinel_mcp_slice.py")
+            return result
+
+        module = ast.Module(body=[func_node], type_ignores=[])
+        code = compile(module, filename="<ast>", mode="exec")
+        env = {}
+        exec(code, env)
+        _slug = env['_slug']
+
+        result.assert_equals(_slug("Server Name"), "server-name", "spaces to dashes and lowercase")
+        result.assert_equals(_slug("server name"), "server-name", "spaces to dashes")
+        result.assert_equals(_slug("SERVER"), "server", "uppercase to lowercase")
+        result.assert_equals(_slug("already-slugged"), "already-slugged", "leaves valid slugs alone")
+    except Exception as e:
+        result.error(f"Failed to test _slug: {e}")
+
+    return result
+
+
 def test_mcp_config_servers_exist():
     """A config that parses is not a config that can be started.
 
@@ -3079,6 +3121,7 @@ def run_all_tests():
         test_mcp_handshake_measure,
         test_dashboard_boot_activates_a_panel,
         test_ui_never_stringifies_an_object,
+        test_mcp_slice_slug,
         test_mcp_config_servers_exist,
         test_tool_resolution_not_path_only,
         test_dashboard_surface,
