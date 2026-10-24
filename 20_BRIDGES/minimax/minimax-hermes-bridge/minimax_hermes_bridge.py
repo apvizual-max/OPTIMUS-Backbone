@@ -342,15 +342,7 @@ class HermesBridge(BridgeCore):
             return Check("hermes.sentinel_container", sev,
                          f"sentinel daemon: {status}", evidence=rows[0])
 
-        def c_mcp_fleet() -> Check:
-            cfg = HERMES_CFG
-            if not cfg.exists():
-                return Check("hermes.mcp_fleet", "warn", "no config.yaml", str(HERMES_CFG))
-            lines = cfg.read_text(encoding="utf-8", errors="replace").splitlines()
-            # Count the SERVER entries under mcp_servers:, not the key itself.
-            # `txt.count("mcp_servers:")` always returned 1 and the `or` fallback
-            # was then short-circuited, so this reported "~1 server" regardless of
-            # how many were actually wired.
+        def _parse_mcp_servers(lines: list[str]) -> list[str]:
             start = None
             base_indent = 0
             for i, ln in enumerate(lines):
@@ -370,6 +362,18 @@ class HermesBridge(BridgeCore):
                     s = ln.strip()
                     if indent == base_indent + 2 and s.endswith(":"):
                         names.append(s[:-1].strip())
+            return names
+
+        def c_mcp_fleet() -> Check:
+            cfg = HERMES_CFG
+            if not cfg.exists():
+                return Check("hermes.mcp_fleet", "warn", "no config.yaml", str(HERMES_CFG))
+            lines = cfg.read_text(encoding="utf-8", errors="replace").splitlines()
+            # Count the SERVER entries under mcp_servers:, not the key itself.
+            # `txt.count("mcp_servers:")` always returned 1 and the `or` fallback
+            # was then short-circuited, so this reported "~1 server" regardless of
+            # how many were actually wired.
+            names = _parse_mcp_servers(lines)
             sev = "ok" if names else "warn"
             return Check("hermes.mcp_fleet", sev,
                          f"{len(names)} mcp_servers declared in config.yaml",
