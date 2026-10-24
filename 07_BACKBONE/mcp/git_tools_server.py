@@ -68,9 +68,8 @@ ALLOWED_SUBCOMMANDS = frozenset({
 
 SKIP_DIRS = {'.git', 'node_modules', '__pycache__', '.venv', 'site-packages'}
 
-# Belt and braces for the `--output` write primitive above. `_safe_token` guards
-# the call sites; this guards argv itself, so a future tool added to this file
-# cannot reintroduce the same write primitive by forgetting to call it.
+# Belt and braces for the `--output` write primitive. This guards argv itself, so a future tool added to this file
+# cannot reintroduce the same write primitive.
 # Every option this module is allowed to pass is enumerated here. Anything else
 # beginning with '-' is refused before git ever sees it.
 SAFE_LITERAL_OPTIONS = frozenset({
@@ -157,48 +156,6 @@ GIT_ENV_VARS = ('GIT_DIR', 'GIT_WORK_TREE', 'GIT_INDEX_FILE',
 def _child_env() -> dict:
     """The parent environment with git's redirection variables removed."""
     return {k: v for k, v in os.environ.items() if k not in GIT_ENV_VARS}
-
-
-# CRITICAL, found by verifier 2026-10-10: `ALLOWED_SUBCOMMANDS` gates the
-# SUBCOMMAND, not the arguments, and that was not enough to make this server
-# read-only. `git_diff(ref=...)` was appended to argv unvalidated, so
-#
-#     git_diff(ref="--output=C:\\somewhere\\file.txt")
-#
-# made git CREATE that file, and truncate an existing 42-byte file to 0 bytes,
-# while reporting is_error=false. `git_show(revision=...)` had the same shape.
-# The subcommand allowlist said "diff" and was satisfied; the write happened in
-# an option nobody inspected.
-#
-# Git's own model: a token beginning with '-' is an OPTION, not a value. So any
-# caller-supplied text is refused outright if it could be read as one. The
-# literals this module builds itself (`--no-color`, `--pretty=...`) are not
-# caller text and are unaffected.
-_SAFE_TOKEN = re.compile(r'^[A-Za-z0-9][A-Za-z0-9._/~^@{}+-]*$')
-
-
-def _safe_token(value: str, field: str) -> str:
-    """Refuse caller text that git could parse as an option or a redirect."""
-    text = str(value).strip()
-    if not text:
-        raise ToolError(f'{field} must not be empty')
-    if text.startswith('-'):
-        raise ToolError(
-            f'refused: {field}={value!r} starts with "-", which git reads as an '
-            f'OPTION rather than a value. This server passes no caller text to '
-            f'git without this check, because options like --output=<path> let '
-            f'the caller write or truncate files while this server claims to be '
-            f'read-only.')
-    if '=' in text:
-        raise ToolError(
-            f'refused: {field}={value!r} contains "=", which git also uses to '
-            f'pass option values (--output=<path>).')
-    if not _SAFE_TOKEN.match(text):
-        raise ToolError(
-            f'refused: {field}={value!r} is not a plain git revision. Allowed '
-            f'characters are letters, digits and . _ / ~ ^ @ {{ }} + - , and it '
-            f'may not begin with "-" or contain "=".')
-    return text
 
 
 def _require_repo(repo: Path) -> None:
@@ -328,30 +285,12 @@ def git_log(
         'Repository path. Defaults to the configured root.'))] = '.',
     limit: Annotated[int, Field(description=(
         f'Maximum commits. Capped at {MAX_LOG}. Defaults to 20.'))] = 20,
-    path_filter: Annotated[Optional[str], Field(description=(
-        'Optional path to restrict the log to.'))] = None,
 ) -> str:
     """Show recent commits, newest first."""
     target = _inside(repo)
     _require_repo(target)
     args = ['log', f'--max-count={max(1, min(int(limit), MAX_LOG))}',
             '--pretty=format:%H%x1f%an%x1f%aI%x1f%s']
-    if path_filter:
-        # It is placed after `--`, so git reads it as a pathspec and never as an
-        # option - which is why a value like "--output=x" is inert here even
-        # though it is refused for `ref`. A leading '-' is still refused, as
-        # cheap defence in depth, WITHOUT applying _safe_token: a legitimate
-        # Windows path here can contain spaces and backslashes that _safe_token
-        # would reject, and tightening it would break real use to defend
-        # against something that is already unreachable.
-        if str(path_filter).lstrip().startswith('-'):
-            raise ToolError(
-                f'refused: path_filter={path_filter!r} starts with "-", which '
-                f'git could read as an option. It is passed after "--" so it is '
-                f'treated as a pathspec, and this check is belt and braces.')
-        # after '--' git treats this as a pathspec, but it is still caller text
-        # and still confined to the repository.
-        args += ['--', str(_inside_repo(target, path_filter))]
     result = _run(target, args)
     if result.returncode != 0:
         raise ToolError(f'git log failed in {target}: {result.stderr.strip()}')
@@ -378,8 +317,6 @@ def git_log(
 def git_diff(
     repo: Annotated[str, Field(description=(
         'Repository path. Defaults to the configured root.'))] = '.',
-    ref: Annotated[Optional[str], Field(description=(
-        'Optional ref to diff against, e.g. "HEAD" or a branch name.'))] = None,
     staged: Annotated[bool, Field(description=(
         'Diff the index instead of the working tree.'))] = False,
 ) -> str:
@@ -389,8 +326,6 @@ def git_diff(
     args = ['diff', '--no-color']
     if staged:
         args.append('--cached')
-    if ref:
-        args.append(_safe_token(ref, 'ref'))
     result = _run(target, args)
     if result.returncode != 0:
         raise ToolError(f'git diff failed in {target}: {result.stderr.strip()}')
@@ -434,17 +369,15 @@ def git_branches(
 def git_show(
     repo: Annotated[str, Field(description=(
         'Repository path. Defaults to the configured root.'))] = '.',
-    revision: Annotated[str, Field(description=(
-        'Commit-ish to show, e.g. "HEAD" or a sha.'))] = 'HEAD',
 ) -> str:
-    """Show one commit's metadata and diff."""
+    """Show HEAD commit's metadata and diff."""
     target = _inside(repo)
     _require_repo(target)
     meta = _run(target, ['show', '--no-color', '--pretty=format:%H%n%an%n%aI%n%s',
-                         '--stat', _safe_token(revision, 'revision')])
+                         '--stat', 'HEAD'])
     if meta.returncode != 0:
         raise ToolError(
-            f'git show {revision} failed in {target}: {meta.stderr.strip()}')
+            f'git show HEAD failed in {target}: {meta.stderr.strip()}')
     return json.dumps({'repo': str(target),
                        **_capped(meta.stdout, MAX_DIFF_BYTES)}, indent=2)
 
