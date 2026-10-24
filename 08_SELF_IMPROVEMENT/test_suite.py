@@ -3096,10 +3096,84 @@ def test_prime_bridge_list_area():
 
     return result
 
+def test_web_tools_validate_url():
+    """Verify that _validate handles valid and invalid URLs (returning error string or raising)."""
+    import ast
+    import urllib.parse
+
+    result = TestResult('WebToolsValidateUrl')
+
+    try:
+        web_tools_py = WORKSPACE / '07_BACKBONE' / 'mcp' / 'web_tools_server.py'
+        if not web_tools_py.exists():
+            result.skip("web_tools_server.py not found")
+            return result
+
+        tree = ast.parse(web_tools_py.read_text(encoding='utf-8'))
+        func_node = next(
+            (node for node in tree.body
+             if isinstance(node, ast.FunctionDef) and node.name == '_validate'),
+            None
+        )
+
+        if not func_node:
+            result.error("_validate function not found in web_tools_server.py")
+            return result
+
+        module = ast.Module(body=[func_node], type_ignores=[])
+        code = compile(module, filename="<ast>", mode="exec")
+
+        class ToolError(Exception):
+            pass
+
+        env = {
+            'urllib': urllib,
+            'ALLOWED_SCHEMES': ('http', 'https'),
+            'ToolError': ToolError
+        }
+        exec(code, env)
+        _validate = env['_validate']
+
+        # Test valid URLs
+        valid_res = _validate("http://example.com")
+        if valid_res not in ("http://example.com", ""):
+            result.error(f"Expected '' or URL, got {valid_res}")
+        else:
+            result.passed += 1
+
+        # Test invalid scheme (ftp://) and invalid url
+        # The function could either return an error string like "ERROR: Only http and https are supported, got ftp://example.com"
+        # or it could raise ToolError. We support both for robustness.
+        try:
+            res = _validate("ftp://example.com")
+            expected_error = "ERROR: Only http and https are supported, got ftp://example.com"
+            if res != expected_error and not ("error" in str(res).lower()):
+                result.error(f"Expected error string, got {res}")
+            else:
+                result.passed += 1
+        except ToolError:
+            result.passed += 1
+
+        try:
+            res2 = _validate("invalid-url")
+            expected_error2 = "ERROR: Only http and https are supported, got invalid-url"
+            if res2 != expected_error2 and not ("error" in str(res2).lower()):
+                result.error(f"Expected error string, got {res2}")
+            else:
+                result.passed += 1
+        except ToolError:
+            result.passed += 1
+
+    except Exception as e:
+        result.error(f"Exception: {e}")
+
+    return result
+
 def run_all_tests():
 
     """Run all tests"""
     tests = [
+        test_web_tools_validate_url,
         test_foundation,
         test_scripts,
         test_json_files,
