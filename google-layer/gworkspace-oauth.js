@@ -59,8 +59,8 @@ const CREDS_DIR = path.join(CONFIG_DIR, "credentials");
 const CREDENTIALS_PATH = path.join(CONFIG_DIR, "credentials.json");
 const ACCOUNTS_PATH = path.join(CONFIG_DIR, "accounts.json");
 
-function readClient() {
-  const j = JSON.parse(fs.readFileSync(CREDENTIALS_PATH, "utf8"));
+async function readClient() {
+  const j = JSON.parse(await fs.promises.readFile(CREDENTIALS_PATH, "utf8"));
   const c = j.installed || j.web || j;
   if (!c.client_id || !c.client_secret) throw new Error("credentials.json is unusable");
   return { clientId: c.client_id, clientSecret: c.client_secret };
@@ -115,7 +115,7 @@ a ticket.
   fs.mkdirSync(TOKENS_DIR, { recursive: true });
   fs.mkdirSync(CREDS_DIR, { recursive: true });
 
-  const { clientId, clientSecret } = readClient();
+  const { clientId, clientSecret } = await readClient();
   const port = 3400 + Math.floor(Math.random() * 400);
   const redirectUri = `http://localhost:${port}`;
   const client = new google.auth.OAuth2(clientId, clientSecret, redirectUri);
