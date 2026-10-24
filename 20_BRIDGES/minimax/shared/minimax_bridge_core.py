@@ -140,7 +140,15 @@ class Check:
     evidence: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+        # ⚡ Bolt: manual dict construction avoids dataclasses.asdict's slow deepcopy of nested 'evidence' dicts
+        return {
+            "id": self.id,
+            "severity": self.severity,
+            "title": self.title,
+            "detail": self.detail,
+            "remedy": self.remedy,
+            "evidence": self.evidence,
+        }
 
 
 @dataclass
@@ -157,15 +165,27 @@ class DoctorReport:
         return max((c.severity for c in self.checks), key=lambda s: order.get(s, 0), default="ok")
 
     def to_dict(self) -> dict[str, Any]:
+        # ⚡ Bolt: consolidate loops to avoid multiple iterations over checks list
+        ok_count = warn_count = fail_count = 0
+        checks_list = []
+        for c in self.checks:
+            if c.severity == "ok":
+                ok_count += 1
+            elif c.severity == "warn":
+                warn_count += 1
+            elif c.severity == "fail":
+                fail_count += 1
+            checks_list.append(c.to_dict())
+
         return {
             "bridge": self.bridge,
             "target": self.target,
             "ts": self.ts,
             "health": self.worst,
-            "ok_count": sum(1 for c in self.checks if c.severity == "ok"),
-            "warn_count": sum(1 for c in self.checks if c.severity == "warn"),
-            "fail_count": sum(1 for c in self.checks if c.severity == "fail"),
-            "checks": [c.to_dict() for c in self.checks],
+            "ok_count": ok_count,
+            "warn_count": warn_count,
+            "fail_count": fail_count,
+            "checks": checks_list,
             "meta": self.meta,
         }
 
