@@ -14,13 +14,14 @@ const gapi = require(
 const { google } = gapi;
 
 const tokPath = path.join(os.homedir(), ".google-mcp", "tokens", "apvizual.json");
-const creds = JSON.parse(fs.readFileSync(tokPath, "utf8"));
-const auth = new google.auth.OAuth2(creds.client_id, creds.client_secret);
-auth.setCredentials({ refresh_token: creds.refresh_token });
 
 const line = (s) => console.log(s);
 
 (async () => {
+  const creds = JSON.parse(await fs.promises.readFile(tokPath, "utf8"));
+  const auth = new google.auth.OAuth2(creds.client_id, creds.client_secret);
+  auth.setCredentials({ refresh_token: creds.refresh_token });
+
   // ---- 1. Drive: is it sufficient? ----
   try {
     const sw = Date.now();
