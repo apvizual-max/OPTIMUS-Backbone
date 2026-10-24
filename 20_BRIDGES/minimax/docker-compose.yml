@@ -37,6 +37,7 @@ services:
     environment:
       BRIDGE_PORT: "8801"
       PYTHONUNBUFFERED: "1"
+      BRIDGE_TOKEN: "${BRIDGE_TOKEN:-optimus-default-secret-token}"
     volumes:
       # Specific host paths as sibling mounts. Nesting a mount inside a
       # read-only parent mount is rejected by the OCI runtime, so each
@@ -72,6 +73,7 @@ services:
     environment:
       BRIDGE_PORT: "8802"
       PYTHONUNBUFFERED: "1"
+      BRIDGE_TOKEN: "${BRIDGE_TOKEN:-optimus-default-secret-token}"
     volumes:
       # Read-only: Antigravity is the council back-up, not a system of record.
       # Sibling mounts only — never nest under a read-only parent.
