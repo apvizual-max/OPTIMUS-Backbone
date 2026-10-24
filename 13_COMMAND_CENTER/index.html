@@ -1083,17 +1083,33 @@ function renderHistoryUI(){
 /* ---------- tabs ---------- */
 function buildTabs(){
   $('tabs').innerHTML = TABS.map((t,i)=>
-    '<button role="tab" data-tab="'+esc(t)+'" aria-selected="'+(i===0)+'">'+esc(t)+'</button>').join('');
+    '<button role="tab" id="tab-'+esc(t)+'" data-tab="'+esc(t)+'" aria-controls="p-'+esc(t)+'" aria-selected="'+(i===0)+'" tabindex="'+(i===0?'0':'-1')+'">'+esc(t)+'</button>').join('');
   $('tabs').addEventListener('click', (e)=>{
     const b = e.target.closest('button[data-tab]'); if(!b) return;
     select(b.dataset.tab);
   });
+  $('tabs').addEventListener('keydown', (e)=>{
+    if(e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      const buttons = Array.from($('tabs').querySelectorAll('button[role="tab"]'));
+      const activeIdx = buttons.findIndex(b => b.getAttribute('aria-selected') === 'true');
+      if (activeIdx === -1) return;
+      let nextIdx = e.key === 'ArrowRight' ? (activeIdx + 1) % buttons.length : (activeIdx - 1 + buttons.length) % buttons.length;
+      select(buttons[nextIdx].dataset.tab);
+      buttons[nextIdx].focus();
+      e.preventDefault();
+    }
+  });
 }
 function select(name){
-  document.querySelectorAll('nav button').forEach(b=>
-    b.setAttribute('aria-selected', String(b.dataset.tab===name)));
-  document.querySelectorAll('.panel').forEach(p=>
-    p.classList.toggle('active', p.id==='p-'+name));
+  document.querySelectorAll('nav button').forEach(b=>{
+    const isSel = b.dataset.tab === name;
+    b.setAttribute('aria-selected', String(isSel));
+    b.setAttribute('tabindex', isSel ? '0' : '-1');
+  });
+  document.querySelectorAll('.panel').forEach(p=>{
+    p.classList.toggle('active', p.id==='p-'+name);
+    p.setAttribute('aria-labelledby', 'tab-' + p.id.substring(2));
+  });
   if(name==='Operator') loadOperator();
   if(name==='Method') loadMethod();
   if(name==='Ecosystem'){ loadEcosystem(); loadVerify(); }
