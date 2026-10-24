@@ -108,9 +108,7 @@ class TestResult:
 
     def report(self):
         total = self.passed + self.failed
-        if self.failed:
-            status = 'FAIL'
-        elif self.crashed():
+        if self.failed or self.crashed():
             # An error was recorded that no failed assertion accounts for:
             # a crash handler that appended but did not count. Never PASS.
             status = 'FAIL'
