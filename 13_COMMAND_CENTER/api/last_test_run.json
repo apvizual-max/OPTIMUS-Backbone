@@ -1,11 +1,13 @@
 {
-  "ran_at": "2026-10-11T02:02:53.109033",
-  "passed": 506,
-  "failed": 0,
-  "skipped": 0,
+  "ran_at": "2026-10-24T00:26:00.108311",
+  "passed": 454,
+  "failed": 15,
+  "skipped": 2,
   "not_run": [],
-  "partial": [],
-  "green": true,
+  "partial": [
+    "MultiModal"
+  ],
+  "green": false,
   "classes": [
     {
       "name": "Foundation",
@@ -49,19 +51,19 @@
     },
     {
       "name": "SelfModify",
-      "passed": 4,
-      "failed": 0,
+      "passed": 1,
+      "failed": 3,
       "skipped": 0,
       "not_run": false,
       "partial": false
     },
     {
       "name": "MultiModal",
-      "passed": 16,
+      "passed": 11,
       "failed": 0,
-      "skipped": 0,
+      "skipped": 2,
       "not_run": false,
-      "partial": false
+      "partial": true
     },
     {
       "name": "Performance",
@@ -113,16 +115,8 @@
     },
     {
       "name": "MimicryDetectors",
-      "passed": 34,
-      "failed": 0,
-      "skipped": 0,
-      "not_run": false,
-      "partial": false
-    },
-    {
-      "name": "HubToolAudit",
-      "passed": 6,
-      "failed": 0,
+      "passed": 0,
+      "failed": 1,
       "skipped": 0,
       "not_run": false,
       "partial": false
@@ -137,8 +131,8 @@
     },
     {
       "name": "BrainAndMonitor",
-      "passed": 47,
-      "failed": 0,
+      "passed": 46,
+      "failed": 1,
       "skipped": 0,
       "not_run": false,
       "partial": false
@@ -177,7 +171,7 @@
     },
     {
       "name": "McpConfigServersExist",
-      "passed": 4,
+      "passed": 12,
       "failed": 0,
       "skipped": 0,
       "not_run": false,
@@ -185,8 +179,8 @@
     },
     {
       "name": "ToolResolution",
-      "passed": 10,
-      "failed": 0,
+      "passed": 5,
+      "failed": 4,
       "skipped": 0,
       "not_run": false,
       "partial": false
@@ -201,7 +195,7 @@
     },
     {
       "name": "EcosystemCollector",
-      "passed": 59,
+      "passed": 58,
       "failed": 0,
       "skipped": 0,
       "not_run": false,
@@ -209,8 +203,8 @@
     },
     {
       "name": "MonitorCoverage",
-      "passed": 24,
-      "failed": 0,
+      "passed": 19,
+      "failed": 5,
       "skipped": 0,
       "not_run": false,
       "partial": false
@@ -240,5 +234,5 @@
       "partial": false
     }
   ],
-  "total_classes": 29
+  "total_classes": 28
 }

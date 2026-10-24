@@ -399,9 +399,23 @@ def _npx_resolution_check(npx_specs):
             'nothing was falsified, so this is NOT_RUN and not FAIL',
             'every npx package resolves')
 
+    # Bolt Optimization: Run npm checks in parallel to significantly reduce execution time
+    import concurrent.futures
+
     resolved, missing = [], []
-    for sname, pkg in packages:
-        (resolved if _ask(pkg) else missing).append(f'{sname} -> {pkg}')
+    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
+        # Submit the declared packages checks
+        futures_pkg = {executor.submit(_ask, pkg): (sname, pkg) for sname, pkg in packages}
+
+        for future in concurrent.futures.as_completed(futures_pkg):
+            sname, pkg = futures_pkg[future]
+            res = future.result()
+            (resolved if res else missing).append(f'{sname} -> {pkg}')
+
+    # Ensure consistent ordering since futures complete in arbitrary order
+    resolved.sort()
+    missing.sort()
+
     detail = (f'{len(resolved)}/{len(packages)} declared npx packages resolve '
               f'(registry control answered: {control})')
     if missing:

@@ -1,0 +1,3 @@
+## 2024-05-18 - ThreadPoolExecutor short-circuiting issue
+**Learning:** When parallelizing execution with `concurrent.futures.ThreadPoolExecutor` via a context manager (`with ... as executor:`), the executor automatically calls `shutdown(wait=True)` on exit. If we submit a long-running batch of tasks but need to return early based on a single condition (e.g., a fail-fast check that returns `None`), returning from inside the `with` block will block execution until all tasks complete or timeout, negating the fail-fast benefit.
+**Action:** When implementing a short-circuit/fail-fast logic with a ThreadPoolExecutor, verify the fast-fail condition BEFORE submitting the bulk tasks to the executor, ensuring the thread pool does not get tied up and delay the early return.
