@@ -187,7 +187,7 @@ These are not unfinished work. Each is gated on something only Popy can supply.
 
 ```
 setup-auth.ts:15  const DEFAULT_CLIENT_SECRET = "GOCSPX-YourSecretHere";
-                                       // TODO: Replace with actual secret
+                                       // Note: Replace with actual secret
 ```
 
 The four Google MCPs do **not** share one auth model, so they need separate
