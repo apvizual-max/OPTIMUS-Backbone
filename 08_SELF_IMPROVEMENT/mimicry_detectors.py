@@ -20,7 +20,7 @@ Two constraints shape this module:
 
 import re
 import unicodedata
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple
 
 # Detectors that need conversation context this tool is not given.
 NEEDS_CONTEXT = {"A1", "A8", "R-2"}

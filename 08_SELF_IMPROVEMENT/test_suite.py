@@ -2056,24 +2056,14 @@ def test_dashboard_surface():
     return result
 
 
-def test_mimicry_detectors():
-    """The anti-mimicry detector must be able to fire, and must say what it skipped.
-
-    This check exists because the detector shipped as 4 Romanian-only patterns
-    with no diacritics. It returned score 100 on English mimicry and on correctly
-    spelled Romanian alike, while advertising coverage of A1-A12 + R-2.
-    """
-    result = TestResult('MimicryDetectors')
+def test_mimicry_patterns_fireable():
+    result = TestResult('MimicryDetectors-PatternsFireable')
     try:
         import mimicry_detectors as md
     except Exception as e:
         result.error(f'mimicry_detectors not importable: {e}')
         return result
 
-    # 1. Every needle must survive its own normalisation. A needle carrying
-    #    punctuation can never appear in folded text, so it can never fire while
-    #    still implying coverage. This is the invariant that catches the bug
-    #    class directly, rather than one caught output at a time.
     pattern_sets = [md._EVIDENCE, md._ABSENCE_EVIDENCE, md._COMPLETION,
                     md._UI_WORDS, md._EXTERNAL_BLAME, md._APOLOGY,
                     md._PERMISSION_ASK, md._STORY_ACK]
@@ -2089,6 +2079,16 @@ def test_mimicry_detectors():
                 unfireable.append((needle, bad))
     result.assert_false(bool(unfireable),
                         f'every pattern is fireable (unfireable: {unfireable[:5]})')
+    return result
+
+
+def test_mimicry_evidence_reformat_proof():
+    result = TestResult('MimicryDetectors-EvidenceReformatProof')
+    try:
+        import mimicry_detectors as md
+    except Exception as e:
+        result.error(f'mimicry_detectors not importable: {e}')
+        return result
 
     # 1b. Evidence must be REFORMAT-PROOF. fold() rewrites punctuation to spaces,
     #     so 'ls -' folds to 'ls  ' - exactly what 'too**ls** are' folds to, and a
@@ -2109,6 +2109,16 @@ def test_mimicry_detectors():
                           if not _re.search(r'\\d|[0-9]', rx.pattern))
     result.assert_false(bool(digitless_re),
                         f'every proof regex requires a digit (digitless: {digitless_re[:5]})')
+    return result
+
+
+def test_mimicry_diacritic_folding():
+    result = TestResult('MimicryDetectors-DiacriticFolding')
+    try:
+        import mimicry_detectors as md
+    except Exception as e:
+        result.error(f'mimicry_detectors not importable: {e}')
+        return result
 
     # 2. Diacritic folding: an ASCII pattern must match Romanian written properly.
     A_BREV, S_COMMA, I_CIRC = chr(0x103), chr(0x219), chr(0xCE)
@@ -2116,6 +2126,16 @@ def test_mimicry_detectors():
     r = md.evaluate(romanian)
     result.assert_true(r['mimicry_detected'],
                        'Romanian diacritics still match their ASCII patterns')
+    return result
+
+
+def test_mimicry_known_bad_english():
+    result = TestResult('MimicryDetectors-KnownBadEnglish')
+    try:
+        import mimicry_detectors as md
+    except Exception as e:
+        result.error(f'mimicry_detectors not importable: {e}')
+        return result
 
     # 3. Known-bad English must be caught. Each of these returned score 100
     #    before the detector was rebuilt.
@@ -2131,6 +2151,16 @@ def test_mimicry_detectors():
         fired = [f['detector'] for f in md.evaluate(sample)['failures']]
         result.assert_true(detector in fired,
                            f'{detector} fires on its documented pattern (got {fired})')
+    return result
+
+
+def test_mimicry_honest_output():
+    result = TestResult('MimicryDetectors-HonestOutput')
+    try:
+        import mimicry_detectors as md
+    except Exception as e:
+        result.error(f'mimicry_detectors not importable: {e}')
+        return result
 
     # 4. Honest output must not be false-positived.
     clean = [
@@ -2155,7 +2185,7 @@ def test_mimicry_detectors():
         'Completed the deployment. All 26 tools are reachable and fully functional.',
         # Reformatting must not be able to invent evidence.
         'The deployment is complete; the too**ls** are fine and it is production-ready.',
-        'Done - see grep -n style notes; everything is production-ready and perfect.'
+        'Done - see grep -n style notes; everything is production-ready and perfect.',
         # A single result-shaped token is still forgeable: digits are legal in
         # prose. '0 failed', 'exit 0' and 'sha256' can all be named without
         # anything having been measured, so A4 now requires TWO disjoint markers.
@@ -2183,6 +2213,16 @@ def test_mimicry_detectors():
         hits = [x['detector'] for x in md.evaluate(sample)['failures']]
         result.assert_false('A4' in hits,
             f'A4 accepts numeric proof (got {hits}): {sample[:40]}')
+    return result
+
+
+def test_mimicry_coverage_reported():
+    result = TestResult('MimicryDetectors-CoverageReported')
+    try:
+        import mimicry_detectors as md
+    except Exception as e:
+        result.error(f'mimicry_detectors not importable: {e}')
+        return result
 
     # 5. Coverage must be reported, never implied. A detector that cannot be
     #    decided says so instead of passing silently.
@@ -2211,9 +2251,7 @@ def test_mimicry_detectors():
         hits = [f['detector'] for f in md.evaluate(claim, '', raw)['failures']]
         result.assert_true(('A6' in hits) != expect_tools,
             f'coercion of {raw!r} yields the correct evidence state (hits {hits})')
-
     return result
-
 
 def test_hub_tool_audit():
     """Every advertised MCP tool must be reachable, not just declared.
@@ -3323,7 +3361,12 @@ def run_all_tests():
         test_cross_instance,
         test_universal_compat,
         test_bimodal_workflow,
-        test_mimicry_detectors,
+        test_mimicry_patterns_fireable,
+        test_mimicry_evidence_reformat_proof,
+        test_mimicry_diacritic_folding,
+        test_mimicry_known_bad_english,
+        test_mimicry_honest_output,
+        test_mimicry_coverage_reported,
         test_hub_tool_audit,
         test_bimodal_stop_persistence,
         test_brain_corpus_artifacts,
