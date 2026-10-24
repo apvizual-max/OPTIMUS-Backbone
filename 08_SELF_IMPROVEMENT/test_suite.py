@@ -2946,7 +2946,116 @@ def test_project_references_resolve():
     return result
 
 
+
+def test_prime_bridge_list_area():
+    """Test prime_list_area from prime_bridge_server."""
+    result = TestResult('PrimeBridgeListArea')
+
+    import sys
+    import json
+    import tempfile
+    from pathlib import Path
+
+    # Mock MCP dependencies
+    class DummyServer:
+        def __init__(self, *args, **kwargs): pass
+        def tool(self): return lambda f: f
+
+    class MCPMock: pass
+    mcp = MCPMock()
+    mcp.server = MCPMock()
+    mcp.server.mcpserver = MCPMock()
+    mcp.server.mcpserver.MCPServer = DummyServer
+    class ToolError(Exception): pass
+    mcp.server.mcpserver.exceptions = MCPMock()
+    mcp.server.mcpserver.exceptions.ToolError = ToolError
+    sys.modules['mcp'] = mcp
+    sys.modules['mcp.server'] = mcp.server
+    sys.modules['mcp.server.mcpserver'] = mcp.server.mcpserver
+    sys.modules['mcp.server.mcpserver.exceptions'] = mcp.server.mcpserver.exceptions
+
+    class PydanticMock:
+        def Field(self, **kwargs): return None
+    sys.modules['pydantic'] = PydanticMock()
+
+    class TypingExtensionsMock:
+        class AnnotatedMeta(type):
+            def __getitem__(cls, item): return None
+        class Annotated(metaclass=AnnotatedMeta): pass
+    sys.modules['typing_extensions'] = TypingExtensionsMock()
+
+    sys.path.insert(0, str(WORKSPACE / '07_BACKBONE' / 'mcp'))
+    try:
+        import prime_bridge_server
+
+        with tempfile.TemporaryDirectory(prefix='sentinel_mcp_') as sandbox:
+            old_root = prime_bridge_server.ROOT
+            prime_bridge_server.ROOT = Path(sandbox).resolve()
+
+            try:
+                # Set up a fake workspace
+                (prime_bridge_server.ROOT / '01_DUMMY').mkdir()
+                (prime_bridge_server.ROOT / '01_DUMMY' / 'test.md').write_text('content')
+                (prime_bridge_server.ROOT / '02_EMPTY').mkdir()
+                (prime_bridge_server.ROOT / 'root_file.txt').write_text('12345')
+
+                # 1. Test root listing
+                ret = prime_bridge_server.prime_list_area('(root)')
+                data = json.loads(ret)
+                result.assert_equals(data['area'], '(root)', 'Root area is labelled correctly')
+                entries = sorted(e['name'] for e in data['entries'])
+                result.assert_equals(entries, ['01_DUMMY', '02_EMPTY', 'root_file.txt'],
+                                   'Root entries match expected layout')
+
+                # 2. Test specific area listing
+                ret = prime_bridge_server.prime_list_area('01_DUMMY')
+                data = json.loads(ret)
+                result.assert_equals(len(data['entries']), 1, 'Area listing finds the file')
+                result.assert_equals(data['entries'][0]['name'], 'test.md', 'Correct file found')
+
+                # 3. Test non-existent area
+                try:
+                    prime_bridge_server.prime_list_area('NOPE_MISSING')
+                    result.failed += 1
+                    result.errors.append("Listing missing area should raise ToolError")
+                except ToolError:
+                    result.passed += 1
+                except Exception as e:
+                    result.failed += 1
+                    result.errors.append(f"Expected ToolError, got {type(e).__name__}")
+
+                # 4. Test directory that is actually a file
+                try:
+                    prime_bridge_server.prime_list_area('root_file.txt')
+                    result.failed += 1
+                    result.errors.append("Listing a file as an area should raise ToolError")
+                except ToolError:
+                    result.passed += 1
+                except Exception as e:
+                    result.failed += 1
+                    result.errors.append(f"Expected ToolError, got {type(e).__name__}")
+
+                # 5. Test escaping workspace root
+                try:
+                    prime_bridge_server.prime_list_area('../another_folder')
+                    result.failed += 1
+                    result.errors.append("Escaping workspace should raise ToolError")
+                except ToolError:
+                    result.passed += 1
+                except Exception as e:
+                    result.failed += 1
+                    result.errors.append(f"Expected ToolError, got {type(e).__name__}")
+
+            finally:
+                prime_bridge_server.ROOT = old_root
+
+    except Exception as e:
+        result.error(f"Exception: {e}")
+
+    return result
+
 def run_all_tests():
+
     """Run all tests"""
     tests = [
         test_foundation,
@@ -2978,6 +3087,7 @@ def run_all_tests():
         test_the_plan_is_never_pruned,
         test_append_only_integrity,
         test_project_references_resolve,
+        test_prime_bridge_list_area,
     ]
 
     print("=" * 70)
