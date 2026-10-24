@@ -875,21 +875,13 @@ def test_bimodal_stop_persistence():
     return result
 
 
-def test_brain_and_monitor():
-    """The brain corpus, the self-improvement gate and the monitor.
-
-    These are the systems added on 2026-10-04, and the programme matrix only
-    calls a concept OBSERVABLE once a test exists for it. Without this class
-    the matrix would understate itself.
-    """
-    import json
-    import re
+def test_brain_corpus_artifacts():
+    """Checks brain corpus artifacts exist."""
     import tempfile
-    result = TestResult('BrainAndMonitor')
+    result = TestResult('BrainCorpusArtifacts')
     try:
         brain = WORKSPACE / '11_BRAIN'
         raw = brain / '01_RAW'
-        chapters = brain / '02_CHAPTERS'
 
         # --- corpus artifacts exist -------------------------------------
         for cid, path in (('corpus_full', raw / 'corpus_full.jsonl'),
@@ -900,6 +892,19 @@ def test_brain_and_monitor():
                           ('index', brain / '00_CORPUS_INDEX.md'),
                           ('source_registry', brain / '05_SOURCES' / 'source_registry.json')):
             result.assert_true(path.exists(), f'{cid} exists')
+    except Exception as e:
+        result.error(f'Exception: {e}')
+    return result
+
+def test_brain_corpus_parsing():
+    """Checks every line of the corpus parses, and seq is dense."""
+    import json
+    import re
+    import tempfile
+    result = TestResult('BrainCorpusParsing')
+    try:
+        brain = WORKSPACE / '11_BRAIN'
+        raw = brain / '01_RAW'
 
         # --- every line of the corpus parses, and seq is dense -----------
         seqs, verbatim, diacritics = [], 0, False
@@ -911,15 +916,7 @@ def test_brain_and_monitor():
                 seqs.append(m['seq'])
                 if m.get('kind') == 'verbatim':
                     verbatim += 1
-                    # The language law: no Romanian in code. This regex therefore
-                    # cannot spell the letters - it uses \u escapes, exactly as
-                    # monitor.py does. Writing them literally would make THIS
-                    # file the first violation of the law it enforces.
-                    # A-breve A-circumflex I-circumflex S-comma T-comma, then
-                    # the lower-case set, then the cedilla variants.
-                    if re.search('[\u0102\u00C2\u00CE\u0218\u021A'
-                                 '\u0103\u00E2\u00EE\u0219\u021B'
-                                 '\u015F\u0163]', m.get('text') or ''):
+                    if re.search('[\u0102\u00C2\u00CE\u0218\u021A\u0103\u00E2\u00EE\u0219\u021B\u015E\u0162\u015F\u0163]', m.get('text', '')):
                         diacritics = True
         result.assert_equals(seqs, list(range(1, len(seqs) + 1)),
                              'corpus seq is a dense 1..N sequence')
@@ -931,14 +928,28 @@ def test_brain_and_monitor():
         result.assert_contains(first['text'],
                                'If I buy a subscription, can I use MiniMax',
                                'seq 1 is message zero')
+    except Exception as e:
+        result.error(f'Exception: {e}')
+    return result
+
+def test_brain_corpus_chapters():
+    """Checks the 17 chapters tile the corpus with no gap or overlap."""
+    import json
+    import re
+    import tempfile
+    result = TestResult('BrainCorpusChapters')
+    try:
+        brain = WORKSPACE / '11_BRAIN'
+        raw = brain / '01_RAW'
+        chapters = brain / '02_CHAPTERS'
+
+        seqs = []
+        with open(raw / 'corpus_full.jsonl', encoding='utf-8') as f:
+            for line in f:
+                if line.strip():
+                    seqs.append(json.loads(line)['seq'])
 
         # --- the 17 chapters tile the corpus with no gap or overlap ------
-        # The chapter map lives in chapter_map.json, and its ranges are USER TURN
-        # indices ("turn_range": [1, 3]), not raw seq ranges. An earlier version
-        # of this test read `chapters` and `seq_from`/`seq_to` out of
-        # corpus_stats.json, which has neither, so the list silently came back
-        # empty and three assertions were measuring a field that does not exist.
-        # The fixture must be built from the real artefact.
         stats = json.loads((raw / 'corpus_stats.json').read_text(encoding='utf-8'))
         cmap = json.loads((raw / 'chapter_map.json').read_text(encoding='utf-8'))
         ch_rows = cmap.get('chapters') or []
@@ -964,8 +975,6 @@ def test_brain_and_monitor():
         result.assert_equals(prev_to, total_turns,
                              'the last chapter ends on the last user turn')
 
-        # Unplaced is recorded in UNPLACED.md. Nothing else in the workspace
-        # carries the number, so a test that wants it must read it there.
         unplaced_txt = (chapters / 'UNPLACED.md').read_text(encoding='utf-8')
         zero_unplaced = bool(re.search(r'\*\*None\.\*\*', unplaced_txt))
         result.assert_true(zero_unplaced, 'zero unplaced messages')
@@ -978,7 +987,16 @@ def test_brain_and_monitor():
         result.assert_equals(len(chapter_files), len(ch_rows),
                              'one file per chapter in the map')
         result.assert_true((chapters / 'UNPLACED.md').exists(), 'UNPLACED.md declared')
+    except Exception as e:
+        result.error(f'Exception: {e}')
+    return result
 
+def test_brain_axes_and_methods():
+    """Checks the four axes and three method chapters exist."""
+    import tempfile
+    result = TestResult('BrainAxesAndMethods')
+    try:
+        brain = WORKSPACE / '11_BRAIN'
         # --- the four axes and three method chapters exist ---------------
         for name in ('STRATEGY', 'REASON', 'LOGIC', 'RATIONALE'):
             p = brain / '03_AXES' / f'{name}.md'
@@ -989,7 +1007,14 @@ def test_brain_and_monitor():
             p = brain / '04_METHOD' / f'{name}.md'
             result.assert_true(p.exists() and p.stat().st_size > 500,
                                f'method {name} exists and has content')
+    except Exception as e:
+        result.error(f'Exception: {e}')
+    return result
 
+def test_self_improvement_ratify_gate():
+    """Checks the self-improvement ratify gate must actually block."""
+    result = TestResult('SelfImprovementRatifyGate')
+    try:
         # --- self-improvement: the ratify gate must actually block -------
         from self_improvement import (SelfImprovement, BoundaryError,
                                       STATUS_CANDIDATE, STATUS_PROMOTED)
@@ -1008,15 +1033,27 @@ def test_brain_and_monitor():
         except ValueError:
             empty_refused = True
         result.assert_true(empty_refused, 'an empty ratification is refused')
+        from pathlib import Path
         boundary_refused = False
         try:
-            si_mod._assert_inside_workspace(Path(r'E:\CLAUDE\MINTE\x.md'))
+            if os.name == 'nt':
+                si_mod._assert_inside_workspace(Path(r'E:\CLAUDE\MINTE\x.md'))
+            else:
+                si_mod._assert_inside_workspace(Path('/etc/passwd'))
         except BoundaryError:
             boundary_refused = True
         result.assert_true(boundary_refused, 'a write outside the boundary is refused')
         si.candidates = [c for c in si.candidates if c['id'] != probe['id']]
         si._save()
+    except Exception as e:
+        result.error(f'Exception: {e}')
+    return result
 
+def test_monitor_status():
+    """Checks monitor returns four statuses, and it can say NOT_RUN."""
+    import json
+    result = TestResult('MonitorStatus')
+    try:
         # --- monitor: four statuses, and it can say NOT_RUN --------------
         import monitor
         report = monitor.collect()
@@ -1027,11 +1064,7 @@ def test_brain_and_monitor():
             found = [c for c in report['checks'] if c['id'] == cid]
             result.assert_true(bool(found), f'monitor reports {cid}')
         mcp_wired = [c for c in report['checks'] if c['id'] == 'mcp_tools_wired']
-        # The invariant is NOT "always NOT_RUN" - that pinned a permanent
-        # unmoveable verdict and made the 26 tools unverifiable forever. The
-        # invariant is that OK can only be reached through a MEASURED
-        # handshake, never asserted. So: no handshake record -> NOT_RUN, and
-        # with a record present the status must be justified by its contents.
+
         record = monitor.LOGS / 'mcp_handshake.json'
         if not record.exists():
             result.assert_equals(mcp_wired[0]['status'] if mcp_wired else None,
@@ -1051,14 +1084,31 @@ def test_brain_and_monitor():
         result.assert_true(
             all(c.get('measured_at') for c in report['checks']),
             'every check carries a measurement timestamp')
+    except Exception as e:
+        result.error(f'Exception: {e}')
+    return result
 
+def test_monitor_dependencies():
+    """Checks every dependency verdict is measured, never assumed."""
+    result = TestResult('MonitorDependencies')
+    try:
+        import monitor
+        report = monitor.collect()
         # --- every dependency verdict is measured, never assumed ---------
         dep_checks = [c for c in report['checks'] if c['family'] == 'dependencies']
         result.assert_true(len(dep_checks) >= 10, 'dependency family measures each path')
         result.assert_true(
             all(c['status'] in ('OK', 'FAIL') for c in dep_checks),
             'a dependency is either present or measured missing')
+    except Exception as e:
+        result.error(f'Exception: {e}')
+    return result
 
+def test_programme_matrix():
+    """Checks programme matrix exists and is derived, not asserted."""
+    import json
+    result = TestResult('ProgrammeMatrix')
+    try:
         # --- programme matrix exists and is derived, not asserted --------
         matrix = WORKSPACE / '12_PROGRAM' / 'IDEA_TO_SCRIPT_MATRIX.json'
         result.assert_true(matrix.exists(), 'programme matrix generated')
@@ -1075,7 +1125,6 @@ def test_brain_and_monitor():
             result.assert_equals(unowned, [], 'no DESIGNED concept is unowned')
         gaps = WORKSPACE / '12_PROGRAM' / 'GAP_REGISTER.json'
         result.assert_true(gaps.exists(), 'gap register generated')
-
     except Exception as e:
         result.error(f'Exception: {e}')
     return result
@@ -3190,7 +3239,14 @@ def run_all_tests():
         test_mimicry_detectors,
         test_hub_tool_audit,
         test_bimodal_stop_persistence,
-        test_brain_and_monitor,
+        test_brain_corpus_artifacts,
+        test_brain_corpus_parsing,
+        test_brain_corpus_chapters,
+        test_brain_axes_and_methods,
+        test_self_improvement_ratify_gate,
+        test_monitor_status,
+        test_monitor_dependencies,
+        test_programme_matrix,
         test_scrape_artifact_emptiness,
         test_mcp_handshake_measure,
         test_dashboard_boot_activates_a_panel,

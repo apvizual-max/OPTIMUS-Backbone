@@ -1,0 +1,21 @@
+{
+  "response_quality": [],
+  "search_effectiveness": [],
+  "pattern_recognition": [],
+  "cross_substrate": [],
+  "partnership": [],
+  "memory": [],
+  "time": [
+    {
+      "timestamp": "2026-10-24T06:06:12.994866",
+      "value": 1.9073486328125e-06,
+      "note": "test_op"
+    }
+  ],
+  "test": [
+    {
+      "timestamp": "2026-10-24T06:06:12.994682",
+      "value": 80.0
+    }
+  ]
+}
