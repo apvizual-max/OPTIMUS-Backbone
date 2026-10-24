@@ -106,14 +106,6 @@ def _read_unplaced() -> Optional[int]:
     return len(re.findall(r'(?m)^\s*[-*]\s', txt))
 
 
-def guarded(fn: Callable[[], Dict[str, Any]]) -> Dict[str, Any]:
-    """Run one check. An exception becomes NOT_RUN, never a silent pass."""
-    try:
-        return fn()
-    except Exception as exc:
-        return check('unhandled', 'guard', NOT_RUN, None,
-                     f'{type(exc).__name__}: {exc}')
-
 
 # ---------------------------------------------------------------- corpus
 
