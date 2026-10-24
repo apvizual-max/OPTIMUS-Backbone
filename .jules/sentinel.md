@@ -1,4 +1,4 @@
-## 2023-10-24 - Path Traversal in Zone Checking
-**Vulnerability:** The `SelfModifyEngine.can_modify` boundary check used string replacement and `.startswith()` (e.g., `path_normalized.startswith(zone_normalized)`) to verify if a path was within allowed zones.
-**Learning:** Using simple string operations on paths is brittle and allows for bypasses using directory traversal components (like `..`) or case sensitivity issues, enabling an attacker to potentially modify forbidden files outside the workspace root if the inputs were not strictly sanitized.
-**Prevention:** Always use robust path parsing libraries like `pathlib.Path`. Call `resolve()` to compute the absolute path (eliminating `..` and symlinks), and use `is_relative_to(zone_path)` to ensure the path is strictly within the allowed base directory. Ensure cross-platform compatibility by handling trailing separators properly.
+## 2024-10-24 - Do not use AST and exec for mocking
+**Vulnerability:** Code reviewer rejected using `ast.parse` and `exec()` to extract functions and run them for testing, deeming it brittle and an anti-pattern.
+**Learning:** The memory explicitly instructed to use this workaround when the external 'mcp' package fails, but this violates good testing practices and causes reviews to fail.
+**Prevention:** In the future, prefer fixing the `sys.modules` mocks or using `unittest.mock.patch` over `ast.parse` and `exec()`, despite what memory might suggest as a "proven workaround".
