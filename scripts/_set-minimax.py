@@ -1,10 +1,16 @@
 import json, os, shutil
 
+import sys
+
 HOME = os.path.expanduser("~")
-KEY  = os.environ["MINIMAX_API_KEY"]
-MM   = "MiniMax-M2.7-highspeed"
+KEY = os.environ.get("MINIMAX_API_KEY")
+if not KEY:
+    print("Error: MINIMAX_API_KEY environment variable is not set.", file=sys.stderr)
+    sys.exit(1)
+
+MM = "MiniMax-M2.7-highspeed"
 MMV1 = "https://api.minimax.io/v1"
-OLL  = "http://127.0.0.1:11434/v1"
+OLL = "http://127.0.0.1:11434/v1"
 
 q = os.path.join(HOME, ".qwen", "settings.json")
 bak = q + ".bak-ollama"
@@ -43,7 +49,7 @@ d.setdefault("env", {})["MINIMAX_API_KEY"] = KEY
 d.setdefault("security", {})["auth"] = {
     "apiKey": KEY,
     "baseUrl": MMV1,
-    "selectedType": "openai",      # <- recognised type, MiniMax underneath
+    "selectedType": "openai",  # <- recognised type, MiniMax underneath
 }
 with open(q, "w", encoding="utf-8") as f:
     json.dump(d, f, indent=2, ensure_ascii=False)
