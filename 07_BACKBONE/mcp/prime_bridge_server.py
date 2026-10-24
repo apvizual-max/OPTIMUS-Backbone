@@ -46,6 +46,7 @@ WORKSPACE_ROOT and then to the project's default location.
 """
 import json
 import os
+import re
 import sys
 from pathlib import Path
 from typing import Optional
@@ -164,11 +165,15 @@ def prime_find_files(
         'e.g. "server" or "*.md".'))],
 ) -> str:
     """Find workspace files whose name matches `pattern`."""
-    needle = pattern.lower().lstrip('*')
+    try:
+        regex = re.compile(pattern, re.IGNORECASE)
+    except re.error as e:
+        return f'ERROR: invalid pattern: {e}'
+
     hits = []
     truncated = False
     for path in _walk(MAX_ENTRIES * 20):
-        if needle in path.name.lower():
+        if regex.search(path.name):
             hits.append(str(path.relative_to(ROOT)))
             if len(hits) >= MAX_ENTRIES:
                 truncated = True

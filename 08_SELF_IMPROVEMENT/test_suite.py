@@ -3038,6 +3038,86 @@ def test_project_references_resolve():
 
 
 
+
+def test_prime_bridge_find_files():
+    """Test prime_find_files from prime_bridge_server."""
+    result = TestResult('PrimeBridgeFindFiles')
+
+    import sys
+    import json
+    import tempfile
+    from pathlib import Path
+
+    # Mock MCP dependencies
+    class DummyServer:
+        def __init__(self, *args, **kwargs): pass
+        def tool(self): return lambda f: f
+
+    class MCPMock: pass
+    mcp = MCPMock()
+    mcp.server = MCPMock()
+    mcp.server.mcpserver = MCPMock()
+    mcp.server.mcpserver.MCPServer = DummyServer
+    class ToolError(Exception): pass
+    mcp.server.mcpserver.exceptions = MCPMock()
+    mcp.server.mcpserver.exceptions.ToolError = ToolError
+    sys.modules['mcp'] = mcp
+    sys.modules['mcp.server'] = mcp.server
+    sys.modules['mcp.server.mcpserver'] = mcp.server.mcpserver
+    sys.modules['mcp.server.mcpserver.exceptions'] = mcp.server.mcpserver.exceptions
+
+    class PydanticMock:
+        def Field(self, **kwargs): return None
+    sys.modules['pydantic'] = PydanticMock()
+
+    class TypingExtensionsMock:
+        class AnnotatedMeta(type):
+            def __getitem__(cls, item): return None
+        class Annotated(metaclass=AnnotatedMeta): pass
+    sys.modules['typing_extensions'] = TypingExtensionsMock()
+
+    sys.path.insert(0, str(WORKSPACE / '07_BACKBONE' / 'mcp'))
+    try:
+        import prime_bridge_server
+
+        with tempfile.TemporaryDirectory(prefix='sentinel_mcp_') as sandbox:
+            old_root = prime_bridge_server.ROOT
+            prime_bridge_server.ROOT = Path(sandbox).resolve()
+
+            try:
+                # Set up a fake workspace
+                (prime_bridge_server.ROOT / '01_DUMMY').mkdir()
+                (prime_bridge_server.ROOT / '01_DUMMY' / 'test.md').write_text('content')
+                (prime_bridge_server.ROOT / '02_EMPTY').mkdir()
+                (prime_bridge_server.ROOT / 'root_file.txt').write_text('12345')
+
+                # 1. Test valid search pattern
+                ret = prime_bridge_server.prime_find_files(r'root_file\.txt')
+                data = json.loads(ret)
+                result.assert_equals(data['count'], 1, 'Valid regex finds file')
+
+                # Windows uses \ while linux uses /, convert to list of names to ignore path sep issues
+                names = [Path(p).name for p in data['files']]
+                result.assert_equals(names, ['root_file.txt'], 'File matches')
+
+                # 2. Test invalid regex
+                ret = prime_bridge_server.prime_find_files('[')
+
+                # Check for the expected error format
+                if isinstance(ret, str) and ret.startswith('ERROR: invalid pattern:'):
+                    result.passed += 1
+                else:
+                    result.failed += 1
+                    result.errors.append(f"Invalid pattern did not return expected error, got: {ret}")
+
+            finally:
+                prime_bridge_server.ROOT = old_root
+
+    except Exception as e:
+        result.error(f"Exception: {e}")
+
+    return result
+
 def test_prime_bridge_list_area():
     """Test prime_list_area from prime_bridge_server."""
     result = TestResult('PrimeBridgeListArea')
@@ -3261,6 +3341,7 @@ def run_all_tests():
         test_append_only_integrity,
         test_project_references_resolve,
         test_prime_bridge_list_area,
+        test_prime_bridge_find_files,
     ]
 
     print("=" * 70)
