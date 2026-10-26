@@ -23,7 +23,7 @@ Usage: python 08_SELF_IMPROVEMENT\\build_program_matrix.py
 import json
 import os
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 WORKSPACE = Path(os.environ.get(
     'WORKSPACE_ROOT',
@@ -79,9 +79,9 @@ CONCEPTS = [
          impl='08_SELF_IMPROVEMENT/bimodal_workflow.py',
          symbols=['enter_mode_a', 'propose_r0', 'ratify_r0', 'execute_step'],
          tests=['BimodalWorkflow'], tools=['sentinel_workflow_enter_mode_a',
-                                          'sentinel_workflow_propose_r0',
-                                          'sentinel_workflow_ratify',
-                                          'sentinel_workflow_execute'],
+                                           'sentinel_workflow_propose_r0',
+                                           'sentinel_workflow_ratify',
+                                           'sentinel_workflow_execute'],
          panel='Workflow', owner='Mavis', next_action=''),
     dict(id='C05', concept='STOP means report, ask and wait',
          chapter='CH_15', doctrine='01_FOUNDATION/protocols/BIMODAL_WORKFLOW.md',
