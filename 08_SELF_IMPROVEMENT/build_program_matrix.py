@@ -20,11 +20,8 @@ found it. Gaps are reported, never silently repaired, and never deleted from.
 
 Usage: python 08_SELF_IMPROVEMENT\\build_program_matrix.py
 """
-import io
 import json
 import os
-import re
-from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
