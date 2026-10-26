@@ -1,4 +1,3 @@
-import re
 
 with open('./08_SELF_IMPROVEMENT/test_suite.py', 'r') as f:
     content = f.read()
