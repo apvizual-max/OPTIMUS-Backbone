@@ -982,7 +982,8 @@ def _bridge_for(tool_name, properties):
                     if json.loads(block.text).get("error"):
                         is_error = True
                 except (json.JSONDecodeError, AttributeError):
-                    pass
+                    # Malformed JSON or unexpected structure is ignored
+                    continue
         return types.CallToolResult(content=content, isError=is_error)
 
     _bridge.__name__ = tool_name
