@@ -3432,6 +3432,16 @@ def test_web_tools_validate_url():
         except ToolError:
             result.passed += 1
 
+        try:
+            res3 = _validate("http://")
+            expected_error3 = "ERROR: refused: 'http://' has no host"
+            if res3 != expected_error3 and not ("error" in str(res3).lower()) and not ("refused" in str(res3).lower()):
+                result.error(f"Expected error string, got {res3}")
+            else:
+                result.passed += 1
+        except ToolError:
+            result.passed += 1
+
     except Exception as e:
         result.error(f"Exception: {e}")
 
