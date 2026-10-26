@@ -1793,6 +1793,83 @@ def test_mcp_slice_slug():
     return result
 
 
+
+
+def test_mcp_bridge_error_handling():
+    """Verify that _bridge_for correctly surfaces errors in the tool's payload."""
+    import sys
+    import json
+    import asyncio
+    import importlib.util
+    from pathlib import Path
+    from unittest.mock import MagicMock, patch
+
+    result = TestResult('McpBridgeErrorHandling')
+
+    # Setup full mock for mcp using standard unittest.mock.MagicMock
+    if 'mcp' not in sys.modules:
+        mcp = MagicMock()
+        mcp.types = MagicMock()
+        mcp.server = MagicMock()
+        mcp.server.stdio = MagicMock()
+        mcp.server.mcpserver = MagicMock()
+        mcp.server.mcpserver.tools = MagicMock()
+        mcp.server.mcpserver.tools.base = MagicMock()
+
+        class CallToolResult:
+            def __init__(self, content, isError):
+                self.content = content
+                self.isError = isError
+
+        mcp.types.CallToolResult = CallToolResult
+        mcp.types.Tool = MagicMock()
+
+        sys.modules['mcp'] = mcp
+        sys.modules['mcp.types'] = mcp.types
+        sys.modules['mcp.server'] = mcp.server
+        sys.modules['mcp.server.stdio'] = mcp.server.stdio
+        sys.modules['mcp.server.mcpserver'] = mcp.server.mcpserver
+        sys.modules['mcp.server.mcpserver.tools'] = mcp.server.mcpserver.tools
+        sys.modules['mcp.server.mcpserver.tools.base'] = mcp.server.mcpserver.tools.base
+
+    try:
+        hub_path = WORKSPACE / '07_BACKBONE' / 'mcp' / 'sentinel_hub_server.py'
+        spec = importlib.util.spec_from_file_location("sentinel_hub_server", hub_path)
+        sentinel_hub_server = importlib.util.module_from_spec(spec)
+        sys.modules["sentinel_hub_server"] = sentinel_hub_server
+        spec.loader.exec_module(sentinel_hub_server)
+
+        async def run_scenario(mock_return_block, expected_isError, desc):
+            async def mock_call_tool(tool_name, arguments):
+                return [mock_return_block]
+
+            with patch.object(sentinel_hub_server, 'call_tool', new=mock_call_tool):
+                bridge = sentinel_hub_server._bridge_for("test_tool", ["arg1"])
+                res = await bridge(arg1="value1")
+
+                if expected_isError:
+                    result.assert_true(res.isError, desc)
+                else:
+                    result.assert_false(res.isError, desc)
+
+        class MockBlock:
+            def __init__(self, type, text):
+                self.type = type
+                self.text = text
+
+        async def run_all():
+            await run_scenario(MockBlock("text", json.dumps({"error": "test error"})), True, "Error payload sets isError=True")
+            await run_scenario(MockBlock("text", json.dumps({"success": "true"})), False, "Success payload sets isError=False")
+            await run_scenario(MockBlock("text", "Not a json payload"), False, "Invalid json payload sets isError=False")
+            await run_scenario(MockBlock("image", "base64..."), False, "Non-text block sets isError=False")
+
+        asyncio.run(run_all())
+
+    except Exception as e:
+        result.errors.append(f"Exception: {e}")
+
+    return result
+
 def test_mcp_config_servers_exist():
     """A config that parses is not a config that can be started.
 
@@ -3382,6 +3459,7 @@ def run_all_tests():
         test_dashboard_boot_activates_a_panel,
         test_ui_never_stringifies_an_object,
         test_mcp_slice_slug,
+        test_mcp_bridge_error_handling,
         test_mcp_config_servers_exist,
         test_tool_resolution_not_path_only,
         test_dashboard_surface,
