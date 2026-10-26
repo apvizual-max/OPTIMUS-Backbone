@@ -47,7 +47,6 @@ WORKSPACE_ROOT and then to the project's default location.
 import json
 import os
 import re
-import sys
 from pathlib import Path
 from typing import Optional
 
