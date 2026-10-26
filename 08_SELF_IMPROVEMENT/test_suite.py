@@ -3223,6 +3223,23 @@ def test_prime_bridge_find_files():
                     result.failed += 1
                     result.errors.append(f"Invalid pattern did not return expected error, got: {ret}")
 
+                # 3. Test explicit re.error mock
+                import re
+                original_compile = re.compile
+                def mock_compile(*args, **kwargs):
+                    raise re.error('mocked error')
+
+                re.compile = mock_compile
+                try:
+                    ret = prime_bridge_server.prime_find_files('anything')
+                    if isinstance(ret, str) and ret == 'ERROR: invalid pattern: mocked error':
+                        result.passed += 1
+                    else:
+                        result.failed += 1
+                        result.errors.append(f"Explicit re.error mock did not return expected error string, got: {ret}")
+                finally:
+                    re.compile = original_compile
+
             finally:
                 prime_bridge_server.ROOT = old_root
 
