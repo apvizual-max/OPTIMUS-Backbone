@@ -48,7 +48,6 @@ complete is a measurement that quietly lies.
 import html as html_mod
 import json
 import re
-import sys
 import urllib.error
 import urllib.parse
 import urllib.request

@@ -1,7 +1,7 @@
 {
-  "ran_at": "2026-10-24T06:13:41.885453",
-  "passed": 470,
-  "failed": 11,
+  "ran_at": "2026-10-25T16:49:14.299404",
+  "passed": 511,
+  "failed": 10,
   "skipped": 2,
   "not_run": [],
   "partial": [
@@ -9,6 +9,14 @@
   ],
   "green": false,
   "classes": [
+    {
+      "name": "WebToolsValidateUrl",
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
     {
       "name": "Foundation",
       "passed": 4,
@@ -114,9 +122,49 @@
       "partial": false
     },
     {
-      "name": "MimicryDetectors",
-      "passed": 0,
-      "failed": 1,
+      "name": "MimicryDetectors-PatternsFireable",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "MimicryDetectors-EvidenceReformatProof",
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "MimicryDetectors-DiacriticFolding",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "MimicryDetectors-KnownBadEnglish",
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "MimicryDetectors-HonestOutput",
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "MimicryDetectors-CoverageReported",
+      "passed": 9,
+      "failed": 0,
       "skipped": 0,
       "not_run": false,
       "partial": false
@@ -304,7 +352,15 @@
       "skipped": 0,
       "not_run": false,
       "partial": false
+    },
+    {
+      "name": "PrimeBridgeFindFiles",
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
     }
   ],
-  "total_classes": 37
+  "total_classes": 44
 }
