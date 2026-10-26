@@ -1279,6 +1279,7 @@ def powershell_checks() -> List[Dict[str, Any]]:
     # Function-local variables that share a name in different functions are
     # legal and are ignored: only depth-0 assignments share one storage slot.
     collisions: List[str] = []
+    assign_pattern = re.compile(r'^\s*\$([A-Za-z_][A-Za-z0-9_]*)\s*=')
     for path in scripts:
         try:
             # utf-8-sig, not utf-8: Windows PowerShell 5.1 writes a BOM with
@@ -1294,7 +1295,7 @@ def powershell_checks() -> List[Dict[str, Any]]:
         assigned: Dict[str, str] = {}
         brace_deltas = _ps_structural_brace_deltas(text)
         for line, delta in zip(text.splitlines(), brace_deltas):
-            m = re.match(r'^\s*\$([A-Za-z_][A-Za-z0-9_]*)\s*=', line)
+            m = assign_pattern.match(line)
             if m and depth <= 0:
                 name = m.group(1)
                 prior = assigned.get(name.lower())
