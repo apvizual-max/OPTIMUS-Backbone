@@ -3437,11 +3437,121 @@ def test_web_tools_validate_url():
 
     return result
 
+
+def test_web_tools_error_handling():
+    """Verify that _fetch gracefully handles HTTPError by returning its body."""
+    import ast
+    import urllib
+    import urllib.request
+    import urllib.error
+    import io
+
+    result = TestResult('WebToolsErrorHandling')
+
+    try:
+        web_tools_py = WORKSPACE / '07_BACKBONE' / 'mcp' / 'web_tools_server.py'
+        if not web_tools_py.exists():
+            result.skip("web_tools_server.py not found")
+            return result
+
+        tree = ast.parse(web_tools_py.read_text(encoding='utf-8'))
+        func_node = next(
+            (node for node in tree.body
+             if isinstance(node, ast.FunctionDef) and node.name == '_fetch'),
+            None
+        )
+
+        if not func_node:
+            result.error("_fetch function not found in web_tools_server.py")
+            return result
+
+        module = ast.Module(body=[func_node], type_ignores=[])
+        code = compile(module, filename="<ast>", mode="exec")
+
+        class ToolError(Exception):
+            pass
+
+        def _validate(url):
+            return url
+
+        env = {
+            'urllib': urllib,
+            'ToolError': ToolError,
+            '_validate': _validate,
+            'MAX_BYTES': 500_000,
+            'USER_AGENT': 'Test',
+            'KEEP_HEADERS': ('content-type', 'content-length', 'content-encoding', 'etag',
+                             'last-modified', 'location', 'server', 'date'),
+            'REDIRECT_LIMIT': 5
+        }
+        exec(code, env)
+        _fetch = env['_fetch']
+
+        class MockHTTPMessage:
+            def __init__(self, d):
+                self.d = d
+            def items(self):
+                return self.d.items()
+            def get(self, k, default=None):
+                return self.d.get(k, default)
+
+        mock_fp = io.BytesIO(b"error body")
+        error = urllib.error.HTTPError(
+            url="http://example.com",
+            code=404,
+            msg="Not Found",
+            hdrs=MockHTTPMessage({"Content-Type": "text/html", "Content-Length": "10"}),
+            fp=mock_fp
+        )
+
+        class MockOpener:
+            def open(self, req, timeout):
+                raise error
+
+        def mock_build_opener(*handlers):
+            return MockOpener()
+
+        # Monkey-patch
+        orig_build_opener = urllib.request.build_opener
+        urllib.request.build_opener = mock_build_opener
+        try:
+            res = _fetch("http://example.com", "GET", 1000, 30)
+
+            # Assertions
+            if res.get('status') != 404:
+                result.error(f"Expected status 404, got {res.get('status')}")
+            else:
+                result.passed += 1
+
+            if res.get('body') != b'error body':
+                result.error(f"Expected body b'error body', got {res.get('body')}")
+            else:
+                result.passed += 1
+
+            if res.get('reason') != 'Not Found':
+                result.error(f"Expected reason 'Not Found', got {res.get('reason')}")
+            else:
+                result.passed += 1
+
+            if res.get('content_type') != 'text/html':
+                result.error(f"Expected content_type 'text/html', got {res.get('content_type')}")
+            else:
+                result.passed += 1
+
+        finally:
+            urllib.request.build_opener = orig_build_opener
+
+    except Exception as e:
+        result.error(f"Exception: {e}")
+
+    return result
+
 def run_all_tests():
 
     """Run all tests"""
     tests = [
         test_web_tools_validate_url,
+        test_web_tools_error_handling,
         test_foundation,
         test_scripts,
         test_json_files,
