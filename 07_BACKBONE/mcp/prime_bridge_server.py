@@ -48,7 +48,6 @@ import json
 import os
 import re
 from pathlib import Path
-from typing import Optional
 
 from mcp.server.mcpserver import MCPServer
 from mcp.server.mcpserver.exceptions import ToolError
