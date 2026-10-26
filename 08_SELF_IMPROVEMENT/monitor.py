@@ -335,6 +335,8 @@ def _npx_resolution_check(npx_specs):
     import subprocess
 
     packages = []
+    pkg_pattern = re.compile(r'^(@[a-z0-9-]+/)?[a-z0-9][a-z0-9._-]*$', re.I)
+
     for sname, sspec in npx_specs:
         for arg in (sspec.get('args') or []):
             a = str(arg)
@@ -347,7 +349,7 @@ def _npx_resolution_check(npx_specs):
             # looking like it had run.
             if '\\' in a or ':' in a or a.lower().endswith(('.py', '.js', '.mjs', '.cmd')):
                 continue
-            if not re.match(r'^(@[a-z0-9-]+/)?[a-z0-9][a-z0-9._-]*$', a, re.I):
+            if not pkg_pattern.match(a):
                 continue
             if a not in [p for _, p in packages]:
                 packages.append((sname, a))
