@@ -112,6 +112,26 @@ When Popy says "second brain," treat both as one operational system. When you pr
 - **SACRU corpus (963 proverbs)**: **LOCATED** — `E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\- ORCHESTRATOR - Sys Folder - Hermes Default\SF_IA - IDENTITATE_AXIOMA\SF_IA - 963_PROVERBE_COMPLET.md`. (25-axe decision matrix, NOT 963 literal proverbs.)
 - **Backbone hub (this directory)**: `C:\Users\apviz\.minimax-agent\projects\`
 
+## §12.5 Google Access — conectarea permanentă la Google (28 oct 2026)
+
+Pe această stație, Google **nu** e o capabilitate care se re-configurează la fiecare sesiune. E un container, un credential, un singur endpoint MCP, ținut în viață de sistemul de operare.
+
+| | |
+|---|---|
+| Endpoint MCP | `http://127.0.0.1:8766/mcp` — înregistrat **global** în `C:\Users\apviz\.minimax\mcp.json` ca `Google_Access`, deci îl moștenește **orice** agent de pe stație, nu doar Mavis |
+| Punct de control (o singură comandă) | `node C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs` → `VERDICT=PASS` / `FAIL`, exit 0 / 2, 9 verificări |
+| Harness CLI (pentru un AI fără client MCP) | `node C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\container\mcp-call.mjs <tool> @args.json` |
+| Proiect | `C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access` (repo public `apvizual-max/Mavis-Google_Access`) |
+| Bridge | `10_BRIDGES\10_google_access.md` |
+
+Reguli care decurg din asta:
+
+1. **Nu reconfigurați setările.** Grantul, scope-urile, rotația tokenului, ascultătorul de re-consimțământ și verificarea există și rulează singure. Dacă o sesiune "nu are Google", înseamnă că ceva s-a rupt: rulează punctul de control, citește verificarea care a picat, repară **acea** bucată.
+2. **Acțiunea umană e UN CLIC** (ecranul de consimțământ), și doar când Google îl cere. Ascultătorul care prinde callback-ul e ținut viu de un task programat, nu de o sesiune.
+3. **`keep` și `sites` sunt refuzate de Google** și rămân refuzate. Nu sunt defecte; Popy importă conținutul prin alte unelte în Drive.
+4. **Credentialul nu iese din volum** — nici în repo, nici în log, nici în chat.
+5. **`google-layer\` are o singură casă**: `Mavis-Google_Access\google-layer\`. (Măsurat 28 oct 2026: referințele din control center și din skill au fost reparate pe loc, în aceeași zi.)
+
 ## §13 Pricing & buying discipline
 
 - Search the **entire MiniMax brand** (platform + design + MiniMax Code) before declaring a tier doesn't exist.
@@ -155,7 +175,7 @@ If any CLI is not on PATH or its binary is missing, say so. Do not pretend to ca
 
 This file governs Mavis's behavior in MiniMax Code sessions. It does **not** replace:
 - The MiniMax Code Memory layer (user/agent/project memory, read via the `memory` tool). Memory entries contain `<!-- mem-append-reason -->` HTML comments and are **not** paste-into-instructions material.
-- MCP server configuration (lives in `mcp.json`, configured via the `mavis` CLI). Mavis's current MCP fleet is 13 servers (all enabled): `hermes-mcp-router`, `qwen-mcp-http`, `docker-mcp`, `git-mcp`, `obsidian-mcp`, `notebooklm-mcp`, `chrome-devtools-mcp`, `agent-browser-mcp`, `mcp-server-filesystem`, `gdrive-mcp`, `gmail-mcp`, `google-workspace-mcp`, `google-calendar-mcp`.
+- MCP server configuration (lives in `mcp.json`, configured via the `mavis` CLI). Mavis's current MCP fleet is 21 servers (19 enabled), measured 2026-10-28: `hermes-mcp-router`, `qwen-mcp-http`, `docker-mcp`, `git-mcp`, `obsidian-mcp`, `notebooklm-mcp`, `minimax-notebooklm`, `chrome-devtools-mcp`, `agent-browser-mcp`, `mcp-server-filesystem`, `gdrive-mcp`, `gmail-mcp` (disabled), `google-workspace-mcp`, `google-calendar-mcp` (disabled), `qwen-acp-adapter`, `sentinel-hub`, `minimax-whatsapp`, `prime-bridge`, `web-tools`, `git-tools`, `Google_Access`. The configuration file is GLOBAL, so every agent on this station inherits every entry - that is how `Google_Access` reaches the workers and the verifiers too, and it is why the path in an entry has to exist.
 - Skills (live in `~/.minimax/agents/<name>/skills/`, loaded via the `skill` tool). Mavis's current skills are 10: `hermes-bridge`, `qwen-bridge`, `antigravity-bridge`, `docker-gordon`, `obsidian-second-brain`, `notebooklm-bridge`, `google-workspace`, `chrome-browser`, `optimus-backbone`, `sacru-corpus`.
 - Antigravity, Gemini, Hermes, Gordon, NotebookLM, Qwen themselves — each is a separate runtime.
 

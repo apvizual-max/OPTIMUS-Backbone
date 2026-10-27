@@ -777,10 +777,10 @@ if (Test-Path -LiteralPath $gwsMcp) {
     $state.sections.google.probe_ms    = [int]$probe.ElapsedMilliseconds
     if ($msg -match 'insufficient|403|scope') {
       $state.sections.google.reason = 'the token exists but is not scoped for Drive'
-      $state.sections.google.remedy = 're-run projects\google-layer\gdrive-oauth.js and accept the Drive scope'
+      $state.sections.google.remedy = 're-run projects\Mavis-Google_Access\google-layer\gdrive-oauth.js and accept the Drive scope'
     } elseif ($msg -match '401|invalid_grant') {
       $state.sections.google.reason = 'the refresh token is no longer valid'
-      $state.sections.google.remedy = 're-run projects\google-layer\gdrive-oauth.js to grant a fresh one'
+      $state.sections.google.remedy = 're-run projects\Mavis-Google_Access\google-layer\gdrive-oauth.js to grant a fresh one'
     } else {
       $state.sections.google.reason = $msg
       $state.sections.google.remedy = 'check network reachability to googleapis.com'
@@ -789,7 +789,7 @@ if (Test-Path -LiteralPath $gwsMcp) {
 } else {
   $state.sections.google.drive_probe = 'no credential file at ~/.config/gws/mcp-secrets.json'
   $state.sections.google.reason      = 'no Drive credential has been granted on this machine'
-  $state.sections.google.remedy      = 'run projects\google-layer\gdrive-oauth.js, then complete the consent'
+  $state.sections.google.remedy      = 'run projects\Mavis-Google_Access\google-layer\gdrive-oauth.js, then complete the consent'
 }
 
 # A SECOND, independently granted credential covers Gmail and Calendar
@@ -831,7 +831,7 @@ if (Test-Path -LiteralPath $wsTok) {
 }
 
 # --------------------------------------------------------------- NOTEBOOKLM --
-# minimax's OWN NotebookLM server (projects\google-layer\minimax-notebooklm.js).
+# minimax's OWN NotebookLM server (projects\Mavis-Google_Access\google-layer\minimax-notebooklm.js).
 # Never notebooklm-mcp: that is the package Hermes runs, and the two must not be
 # combined. Listing notebooks needs a real browser round-trip against the
 # authenticated profile, so it is cached for 10 minutes rather than run every
@@ -848,7 +848,7 @@ if (-not $nbFresh) {
     # projects\google-layer is a SIBLING of 90_CONTROL_CENTER, not a child.
     # $PSScriptRoot is ...\projects\90_CONTROL_CENTER\api, so it takes TWO
     # Split-Path hops to reach projects\.
-    $reg = Join-Path (Split-Path -Parent (Split-Path -Parent $PSScriptRoot)) 'google-layer\notebook-registrar.js'
+    $reg = Join-Path (Split-Path -Parent (Split-Path -Parent $PSScriptRoot)) 'Mavis-Google_Access\google-layer\notebook-registrar.js'
     $r = Invoke-Bounded -Command ('node "{0}"' -f $reg) -TimeoutSec 90
     if (-not $r.TimedOut -and $r.Text -match '"notebooks"') {
       $parsed = $r.Text | ConvertFrom-Json
@@ -1319,9 +1319,9 @@ try {
       name = 'Google Drive'; state = $gState; detail = $gDetail
       installed = ($mcpNames -contains 'gdrive-mcp')
       remedy = $(if ($gState -eq 'connected') { 'none - connected and probed live' }
-                 elseif ($credDrive) { 'credentials.json is in place; run projects\google-layer\gdrive-oauth.js' }
+                 elseif ($credDrive) { 'credentials.json is in place; run projects\Mavis-Google_Access\google-layer\gdrive-oauth.js' }
                  elseif ($tokDrive) { 'token.json exists - it may have expired' }
-                 else { 'run projects\google-layer\gdrive-oauth.js to grant a Drive credential' })
+                 else { 'run projects\Mavis-Google_Access\google-layer\gdrive-oauth.js to grant a Drive credential' })
       scopes = 'auth/drive (full) - as shipped by gdrive-mcp'
       risk = 'full read AND write on Drive. This is the package default, not a narrowed grant.'
     }
@@ -1330,7 +1330,7 @@ try {
       detail = $(if ($gmOk) { "messages.list answered; $($state.sections.google.gmail_count) sampled" }
                  else { 'not probed successfully this cycle' })
       installed = ($mcpNames -contains 'google-workspace-mcp')
-      remedy = $(if ($gmOk) { 'none - connected read-only' } else { 'run projects\google-layer\gworkspace-oauth.js and accept the Gmail scopes' })
+      remedy = $(if ($gmOk) { 'none - connected read-only' } else { 'run projects\Mavis-Google_Access\google-layer\gworkspace-oauth.js and accept the Gmail scopes' })
       scopes = 'gmail.readonly - narrowed deliberately'
       risk = 'read only. A write attempt was refused by Google with HTTP 403 insufficientPermissions.'
     }
@@ -1338,7 +1338,7 @@ try {
       name = 'Google Calendar'; state = $(if ($clOk) { 'connected-read-only' } elseif ($wsLive) { 'credential-present' } else { 'no-credential' })
       detail = $(if ($clOk) { "calendarList answered; $($state.sections.google.calendar_count) calendar(s) visible" } else { 'not probed successfully this cycle' })
       installed = ($mcpNames -contains 'google-workspace-mcp')
-      remedy = $(if ($clOk) { 'none - connected read-only' } else { 'run projects\google-layer\gworkspace-oauth.js and accept the Calendar scopes' })
+      remedy = $(if ($clOk) { 'none - connected read-only' } else { 'run projects\Mavis-Google_Access\google-layer\gworkspace-oauth.js and accept the Calendar scopes' })
       scopes = 'calendar.readonly - narrowed deliberately'
       risk = 'read only.'
     }
@@ -1346,7 +1346,7 @@ try {
       name = 'Google Workspace'; state = $(if ($wsLive) { 'connected-read-only' } else { 'no-credentials' })
       detail = $(if ($wsLive) { "110 tools, one account loaded, serve --read-only; Drive $($state.sections.google.drive_probe), Gmail $gmailProbe, Calendar $calProbe" } else { 'no credential at ~/.google-mcp/tokens' })
       installed = ($mcpNames -contains 'google-workspace-mcp')
-      remedy = $(if ($wsLive) { 'none - connected read-only' } else { 'run projects\google-layer\gworkspace-oauth.js' })
+      remedy = $(if ($wsLive) { 'none - connected read-only' } else { 'run projects\Mavis-Google_Access\google-layer\gworkspace-oauth.js' })
       scopes = 'drive/documents/spreadsheets/presentations/calendar/gmail - all .readonly'
       risk = 'read only. The package as shipped asks for full write plus gmail.modify; that grant was deliberately not taken.'
     }

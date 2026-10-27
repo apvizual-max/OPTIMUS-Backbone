@@ -880,7 +880,7 @@ try {
             Send $ctx 400 'application/json' (@{ ok = $false; error = "no notebook is named '$nbName' - the name must match one shown in the console, exactly" } | ConvertTo-Json)
             break
           }
-          $nbScript = Join-Path $ROOT '..\google-layer\notebook-ask.js'
+          $nbScript = Join-Path $ROOT '..\Mavis-Google_Access\google-layer\notebook-ask.js'
           if (-not (Test-Path -LiteralPath $nbScript)) {
             Send $ctx 500 'application/json' (@{ ok = $false; error = "notebook-ask.js is missing at $nbScript" } | ConvertTo-Json)
             break

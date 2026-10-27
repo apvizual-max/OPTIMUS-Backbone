@@ -60,7 +60,27 @@ Stated by Popy on 2026-10-05 after repeated failures caused by breaking it. It i
 3. **Duplication is the correct answer.** If minimax needs something Hermes already has, build a second, independent instance. Two separate instances cannot destroy each other. A shared one can. Creating a duplicate is never the mistake.
 4. **If minimax and Hermes genuinely must interact, that interaction is a designed artifact** — an explicit procedure, a documented workflow, named endpoints, defined credential ownership on both sides. Never implicit, never ad hoc.
 5. **Name the namespace whenever a tool, skill, connector or MCP server is used**, so provenance is visible in the transcript: `minimax MCP`, `minimax skills`, `minimax connectors`, `minimax` — and `Hermes ...` separately, only when a Hermes-owned resource is deliberately touched.
-6. **minimax's own NotebookLM server is `minimax-notebooklm`** (`google-layer\minimax-notebooklm.js`, own Chrome profile at `%LOCALAPPDATA%\minimax-notebooklm\chrome_profile`, own CDP port 9412). The `notebooklm-mcp` npm package also on PATH is the same package Hermes runs, with no configuration and no credential. It is **not** a minimax capability and must not be used as one.
+6. **minimax's own NotebookLM server is `minimax-notebooklm`** (`Mavis-Google_Access\google-layer\minimax-notebooklm.js`, own Chrome profile at `%LOCALAPPDATA%\minimax-notebooklm\chrome_profile`, own CDP port 9412). The `notebooklm-mcp` npm package also on PATH is the same package Hermes runs, with no configuration and no credential. It is **not** a minimax capability and must not be used as one.
+
+### Google Access - the permanent connection (27-28 Oct 2026)
+
+Google is **not** a capability that gets re-set-up per session. It is one container, one credential, one MCP endpoint, kept alive by the operating system:
+
+| | |
+|---|---|
+| MCP endpoint | `http://127.0.0.1:8766/mcp` — registered globally in `C:\Users\apviz\.minimax\mcp.json` as `Google_Access`, so **every** agent on this station inherits it, not only Mavis |
+| Control point (one command) | `node C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs` → `VERDICT=PASS` / `FAIL`, exit 0 / 2, 9 checks |
+| CLI harness (no MCP client needed) | `node C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\container\mcp-call.mjs <tool> @args.json` |
+| Project | `C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access` (public repo `apvizual-max/Mavis-Google_Access`) |
+| Bridge spec | `10_BRIDGES\10_google_access.md` |
+
+Rules that follow from it:
+
+1. **Never rebuild the settings.** The grant, the scopes, the token rotation, the re-consent listener and the verification already exist and run on their own. A session that "needs Google again" means something broke - run the control point, read the failing check, repair that.
+2. **The human action is ONE click** (the consent screen), and only when Google itself demands it. The listener that catches the callback is kept alive by a scheduled task.
+3. **`keep` and `sites` are refused by Google** and stay refused. They are not defects; Popy imports that content through other tools into Drive.
+4. **The credential never leaves the volume** - not into a repo, not into a log, not into a chat message.
+
 
 ### Tool before words
 

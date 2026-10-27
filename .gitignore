@@ -21,6 +21,23 @@ _QUARANTINE*/
 SENTINEL_PRIME/
 60_SKILLS/_links/
 
+# MĂSURAT 2026-10-28: trei repo-uri stau în interiorul arborelui backbone și
+# fiecare are istoria și remote-ul lui. Fără această regulă, un `git add` le-ar
+# transforma în gitlink-uri (mod 160000) într-un repo PUBLIC — exact defectul
+# reparat la c73fa0b ("stergerea gitlink-ului mort catre vechea platforma CI").
+#   Mavis-Google_Access/      -> remote apvizual-max/Mavis-Google_Access
+#   Optimus_CD (by Jules)/    -> junction spre repo cu remote propriu
+#   Optimus_CI (by Mavis)/    -> junction spre repo cu remote propriu
+Mavis-Google_Access/
+Optimus_CD (by Jules)/
+Optimus_CI (by Mavis)/
+
+# Symlink pe o cale locală de pe această mașină (C:\Antigravity - SYSTEM
+# TOPOLOGY...). Ținta există (măsurat), dar un symlink absolut nu are ce căuta
+# într-un repo PUBLIC: ar fi un pointer mort pentru orice altă mașină.
+# Conținutul real trăiește în CD/_docs și în istoricul lui.
+README_SYSTEM_TOPOLOGY_AND_AGENT_GUIDELINES.md
+
 # ── SPAȚIU AL LUI HERMES ──────────────────────────────────────────────────
 # Regula de namespace: minimax și Hermes sunt universuri separate. Nu trag
 # conținutul produsului lui Hermes în istoria mea.
