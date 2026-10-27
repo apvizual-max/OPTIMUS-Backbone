@@ -51,7 +51,7 @@ import re
 import urllib.error
 import urllib.parse
 import urllib.request
-from typing import Annotated, Optional
+from typing import Annotated
 
 from mcp.server.mcpserver import MCPServer
 from mcp.server.mcpserver.exceptions import ToolError
@@ -221,7 +221,7 @@ def text_or_empty(body: bytes) -> str:
     return body.decode('utf-8', errors='replace')
 
 
-def base64_or_none(body: bytes) -> Optional[str]:
+def base64_or_none(body: bytes) -> str | None:
     import base64
     try:
         return body.decode('utf-8')
