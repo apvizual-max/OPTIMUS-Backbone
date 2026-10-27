@@ -1,20 +1,23 @@
 ---
 name: mavis-skill-index
-description: Master skill index for Mavis. Single point of truth over ALL skills Mavis can call — the 1,279 personal skills at C:\Users\apviz\.minimax\skills\, the 60 mavis-* skills, and the 21 builtin skills. Use this when Mavis needs to autonomously pick the right skill for a task without manual loading. Includes routing procedure + self-update procedure so Mavis learns and amends the index over time.
+description: Master skill index for Mavis. Single point of truth over ALL skills Mavis can call — the 1,307 personal skills at C:\Users\apviz\.minimax\skills\, the 78 mavis-agent skills, and the 21 builtin skills. Use this when Mavis needs to autonomously pick the right skill for a task without manual loading. Includes routing procedure + self-update procedure so Mavis learns and amends the index over time.
 ---
 
 # mavis-skill-index
 
-**The single point of truth for ALL of Mavis's skill capabilities.** This skill does not encode a workflow — it encodes Mavis's autonomous routing logic + a 1,279-row classifier table that Mavis reads to pick the right skill(s) for any given task. The counts below are the measured ones; if a number here disagrees with a count taken from disk, the number here is wrong — fix it, do not reconcile it.
+**The single point of truth for ALL of Mavis's skill capabilities.** This skill does not encode a workflow — it encodes Mavis's autonomous routing logic + a 1,297-row classifier table that Mavis reads to pick the right skill(s) for any given task. The counts below are the measured ones; if a number here disagrees with a count taken from disk, the number here is wrong — fix it, do not reconcile it.
 
 ## What this skill owns
 
 | Skill source | Count | Where it lives |
 |---|---|---|
-| **Personal skills** (Popy's library) | **1,279** | `C:\Users\apviz\.minimax\skills\<name>\SKILL.md` |
-| Mavis agent skills | 60 (incl. 4 bundles) | `C:\Users\apviz\.minimax\agents\mavis\skills\` |
+| **Personal skills** (Popy's library) | **1,307** | `C:\Users\apviz\.minimax\skills\<name>\SKILL.md` |
+| Mavis agent skills | 78 (incl. 4 bundles) | `C:\Users\apviz\.minimax\agents\mavis\skills\` |
 | MiniMax builtins | 21 | `C:\Users\apviz\.minimax\.builtin-skills\` |
-| **Total** | **1,339** | (overlapping categories — Mavis picks per task) |
+| **Total** | **1,406** | (overlapping categories — Mavis picks per task) |
+
+**Counts measured 2026-10-27** (`dirs with SKILL.md`): personal 1,307 · mavis-agent 78 (75 `mavis-*` + 3 unprefixed, incl. the 4 bundles) · builtins 21.
+The classifier table below enumerates **1,297** of the 1,307 personal skills — **10 are on disk but not yet classified** (`alex-hormozi-coach`, `brand-promo-video-generator`, `design-packaging`, `engineering-delivery-operations`, `fable-goal`, `i-have-adhd`, `pkms-vault-administration`, `pkms-vault-index`, `stop-slop`, `study-book-design`). The weekly rebuild will pick them up; until then, read their `SKILL.md` directly.
 
 ## SENTINEL PRIME skills (installed 2026-10-04)
 
@@ -34,6 +37,15 @@ Both defects are fixed; `install_skills.py` now deploys project → runtime root
 **Re-install after editing any of them:**
 `python SENTINEL_PRIME\08_SELF_IMPROVEMENT\install_skills.py` — a file in the
 project folder is a document until that runs.
+
+## Session & record skills
+
+| Skill | Load when |
+|---|---|
+| `mavis-session-transcript-skill` | extracting / archiving / handing over the **full** transcript of a session — every message, thinking block, tool call and the tool outputs the runtime externalised to disk |
+| `mavis-session-lifecycle-skill` | session open / close discipline (BUSOLA, read order, close-out) |
+| `mavis-deliverable-handoff-skill` | packaging a finished artefact so Popy can actually use it |
+| `mavis-journal-oglinda-skill` | append-only reality anchor (`JURNAL_OGLINDA`) |
 
 ## Routing procedure (autonomous, no user input needed)
 
@@ -63,7 +75,7 @@ Each bundle's SKILL.md lists the right member skills for that scope. Bundles are
 
 ### Step 3 — Pick the right SKILL from the full classifier table
 
-The classifier table lives at `C:\Users\apviz\.minimax-agent\projects\70_CONNECTORS\70_personal_skill_index.md` (242 KB, full per-category lists).
+The classifier table lives at `C:\Users\apviz\.minimax-agent\projects\70_CONNECTORS\70_personal_skill_index.md` (306.695 B = 299.5 KB, full per-category lists, 1,297 skills enumerated).
 
 Procedure:
 
@@ -71,7 +83,7 @@ Procedure:
 2. Compare the task description against each skill's description in that category.
 3. Score by: name match (high), trigger keyword match (medium), description overlap (low).
 4. Pick the **top 1-3 candidates**. Don't load more than 3 personal skills per task — that's the autonomous selection budget.
-5. If no candidate fits cleanly, fall back to the bundle's member skills (the 18 mavis-* + 22 builtins).
+5. If no candidate fits cleanly, fall back to the bundle's member skills (the 18 mavis-* listed across the four bundles — measured: identity 3, behavioral 5, role 2, operations 8; no builtin is listed as a bundle member).
 
 ### Step 4 — Load via `skill({ name: "<candidate>" })`
 
@@ -115,7 +127,7 @@ When the lesson log grows past ~10 entries, Mavis should **rebuild the classifie
 
 ## Anti-patterns
 
-- ❌ Loading all 1,159 skills into context. That would burn tokens and exceed the model's window. Mavis must select 1–3 per task.
+- ❌ Loading all 1,307 skills into context. That would burn tokens and exceed the model's window. Mavis must select 1–3 per task.
 - ❌ Skipping the bundle layer. The bundles enforce scope + prevent category confusion.
 - ❌ Asking Popy to choose a skill. The whole point is autonomous selection.
 - ❌ Editing personal SKILL.md files directly. They belong to Popy's library. Mavis only amends the classifier index.

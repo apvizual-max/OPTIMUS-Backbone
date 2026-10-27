@@ -31,6 +31,7 @@ Load via `skill({ name: "<member>" })`:
 | `mavis-notebooklm-bridge-skill` | Source-grounded research with citations | `notebooklm-mcp` |
 | `mavis-google-workspace-skill` | Drive / Gmail / Calendar / Docs (after OAuth bootstrap) | `gdrive-mcp`, `gmail-mcp`, `google-workspace-mcp`, `google-calendar-mcp` |
 | `mavis-chrome-browser-skill` | Live browser automation, screenshots, devtools | `chrome-devtools-mcp`, `agent-browser-mcp` |
+| `mavis-session-transcript-skill` | Extract the FULL transcript of a session (every message, thinking, tool call, externalised tool output) for archiving or hand-over | none (reads the runtime's own sqlite + session dirs via `node:sqlite`) |
 
 ## MCP servers that enforce scope
 
