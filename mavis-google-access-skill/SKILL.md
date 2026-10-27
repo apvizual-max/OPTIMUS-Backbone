@@ -6,7 +6,10 @@ fără re-autentificare la fiecare sesiune.
 **Stare:** ✅ WIRED — containerul `Google_Access` rulează, grantul e **viu**,
 iar accesul a fost dovedit cu **apeluri reale**, nu cu healthcheck.
 Grantul a fost **lățit la 28 de scope-uri** pe 2026-10-27, 10:35 (un singur
-click de consimțământ al lui Popy); proba a dat `VERDICT=PASS`.
+click de consimțământ al lui Popy); proba a dat `VERDICT=PASS`. Azi grantul
+e lățit la **32** de scope-uri, iar containerul a ajuns la `1.0.9` — sesiunea
+sursă continuă să lucreze, deci **cifrele din §2 sunt volatile**: remeasurează
+(cf. §2, „Cum se remeasurează").
 
 ## 1. De ce există (defectul real, nu preferința)
 
@@ -32,15 +35,29 @@ credential, un singur server MCP, un singur volum.
 
 | Ce | Valoare măsurată | Cum |
 |---|---|---|
-| Container | `Google_Access`, imagine `google-access:1.0.4` | `docker ps` |
+| Container | `Google_Access`, imagine `google-access:1.0.9` (măsurat 13:28) | `docker ps` |
 | Endpoint | `http://127.0.0.1:8766/mcp` (doar loopback) | `mcp get Google_Access` |
-| Unelte | **26** | handshake MCP + `tools/list` |
+| Unelte | **32** | `/health` + handshake MCP + `tools/list` |
 | Grant | **LIVE**, `client_id 1068987308935-5b7h17gt1c5hc4…` | `google_auth_status` |
-| Scope granted | **28** — drive · gmail (full) · calendar · documents · forms · presentations · spreadsheets · photoslibrary · tasks · books · script · chat · youtube · contacts | `google_auth_status` |
-| Sursă vie ≡ container | `server.mjs` sha256 `bd09f1df…` — **identic** cu `/app/server.mjs` din containerul care rulează | `tools\google-access\sync-source.py` |
+| Scope granted | **32** — drive · gmail (full) · calendar · documents · forms · presentations · spreadsheets · photoslibrary · tasks · books · script · chat · youtube · contacts | `consent-result.json` → `scope_count` |
+| Sursă vie ≡ container ≡ repo | `server.mjs` sha256 `8429fa51…` — **identic în toate trei** | `tools\google-access\sync-source.py` |
 | Probe reale | Drive: 5 fișiere reale · Gmail: 3 mesaje reale · Books: **403 explicit**, nu eșec tăcut | `probe.mjs` |
 | Secret în imagine | **niciunul** — credentialul trăiește în volumul montat `/data` | `docker inspect` + `.dockerignore` |
 | Notificare re-consent | `Google_Access_Watch` (task orar) → ntfy `mavis-google-access` + `REAUTH-NOTICE.md` | falsificat: exit **3** + mesaj livrat |
+
+**Cum se remeasurează (cifrele din tabel sunt volatile).** Măsurat 2026-10-27:
+**8 build-uri de imagine într-o zi** (`1.0.2` 07:57 → `1.0.9` 13:26) — sesiunea
+sursă continuă să lucreze. Nu citi tabelul ca adevăr permanent:
+
+```powershell
+python "<CI>\tools\google-access\sync-source.py"
+# -> PROBLEMS=0 COPIED=10 ; MATCH=true (sursa vie ≡ container ≡ repo)
+docker exec Google_Access node -e "fetch('http://127.0.0.1:8766/health').then(r=>r.json()).then(j=>console.log(j.tools,j.grant,j.reauth_required))"
+docker exec Google_Access node -e "const j=require('/data/consent-result.json');console.log(j.scope_count||j.scopes.length)"
+```
+
+Ultima rulare (13:28): `PROBLEMS=0 COPIED=10`, `MATCH=true`, `LEAKED_PATHS=0`,
+tools **32**, scopes **32**, grant **live**, `reauth_required=false`.
 
 ## 3. Cum se folosește
 
@@ -59,7 +76,7 @@ instanța lui proprie**: nu se atingă containerele unii ale celorlalți
 
 ## 4. Când e nevoie de un singur click (și numai atunci)
 
-Scope-ul granted acoperă acum **28 de scope-uri**, inclusiv Photos, Tasks,
+Scope-ul granted acoperă acum **32 de scope-uri**, inclusiv Photos, Tasks,
 Books, Script, Chat, YouTube și Contacts. **Doar două rămân inaccesibile**, și
 nu pentru că nu au fost cerute:
 
@@ -69,7 +86,7 @@ nu pentru că nu au fost cerute:
   acordabil pentru Keep.
 
 Măsurat 2026-10-27: aceste două scope-uri **invalidau întreaga cerere** de
-consimțământ (`invalid_scope`), deci celelalte 28, deși erau valide, nu
+consimțământ (`invalid_scope`), deci celelalte 28 de atunci, deși erau valide, nu
 treceau. Au fost scoase din `FULL_SCOPES`, iar motivul e scris în sursă, la
 liniile 24 și 27. Uneltele `gkeep_list` și `gsites_list` **există în continuare**
 în server: n-au scope, deci raportează `MISSING_SCOPE` — nu tac.
@@ -141,8 +158,9 @@ Instrumentul copiază o listă albă, verifică SHA256 după copiere, scanează
 destinația de secrete **și** compară `server.mjs` cu cel din containerul care
 rulează. Ultima comparație e cea care contează: o sursă editată după
 build-ul imaginii înseamnă că repo-ul nu mai descrie sistemul care rulează.
-Măsurat 2026-10-27: sursa vie și containerul erau **identice**
-(`sha256=bd09f1df…`), deci repo-ul era reproductibil.
+Măsurat 2026-10-27 13:28: sursa vie, containerul și copia din repo erau
+**identice** (`sha256=8429fa51…`, `MATCH=true`), deci repo-ul e reproductibil.
+Reverifică cu instrumentul — sursa se schimbă des.
 
 ---
 
