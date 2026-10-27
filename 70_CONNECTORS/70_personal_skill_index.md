@@ -1,8 +1,8 @@
-﻿# Personal Skills Classifier â€” Index of 1,159 skills
+﻿# Personal Skills Classifier — Index of 1,297 skills
 
-**Date**: 2026-10-19 04:03
-**Source**: `C:\Users\apviz\.minimax\skills\` (1,159 SKILL.md files)
-**Author**: Mavis (orchestrator) â€” auto-rebuilt weekly by cron
+**Date**: 2026-10-19 04:03 (counts re-measured 2026-10-27)
+**Source**: `C:\Users\apviz\.minimax\skills\` (1,307 SKILL.md files on disk; this table enumerates 1,297 — 10 added since the last rebuild are not yet classified)
+**Author**: Mavis (orchestrator) — auto-rebuilt weekly by cron
 **Status**: Auto-classified via keyword heuristics on SKILL.md `description:` frontmatter.
 
 ---
