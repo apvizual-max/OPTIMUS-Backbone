@@ -52,6 +52,52 @@ SENTINEL_SRC = host_path(_W_SENTINEL)
 # published), so it is NOT probed from here. Container liveness covers it.
 
 
+_TREE_MAX_DEPTH = 2    # top-level shape only
+_TREE_CAP = 500       # each stat is a gRPC-FUSE round trip (~8ms)
+
+
+def _check_hermes_optimus() -> Check:
+    """
+    HERMES_OPTIMUS pre-dates Mavis; the doctor should still see it.
+
+    Depth- and count-bounded by design. A full recursive stat of this tree
+    costs ~16s (1984 files x ~8ms per gRPC-FUSE round trip), which blew past
+    any client timeout on /doctor. A health check needs presence + shape,
+    not an exact byte total, so enumeration is bounded and reports the
+    truncation instead of hiding the cost.
+    """
+    d = host_path(_W_HERMES_BASE, "HERMES_OPTIMUS")
+    if not d.exists():
+        return Check("hermes.optimus_tree", "warn", "HERMES_OPTIMUS absent",
+                     str(d), remedy="Optional; created ad hoc in the past.")
+    depth0 = _W_HERMES_BASE + r"\HERMES_OPTIMUS"
+    try:
+        subs = sorted(p.name for p in d.iterdir() if p.is_dir())
+    except OSError as e:
+        return Check("hermes.optimus_tree", "warn",
+                     "HERMES_OPTIMUS unreadable", f"{type(e).__name__}: {e}")
+    files = 0
+    truncated = False
+    for root, dirnames, filenames in os.walk(d, topdown=True):
+        if root.rstrip("/\\").count("\\") - depth0.count("\\") >= _TREE_MAX_DEPTH:
+            dirnames[:] = []
+        for fn in filenames:
+            if files >= _TREE_CAP:
+                truncated = True
+                break
+            files += 1
+        if truncated:
+            break
+    note = f", capped at {_TREE_CAP}" if truncated else ""
+    return Check("hermes.optimus_tree", "ok",
+                 f"HERMES_OPTIMUS present: {len(subs)} top-level dirs, "
+                 f"{files}+ files{note}",
+                 evidence={"dirs": subs, "files": files,
+                           "depth": _TREE_MAX_DEPTH,
+                           "truncated": truncated})
+
+
+
 class HermesBridge(BridgeCore):
     BRIDGE_NAME = "minimax-hermes-bridge"
     TARGET = "hermes"
@@ -296,15 +342,7 @@ class HermesBridge(BridgeCore):
             return Check("hermes.sentinel_container", sev,
                          f"sentinel daemon: {status}", evidence=rows[0])
 
-        def c_mcp_fleet() -> Check:
-            cfg = HERMES_CFG
-            if not cfg.exists():
-                return Check("hermes.mcp_fleet", "warn", "no config.yaml", str(HERMES_CFG))
-            lines = cfg.read_text(encoding="utf-8", errors="replace").splitlines()
-            # Count the SERVER entries under mcp_servers:, not the key itself.
-            # `txt.count("mcp_servers:")` always returned 1 and the `or` fallback
-            # was then short-circuited, so this reported "~1 server" regardless of
-            # how many were actually wired.
+        def _parse_mcp_servers(lines: list[str]) -> list[str]:
             start = None
             base_indent = 0
             for i, ln in enumerate(lines):
@@ -324,6 +362,18 @@ class HermesBridge(BridgeCore):
                     s = ln.strip()
                     if indent == base_indent + 2 and s.endswith(":"):
                         names.append(s[:-1].strip())
+            return names
+
+        def c_mcp_fleet() -> Check:
+            cfg = HERMES_CFG
+            if not cfg.exists():
+                return Check("hermes.mcp_fleet", "warn", "no config.yaml", str(HERMES_CFG))
+            lines = cfg.read_text(encoding="utf-8", errors="replace").splitlines()
+            # Count the SERVER entries under mcp_servers:, not the key itself.
+            # `txt.count("mcp_servers:")` always returned 1 and the `or` fallback
+            # was then short-circuited, so this reported "~1 server" regardless of
+            # how many were actually wired.
+            names = _parse_mcp_servers(lines)
             sev = "ok" if names else "warn"
             return Check("hermes.mcp_fleet", sev,
                          f"{len(names)} mcp_servers declared in config.yaml",
@@ -332,51 +382,8 @@ class HermesBridge(BridgeCore):
                          evidence={"count": len(names), "names": names,
                                    "source": str(cfg)})
 
-        _TREE_MAX_DEPTH = 2    # top-level shape only
-        _TREE_CAP = 500       # each stat is a gRPC-FUSE round trip (~8ms)
-
-        def c_hermes_optimus() -> Check:
-            """
-            HERMES_OPTIMUS pre-dates Mavis; the doctor should still see it.
-
-            Depth- and count-bounded by design. A full recursive stat of this tree
-            costs ~16s (1984 files x ~8ms per gRPC-FUSE round trip), which blew past
-            any client timeout on /doctor. A health check needs presence + shape,
-            not an exact byte total, so enumeration is bounded and reports the
-            truncation instead of hiding the cost.
-            """
-            d = host_path(_W_HERMES_BASE, "HERMES_OPTIMUS")
-            if not d.exists():
-                return Check("hermes.optimus_tree", "warn", "HERMES_OPTIMUS absent",
-                             str(d), remedy="Optional; created ad hoc in the past.")
-            depth0 = _W_HERMES_BASE + r"\HERMES_OPTIMUS"
-            try:
-                subs = sorted(p.name for p in d.iterdir() if p.is_dir())
-            except OSError as e:
-                return Check("hermes.optimus_tree", "warn",
-                             "HERMES_OPTIMUS unreadable", f"{type(e).__name__}: {e}")
-            files = 0
-            truncated = False
-            for root, dirnames, filenames in os.walk(d, topdown=True):
-                if root.rstrip("/\\").count("\\") - depth0.count("\\") >= _TREE_MAX_DEPTH:
-                    dirnames[:] = []
-                for fn in filenames:
-                    if files >= _TREE_CAP:
-                        truncated = True
-                        break
-                    files += 1
-                if truncated:
-                    break
-            note = f", capped at {_TREE_CAP}" if truncated else ""
-            return Check("hermes.optimus_tree", "ok",
-                         f"HERMES_OPTIMUS present: {len(subs)} top-level dirs, "
-                         f"{files}+ files{note}",
-                         evidence={"dirs": subs, "files": files,
-                                   "depth": _TREE_MAX_DEPTH,
-                                   "truncated": truncated})
-
         self.check(check_docker("hermes.dockerd", "Docker engine"))
-        self.check(c_hermes_optimus)
+        self.check(_check_hermes_optimus)
         for fn in (c_version, c_venv_currency, c_hang_probe, c_containers,
                    c_sentinel_enforcement, c_sentinel_source, c_sentinel_container,
                    c_mcp_fleet):

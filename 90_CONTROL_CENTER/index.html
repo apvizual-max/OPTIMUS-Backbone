@@ -778,22 +778,22 @@ table.ftab tr:hover td{background:rgba(127,127,127,.07)}
     <span class="pill p-risk" id="pillRisk" title="Problems detected in the current measurement"><i class="ti ti-alert-triangle"></i><span>—</span></span>
     <span class="pill p-ok" id="pillSup" title="Is the supervisor keeping this console alive?"><i class="ti ti-heartbeat"></i><span>supervisor —</span></span>
     <button class="ibtn" id="btnAsk" title="Jump to the AI analyst (A)"><i class="ti ti-sparkles hicon"></i>Ask<kbd>A</kbd></button>
-    <button class="ibtn" id="btnPal" title="Command palette"><i class="ti ti-search hicon"></i><kbd>Ctrl K</kbd></button>
-    <button class="ibtn" id="btnTheme" title="Switch theme"><i class="ti ti-moon hicon" id="themeIcon"></i></button>
-    <button class="ibtn" id="btnHelp" title="Keyboard shortcuts"><i class="ti ti-keyboard hicon"></i><kbd>?</kbd></button>
+    <button class="ibtn" id="btnPal" title="Command palette" aria-label="Command palette" aria-expanded="false" aria-controls="pal"><i class="ti ti-search hicon"></i><kbd>Ctrl K</kbd></button>
+    <button class="ibtn" id="btnTheme" title="Switch theme" aria-label="Switch theme"><i class="ti ti-moon hicon" id="themeIcon"></i></button>
+    <button class="ibtn" id="btnHelp" title="Keyboard shortcuts" aria-label="Keyboard shortcuts" aria-expanded="false" aria-controls="help"><i class="ti ti-keyboard hicon"></i><kbd>?</kbd></button>
   </div>
 </header>
 
 <nav id="nav"></nav>
 <main><div id="view" role="tabpanel" tabindex="-1"></div></main>
 
-<div class="pal" id="pal"><div class="palbox">
-  <input class="palin" id="palIn" placeholder="Jump to a tab, run an action, or ask the analyst…" autocomplete="off">
+<div class="pal" id="pal" role="dialog" aria-modal="true" aria-label="Command palette"><div class="palbox">
+  <input class="palin" id="palIn" aria-label="Command palette input" placeholder="Jump to a tab, run an action, or ask the analyst…" autocomplete="off">
   <div class="pallist" id="palList"></div>
   <div class="palfoot"><span>&uarr;&darr; navigate</span><span>&crarr; select</span><span>esc close</span></div>
 </div></div>
 
-<div class="ovl" id="help"><div class="ovlbox">
+<div class="ovl" id="help" role="dialog" aria-modal="true" aria-label="Keyboard shortcuts"><div class="ovlbox">
   <h3>Keyboard shortcuts</h3>
   <div id="helpBody"></div>
 </div></div>
@@ -1342,10 +1342,10 @@ function viewOverview(){
       +(nb.authenticated
         ? '<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line)">'
           +'<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">'
-          +'<select id="nbPick" style="flex:0 0 200px">'
+          +'<select id="nbPick" style="flex:0 0 200px" aria-label="Select notebook">'
           +arr(nb.notebooks).map(n=>'<option value="'+esc(n.name)+'">'+esc(n.name)+'</option>').join('')
           +'</select>'
-          +'<input id="nbQ" placeholder="Ask this notebook something..." style="flex:1;min-width:220px">'
+          +'<input id="nbQ" aria-label="NotebookLM query input" placeholder="Ask this notebook something..." style="flex:1;min-width:220px">'
           +'<button class="pillbtn" id="nbAsk">'+tic('bolt')+'Ask</button>'
           +'</div>'
           +'<div id="nbOut" style="margin-top:10px;font-size:13px">'+(NBANSWER?NBANSWER.html:'')+'</div>'
@@ -1423,7 +1423,7 @@ function viewAI(){
    /* No second paragraph here. The hero already explains what this is, and a
       near-verbatim repeat underneath it reads as filler - the eye has already
       read the sentence. The space earns better use as the answer surface. */
-   +'<textarea class="aiq" id="aiQ" placeholder="e.g. Which single thing should I fix first?"></textarea>'
+   +'<textarea class="aiq" id="aiQ" aria-label="AI query input" placeholder="e.g. Which single thing should I fix first?"></textarea>'
    +'<div class="aibr" style="margin-top:11px">'
    +'<button class="pillbtn ghost" id="aiClear">Clear</button>'
    +'<button class="pillbtn" id="aiGo">'+svg('sparkle')+'Ask</button>'
@@ -1434,7 +1434,7 @@ function viewAI(){
       textContent. The detached-node fix must not introduce an injection.
       The id="aiAns" box is what paintAI() re-renders, so an answer that arrives
       without a page reload still gets its full provenance header. */
-   +'<div class="aians" id="aiAns">'+aiAnswerInner()+'</div>'
+   +'<div class="aians" id="aiAns" aria-live="polite">'+aiAnswerInner()+'</div>'
    +'</div>';
 }
 const sleep = ms => new Promise(r=>setTimeout(r,ms));
@@ -1861,13 +1861,13 @@ function viewCommand(){
    +'<button data-x="csv">'+svg('download')+'Copy container CSV</button>'
    +'<button data-x="print">'+svg('file')+'Print this view</button>'
    +'<button data-x="digest">'+svg('doc')+'Copy the AI briefing</button>'
-   +'</div><div id="xout" style="margin-top:10px"></div></div>'
+   +'</div><div id="xout" style="margin-top:10px" aria-live="polite"></div></div>'
    +'<div class="card" style="--acc:var(--cyan);margin-top:20px"><h2>'+svg('terminal')+'Actionable commands</h2>'
    +'<p class="sub">Every button runs a real command on this machine and prints its actual output below. Nothing is simulated. The command line under each button is shown so you can re-run anything by hand from a normal shell.</p>'
    +'<div class="cockpit">'+cards+'</div></div>'
    +'<div class="card" style="--acc:var(--indigo);margin-top:20px"><h2>'+svg('download')+'Output</h2>'
    +'<p class="sub">Whatever the last button printed, verbatim.</p>'
-   +'<pre class="out" id="out">'+esc(outKeep||'Choose an action above. Its real output will appear here.')+'</pre></div>';
+   +'<pre class="out" id="out" aria-live="polite">'+esc(outKeep||'Choose an action above. Its real output will appear here.')+'</pre></div>';
 }
 
 /* ============================== RESILIENCE ==============================
@@ -2513,9 +2513,9 @@ function bind(){
 }
 
 /* ========================== COMMAND PALETTE ============================ */
-let palSel=0, palItems=[];
-function openPal(){ document.getElementById('pal').classList.add('on'); const i=document.getElementById('palIn'); i.value=''; i.focus(); palSel=0; palBuild(); }
-function closePal(){ document.getElementById('pal').classList.remove('on'); }
+let palSel=0, palItems=[], lastFocus=null;
+function openPal(){ lastFocus=document.activeElement; document.getElementById('btnPal').setAttribute('aria-expanded','true'); document.getElementById('pal').classList.add('on'); const i=document.getElementById('palIn'); i.value=''; i.focus(); palSel=0; palBuild(); }
+function closePal(){ document.getElementById('btnPal').setAttribute('aria-expanded','false'); document.getElementById('pal').classList.remove('on'); if(lastFocus) { lastFocus.focus(); lastFocus=null; } }
 function palBuild(){
   const q=(document.getElementById('palIn').value||'').toLowerCase();
   palItems=[];
@@ -2547,6 +2547,7 @@ const KEYS=[
   ['Esc','close anything open'],
 ];
 function showHelp(){
+  lastFocus=document.activeElement; document.getElementById('btnHelp').setAttribute('aria-expanded','true');
   document.getElementById('helpBody').innerHTML=KEYS.map(k=>
     '<div class="krow"><span>'+esc(k[1])+'</span><kbd>'+esc(k[0])+'</kbd></div>').join('');
   document.getElementById('help').classList.add('on');
@@ -2554,7 +2555,7 @@ function showHelp(){
 document.addEventListener('keydown',e=>{
   const typing = /^(INPUT|TEXTAREA)$/.test(e.target.tagName);
   if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='k'){ e.preventDefault(); openPal(); return; }
-  if(e.key==='Escape'){ closePal(); document.getElementById('help').classList.remove('on'); if(typing)e.target.blur(); return; }
+  if(e.key==='Escape'){ if(document.getElementById('pal').classList.contains('on')) closePal(); if(document.getElementById('help').classList.contains('on')) { document.getElementById('help').classList.remove('on'); document.getElementById('btnHelp').setAttribute('aria-expanded','false'); if(lastFocus) { lastFocus.focus(); lastFocus=null; } } if(typing)e.target.blur(); return; }
   if(typing) return;
   if(document.getElementById('pal').classList.contains('on')){
     if(e.key==='ArrowDown'){ e.preventDefault(); palSel=Math.min(palSel+1,Math.min(palItems.length,40)-1); palPaint(); }
@@ -2582,7 +2583,7 @@ document.getElementById('btnPal').onclick=openPal;
 document.getElementById('btnHelp').onclick=showHelp;
 document.getElementById('btnTheme').onclick=toggleTheme;
 document.getElementById('btnAsk').onclick=()=>{ active='ai'; render(); };
-document.getElementById('help').onclick=e=>{ if(e.target.id==='help') e.currentTarget.classList.remove('on'); };
+document.getElementById('help').onclick=e=>{ if(e.target.id==='help') { e.currentTarget.classList.remove('on'); document.getElementById('btnHelp').setAttribute('aria-expanded','false'); if(lastFocus) { lastFocus.focus(); lastFocus=null; } } };
 document.getElementById('pal').onclick=e=>{ if(e.target.id==='pal') closePal(); };
 document.getElementById('palIn').oninput=palBuild;
 try{ const t=localStorage.getItem('optimus-theme'); if(t) document.documentElement.setAttribute('data-theme',t); }catch(e){}

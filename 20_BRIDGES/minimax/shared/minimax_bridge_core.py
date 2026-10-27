@@ -140,7 +140,15 @@ class Check:
     evidence: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+        # ⚡ Bolt: manual dict construction avoids dataclasses.asdict's slow deepcopy of nested 'evidence' dicts
+        return {
+            "id": self.id,
+            "severity": self.severity,
+            "title": self.title,
+            "detail": self.detail,
+            "remedy": self.remedy,
+            "evidence": self.evidence,
+        }
 
 
 @dataclass
@@ -157,15 +165,34 @@ class DoctorReport:
         return max((c.severity for c in self.checks), key=lambda s: order.get(s, 0), default="ok")
 
     def to_dict(self) -> dict[str, Any]:
+        # ⚡ Bolt: consolidate loops to avoid multiple iterations over checks list
+        worst_idx = 0 # 0="ok", 1="warn", 2="fail"
+        ok_count = warn_count = fail_count = 0
+        checks_list = []
+        for c in self.checks:
+            s = c.severity
+            if s == "fail":
+                fail_count += 1
+                worst_idx = 2
+            elif s == "warn":
+                warn_count += 1
+                if worst_idx == 0:
+                    worst_idx = 1
+            elif s == "ok":
+                ok_count += 1
+            checks_list.append(c.to_dict())
+
+        worst_health = ("ok", "warn", "fail")[worst_idx]
+
         return {
             "bridge": self.bridge,
             "target": self.target,
             "ts": self.ts,
-            "health": self.worst,
-            "ok_count": sum(1 for c in self.checks if c.severity == "ok"),
-            "warn_count": sum(1 for c in self.checks if c.severity == "warn"),
-            "fail_count": sum(1 for c in self.checks if c.severity == "fail"),
-            "checks": [c.to_dict() for c in self.checks],
+            "health": worst_health,
+            "ok_count": ok_count,
+            "warn_count": warn_count,
+            "fail_count": fail_count,
+            "checks": checks_list,
             "meta": self.meta,
         }
 
@@ -359,14 +386,19 @@ class BridgeCore:
             return {"ok": False, "error": "bridge declares no target CLI"}
 
         argv = self.delegate_spec.get("argv", ["{cli}", "-p", "{prompt}"])
-        cmd = [
-            a.replace("{cli}", self.TARGET_CLI)
-             .replace("{prompt}", str(prompt))
-             .replace("{project}", str(payload.get("project", "")))
-             .replace("{model}", str(payload.get("model", "")))
-            for a in argv
-        ]
-        cmd = [c for c in cmd if c != ""]
+
+        mapping = {
+            "{cli}": self.TARGET_CLI,
+            "{prompt}": str(prompt),
+            "{project}": str(payload.get("project", "")),
+            "{model}": str(payload.get("model", ""))
+        }
+
+        cmd = []
+        for a in argv:
+            val = re.sub(r"\{(cli|prompt|project|model)\}", lambda m: mapping[m.group(0)], a)
+            if val != "":
+                cmd.append(val)
         timeout = int(payload.get("timeout", payload.get("timeout_s", 300)))
 
         if not in_container():
@@ -384,7 +416,7 @@ class BridgeCore:
             "bridge": self.BRIDGE_NAME,
             "target": self.TARGET,
             "command": cmd,
-            "powershell": " & '" + "', '".join(cmd) + "'",
+            "powershell": " & '" + "', '".join(c.replace("'", "''") for c in cmd) + "'",
             "timeout_s": timeout,
             "note": (
                 "Run this on the Windows host. The bridge container cannot exec "
@@ -411,9 +443,23 @@ class BridgeCore:
     # ---------- server ----------
     def serve(self) -> None:
         core = self
+        expected_token = os.environ.get("BRIDGE_TOKEN")
 
         class Handler(BaseHTTPRequestHandler):
             protocol_version = "HTTP/1.1"
+
+            def _is_authorized(self, path: str) -> bool:
+                if path in ("/", "/health"):
+                    return True
+                if not expected_token:
+                    return False
+                auth_header = self.headers.get("Authorization", "")
+                if not auth_header:
+                    return False
+                import hmac
+                if hmac.compare_digest(auth_header, expected_token) or hmac.compare_digest(auth_header, f"Bearer {expected_token}"):
+                    return True
+                return False
 
             def _send(self, obj: dict[str, Any], code: int = 200) -> None:
                 body = json.dumps(obj, indent=2, default=str).encode()
@@ -425,6 +471,9 @@ class BridgeCore:
 
             def do_GET(self) -> None:  # noqa: N802
                 path = self.path.split("?")[0].rstrip("/") or "/"
+                if not self._is_authorized(path):
+                    self._send({"ok": False, "error": "Unauthorized"}, 401)
+                    return
                 try:
                     if path in ("/", "/health"):
                         self._send(core.health())
@@ -450,6 +499,9 @@ class BridgeCore:
 
             def do_POST(self) -> None:  # noqa: N802
                 path = self.path.split("?")[0].rstrip("/") or "/"
+                if not self._is_authorized(path):
+                    self._send({"ok": False, "error": "Unauthorized"}, 401)
+                    return
                 n = int(self.headers.get("Content-Length") or 0)
                 raw = self.rfile.read(n) if n else b"{}"
                 try:
@@ -500,7 +552,12 @@ def check_health_endpoint(url: str, cid: str = "svc.health", title: str = "") ->
         import re as _re
         import urllib.error
         import urllib.request
+        import urllib.parse
         try:
+            parsed_url = urllib.parse.urlparse(url)
+            if parsed_url.scheme not in ("http", "https"):
+                return Check(cid, "fail", title or f"{url} rejected", "Invalid URL scheme")
+
             with urllib.request.urlopen(url, timeout=5) as r:
                 ctype = (r.headers.get("Content-Type") or "").split(";")[0].strip()
                 raw = r.read(2000)
@@ -532,13 +589,21 @@ def check_health_endpoint(url: str, cid: str = "svc.health", title: str = "") ->
     return _c
 
 
-def check_cmd(cid: str, cmd: list[str], title: str, severity_if_nonzero: str = "warn",
-              timeout: int = 60) -> Check:
+@dataclass
+class CmdCheckConfig:
+    cid: str
+    cmd: list[str]
+    title: str
+    severity_if_nonzero: str = "warn"
+    timeout: int = 60
+
+
+def check_cmd(config: CmdCheckConfig) -> Check:
     def _c() -> Check:
-        rc, so, se = run(cmd, timeout=timeout)
+        rc, so, se = run(config.cmd, timeout=config.timeout)
         if rc == 0:
-            return Check(cid, "ok", title, so.strip()[:400])
-        return Check(cid, severity_if_nonzero, f"{title} -> rc={rc}",
+            return Check(config.cid, "ok", config.title, so.strip()[:400])
+        return Check(config.cid, config.severity_if_nonzero, f"{config.title} -> rc={rc}",
                      (se or so).strip()[:400], evidence={"rc": rc})
     return _c
 

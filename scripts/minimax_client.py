@@ -119,6 +119,43 @@ def _has_httpx() -> bool:
 
 
 # ---------------------------------------------------------------- transport --
+def _ask_anthropic(key: str, model: str, max_tokens: int, messages: list[dict[str, Any]], system: str | None) -> dict[str, Any]:
+    import anthropic
+    client = anthropic.Anthropic(api_key=key, base_url=BASE_URL)
+    kwargs: dict[str, Any] = {"model": model, "max_tokens": max_tokens, "messages": messages}
+    if system:
+        kwargs["system"] = system
+    r = client.messages.create(**kwargs)
+    return {
+        "ok": True, "transport": "anthropic-sdk", "model": r.model,
+        "stop_reason": r.stop_reason,
+        "text": "".join(b.text for b in r.content if getattr(b, "type", "") == "text"),
+    }
+
+
+def _ask_httpx(key: str, model: str, max_tokens: int, messages: list[dict[str, Any]], system: str | None) -> dict[str, Any]:
+    import httpx
+    body: dict[str, Any] = {"model": model, "max_tokens": max_tokens, "messages": messages}
+    if system:
+        body["system"] = system
+    r = httpx.post(
+        f"{BASE_URL}/v1/messages",
+        json=body,
+        headers={"x-api-key": key, "anthropic-version": "2023-06-01",
+                 "content-type": "application/json"},
+        timeout=120.0,
+    )
+    if r.status_code >= 400:
+        return {"ok": False, "status": r.status_code, "error": r.text[:600]}
+    d = r.json()
+    return {
+        "ok": True, "transport": "httpx", "model": d.get("model"),
+        "stop_reason": d.get("stop_reason"),
+        "text": "".join(b.get("text", "") for b in d.get("content", [])
+                        if b.get("type") == "text"),
+    }
+
+
 def ask(prompt: str, model: str | None = None, max_tokens: int = 1024,
         system: str | None = None) -> dict[str, Any]:
     """
@@ -144,42 +181,12 @@ def ask(prompt: str, model: str | None = None, max_tokens: int = 1024,
     messages: list[dict[str, Any]] = [{"role": "user", "content": prompt}]
 
     if creds["anthropic_sdk"]:
-        import anthropic
-        client = anthropic.Anthropic(api_key=key, base_url=BASE_URL)
-        kwargs: dict[str, Any] = {"model": model, "max_tokens": max_tokens, "messages": messages}
-        if system:
-            kwargs["system"] = system
-        r = client.messages.create(**kwargs)
-        return {
-            "ok": True, "transport": "anthropic-sdk", "model": r.model,
-            "stop_reason": r.stop_reason,
-            "text": "".join(b.text for b in r.content if getattr(b, "type", "") == "text"),
-        }
+        return _ask_anthropic(key, model, max_tokens, messages, system)
 
     if creds["httpx"]:
-        import httpx
-        body: dict[str, Any] = {"model": model, "max_tokens": max_tokens, "messages": messages}
-        if system:
-            body["system"] = system
-        r = httpx.post(
-            f"{BASE_URL}/v1/messages",
-            json=body,
-            headers={"x-api-key": key, "anthropic-version": "2023-06-01",
-                     "content-type": "application/json"},
-            timeout=120.0,
-        )
-        if r.status_code >= 400:
-            return {"ok": False, "status": r.status_code, "error": r.text[:600]}
-        d = r.json()
-        return {
-            "ok": True, "transport": "httpx", "model": d.get("model"),
-            "stop_reason": d.get("stop_reason"),
-            "text": "".join(b.get("text", "") for b in d.get("content", [])
-                            if b.get("type") == "text"),
-        }
+        return _ask_httpx(key, model, max_tokens, messages, system)
 
     return {"ok": False, "error": "neither the anthropic SDK nor httpx is installed"}
-
 
 # --------------------------------------------------------------------- CLI --
 def main() -> int:
