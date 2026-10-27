@@ -33,6 +33,24 @@ Handoff-ul `docs/HANDOFF-2026-10-12-0440-jules.md` (04:40) raportează:
 - workflow-uri: `jules.yml`, `verify.yml`
 - repo `apvizual-max/MAVIS-CLOUD` · **privat** · ultima push 01:21 UTC
 
+> **CORECTARE măsurată 2026-10-27:** repo-ul `apvizual-max/MAVIS-CLOUD` este
+> acum **PUBLIC** (`gh repo view apvizual-max/MAVIS-CLOUD --json visibility` →
+> `PUBLIC`). La fel și `apvizual-max/MAVIS-OPTIMUS-CI` → `PUBLIC`.
+> Cele de mai sus sunt ce raporta handoff-ul din 10-12; vizibilitatea s-a
+> schimbat de atunci.
+>
+> **De ce contează:** un repo PUBLIC nu e loc pentru date personale sau
+> secrete. Două scurgeri au fost închise pe 27 octombrie, ambele prin
+> `.gitignore`, măsurate înainte de commit:
+> - `Mavis_Cloud_Artefacts_arhive-*/` — ar fi intrat cu **104** căi, cu
+>   `client_secret`, `refresh_token`, `access_token` și parole;
+> - `/sessions/` — **49** fișiere, **39.668.437 B**, cu transcripturi de
+>   sesiune și tokenuri de autorizare.
+>
+> Regula: într-un repo PUBLIC, **orice folder neignorat e o scurgere în
+> așteptare**. `git add -A --dry-run` e instrumentul care măsoară asta.
+> Măsurat: `scripts\mavis-sync.ps1:189` rulează `git add -A` automat.
+
 ## 3. Regula „nu fac jumătate de sarcină"
 
 Citată din același handoff:

@@ -229,10 +229,29 @@ Costul canalului primar e **latența: ≈ 80 min** măsurată (scriere locală
 |---|---|
 | Sursa CI | `E:\Google\GDrive\GDrive-Second_Brain_PKMS\02_Areas\02-2-AI-SOT\CASA\OPTIMUS - Prime\Optimus_CI (by Mavis)` |
 | Joncțiune | `C:\Users\apviz\.minimax-agent\projects\Optimus_CI (by Mavis)` → `E:` (`LinkType=Junction`) |
-| `.git` | **fișier** (worktree link) → `gitdir: E:/Google/GitData-Optimus-CI` |
+| `.git` | **fișier** (worktree link) → `gitdir: E:/Google/GitData-Optimus-CI/repo` |
+| Gitdata | **un singur folder** pe proiect: `E:\Google\GitData-Optimus-CI\` → `repo\` · `clone-MAVIS-CLOUD\` · `clone-MAVIS-OPTIMUS-CI\` · `scratch\` |
 | `G:` | volum fix, **nu** mount virtual; `G:\My Drive.lnk` → `E:\Google\GDrive` |
 | Mirror | `Google\GDrive`, `root_id=23`, `sync_type=MIRROR`, `connected=true` |
 | Folder CI în Drive | `cloud_id 1V87h9Pbw52chSVNkxQ_NNuMh-CLfZeuI` |
+
+**De ce gitdata stă în afara mirrorului.** DriveFS administrează spațiul din
+`E:\Google\GDrive\` cât timp sincronizează: materializează, înlocuiește,
+șterge. Un `.git\` viu — `index`, `refs`, `objects`, `HEAD` — e pentru el o
+colecție de fișiere oarecare. Deci tot ce e git stă într-un folder
+dedicat, **în afara** arborelui sincronizat, iar în arbore `.git` rămâne un
+fișier pointer.
+
+**Un folder per proiect, nu per repo.** Când Popy numește un folder-rădăcină,
+acesta e rădăcina **unică**: sub-organisation se face în interior, ca
+subfoldere. Nu se creează câte un folder-rădăcină nou pentru fiecare repo.
+
+Măsurat 2026-10-27, 11:40: în arborele CI erau **63 de directorii `.git`** de
+fixture (porțile își construiesc repository-uri proprii ca să măsoare ceva).
+După mutare: **0** în mirror, **39** în `E:\Google\GitData-Optimus-CI\scratch\`.
+Radicalul scratch se **derivează din gitdir-ul repo-ului propriu**, deci
+laboratorul urmează repository-ul în loc să hard-codeze o cale de mașină
+(`scripts\git-scratch.ps1`).
 
 **Capcană de măsurare:** blob-ul din `items.proto` e *latura cloud* (id +
 părinte + titlu). Căutarea după **calea completă** nu se potrivește niciodată —

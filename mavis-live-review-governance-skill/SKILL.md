@@ -2,7 +2,32 @@
 
 **Tip:** micro-skill în cadrul suitei `mavis-optimus-continuous-integration-skill`
 **Scop:** când rulează verificarea automată și ce înseamnă ea.
-**Stare:** ✅ WIRED în `MAVIS-CLOUD`. Local: 🟡 BLUEPRINT.
+**Stare:** ✅ WIRED în `MAVIS-CLOUD`. Local: ✅ WIRED — măsurat 2026-10-27.
+
+## 0. Ce se întâmplă acum la Local — măsurat 2026-10-27, 11:52
+
+Calea Local e deja construită: `scripts\git-autopush.ps1 -Acord` face push-ul
+**și abia apoi** rulează LiveReview pe ce tocmai a ajuns pe GitHub.
+
+| Ce | Măsurat |
+|---|---|
+| Review trimis | **DA** — `Review submitted, ID: 13388`, `https://livereview.hexmos.com/#/reviews/13388` |
+| Evaluarea review-ului | **picată** — `the Free plan requires you to configure your own LLM API key (BYOK) for your organization` |
+| Planul contului | `free_30k`, `ai_mode: BYOK required on free plan` |
+| Efectul asupra push-ului | **niciunul** — push-ul era deja confirmat pe server |
+| Ce raportează poarta | `review: limita` → continuă pe **calea 2** (push fără review) |
+
+Trei lucruri de reținut:
+
+1. **Nu e limită de rată.** E o setare de cont: contul LiveReview n-are un
+   cheie LLM configurată. Se repară în cont, nu în repo.
+2. **Trimiterea e dovedită de ID**, nu de codul de ieșire. `lrc` a ieșit cu 1
+   și totuși review-ul exista.
+3. **Review-ul nu blochează nimic** — nici push-ul, nici comitul. El raportează.
+
+> **Important:** dacă `lrc` răspunde negativ, **nu se retrimite** și nu se
+> declară "review efectuat". Se raportează exact ce s-a măsurat: trimis sau
+> netrimis, evaluat sau neevaluat.
 
 ## 1. Principiul
 
