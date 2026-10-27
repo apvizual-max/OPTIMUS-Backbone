@@ -1,0 +1,3 @@
+🎯 **What:** Added missing tests for processHooks to ensure it does not mutate input and handles missing active properties.
+📊 **Coverage:** Covered mutation prevention and missing active property edge cases.
+✨ **Result:** Improved test reliability.

@@ -4,6 +4,7 @@ import json
 import os
 import subprocess
 import sys
+import logging
 
 def format_size(size_bytes):
     """Formats file size in bytes to a human-readable string."""
@@ -30,8 +31,8 @@ def parse_fps(fps_str):
                 if val.is_integer():
                     return f"{int(val)} fps"
                 return f"{val:.2f} fps"
-        except (ValueError, ZeroDivisionError):
-            pass
+        except (ValueError, ZeroDivisionError) as e:
+            logging.debug("Failed to parse fractional FPS '%s': %s", fps_str, e)
     try:
         val = float(fps_str)
         if val.is_integer():
@@ -190,7 +191,10 @@ def main():
             else:
                 print_terminal_report(info)
     except Exception as e:
-        print(f"Error inspecting video: {e}", file=sys.stderr)
+        import re
+        def sanitize_error(err):
+            return re.sub(r'([?&](?:key|api_key|apiKey|access_token|auth|signature)=)[^&\s"\'<>()]+', r'\1[REDACTED]', str(err))
+        print(f"Error inspecting video: {sanitize_error(e)}", file=sys.stderr)
         sys.exit(1)
 
 if __name__ == "__main__":

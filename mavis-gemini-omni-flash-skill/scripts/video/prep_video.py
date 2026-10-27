@@ -3,7 +3,7 @@ import argparse
 import os
 import subprocess
 import sys
-from inspect_video import inspect_video, format_size
+from inspect_video import inspect_video
 
 def parse_timecode(time_str, total_duration=None):
     """Parses a time string (seconds, MM:SS, HH:MM:SS, or 'last') into float seconds."""
@@ -96,8 +96,8 @@ def prep_video(input_path, output_path, start_time_str=None, duration=10, fps=No
     try:
         if size_bytes_str and int(size_bytes_str) > 25 * 1024 * 1024:
             is_large = True
-    except (ValueError, TypeError):
-        pass
+    except (ValueError, TypeError) as e:
+        print(f"Warning: Could not parse video size '{size_bytes_str}' ({e}). Assuming not large.", file=sys.stderr)
 
     # Target resolution parsing
     scale_filter = None
@@ -107,8 +107,9 @@ def prep_video(input_path, output_path, start_time_str=None, duration=10, fps=No
         try:
             orig_width = int(source_info["video"].get("width"))
             orig_height = int(source_info["video"].get("height"))
-        except (ValueError, TypeError):
-            pass
+        except (ValueError, TypeError) as e:
+            # Exception is logged instead of silently passed to prevent hidden bugs.
+            print(f"Warning: Could not parse original video dimensions ({e}).", file=sys.stderr)
 
     if resolution:
         try:
@@ -152,7 +153,7 @@ def prep_video(input_path, output_path, start_time_str=None, duration=10, fps=No
         scale_filter = f"scale={width}:{height}"
 
     fps_spec = f"{fps} fps" if fps else "Original frame rate"
-    print(f"\nPreparing Video Processing:")
+    print("\nPreparing Video Processing:")
     print(f"  * Source Duration: {total_duration:.2f}s")
     print(f"  * Trim Range     : Start at {start_seconds:.2f}s | Length {duration:.2f}s")
     if resolution:
@@ -248,7 +249,8 @@ def main():
         print()
 
     except Exception as e:
-        print(f"Error prepping video: {e}", file=sys.stderr)
+        from upload_file import sanitize_error
+        print(f"Error prepping video: {sanitize_error(e)}", file=sys.stderr)
         sys.exit(1)
 
 if __name__ == "__main__":

@@ -56,7 +56,7 @@ def send_rpc(proc, method: str, params: dict, id_: int = 1) -> dict:
     return json.loads(raw)
 
 
-def test_server(name: str, cmd: list, min_tools: int = 1,
+def run_test_server(name: str, cmd: list, min_tools: int = 1,
                 spot_check_tool: Optional[str] = None) -> bool:
     print(f"\n{'='*50}")
     print(f"Testing: {name}")
@@ -111,9 +111,10 @@ def test_server(name: str, cmd: list, min_tools: int = 1,
     except Exception as e:
         print(f"  RESULT: FAILED ✗ — {e}")
         try:
-            proc.terminate()
-        except Exception:
-            pass
+            if 'proc' in locals() and proc:
+                proc.terminate()
+        except Exception as cleanup_err:
+            print(f"  CLEANUP FAILED: {cleanup_err}")
         return False
 
 
@@ -130,7 +131,7 @@ def main():
 
     results = {}
     for name, config in servers_to_test:
-        results[name] = test_server(
+        results[name] = run_test_server(
             name, config["cmd"],
             min_tools=config["min_tools"],
             spot_check_tool=config.get("spot_check_tool")
