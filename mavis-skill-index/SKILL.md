@@ -1,6 +1,6 @@
 ---
 name: mavis-skill-index
-description: Master skill index for Mavis. Single point of truth over ALL skills Mavis can call — the 1,307 personal skills at C:\Users\apviz\.minimax\skills\, the 78 mavis-agent skills, and the 21 builtin skills. Use this when Mavis needs to autonomously pick the right skill for a task without manual loading. Includes routing procedure + self-update procedure so Mavis learns and amends the index over time.
+description: Master skill index for Mavis. Single point of truth over ALL skills Mavis can call — the 1,307 personal skills at C:\Users\apviz\.minimax\skills\, the 80 mavis-agent skills, and the 21 builtin skills. Use this when Mavis needs to autonomously pick the right skill for a task without manual loading. Includes routing procedure + self-update procedure so Mavis learns and amends the index over time.
 ---
 
 # mavis-skill-index
@@ -12,11 +12,11 @@ description: Master skill index for Mavis. Single point of truth over ALL skills
 | Skill source | Count | Where it lives |
 |---|---|---|
 | **Personal skills** (Popy's library) | **1,307** | `C:\Users\apviz\.minimax\skills\<name>\SKILL.md` |
-| Mavis agent skills | 78 (incl. 4 bundles) | `C:\Users\apviz\.minimax\agents\mavis\skills\` |
+| Mavis agent skills | 80 (incl. 4 bundles) | `C:\Users\apviz\.minimax\agents\mavis\skills\` |
 | MiniMax builtins | 21 | `C:\Users\apviz\.minimax\.builtin-skills\` |
-| **Total** | **1,406** | (overlapping categories — Mavis picks per task) |
+| **Total** | **1,408** | (overlapping categories — Mavis picks per task) |
 
-**Counts measured 2026-10-27** (`dirs with SKILL.md`): personal 1,307 · mavis-agent 78 (75 `mavis-*` + 3 unprefixed, incl. the 4 bundles) · builtins 21.
+**Counts measured 2026-10-28** (`dirs with SKILL.md`): personal 1,307 · mavis-agent 80 (77 `mavis-*` + 3 unprefixed, incl. the 4 bundles) · builtins 21.
 The classifier table below enumerates **1,297** of the 1,307 personal skills — **10 are on disk but not yet classified** (`alex-hormozi-coach`, `brand-promo-video-generator`, `design-packaging`, `engineering-delivery-operations`, `fable-goal`, `i-have-adhd`, `pkms-vault-administration`, `pkms-vault-index`, `stop-slop`, `study-book-design`). The weekly rebuild will pick them up; until then, read their `SKILL.md` directly.
 
 ## SENTINEL PRIME skills (installed 2026-10-04)
@@ -42,7 +42,9 @@ project folder is a document until that runs.
 
 | Skill | Load when |
 |---|---|
+| `mavis-session-extract-bot-skill` | **THE HUB for any session-extraction request** — the Mavis Session Extract Bot: the list of member skills, the shared contract (C1–C7), the naming format, the location contract, and the update loop that writes each run's outcome back into the skill that did the work. Load it FIRST, then it dispatches to the right member |
 | `mavis-session-transcript-skill` | extracting / archiving / handing over the **full** transcript of a session — every message, thinking block, tool call and the tool outputs the runtime externalised to disk |
+| `mavis-bot-creator-skill` | creating and linking a **new** member skill for the Mavis Session Extract Bot — locating a source, writing the extractor + independent verifier, proving the verifier can fail, and linking it into the registry |
 | `mavis-session-lifecycle-skill` | session open / close discipline (BUSOLA, read order, close-out) |
 | `mavis-deliverable-handoff-skill` | packaging a finished artefact so Popy can actually use it |
 | `mavis-journal-oglinda-skill` | append-only reality anchor (`JURNAL_OGLINDA`) |

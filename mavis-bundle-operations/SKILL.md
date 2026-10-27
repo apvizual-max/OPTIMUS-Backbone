@@ -23,6 +23,8 @@ Load via `skill({ name: "<member>" })`:
 
 | Member | When to load | MCP |
 |---|---|---|
+| `mavis-session-extract-bot-skill` | **HUB for any session-extraction request** (any AI, any source). Owns the list of member skills, the contract (C1–C7), the naming format, the location contract and the update loop. Load it FIRST — it dispatches to the right member | none (reads the runtime's own sqlite + session dirs via `node:sqlite`) |
+| `mavis-bot-creator-skill` | creating and linking a new member skill for the Mavis Session Extract Bot | none |
 | `mavis-hermes-bridge-skill` | Multi-tool orchestration, profile switching, container queries | `hermes-mcp-router` |
 | `mavis-qwen-bridge-skill` | Multilingual / Chinese-language work, cross-model checks | `qwen-mcp-http` (HTTP daemon) |
 | `mavis-antigravity-bridge-skill` | Heavy code generation, repo-scale refactor, autonomous workflows | shell bridge (no direct MCP) |

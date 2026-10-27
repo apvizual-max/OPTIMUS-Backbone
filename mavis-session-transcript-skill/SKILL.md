@@ -1,6 +1,9 @@
 ---
 name: mavis-session-transcript-skill
 description: Extract the FULL transcript of any MiniMax Code session — every user and assistant message, thinking blocks, tool calls with arguments and results, and the tool outputs the runtime externalised to disk. Use when asked to export / extract / archive / hand over a conversation, to send a session's record to Mavis Cloud or another AI, or to rebuild what a session actually said and did. Produces readable transcript text (.md), a machine-readable transcript (.jsonl), a provenance manifest, and a self-verifying coverage check.
+role: functional
+source: minimax-code-local-runtime
+bot: mavis-session-extract-bot-skill
 ---
 
 # mavis-session-transcript-skill
@@ -113,3 +116,14 @@ transcript that was not verified is a claim, not a deliverable.
 - **A check that cannot fail is not a check.** `verify-transcript.mjs` is written to fail
   when coverage drops; run it and quote its exit code.
 - **No silent loss.** A gap is a first-class output, not an omission.
+
+## Run log
+
+Every use of this skill is recorded in [`runs.md`](runs.md) — append-only: the measured
+success with its numbers, or the error verbatim. When a run teaches this skill something
+new, this file is updated in place, with the evidence.
+
+**Bot:** [`mavis-session-extract-bot-skill`](../mavis-session-extract-bot-skill/SKILL.md) —
+the hub that owns the list of member skills, the shared contract, and this update loop.
+Create a new member through
+[`mavis-bot-creator-skill`](../mavis-bot-creator-skill/SKILL.md).
