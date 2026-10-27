@@ -248,7 +248,10 @@ subfoldere. Nu se creează câte un folder-rădăcină nou pentru fiecare repo.
 
 Măsurat 2026-10-27, 11:40: în arborele CI erau **63 de directorii `.git`** de
 fixture (porțile își construiesc repository-uri proprii ca să măsoare ceva).
-După mutare: **0** în mirror, **39** în `E:\Google\GitData-Optimus-CI\scratch\`.
+După mutare: **0** în mirror, iar fixture-urile stau în
+`E:\Google\GitData-Optimus-CI\scratch\` — **numărul lor variază cu fiecare
+rulare de porți** (măsurat 46 → 59 → 79 în aceeași zi), deci nu-l trata ca
+constantă.
 Radicalul scratch se **derivează din gitdir-ul repo-ului propriu**, deci
 laboratorul urmează repository-ul în loc să hard-codeze o cale de mașină
 (`scripts\git-scratch.ps1`).
