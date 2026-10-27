@@ -4,3 +4,6 @@ __pycache__/
 
 # .bak-* / .PRE-* NU sunt excluse: forme vechi pastrate ca dovada.
 # Stergerea lor din istoric ar sterge singura trasa a unei corectii.
+
+# Scratch de lucru (documente temporare, probe) - nu se comite.
+state/
