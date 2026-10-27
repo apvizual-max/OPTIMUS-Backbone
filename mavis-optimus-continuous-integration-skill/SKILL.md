@@ -12,9 +12,12 @@ construiesc sistemul pe care lucrează toți ceilalți.
 |---|---|
 | **Proiect** | Mavis Optimus Continuous Integration |
 | **Instanță** | **LOCAL** → am nevoie de R0 la push |
-| **HQ** | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Continuous-Integration\` |
+| **HQ** | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Continuous-Integration\` → **`E:\Google\GDrive\GDrive-Second_Brain_PKMS\02_Areas\02-2-AI-SOT\CASA\OPTIMUS - Prime\Optimus_CI (by Mavis)`** (mutat pe `E:` în 2026-10-27; vezi secțiunea „Puntea Local ↔ Cloud") |
+| **Joncțiune locală** | `C:\Users\apviz\.minimax-agent\projects\Optimus_CI (by Mavis)` → `E:` (`LinkType=Junction`) |
 | **Repo** | `apvizual-max/MAVIS-OPTIMUS-CI` |
 | **Plan** | `blueprint\BLUEPRINT-PLAN-CI.md` |
+| **Canal primar** | **Google Drive** — `BRIDGE-DRIVE\` |
+| **Canal secundar** | **GitHub** — `QUEUE\TASKS-FOR-CLOUD.md` |
 
 ---
 
@@ -92,7 +95,8 @@ reinventăm ce e măsurat că merge.
 |---|---|
 | guvernanța Git/GitHub și poarta R0 | nu lucrez la conținutul altor proiecte |
 | puntea Local ↔ Cloud | nu mut fișierele altor proiecte |
-| politica Live Review + Jules | nu fac deploy-uri |
+| **puntea Drive** — canal primar, cu măsurătoare de propagare | nu re-autentific DriveFS și nu reconsentez tokenul unilateral |
+| politica Live Review + Jules — **au plecat în CD (2026-10-24)**; din CI se ating doar dacă e strict necesar | nu fac deploy-uri |
 | inventarul repo-urilor | nu șterg nimic definitiv |
 | refacerea sistemului, **măsurat** | nu ating interfața |
 
@@ -192,3 +196,305 @@ trei întrebări, în ordine:
 Dacă propunerea e corectă și măsurabilă, se aplică și se **notează cifra**. Dacă
 e corectă doar în contextul altui, se **adaptează**. Dacă nu e, se refuză — și
 refuzul se scrie cu motivul, nu se tace.
+
+---
+
+## Puntea Local ↔ Cloud — Drive primar, GitHub secundar
+
+**Adiționat 2026-10-27.** Nimic de mai sus se rescrie; această secțiune
+adaugă **scopul nou** al sesiunii CI.
+
+### Scopul, într-un rând
+
+Puntea **Local ↔ Cloud** prin **Google Drive** (canal primar) și **GitHub**
+(canal secundar), plus procedurile Git/GitHub și guvernanța R0.
+
+CD (Jules, Live Review, tools) a plecat într-o sesiune paralelă. **Nu se
+atinge** din CI, decât strict necesar.
+
+### De ce Drive a devenit primar — două măsurători
+
+1. **Divergența măsurată**: local `83b6139` vs remote `3da55ff` →
+   **12 commituri înainte / 5 înapoi**. Cele 5 remote sunt lucrarea CD.
+2. **Poziția fizică a sursei**: sursa CI e acum **în chiar mirrorul Google
+   Drive** (`E:\Google\GDrive\GDrive-Second_Brain_PKMS\...\Optimus_CI (by Mavis)`).
+   Local și Cloud au același sistem de fișiere la capete diferite.
+
+Costul canalului primar e **latența: ≈ 80 min** măsurată (scriere locală
+22:11 → prezență în Drive 23:31). De aceea GitHub rămâne în paralel.
+
+### Topologia, măsurată
+
+| Element | Valoare |
+|---|---|
+| Sursa CI | `E:\Google\GDrive\GDrive-Second_Brain_PKMS\02_Areas\02-2-AI-SOT\CASA\OPTIMUS - Prime\Optimus_CI (by Mavis)` |
+| Joncțiune | `C:\Users\apviz\.minimax-agent\projects\Optimus_CI (by Mavis)` → `E:` (`LinkType=Junction`) |
+| `.git` | **fișier** (worktree link) → `gitdir: E:/Google/GitData-Optimus-CI` |
+| `G:` | volum fix, **nu** mount virtual; `G:\My Drive.lnk` → `E:\Google\GDrive` |
+| Mirror | `Google\GDrive`, `root_id=23`, `sync_type=MIRROR`, `connected=true` |
+| Folder CI în Drive | `cloud_id 1V87h9Pbw52chSVNkxQ_NNuMh-CLfZeuI` |
+
+**Capcană de măsurare:** blob-ul din `items.proto` e *latura cloud* (id +
+părinte + titlu). Căutarea după **calea completă** nu se potrivește niciodată —
+se caută după `local_title`, apoi se verifică lanțul `stable_parents`.
+
+**Capcană de stare:** primul dump `ReceiveMirrorRoots` din startup dă
+`connected=false`. **Starea finală e ultimul dump.**
+
+### Cele patru reguli ale canalului
+
+1. **Se scrie în ambele canale la aceeași publicare**, cu același `TASK_ID`.
+2. **„Publicat" înseamnă măsurat**: `SYNCED` / `PENDING` / `NOT_UPLOADED` /
+   `UNVERIFIED`. **`UNVERIFIED` nu e succes.**
+3. **Transportul căzut nu blochează sistemul** — poarta cere ca raportul să
+   fie *concordant* cu măsurătoarea, nu ca transportul să fie UP.
+4. **Nu se re-autentifică DriveFS și nu se reconsentează tokenul unilateral** —
+   act ACCESS, pe mașina lui Popy.
+
+### Instrumentele
+
+```powershell
+scripts\mavis-drive-bridge.ps1 -Status     # stare + lag
+scripts\mavis-drive-bridge.ps1 -Publish     # scrie pe ambele canale
+scripts\mavis-drive-bridge.ps1 -Verify      # re-verifică propagarea
+scripts\mavis-drive-bridge-selfcheck.ps1    # poarta, 19 probe
+python scripts\drivefs_probe.py --title "Optimus_CI (by Mavis)"
+python scripts\drivefs_probe.py --root-state
+python scripts\drivefs_probe.py --newest "Optimus_CI (by Mavis)"
+```
+
+Poarta măsurată: `BRIDGE_PROBLEMS=0 UNKNOWN=0`, **EXIT 0**.
+
+### Rutele de API sunt rupte — și asta e măsurat
+
+| Rută | Stare |
+|---|---|
+| `gdrive-mcp` (MCP) | `invalid_grant` — token revocat |
+| `verify-drive.js` | `files.list` **FAILED**, EXIT 2 |
+| `gcloud` ADC (`authorized_user`) | token valid, Drive API **HTTP 403** (fără scope) |
+| `metadata_sqlite_db` | 422 932 480 B, lizibil read-only → **sursa de adevăr** |
+| `mirror_metadata_sqlite_db` | 2 278 027 264 B, **blocată** de DriveFS (și cu `immutable=1`) |
+
+### Regula de ștergere, în acest proiect
+
+`git clean -fdx`, `git reset --hard`, force-push și ștergerea definitivă sunt
+**interzise**. Doar Trash recuperabil:
+`C:\Users\apviz\.minimax\bin\mavis-trash.cmd -- "<target>"`.
+
+### Convenția de numire, extinsă la Drive
+
+`MAVIS-LOCAL-…` / `MAVIS-CLOUD-…` pentru documente, `mavis-local-…` /
+`mavis-cloud-…` pentru cod — în **ambele** canale. Detalii în
+`docs/PROTOCOL-DENUMIRE-LOCAL-CLOUD.md` §8.
+
+---
+
+## Starea repo-ului CI — nu e administrat de CI în paralel
+
+Repo-ul `MAVIS-OPTIMUS-CI` va fi lucrat de alt AI (CD). **CI ține copia +
+referința măsurată**, nu îl administrează singur.
+
+Măsurat 2026-10-27: remote public, `pushed_at 2026-10-24T23:55:56Z`, 99 KB,
+0 workflow-uri, 0 secrete, 0 PR-uri deschise, `main 3da55ff`.
+
+Snapshot: `docs/STARE-MAVIS-OPTIMUS-CI-REMOTE.md`.
+Starea curentă: `docs/STARE-MASURATA-CI-2026-10-27.md`.
+
+**Divergența se documentează, nu se rezolvă cu forța.** Push-ul și rebaza sunt
+**R0**.
+
+---
+
+## Contractul cozii secundare — și porțile care îl fac executabil
+
+**Adiționat 2026-10-27, ~02:40.** Nimic de mai sus se rescrie.
+
+Canalul secundar (`QUEUE\TASKS-FOR-CLOUD.md`) are un **contract** — cel al
+consumatorului (Cloud), citit **de pe discul lui**, nu inventat aici:
+
+```
+### [id] titlu
+cerut de: local | data: YYYY-MM-DD
+scope: cloud | local | ambele
+ce trebuie: ...
+livrare: unde trebuie să ajungă rezultatul
+```
+
+Cloud rulează **doar** tichetele cu `scope: cloud`, livrează în
+`QUEUE/DONE/<id>.md` și marchează `[x]`.
+
+**Măsurat înainte de reparare (27 oct):** 0 din 5 câmpuri, 0 anteturi
+`### [id] titlu`, 0 `scope:`, 2 anteturi `## TASK-…` invizibile pentru Cloud,
+`QUEUE/DONE/` absent, și ultima linie trunchiată la mijloc de propoziție în
+**ambele** canale. Coada arăta plină și era **goală** pentru singurul cititor
+care contează — fără nicio eroare raportată.
+
+**Măsurat după:** `QUEUE_PROBLEMS=0 UNKNOWN=0` · `TICKETS=2` ·
+`CONTRACT_DRIFT=NO` · `UNRECOGNISED_HEADERS=0` · `DONE_DIR=present` ·
+**EXIT 0**. Auto-proba: `QUEUE_GATE_PROBLEMS=0 UNKNOWN=0 FALSIFIED=14` (14 probe).
+
+### Instrumentele canalului secundar
+
+```powershell
+scripts\queue-contract-check.ps1              # poarta, exit 0 / 1 / 2
+scripts\queue-contract-check-selfcheck.ps1    # 14 probe
+scripts\mavis-drive-bridge.ps1 -Publish -Title "<subiect>" -Body "<text>" [-Scope cloud]
+```
+
+Regulile, care acum sunt cod:
+
+1. Copia secundară se scrie **în contractul consumatorului**, nu în formatul
+   canalului primar.
+2. Un corp **trunchiat** e **refuzat** (exit 2) — o instrucțiune trunchiată nu
+   e o sarcină.
+3. `scope` trebuie să fie `cloud` / `local` / `ambele` — altfel **refuzat**.
+4. După scriere: `DUAL_CHANNEL_DRIVE` / `DUAL_CHANNEL_QUEUE` — ieșire **1** dacă
+   același `TASK_ID` nu e în ambele canale.
+5. `2` de la poartă = contractul live ilizibil = **UNKNOWN, nu succes**.
+
+Contractul, cu proveniență și dată: `docs\CONTRACT-CLOUD-QUEUE.md`.
+
+### Regula, pentru totdeauna
+
+> **O regulă scrisă în proză nu e o regulă, e o intenție.** Dacă poate fi
+> falsificată, devine cod. Iar contractul se citește **de la sursa vie** — o
+> copie se învechise în tăcere, iar o poartă care compară cu o copie nu
+> detectează nimic.
+
+### Combinarea istoricului, măsurată înainte de R0
+
+> **Aditiv.** Măsurat 2026-10-27.
+
+Repo-ul CI e lucrat **în paralel** de alt AI (CD). Deci există două istorice:
+`main` local (al meu, automat, neîmpins fără R0) și `origin/main` (al
+celuilalt AI). Combinarea lor e o operație de R0 — iar R0 merită **fapte**.
+
+```
+scripts\merge-check.ps1
+```
+
+**Dry-run**: `fetch` + divergență + `git merge-tree --write-tree` + diff per
+parte. Nu atinge arborele de lucru, nu creează commit, nu împinge nimic.
+
+| Ieșire | Ce înseamnă |
+|---|---|
+| `0` | merge curat — o singură operație, fără rezolvare manuală |
+| `1` | conflict — fișierele sunt **numite** |
+| `2` | **nemăsurabil** — și asta **nu** e „curat" |
+
+Măsurat: `REMOTE_STATE=LIVE` · `DIVERGENCE_BEHIND=5 DIVERGENCE_AHEAD=24` ·
+`MERGE_CLEAN=yes` · `CONFLICT_FILES=0` · arborele `8b11d68…` · merged vs local
+6 fișiere (+74/−13 — lucrarea CD) · merged vs remote 38 fișiere (+7309/−230 —
+lucrarea mea).
+
+Auto-proba: `scripts\merge-check-selfcheck.ps1` — **5 probe pe repo reale**,
+conflictul produs de git → `MERGE_GATE_PROBLEMS=0 UNKNOWN=0 FALSIFIED=5`,
+EXIT 0. Falsificare: poarta stricată pe **copie** → `MERGE_GATE_PROBLEMS=3`,
+`POARTA A BLOCAT`, exit 1; poarta reală neatinsă (hash identic înainte și după).
+
+### Regula, pentru totdeauna
+
+> **Codul de ieșire e o amprentă. Marcajul e o măsurătoare.**
+>
+> Un exit 1 dintr-o excepție terminantă e **indistinctibil** de exit 1-ul
+> porții. Deci blocarea se dovedește prin **marcaj** (`POARTA A BLOCAT`,
+> `PROBLEMS>0`) — nu prin codul de ieșire.
+>
+> Și: înainte de orice operație cu R0, există un instrument care spune **ce
+> se va întâmpla**. Dacă instrumentul spune „nu se poate măsura", răspunsul
+> e **2** — nu „probabil curat".
+---
+
+## Livrarea cozii — poarta care vede absența (2026-10-27, ~06:40)
+
+> **Aditiv.** Nimic de mai sus se rescrie.
+
+**Defectul măsurat.** Contractul consumatorului, citit de pe discul lui Cloud
+(`.skills/mavis-cloud-to-local-reporting/SKILL.md`, linia 12), spune:
+`git pull --rebase origin main` — mereu primul. Deci Cloud-ul trage din
+**propriul repo**, `MAVIS-CLOUD`. Publisherul scria canalul secundar în
+repo-ul **CI** — un repo din care Cloud-ul nu citește niciodată.
+
+| Măsurat, înainte | Valoare |
+|---|---|
+| `TASK_ID`-uri în coada locală (CI) | **2** |
+| `TASK_ID`-uri în coada pe care Cloud-ul o citește | **0** |
+| Poarta contractului | `QUEUE_PROBLEMS=0` — **verde, greșit** |
+
+Poarta verifica **forma** cozii, nu dacă coada **ajunge** la consumator.
+
+### Instrumentele
+
+| Instrument | Ce face |
+|---|---|
+| `scripts\queue-lib.ps1` | parserul cozii — **o singură implementare** pentru poartă și livrare |
+| `scripts\queue-deliver.ps1` | sync → scriere → secrete → commit → push → verificare la remote |
+| `scripts\queue-deliver-selfcheck.ps1` | **15 probe**, falsificare în ambele sensuri |
+| `scripts\queue-contract-check.ps1` | + proba `DELIVERY` + proba căii de intrare |
+
+```powershell
+scripts\queue-deliver.ps1 -Status          # ce nu a ajuns (read-only)
+scripts\queue-deliver.ps1 -Deliver -Push   # livrează și verifică la remote
+scripts\queue-contract-check.ps1           # poarta, exit 0 / 1 / 2
+```
+
+**Măsurat după:** `DELIVERED=2/2` · `QUEUE_PROBLEMS=0 UNKNOWN=0` ·
+`CLOUD_ENTRY=QUEUE/TASKS-FOR-CLOUD.md` · commit în `MAVIS-CLOUD` `4a88879` ·
+`REMOTE_HEAD` = `LOCAL_HEAD` = `4a88879` (verificat prin `ls-remote`).
+
+### Regula, pentru totdeauna
+
+> **O coadă impecabil formată poate fi complet absentă.**
+> Pentru un consumator care trage dintr-un repo, „publicat" înseamnă „prezent
+> la vârful ramurii remote a repo-ului lui" — nu „scris local". Poarta trebuie
+> să citească **acolo**.
+
+### Două porți reparate în drum
+
+1. **Publisherul refuza calea prin joncțiune** (`C:\…\projects\` → `E:\Google\GDrive\…`):
+   compara două șiruri, iar git tipărește calea **fizică** — deci cele două nu
+   se potrivesc niciodată, și publisherul refuza chiar repo-ul pentru care a fost
+   scris (auto-proba lui cădea cu 7 probleme). Reparat cu
+   `git rev-parse --show-prefix`: gol **exact** când calea dată e rădăcina, iar
+   joncțiunile, literele de disc, majusculele și slash-urile le rezolvă git —
+   pentru că e întrebarea lui.
+2. **Scannerul de secrete bloca false**: scăna tot indexul și găsea 9 blocuri în
+   documentație **deja publicată** a lui Cloud (valorile-exemplu oficiale), și
+   a blocat o livrare care nu conținea niciun secret. Modul `-StagedDiff`
+   întreabă ce trebuie întrebat: introduce **această** schimbare un secret?
+
+---
+
+## Scoapul, înainte — și cine mai lucrează la ce (2026-10-27)
+
+> **Aditiv.** Nimic de mai sus se rescrie.
+
+### Cele două canale, în ordinea priorității
+
+| Canal | Rol | Măsurat |
+|---|---|---|
+| **Google Drive** — folderul `BRIDGE-DRIVE\`, în mirrorul `E:\Google\GDrive\` | **principal** — ambele instanțe au acces la același Drive; sursa locală se sincronizează singură | `PROPAGATION=OK` · `CLOUD_CHANNEL_FILE_PRESENT=true` |
+| **GitHub** — coada livrată în `MAVIS-CLOUD` | **secundar / rezervă** — handoff-urile din repo, și calea prin care tichetele ajung la Cloud când Drive e jos | `DELIVERED=2/2` la `origin/main` |
+
+Costul canalului principal e **latența** (măsurată ≈ 80 min). De aceea
+secundarul nu e decorativ: e plasa de siguranță, și are **poartă proprie**.
+
+### Cine mai lucrează la ce
+
+| Zona | Cine o lucrează | Cum se tratează din CI |
+|---|---|---|
+| **Puntea Local ↔ Cloud** (acest repo) | **această sesiune** | lucrul propriu |
+| **CD** (Jules, Live Review, tools, reorg-ul arborelui CD) | **sesiune paralelă** | **nu se atinge** din CI |
+| **Repo-ul `MAVIS-OPTIMUS-CI`** | **alt AI, în paralel** | CI ține **copia + referința măsurată**, nu îl administrează singur |
+
+**Divergența nu e o problemă, e un fapt.** Repo-ul CI va fi schimbat de
+altcineva; poate s-a schimbat deja. Deci:
+
+- local `main` și `origin/main` sunt **două istorice**, și combinarea lor e
+  `--no-ff`, cu **ambele păstrate** — niciodată rebase, niciodată force-push;
+- instrumentul care spune ce se va întâmpla înainte de R0:
+  `scripts\merge-check.ps1` (exit `0` curat · `1` conflict cu fișierele numite
+  · `2` nemăsurabil, care **nu** e „curat");
+- măsurătoarea porții de livrare citește **la vârful ramurii remote** a
+  consumatorului, nu copia locală — pentru că un repo poate fi schimbat sub
+  picioarele tale, și atunci „local" nu mai e un cuvânt suficient.

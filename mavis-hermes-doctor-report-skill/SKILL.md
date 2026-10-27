@@ -1,6 +1,6 @@
 ---
 name: mavis-hermes-doctor-report-skill
-description: "Raportul de stare al proiectului HERMES DOCTOR — îl scriu când Popy cere «raport», «raport de stare» sau «unde suntem» în această sesiune. Titlul și numele fișierului sunt ÎNTOTDEAUNA «Raport de stare Hermes Doctor» plus data măsurătorii. Proiectul se numește Hermes Doctor, NICIODATĂ altfel: OPTIMUS PRIME DASHBOARD, PKMS, voltul și skill-urile sunt proiecte distincte și nu apar în titlu. Schema fixă în 7 secțiuni: scopul, timeline, ce mai rămâne, decizii necesare, de luat în considerare, verdictul gata sau nu, pasul următor. Fiecare cifră e măsurată în sesiunea raportului, nu reluată din memorie."
+description: "Raportul de stare al proiectului HERMES DOCTOR — îl scriu când Popy cere «raport», «raport de stare» sau «unde suntem» în această sesiune. Titlul și numele fișierului sunt ÎNTOTDEAUNA «Raport de stare Hermes Doctor» plus data măsurătorii. Proiectul se numește Hermes Doctor, NICIODATĂ altfel: OPTIMUS PRIME DASHBOARD, PKMS, vaultul și skill-urile sunt proiecte distincte și nu apar în titlu. Schema fixă în 7 secțiuni: scopul, timeline, ce mai rămâne, decizii necesare, de luat în considerare, verdictul gata sau nu, pasul următor. Fiecare cifră e măsurată în sesiunea raportului, nu reluată din memorie."
 ---
 
 # Skill: Raport de stare Hermes Doctor
@@ -18,7 +18,7 @@ subiectul. Proiectul se numește **Hermes Doctor** și nu are alt nume.
 | Nume | Ce e de fapt |
 |---|---|
 | OPTIMUS PRIME DASHBOARD | proiect complet diferit, cu altă viață |
-| PKMS / voltul (`D:\Alex_Knowlege_Vault`) | proiect diferit, repo propriu `pkms-vault-automation` |
+| PKMS / vaultul (`D:\Alex_Knowlege_Vault`) | proiect diferit, repo propriu `pkms-vault-automation` |
 | `Optimus-Mavis-Skills` | arborele de skill-uri, nu proiectul acesta |
 | MaxHermes | proiect viitor, neatins de acest raport |
 
@@ -117,6 +117,6 @@ mai sunt actuale.
 
 ## Ce nu intră în raport
 
-Conținutul voltului, proiectele vecine, și munca de la sesiunile trecute fără
+Conținutul vaultului, proiectele vecine, și munca de la sesiunile trecute fără
 măsurătoare. Dacă un lucru e în afara scopului și e stricat, îl spun într-un rând
 separat și îl las — nu îl absorb în raport ca să par că l-am rezolvat.
