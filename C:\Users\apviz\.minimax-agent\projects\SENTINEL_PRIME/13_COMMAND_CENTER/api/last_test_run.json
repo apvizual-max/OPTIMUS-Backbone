@@ -1,9 +1,11 @@
 {
-  "ran_at": "2026-10-24T06:06:15.390593",
-  "passed": 163,
-  "failed": 58,
-  "skipped": 3,
+  "ran_at": "2026-10-26T22:41:57.282284",
+  "passed": 200,
+  "failed": 57,
+  "skipped": 5,
   "not_run": [
+    "WebToolsValidateUrl",
+    "WebToolsErrorHandling",
     "JSON",
     "NoRomanianInCode",
     "McpSliceSlug"
@@ -13,6 +15,22 @@
   ],
   "green": false,
   "classes": [
+    {
+      "name": "WebToolsValidateUrl",
+      "passed": 0,
+      "failed": 0,
+      "skipped": 1,
+      "not_run": true,
+      "partial": false
+    },
+    {
+      "name": "WebToolsErrorHandling",
+      "passed": 0,
+      "failed": 0,
+      "skipped": 1,
+      "not_run": true,
+      "partial": false
+    },
     {
       "name": "Foundation",
       "passed": 0,
@@ -79,8 +97,8 @@
     },
     {
       "name": "Backup",
-      "passed": 0,
-      "failed": 2,
+      "passed": 2,
+      "failed": 0,
       "skipped": 0,
       "not_run": false,
       "partial": false
@@ -118,9 +136,49 @@
       "partial": false
     },
     {
-      "name": "MimicryDetectors",
-      "passed": 0,
-      "failed": 1,
+      "name": "MimicryDetectors-PatternsFireable",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "MimicryDetectors-EvidenceReformatProof",
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "MimicryDetectors-DiacriticFolding",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "MimicryDetectors-KnownBadEnglish",
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "MimicryDetectors-HonestOutput",
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "MimicryDetectors-CoverageReported",
+      "passed": 9,
+      "failed": 0,
       "skipped": 0,
       "not_run": false,
       "partial": false
@@ -246,6 +304,14 @@
       "partial": false
     },
     {
+      "name": "McpBridgeErrorHandling",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
       "name": "McpConfigServersExist",
       "passed": 0,
       "failed": 1,
@@ -316,7 +382,15 @@
       "skipped": 0,
       "not_run": false,
       "partial": false
+    },
+    {
+      "name": "PrimeBridgeFindFiles",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
     }
   ],
-  "total_classes": 38
+  "total_classes": 47
 }

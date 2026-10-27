@@ -1,6 +1,6 @@
 {
-  "ran_at": "2026-10-25T16:49:14.299404",
-  "passed": 511,
+  "ran_at": "2026-10-26T22:38:38.721030",
+  "passed": 521,
   "failed": 10,
   "skipped": 2,
   "not_run": [],
@@ -11,7 +11,15 @@
   "classes": [
     {
       "name": "WebToolsValidateUrl",
-      "passed": 3,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
+      "name": "WebToolsErrorHandling",
+      "passed": 4,
       "failed": 0,
       "skipped": 0,
       "not_run": false,
@@ -282,6 +290,14 @@
       "partial": false
     },
     {
+      "name": "McpBridgeErrorHandling",
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
       "name": "McpConfigServersExist",
       "passed": 12,
       "failed": 0,
@@ -355,12 +371,12 @@
     },
     {
       "name": "PrimeBridgeFindFiles",
-      "passed": 3,
+      "passed": 4,
       "failed": 0,
       "skipped": 0,
       "not_run": false,
       "partial": false
     }
   ],
-  "total_classes": 44
+  "total_classes": 46
 }
