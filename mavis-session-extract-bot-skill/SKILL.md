@@ -103,6 +103,12 @@ node "...\bot-registry.mjs" link --name <skillName> --role functional --source <
   The verifier fails if they drift.
 - Every member skill's frontmatter carries: `name`, `description`, `role`
   (`functional` | `meta`), `bot: mavis-session-extract-bot-skill`.
+- **The SUBJECT of a session never changes the member skill — the SOURCE does.** A session
+  about a movie, a research thread, or a bridge setup is extracted by the same member skill
+  as any other session from that source. There is no "movie transcript skill": *"as long as
+  I can trace a session"* is the rule, and the subject of the conversation is irrelevant to
+  the extraction. What changes per source is **where the record lives** — not what the
+  conversation was about.
 
 ---
 
@@ -231,6 +237,14 @@ path is `mavis-bot-creator-skill`:
 
 **Every member skill produces the SAME shape** (§5), so the bot's output is uniform no
 matter which AI the session came from.
+
+**On the "movie session":** there is no separate member for it, and there does not need to
+be. A movie session, a bridge session, a research session — all of them are *subjects*,
+and the subject never selects the member; the **source** does. The first member already
+extracts a movie session perfectly well, because it reads the record and not the topic.
+(Masurat 2026-10-28: nici o sesiune locala nu are titlu de film — cautarea s-a facut pe
+titlu si pe continut, cu 14 sesiuni atinse de cuvantul "cinematic", toate incidental.
+Precedentul exista ca aplicatie a skill-ului, nu ca skill separat.)
 
 ---
 
