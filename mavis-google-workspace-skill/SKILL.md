@@ -54,7 +54,7 @@ Secțiunile de mai sus rămân valabile. Iată ce e **măsurat**, nu presupus:
 |---|---|
 | `gdrive-mcp` (MCP, Drive only) | `invalid_grant` — **token revocat** |
 | `google-workspace-mcp` | cere un `account` necunoscut → apelul nu pornește |
-| `verify-drive.js` (bun, `google-layer\`) | `files.list` **FAILED**, **EXIT 2** |
+| `verify-drive.js` (bun, `Mavis-Google_Access\google-layer\`) | `files.list` **FAILED**, **EXIT 2** |
 | `gcloud auth application-default print-access-token` | token **valid**, dar Drive API → **HTTP 403** (fără scope) |
 
 **Re-consentul tokenului e act ACCESS** — cere consimțământul lui Popy în
