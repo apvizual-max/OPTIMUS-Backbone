@@ -13,7 +13,7 @@ Pentru o sesiune cu **0 context și 0 memorie**.
 **O singură comandă spune dacă totul e în picioare:**
 
 ```powershell
-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs"
+node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs"
 ```
 
 Starea la predare (2026-10-28 00:48Z): `SUMMARY checks=11 failed=0 warnings=0`

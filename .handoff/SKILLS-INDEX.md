@@ -105,5 +105,5 @@ Get-ChildItem "$s\mavis-skill-*\scripts\verify-*.mjs" | ForEach-Object {
 }
 
 # 3. sistemul însuși
-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs"
+node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs"
 ```

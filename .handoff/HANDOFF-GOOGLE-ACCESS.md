@@ -26,7 +26,7 @@ că funcționează, cu 11 verificări și un verdict unic.
 control și repară verificarea care a picat.
 
 ```powershell
-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs"
+node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs"
 ```
 
 ---
@@ -43,7 +43,7 @@ CHECK C1b.running-code OK   repo=63e4ea8d2bbb running=63e4ea8d2bbb match=true
 CHECK C2.health OK   grant=live reauth=false tools=32
 CHECK C3.services OK   state=HEALTHY OK=14 REFUSED=2[keep,sites] ERROR=0[] attempts=1
 CHECK C4.extendlm OK   token_minutes_left=109 refresh_token=yes cloud_secret_age_min=11
-CHECK C5.browser-mcp OK   server=minimax-notebooklm tools=4 path=C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\google-layer\minimax-notebooklm.js
+CHECK C5.browser-mcp OK   server=minimax-notebooklm tools=4 path=C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\google-layer\minimax-notebooklm.js
 CHECK C6.mcp-registry OK   enabled=true url=http://127.0.0.1:8766/mcp type=streamable-http
 CHECK C10.mcp-paths OK   checked=23 dead_total=0
 CHECK C7.tasks OK   count=4
@@ -120,7 +120,7 @@ din `FULL_SCOPES`, **cu motivul scris în sursă**. Uneltele `gkeep_list` și
 ### 5.1 „Nu are Google" — ce faci
 
 ```powershell
-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs"
+node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs"
 ```
 
 Citește **verificarea care a picat** (e numită în ieșire), repară **acea** bucată,
@@ -138,7 +138,7 @@ refuzat — **măsurătoare**, nu eșec) · `ERROR` (nu a răspuns nimic) · `SK
 ### 5.3 Un server MCP nou, sau unul rupte
 
 ```powershell
-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\probe-mcp-stdio.mjs" --name <intrare>
+node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\probe-mcp-stdio.mjs" --name <intrare>
 ```
 
 Face handshake MCP real peste stdio, cu comanda și argumentele **exact cum
@@ -153,7 +153,7 @@ invalidă toate celelalte scope-uri.
 ### 5.5 NotebookLM
 
 ```powershell
-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\probe-notebooklm.mjs"
+node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\probe-notebooklm.mjs"
 ```
 
 Două drumuri: **ExtendLM** (MCP, 160 unelte) și **browserul**
@@ -163,8 +163,8 @@ tokenului o face **doar gazda**; Cloudul consumă doar un snapshot.
 ### 5.6 Poze
 
 ```powershell
-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\picker-watch.mjs" --session <id> --data "C:\Users\apviz\.minimax\google-access\data" --delete-after
-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\picker-download.mjs"
+node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\picker-watch.mjs" --session <id> --data "C:\Users\apviz\.minimax\google-access\data" --delete-after
+node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\picker-download.mjs"
 ```
 
 Un `404` pe sesiune înseamnă **consumată**, nu defect: e marcată în fișier

@@ -19,7 +19,7 @@ verifică printr-o singură comandă.
 ## Comanda de control (rulează-o PRIMA)
 
 ```powershell
-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs"
+node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs"
 ```
 
 Starea măsurată la ultima rulare (2026-10-28 01:54Z):

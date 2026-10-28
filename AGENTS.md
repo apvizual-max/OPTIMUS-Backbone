@@ -47,8 +47,8 @@ station:
 ## Probes (run them before claiming anything)
 
 ```powershell
-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs"   # THE control point - 11 checks, one verdict
-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\probe-mcp-stdio.mjs" --name <entry>  # does a registered MCP entry actually start?
+node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs"   # THE control point - 11 checks, one verdict
+node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\probe-mcp-stdio.mjs" --name <entry>  # does a registered MCP entry actually start?
 node "C:\Users\apviz\.minimax\google-access\probe-services.mjs"   # every service, live
 node "C:\Users\apviz\.minimax\google-access\state\probe-token.mjs" # what the token carries
 docker inspect --format '{{.State.Status}}|{{if .State.Health}}{{.State.Health.Status}}{{end}}' Google_Access
