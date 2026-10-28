@@ -1,0 +1,17 @@
+﻿MOTIV.txt - pre-sync snapshot, 2026-10-28 02:0x
+
+Created before the git synchronisation with origin/main (7290b26), which was
+37 commits ahead of the local HEAD (cd5ff4b). The local working tree carried
+content that exists ONLY here, on disk, and not in any commit on origin/main:
+
+  .raport-archive/              the tracked raport-archive/ directory, renamed to a
+                                 hidden name on disk at some point. The 3 files inside
+                                 are the same 3 the tracked directory holds. Renamed,
+                                 not duplicated, and not authored here.
+  .transcripts/                 126 files, 55.5 MB, transcript of the
+                                 Sentinel_Role-Dashboard session of 2026-10-28.
+  Last_active_goal-28-10-2026.txt  the goal text of the session being wrapped up.
+
+Copied, not moved, and not deleted. Everything here is also captured in a git
+stash, so there are two independent recovery paths. Nothing in this folder is
+referenced by any code path.

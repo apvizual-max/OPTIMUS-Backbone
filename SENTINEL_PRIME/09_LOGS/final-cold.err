@@ -1,0 +1,27 @@
+[+    0.3s] begin container
+[+    1.4s] end   container
+[+    1.4s] begin verb_argv
+[+    1.4s] end   verb_argv
+[+    1.4s] begin bat_crlf
+[+    1.4s] end   bat_crlf
+[+    1.4s] begin loopback_only
+[+    7.8s] end   loopback_only
+[+    7.8s] begin serves_through_front
+[+    7.9s] end   serves_through_front
+[+    7.9s] begin front_not_hijacked
+[+    8.0s] end   front_not_hijacked
+[+    8.0s] begin backend_behind_front
+[+    8.0s] end   backend_behind_front
+[+    8.0s] begin sse_reconnect
+[+   71.7s] end   sse_reconnect
+[+   71.7s] begin startup_entry
+[+   78.8s] cold start: stop verb returned rc=0 in 7.0s
+[+   81.0s] cold start: startup entry launched, polling for the front to return
+[+  105.7s] cold start: front returned in 24.2s
+[+  105.9s] end   startup_entry
+[+  105.9s] begin ecosystem_snapshot_fresh
+[+  105.9s] end   ecosystem_snapshot_fresh
+[+  105.9s] begin ecosystem_route
+[+  106.0s] end   ecosystem_route
+[+  106.0s] begin no_data_in_image
+[+  107.2s] end   no_data_in_image

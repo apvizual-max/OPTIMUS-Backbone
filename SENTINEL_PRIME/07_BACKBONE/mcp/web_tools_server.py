@@ -1,0 +1,280 @@
+#!/usr/bin/env python3
+"""
+`web-tools` - read-only HTTP fetching for SENTINEL.
+
+Declared in OPTIMUS_MCP_CONFIG.json as: "Web fetch si search pentru R-2
+verification".
+
+Why this file exists
+--------------------
+The config declared this server as `npx -y @modelcontextprotocol/server-fetch`.
+That package returns HTTP 404 from the npm registry - measured 2026-10-10, not
+assumed:
+
+    @modelcontextprotocol/server-fetch  -> 404
+    mcp-server-fetch                   -> 200, but dist-tag latest = 0.0.1-security
+
+`mcp-server-fetch` is an npm name reservation ("0.0.1-security" is what npm
+assigns to a squatted/unpublished name), not a working server. Swapping the
+declared name for it would have turned a red health check green over a package
+that does nothing. So the capability was built here instead.
+
+What is NOT here, and why
+------------------------
+The declared description says "fetch si search". Only fetch is implemented.
+
+Search was measured, not guessed. From this machine, 2026-10-10:
+
+    https://example.com/                       -> 200, 577 bytes
+    https://html.duckduckgo.com/html/?q=...    -> 202, 14218 bytes, 0 results
+
+HTTP 202 with zero `result__a` elements is an anti-bot interstitial, not a
+search result set. A `web_search` tool built on it would return `[]` most days
+and look like "no results for this query" rather than "this endpoint is
+blocked". An honest absence is better than a tool that lies by omission, so the
+search half is declared missing instead of implemented as a scraper.
+
+The native agent tools `web_search` and `web_fetch` remain the real search
+path; this server exists so the MCP declaration is true of something real.
+
+Safety
+------
+Read-only: GET and HEAD only, no POST, no credentials, no cookies, no auth
+headers. Only http/https - `file://` and friends are refused, because a fetch
+tool that can read the local disk is not a fetch tool. Every response is capped
+and a capped response SAYS it was capped, because a truncated body presented as
+complete is a measurement that quietly lies.
+"""
+import html as html_mod
+import json
+import re
+import urllib.error
+import urllib.parse
+import urllib.request
+from typing import Annotated
+
+from mcp.server.mcpserver import MCPServer
+from mcp.server.mcpserver.exceptions import ToolError
+from pydantic import Field
+
+MAX_BYTES = 500_000          # hard cap on any single response body
+DEFAULT_TIMEOUT = 30         # seconds; a fetch that hangs is worse than one that fails
+USER_AGENT = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+              'SENTINEL-Research/1.0 (+OPTIMUS Control Center)')
+REDIRECT_LIMIT = 5
+
+ALLOWED_SCHEMES = ('http', 'https')
+
+# Headers worth returning. Returning every header buries the useful ones in
+# Set-Cookie and cache noise; returning none hides the Content-Length that
+# proves whether the body was truncated.
+KEEP_HEADERS = ('content-type', 'content-length', 'content-encoding', 'etag',
+                'last-modified', 'location', 'server', 'date')
+
+server = MCPServer('web-tools', version='1.0.0')
+
+
+def _validate(url: str) -> str:
+    parsed = urllib.parse.urlparse(url)
+    if parsed.scheme.lower() not in ALLOWED_SCHEMES:
+        raise ToolError(
+            f'refused: {url!r} uses scheme {parsed.scheme or "(none)"!r}; only '
+            f'http and https are allowed. This server must not become a way to '
+            f'read the local filesystem.')
+    if not parsed.netloc:
+        raise ToolError(f'refused: {url!r} has no host')
+    return url
+
+
+def _fetch(url: str, method: str, max_bytes: int, timeout: int) -> dict:
+    """Perform one HTTP request and return a JSON-serialisable envelope.
+
+    Every failure mode below is anticipated (bad URL, DNS, TLS, timeout, HTTP
+    error status), so all of them raise ToolError - whose message reaches the
+    caller. Raising a bare Exception here would be swallowed by the SDK into
+    `Error executing tool web-tools: <name>` and the operator would be told a
+    404 and a DNS failure looked identical.
+    """
+    _validate(url)
+    cap = max(1, min(int(max_bytes), MAX_BYTES))
+    request = urllib.request.Request(url, method=method, headers={
+        'User-Agent': USER_AGENT,
+        'Accept': '*/*',
+        'Accept-Encoding': 'identity',   # avoid having to decompress mid-cap
+    })
+
+    class _RedirectGuard(urllib.request.HTTPRedirectHandler):
+        """Follow redirects, but refuse a chain longer than REDIRECT_LIMIT.
+
+        The counter lives on the HANDLER instance, not on the request. It was
+        on the request before, written as `len(getattr(req,'redirect_count',0))`
+        - but the attribute was then assigned an int, so the very first
+        redirect evaluated `len(0)` and raised TypeError. TypeError is not a
+        ToolError, so the SDK treated it as a crash and returned the bare
+        string "Error executing tool web_head" - reintroducing by accident the
+        exact unreadable-error shape the ToolError work removed elsewhere.
+        REDIRECT_LIMIT never engaged and `redirects` always reported 0.
+
+        Found by verifier 2026-10-10, on a real 301.
+        """
+
+        def __init__(self, limit: int):
+            super().__init__()
+            self.limit = limit
+            self.count = 0
+
+        def redirect_request(self, req, fp, code, msg, headers, newurl):
+            if self.count >= self.limit:
+                raise ToolError(
+                    f'refused: more than {self.limit} redirects starting from '
+                    f'{url}. A long redirect chain is the standard shape of a '
+                    f'loop, so it stops here instead of continuing.')
+            self.count += 1
+            return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+    guard = _RedirectGuard(REDIRECT_LIMIT)
+    opener = urllib.request.build_opener(guard)
+    try:
+        with opener.open(request, timeout=int(timeout)) as response:
+            body = response.read(cap + 1)
+            headers = {k.lower(): v for k, v in response.headers.items()
+                       if k.lower() in KEEP_HEADERS}
+            return {
+                'url': url,
+                'final_url': response.geturl(),
+                'status': response.status,
+                'method': method,
+                'content_type': response.headers.get('Content-Type'),
+                'headers': headers,
+                'bytes_total_known': headers.get('content-length'),
+                'bytes_returned': len(body),
+                'body': body,
+                'redirects': guard.count,
+            }
+    except urllib.error.HTTPError as exc:
+        # An HTTP error status still carries a body and headers worth seeing.
+        body = exc.read(cap + 1)
+        headers = {k.lower(): v for k, v in (exc.headers or {}).items()
+                   if k.lower() in KEEP_HEADERS}
+        return {
+            'url': url,
+            'final_url': exc.geturl() if hasattr(exc, 'geturl') else url,
+            'status': exc.code,
+            'reason': exc.reason,
+            'method': method,
+            'content_type': (exc.headers or {}).get('Content-Type'),
+            'headers': headers,
+            'bytes_returned': len(body),
+            'body': body,
+        }
+    except urllib.error.URLError as exc:
+        raise ToolError(f'could not reach {url}: {exc.reason}') from exc
+    except TimeoutError as exc:
+        raise ToolError(f'timed out after {timeout}s fetching {url}') from exc
+    except OSError as exc:
+        raise ToolError(f'network error fetching {url}: {exc}') from exc
+
+
+def _envelope(raw: dict, max_bytes: int, decode_as: str) -> str:
+    """Shape a raw fetch into the documented, truncation-honest envelope."""
+    cap = max(1, min(int(max_bytes), MAX_BYTES))
+    body = raw['body']
+    truncated = len(body) > cap
+    if truncated:
+        body = body[:cap]
+
+    if decode_as == 'text':
+        text = body.decode('utf-8', errors='replace')
+    elif decode_as == 'html-text':
+        stripped = re.sub(r'(?is)<(script|style)[^>]*>.*?</\1>', ' ', text_or_empty(body))
+        stripped = re.sub(r'(?s)<!--.*?-->', ' ', stripped)
+        stripped = re.sub(r'(?s)<[^>]+>', ' ', stripped)
+        text = re.sub(r'[ \t\r\f\v]+', ' ', html_mod.unescape(stripped))
+        text = re.sub(r'\n\s*\n\s*\n+', '\n\n', text).strip()
+    else:
+        text = base64_or_none(body)
+
+    declared = raw.get('bytes_total_known')
+    incomplete = truncated or (declared is not None
+                               and str(declared).isdigit()
+                               and int(declared) > len(body))
+    return json.dumps({
+        'url': raw['url'],
+        'final_url': raw['final_url'],
+        'status': raw['status'],
+        'method': raw['method'],
+        'content_type': raw['content_type'],
+        'headers': raw.get('headers', {}),
+        'redirects': raw.get('redirects', 0),
+        'bytes_returned': len(body),
+        'bytes_declared': declared,
+        'complete': not incomplete,
+        'truncated_note': (
+            f'response truncated at {len(body)} bytes (cap {cap}); the body '
+            f'shown is NOT the whole document'
+            if incomplete else 'complete response body'),
+        'text': text,
+    }, indent=2)
+
+
+def text_or_empty(body: bytes) -> str:
+    return body.decode('utf-8', errors='replace')
+
+
+def base64_or_none(body: bytes) -> str | None:
+    import base64
+    try:
+        return body.decode('utf-8')
+    except UnicodeDecodeError:
+        return base64.b64encode(body).decode('ascii')
+
+
+@server.tool()
+def web_fetch(
+    url: Annotated[str, Field(description='Absolute http:// or https:// URL.')],
+    max_bytes: Annotated[int, Field(description=(
+        f'Byte cap for the returned body, hard-capped at {MAX_BYTES}. '
+        'Defaults to 200000.'))] = 200_000,
+    timeout: Annotated[int, Field(description=(
+        'Seconds to wait before giving up. Defaults to 30.'))] = DEFAULT_TIMEOUT,
+) -> str:
+    """Fetch a URL and return status, headers and body as JSON."""
+    raw = _fetch(url, 'GET', max_bytes, timeout)
+    return _envelope(raw, max_bytes, 'text')
+
+
+@server.tool()
+def web_fetch_text(
+    url: Annotated[str, Field(description='Absolute http:// or https:// URL.')],
+    max_bytes: Annotated[int, Field(description=(
+        f'Byte cap, hard-capped at {MAX_BYTES}. Defaults to 200000.'))] = 200_000,
+    timeout: Annotated[int, Field(description=(
+        'Seconds to wait before giving up. Defaults to 30.'))] = DEFAULT_TIMEOUT,
+) -> str:
+    """Fetch a URL and strip HTML down to readable plain text."""
+    raw = _fetch(url, 'GET', max_bytes, timeout)
+    return _envelope(raw, max_bytes, 'html-text')
+
+
+@server.tool()
+def web_head(
+    url: Annotated[str, Field(description='Absolute http:// or https:// URL.')],
+    timeout: Annotated[int, Field(description=(
+        'Seconds to wait before giving up. Defaults to 30.'))] = DEFAULT_TIMEOUT,
+) -> str:
+    """HEAD a URL: reachability, status and headers, no body."""
+    raw = _fetch(url, 'HEAD', 0, timeout)
+    return json.dumps({
+        'url': raw['url'],
+        'final_url': raw['final_url'],
+        'status': raw['status'],
+        'reason': raw.get('reason'),
+        'content_type': raw['content_type'],
+        'headers': raw.get('headers', {}),
+        'redirects': raw.get('redirects', 0),
+    }, indent=2)
+
+
+if __name__ == '__main__':
+    import asyncio
+    raise SystemExit(asyncio.run(server.run_stdio_async()) or 0)

@@ -1,0 +1,11 @@
+{
+  "message_id": "b71e9629",
+  "from": "PRIME-CLI",
+  "to": "CODER-APP",
+  "type": "test",
+  "timestamp": "2026-10-04T15:30:00.512565",
+  "payload": {
+    "data": "value"
+  },
+  "read": false
+}

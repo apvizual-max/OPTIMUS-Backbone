@@ -1,0 +1,386 @@
+{
+  "suite": "mavis-sentinel-hub deployment e2e",
+  "generated_at": "2026-10-28T12:01:03",
+  "passed": 74,
+  "failed": 0,
+  "not_run": 1,
+  "total": 75,
+  "green": true,
+  "checks": [
+    {
+      "id": "engine_available",
+      "status": "PASS",
+      "detail": "docker server 29.9.2"
+    },
+    {
+      "id": "precondition_serving",
+      "status": "PASS",
+      "detail": "deployment already serving on both planes - checks run against the live system"
+    },
+    {
+      "id": "container_exists",
+      "status": "PASS",
+      "detail": "container 'mavis-sentinel-hub' exists"
+    },
+    {
+      "id": "container_running",
+      "status": "PASS",
+      "detail": "state=running"
+    },
+    {
+      "id": "container_health",
+      "status": "PASS",
+      "detail": "gateway healthcheck=healthy after 0s of settle time; /healthz measured 200"
+    },
+    {
+      "id": "container_restart_policy",
+      "status": "PASS",
+      "detail": "restart policy=unless-stopped (survives Docker restart and reboot)"
+    },
+    {
+      "id": "container_image",
+      "status": "PASS",
+      "detail": "image=mavis/sentinel-hub:1.0.0"
+    },
+    {
+      "id": "verb_argv_not_joined",
+      "status": "PASS",
+      "detail": "hub invocations pass 12 separate argv elements; no switch and its value are fused into a single string"
+    },
+    {
+      "id": "every_bat_is_crlf",
+      "status": "PASS",
+      "detail": "all .bat files under the project use CRLF (0 problems)"
+    },
+    {
+      "id": "no_case_shadowed_params",
+      "status": "PASS",
+      "detail": "no local in 5 PowerShell scripts shadows a script-level parameter by case alone"
+    },
+    {
+      "id": "loopback_only",
+      "status": "PASS",
+      "detail": "8910 refused on 3 non-loopback address(es): 172.17.192.1, 172.21.224.1, 192.168.1.193"
+    },
+    {
+      "id": "port_binding",
+      "status": "PASS",
+      "detail": "docker port -> 80/tcp -> 127.0.0.1:8910"
+    },
+    {
+      "id": "route_root",
+      "status": "PASS",
+      "detail": "200 122479 B"
+    },
+    {
+      "id": "route_healthz",
+      "status": "PASS",
+      "detail": "200 87 B"
+    },
+    {
+      "id": "route_readyz",
+      "status": "PASS",
+      "detail": "200 93151 B"
+    },
+    {
+      "id": "route_api_state",
+      "status": "PASS",
+      "detail": "200 93151 B"
+    },
+    {
+      "id": "route_api_health",
+      "status": "PASS",
+      "detail": "200 21165 B"
+    },
+    {
+      "id": "served_by_front",
+      "status": "PASS",
+      "detail": "Server=nginx/1.31.7 X-SENTINEL-Deployment=mavis-sentinel-hub"
+    },
+    {
+      "id": "gateway_independent",
+      "status": "PASS",
+      "detail": "/healthz reports mavis-sentinel-hub role=deployment-front"
+    },
+    {
+      "id": "front_not_hijacked",
+      "status": "PASS",
+      "detail": "front port is served by mavis-sentinel-hub"
+    },
+    {
+      "id": "both_planes_live",
+      "status": "PASS",
+      "detail": "front=200 backend=200"
+    },
+    {
+      "id": "front_matches_backend",
+      "status": "PASS",
+      "detail": "front and backend both serve 200 and agree"
+    },
+    {
+      "id": "sse_reconnect",
+      "status": "PASS",
+      "detail": "3 'state' events in 62s via EventSource reconnect (3 transport errors)"
+    },
+    {
+      "id": "startup_entry_present",
+      "status": "PASS",
+      "detail": "Startup entry present (4557 B)"
+    },
+    {
+      "id": "startup_entry_readable",
+      "status": "PASS",
+      "detail": "entry is readable ASCII"
+    },
+    {
+      "id": "startup_uses_file_not_command",
+      "status": "PASS",
+      "detail": "entry uses -File with a quoted path (the form that survives 'start')"
+    },
+    {
+      "id": "startup_targets_orchestrator",
+      "status": "PASS",
+      "detail": "entry invokes sentinel-hub.ps1 (brings up BOTH planes)"
+    },
+    {
+      "id": "startup_ports",
+      "status": "PASS",
+      "detail": "entry targets front=8910 backend=8912"
+    },
+    {
+      "id": "startup_logs",
+      "status": "PASS",
+      "detail": "entry writes a log, so a future failure leaves evidence"
+    },
+    {
+      "id": "startup_cold_start",
+      "status": "NOT_RUN",
+      "detail": "destructive: re-run with --coldstart to tear the deployment down and prove the Startup entry brings it back"
+    },
+    {
+      "id": "ecosystem_snapshot_fresh",
+      "status": "PASS",
+      "detail": "snapshot age 134s, refreshed by the server's worker (bound 600s)"
+    },
+    {
+      "id": "ecosystem_route",
+      "status": "PASS",
+      "detail": "200, 29 surfaces, counts={\"measured\": 22, \"not_available\": 7, \"error\": 0, \"total\": 29}"
+    },
+    {
+      "id": "gap_count_matches_ledger",
+      "status": "PASS",
+      "detail": "5 open gaps served (the ledger has 5 open) and 14 closed counted (the ledger has 14 closed)"
+    },
+    {
+      "id": "action_whitelist_rejects",
+      "status": "PASS",
+      "detail": "all 7 unapproved/injection payloads were refused by the whitelist itself, not by a missing-field guard"
+    },
+    {
+      "id": "action_missing_id_refused",
+      "status": "PASS",
+      "detail": "a body with no `id` is refused with 'no action id supplied'"
+    },
+    {
+      "id": "action_whitelist_admits",
+      "status": "PASS",
+      "detail": "the whitelisted action 'logs_tail' is accepted, so the whitelist discriminates"
+    },
+    {
+      "id": "static_route_serves_intact",
+      "status": "PASS",
+      "detail": "both allowlisted fonts served byte-exact (jetbrains-mono-400.ttf 112172B, jetbrains-mono-600.ttf 112160B)"
+    },
+    {
+      "id": "static_route_refuses_traversal",
+      "status": "PASS",
+      "detail": "all 11 traversal probes returned no file content"
+    },
+    {
+      "id": "static_route_gate_is_literal",
+      "status": "PASS",
+      "detail": "every Join-Path under $ROOT receives $key, a literal from the allowlist - request-derived values can only SELECT a name, never compose a path"
+    },
+    {
+      "id": "static_route_control_discriminates",
+      "status": "PASS",
+      "detail": "the same predicate fails when the gate is rewritten to take $rel, so this check is measuring the gate and not passing vacuously"
+    },
+    {
+      "id": "action_origin_blocks_foreign",
+      "status": "PASS",
+      "detail": "foreign Origin refused 403, own/absent Origin reached the action layer 400 (2/2 blocked)"
+    },
+    {
+      "id": "action_origin_control_discriminates",
+      "status": "PASS",
+      "detail": "the real allowlist in source blocks 4 of 5 probed origins; the same extractor and predicate over the same file with the allowlist widened to admit all blocks 0"
+    },
+    {
+      "id": "handshake_refresh_is_wired",
+      "status": "PASS",
+      "detail": "the refresh worker receives mcp_handshake.py and invokes it, so the 24h freshness bound on mcp_tools_wired is met by the system"
+    },
+    {
+      "id": "handshake_refresh_period_is_wall_clock",
+      "status": "PASS",
+      "detail": "the handshake cadence is a wall-clock deadline of at most 3600s, so it cannot drift with the cost of a cycle nor be multiplied by nesting"
+    },
+    {
+      "id": "handshake_refresh_gate_is_not_nested",
+      "status": "PASS",
+      "detail": "the handshake gate sits outside the every-4th-cycle block, so the ecosystem cadence cannot multiply the handshake cadence"
+    },
+    {
+      "id": "handshake_refresh_control_discriminates",
+      "status": "PASS",
+      "detail": "the same predicate reports 'not wired' on a copy with the invocation removed, so this check is measuring the gate"
+    },
+    {
+      "id": "handshake_refresh_shape_control_discriminates",
+      "status": "PASS",
+      "detail": "the shape predicate rejects the cycle-count form it replaced, so it measures the shape of the cadence and not the presence of a number"
+    },
+    {
+      "id": "handshake_record_is_current",
+      "status": "PASS",
+      "detail": "handshake record age 881s, rewritten by the daemon every 3600s (bound 7200s)"
+    },
+    {
+      "id": "handshake_record_control_discriminates",
+      "status": "PASS",
+      "detail": "the same predicate refuses a record aged past the bound, so this check measures the age and not the presence of a file"
+    },
+    {
+      "id": "telemetry_detector_armed",
+      "status": "PASS",
+      "detail": "detector flags 26 entries, accepts exactly 25, and finds an oversized list nested past position 25 (rows[30].events)"
+    },
+    {
+      "id": "log_feed_within_bound",
+      "status": "PASS",
+      "detail": "the log stream returned 25 lines, within the 25-entry bound"
+    },
+    {
+      "id": "inventories_complete",
+      "status": "PASS",
+      "detail": "across 4 list-bearing routes: every list over 25 is a declared inventory, each declared total matches what is shipped, the class count matches the suite that produced it, and no scan was truncated"
+    },
+    {
+      "id": "inventory_registry_exempts_correctly",
+      "status": "PASS",
+      "detail": "exemption works: 26-entry tests.classes is clean"
+    },
+    {
+      "id": "inventory_registry_catches_same_leaf_name",
+      "status": "PASS",
+      "detail": "same leaf name is caught: rows[0].classes is flagged"
+    },
+    {
+      "id": "inventory_registry_catches_lying_total",
+      "status": "PASS",
+      "detail": "declared total that lies is caught"
+    },
+    {
+      "id": "inventory_registry_catches_headless_total",
+      "status": "PASS",
+      "detail": "headless total is caught"
+    },
+    {
+      "id": "inventory_registry_catches_unbacked_exemption",
+      "status": "PASS",
+      "detail": "unbacked exemption is caught"
+    },
+    {
+      "id": "inventory_registry_catches_inert_pair",
+      "status": "PASS",
+      "detail": "inert pair is caught"
+    },
+    {
+      "id": "inventory_registry_catches_exempt_list_with_no_total",
+      "status": "PASS",
+      "detail": "exempt list with no total is caught"
+    },
+    {
+      "id": "inventory_registry_catches_flat_key_impostor",
+      "status": "PASS",
+      "detail": "flat key impostor is caught"
+    },
+    {
+      "id": "inventory_registry_accepts_real_flat_payload",
+      "status": "PASS",
+      "detail": "real flat payload is accepted"
+    },
+    {
+      "id": "inventory_registry_catches_nested_feed",
+      "status": "PASS",
+      "detail": "nested feed is caught"
+    },
+    {
+      "id": "inventory_registry_accepts_flat_surfaces_list",
+      "status": "PASS",
+      "detail": "flat surfaces list is accepted"
+    },
+    {
+      "id": "inventory_registry_catches_shadowed_impostor",
+      "status": "PASS",
+      "detail": "shadowed impostor is caught"
+    },
+    {
+      "id": "inventory_registry_catches_non_int_total",
+      "status": "PASS",
+      "detail": "non-int total is caught"
+    },
+    {
+      "id": "inventory_registry_accepts_int_total",
+      "status": "PASS",
+      "detail": "int total is accepted"
+    },
+    {
+      "id": "inventory_registry_catches_contradicting_class_count",
+      "status": "PASS",
+      "detail": "contradicting class count is caught"
+    },
+    {
+      "id": "inventory_registry_reports_unverified_for_unreadable_source",
+      "status": "PASS",
+      "detail": "unreadable source is unverified"
+    },
+    {
+      "id": "inventory_registry_validates_parseable_source",
+      "status": "PASS",
+      "detail": "parseable source validates: 51 classes"
+    },
+    {
+      "id": "dom_injection_guarded",
+      "status": "PASS",
+      "detail": "all 13 tabs rendered visible, non-empty content after clicking"
+    },
+    {
+      "id": "polling_refresh",
+      "status": "PASS",
+      "detail": "live page fetched /api/health 2x in 50000ms (poll fired); control with the guard removed fetched 1x - the check discriminates"
+    },
+    {
+      "id": "image_has_no_data",
+      "status": "PASS",
+      "detail": "image contains no corpus or state files"
+    },
+    {
+      "id": "cd_control_built",
+      "status": "PASS",
+      "detail": "control repository carrying an invalid path entry built at C:\\Users\\apviz\\AppData\\Local\\Temp\\sentinel-cd-verify-13s98s5v\\control"
+    },
+    {
+      "id": "cd_clone_verifier_blocks_broken_tree",
+      "status": "PASS",
+      "detail": "the verifier refused the tree carrying an invalid path entry: VERDICT=FAIL, invalid_tree_entries reported, the git clone error quoted"
+    },
+    {
+      "id": "cd_clone_verifier_accepts_real_repo",
+      "status": "PASS",
+      "detail": "the verifier accepted the real repository: VERDICT=PASS, no invalid tree entries, clean clone, remote main reachable"
+    }
+  ]
+}

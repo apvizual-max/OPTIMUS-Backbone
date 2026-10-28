@@ -1,0 +1,524 @@
+{
+  "generated": "2026-10-04T09:16:06.007107",
+  "purpose": "Every archive the SENTINEL brain draws on, with proof of what was read. The SENTINEL brain holds write access to SENTINEL_PRIME only.",
+  "ingest_policy": {
+    "write_scope": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME",
+    "outside_scope": "read-only, never modified",
+    "media": "catalogued by metadata, never opened",
+    "public_deployment": "never implied; requires its own explicit approval"
+  },
+  "sources": [
+    {
+      "id": "CONVERSATION_FREEZE",
+      "label": "This conversation, frozen with SHA256SUMS",
+      "path": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\09_LOGS\\corpus_freeze",
+      "mode": "read-only",
+      "exists": true,
+      "kind": "dir",
+      "write_access_by_sentinel": false,
+      "read_access": "granted",
+      "files": 96,
+      "dirs_scanned": 2,
+      "bytes": 18666312,
+      "text_files_hashed": 96,
+      "media_files_catalogued": 0,
+      "depth": "full",
+      "media_sample": [],
+      "errors": [],
+      "truncated_scan": false
+    },
+    {
+      "id": "MINIMAX_SESSIONS",
+      "label": "All 46 other MiniMax sessions (Antigravity transfer, bridge work)",
+      "path": "C:\\Users\\apviz\\.minimax\\v2\\sessions",
+      "mode": "read-only",
+      "exists": true,
+      "kind": "dir",
+      "write_access_by_sentinel": false,
+      "read_access": "granted",
+      "files": 583,
+      "dirs_scanned": 94,
+      "bytes": 153460358,
+      "text_files_hashed": 583,
+      "media_files_catalogued": 0,
+      "depth": "md",
+      "media_sample": [],
+      "errors": [],
+      "truncated_scan": false
+    },
+    {
+      "id": "MIMESIS_MEMORY",
+      "label": "Agent memory - the durable lessons behind the system",
+      "path": "C:\\Users\\apviz\\.minimax\\agents\\mavis\\memory\\MEMORY.md",
+      "mode": "read-only",
+      "exists": true,
+      "kind": "file",
+      "write_access_by_sentinel": false,
+      "read_access": "granted",
+      "bytes": 97947,
+      "modified": "2026-10-04T04:09:18.790876",
+      "sha256": "94b7ba862e0301eb7fbca9aa4ea8abc7b413b4434ee34d0fddc030757c7fafcf"
+    },
+    {
+      "id": "MIMESIS_USER_MEMORY",
+      "label": "User memory - operator identity and collaboration rules",
+      "path": "C:\\Users\\apviz\\.minimax\\memory\\user.md",
+      "mode": "read-only",
+      "exists": true,
+      "kind": "file",
+      "write_access_by_sentinel": false,
+      "read_access": "granted",
+      "bytes": 5520,
+      "modified": "2026-10-03T02:40:47.044159",
+      "sha256": "ea5681639c41f64beb8339ffbce9ca4a605c3e6d4dc12bc8c6efb30f8d0a51a6"
+    },
+    {
+      "id": "ANTIGRAVITY_TRANSFER",
+      "label": "Antigravity knowledge transfer archive",
+      "path": "C:\\Users\\apviz\\Documents\\Antigravity_Folder",
+      "mode": "read-only",
+      "exists": true,
+      "kind": "dir",
+      "write_access_by_sentinel": false,
+      "read_access": "granted",
+      "files": 2184,
+      "dirs_scanned": 749,
+      "bytes": 20173338,
+      "text_files_hashed": 1851,
+      "media_files_catalogued": 26,
+      "depth": "md",
+      "media_sample": [
+        {
+          "name": "col6a2_exon_extension.png",
+          "bytes": 103832,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "dlg1_exon_skipping.png",
+          "bytes": 74883,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "ism_heart_left_ventricle_RNA_SEQ.png",
+          "bytes": 8846,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "ism_liver_RNA_SEQ.png",
+          "bytes": 8810,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "plot_heart_left_ventricle_APOA1_effects.png",
+          "bytes": 74776,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "plot_liver_APOA1_effects.png",
+          "bytes": 226856,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "ism_K562_RNA_SEQ.png",
+          "bytes": 11019,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "plot_K562_HBA2_effects.png",
+          "bytes": 162282,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "plot_K562_HBA2_wholegene.png",
+          "bytes": 163085,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "ism_heart_ATAC.png",
+          "bytes": 6670,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "ism_heart_RNA_SEQ.png",
+          "bytes": 10589,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "plot_heart_TGFB3_detail.png",
+          "bytes": 52720,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "plot_heart_TGFB3_effects.png",
+          "bytes": 65556,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "plot_heart_TGFB3_wholegene.png",
+          "bytes": 44945,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "ism_heart_DNASE.png",
+          "bytes": 11999,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "plot_heart_GATA4_detail.png",
+          "bytes": 75300,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "plot_heart_GATA4_effects.png",
+          "bytes": 71841,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "plot_heart_GATA4_wholegene.png",
+          "bytes": 80112,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "ism_skeletal_muscle_RNA_SEQ.png",
+          "bytes": 12364,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "plot_skeletal_muscle_RNU4ATAC_detail.png",
+          "bytes": 78094,
+          "catalogued": "metadata only - never opened"
+        }
+      ],
+      "errors": [],
+      "truncated_scan": false
+    },
+    {
+      "id": "SECOND_BRAIN_DOCTRINE",
+      "label": "Obsidian vault - SF manuals, SPO, PO, the 963 proverbs",
+      "path": "E:\\CLAUDE\\MINTE\\00_KV_SECOND BRAIN",
+      "mode": "read-only",
+      "exists": true,
+      "kind": "dir",
+      "write_access_by_sentinel": false,
+      "read_access": "granted",
+      "files": 12952,
+      "dirs_scanned": 4101,
+      "bytes": 66685795,
+      "text_files_hashed": 2718,
+      "media_files_catalogued": 6,
+      "depth": "md",
+      "media_sample": [
+        {
+          "name": "CR_logotype-full-color.png",
+          "bytes": 11047,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "CR_logotype-full-color.png",
+          "bytes": 11047,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "CR_logotype-full-color.png",
+          "bytes": 11047,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "CR_logotype-full-color.png",
+          "bytes": 11047,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "CR_logotype-full-color.png",
+          "bytes": 11047,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "CR_logotype-full-color.png",
+          "bytes": 11047,
+          "catalogued": "metadata only - never opened"
+        }
+      ],
+      "errors": [],
+      "truncated_scan": true
+    },
+    {
+      "id": "SENTINEL_CHARACTER",
+      "label": "SENTINEL character assets (AUDIO / VIDEO catalogued, not opened)",
+      "path": "D:\\Alex_Knowlege_Vault\\03_Resources\\03_7-SENTINEL_Character",
+      "mode": "read-only",
+      "exists": true,
+      "kind": "dir",
+      "write_access_by_sentinel": false,
+      "read_access": "granted",
+      "files": 136,
+      "dirs_scanned": 9,
+      "bytes": 915403584,
+      "text_files_hashed": 0,
+      "media_files_catalogued": 129,
+      "depth": "media",
+      "media_sample": [
+        {
+          "name": "Sentinel Character - Mind Map (large).png",
+          "bytes": 2028523,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "Sentinel Character - Mind Map.png",
+          "bytes": 289861,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "Abstract_brain_structure_glowing…_1080p_202607290325.mp4",
+          "bytes": 16600975,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "AI_Strategic_Core_Sentinel_Prime_202607290330.mp4",
+          "bytes": 15447476,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "Awsome_Now_create_a_video_tha.mp4",
+          "bytes": 2579643,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "Awsome_Now_create_a_video_tha_202607290332.mp4",
+          "bytes": 3300944,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "Create_a_presentation_video_fo.mp4",
+          "bytes": 2384288,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "Create_a_presentation_video_fo_202607290332.mp4",
+          "bytes": 3188436,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "Cybernetic_brain_pulsing_data_ch…_202607290325.mp4",
+          "bytes": 16335396,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "Digital_brain,_decision_grid,_se…_202607290328.mp4",
+          "bytes": 16109621,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "Digital_brain_in_lab_1080p_202607290325.mp4",
+          "bytes": 16192350,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "Holographic_grid_intersecting_cy…_1080p_202607290402.mp4",
+          "bytes": 17399545,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "Prompt_A_cinematic_ultra_hi.mp4",
+          "bytes": 2409441,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "Prompt_A_cinematic_ultra_hi_202607290332.mp4",
+          "bytes": 3199883,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "Pulsing_neural_conduits_glowing_…_202607290326.mp4",
+          "bytes": 22538472,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "Sentinel_Prime_AI_operating_prof…_202607290331.mp4",
+          "bytes": 15082105,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "Sentinel_Prime_AI_strategic_brain_202607290331.mp4",
+          "bytes": 16216278,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "Sentinel_Prime_AI_strategic_brain_202607290332.mp4",
+          "bytes": 16203247,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "Sentinel_Prime_AI_strategic_brain_202607290402.mp4",
+          "bytes": 14922120,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "Sentinel_Prime_AI_strategic_brain_202607290404.mp4",
+          "bytes": 17520918,
+          "catalogued": "metadata only - never opened"
+        }
+      ],
+      "errors": [],
+      "truncated_scan": false
+    },
+    {
+      "id": "PROJECTS_ROOT_REPORTS",
+      "label": "Integration and status reports at the projects root",
+      "path": "C:\\Users\\apviz\\.minimax-agent\\projects",
+      "mode": "read-only",
+      "exists": true,
+      "kind": "dir",
+      "write_access_by_sentinel": false,
+      "read_access": "granted",
+      "files": 18581,
+      "dirs_scanned": 4001,
+      "bytes": 331402385,
+      "text_files_hashed": 5603,
+      "media_files_catalogued": 96,
+      "depth": "md",
+      "media_sample": [
+        {
+          "name": "ts-commonjs-default-export.zip",
+          "bytes": 397,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "test-package.zip",
+          "bytes": 349,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "basic.png",
+          "bytes": 46426,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "favicon-16x16.png",
+          "bytes": 970,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "favicon-32x32.png",
+          "bytes": 1508,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "pino-banner.png",
+          "bytes": 42012,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "pino-logo-hire.png",
+          "bytes": 51650,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "pino-tree.png",
+          "bytes": 13407,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "pretty-demo.png",
+          "bytes": 14524,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "ts-commonjs-default-export.zip",
+          "bytes": 397,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "test-package.zip",
+          "bytes": 349,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "basic.png",
+          "bytes": 46426,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "favicon-16x16.png",
+          "bytes": 970,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "favicon-32x32.png",
+          "bytes": 1508,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "pino-banner.png",
+          "bytes": 42012,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "pino-logo-hire.png",
+          "bytes": 51650,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "pino-tree.png",
+          "bytes": 13407,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "pretty-demo.png",
+          "bytes": 14524,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "e2e.docx",
+          "bytes": 5042,
+          "catalogued": "metadata only - never opened"
+        },
+        {
+          "name": "e2e.pdf",
+          "bytes": 14994,
+          "catalogued": "metadata only - never opened"
+        }
+      ],
+      "errors": [],
+      "truncated_scan": true
+    },
+    {
+      "id": "OPTIMUS_CONTROL_CENTER",
+      "label": "The proven dashboard pattern, read-only reference",
+      "path": "C:\\Users\\apviz\\.minimax-agent\\projects\\90_CONTROL_CENTER",
+      "mode": "read-only",
+      "exists": true,
+      "kind": "dir",
+      "write_access_by_sentinel": false,
+      "read_access": "granted",
+      "files": 77,
+      "dirs_scanned": 18,
+      "bytes": 1335359,
+      "text_files_hashed": 45,
+      "media_files_catalogued": 0,
+      "depth": "md",
+      "media_sample": [],
+      "errors": [],
+      "truncated_scan": false
+    },
+    {
+      "id": "DESIGN_SOT",
+      "label": "Obsidian Telemetry Dark design system, read-only working copy",
+      "path": "C:\\Users\\apviz\\.minimax-agent\\projects\\95_DESIGN_SOT",
+      "mode": "read-only",
+      "exists": true,
+      "kind": "dir",
+      "write_access_by_sentinel": false,
+      "read_access": "granted",
+      "files": 5,
+      "dirs_scanned": 0,
+      "bytes": 62047,
+      "text_files_hashed": 5,
+      "media_files_catalogued": 0,
+      "depth": "full",
+      "media_sample": [],
+      "errors": [],
+      "truncated_scan": false
+    }
+  ]
+}

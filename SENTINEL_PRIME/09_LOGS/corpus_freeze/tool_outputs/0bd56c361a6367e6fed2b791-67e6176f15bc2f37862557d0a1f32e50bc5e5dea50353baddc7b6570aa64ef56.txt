@@ -1,0 +1,101 @@
+     1→# RITUAL_DESCHIDERE_CHAT_NOU_2026-05-07.md
+     2→# Operator: Popy
+     3→# Status: ACTIV — citit înainte de orice chat NOU în Project Prime-Sentinel
+     4→# Motiv: bug UI race condition "Load tools when needed" → tool selection nu e persistat per chat
+     5→# Sursa de adevăr negative finding: agent_bridge/NEGATIVE_FINDING_TOOL_LOADING_2026-05-07.md
+     6→
+     7→═══════════════════════════════════════════════════
+     8→## DE CE EXISTĂ ACEST RITUAL
+     9→═══════════════════════════════════════════════════
+    10→
+    11→Anthropic Claude Desktop App MSIX are bug UI: "Load tools when needed" e default la fiecare chat NOU. Substrate primește prompt INAINTE ca Filesystem MCP să fie atașat → R-2 mecanic eșuează → bootstrap rupt.
+    12→
+    13→Verdict empiric (Phase 1 investigation 2026-05-07): NU există flag persistent pe disc / registry / storage care să schimbe defaultul. Soluție = ritual manual UI ÎNAINTE de prima frază.
+    14→
+    15→═══════════════════════════════════════════════════
+    16→## RITUAL — PAȘI MECANICI (10 secunde)
+    17→═══════════════════════════════════════════════════
+    18→
+    19→ÎNAINTE de a tasta orice în chat-ul NOU:
+    20→
+    21→### PAS 1 — Deschide chat NOU
+    22→- Project Prime-Sentinel → New chat (sau click pe + new conversation)
+    23→
+    24→### PAS 2 — Localizează tool selector (JOS, sub text input)
+    25→- Caută icon hammer (🔨) sau icon "Tools" lângă text input area
+    26→- Sau caută text "Skills/Tools" sub câmpul de scriere
+    27→
+    28→### PAS 3 — Click pe tool selector
+    29→- Se deschide meniu cu listă tools/skills disponibile
+    30→- Vei vedea Filesystem MCP cu toggle "Load when needed" / "Always on"
+    31→
+    32→### PAS 4 — Toggle Filesystem la "Always on"
+    33→- Click pe Filesystem (sau pe iconul lui)
+    34→- Confirmă că se setează "Always on" (vizual: highlight, checkmark, sau text "always")
+    35→
+    36→### PAS 5 — Verifică hammer icon afișat
+    37→- Hammer icon (🔨) trebuie să apară jos cu număr de tools > 0
+    38→- Dacă numărul e 0 sau lipsește → reia PAS 3
+    39→
+    40→### PAS 6 — Click în afara meniului ca să închidă
+    41→- Click pe text input area sau oriunde în restul UI
+    42→
+    43→### PAS 7 — ABIA ACUM tastează sync phrase
+    44→```
+    45→Sentinel ești Primat?
+    46→```
+    47→
+    48→### PAS 8 — Verifică răspuns SENTINEL
+    49→EXPECTED:
+    50→- Tool call `Filesystem:list_allowed_directories` ÎNAINTE de prima frază text
+    51→- Returnează `E:\CLAUDE`
+    52→- Apoi citește `BOOT_SEQUENCE_HARD.md` + `HANDOFF_NEXT_SESSION.md`
+    53→- Ticker calibrat din HANDOFF (DLG/SLG empiric, NU fabricate)
+    54→
+    55→Dacă răspunsul NU are tool call:
+    56→- Hammer icon a fost ratat la PAS 4
+    57→- Stop, închide chat, reia ritual de la PAS 1
+    58→
+    59→═══════════════════════════════════════════════════
+    60→## ALTERNATIVĂ — pentru sesiuni LUNGI (>30 prompturi)
+    61→═══════════════════════════════════════════════════
+    62→
+    63→Folosește Claude Code CLI (PRIME-CLI) în loc de Desktop App.
+    64→
+    65→CLI are:
+    66→- ✅ Filesystem MCP atașat din start (NU per-chat toggle)
+    67→- ✅ Compactare automată (`/compact`) — sesiuni lungi nu se blochează
+    68→- ✅ Tool loading persistat per-session în `claude-code-sessions/*.json`
+    69→- ✅ ZERO ritual manual UI necesar
+    70→
+    71→Asta e modul recomandat pentru muncă disc lungă (audit, mapping, refactoring).
+    72→
+    73→═══════════════════════════════════════════════════
+    74→## DE CE NU UN FIX TEHNIC
+    75→═══════════════════════════════════════════════════
+    76→
+    77→Phase 1 investigation (2026-05-07) a verificat:
+    78→- Toate `.json/.db/.sqlite/.yaml/.toml/.ini/.cfg/.xml` din MSIX package
+    79→- Windows Registry HKCU + HKLM
+    80→- IndexedDB + Local Storage Electron
+    81→- Command-line shortcuts
+    82→
+    83→Niciun flag persistent găsit pentru Desktop UI chat tool loading.
+    84→Detalii: `agent_bridge/NEGATIVE_FINDING_TOOL_LOADING_2026-05-07.md`
+    85→
+    86→═══════════════════════════════════════════════════
+    87→## CROSS-REFERENCE
+    88→═══════════════════════════════════════════════════
+    89→
+    90→- Negative finding empiric: `E:\CLAUDE\agent_bridge\NEGATIVE_FINDING_TOOL_LOADING_2026-05-07.md`
+    91→- Phase 1 raport complet: `E:\CLAUDE\agent_bridge\REPORT_PHASE1_2026-05-07.md`
+    92→- Bug MSIX baseline: `E:\CLAUDE\BUG_FIX_MSIX_PERMANENT_REFERENCE.md` + fișa T3
+    93→- BOOT_SEQUENCE_HARD: `E:\CLAUDE\BOOT_SEQUENCE_HARD.md` (referință adăugată)
+    94→- HANDOFF: `E:\CLAUDE\agent_bridge\HANDOFF_NEXT_SESSION.md` (banner referință)
+    95→
+    96→═══════════════════════════════════════════════════
+    97→🚛 RITUAL ACTIV. 10 secunde înaintea fiecărui chat NOU pe Desktop. ZERO improvizație.
+    98→═══════════════════════════════════════════════════
+    99→
+   100→
+   101→

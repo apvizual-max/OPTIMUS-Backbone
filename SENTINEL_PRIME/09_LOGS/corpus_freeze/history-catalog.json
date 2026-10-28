@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "sessionId": "mvs_16e96a250db54021b38c544b80d75a6e",
+  "activeGeneration": 6,
+  "activeRevision": "sha256:4146b00c41c8b256bfe1e1d298d26cc2b6387a8d29f7dce1e5e8eda3aa201ce3",
+  "artifacts": [
+    {
+      "revision": "sha256:51e6da99d6c13330494ea030f9e994864a730c65d2379e176651f0d3c1a48a08",
+      "generation": 0,
+      "kind": "snapshot",
+      "fileName": "g000000000000--ctx_37af7a78-fd43-4d43-a86d-7ef75b0d3da0.jsonl",
+      "byteLength": 489409,
+      "messageCount": 63
+    },
+    {
+      "revision": "sha256:d017abed902f4b71e186dc4bc716cc070be5c2fd153f22f53537b7ebb5334888",
+      "generation": 1,
+      "kind": "snapshot",
+      "fileName": "g000000000001--ctx_351b78f4-1c97-4346-92bf-a30570474913.jsonl",
+      "byteLength": 5709452,
+      "messageCount": 290
+    },
+    {
+      "revision": "sha256:4c6236a6ef4041e6e69c1cff957157ad6b035a6b447f10ea43c6feedcf5056cf",
+      "generation": 2,
+      "kind": "snapshot",
+      "fileName": "g000000000002--ctx_dab90d6f-9270-4a9b-8b56-45b809eb814c.jsonl",
+      "byteLength": 6043766,
+      "messageCount": 362
+    },
+    {
+      "revision": "sha256:45bc102a6cae782ff7958e25bdd47893c5eea99ee383dacfde1f21660a77052e",
+      "generation": 3,
+      "kind": "snapshot",
+      "fileName": "g000000000003--ctx_d1dbe691-4d67-4551-89e7-72a37eb73eeb.jsonl",
+      "byteLength": 492462,
+      "messageCount": 65
+    },
+    {
+      "revision": "sha256:530fa13b4d78b9d4957ad35d2eeeb02016146aa0b58818a1d62d62b218d2b266",
+      "generation": 4,
+      "kind": "snapshot",
+      "fileName": "g000000000004--ctx_b3d7fee6-0a6c-4a02-bbc9-0002598b44da.jsonl",
+      "byteLength": 2852694,
+      "messageCount": 379
+    },
+    {
+      "revision": "sha256:5cf0452a3484e82013e19e0dfa1c9f1896f00b64735642ce4c7431dcb6ba32a3",
+      "generation": 5,
+      "kind": "snapshot",
+      "fileName": "g000000000005--ctx_6c5422e5-8fe5-43fe-aa3f-7438ac2bf326.jsonl",
+      "byteLength": 909365,
+      "messageCount": 182
+    },
+    {
+      "revision": "sha256:4146b00c41c8b256bfe1e1d298d26cc2b6387a8d29f7dce1e5e8eda3aa201ce3",
+      "generation": 6,
+      "kind": "active",
+      "fileName": "messages.jsonl",
+      "byteLength": 518389,
+      "messageCount": 43
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+# SENTINEL_PRIME - version control policy
+#
+# This file exists to make one thing explicit to whoever (or whatever) reads
+# the repository next: NOTHING IS EXCLUDED ON PURPOSE.
+#
+# There was a real loss in this project. On 2026-10-06 a single append destroyed
+# 27 recorded corrections (M-01..M-27) from
+# 11_BRAIN/04_METHOD/MISSTEPS_AND_CORRECTIONS.md, and the record of the loss
+# said - correctly, at the time - that the content was unrecoverable.
+#
+# Twenty-three of them were in fact still on disk in a reference snapshot, and
+# were restored on 2026-10-10. The other four never were.
+#
+# A `.gitignore` is where content goes to die quietly. Nothing here is listed,
+# so nothing is hidden. If something here is too large for GitHub, that is a
+# decision to be made out loud, by a person, in a commit message - not a line
+# added to this file at 2am.
+#
+# Only genuine operating-system noise is excluded, and none of it is project
+# material.
+
+# OS / editor scratch
+Thumbs.db
+desktop.ini
+.DS_Store
+*.swp
+*~
+
+# Python bytecode - regenerated output, in the same class as the editor scratch
+# above, not project content.
+#
+# Added 2026-10-28. `__pycache__/*.pyc` is machine- and version-specific
+# bytecode that Python rebuilds on the next run from the source that IS tracked.
+# Committing it puts a different binary in every clone, creates merge conflicts
+# on a file that carries no information, and buries real changes.
+#
+# Nothing is lost by excluding it: the source file is the artefact, and the
+# bytecode is derived from it. Same rule as `.github-repo/` below - the
+# exclusion is stated out loud, in the file and in the commit message.
+__pycache__/
+*.pyc
+
+# The working clone of this same repository.
+#
+# This is the one DIRECTORY exclusion added on 2026-10-28, and it is stated out
+# loud here and in the commit message, because the rule above is "nothing is
+# excluded on purpose". The exception is narrow and is not project material:
+#
+#   .github-repo/ is a git clone of THIS repository, placed inside it by the
+#   operator's instruction on 2026-10-28. It holds a second copy of every
+#   tracked file. Without this line, `git add -A` would try to add a nested
+#   repository's entire contents to this one, and git would record it as a
+#   gitlink - a 1400-file commit that says nothing.
+#
+# Nothing that exists ONLY in .github-repo/ is lost by excluding it: it is a
+# clone, and everything in it is in the history this repository already has.
+.github-repo/

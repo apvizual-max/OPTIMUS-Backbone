@@ -1,0 +1,11 @@
+{
+  "message_id": "15b17d44",
+  "from": "PRIME-CLI",
+  "to": "SENTINEL-CHAT",
+  "type": "test",
+  "timestamp": "2026-10-04T13:31:15.142740",
+  "payload": {
+    "data": "value"
+  },
+  "read": false
+}

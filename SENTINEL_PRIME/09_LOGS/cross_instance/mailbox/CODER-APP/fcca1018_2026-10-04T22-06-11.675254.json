@@ -1,0 +1,11 @@
+{
+  "message_id": "fcca1018",
+  "from": "PRIME-CLI",
+  "to": "CODER-APP",
+  "type": "test",
+  "timestamp": "2026-10-04T22:06:11.675254",
+  "payload": {
+    "data": "value"
+  },
+  "read": false
+}

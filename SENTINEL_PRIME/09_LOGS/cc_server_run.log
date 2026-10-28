@@ -1,0 +1,22 @@
+
+SENTINEL COMMAND CENTER
+  MINIMAX SENTINEL BRAIN - correlation of discussion, programme and self
+  ui     : GET  http://127.0.0.1:8910/
+  state  : GET  http://127.0.0.1:8910/api/state
+  health : GET  http://127.0.0.1:8910/api/health
+  stream : GET  http://127.0.0.1:8910/api/stream
+  corpus : GET  http://127.0.0.1:8910/api/corpus?q=...
+  loopback only. Ctrl+C to stop.
+
+collecting state (first pass)...
+state ready. refresh every 25 s.
+
+listening on 127.0.0.1:8910
+  (request error: Exception calling "GetBytes" with "1" argument(s): "Array cannot be null.
+Parameter name: chars")
+  (request error: Exception calling "GetBytes" with "1" argument(s): "Array cannot be null.
+Parameter name: chars")
+  (request error: Exception calling "GetBytes" with "1" argument(s): "Array cannot be null.
+Parameter name: chars")
+  (request error: Exception calling "GetBytes" with "1" argument(s): "Array cannot be null.
+Parameter name: chars")

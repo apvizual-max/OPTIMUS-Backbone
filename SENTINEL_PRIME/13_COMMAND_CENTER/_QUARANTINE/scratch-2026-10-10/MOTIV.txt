@@ -1,0 +1,11 @@
+﻿MOTIV — mutat, NU sters (2026-10-10)
+
+_sab_probe.ps1 a fost o COPIA NEUTRALIZATA a lui api\server.ps1, creata
+de mine ca unealta de diagnostic: contine 'if ( -or )' in loc de
+'if ()', deci NU are allowlist.
+
+A ajuns in commit b9d56ed prin 'git add --all'. Nu trebuia sa fie acolo:
+un fisier fara poarta, langa serverul real, e exact tipul de obiect pe
+cineva il va citi mai tarziu crezand ca este ceva ce trebuie mentinut.
+
+A fost mutat aici, nu sters.

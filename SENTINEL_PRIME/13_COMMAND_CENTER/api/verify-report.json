@@ -1,0 +1,473 @@
+{
+    "generated":  "2026-10-05T10:23:13.8925001Z",
+    "topology":  "dual-plane",
+    "front_port":  8910,
+    "back_port":  8912,
+    "container":  "mavis-sentinel-hub",
+    "cycles":  3,
+    "actions":  true,
+    "total":  76,
+    "passed":  76,
+    "failed":  0,
+    "not_run":  0,
+    "monitor_overall":  "FAIL",
+    "verdict":  "PASS",
+    "results":  [
+                    {
+                        "cycle":  0,
+                        "name":  "pre-clean: both planes down",
+                        "pass":  true,
+                        "detail":  "backend 8912 closed, front 8910 not answering"
+                    },
+                    {
+                        "cycle":  0,
+                        "name":  "pre-clean: no stray on the front port",
+                        "pass":  true,
+                        "detail":  "no process is bound to 8910 or 8912 after stop"
+                    },
+                    {
+                        "cycle":  0,
+                        "name":  "pre-clean: unattributed servers",
+                        "pass":  true,
+                        "detail":  "every server.ps1 on the box is accounted for"
+                    },
+                    {
+                        "cycle":  0,
+                        "name":  "pre-clean: foreign services untouched",
+                        "pass":  true,
+                        "detail":  "pid 101372 on 8900 - not ours, deliberately not stopped"
+                    },
+                    {
+                        "cycle":  1,
+                        "name":  "start: orchestrator start",
+                        "pass":  true,
+                        "detail":  "exit=0 in 20.8s"
+                    },
+                    {
+                        "cycle":  1,
+                        "name":  "front: is the container",
+                        "pass":  true,
+                        "detail":  "healthz=200 header=mavis-sentinel-hub"
+                    },
+                    {
+                        "cycle":  1,
+                        "name":  "backend: answers on its own port",
+                        "pass":  true,
+                        "detail":  "http=200 bytes=19900"
+                    },
+                    {
+                        "cycle":  1,
+                        "name":  "readyz: front reaches the backend",
+                        "pass":  true,
+                        "detail":  "both planes agreeing through the gateway"
+                    },
+                    {
+                        "cycle":  1,
+                        "name":  "GET /",
+                        "pass":  true,
+                        "detail":  "http=200 bytes=62364 html=True"
+                    },
+                    {
+                        "cycle":  1,
+                        "name":  "GET /api/state",
+                        "pass":  true,
+                        "detail":  "http=200 generated=2026-10-05T13:21:41.5608624+03:00 mode=MODE_B keys=13"
+                    },
+                    {
+                        "cycle":  1,
+                        "name":  "GET /api/health (serves report)",
+                        "pass":  true,
+                        "detail":  "http=200 checks=55"
+                    },
+                    {
+                        "cycle":  1,
+                        "name":  "GET /api/history",
+                        "pass":  true,
+                        "detail":  "http=200 bytes=16227"
+                    },
+                    {
+                        "cycle":  1,
+                        "name":  "GET /api/corpus (ascii query)",
+                        "pass":  true,
+                        "detail":  "http=200 hits=5"
+                    },
+                    {
+                        "cycle":  1,
+                        "name":  "GET /api/corpus (Romanian-safe)",
+                        "pass":  true,
+                        "detail":  "http=200 hits=3 in 190ms"
+                    },
+                    {
+                        "cycle":  1,
+                        "name":  "GET /api/minimax (ecosystem)",
+                        "pass":  true,
+                        "detail":  "http=200 surfaces=21 measured=21 not_available=0 error=0"
+                    },
+                    {
+                        "cycle":  1,
+                        "name":  "GET /api/verify (report reachable)",
+                        "pass":  true,
+                        "detail":  "http=200 serves-previous-verdict=PASS"
+                    },
+                    {
+                        "cycle":  1,
+                        "name":  "GET /unknown -\u003e 404",
+                        "pass":  true,
+                        "detail":  "http=404"
+                    },
+                    {
+                        "cycle":  1,
+                        "name":  "GET /api/stream (SSE)",
+                        "pass":  true,
+                        "detail":  "bytes=1570 has-event=True"
+                    },
+                    {
+                        "cycle":  1,
+                        "name":  "API still live after SSE",
+                        "pass":  true,
+                        "detail":  "http=200 in 71ms"
+                    },
+                    {
+                        "cycle":  1,
+                        "name":  "POST injected id -\u003e 400 + names it",
+                        "pass":  true,
+                        "detail":  "http=400 body={\"error\":\"unknown or forbidden action id\",\"id\":\"rm -rf / --no-preserve-root\"}"
+                    },
+                    {
+                        "cycle":  1,
+                        "name":  "POST smuggled id -\u003e 400",
+                        "pass":  true,
+                        "detail":  "http=400 body={\"error\":\"unknown or forbidden action id\",\"id\":\"deps_check; whoami\"}"
+                    },
+                    {
+                        "cycle":  1,
+                        "name":  "POST shell-ish id -\u003e 400",
+                        "pass":  true,
+                        "detail":  "http=400"
+                    },
+                    {
+                        "cycle":  1,
+                        "name":  "POST empty body -\u003e 400",
+                        "pass":  true,
+                        "detail":  "http=400 body={\"error\":\"no action id supplied\"}"
+                    },
+                    {
+                        "cycle":  1,
+                        "name":  "POST wf_stop_ack no arg -\u003e refuses",
+                        "pass":  true,
+                        "detail":  "http=200 refused=True"
+                    },
+                    {
+                        "cycle":  1,
+                        "name":  "POST wf_state (read-only)",
+                        "pass":  true,
+                        "detail":  "http=200 bytes=652"
+                    },
+                    {
+                        "cycle":  1,
+                        "name":  "POST skills_list",
+                        "pass":  true,
+                        "detail":  "http=200"
+                    },
+                    {
+                        "cycle":  1,
+                        "name":  "stop: both planes down",
+                        "pass":  true,
+                        "detail":  "exit=0 backendClosed=True frontDead=True portFree=True in 2.5s"
+                    },
+                    {
+                        "cycle":  1,
+                        "name":  "stop: both planes released",
+                        "pass":  true,
+                        "detail":  "nothing left on 8912 or 8910"
+                    },
+                    {
+                        "cycle":  2,
+                        "name":  "start: orchestrator start",
+                        "pass":  true,
+                        "detail":  "exit=0 in 20.7s"
+                    },
+                    {
+                        "cycle":  2,
+                        "name":  "front: is the container",
+                        "pass":  true,
+                        "detail":  "healthz=200 header=mavis-sentinel-hub"
+                    },
+                    {
+                        "cycle":  2,
+                        "name":  "backend: answers on its own port",
+                        "pass":  true,
+                        "detail":  "http=200 bytes=19899"
+                    },
+                    {
+                        "cycle":  2,
+                        "name":  "readyz: front reaches the backend",
+                        "pass":  true,
+                        "detail":  "both planes agreeing through the gateway"
+                    },
+                    {
+                        "cycle":  2,
+                        "name":  "GET /",
+                        "pass":  true,
+                        "detail":  "http=200 bytes=62364 html=True"
+                    },
+                    {
+                        "cycle":  2,
+                        "name":  "GET /api/state",
+                        "pass":  true,
+                        "detail":  "http=200 generated=2026-10-05T13:22:17.7524506+03:00 mode=MODE_B keys=13"
+                    },
+                    {
+                        "cycle":  2,
+                        "name":  "GET /api/health (serves report)",
+                        "pass":  true,
+                        "detail":  "http=200 checks=55"
+                    },
+                    {
+                        "cycle":  2,
+                        "name":  "GET /api/history",
+                        "pass":  true,
+                        "detail":  "http=200 bytes=16227"
+                    },
+                    {
+                        "cycle":  2,
+                        "name":  "GET /api/corpus (ascii query)",
+                        "pass":  true,
+                        "detail":  "http=200 hits=5"
+                    },
+                    {
+                        "cycle":  2,
+                        "name":  "GET /api/corpus (Romanian-safe)",
+                        "pass":  true,
+                        "detail":  "http=200 hits=3 in 152ms"
+                    },
+                    {
+                        "cycle":  2,
+                        "name":  "GET /api/minimax (ecosystem)",
+                        "pass":  true,
+                        "detail":  "http=200 surfaces=21 measured=21 not_available=0 error=0"
+                    },
+                    {
+                        "cycle":  2,
+                        "name":  "GET /api/verify (report reachable)",
+                        "pass":  true,
+                        "detail":  "http=200 serves-previous-verdict=PASS"
+                    },
+                    {
+                        "cycle":  2,
+                        "name":  "GET /unknown -\u003e 404",
+                        "pass":  true,
+                        "detail":  "http=404"
+                    },
+                    {
+                        "cycle":  2,
+                        "name":  "GET /api/stream (SSE)",
+                        "pass":  true,
+                        "detail":  "bytes=2990 has-event=True"
+                    },
+                    {
+                        "cycle":  2,
+                        "name":  "API still live after SSE",
+                        "pass":  true,
+                        "detail":  "http=200 in 65ms"
+                    },
+                    {
+                        "cycle":  2,
+                        "name":  "POST injected id -\u003e 400 + names it",
+                        "pass":  true,
+                        "detail":  "http=400 body={\"error\":\"unknown or forbidden action id\",\"id\":\"rm -rf / --no-preserve-root\"}"
+                    },
+                    {
+                        "cycle":  2,
+                        "name":  "POST smuggled id -\u003e 400",
+                        "pass":  true,
+                        "detail":  "http=400 body={\"error\":\"unknown or forbidden action id\",\"id\":\"deps_check; whoami\"}"
+                    },
+                    {
+                        "cycle":  2,
+                        "name":  "POST shell-ish id -\u003e 400",
+                        "pass":  true,
+                        "detail":  "http=400"
+                    },
+                    {
+                        "cycle":  2,
+                        "name":  "POST empty body -\u003e 400",
+                        "pass":  true,
+                        "detail":  "http=400 body={\"error\":\"no action id supplied\"}"
+                    },
+                    {
+                        "cycle":  2,
+                        "name":  "POST wf_stop_ack no arg -\u003e refuses",
+                        "pass":  true,
+                        "detail":  "http=200 refused=True"
+                    },
+                    {
+                        "cycle":  2,
+                        "name":  "POST wf_state (read-only)",
+                        "pass":  true,
+                        "detail":  "http=200 bytes=652"
+                    },
+                    {
+                        "cycle":  2,
+                        "name":  "POST skills_list",
+                        "pass":  true,
+                        "detail":  "http=200"
+                    },
+                    {
+                        "cycle":  2,
+                        "name":  "stop: both planes down",
+                        "pass":  true,
+                        "detail":  "exit=0 backendClosed=True frontDead=True portFree=True in 2.4s"
+                    },
+                    {
+                        "cycle":  2,
+                        "name":  "stop: both planes released",
+                        "pass":  true,
+                        "detail":  "nothing left on 8912 or 8910"
+                    },
+                    {
+                        "cycle":  3,
+                        "name":  "start: orchestrator start",
+                        "pass":  true,
+                        "detail":  "exit=0 in 20.8s"
+                    },
+                    {
+                        "cycle":  3,
+                        "name":  "front: is the container",
+                        "pass":  true,
+                        "detail":  "healthz=200 header=mavis-sentinel-hub"
+                    },
+                    {
+                        "cycle":  3,
+                        "name":  "backend: answers on its own port",
+                        "pass":  true,
+                        "detail":  "http=200 bytes=19899"
+                    },
+                    {
+                        "cycle":  3,
+                        "name":  "readyz: front reaches the backend",
+                        "pass":  true,
+                        "detail":  "both planes agreeing through the gateway"
+                    },
+                    {
+                        "cycle":  3,
+                        "name":  "GET /",
+                        "pass":  true,
+                        "detail":  "http=200 bytes=62364 html=True"
+                    },
+                    {
+                        "cycle":  3,
+                        "name":  "GET /api/state",
+                        "pass":  true,
+                        "detail":  "http=200 generated=2026-10-05T13:22:52.2799980+03:00 mode=MODE_B keys=13"
+                    },
+                    {
+                        "cycle":  3,
+                        "name":  "GET /api/health (serves report)",
+                        "pass":  true,
+                        "detail":  "http=200 checks=55"
+                    },
+                    {
+                        "cycle":  3,
+                        "name":  "GET /api/history",
+                        "pass":  true,
+                        "detail":  "http=200 bytes=16227"
+                    },
+                    {
+                        "cycle":  3,
+                        "name":  "GET /api/corpus (ascii query)",
+                        "pass":  true,
+                        "detail":  "http=200 hits=5"
+                    },
+                    {
+                        "cycle":  3,
+                        "name":  "GET /api/corpus (Romanian-safe)",
+                        "pass":  true,
+                        "detail":  "http=200 hits=3 in 313ms"
+                    },
+                    {
+                        "cycle":  3,
+                        "name":  "GET /api/minimax (ecosystem)",
+                        "pass":  true,
+                        "detail":  "http=200 surfaces=21 measured=21 not_available=0 error=0"
+                    },
+                    {
+                        "cycle":  3,
+                        "name":  "GET /api/verify (report reachable)",
+                        "pass":  true,
+                        "detail":  "http=200 serves-previous-verdict=PASS"
+                    },
+                    {
+                        "cycle":  3,
+                        "name":  "GET /unknown -\u003e 404",
+                        "pass":  true,
+                        "detail":  "http=404"
+                    },
+                    {
+                        "cycle":  3,
+                        "name":  "GET /api/stream (SSE)",
+                        "pass":  true,
+                        "detail":  "bytes=1570 has-event=True"
+                    },
+                    {
+                        "cycle":  3,
+                        "name":  "API still live after SSE",
+                        "pass":  true,
+                        "detail":  "http=200 in 74ms"
+                    },
+                    {
+                        "cycle":  3,
+                        "name":  "POST injected id -\u003e 400 + names it",
+                        "pass":  true,
+                        "detail":  "http=400 body={\"error\":\"unknown or forbidden action id\",\"id\":\"rm -rf / --no-preserve-root\"}"
+                    },
+                    {
+                        "cycle":  3,
+                        "name":  "POST smuggled id -\u003e 400",
+                        "pass":  true,
+                        "detail":  "http=400 body={\"error\":\"unknown or forbidden action id\",\"id\":\"deps_check; whoami\"}"
+                    },
+                    {
+                        "cycle":  3,
+                        "name":  "POST shell-ish id -\u003e 400",
+                        "pass":  true,
+                        "detail":  "http=400"
+                    },
+                    {
+                        "cycle":  3,
+                        "name":  "POST empty body -\u003e 400",
+                        "pass":  true,
+                        "detail":  "http=400 body={\"error\":\"no action id supplied\"}"
+                    },
+                    {
+                        "cycle":  3,
+                        "name":  "POST wf_stop_ack no arg -\u003e refuses",
+                        "pass":  true,
+                        "detail":  "http=200 refused=True"
+                    },
+                    {
+                        "cycle":  3,
+                        "name":  "POST wf_state (read-only)",
+                        "pass":  true,
+                        "detail":  "http=200 bytes=652"
+                    },
+                    {
+                        "cycle":  3,
+                        "name":  "POST skills_list",
+                        "pass":  true,
+                        "detail":  "http=200"
+                    },
+                    {
+                        "cycle":  3,
+                        "name":  "stop: both planes down",
+                        "pass":  true,
+                        "detail":  "exit=0 backendClosed=True frontDead=True portFree=True in 2.3s"
+                    },
+                    {
+                        "cycle":  3,
+                        "name":  "stop: both planes released",
+                        "pass":  true,
+                        "detail":  "nothing left on 8912 or 8910"
+                    }
+                ]
+}

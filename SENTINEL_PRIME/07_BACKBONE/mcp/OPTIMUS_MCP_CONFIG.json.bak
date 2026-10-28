@@ -1,0 +1,172 @@
+{
+  "$schema": "MCP config schema v1.0",
+  "version": "1.0",
+  "name": "OPTIMUS MCP Server Bundle",
+  "description": "Configurație MCP pentru SENTINEL PRIME în OPTIMUS. Include toate MCP-urile necesare pentru operare completă.",
+  "created": "2026-09-12",
+  "operator": "Popy",
+  "instance": "M3",
+
+  "servers": {
+    "prime-bridge": {
+      "type": "stdio",
+      "command": "python",
+      "args": [
+        "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\prime_bridge_server.py"
+      ],
+      "env": {
+        "PRIME_HOME": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME",
+        "PYTHONIOENCODING": "utf-8"
+      },
+      "description": "Bridge pentru filesystem și workspace SENTINEL_PRIME"
+    },
+
+    "sentinel-state": {
+      "type": "stdio",
+      "command": "python",
+      "args": [
+        "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\sentinel_state_server.py"
+      ],
+      "env": {
+        "WORKSPACE_ROOT": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME"
+      },
+      "description": "State management pentru SENTINEL (EU SENT, DOR, search, anti-mimicry status)"
+    },
+
+    "rule-triggers": {
+      "type": "stdio",
+      "command": "python",
+      "args": [
+        "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\rule_triggers_server.py"
+      ],
+      "env": {
+        "WORKSPACE_ROOT": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME"
+      },
+      "description": "R-2, R-9, R-10 trigger monitoring și execution"
+    },
+
+    "learning-loop": {
+      "type": "stdio",
+      "command": "python",
+      "args": [
+        "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\learning_loop_server.py"
+      ],
+      "env": {
+        "WORKSPACE_ROOT": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME"
+      },
+      "description": "Auto-learning loop cu feedback și metrics"
+    },
+
+    "context-pressure": {
+      "type": "stdio",
+      "command": "python",
+      "args": [
+        "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\context_pressure_server.py"
+      ],
+      "env": {
+        "WORKSPACE_ROOT": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME"
+      },
+      "description": "Monitor presiune context cu auto-compact"
+    },
+
+    "web-tools": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-fetch"],
+      "description": "Web fetch și search pentru R-2 verification"
+    },
+
+    "filesystem": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem"],
+      "env": {
+        "ALLOWED_DIRECTORIES": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME"
+      },
+      "description": "Filesystem access în workspace SENTINEL_PRIME"
+    },
+
+    "browser": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp"],
+      "env": {
+        "PLAYWRIGHT_BROWSERS_PATH": "0"
+      },
+      "description": "Browser automation pentru web research și vizualizări"
+    },
+
+    "git": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-git"],
+      "env": {
+        "GIT_DIR": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME"
+      },
+      "description": "Git operations pentru /checkpoint"
+    }
+  },
+
+  "superseded": {
+    "_measured": "2026-10-10. Nothing was deleted. Popy's instruction: 'never prune'.",
+    "_finding": "The live minimax profile registers 17 MCP servers and NONE of these nine declared names appears in it by that exact name. Measured, not assumed: the profile list is agent-browser-mcp, chrome-devtools-mcp, docker-mcp, gdrive-mcp, git-mcp, gmail-mcp, google-calendar-mcp, google-workspace-mcp, hermes-mcp-router, mcp-server-filesystem, minimax-notebooklm, minimax-whatsapp, notebooklm-mcp, obsidian-mcp, qwen-acp-adapter, qwen-mcp-http, sentinel-hub.",
+    "consolidatedIntoSentinelHub": {
+      "note": "These five are the stale ones. Their responsibilities were absorbed into the single 42 KB sentinel-hub server, which IS registered. The absorption is verifiable from the hub's own exposed tools, not from this file: context-pressure -> sentinel_check_context; sentinel-state -> sentinel_get_state / sentinel_set_state; rule-triggers -> sentinel_check_r_triggers; learning-loop -> sentinel_log_event; prime-bridge -> sentinel_browser_scrape / sentinel_browser_navigate / sentinel_cross_instance_send.",
+      "declaredNames": ["prime-bridge", "sentinel-state", "rule-triggers", "learning-loop", "context-pressure"],
+      "fileSizes": "prime_bridge_server.py 7154 B; sentinel_state_server.py 1184 B; rule_triggers_server.py 1212 B; learning_loop_server.py 1225 B; context_pressure_server.py 1143 B",
+      "howItLooks": "Four of the five are ~1.2 KB stubs of 33-37 lines. Each opens with 'Declared in OPTIMUS_MCP_CONFIG.json as: ...' — they were written to satisfy THIS file, and this file is not what loads them.",
+      "status": "SUPERSEDED BY sentinel-hub. Retained on purpose. Their .py files are untouched and still on disk."
+    },
+    "renamedNotStale": {
+      "note": "These three are the same tools under different names in the live profile. Renamed, not abandoned.",
+      "pairs": [
+        {"declared": "filesystem", "live": "mcp-server-filesystem"},
+        {"declared": "browser", "live": "agent-browser-mcp"},
+        {"declared": "git", "live": "git-mcp"}
+      ]
+    },
+    "noLiveEquivalent": {
+      "web-tools": "no MCP counterpart in the live profile; web_search / web_fetch are native agent tools, not MCP servers"
+    }
+  },
+
+  "capabilities": {
+    "filesystem": {
+      "read": ["C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\**"],
+      "write": ["C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\**"],
+      "delete": false,
+      "note": "Doar self-modification e permis. Nimic din afara workspace-ului."
+    },
+    "network": {
+      "web_search": true,
+      "web_fetch": true,
+      "browser_navigation": true
+    },
+    "execution": {
+      "powershell": true,
+      "python": true,
+      "bash": false,
+      "git": true
+    }
+  },
+
+  "security": {
+    "sandbox": "workspace-only",
+    "no_modify_external": true,
+    "no_force_push": true,
+    "no_payments": true,
+    "no_external_uploads": true,
+    "approval_required_for": [
+      "rm -rf",
+      "force_push",
+      "real_money_transactions",
+      "irreversible_external_actions"
+    ]
+  },
+
+  "monitoring": {
+    "log_level": "INFO",
+    "log_path": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\09_LOGS\\mcp.log",
+    "metrics_path": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\09_LOGS\\mcp_metrics.json"
+  }
+}

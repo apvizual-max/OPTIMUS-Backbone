@@ -1,0 +1,14 @@
+{
+  "url": "https://example.com",
+  "extracted": {
+    "title": "Example Domain",
+    "headings": [],
+    "links": [
+      {
+        "text": "Learn more",
+        "href": "https://iana.org/help/example-domains"
+      }
+    ]
+  },
+  "text_length": 917
+}

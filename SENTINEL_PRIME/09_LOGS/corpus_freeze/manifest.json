@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "sessionId": "mvs_16e96a250db54021b38c544b80d75a6e",
+  "createdAtMs": 1789147711773,
+  "updatedAtMs": 1789147711773,
+  "source": "local-runtime",
+  "layout": "v2-final-dated-session",
+  "paths": {
+    "sessionDir": "C:\\Users\\apviz\\.minimax\\v2\\sessions\\2026\\09\\11\\17-28-31-773-session_bXZzXzE2ZTk2YTI1MGRiNTQwMjFiMzhjNTQ0YjgwZDc1YTZl",
+    "ledger": "C:\\Users\\apviz\\.minimax\\v2\\sessions\\2026\\09\\11\\17-28-31-773-session_bXZzXzE2ZTk2YTI1MGRiNTQwMjFiMzhjNTQ0YjgwZDc1YTZl\\ledger.jsonl",
+    "display": "C:\\Users\\apviz\\.minimax\\v2\\sessions\\2026\\09\\11\\17-28-31-773-session_bXZzXzE2ZTk2YTI1MGRiNTQwMjFiMzhjNTQ0YjgwZDc1YTZl\\display.jsonl",
+    "snapshot": "C:\\Users\\apviz\\.minimax\\v2\\sessions\\2026\\09\\11\\17-28-31-773-session_bXZzXzE2ZTk2YTI1MGRiNTQwMjFiMzhjNTQ0YjgwZDc1YTZl\\snapshot.json",
+    "reports": "C:\\Users\\apviz\\.minimax\\v2\\sessions\\2026\\09\\11\\17-28-31-773-session_bXZzXzE2ZTk2YTI1MGRiNTQwMjFiMzhjNTQ0YjgwZDc1YTZl\\reports",
+    "messages": "C:\\Users\\apviz\\.minimax\\v2\\sessions\\2026\\09\\11\\17-28-31-773-session_bXZzXzE2ZTk2YTI1MGRiNTQwMjFiMzhjNTQ0YjgwZDc1YTZl\\messages.jsonl"
+  }
+}

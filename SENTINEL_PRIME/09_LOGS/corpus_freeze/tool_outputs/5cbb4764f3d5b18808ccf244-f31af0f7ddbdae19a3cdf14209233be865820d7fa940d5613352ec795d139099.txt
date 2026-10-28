@@ -1,0 +1,22 @@
+whatsapp-sessions\session\component_crx_cache\23759e3f6d0119a00038b963cec9fb7abafd7b65a35a7e83c7697511db59e6e7
+.whatsapp-sessions\session\component_crx_cache\23759e3f6d0119a00038b963cec9fb7abafd7b65a35a7e83c7697511db59e6e7
+HERMES_BACKUP\MESSAGING-Config_BACKUP\sessions\whatsapp\.whatsapp-sessions\session\component_crx_cache\23759e3f6d0119a00038b963cec9fb7abafd7b65a35a7e83c7697511db59e6e7
+.openhuman\users\local\cef\component_crx_cache\23759e3f6d0119a00038b963cec9fb7abafd7b65a35a7e83c7697511db59e6e7
+.antigravity-ide\extensions\ms-python.python-2026.4.0-universal\python_files\lib\jedilsp\jedi\third_party\typeshed\third_party\2and3\cryptography\hazmat\primitives\kdf\x963kdf.pyi
+.gemini\antigravity\brain\c2e2660d-db85-434a-b4d9-d46c62caf81e\.system_generated\messages\073ba6a3-511c-41c5-9360-6f728963a928.json
+AppData\Roaming\MiniMax Agent\Partitions\mavis-browser\Code Cache\js\5522f496349b7728_0
+.gemini\antigravity\brain\5b2d513e-e8c4-4f8a-877c-305ddc3c57ae\.system_generated\messages\aefc01e6-4fcf-40b1-8b0e-9bf963c644bc.json
+.gemini\antigravity\brain\3da4d485-1625-44e5-8127-4d73ef443b65\.system_generated\messages\b5ffb002-8423-4381-9635-b4d54ee6b511.json
+.gemini\antigravity\brain\3da4d485-1625-44e5-8127-4d73ef443b65\.system_generated\messages\b26de12f-7f13-4338-9632-daa4679ac1d7.json
+.gemini\antigravity\brain\3da4d485-1625-44e5-8127-4d73ef443b65\.system_generated\messages\61e4ac55-8033-4afa-8ad2-9637b8ca6f1f.json
+AppData\Roaming\Adobe\CCX Welcome\discover_panel\clientLogs\PHXS-27.8.0-en_US-client-session-ae89dc0a-dc7e-410b-b7bf-3b9939638fd7-error-report.json
+.gemini\antigravity\brain\34ff0a96-d49e-439c-ba04-c7a0920aff3d\media__1783284963196.png
+.gemini\antigravity\brain\34ff0a96-d49e-439c-ba04-c7a0920aff3d\media__1783284963185.png
+.gemini\antigravity\brain\34ff0a96-d49e-439c-ba04-c7a0920aff3d\media__1783284963182.png
+.gemini\antigravity\brain\34ff0a96-d49e-439c-ba04-c7a0920aff3d\media__1783284963180.png
+AppData\Roaming\@hilo\MiniMax Hub Global\Code Cache\js\a0a4e23bf0d19632_0
+AppData\Roaming\Linear\Code Cache\js\c6a4f25c59637626_0
+AppData\Roaming\Linear\Code Cache\js\b421a76963e05b7b_0
+AppData\Roaming\Linear\Code Cache\js\a2d57963b52481df_0
+
+[Results truncated: showing 20 paths from offset 0. If the omitted remainder is needed, use offset=20 with the same search arguments. Refine path/pattern or pass sort="modified" to surface recently changed files]

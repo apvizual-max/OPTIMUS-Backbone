@@ -1,0 +1,11 @@
+{
+  "message_id": "9b16a7e5",
+  "from": "PRIME-CLI",
+  "to": "SENTINEL-COWORK",
+  "type": "test",
+  "timestamp": "2026-10-04T15:29:39.052688",
+  "payload": {
+    "data": "value"
+  },
+  "read": false
+}
