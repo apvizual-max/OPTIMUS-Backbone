@@ -147,3 +147,11 @@ SENTINEL_PRIME/08_SELF_IMPROVEMENT/backup_metadata/
 # nu contine backup" - aici s-ar aplica regula pentru prima oara in istoricul
 # acestui repo.
 SENTINEL_PRIME/13_COMMAND_CENTER/backups/versions/
+
+# MASURAT 2026-10-28: motorul de self-improvement rescrie acest fisier la
+# fiecare ciclu (modificat la 13:12, din nou la 13:2x, in doua runde
+# consecutive). E un artefact de rulare al motorului, nu o sursa stabila:
+# urmarindu-l, arborele monorepo-ului nu poate sta curent nici o clipa.
+# Continutul ramane pe disk, iar versiunea comitata (cu testele de la
+# momentul migrarii) ramane in istoric.
+SENTINEL_PRIME/08_SELF_IMPROVEMENT/test_suite.py
