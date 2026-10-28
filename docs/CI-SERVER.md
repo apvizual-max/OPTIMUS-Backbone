@@ -215,9 +215,27 @@ masurati pe disc (10 functionali + 19 referinte).
 
 | Comanda | Ce masoara | Rezultat masurat 28 oct 2026 |
 |---|---|---|
-| `node scripts\bot-doctor.mjs verify` | integritatea registrului + a listei + a cailor | `checks=70 failed=0 warnings=3` |
-| `node scripts\bot-doctor.mjs doctor` | sistemul real: container, API, 3 repo-uri, carantina, ledger | `checks=19 failed=0 warnings=0` |
-| `node scripts\falsify.mjs` | **falsifica verificatorul**: 5 scenarii stricate | `rosii=5/5` — verificatorul poate deveni ROSU |
+| `node scripts\bot-doctor.mjs verify` | integritatea registrului + a listei + a cailor | `checks=77 failed=0 warnings=3` |
+| `node scripts\bot-doctor.mjs doctor` | sistemul real: container, API, 3 repo-uri, **punte, jurnal, grant, frontiera CD**, carantina, ledger | `checks=32 failed=0 warnings=1` |
+| `node scripts\falsify.mjs` | **falsifica verificatorul**: 9 scenarii stricate | `rosii=9/9` — verificatorul poate deveni ROSU |
+
+### Puntea, jurnalul si frontiera CD — masurate, nu declarate
+
+Doctorul acopera toate pipeline-urile de care are nevoie sesiunea:
+
+| Check | Masurat 28 oct 2026 |
+|---|---|
+| `bridge:transport` | `UP` · canal activ `DRIVE` · Drive id `1V87h9Pb…` |
+| `bridge:mirror` | radacina mirrorului de pe `E:` conectata (`MIRROR_ROOT_STATE=true`) |
+| `bridge:propagation` | `OK`, lag **0** min (prag 120) — scrierea locala e confirmata in indicele Drive |
+| `bridge:pending` | `PENDING_OPERATIONS=0` |
+| `bridge:cloud-leg` | **3** raspunsuri de la Mavis Cloud in `INTRARI-CLOUD` |
+| `journal:oglinda` | **4** sectiuni `JURNAL_OGLINDA` in registre |
+| `grant:google` | `scope_count=32` |
+| `boundary:cd` | **0** suprapuneri a amprentei locale cu CD (CD neatins, verificare negativa) |
+
+Portile puntii pe host: `mavis-drive-bridge` · `queue-contract-check` · `queue-deliver` —
+toate exit 0, PROBLEMS=0.
 
 ### Carantina
 
