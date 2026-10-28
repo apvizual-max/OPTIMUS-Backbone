@@ -1,0 +1,26 @@
+Gata. Tot ce ai cerut e făcut, măsurat și împins. Repo-ul era **rupt** — și asta e cea mai importantă descoperire a sesiunii.
+
+**DEFECT CRITICAL: repository-ul nu putea fi clonat pe Windows.** `origin/main` conținea la rădăcină un director cu numele literal `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME`. Git refuză `:` într-o componentă de nume, deci `read-tree`, `checkout` și orice clonă eșuau cu „error: invalid path". La `git log` părea perfect. Introdus de un PR al lui Jules (`3b3f9dd`).
+
+Diagnosticul meu a fost fals de șase ori înainte să fie corect — longpaths, worktree, symlink, index, hook-uri, prefix — și a ieșit doar comparând arborele remote cu cel local și căutând intrări cu `:`. Reparația a fost prin plumbing: cele 12 intrări salvate în quarantine, fișierul care exista doar acolo extras la calea lui, arbore nou cu `mktree`, commit `e89887f` cu părintele `origin/main`. Istoria a rămas liniară, fără rescriere și fără force-push. **Verificat cu o clonă nouă: 1408 fișiere, dirty=0.**
+
+**Sincronizarea:** localul era cu 37 de comituri în urmă. Toate cele 4 comituri ale mele din octombrie erau deja strămoși ai remote-ului, deci nu era nimic de fuzuit, doar de materializat. Acum local == remote == `27023fd`, 0/0, iar clona `.github-repo` stă la `main`-ul final cu 1477 fișiere și dirty=0.
+
+**Regresiile pipeline-ului, reparate fără să slăbesc nimic.** Build-ul mergat a venit cu 8 eșecuri: trei erau ale mele, două erau recurența limitei de 24h a handshake-ului, trei erau suprafețe Design cerute de pipeline deși **aplicația Design nu mai e instalată** pe mașină. Pe astea le-am reparat prin adăugare — cele 4 suprafețe Design sunt acum emise ca `NOT_AVAILABLE`, cu motivul măsurat. Design e placeholder deliberat, cu directivă ta din 5 oct, și nu a fost niciodată rulat aici. Nu am construit nimic ce ai spus că nu se construiește.
+
+**Verificare pe build-ul final, rulată acum:** `test_suite.py` **521/0/0**, `test_deployment.py` **63/0/1**, secvențial. Pagina vie: 13 tab-uri toate nevide, **0 mesaje de consolă**, 12 cereri, 0 non-2xx, font încărcat. Live: 56 verificări, 54 ok, 0 fail, 2 stale.
+
+**Predarea, cu tot cu skillurile.** În `14_HANDOFF`: `10_PRIMING_PROMPT.md` (copiază-l integral ca prim mesaj — instrucțiunile sunt în code block ca un exemplu nou să nu le reformuleze), `11_SESSION_HANDOFF_2026-10-28.md`, `12_GIT_GITHUB_STATE.md`, și `SKILLS/` cu 7 skilluri plus manifest. Două skilluri noi au rămas în repo: `sentinel-cd-pipeline-sync` și `verification-and-falsification`. Succesele sunt scrise cu rețeta reproductibilă; greșelile doar ca „nu repetati", fără alte detalii.
+
+**Trei lucruri rămân deschise, și vreau să le spui limpede:** limita de 24h a handshake-ului va cădea din nou în roșu până nu intră în bucla de refresh; limitele `log_*` pot produce un `DEGRADED` permanent fără defect în spate; și `core.hooksPath` e gol, fiindcă pipeline-ul a rescris configul, deci poarta de commit nu mai e legată de hook.
+
+**Una singură excepție am introdus în `.gitignore`:** `.github-repo/`, cu motiv scris în fișier și în mesajul de commit. E copie de lucru, nu conținut de proiect — fără ea, `git add -A` ar fi încercat să adauge clona ca gitlink. Nu am atins transcriptul de 55 MB: există o regulă locală deliberată, `/.transcripts/` în `.git/info/exclude`, și n-am forțat-o. E pe disk și în `stash@{0}`, pe care l-am păstrat.
+
+Aștept R0 pe trei puncte: repo public sau privat, `corpus_fresh` re-extragere sau STALE, și transcriptul în istoric sau nu.
+
+<deliver-assets>
+<media type="file" src="C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\RAPORT DE STARE — SENTINEL PRIME DASHBOARD - 2026-10-28 02-43.md" caption="Raport de stare — SENTINEL PRIME DASHBOARD — 2026-10-28 02-43" />
+<media type="file" src="C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\14_HANDOFF\10_PRIMING_PROMPT.md" caption="Priming prompt pentru instanta noua, cu zero memorie" />
+<media type="file" src="C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\14_HANDOFF\11_SESSION_HANDOFF_2026-10-28.md" caption="Session handoff — 2026-10-28" />
+<media type="file" src="C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\14_HANDOFF\12_GIT_GITHUB_STATE.md" caption="Starea Git si GitHub" />
+</deliver-assets>
