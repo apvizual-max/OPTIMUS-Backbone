@@ -20,23 +20,45 @@ era măsurat, scrie `NOT_MEASURED`.
 | `core.autocrlf` | `true` (system) | 02:34 |
 | Disco GitHub | 12.180 KB | 02:34 |
 
-**`core.hooksPath` e gol** — configul local a fost rescris de pipeline-ul CD
-(la 28 oct) și direcția hook-urilor LiveReview s-a pierdut. Hook-urile încă
-există în `C:\Users\apviz\.git-hooks\`, dar nu mai sunt invocate de acest repo.
+**`core.hooksPath` e gol — și asta e starea corectă.** Măsurat la 02:50 pe 28
+oct: `lrc hooks status` arată că hook-urile LiveReview sunt înregistrate pe
+repo-ul **exterior** `projects` și **dezactivate** (`.git/lrc/disabled` = True).
+Skill-ul `mavis-git-autonom-skill` spune explicit: *„LIVEREVIEW = doar DUPA
+push, pe ce a ajuns pe GitHub. Niciodata inainte, niciodata la comit"* — pentru
+că pe 2026-10-11 bloca fiecare commit. Așadar: `core.hooksPath` gol **nu e un
+defect**, e configurația intenționată.
+
+Ce **e** adevărat: scripturile `scripts\git-autopush.ps1` și
+`scripts\push-status.ps1` pe care le numește același skill **nu există în acest
+proiect** (are `02_OPERATIONAL\scripts\`, cu alte două scripturi). Nu e defect
+al proiectului — e o trăsătură a skill-ului, și e consemnată aici ca instanța
+nouă să nu le caute.
+
 Atestation-ul se face manual: `lrc review --vouch --staged` înainte de commit.
 
 ## 2. Starea ramurii
 
 | | Valoare | Ora |
 |---|---|---|
-| Ramură locală | `main` | 02:34 |
-| `HEAD` local | `e89887f` (commit de reparare) | 02:34 |
-| `origin/main` | `e89887f` — **identic** | 02:34 |
-| Ahead / behind | **0 / 0** | 02:34 |
-| Comituri pe `main` | **53** | 02:34 |
-| Fișiere urmărite | 1.436 | 02:34 |
+| Ramură locală | `main` | 02:45 |
+| `HEAD` local | `27023fd` (pachetul de predare) | 02:45 |
+| `origin/main` | `27023fd` — **identic** | 02:45 |
+| Ahead / behind | **0 / 0** | 02:45 |
+| Comituri pe `main` | **55** | 02:45 |
+| Fișiere urmărite | 1.477 | 02:45 |
 | Obiecte git | 1.481, `size-pack` 1,54 MiB | 02:34 |
 | Stash | `stash@{0}` — snapshot pre-sync, păstrat | 02:34 |
+
+**SHA-ul curent se citește, nu se memorează:**
+
+```powershell
+git rev-parse HEAD          # local
+git ls-remote origin main   # remote  <- asta e verificarea de push
+```
+
+Cifrele de mai sus sunt cele măsurate la **02:45 pe 28 oct**. După ultimul
+commit al sesiunii, SHA-ul final e în raportul de stare din rădăcină și în
+mesajul de commit — nu într-un document care s-ar invalida singur.
 
 ### Comitul de reparare `e89887f`
 
@@ -77,6 +99,8 @@ Ledgerul pipeline-ului: `JULES_HANDOFF.md` în rădăcină.
 | Commit | Ce conține |
 |---|---|
 | `e89887f` | repararea arborelui cu cale absolută (parinte: `7290b26`) |
+| `50253b4` | pachetul de predare: priming prompt, session handoff, stare Git/GitHub, `SKILLS/` + manifest, index actualizat |
+| `27023fd` | raportul de stare de la 02:43 |
 
 Verificat cu `git ls-remote`, nu prin exit code:
 
@@ -92,8 +116,10 @@ IDENTICE = True
 |---|---|
 | Locație | `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\.github-repo` |
 | Origine | clonă a aceluiași repository, la `main` |
-| Statut | se sincronizează la `main`-ul final după ultimul push |
+| Statut | creată la `main`-ul final: **1.477 fișiere, `dirty=0`, SHA identic cu `main` și `origin/main`** (măsurat 02:45 pe 28 oct) |
 | În `.gitignore` | **da**, cu motiv scris — e copie de lucru, nu conținut de proiect |
+
+Se resincronizează după orice push nou, cu `git -C .github-repo pull --ff-only`.
 
 ## 6. Ce trebuie știut înainte de orice push
 
@@ -101,6 +127,17 @@ IDENTICE = True
    reușit.** Verificarea de push e `git ls-remote`, niciodată exit code-ul.
 2. **Verifică cu o clonă nouă**, nu doar cu `git log`. Un commit poate fi valid
    și totuși imposibil de checkout.
+
+   ```powershell
+   git clone --depth 1 https://github.com/apvizual-max/SENTINEL_PRIME.git $env:TEMP\verify_sentinel
+   (Get-ChildItem $env:TEMP\verify_sentinel -Recurse -File).Count
+   ```
+
+   Un commit valid poate să nu fie clonabil: git **refuză `:`** într-o
+   componentă de nume, iar un director cu cale absolută drept nume intră în
+   arbore fără să apară în `git log` sau `git status`. Pipeline-ul a introdus
+   exact așa o dată, în 3 zile, la comitul `3b3f9dd` (PR #14 al lui Jules).
+   Rețeta de reparare e în `07_BACKBONE\skills\sentinel-cd-pipeline-sync.SKILL.md`.
 3. **Nu rescrie istoricul publicat.** Fără force-push, fără `git reset --hard`.
 4. **`stash@{0}` e păstrat** ca a doua cale de recuperare a conținutului
    local-only. Nu se aruncă până când Popy nu confirmă că nu mai trebuie.

@@ -48,7 +48,7 @@ python survey_build.py
 | — | `HANDOFF.md` | The one-page state of play for the next session. |
 | — | `_BUILD_SURVEY.json` | Raw measurement. 30,136 bytes. The source for every number above. |
 
-### Two things that changed after this package was written
+### Three things that changed after this package was written
 
 - **2026-10-28 — the repository was broken for every Windows clone.** `origin/main`
   carried a top-level directory whose name was the project's own absolute path,
@@ -59,6 +59,20 @@ python survey_build.py
   (Antigravity CD Engine and `google-labs-jules[bot]`). There are no branches on
   the remote and **no CI** — `gh run list` is empty. The test suites have to be
   run by hand, sequentially. Details in `12_GIT_GITHUB_STATE.md`.
+- **2026-10-28 — the health-check freshness bounds were measured, not guessed.**
+  Which module writes each artifact, and on what trigger, is now mapped: the
+  `log_*` family and `workflow_state_fresh` are written **on demand** (by the
+  test suites and by operator actions), not by a timer. **The bounds were not
+  widened** — a STALE on an on-demand artifact is the system telling the truth
+  about age, and widening the bound would have hidden exactly that. `corpus_fresh`
+  is ~22.8 days old against a 1-hour bound and stays STALE by design.
+  The full writer-to-artifact table and the decision are in
+  `11_SESSION_HANDOFF_2026-10-28.md` §4, with the ratified quotations that
+  settle it.
+
+**Figures in files 01–09 are from 2026-10-06** and are a snapshot, not the
+current state. The live numbers are in file 11 and in the status report at the
+repository root.
 
 ---
 

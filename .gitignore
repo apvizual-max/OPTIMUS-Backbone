@@ -26,11 +26,25 @@ desktop.ini
 *.swp
 *~
 
+# Python bytecode - regenerated output, in the same class as the editor scratch
+# above, not project content.
+#
+# Added 2026-10-28. `__pycache__/*.pyc` is machine- and version-specific
+# bytecode that Python rebuilds on the next run from the source that IS tracked.
+# Committing it puts a different binary in every clone, creates merge conflicts
+# on a file that carries no information, and buries real changes.
+#
+# Nothing is lost by excluding it: the source file is the artefact, and the
+# bytecode is derived from it. Same rule as `.github-repo/` below - the
+# exclusion is stated out loud, in the file and in the commit message.
+__pycache__/
+*.pyc
+
 # The working clone of this same repository.
 #
-# This is the ONE exclusion added on 2026-10-28, and it is stated out loud here
-# and in the commit message, because the rule above is "nothing is excluded on
-# purpose". The exception is narrow and is not project material:
+# This is the one DIRECTORY exclusion added on 2026-10-28, and it is stated out
+# loud here and in the commit message, because the rule above is "nothing is
+# excluded on purpose". The exception is narrow and is not project material:
 #
 #   .github-repo/ is a git clone of THIS repository, placed inside it by the
 #   operator's instruction on 2026-10-28. It holds a second copy of every

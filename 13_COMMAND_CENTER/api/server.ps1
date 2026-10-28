@@ -306,8 +306,16 @@ Write-Host ''
 # silently $null, and the call it guarded appeared to work because it was
 # wrapped in a try/catch that could not fail. Everything the job needs goes in
 # the parameter list, and the job verifies what it was given before using it.
-$worker = Start-Job -ArgumentList $API, $RefreshSeconds, $PY, $ECO_SCRIPT, (Join-Path (Join-Path $WORKSPACE '09_LOGS') 'refresh-worker.log') -ScriptBlock {
-  param($apiPath, $seconds, $pyExe, $ecoScript, $logPath)
+# The MCP handshake record has a 24 hour freshness bound, and the monitor
+# reports STALE - and TWO test checks fail - once the record is older than
+# that. Nothing refreshed it: the worker collected state and ecosystem, never
+# the handshake. So the bound was a deadline that nothing could meet, and the
+# only way to satisfy it was for a human to remember. It is now on the same
+# loop as everything else, with a period far inside the bound.
+$HANDSHAKE_SCRIPT = Join-Path $WORKSPACE '08_SELF_IMPROVEMENT\mcp_handshake.py'
+
+$worker = Start-Job -ArgumentList $API, $RefreshSeconds, $PY, $ECO_SCRIPT, (Join-Path (Join-Path $WORKSPACE '09_LOGS') 'refresh-worker.log'), $HANDSHAKE_SCRIPT -ScriptBlock {
+  param($apiPath, $seconds, $pyExe, $ecoScript, $logPath, $handshakeScript)
 
   # A job's own output stream is readable only by whoever calls Receive-Job, and
   # nobody does. Anything written there is as invisible as not writing it at all:
@@ -325,7 +333,30 @@ $worker = Start-Job -ArgumentList $API, $RefreshSeconds, $PY, $ECO_SCRIPT, (Join
   # or one bad cycle would stop every future refresh for the life of the server.
   $ErrorActionPreference = 'Continue'
 
-  & $say "refresh worker started: every ${seconds}s, ecosystem every 4th cycle"
+  # The handshake runs once an hour, computed from the refresh period rather
+  # than hard-coded, so the cadence survives a change of $seconds. The bound it
+  # has to stay inside is 24 hours; an hour leaves room for the worker to be
+  # down for a while and still come back inside it.
+  $handshakeEvery = [Math]::Max(1, [int][Math]::Floor(3600 / [Math]::Max(1, $seconds)))
+  $handshakeCycles = 0
+  $handshakeBroken = $false
+
+  & $say "refresh worker started: every ${seconds}s, ecosystem every 4th cycle, handshake every ${handshakeEvery} cycle(s)"
+
+  # Once at startup, so a freshly started server does not spend its first hour
+  # carrying whatever record the previous instance left behind. The record's
+  # age is what the 24h bound reads, and an age inherited from another
+  # process is exactly the kind of thing that looks fine and is not.
+  if ($pyExe -and (Test-Path $handshakeScript)) {
+    & $pyExe $handshakeScript | Out-Null
+    if ($LASTEXITCODE -ne 0) {
+      & $say "startup handshake exited $LASTEXITCODE"
+      $handshakeBroken = $true
+    }
+  } else {
+    & $say "NOT RUNNING: pyExe='$pyExe' handshake='$handshakeScript'"
+    $handshakeBroken = $true
+  }
 
   # The ecosystem snapshot refreshes every 4th cycle, not every cycle. Not
   # because it is expensive - it is a directory-stat pass - but because
@@ -360,6 +391,39 @@ $worker = Start-Job -ArgumentList $API, $RefreshSeconds, $PY, $ECO_SCRIPT, (Join
         } elseif ($ecoBroken) {
           & $say 'collector recovered'
           $ecoBroken = $false
+        }
+      }
+
+      # ---- the MCP handshake, on a clock --------------------------------
+      # The handshake record carries a 24 hour freshness bound. When it ages
+      # past that, the monitor reports mcp_tools_wired as STALE and TWO test
+      # checks go red - which is the system telling the truth, but only
+      # useful if something can act on it. Until now nothing did: the record
+      # was written by hand, once, and then it aged. The tools stayed wired
+      # while the only evidence of that wiring went stale.
+      #
+      # The period is an hour, far inside the 24 hour bound, because a bound
+      # that is met by luck is not a bound. The handshake takes about two
+      # seconds (measured), so this is not a cost worth arguing about.
+      $handshakeCycles++
+      if ($handshakeCycles -ge $handshakeEvery) {
+        $handshakeCycles = 0
+        if (-not $pyExe -or -not (Test-Path $handshakeScript)) {
+          if (-not $handshakeBroken) {
+            & $say "NOT RUNNING: pyExe='$pyExe' handshake='$handshakeScript'"
+            $handshakeBroken = $true
+          }
+        } else {
+          & $pyExe $handshakeScript | Out-Null
+          if ($LASTEXITCODE -ne 0) {
+            if (-not $handshakeBroken) {
+              & $say "handshake exited $LASTEXITCODE"
+              $handshakeBroken = $true
+            }
+          } elseif ($handshakeBroken) {
+            & $say 'handshake recovered'
+            $handshakeBroken = $false
+          }
         }
       }
     }

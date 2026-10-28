@@ -72,7 +72,8 @@ Textele false au fost **păstrate și marcate**, nu șterse.
 
 ### Rămas deschis, declarat
 
-`corpus_fresh` — STALE la ~6,9 zile peste o limită de 1 oră. Nu s-a refăcut
+`corpus_fresh` — STALE la ~6,9 zile peste o limită de 1 oră *(cifra de la 11
+oct; **remeașurat la 03:00 pe 28 oct: 1.966.320 s ≈ 22,8 zile**)*. Nu s-a refăcut
 pentru că refacerea înseamnă o extracție completă a corpusului de conversații
 al lui Popy. **Nu e tăcut**: e roșu, în contorul din antet.
 
@@ -149,6 +150,21 @@ Commitul de reparare: **`e89887f`**, împins și verificat cu `git ls-remote`
 | Consolă pe 13 tab-uri | **0 mesaje** | 01:55 |
 | Cereri rețea | 23/23 → 200 | 01:55 |
 
+### Măsurări la 03:00 — după handshake-ul pus pe buclă
+
+| | Valoare | Ora |
+|---|---|---|
+| `test_suite.py` | **593 passed / 0 failed / 0 skipped** | 02:56 |
+| `test_deployment.py` | **66 passed / 0 failed / 1 not-run** (67 verificări) | 03:00 |
+| Verificări live | 56 — **54 ok / 0 fail / 2 stale / 0 not-run** | 03:00 |
+| Cele 2 STALE | `corpus_fresh` (1.966.320 s ≈ **22,8 zile**, limită 3.600 s) și `workflow_state_fresh` (360,6 s, limită 300 s) | 03:00 |
+| `HEAD` local = `origin/main` | **`27023fd`** — identic, 0 ahead / 0 behind | 02:45 |
+
+Diferența față de `521/0/0` și `63/0/1` de mai sus: **suprafețe adăugate**, nu
+teste slăbite. Collectorul produce acum 29 de suprafețe (erau 25), iar
+`test_deployment.py` a primit un test nou, `handshake_refresh`, cu 3 verificări
+și un control discriminatoriu.
+
 ### Cele 8 eșecuri ale build-ului mergat — toate identificate și închise
 
 Build-ul local de pe 11 oct era verde (`506/0/0`). Build-ul mergat, cu cele 37 de
@@ -191,6 +207,79 @@ inactiv, limitele lor de prospețime sunt calibrate greșit și produc un roșu
 permanent fără defect în spate. **`NOT_MEASURED`:** dacă bucla *trebuie* să le
 scrie.
 
+### Rezolvarea întrebării „cine scrie aceste jurnale" — măsurată 02:53–03:00
+
+`NOT_MEASURED` de mai sus are răspuns, iar răspunsul **nu** e „da". Măsurat în
+trei pași independenți:
+
+**1. Burst-ul de scriere.** Cele 9 artefacte ale familiei `log_*` + handshake au
+mtime-uri în fereastra **02:53:53 – 02:54:06** — 13 secunde, 9 fișiere, 6
+module diferite. Fereastra coincide cu rularea suitei unitare.
+
+**2. Nicio buclă nu le atinge.** La 02:59:47, la ~6 minute de la pornirea
+worker-ului, vârstele erau **341–353 s** — deci **nu** au fost rescrise în
+ciclurile de 25 s care au trecut între timp. Worker-ul de refresh scrie altceva:
+`health.json`, `sentinel-state.json`, `state-history.jsonl`, `guardian.log`, și
+`minimax-ecosystem.json` la fiecare al 4-lea ciclu. Mulțimi disjuncte.
+
+**3. Codul spune cine scrie.** `bimodal_workflow.py` → `bimodal_state.json` +
+`bimodal_workflow.log`; `sentinel_orchestrator.py` → `orchestrator_state.json` +
+`state_transitions.log`; `performance_tracker.py` →
+`performance_metrics.json`; `self_improvement.py` → `self_improvement.log`;
+`self_modify_engine.py` → `self_modifications.log`. Niciunul nu e apelat de
+bucla de refresh.
+
+Deci: **aceste artefacte sunt scrise la cerere** — de suitele de test și de
+acțiunile operatorului. Nu există scriitor cu ceas în spatele lor.
+
+#### Tabelul scriitorilor — măsurat 2026-10-28, 03:00
+
+| Artefact | Scris de | Când | Limita | Ce înseamnă STALE |
+|---|---|---|---|---|
+| `mcp_handshake.json` | `mcp_handshake.py` | **pe buclă**, la 144 de cicluri (~1 oră) + o dată la pornire | 24 h | scriitorul lipsește → defect real |
+| `health.json`, `sentinel-state.json`, `state-history.jsonl` | `collect-sentinel.ps1` | fiecare ciclu (25 s) | — | — |
+| `minimax-ecosystem.json` | `collect_minimax_ecosystem.py` | fiecare al 4-lea ciclu | — | — |
+| `bimodal_state.json` | `bimodal_workflow.py` | **la cerere** | 300 s (`workflow_state_fresh`) | vârsta e adevărul, nu o defecțiune |
+| `bimodal_workflow.log` | `bimodal_workflow.py` | **la cerere** | 1.800 s (`workflow_log`) | idem |
+| `orchestrator_state.json`, `state_transitions.log`, `performance_metrics.json`, `self_modifications.log`, `self_improvement.log` | cele 4 module proprii | **la cerere** | 3.000 s (cele 5 `log_*`) | idem |
+
+#### Decizia: limitele NU se ating
+
+**Nu am lărgit nicio limită.** Și asta e o decizie, nu o omisiune — e concluzia
+din documentele ratificate ale proiectului însuși:
+
+- `14_HANDOFF/02_GAPS.md:148` — despre `workflow_state_fresh`: *„**Correct
+  behaviour, and the reason the STALE total moves.** … It is the check working,
+  not a fault."*
+- `14_HANDOFF/02_GAPS.md:151` — *„No STALE is a fault either: each is an honest
+  signal that something has not been touched recently."*
+- `11_PLANS/POST_R0_EXECUTION_RECORD.md:948` — *„That is the system telling the
+  truth about age, which is the one behaviour it must never trade away."*
+
+Lărgirea limitei ar fi făcut antetul verde — adică **ar fi ascuns exact lucrul
+pe care sistemul e desemnat să-l spună**. Un STALE pe un artefact scris la cerere
+înseamnă „nu s-a cerut nimic de el", nu „e ceva stricat". Antetul `DEGRADED` e
+corect în acest caz, iar `corpus_fresh` va rămâne STALE până când corpusul se
+reextractă — deci antetul va fi `DEGRADED` permanent. **Asta e un semnal
+permanent, nu un defect ascuns:** spune „corpusul e un snapshot vechi", exact
+ce spune.
+
+#### Distincția care leagă handshake-ul de restul
+
+Handshake-ul a fost reparat **prin adăugarea unui scriitor**, nu prin lărgirea
+limitei: înainte nu exista nimic care să scrie `mcp_handshake.json`, deci limita
+de 24 h era un termen pe care doar un om îl putea onora. Regula:
+
+| Situație | Ce e corect | Ce e greșit |
+|---|---|---|
+| Limita există, **nu există scriitor** | adaugă scriitorul pe buclă | lărgeste limita |
+| Limita există, **scriitorul e la cerere** | păstrează limita — vârsta e adevărul | lărgeste limita |
+
+Prima linie e handshake-ul (rezolvat, măsurat: logul worker-ului la 02:53:13
+spune „handshake every 144 cycle(s)", mtime-ul înregistrării e 02:53:15, iar
+live `mcp_tools_wired = OK — "Measured 2s ago by mcp_handshake.py"`). A doua
+linie e familia `log_*`, decisă astăzi: **se păstrează**.
+
 ---
 
 ## 5. Skilluri extrase din această sesiune
@@ -221,32 +310,58 @@ explicit, nu doar prin descoperire.
 **Imediat, tehnic, în limita sesiunii:**
 
 1. ~~Cele 6 eșecuri din `test_suite.py`~~ — **închise**, vezi secțiunea 4.
-2. **Calibrarea limitelor `log_*`** — 8 verificări roșii fără defect în spate.
-   `NOT_MEASURED`: dacă bucla *trebuie* să le scrie. Dacă nu, limitele sunt
-   prea strâmse și antetul va arăta `DEGRADED` permanent, ceea ce învață
-   cititorul să ignore antetul.
-3. **Clona `.github-repo`** — se face la `main`-ul final, după ultimul push.
-4. **`.gitignore`** — `.github-repo/` exclus, cu motiv scris în fișier și în
-   mesajul de commit: e copie de lucru, nu conținut de proiect.
-5. **Re-armarea limitei de 24h a handshake-ului** — `mcp_tools_wired` devine
-   STALE la fiecare 24 de ore și **două verificări cad** din cauza lui. Azi l-am
-   re-măsurat cu mâna; până când nu e pe o oră, se va întâmpla din nou. Fixul
-   e să intre în bucla de refresh, nu într-o sesiune.
-6. **`core.hooksPath` local e gol** — configul a fost rescris de pipeline la 28
-   oct și direcția hook-urilor LiveReview s-a pierdut. Hook-urile există în
-   `C:\Users\apviz\.git-hooks\`, dar nu mai sunt invocate de acest repo.
-   Atestation-ul se face manual, `lrc review --vouch --staged`.
+2. ~~**Calibrarea limitelor `log_*`**~~ — **închis la 03:00: limitele NU se
+   ating.** Cine scrie fiecare artefact a fost **măsurat**, nu presupus
+   (tabelul din secțiunea 4): familia `log_*` e scrisă **la cerere**, nu de o
+   buclă. `NOT_MEASURED` a fost rezolvat prin măsurare, iar răspunsul e „nu,
+   bucla nu trebuie să le scrie". Lărgirea limitei ar fi ascuns adevărul pe
+   care sistemul e desemnat să-l spună — textul, cu citatele ratificate din
+   `02_GAPS.md` și `POST_R0_EXECUTION_RECORD.md`, e în secțiunea 4.
+3. ~~**Clona `.github-repo`**~~ — **închis**: creată la `main`-ul final, 1.477
+   fișiere, `dirty=0`, SHA identic cu `main` și `origin/main`.
+4. **`.gitignore`** — **închis**: `.github-repo/` exclus, cu motiv scris în
+   fișier și în mesajul de commit: e copie de lucru, nu conținut de proiect.
+   La 03:05 s-a adăugat, în aceeași clasă și cu același motiv scris în fișier,
+   `__pycache__/` + `*.pyc` — bytecode regenerabil, nu conținut de proiect.
+5. ~~**Re-armarea limitei de 24h a handshake-ului**~~ — **închis**: handshake-ul
+   e pe bucla de refresh. `server.ps1` calculează `handshakeEvery` din perioada
+   de refresh (144 de cicluri ≈ 1 oră, mult în interiorul limitei de 24 h) și
+   îl rulează o dată la pornirea worker-ului și apoi la fiecare `handshakeEvery`
+   ciclu. Măsurat: logul worker-ului la 02:53:13 spune „handshake every 144
+   cycle(s)", mtime-ul înregistrării e 02:53:15, iar live
+   `mcp_tools_wired = OK — "Measured 2s ago by mcp_handshake.py"`. Test de
+   regresie nou în `test_deployment.py`: `handshake_refresh` (3 verificări + un
+   control discriminatoriu).
+6. ~~**`core.hooksPath` local e gol**~~ — **închis, prin corectare: afirmația
+   de mai sus era FALSĂ.** `core.hooksPath` gol e starea **intenționată**.
+   `lrc hooks status` arată că hook-urile sunt înregistrate pe repo-ul exterior
+   `projects` și **dezactivate** (`.git/lrc/disabled` = True), iar skill-ul
+   `mavis-git-autonom-skill` spune explicit: *„LIVEREVIEW = doar DUPA push, pe
+   ce a ajuns pe GitHub. Niciodata inainte, niciodata la comit"* — pentru că pe
+   2026-10-11 bloca fiecare commit. Ce **e** adevărat: scripturile
+   `scripts\git-autopush.ps1` și `scripts\push-status.ps1` pe care le numește
+   același skill **nu există în acest proiect** (are `02_OPERATIONAL\scripts\`,
+   cu alte două scripturi) — nu e defect al proiectului, dar trebuie spus, ca
+   instanța nouă să nu le caute.
+7. **Verificarea cu clonă nouă, după fiecare push al pipeline-ului.** Pipeline-ul
+   a introdus un arbore invalid o dată în 3 zile, și nimic nu îl oprește s-o
+   facă din nou. Comanda e în `12_GIT_GITHUB_STATE.md` §6.
 
-**Decizii ale lui Popy:**
+**Decizii ale lui Popy** (numerotarea de mai jos era colizionată cu cea de sus —
+corectată aici):
 
-5. `corpus_fresh` — re-extragere sau rămâne STALE declarat.
-6. Repo **public sau privat** (acum privat; conține corpus, adrese, log-uri).
-7. `BIN_TESSERACT`, Design `HILO_USER_TOKEN`, cele 7 servere Hermes nebuiltuite,
-   rotația `09_LOGS`.
+8. `corpus_fresh` — re-extragere sau rămâne STALE declarat. **Măsurat la 03:00:
+   1.966.320 s ≈ 22,8 zile**, peste limita de 3.600 s.
+9. Repo **public sau privat** (acum privat; conține corpus, adrese, log-uri).
+10. Transcriptul sesiunii (55 MB) — în istoric sau nu. Momentan necomitat,
+    dintr-o regulă locală preexistentă (`/.transcripts/` în `.git/info/exclude`).
+    E pe disk și în `stash@{0}`.
+11. `BIN_TESSERACT`, Design `HILO_USER_TOKEN`, cele 7 servere Hermes
+    nebuiltuite, rotația `09_LOGS`.
 
 **Amânate de infrastructură:**
 
-8. Conector AI pentru LiveReview (`lrc` raportează `coverage: 0%`).
+12. Conector AI pentru LiveReview (`lrc` raportează `coverage: 0%`).
 
 ---
 
@@ -260,3 +375,35 @@ explicit, nu doar prin descoperire.
 - **Nu s-a atins interfața.** Niciun buton, secțiune, setare sau extensie.
 - **Nu s-a refăcut corpusul.** E materialul lui Popy.
 - **Nu s-a reformat istoricul.** Repararea e un commit nou, în linie.
+- **Nu s-a lărgit nicio limită de prospețime.** Măsurat și ratificat — vezi §4.
+
+---
+
+## 8. Corecții consemnate
+
+Regula proiectului: corecturile se **adaugă**, textul fals rămâne vizibil deasupra,
+marcat ca fals. Trei de azi.
+
+**C1 — `core.hooksPath` gol, prezentat ca defect. Era starea intenționată.**
+`lrc hooks status` arată hook-urile înregistrate pe repo-ul exterior `projects`
+și **dezactivate** (`.git/lrc/disabled` = True), iar skill-ul
+`mavis-git-autonom-skill` spune explicit că LiveReview rulează *doar după push*,
+niciodată la comit — pentru că pe 2026-10-11 bloca fiecare commit. Textul fals
+rămâne în §6, punctul 6, marcat ca atare.
+
+**C2 — „limitele `log_*` sunt calibrate greșit". Nu sunt.**
+Ipoteza mea de la începutul zilei era că un STALE pe un artefact scris la cerere
+e un roșu fals, iar răspunsul ar fi fost lărgirea limitei. **Măsurarea a spus
+altceva, și am schimbat decizia, nu doar cifra:** scriitorul există, e la cerere,
+iar documentele ratificate ale proiectului însuși numesc STALE-ul *„the check
+working, not a fault"*. Nu s-a schimbat nimic în cod. S-a închis un
+`NOT_MEASURED` prin măsurare — care era exact rostul lui.
+
+**C3 — vârsta corpusului.** Circulam cu „~6,9 zile", cifră corectă pe 11 oct.
+**Măsurat la 03:00 pe 28 oct: 1.966.320 s ≈ 22,8 zile.** Cifra veche e păstrată
+acolo unde e istoric (raportul arhivat din 11 oct) și actualizată acolo unde
+era prezentată ca actuală (§2, cu data de măsurare lângă ea).
+
+**Ce nu am schimbat, pentru că n-are rost:** rapoartele arhivate. Ele sunt
+istoricul, nu starea curentă. `raport-archive\raport-2026-10-11_18-45.md` spune
+„6,9 zile" și așa era adevărat atunci.

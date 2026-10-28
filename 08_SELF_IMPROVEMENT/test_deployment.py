@@ -1246,6 +1246,83 @@ def test_action_origin_gate_blocks_cross_origin() -> None:
           "gate at all")
 
 
+def _handshake_worker_block(text: str) -> str:
+    """The Start-Job block of server.ps1: from the job to the listener try."""
+    start = text.find("$worker = Start-Job")
+    if start < 0:
+        return ""
+    end = text.find("\ntry {", start)
+    return text[start:end if end > 0 else len(text)]
+
+
+def _handshake_wired(text: str) -> bool:
+    """True when the refresh worker actually invokes the handshake script.
+
+    Two halves, and both are needed: the script path has to be handed to the
+    job through -ArgumentList (a job has its own session state, so an
+    outer variable is simply $null inside it), and the job has to invoke it.
+    Checking only the second would pass on a script whose path was never
+    passed in; checking only the first would pass on a script nobody calls."""
+    block = _handshake_worker_block(text)
+    if not block:
+        return False
+    import re as _re
+    invokes = _re.search(r"&\s*\$pyExe\s+\$handshakeScript", block) is not None
+    receives = _re.search(r"Start-Job[^\n]*\$HANDSHAKE_SCRIPT", text) is not None
+    return invokes and receives
+
+
+def test_handshake_refresh_is_on_the_loop() -> None:
+    """The MCP handshake must be produced by the refresh loop, not by hand.
+
+    Added 2026-10-28. The `mcp_tools_wired` check has a 24 hour freshness
+    bound, and the record that satisfies it was written once, by hand. Nothing
+    in the system refreshed it, so the bound was a deadline only a human could
+    meet - and when it lapsed, two suite checks went red with no way for the
+    system to recover on its own. Measured twice in one day.
+
+    The bound is now met by the same worker that refreshes state and the
+    ecosystem snapshot, once an hour, computed from the refresh period so a
+    change of that period does not silently widen the gap.
+
+    Three things are asserted, because they can fail independently:
+      WIRED       - the job receives the script and invokes it.
+      INSIDE      - the cadence is computed, and its target is well inside the
+                    24 hour bound. A bound met by luck is not a bound.
+      DISCRIMINATES - the same predicate over a copy with the invocation
+                    removed must report "not wired". If it does not, this test
+                    is measuring nothing.
+    """
+    import re as _re
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    srv = os.path.join(root, "13_COMMAND_CENTER", "api", "server.ps1")
+    with open(srv, "r", encoding="utf-8", errors="replace") as fh:
+        src = fh.read()
+
+    check("handshake_refresh_is_wired", _handshake_wired(src),
+          "the refresh worker receives mcp_handshake.py and invokes it, so the "
+          "24h freshness bound on mcp_tools_wired is met by the system",
+          "the refresh worker does not invoke the handshake script, so the "
+          "bound can only be met by a human remembering")
+
+    block = _handshake_worker_block(src)
+    m = _re.search(r"\$handshakeEvery\s*=\s*\[Math\]::Max\(1,\s*"
+                   r"\[int\]\[Math\]::Floor\((\d+)\s*/", block)
+    check("handshake_refresh_period_inside_bound",
+          m is not None and int(m.group(1)) <= 3600,
+          "the cadence is computed from the refresh period, target 3600s, well "
+          "inside the 86400s bound",
+          "no computed handshake period found in the worker block, so the "
+          "cadence cannot be shown to stay inside the bound")
+
+    broken = block.replace("& $pyExe $handshakeScript", "& $pyExe $nothingScript")
+    check("handshake_refresh_control_discriminates",
+          broken != block and not _handshake_wired(src.replace(block, broken)),
+          "the same predicate reports 'not wired' on a copy with the "
+          "invocation removed, so this check is measuring the gate",
+          "the neutralised copy still looked wired, so this test proves nothing")
+
+
 def test_static_route_is_allowlisted_and_serves_intact_bytes() -> None:
     """The font route must serve the two allowlisted files and nothing else.
 
@@ -2188,6 +2265,7 @@ def main() -> int:
             ("action_whitelist_admits", "test_action_whitelist_admits"),
             ("static_route", "test_static_route_is_allowlisted_and_serves_intact_bytes"),
             ("action_origin_gate", "test_action_origin_gate_blocks_cross_origin"),
+            ("handshake_refresh", "test_handshake_refresh_is_on_the_loop"),
             ("telemetry_fifo", "test_telemetry_feed_is_bounded"),
             ("inventory_registry_exempts_correctly", "test_inventory_registry_exempts_correctly"),
             ("inventory_registry_catches_same_leaf_name", "test_inventory_registry_catches_same_leaf_name"),

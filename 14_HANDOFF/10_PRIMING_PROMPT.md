@@ -81,6 +81,28 @@ Un control care nu poate eșua nu e control. Când adaugi o verificare de
 securitate sau de stare, ea trebuie să aibă un control de sensibilitate care
 trebuie să EȘUEZE, ca să dovedească că verificarea măsoară ceva.
 
+───────────────────────────────────────────────────────────────
+CE NU TREBUIE "REPARAT" (măsurat, nu presupunere)
+───────────────────────────────────────────────────────────────
+
+Limitele de prospețime ale monitorului NU se lărgesc. La 2026-10-28 a fost
+măsurat cine scrie fiecare artefact: familia log_* și workflow_state_fresh sunt
+scrise LA CERERE (de suita de test și de acțiunile operatorului), nu de o buclă
+cu ceas. Un STALE pe ele înseamnă "nu s-a cerut nimic de el", nu "e stricat" -
+și 02_GAPS.md îl numește ratificat "the check working, not a fault". Dacă
+lărgesti limita, ascunzi exact lucrul pe care sistemul trebuie să-l spună, iar
+antetul DEGRADED permanent învață cititorul să-l ignore.
+
+Regula, pentru orice limită de prospețime:
+  - există scriitor cu ceas?  -> păstrează limita
+  - nu există scriitor deloc? -> ADAUGĂ scriitorul pe buclă
+Handshake-ul MCP era al doilea caz: acum rulează pe bucla de refresh, la 144
+de cicluri (~1 oră), deci mcp_tools_wired nu mai cad în roșu peste 24 de ore.
+
+core.hooksPath gol NU e un defect: e starea intenționată. LiveReview rulează
+doar după push, niciodată la comit - pentru că pe 2026-10-11 bloca fiecare
+commit. Atestation-ul e manual: lrc review --vouch --staged.
+
 ═══════════════════════════════════════════════════════════════
 5. SKILLURILE — ÎNCARCĂ-LE PE TOATE
 ═══════════════════════════════════════════════════════════════

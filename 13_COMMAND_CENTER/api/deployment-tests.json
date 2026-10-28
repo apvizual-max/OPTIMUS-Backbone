@@ -1,10 +1,10 @@
 {
   "suite": "mavis-sentinel-hub deployment e2e",
-  "generated_at": "2026-10-28T02:40:50",
-  "passed": 63,
+  "generated_at": "2026-10-28T02:59:10",
+  "passed": 66,
   "failed": 0,
   "not_run": 1,
-  "total": 64,
+  "total": 67,
   "green": true,
   "checks": [
     {
@@ -80,17 +80,17 @@
     {
       "id": "route_readyz",
       "status": "PASS",
-      "detail": "200 98242 B"
+      "detail": "200 98240 B"
     },
     {
       "id": "route_api_state",
       "status": "PASS",
-      "detail": "200 98242 B"
+      "detail": "200 98240 B"
     },
     {
       "id": "route_api_health",
       "status": "PASS",
-      "detail": "200 20332 B"
+      "detail": "200 20328 B"
     },
     {
       "id": "served_by_front",
@@ -160,7 +160,7 @@
     {
       "id": "ecosystem_snapshot_fresh",
       "status": "PASS",
-      "detail": "snapshot age 5s, refreshed by the server's worker (bound 600s)"
+      "detail": "snapshot age 121s, refreshed by the server's worker (bound 600s)"
     },
     {
       "id": "ecosystem_route",
@@ -211,6 +211,21 @@
       "id": "action_origin_control_discriminates",
       "status": "PASS",
       "detail": "the real allowlist in source blocks 4 of 5 probed origins; the same extractor and predicate over the same file with the allowlist widened to admit all blocks 0"
+    },
+    {
+      "id": "handshake_refresh_is_wired",
+      "status": "PASS",
+      "detail": "the refresh worker receives mcp_handshake.py and invokes it, so the 24h freshness bound on mcp_tools_wired is met by the system"
+    },
+    {
+      "id": "handshake_refresh_period_inside_bound",
+      "status": "PASS",
+      "detail": "the cadence is computed from the refresh period, target 3600s, well inside the 86400s bound"
+    },
+    {
+      "id": "handshake_refresh_control_discriminates",
+      "status": "PASS",
+      "detail": "the same predicate reports 'not wired' on a copy with the invocation removed, so this check is measuring the gate"
     },
     {
       "id": "telemetry_detector_armed",

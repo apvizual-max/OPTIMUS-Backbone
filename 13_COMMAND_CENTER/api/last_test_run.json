@@ -1,6 +1,6 @@
 {
-  "ran_at": "2026-10-28T02:37:47.281467",
-  "passed": 521,
+  "ran_at": "2026-10-28T02:56:06.914481",
+  "passed": 593,
   "failed": 0,
   "skipped": 0,
   "not_run": [],
@@ -49,7 +49,7 @@
     },
     {
       "name": "NoRomanianInCode",
-      "passed": 69,
+      "passed": 141,
       "failed": 0,
       "skipped": 0,
       "not_run": false,
