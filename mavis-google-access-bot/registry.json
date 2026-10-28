@@ -1,0 +1,414 @@
+{
+  "schemaVersion": 1,
+  "bot": "mavis-google-access-bot",
+  "bot_display_name": "Mavis Google Access Bot",
+  "version": "1.0",
+  "created_at": "2026-10-28",
+  "purpose": "The hub of the permanent Google Access ecosystem on this station. The bot owns the list of member skills, the contract they obey, the registry that makes the list executable, and the update loop that keeps each member honest. It owns no Google logic itself.",
+  "naming": {
+    "functional": "mavis-skill-<capability>",
+    "meta": "mavis-skill-<process>",
+    "reference": "any existing skill name - read, not owned",
+    "rule": "Popy specified the mavis-skill-<name> format on 2026-10-28. It deliberately differs from the sibling bot mavis-session-extract-bot-skill, which uses mavis-session-<artifact>-skill: two bots, two contracts, and each verifier reads its own registry."
+  },
+  "frontmatter_required": [
+    "name",
+    "description",
+    "role",
+    "bot"
+  ],
+  "roles": {
+    "hub": "the bot itself - owns the list and the contract",
+    "functional": "owns one capability of the ecosystem",
+    "meta": "a process the bot needs to run (creation, verification, publication)",
+    "reference": "exists on the station and matters to the ecosystem, but is NOT owned by this bot - held to a weaker contract: the folder and its SKILL.md must exist, and the frontmatter name must not contradict the folder"
+  },
+  "contract": {
+    "C1": "The capability is live, not declared - a real API call or a real handshake answered with data",
+    "C2": "A refusal is reported as a refusal - REFUSED is never OK and never ERROR",
+    "C3": "The verifier is independent and can go red - exit 0 on the good state, exit 1 on a corrupted one",
+    "C4": "Nothing is silently lost - a gap is declared in the docs and in runs.md",
+    "C5": "The credential never leaves the volume - no secret in an image layer, a repo, a log, a chat or a handoff",
+    "C6": "The member records its run - runs.md gains an entry, with the measured numbers",
+    "C7": "The namespace stays separate - minimax and Hermes never share a container, a profile, a port or a credential"
+  },
+  "skills": [
+    {
+      "name": "mavis-skill-google-access-control-point",
+      "role": "functional",
+      "source": "google-access",
+      "purpose": "The control point: one command, 11 checks, one verdict, exit 0/2/3 - and the permanence contract of the connection.",
+      "status": "WIRED",
+      "path": "",
+      "added_at": "2026-10-28",
+      "verified": "2026-10-28 - VERDICT=PASS, 11/11 checks, failed=0, warnings=0; falsified with --self-test --fail (exit 2)"
+    },
+    {
+      "name": "mavis-skill-docker-access-point",
+      "role": "functional",
+      "source": "google-access",
+      "purpose": "The Docker substrate: the image build, the three volumes (data rw, secrets ro), the port rule, and the proof that the running bytes equal the repo bytes.",
+      "status": "WIRED",
+      "path": "",
+      "added_at": "2026-10-28",
+      "verified": "2026-10-28 - container running/healthy, restart=unless-stopped, /data rw, /secrets ro, running sha256 == repo sha256"
+    },
+    {
+      "name": "mavis-skill-browser-mcp",
+      "role": "functional",
+      "source": "google-access",
+      "purpose": "The browser layer: minimax-notebooklm with its own Chrome profile and CDP port 9412, the Photo Picker window, and the roadmap for extending the browser side of the access point.",
+      "status": "WIRED",
+      "path": "",
+      "added_at": "2026-10-28",
+      "verified": "2026-10-28 - stdio handshake answered: initialize OK, server minimax-notebooklm, 4 tools"
+    },
+    {
+      "name": "mavis-skill-mcp-development",
+      "role": "functional",
+      "source": "google-access",
+      "purpose": "How the next MCP joins the central access point: the route, the registry contract, the proof required before a registration is called working, and the roadmap of planned servers.",
+      "status": "WIRED",
+      "path": "",
+      "added_at": "2026-10-28",
+      "verified": "2026-10-28 - 23 registry paths checked, 0 dead; Google_Access registered at the measured endpoint; repo source == live source"
+    },
+    {
+      "name": "mavis-skill-photo-picker",
+      "role": "functional",
+      "source": "google-access",
+      "purpose": "The only door to the user's own photo library: the two causes behind the same error message, the capture cycle, and the consumed-session state.",
+      "status": "WIRED",
+      "path": "",
+      "added_at": "2026-10-28",
+      "verified": "2026-10-28 - 6 captured files, all real JPEGs by magic bytes; session state=consumed after the API-mandated delete"
+    },
+    {
+      "name": "mavis-skill-notebooklm-extendlm",
+      "role": "functional",
+      "source": "google-access",
+      "purpose": "The API route to NotebookLM: the single-owner rotation rule, the snapshot publication to the Cloud secret, and the honest limits of both routes.",
+      "status": "WIRED",
+      "path": "",
+      "added_at": "2026-10-28",
+      "verified": "2026-10-28 - token alive with a refresh token present; Cloud secret read back; rotation task registered"
+    },
+    {
+      "name": "mavis-skill-google-keep-sites",
+      "role": "functional",
+      "source": "google-access",
+      "purpose": "The two services refused by Google itself: the measured reason for each, the trap of the invalid scopes, and the deferred automation plan under user management.",
+      "status": "WIRED",
+      "path": "",
+      "added_at": "2026-10-28",
+      "verified": "2026-10-28 - both scopes absent from FULL_SCOPES, both tools present, live probe reports REFUSED for both"
+    },
+    {
+      "name": "mavis-skill-access-handoff",
+      "role": "meta",
+      "source": "self",
+      "purpose": "The protocol for handing this work to a session with zero context: location contract, priming-prompt shape, and the verification that must pass before a handoff is called ready.",
+      "status": "WIRED",
+      "path": "",
+      "added_at": "2026-10-28",
+      "verified": "2026-10-28 - the handoff's own verifier checks every path it names, and the bot registry verifies"
+    },
+    {
+      "name": "mavis-google-access-skill",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "The pre-existing micro-skill on the Google connection: its history, the two-grants defect, and the four prohibitions.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-google-workspace-skill",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "The Workspace-side Google access, with its own grant and its own scopes.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-notebooklm-bridge-skill",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "The NotebookLM bridge, from the bridge family of skills.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-mcp-management-skill",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "MCP management across the station - the fleet, the registry, and the transport rules.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-docker-gordon-skill",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "Docker operations and diagnosis from the Gordon side.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-antigravity-docker-admin-skill",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "Docker administration from the Antigravity side of the station.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-chrome-browser-skill",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "Browser automation in general - the layer the picker window and the NotebookLM session sit on.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-shared-local-mcp-swarm-skill",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "The shared local MCP swarm - how several local servers are coordinated without sharing credentials.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-autonomous-operator-skill",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "How the operator acts without being asked - the three passes and the stop conditions.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-full-intent-execution-skill",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "Carrying an intent to the end, without fragmenting it into questions.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-session-lifecycle-skill",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "The session lifecycle - the boundary a handoff crosses.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-memory-curator-skill",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "Keeping memory curated - what is worth keeping and what is a temporary fact.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-search-before-write",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "The standing rule: search first, write second, never hand back a technical decision.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-backbone-skill",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "The backbone this ecosystem is part of - the bridges, the registries, the workflows.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-cloud-bridge-skill",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "The Local-to-Cloud bridge - the channel the Cloud runner consumes.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-local-to-cloud-reporting",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "Reporting from Local to Cloud, and the channel contract behind it.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-skill-index",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "The master index of every skill Mavis can call - the routing layer above this bot.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-bundle-operations",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "The bundle this bot is dispatched from.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-minimax-index-folder-update",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "Keeping the index folders true - the same discipline the registry verifier applies.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-jules-contract-skill",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "The Jules contract, consumed by the Cloud side of this ecosystem.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-doc-bridge-skill",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "Document bridging, for the documents this ecosystem produces.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-instruction-fidelity-skill",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "Executing an instruction as written - the fidelity this handoff depends on.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-git-autonom-skill",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "Autonomous git and the push gate - the route every commit of this ecosystem takes.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-triple-crunch-skill",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "The triple-filter discipline applied before anything is written or claimed.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-r33-bimodal-skill",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "The bimodal workflow contract - when a change waits for ratification and when it does not.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-antigravity-ecosystem-integrations-skill",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "Cross-ecosystem integrations - how this ecosystem meets the others without sharing state.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    },
+    {
+      "name": "mavis-skill-repair-manifest-skill",
+      "role": "reference",
+      "source": "pre-existing",
+      "purpose": "The recovery path when a member's installation failed: it fixes the installed files and updates manifest.json so the UI sees the skill as installed again.",
+      "status": "REFERENCE",
+      "path": "",
+      "added_at": "2026-10-28"
+    }
+  ],
+  "roadmap": [
+    {
+      "item": "Browser MCPs on the central access point",
+      "status": "PLANNED",
+      "detail": "picker window automation, NotebookLM source ingestion, an explicitly-owned shared browser profile, CDP health as a control-point check. See mavis-skill-browser-mcp section 4."
+    },
+    {
+      "item": "A second Docker-based MCP on the same access point",
+      "status": "PLANNED",
+      "detail": "the interface must be decided per capability: the same /data volume and credential, or its own OAuth client and volume."
+    },
+    {
+      "item": "New tools inside the container",
+      "status": "PLANNED",
+      "detail": "the route in mavis-skill-mcp-development section 3; a new Google scope is verified against Google's registry BEFORE it is added, because one invalid scope invalidates the whole consent request."
+    },
+    {
+      "item": "Keep automation",
+      "status": "DEFERRED_BY_USER",
+      "detail": "skipped for now under user management - Popy imports the content through Gemini or other tools into Drive. The automation needs a grantable scope to exist in the current Google directory; if it does, it costs one consent click."
+    },
+    {
+      "item": "Sites automation",
+      "status": "DEFERRED_BY_USER",
+      "detail": "skipped for now under user management. Nothing to automate: the Sites API was retired. Only a migration of the content to Drive remains."
+    },
+    {
+      "item": "A Drive-side import for the content Popy imports by hand today",
+      "status": "PLANNED",
+      "detail": "belongs to the Drive side, not to this container."
+    },
+    {
+      "item": "Google Cloud",
+      "status": "OUT_OF_SCOPE",
+      "detail": "excluded by Popy's instruction."
+    }
+  ],
+  "update_loop": {
+    "rule": "A skill that is used gets updated. After EVERY action the member skill's runs.md gains an entry: the measured success with its numbers, or the error verbatim.",
+    "log": "scripts/log-run.mjs",
+    "registry": "scripts/bot-registry.mjs"
+  },
+  "handoff": {
+    "folder": "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Google_Access\\.handoff",
+    "owner_skill": "mavis-skill-access-handoff",
+    "files": [
+      "README.md",
+      "HANDOFF-GOOGLE-ACCESS.md",
+      "PRIMING-PROMPT.md",
+      "SKILLS-INDEX.md",
+      "STATE-MEASURED.md",
+      "MANIFEST.json"
+    ]
+  }
+}
