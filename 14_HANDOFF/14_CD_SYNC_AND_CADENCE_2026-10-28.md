@@ -450,4 +450,65 @@ deschise, 14 închise**. Cele 5 deschise sunt ale lui Popy: `CONCEPT_C18`,
 14 closed"), `13_COMMAND_CENTER\EVOLUTION.md` (R22),
 `11_BRAIN\04_METHOD\MISSTEPS_AND_CORRECTIONS.md` (M-37, M-38, M-39).
 
+### §11 — Incident: proiectul a fost mutat în timp ce lucram la el (11:25)
+
+**Ce s-a întâmplat, măsurat.** La 11:25:16, când suita de test a fost pornită,
+shell-ul a răspuns: *Working directory does not exist:
+`C:/Users/apviz/.minimax-agent/projects/SENTINEL_PRIME`*. Directorul proiectului
+nu mai era pe disc.
+
+Cronologia, citită din metadatele din Recycle Bin (fiecare intrare `$I...` ține
+calea originală și momentul ștergerii):
+
+| ora | ce s-a mutat | unde a ajuns |
+|---|---|---|
+| 11:24:22 | `projects\90_CONTROL_CENTER` | `projects\Mavis-Optimus-Dashboard\90_CONTROL_CENTER` |
+| 11:25:23 | `projects\SENTINEL_PRIME` | `projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME` |
+| 11:26:21 | `projects\.git` | coș (repo-ul dashboard-uri și-a păstrat `.git` propriu) |
+
+Deci: **o altă instanță a migrat proiectul în repo-ul dashboard-ului**, la
+11:24–11:27, în timp ce eu lucram la el. Nu e o ștergere: arborele era întreg,
+inclusiv `.git` propriu.
+
+**Cum l-am găsit, fără shell.** Tool-urile de citire (`read`/`grep`/`glob`)
+funcționează cu cale absolută și au supraviețuit; shell-ul nu, pentru că
+verifică directorul de lucru *înainte* de a porni. Am scris un fișier la calea
+workspace-ului — `write` creează directorii părinți — și shell-ul a revenit.
+Arborele era în **Recycle Bin**, cu metadatele `$I...` care spun calea originală
+și ora.
+
+**Ce am verificat înainte de orice reinstalare.** Repository-ul era intact:
+`HEAD` = `6a5b136` = `origin/main`, ramură `main`, `stash@{0}` păstrat, 6.593 de
+fișiere, și work-ul C21 inclus (scriptul reparat, `Read-SentinelState`,
+`[Math]::Min(100.0, ...)`, clasa `ContextPressure`, `NOT_MEASURED` în hub).
+**Nu s-a reinstalat nimic** — s-a reluat lucrul de unde era.
+
+**Ce am făcut.**
+1. **Junction** de la `projects\SENTINEL_PRIME` la noua locație: calea veche
+   continuă să funcționeze (daemonii, ancora de startup, referințele rămase),
+   fără duplicare — 6.593 de fișiere identice prin ambele căi.
+2. **Migrarea căii, încheiată.** Alta instanță reparase 42 de fișiere; eu am
+   găsit încă 18 referințe vii la calea veche, inclusiv **blueprint-ul**
+   (`OPTIMUS_MCP_CONFIG.json`, 19 apariții) și 10 module cu `WORKSPACE_ROOT`
+   implicit în calea veche. Reparate la nivel de octet, cu backup-uri
+   `.bak-20261028_1141` / `.bak-20261028_1142` înainte, JSON-urile validate
+   după. **Nu s-au atins** referințele istorice: metadatele de backup, corpusul
+   congelat, jurnalele, dovezile din registrul de gap-uri, și
+   `scripts\make-broken-tree-control.py` — acolo calea veche e **intenționat**,
+   pentru că reproduce defectul istoric cu `:` în numele de componentă.
+3. **C21, reluat și închis** la noua locație: registru 19 intrări / 5 deschise
+   / 14 închise, monitor live (counter 3, presiune 7.5%, anti-mimicry și DOR
+   măsurate), suite **661/0/0** și **74/0/1** (75 verificări).
+
+**Comunitățile de măsură, la fel de importante ca datele.** După incident,
+trei verificări au fost re-măsurate de la zero, nu presupuse: `git status`
+(complet, cu 60 + 15 + 39 + 37 + 3 intrări), `git log` (istoria intactă) și
+numărul de fișiere prin ambele căi. Un proiect „mutat" poate fi și un proiect
+gol; diferența se vede doar măsurând.
+
+**Ce rămâne pentru cealaltă instanță.** Junction-ul de la calea veche poate fi
+eliminat când nicio referință nu mai depinde de ea — verificabil cu o căutare
+după `projects\SENTINEL_PRIME` în codul viu. Până atunci, el e ce păstrează
+funcționând ancorele de startup și daemonii.
+
 

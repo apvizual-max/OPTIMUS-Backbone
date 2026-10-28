@@ -275,3 +275,26 @@ număr ca arborele principal, și `HEAD` identic cu `main`.
   Repointarea unei declarații e decizia lui Popy; precedentul există și e ratificat
   (2026-10-10, `web-tools` și `git` repointate de la pachete npm fantomă la servere
   locale). Detalii: `13_GAP_REGISTER_AUDIT_2026-10-28.md` §8.
+
+## 8. Noua locație a arborelui (11:25) și comiturile de după ea
+
+| | Valoare | Ora |
+|---|---|---|
+| Locația arborelui | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME` | 11:25:23 |
+| Locația veche | `projects\SENTINEL_PRIME` — **junction** către cea nouă, creat 11:31, 6.593 de fișiere identice prin ambele căi | 11:31 |
+| Repository | același: `https://github.com/apvizual-max/SENTINEL_PRIME.git` | 11:37 |
+| `HEAD` înainte de aceste comituri | `6a5b136` = `origin/main` (0/0) | 11:37 |
+| Ramuri remote | **1** (`refs/heads/main`) | 11:37 |
+| PR-uri deschise | **0** | 11:37 |
+
+Proiectul a fost mutat de altă instanță în repo-ul dashboard-ului, în timp ce
+lucram la el. Arborele și `.git` au fost găsite întregi și nu s-a reinstalat
+nimic; detalii complete în `14_CD_SYNC_AND_CADENCE_2026-10-28.md` §11.
+
+Comituri locale, după incident:
+
+| Commit | Ce conține |
+|---|---|
+| `237d47e` | rescrierea căii absolute în 60 de fișiere (42 reparate de migrare, 18 completate acum: cod viu + blueprint) |
+| `e4c3954` | CONCEPT_C21: monitorul de presiune de context măsurat, nu anunțat; 5 defecte reparate, 43 de aserțiuni, 6 mutante falsificate |
+| `ed0aabc` | starea runtime re-măsurată |

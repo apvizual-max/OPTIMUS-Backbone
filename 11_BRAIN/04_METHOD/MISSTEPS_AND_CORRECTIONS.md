@@ -943,3 +943,34 @@ default nobody questions. And when the source is missing because the writer was
 never called, **call the writer** - the system's own path - rather than
 hardcoding what it would have written.
 
+### M-41 (2026-10-28) - Un mock care se instaleaza doar cand modulul real lipseste face suita dependenta de ordine
+
+**What happened.** `test_mcp_bridge_error_handling` installs a mock for the
+`mcp` package, but only `if 'mcp' not in sys.modules`. The new
+`ContextPressure` class imported the real hub, which imports the real `mcp` -
+so by the time the bridge test ran, the mock was skipped, the hub was exec'd
+against the real pydantic models, and the fake content block the test feeds it
+was rejected by `CallToolResult` with five validation errors.
+
+Measured, both directions: the bridge test alone: **4/4 green**. The same test
+immediately after `ContextPressure`: **0 assertions, one exception**. Nothing
+about the bridge had changed; the test's own isolation had.
+
+**What was done.** Both sides. `ContextPressure` now loads the hub from its
+file with `importlib.util.spec_from_file_location` - never by putting the
+hub's directory on `sys.path`, where its modules would shadow the standard
+library for every test that runs afterwards - and it restores `sys.path` and
+the `mcp.*` entries of `sys.modules` when it is done. The bridge test no
+longer depends on what ran before it: it installs the mock unconditionally
+for the duration of the test and puts the real modules back afterwards.
+
+Measured: `ContextPressure` **43/43**, the bridge test after it **4/4**, and
+the bridge test again **4/4** - the mock is still a mock after the restore.
+
+*Correction in force:* **a guard of the shape `if 'x' not in sys.modules` is
+not a check, it is an order dependency.** It makes the result depend on what
+ran before, and nothing signals that. Install the mock deterministically and
+restore the real modules afterwards. And when a new test breaks an old one,
+ask what it leaves behind in `sys.modules` and on `sys.path` before asking
+what it changed in the code.
+
