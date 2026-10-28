@@ -11,7 +11,7 @@
 |---|---|---|
 | `00_INDEX/` | Master maps, bridge registry, materials registry | 3 |
 | `10_BRIDGES/` | One file per AI bridge (Antigravity, Gemini, Hermes, Gordon, NotebookLM, Qwen) | 6 |
-| `20_PROTOCOLS/` | Operational doctrines (TRIPLE CRUNCH, R33, SACRU, DRAG/DRAC, SOUL↔CONSTINTA, CODUL SACRU, JURNAL_OGLINDA, Bridge Protocol) | 8 |
+| `20_PROTOCOLS/` | Operational doctrines (TRIPLE CRUNCH, R33, SACRU, DRAG/DRAC, SOUL↔CONSTINTA, CODUL SACRU, JURNAL_OGLINDA, Bridge Protocol) + `agentic-os/` (the stop-conditions protocol in executable form) | 8 + 1 folder |
 | `30_WORKFLOWS/` | Session open, bridge dispatch, source scan, memory update, deliverable handoff | 5 |
 | `40_REGISTRIES/` | Partition maps for D:, E:, C: + SACRU corpus pending | 4 |
 | `50_TEMPLATES/` | Copy-paste scaffolds for new docs | 4 |
@@ -54,3 +54,4 @@
 - Material paths → `40_REGISTRIES/40_partition_*.md`
 - SENTINEL rituals → `SENTINEL_PRIME/02_OPERATIONAL/rituals/`
 - SENTINEL MCP (sentinel_hub) → `SENTINEL_PRIME/07_BACKBONE/mcp/`
+- AgenticOS (executable stop-conditions) → `20_PROTOCOLS/agentic-os/` · handoff + primare prompt → `_DOCS/AGENTIC_OS_HANDOFF.md`, `_DOCS/AGENTIC_OS_PROMPT-PRIMARE.md`

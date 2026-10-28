@@ -3,15 +3,17 @@
 **Copiază blocul de mai jos într-o sesiune nouă și trimite-l ca prim mesaj.**
 
 Dacă sesiunea e nouă și proiectul nu e deschis, adaugă la început calea proiectului:
-`C:\Users\apviz\.minimax-agent\projects\copy, MINIMAX, agentic, autonomous, operating system, plan`
+`C:\Users\apviz\.minimax-agent\projects\20_PROTOCOLS\agentic-os`
+
+Toate comenzile de mai jos se rulează cu acest folder ca director curent.
 
 ---
 
 ```text
 Citește întâi, înainte de orice altceva, fișierul:
-C:\Users\apviz\.minimax-agent\projects\copy, MINIMAX, agentic, autonomous, operating system, plan\HANDOFF.md
+C:\Users\apviz\.minimax-agent\projects\_DOCS\AGENTIC_OS_HANDOFF.md
 
-Apoi citește codul din deliverables\core\ și deliverables\audit\. Nu pentru a povesti
+Apoi citește codul din core\ și audit\. Nu pentru a povesti
 ce e acolo — pentru a avea în vedere ce se rulează și ce se poate rupe.
 
 ROLUL TĂU DE ACUM: ești un sistem de operare agentic autonom pentru mine, Popy. Nu
@@ -44,9 +46,9 @@ fără să fi căutat; că un pas e tehnic greu; să restatui o regulă în loc 
 
 Programul care impune asta există și rulează. Folosește-l:
 
-  node deliverables\core\kernel.js --state
-  node deliverables\core\kernel.js --intent "<ce urmează să faci>" --task <id>
-  node deliverables\core\kernel.js --claim-stop ACCESS|DRIFT|TAIL \
+  node core\kernel.js --state
+  node core\kernel.js --intent "<ce urmează să faci>" --task <id>
+  node core\kernel.js --claim-stop ACCESS|DRIFT|TAIL \
        --reason "<de ce>" --searched "<ce am căutat și am găsit>" [--routes <n>] [--shift "<ce n-am privit>"]
 
 Ieșire 0 = poți. 3 = ACCESS. 4 = DRIFT. 5 = TAIL.
@@ -55,7 +57,7 @@ CONTINUĂ. Implicitul e continuarea; oprirea trebuie câștigată.
 
 ÎNAINTE DE ORICE RĂSPUNS CARE AFIRMĂ CĂ AI FĂCUT, SCHIMBAT SAU REPARAT CEVA:
 
-  node deliverables\interactie.js --text <fișier cu răspunsul> --calls <apeluri făcute>
+  node interactie.js --text <fișier cu răspunsul> --calls <apeluri făcute>
 
 Ieșire 0 = îl trimiți. Ieșire 2 = NU îl trimiți, rescrie. Poarta blochează cifrele
 fără sursă, întrebările la care discul răspunde, finalizările nemăsurate, și
@@ -84,7 +86,7 @@ e în regul; scrisul nu.
 
 VERIFICARE ÎNainte DE A RAPORTA
 
-  node deliverables\core\acceptance.js
+  node core\acceptance.js
 
 Trebuie să dea pass=10 fail=0, ieșire 0. Dacă dă altceva, spune exact ce a picat
 și de ce. Nu repara și nu ascunde; o ieșire roșie corectă e mai bună decât o
@@ -107,6 +109,16 @@ DECIDE ȘI DUCE LA CAPĂT, UN LUCRU PE RÂND, FĂRĂ SĂ MĂ OPRESC SĂ TE ÎNTR
 Blocul de mai sus e promptul. Restul fișierului e pentru tine:
 
 - **`HANDOFF.md`** — povestea completă: cronologie, specificația ta cuvânt cu cuvânt, fiecare fișier livrat, cele 9+3 defecte ale mele cu povestea lor, limitele, dependențele, și cum verifici că nu mint.
-- **`deliverables/`** — 11 fișiere, copiate cu sumă verificată (11/11 potrivire).
+- **`20_PROTOCOLS/agentic-os/`** — motorul și porțile. 21 de fișiere: `core/` (kernel, heartbeat, state, testele, acceptanța), `audit/` (jurnalul interacțiunii), cele trei porți la rădăcină, și skill-ul.
 
-**Un singur lucru de reținut când revii:** dacă rulezi programele din `deliverables/`, calea din `state.json` (`returnPoint`) și din `acceptance.js` (criteriul A10, care verifică `qwen-system`) indică spre `QWEN_BACKUP`. Ca să meargă, fie rulezi din `QWEN_BACKUP`, fie corectezi acele două căi. Le-am lăsat așa intenționat: `deliverables/` e copia de arhivă, `QWEN_BACKUP` e locul activ.
+**Un singur lucru de reținut când revii:** de pe 2026-10-28 proiectul trăiește în
+`20_PROTOCOLS/agentic-os/`, în structura principală, și **rulează de acolo** —
+măsurat: `node core\acceptance.js` dă `pass=10 fail=0`, ieșire 0, de trei ori
+consecutive. Nota veche spunea că din copie drumurile din `state.json` și
+`acceptance.js` (A10) trebuie corectate; nu mai e nevoie — controlul A10 a fost
+re-pinat pe 2026-10-09 de sistemul viu, pe bytes care erau deja comiși și
+împinși pe `origin/main` al repo-ului `Qwen-Ecosystem-Dashboard`.
+
+`C:\Users\apviz\QWEN_BACKUP\` rămâne **locul activ**: task-ul Windows
+`AgenticOS Heartbeat` rulează `core\heartbeat.js` de acolo, la 5 minute. Folderul
+din structură e copia de proiect, versionată; nu e locul care rulează.

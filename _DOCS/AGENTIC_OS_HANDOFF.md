@@ -63,7 +63,7 @@ Le-am extras din textul lui Popy, nu din interpretare:
 
 ## 4. Ce am construit — fișier cu fișier
 
-Toate în `deliverables/`. Rulează pe Node 26.5.1, Windows 11, fără dependențe externe.
+Toate în acest folder (`20_PROTOCOLS/agentic-os/`). Rulează pe Node 26.5.1, Windows 11, fără dependențe externe.
 
 ### `core/kernel.js` — funcția de decizie
 Trei moduri:
@@ -177,7 +177,10 @@ Lecția din 6: **o sabotare care trece e o afirmație despre sabotaj, nu despre 
 - **Node.js** 26.5.1 — singura dependență de rulare. Nimic din npm.
 - **Windows Task Scheduler** — task `AgenticOS Heartbeat`, la 5 minute, Enabled. Aditiv; nu atinge niciun task existent.
 - **C:\Users\apviz\.minimax\AGENTS.md** — poartă `§00`. Modificare: 26.623 → 30.668 octeți, CR=0 păstrat. Original: `AGENTS.md.PRE-20261007-170022`.
-- **C:\Users\apviz\QWEN_BACKUP\** — sursa originală a scripturilor; copiile din `deliverables/` sunt pentru proiect, ca să fie autonom. **Atenție:** dacă rulezi din `deliverables/`, drumurile din `state.json` și din `acceptance.js` (A10) trebuie actualizate, sau copiază înapoi în QWEN_BACKUP.
+- **C:\Users\apviz\QWEN_BACKUP\** — sursa originală a scripturilor, și **locul activ**:
+  task-ul Windows `AgenticOS Heartbeat` rulează `core\heartbeat.js` de acolo, la 5
+  minute. Copia din structura proiectului (`20_PROTOCOLS/agentic-os/`) e versionată
+  și rulează de asemenea, dar nu e locul pe care bate Windows.
 - **Memorie** — lecția de agent scrisă în MEMORY.md; clauza de comportament, în user.md.
 
 ---
@@ -185,16 +188,16 @@ Lecția din 6: **o sabotare care trece e o afirmație despre sabotaj, nu despre 
 ## 10. Cum verifici că nu mint
 
 ```powershell
-node "C:\Users\apviz\.minimax-agent\projects\copy, MINIMAX, agentic, autonomous, operating system, plan\deliverables\core\acceptance.js"
+node "C:\Users\apviz\.minimax-agent\projects\20_PROTOCOLS\agentic-os\core\acceptance.js"
 ```
 Trebuie să dea `pass=10 fail=0 total=10`, ieșire 0. **Dacă dă altceva, sistemul e rupt și așa trebuie spus**, nu reparat în tăcere. Rulează-l de trei ori: o trecere curată e o mostră, trei consecutive sunt o măsurătoare.
 
-Detalii individuale:
+Detalii individuale (din `20_PROTOCOLS\agentic-os`):
 ```powershell
-node deliverables\core\kernel.test.js      # 10/10
-node deliverables\core\restart.test.js    # 9/9
-node deliverables\core\heartbeat.js --self-test   # poate raporta MISSING
-node deliverables\audit\self-audit.js     # jurnalul interacțiunii
+node core\kernel.test.js      # 10/10
+node core\restart.test.js    # 9/9
+node core\heartbeat.js --self-test   # poate raporta MISSING
+node audit\self-audit.js     # jurnalul interacțiunii
 ```
 
 ---
@@ -205,8 +208,44 @@ node deliverables\audit\self-audit.js     # jurnalul interacțiunii
 - Acceptare: **10/10, ieșire 0, de trei ori consecutive** (2026-10-07, ~17:37–17:40).
 - Bătăi de la scheduler: **7 de la 7 pid-uri distincte** — prima pornită de Windows la 14:32:17, pid 25280, `source: scheduler`.
 - Opriri refuzate pentru lipsă de dovezi: **10**.
-- `qwen-system` neatinse: `index.html` = `6055FD82…`, `server.js` = `0E689CC3…` — verificate de A10 la fiecare rulare.
+- `qwen-system` neatinse: `index.html` = `6055FD82…`, `server.js` = `0E689CC3…` — verificate de A10 la fiecare rulare. **_(sunt hash-urile de la predare; cele curente sunt în §13)_**
 
 ## 12. Punct de reîntoarcere
 
 Proiectul e continuat în sesiunea Qwen, de la mesajul de la 15:26. Singurul lucru pe care îl lasă în urmă acest proiect: **criteriul A10 al acceptării verifică `qwen-system` după sumă la fiecare rulare** — deci orice atingere a sistemului viu, de orice natură, apare imediat, nu se descoperă după.
+
+---
+
+## 13. Integrarea în structura principală — 2026-10-28
+
+Măsurat, nu povestit. Ce s-a făcut și ce s-a măsurat:
+
+- **Mutare cu `git mv`** (nu copiere + ștergere): tot istoricul e păstrat, gitul
+  înregistrează renumiri, nu fișiere noi. Din
+  `copy, MINIMAX, agentic, autonomous, operating system, plan/deliverables/`
+  în `20_PROTOCOLS/agentic-os/`, iar cele două documente în `_DOCS/`.
+- **Unitatea s-a mutat întreagă, cu interiorul neatins.** `acceptance.js` calcă
+  `ROOT = path.join(__dirname, '..')` — urcă un nivel ca să găsească `audit/` și
+  cele trei porți din rădăcină. Despărțirea unității pe mai multe foldere ale
+  structurii ar fi rupt-o. Deci: `20_PROTOCOLS/agentic-os/` e un folder, nu o
+  dispersie.
+- **Acceptanța, măsurată în noua locație: `pass=10 fail=0`, ieșire 0, de trei
+  ori consecutive** (2026-10-28, ~04:40). Baseline-ul înainte de mutare era
+  `pass=9 fail=1` — nu din cauza mutării, ci pentru că pin-ul A10 era îmbătrânit.
+- **Pin-ul A10, re-pinat cu măsurare, nu cu încredere.** Controlul viu a fost
+  falsificat înainte de a fi preluat: cele 5 fișiere din `qwen-system` sunt
+  curate în `git status`, identice octet cu octet cu commit-ul `3fe5185`, și acel
+  commit e pe `origin/main` al repo-ului `Qwen-Ecosystem-Dashboard` — deci
+  ancorat în GitHub, nu doar pe această mașină. Re-pinformul înregistrează
+  realitate: bytesii erau deja comiși și împinși înainte de editare.
+  Pin-urile curente: `index.html` = `7D54312A…` (read-only), plus
+  `measured-census.js`, `j-total.js`, `lineage-supervision.js`, `server.js`
+  (scrise de sesiunea respectivă).
+- **Ce nu s-a atins:** `C:\Users\apviz\QWEN_BACKUP\` (23 GB, 296.060 fișiere) —
+  e locul activ, cu task-ul Windows `AgenticOS Heartbeat` la 5 minute. Nu s-a
+  mutat, nu s-a șters, nu s-a scris în el. `qwen-system` — citit, niciodată
+  scris. Hermes — neatins.
+
+**De ce a contat integrarea, și nu doar mutarea:** înainte, folderul stătea în
+rădăcina proiectului cu un nume care era o frază cu virgule. Acum e în secțiunea
+care îi revine, cu documentele în `_DOCS/`, și rulează din locul lui — 10/10.

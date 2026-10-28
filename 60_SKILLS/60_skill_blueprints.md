@@ -206,6 +206,50 @@ activation_blockers:
 
 ---
 
+## Skill: `mavis-search-before-write`
+
+**Purpose:** Block the failure that costs the most — inventing a question and
+then billing Popy for answering it. Three gates: search the disk before asking
+him anything; every number, name and category must have an on-disk source before
+it is written; only three reasons justify stopping (credentials, connector or
+paradigm pivot, a strategy decision genuinely delegated to him).
+
+**Status:** 🟡 BLUEPRINT as a live skill — the file exists and works, but a skill
+loads *on demand*, which is exactly when I decide to load it. That is why the
+kernel exists beside it.
+
+**Source (real file, versioned):** `20_PROTOCOLS/agentic-os/SKILL-mavis-search-before-write.md`
+
+**Trigger:** every task, every session, every project — before the first write.
+
+**Contract (proposed):**
+
+```yaml
+name: mavis-search-before-write
+description: Search the disk before asking Popy anything; every number written must have an on-disk source; only three reasons justify stopping.
+when_to_use: |
+  - Before asking Popy ANY question
+  - Before writing any file that contains numbers, names or categories
+  - Before deciding to stop and wait
+inputs:
+  task: str
+outputs:
+  decision: proceed | ask | blocked
+hard_constraints:
+  - "NEVER present invented options as if they were the real categories"
+  - "NEVER write a number whose source cannot be pointed at"
+  - "NEVER stop for difficulty, permission, or a technical decision"
+activation_blockers:
+  - "not installed at C:\Users\apviz\.minimax\agents\mavis\skills\mavis-search-before-write-skill\SKILL.md"
+  - "a skill loads on demand, so it cannot be the only enforcement — the kernel is the real gate"
+```
+
+**To activate:** create the file at
+`C:\Users\apviz\.minimax\agents\mavis\skills\mavis-search-before-write-skill\SKILL.md`
+from the source above. Requires Popy R0.
+
+---
+
 ## Antigravity Transferred Skills Fleet (Activated 2026-10-02)
 
 **Status:** ✅ WIRED / ACTIVATED across `.minimax\skills\` (120 skills) and `.minimax\agents\mavis\skills\` (19 core `mavis-*` skills).
@@ -238,3 +282,4 @@ activation_blockers:
 |---|---|---|
 | 2026-09-18 | Skill blueprints created | All skills 🟡 blueprint, awaiting CLI verification + Popy R0 |
 | 2026-10-02 | Antigravity Skills Transfer | 120 global skills + 19 mavis skills deployed and activated ✅ |
+| 2026-10-28 | `mavis-search-before-write` registered as blueprint | Source lives in `20_PROTOCOLS/agentic-os/`; not installed as a live skill — a skill loads on demand, so it cannot be the only enforcement |

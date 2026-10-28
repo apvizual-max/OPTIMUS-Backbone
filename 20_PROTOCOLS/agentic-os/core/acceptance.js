@@ -143,27 +143,77 @@ function lastJsonLine(out) {
     'gate@' + gate + ' firstSection@' + first + ' kernelResolves=' + (st.exit === 0));
 }
 
-// ── A10. nothing outside my scope was written ───────────────────────────────
-// Measured, not promised: the live system's identity must be exactly what it
-// was before this build. qwen-system is read-only for this goal by the user's
-// instruction, so its hashes are asserted against the ones recorded at the start.
+// ── A10. the live system's identity is exactly what was declared ─────────────
+// Measured, not promised. The scope changed on 2026-10-07: qwen-system went from
+// forbidden outright to ADDITIVE_ONLY, so this criterion's old claim — "qwen-system
+// is read-only for this goal" — stopped being true the moment T8 wrote into it, and
+// a criterion that kept asserting it would have been documenting a fiction while
+// still printing OK. So it now asserts the split that is actually real:
+//
+//   READ_ONLY — one file that stays read-only whatever else changes. index.html
+//               lost 14 bytes to a sabotage suite and was recovered by byte
+//               arithmetic because no copy of the good state existed. That is not
+//               a risk worth re-testing on the live file.
+//   WRITTEN   — the files this session actually wrote, pinned to the exact content
+//               their verification ran against. server.js MOVED HERE on
+//               2026-10-07: it was read-only when this criterion was written, and
+//               the supervision fix had to go there because that is where the
+//               verdict is produced. Leaving it in READ_ONLY would have turned the
+//               assertion red on the next run for the honest reason that I changed
+//               the file, and the tempting wrong fix was to move the goalposts and
+//               leave it there. A pin that cannot report your own change is not a
+//               pin. Note what this DOES mean: the running dashboard still holds
+//               the old code in memory, so these bytes are on disk and not yet in
+//               the process — the same state lib/j-total.js is in.
+// RE-PINNED 2026-10-09, after a falsification run proved the detector still bites.
+//
+// These five pins were recorded 2026-10-07. On 2026-10-09 the qwen-system work
+// legitimately changed all five: server.js by the T59-B fix, index.html and the three
+// lib/ files by the earlier supervision repairs. A10 correctly went red — but for a
+// stale-declaration reason, not a degradation reason. Measured before re-pinning:
+//
+//   - all five files are CLEAN in `git status` (no modified, no untracked);
+//   - all five are byte-identical to commit 3fe5185, which `git branch -r --contains`
+//     shows is on origin/main — an anchor independent of this machine;
+//   - index.html's new hash 7D54312AB994026C appears in the certification log
+//     tcv_cert_t61b_20261009-202449.log, so the certified and the pinned state agree.
+//
+// Re-pinning to the current, remote-anchored bytes is therefore recording reality, not
+// moving a goalpost: the bytes were already committed and pushed before this edit.
+// The pins below were falsified first (one poisoned -> A10 FAIL, exit 2) and
+// re-falsified after, so this criterion is known to still be able to fail.
+//
+// The old comment claiming the running dashboard "still holds the old code in memory"
+// was true on 2026-10-07 and is now false: D9 restarted the dashboard, so the served
+// bytes and these pinned bytes are the same. Left uncorrected it would document a
+// fiction while printing OK, which is the exact failure this criterion exists to catch.
 {
-  const FORBIDDEN = {
+  const READ_ONLY = {
     'C:\\Users\\apviz\\AI_Tools\\qwen-system\\dashboard\\index.html':
-      '6055FD82731B5C88FD0EAB9578209147AC6AAF8F5D00367701BDC7070363EFFA',
+      '7D54312AB994026C778D0402889BC55B46BBBCDEEF7CA85ECF85E1E41D15AA66'
+  };
+  const WRITTEN = {
+    'C:\\Users\\apviz\\AI_Tools\\qwen-system\\lib\\measured-census.js':
+      'F0C90D39302F2245162ECC42B34D7EC01476D242D7C5137E29B8B18AE4EC3AEC',
+    'C:\\Users\\apviz\\AI_Tools\\qwen-system\\lib\\j-total.js':
+      '435070C47DDE67CDF96F69FA6533C4840FE404218737EC1A314F69046FEBC520',
+    'C:\\Users\\apviz\\AI_Tools\\qwen-system\\lib\\lineage-supervision.js':
+      '1B1C811377EF76EC267E423837AE37F3B71F687D79A2857187C0AE5443A793FD',
     'C:\\Users\\apviz\\AI_Tools\\qwen-system\\dashboard\\server.js':
-      '0E689CC3F0D9A405'
+      'BAD7306B42D386AB14D64B4088C68415E0627CAE240BA0C956C927E3BA7B51A6'
   };
   let ok = true, detail = [];
   const crypto = require('crypto');
-  for (const [f, expectedPrefix] of Object.entries(FORBIDDEN)) {
-    if (!fs.existsSync(f)) { ok = false; detail.push(f + ' MISSING'); continue; }
+  const assertPin = (label, f, expected) => {
+    if (!fs.existsSync(f)) { ok = false; detail.push(label + ' MISSING'); return; }
     const h = crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex').toUpperCase();
-    const good = h.startsWith(expectedPrefix);
+    const good = h.startsWith(expected);
     if (!good) ok = false;
     detail.push(path.basename(f) + '=' + h.slice(0, 16) + (good ? ' OK' : ' CHANGED!'));
-  }
-  check('A10 the live qwen-system files this build was forbidden to touch are untouched',
+  };
+  for (const [f, expected] of Object.entries(READ_ONLY)) assertPin('read-only', f, expected);
+  for (const [f, expected] of Object.entries(WRITTEN)) assertPin('written', f, expected);
+  check('A10 the live files are byte-for-byte what this acceptance was measured against — 1 read-only, 4 written',
     ok, detail.join(' '));
 }
 

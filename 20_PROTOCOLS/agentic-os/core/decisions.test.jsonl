@@ -1,0 +1,13 @@
+{"kind":"preflight","decision":"ALLOW","signature":"scriu kernelul","intent":"scriu kernelul","task":"T1","outcome":null,"at":"2026-10-28T02:35:13.589Z","pid":46680}
+{"kind":"preflight","decision":"STOP_DRIFT","signature":"construiesc ceva nou","intent":"Construiesc ceva nou","task":"T99","reason":"task T99 is not in state.json","at":"2026-10-28T02:35:13.685Z","pid":28824}
+{"kind":"preflight","decision":"ALLOW","signature":"incerc sa descarc portul <n> din nou","intent":"incerc sa descarc portul 3099 din nou","task":null,"outcome":"fail","at":"2026-10-28T02:35:13.784Z","pid":40484}
+{"kind":"preflight","decision":"ALLOW","signature":"incerc sa descarc portul <n> din nou","intent":"incerc sa descarc portul 3099 din nou","task":null,"outcome":"fail","at":"2026-10-28T02:35:13.878Z","pid":57052}
+{"kind":"preflight","decision":"ALLOW","signature":"incerc sa descarc portul <n> din nou","intent":"incerc sa descarc portul 3099 din nou","task":null,"outcome":"fail","at":"2026-10-28T02:35:13.981Z","pid":38800}
+{"kind":"preflight","decision":"STOP_TAIL","signature":"incerc sa descarc portul <n> din nou","intent":"incerc sa descarc portul 3099 din nou","task":null,"reason":"3 attempts at the same thing with no advance","at":"2026-10-28T02:35:14.071Z","pid":17400}
+{"kind":"claim-stop","decision":"REFUSED","condition":"ACCESS","reason":"am nevoie de acces","searched":"","routes":0,"shift":"","at":"2026-10-28T02:35:14.167Z","pid":41524}
+{"kind":"claim-stop","decision":"GRANTED","condition":"ACCESS","reason":"am nevoie de parola lui","searched":"am cautat in env si in fisierele mele, nu exista","routes":0,"shift":"","at":"2026-10-28T02:35:14.261Z","pid":50844}
+{"kind":"claim-stop","decision":"REFUSED","condition":"ACCESS","reason":"am nevoie de acces la fisier","searched":"am cautat","routes":0,"shift":"","at":"2026-10-28T02:35:14.359Z","pid":41072}
+{"kind":"claim-stop","decision":"REFUSED","condition":"DRIFT","reason":"ma abat de la plan","searched":"","routes":0,"shift":"","at":"2026-10-28T02:35:14.455Z","pid":40052}
+{"kind":"claim-stop","decision":"GRANTED","condition":"DRIFT","reason":"ambele pastreaza scopul","searched":"","routes":2,"shift":"","at":"2026-10-28T02:35:14.554Z","pid":32040}
+{"kind":"claim-stop","decision":"REFUSED","condition":"TAIL","reason":"nu merge","searched":"am cautat pe disc","routes":0,"shift":"","at":"2026-10-28T02:35:14.646Z","pid":57324}
+{"kind":"claim-stop","decision":"GRANTED","condition":"TAIL","reason":"ma invartexc in jur","searched":"am cautat pe disc si pe net","routes":0,"shift":"am schimbat unghiul: am citit hook-urile runtime-ului","at":"2026-10-28T02:35:14.737Z","pid":15560}

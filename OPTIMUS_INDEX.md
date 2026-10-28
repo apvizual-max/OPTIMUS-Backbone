@@ -116,6 +116,8 @@ Rebuild: `optimus sot build`. It only creates what is absent.
 - Second Brain: `E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\`
 - Audio/Video: `D:\Alex_Knowlege_Vault\03_Resources\03_7-SENTINEL_Character\`
 - SACRU corpus: `E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\- ORCHESTRATOR - Sys Folder - Hermes Default\SF_IA - IDENTITATE_AXIOMA\SF_IA - 963_PROVERBE_COMPLET.md`
+- AgenticOS (stop-conditions protocol, executable): `projects\20_PROTOCOLS\agentic-os\` — verify with `node core\acceptance.js` (10/10, exit 0). Handoff + primare prompt: `projects\_DOCS\AGENTIC_OS_*.md`
+- AgenticOS runtime (Windows task `AgenticOS Heartbeat`, every 5 min): `C:\Users\apviz\QWEN_BACKUP\core\heartbeat.js`
 ## Antigravity Swarm Integration (2026-10-02)
 - **Knowledge Transfer:** 120 Antigravity skills mirrored into `.minimax\skills\` and `hermes\skills\`.
 - **Mavis Skills:** Expanded from 32 to 51 active skills adhering to `mavis-<subject>-skill`.

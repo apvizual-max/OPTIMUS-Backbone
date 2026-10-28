@@ -35,3 +35,13 @@
 {"kind":"claim-stop","decision":"REFUSED","condition":"ACCESS","reason":"am nevoie de acces","searched":"","routes":0,"shift":"","at":"2026-10-07T14:38:38.999Z","pid":43024}
 {"kind":"preflight","decision":"ALLOW","signature":"test de rezistenta la repornire","intent":"test de rezistenta la repornire","task":"T6","outcome":null,"at":"2026-10-07T14:57:45.928Z","pid":43548}
 {"kind":"claim-stop","decision":"REFUSED","condition":"ACCESS","reason":"am nevoie de acces","searched":"","routes":0,"shift":"","at":"2026-10-07T14:57:46.025Z","pid":37960}
+{"kind":"preflight","decision":"ALLOW","signature":"test de rezistenta la repornire","intent":"test de rezistenta la repornire","task":"T6","outcome":null,"at":"2026-10-28T02:22:54.617Z","pid":53024}
+{"kind":"claim-stop","decision":"REFUSED","condition":"ACCESS","reason":"am nevoie de acces","searched":"","routes":0,"shift":"","at":"2026-10-28T02:22:54.708Z","pid":47012}
+{"kind":"preflight","decision":"ALLOW","signature":"test de rezistenta la repornire","intent":"test de rezistenta la repornire","task":"T6","outcome":null,"at":"2026-10-28T02:29:49.854Z","pid":48412}
+{"kind":"claim-stop","decision":"REFUSED","condition":"ACCESS","reason":"am nevoie de acces","searched":"","routes":0,"shift":"","at":"2026-10-28T02:29:49.942Z","pid":45892}
+{"kind":"preflight","decision":"ALLOW","signature":"test de rezistenta la repornire","intent":"test de rezistenta la repornire","task":"T6","outcome":null,"at":"2026-10-28T02:29:53.999Z","pid":34096}
+{"kind":"claim-stop","decision":"REFUSED","condition":"ACCESS","reason":"am nevoie de acces","searched":"","routes":0,"shift":"","at":"2026-10-28T02:29:54.094Z","pid":53920}
+{"kind":"preflight","decision":"ALLOW","signature":"test de rezistenta la repornire","intent":"test de rezistenta la repornire","task":"T6","outcome":null,"at":"2026-10-28T02:29:58.038Z","pid":46136}
+{"kind":"claim-stop","decision":"REFUSED","condition":"ACCESS","reason":"am nevoie de acces","searched":"","routes":0,"shift":"","at":"2026-10-28T02:29:58.130Z","pid":55336}
+{"kind":"preflight","decision":"ALLOW","signature":"test de rezistenta la repornire","intent":"test de rezistenta la repornire","task":"T6","outcome":null,"at":"2026-10-28T02:35:15.010Z","pid":44900}
+{"kind":"claim-stop","decision":"REFUSED","condition":"ACCESS","reason":"am nevoie de acces","searched":"","routes":0,"shift":"","at":"2026-10-28T02:35:15.100Z","pid":42556}
