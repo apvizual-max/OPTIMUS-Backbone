@@ -117,16 +117,73 @@ wall-clock deadline, a gate outside the four-cycle block — and carries a contr
 must **reject** the old cycle-count form. Run against the previous `server.ps1` it
 reports FAIL; against the fixed one, PASS.
 
+### The log line was a second lie, and it is now fixed too
+
+The worker's own log records the cadence it starts with. Both lines are in
+`09_LOGS\refresh-worker.log`:
+
+```
+[2026-10-28T02:53:13] refresh worker started: every 25s, ecosystem every 4th cycle, handshake every 144 cycle(s)
+[2026-10-28T09:28:29] refresh worker started: every 25s, ecosystem every 4th cycle, handshake every 3600s (wall clock)
+[2026-10-28T09:28:31] handshake refreshed (startup)
+```
+
+The old line announced **144 cycles** — the divisor. The period the system actually
+delivered was **576 cycles** (144 × the four-cycle block), and at the measured ~37 s
+per cycle that is the 5h54m measured on the clock. The log was therefore announcing
+the number the code computed and not the number the system delivered — the same
+class of error as the check that passed while the period was six times too long, in
+the place where an operator would have looked for the answer. The new line announces
+the delivered period, and the third line is the proof that the refresh is a record
+and not an intention.
+
+### The second defect: the branch that exists to stop the system lying had no test
+
+After the hub source was edited (the log write moved into a thread), the handshake
+record stopped describing the server as it stands, and the monitor said **`STALE`**.
+The unit suite went from **607 passed / 0 failed** to **605 passed / 2 failed** — not
+because the monitor was wrong, but because the suite's model of the verdict was
+written as `'OK' if justified else 'FAIL'`, a two-valued expression that cannot name
+a third answer. The monitor has four verdicts; the suite knew two.
+
+**`STALE` is the verdict that exists to stop the system claiming the tools are wired
+when the code has moved on, and it was the one branch no test reached on purpose.**
+It was reached only by an accident, and the accident was reported as a broken
+handshake — a wrong accusation of a healthy system.
+
+Three things changed:
+
+1. The suite's model derives the verdict from the facts the monitor reads — the
+   record's content, its age, and the server's mtime against the record's — and names
+   all four verdicts.
+2. A new class, **`McpHandshakeStale`**, reaches `STALE` deliberately, on a synthetic
+   workspace where the source is dated three days back, so each staleness trigger
+   fires **alone**: superseded by a later edit, and expired against the 24h bound.
+   Its control is falsified in both directions — against a monitor with the `STALE`
+   branch removed it reports 2 reds, and against a monitor that answers `STALE` to
+   everything it reports 2 reds.
+3. The **liveness** of the live record moved to where it belongs: a new deployment
+   phase, `handshake_record_is_current`, holds the record's **age** against twice the
+   daemon's refresh period (7200 s against a declared 3600 s). The old cadence
+   reached 21240 s — 5.9x — so the bound separates the two regimes. That is the
+   outcome the panel's "wired" claim rests on, and it was the part nothing measured.
+
+
 ## 5. Measured state after this pass
 
 | | value | when |
 |---|---|---|
 | `test_suite.py` | see §7 | |
 | `test_deployment.py` | see §7 | |
-| handshake cadence | declared 3600 s, wall clock | code, live after the next server start |
+| handshake cadence | declared 3600 s, wall clock | **live since 09:28:29** — the worker's log line and the startup refresh are in `09_LOGS\refresh-worker.log` |
+| handshake verdict | `STALE` whenever the hub source is newer than the record | **OK** after the re-measure at 09:28:31 — `record_age_seconds 99.5`, `record_superseded_by_server_edit false` |
+| `McpHandshakeStale` | did not exist | **5 assertions**, control falsified in both directions (2 reds against each mutant) |
+| `handshake_record_is_current` | did not exist | new deployment phase — bound 7200 s against a declared 3600 s |
 | npm membership test | O(n) set, not O(n²) list rebuild | 2026-10-28 |
 | hub log write | `asyncio.to_thread`, not a blocking open | 2026-10-28 |
 | unused imports | **0** left in the project sweep (3 `__future__` directives excluded) | 2026-10-28 |
+| live dashboard after the restart | 13 tabs, **0 console messages**, 12 requests all 2xx, `DEGRADED · 54 ok / 0 fail / 2 stale / 0 not-run` | 09:29, re-measured |
+| deployment | `healthz` 200, `readyz` 200, `/api/health` 200, backend pid 29300 | after the restart through `sentinel-hub.ps1 restart` |
 
 ## 6. What the next instance should know
 
@@ -143,7 +200,54 @@ reports FAIL; against the fixed one, PASS.
    against any copy of `server.ps1`.
 4. **The worker's log is now a cadence record.** `09_LOGS\refresh-worker.log` carries
    a line per refresh, so a gap is visible without waiting for a bound to lapse.
+5. **A number in a log line is not a measurement.** The old startup line said
+   "handshake every 144 cycle(s)" while the delivered period was 576 cycles. If a log
+   line announces a period, check it against a timestamp before believing it.
+6. **The monitor has four verdicts, not two: `OK`, `FAIL`, `STALE`, `NOT_RUN`.**
+   `STALE` means the measurement is real but too old to speak about the code as it
+   stands. It is not a failure, and it is not a success — and before 2026-10-28 no
+   test reached it on purpose.
+7. **`sentinel-cc.ps1` is the live launcher**, not a leftover: `sentinel-hub.ps1`
+   starts and stops the backend through it, and after the restart its `.pid` held
+   the new pid (29300) and its `.log` was rewritten. The `.pid` / `.log` /
+   `.err.log` files were stale only because the backend had been started by another
+   path (the guardian). **Do not quarantine them.**
+
 
 ## 7. Suite results
 
-Filled in from the run that accompanied this document — see §5.
+Both suites were run **sequentially**, never concurrently, against the tree committed
+as `aa49c72` and against the live system after the restart.
+
+| suite | result | when |
+|---|---|---|
+| `08_SELF_IMPROVEMENT\test_suite.py` | **612 passed / 0 failed / 0 skipped** | 09:26 |
+| `08_SELF_IMPROVEMENT\test_deployment.py` | **74 passed / 0 failed / 1 not-run (75 checks)** | 09:34 |
+
+The unit suite went **607 → 612**. The five extra assertions are the new class
+`McpHandshakeStale`, which reaches `STALE` deliberately — where nothing had reached
+it before.
+
+The single `not-run` in the deployment suite is **`startup_cold_start`**, and it is
+destructive by design: it tears the deployment down to prove the Startup entry
+brings it back. Its own record says so — *"destructive: re-run with --coldstart"*.
+It is not a gap and it is not a failure.
+
+Two of the new deployment checks, as they were measured:
+
+```
+[ok] handshake_record_is_current: handshake record age 252s, rewritten by the daemon every 3600s (bound 7200s)
+[ok] handshake_record_control_discriminates: the same predicate refuses a record aged past the bound, so this check measures the age and not the presence of a file
+```
+
+The live system, measured after the restart:
+
+| | value |
+|---|---|
+| `GET /healthz`, `/readyz`, `/api/health` | **200 / 200 / 200** |
+| health checks | **56 total — 54 OK, 0 FAIL, 2 STALE, 0 NOT_RUN** |
+| the 2 STALE | `corpus_fresh` (1 990 002 s ≈ 23 days, by design — the corpus is a snapshot) and `workflow_state_fresh` (620 s, written on demand). Neither is the handshake. |
+| `mcp_tools_wired` | **OK** — 26 tools over the wire, probe ok, `record_age_seconds 99.5`, `record_superseded_by_server_edit false` |
+| open gaps served | **6**, and the ledger holds 6 — the `gap_count_matches_ledger` phase reads the two numbers against each other, not against a constant |
+| live page | **13 tabs**, **0 console messages**, 12 requests all 2xx, `DEGRADED · 54 ok / 0 fail / 2 stale / 0 not-run` |
+

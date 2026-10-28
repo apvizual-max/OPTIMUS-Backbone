@@ -64,3 +64,5 @@
 [2026-10-11T02:06:48] refresh worker started: every 25s, ecosystem every 4th cycle
 [2026-10-11T13:14:03] refresh worker started: every 25s, ecosystem every 4th cycle
 [2026-10-28T02:53:13] refresh worker started: every 25s, ecosystem every 4th cycle, handshake every 144 cycle(s)
+[2026-10-28T09:28:29] refresh worker started: every 25s, ecosystem every 4th cycle, handshake every 3600s (wall clock)
+[2026-10-28T09:28:31] handshake refreshed (startup)

@@ -40,15 +40,30 @@ Atestation-ul se face manual: `lrc review --vouch --staged` înainte de commit.
 
 | | Valoare | Ora |
 |---|---|---|
-| Ramură locală | `main` | 07:50 |
-| `HEAD` local | `git rev-parse HEAD` (la 07:50: `8b7be11`, comitul de lucru al auditului) | 07:50 |
-| `origin/main` | `git ls-remote origin refs/heads/main` → `7cf6d4b` | 07:50 |
-| Ahead / behind | **0 / 2** — doi comituri locali neîmpinși | 07:50 |
-| Comituri pe `main` | **68** | 07:50 |
-| Fișiere urmărite | 1.526 | 07:50 |
+| Ramură locală | `main` | 09:36 |
+| `HEAD` local | `git rev-parse HEAD` (la 09:36: `aa49c72`, comitul cu cadența handshake-ului pe ceas) | 09:36 |
+| `origin/main` | `git ls-remote origin refs/heads/main` → `7cf6d4b` (starea de dinaintea push-ului) | 09:36 |
+| Ahead / behind | **0 / 7** — șapte comituri locali neîmpinși | 09:36 |
+| Comituri pe `main` | **73** | 09:36 |
+| Fișiere urmărite | 1.547 | 09:36 |
 | Obiecte git | 1.481, `size-pack` 1,54 MiB | 02:34 |
-| Stash | `stash@{0}` — snapshot pre-sync, păstrat | 02:34 |
-| Ramuri (local / remote) | `main` / `origin`, `origin/main` — **una singură**, fără ramuri de feature | 07:50 |
+| Stash | `stash@{0}` — snapshot pre-sync, păstrat | 09:36 |
+| Ramuri (local / remote) | `main` / `origin`, `origin/main` — **una singură**, fără ramuri de feature | 09:36 |
+| PR-uri pe remote | **59 în total — 36 MERGED, 23 CLOSED, 0 OPEN** | 09:36 |
+
+**Verificarea porții înainte de push, măsurată la 09:36** (nu presupusă):
+
+```
+git ls-remote origin refs/heads/main   ->  7cf6d4b4a6002d5581a93258661ecb1bfc0f2499
+git rev-list --left-right --count origin/main...HEAD   ->  0    7
+git merge-base --is-ancestor origin/main HEAD   ->  exit 0   (0 = local conține remote-ul)
+git ls-remote --heads origin   ->  o singură ramură: refs/heads/main
+gh pr list --state open        ->  []
+```
+
+`0 în urmă / 7 în față` înseamnă că arborele local conține **tot** ce e pe GitHub și
+împinge doar ce a apărut după. Nu e nevoie de merge: `origin/main` e strămoș, deci
+push-ul e o fast-forward.
 
 **SHA-ul nu e scris ca cifră aici pentru că s-ar invalida singur** la fiecare
 commit. Se citește:
@@ -123,16 +138,53 @@ remote = e89887fe97d71ac8882faa80124ef7af6512fd5d
 IDENTICE = True
 ```
 
+### Push-ul din 09:38, pe 28 oct
+
+**20 de comituri** peste `e89887f`, dintre care 13 erau deja pe remote (împinși de
+pipeline-ul CD, care a ajuns la `7cf6d4b`) și **7 sunt noi**, locali:
+
+| Commit | Ce conține |
+|---|---|
+| `8b7be11` | registrul de gap-uri reparat: cele 9 servere Hermes sunt construite, iar constructorul nu mai distruge ledgerul |
+| `9e417ea` | starea Git și deciziile deschise, re-măsurate după auditul registrului |
+| `158872d` | starea runtime re-măsurată: panoul arată 6 gap-uri deschise |
+| `aa49c72` | cadența handshake-ului pe ceas + verdictul `STALE` acoperit (suite 612/0/0) |
+
+Ce conțin cei 13 comituri ai pipeline-ului (la fel de ai noștri, în istoric):
+`50253b4` pachetul de predare, `27023fd` raportul de la 02:43, `956485e` handshake pe
+bucla de refresh, `122dccf` raportul final, `d81ffe9`/`ce6b0ed` skillurile
+reîmprospătate, `80390d7` verificarea cu clonă nouă, `2ee62af` trei skilluri noi,
+`98f22d6` auditul primei uși (R17), `dc5f356` ghilimelele duble în PowerShell 5.1,
+`7cf6d4b` verificarea remote-ului după push.
+
+**Verificarea după push** se face cu două comenzi, nu cu exit code-ul:
+
+```powershell
+git ls-remote origin refs/heads/main      # trebuie să fie identic cu `git rev-parse HEAD`
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\verify-remote-clone.ps1 `
+    -Repo "$env:USERPROFILE\.minimax-agent\projects\SENTINEL_PRIME" `
+    -ExpectFiles "14_HANDOFF\10_PRIMING_PROMPT.md,README.md,14_HANDOFF\11_SESSION_HANDOFF_2026-10-28.md,14_HANDOFF\12_GIT_GITHUB_STATE.md"
+```
+
+Instrumentul măsoară 10 lucruri (intrări de arbore invalide, clonă nouă de la zero,
+`dirty=0`, HEAD-ul clonei egal cu SHA-ul remote-ului, o singură ramură, fișierele
+cerute prezente) și spune `VERDICT=PASS` / `VERDICT=FAIL` (exit 0 / 2).
+
 ## 5. Clona locală `.github-repo`
 
 | | Valoare |
 |---|---|
 | Locație | `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\.github-repo` |
 | Origine | clonă a aceluiași repository, la `main` |
-| Statut | creată la `main`-ul final: **1.485 fișiere, `dirty=0`, SHA identic cu `main` și `origin/main`** (măsurat 03:12 pe 28 oct) |
+| Statut | **resincronizată la 09:40: 1.547 fișiere, `dirty=0`, SHA identic cu `main` local** — ff-only de la `7cf6d4b` la `aa49c72`, fără reset și fără rescriere de istoric |
 | În `.gitignore` | **da**, cu motiv scris — e copie de lucru, nu conținut de proiect |
 
-Se resincronizează după orice push nou, cu `git -C .github-repo pull --ff-only`.
+**Cum se resincronizează.** Cu `git -C .github-repo pull --ff-only` după orice push
+nou. Când mirrorul trebuie adus la un commit **local, neîmpins încă**, se face
+`git -C .github-repo fetch <calea repo-ului local> main` și apoi
+`git -C .github-repo merge --ff-only FETCH_HEAD` — o fast-forward, niciodată un reset.
+Măsurat pe 28 oct: `Updating 7cf6d4b..aa49c72` / `Fast-forward`, `dirty=0`,
+**1.547 fișiere**, SHA identic cu `main`.
 
 ## 6. Ce trebuie știut înainte de orice push
 

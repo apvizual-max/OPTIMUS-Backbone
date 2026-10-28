@@ -12,9 +12,3 @@ collecting state (first pass)...
 state ready. refresh every 25 s.
 
 listening on 127.0.0.1:8912
-  (write aborted, client gone)
-  (write aborted, client gone)
-  (write aborted, client gone)
-  (request error: Traceback (most recent call last):)
-  (write aborted, client gone)
-  (request error: Traceback (most recent call last):)

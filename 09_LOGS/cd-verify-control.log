@@ -1,8 +1,8 @@
-CHECK repo_exists C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-1edfbr7b\control PASS | inspected repository: C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-1edfbr7b\control
-CHECK remote_url C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-1edfbr7b\control PASS | remote 'origin'
-CHECK remote_main_sha 932cd9f3fe4bcb01f47bfe8e328b68ecb55051e7 PASS | git ls-remote C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-1edfbr7b\control refs/heads/main
+CHECK repo_exists C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-7ydpiiut\control PASS | inspected repository: C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-7ydpiiut\control
+CHECK remote_url C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-7ydpiiut\control PASS | remote 'origin'
+CHECK remote_main_sha cdd0955c1a95a888a3f1c790bbbd7421949cede8 PASS | git ls-remote C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-7ydpiiut\control refs/heads/main
 CHECK remote_branches 1 PASS | refs/heads/main
-CHECK local_head 932cd9f3fe4bcb01f47bfe8e328b68ecb55051e7 PASS | HEAD of C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-1edfbr7b\control
+CHECK local_head cdd0955c1a95a888a3f1c790bbbd7421949cede8 PASS | HEAD of C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-7ydpiiut\control
 CHECK behind_ahead 0/0 PASS | remote main relative to local HEAD (behind/ahead)
 CHECK invalid_tree_entries 1 FAIL | "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME/file.txt"
 CHECK clone_exit 128 FAIL | error: invalid path 'C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME/file.txt' | fatal: unable to checkout working tree
@@ -11,8 +11,8 @@ CHECK clone_dirty -1 FAIL | lines reported by git status --porcelain
 CHECK clone_branches  FAIL | local branches in the probe clone
 CHECK clone_tracked_files 0 FAIL | files tracked in the probe clone
 CHECK expect_files_missing 0 PASS | 0 required paths present
-PROBE_CLONE=C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-1edfbr7b\probes\clone-probe-20261028-090251-56556
+PROBE_CLONE=C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-7ydpiiut\probes\clone-probe-20261028-093437-52964
 VERDICT=FAIL
 FAILURES=invalid_tree_entries,clone_exit,clone_head_sha,clone_dirty,clone_branches,clone_tracked_files
 ### argv type: list of 12
-### cmdline: powershell -NoProfile -ExecutionPolicy Bypass -File C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\scripts\verify-remote-clone.ps1 -Repo C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-1edfbr7b\control -RemoteUrl C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-1edfbr7b\control -CloneRoot C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-1edfbr7b\probes
+### cmdline: powershell -NoProfile -ExecutionPolicy Bypass -File C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\scripts\verify-remote-clone.ps1 -Repo C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-7ydpiiut\control -RemoteUrl C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-7ydpiiut\control -CloneRoot C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-7ydpiiut\probes

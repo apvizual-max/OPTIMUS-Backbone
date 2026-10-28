@@ -1,10 +1,10 @@
 {
   "suite": "mavis-sentinel-hub deployment e2e",
-  "generated_at": "2026-10-28T09:02:59",
-  "passed": 72,
+  "generated_at": "2026-10-28T09:34:46",
+  "passed": 74,
   "failed": 0,
   "not_run": 1,
-  "total": 73,
+  "total": 75,
   "green": true,
   "checks": [
     {
@@ -80,17 +80,17 @@
     {
       "id": "route_readyz",
       "status": "PASS",
-      "detail": "200 91194 B"
+      "detail": "200 91443 B"
     },
     {
       "id": "route_api_state",
       "status": "PASS",
-      "detail": "200 91194 B"
+      "detail": "200 91443 B"
     },
     {
       "id": "route_api_health",
       "status": "PASS",
-      "detail": "200 20499 B"
+      "detail": "200 20331 B"
     },
     {
       "id": "served_by_front",
@@ -160,7 +160,7 @@
     {
       "id": "ecosystem_snapshot_fresh",
       "status": "PASS",
-      "detail": "snapshot age 33s, refreshed by the server's worker (bound 600s)"
+      "detail": "snapshot age 116s, refreshed by the server's worker (bound 600s)"
     },
     {
       "id": "ecosystem_route",
@@ -241,6 +241,16 @@
       "id": "handshake_refresh_shape_control_discriminates",
       "status": "PASS",
       "detail": "the shape predicate rejects the cycle-count form it replaced, so it measures the shape of the cadence and not the presence of a number"
+    },
+    {
+      "id": "handshake_record_is_current",
+      "status": "PASS",
+      "detail": "handshake record age 252s, rewritten by the daemon every 3600s (bound 7200s)"
+    },
+    {
+      "id": "handshake_record_control_discriminates",
+      "status": "PASS",
+      "detail": "the same predicate refuses a record aged past the bound, so this check measures the age and not the presence of a file"
     },
     {
       "id": "telemetry_detector_armed",
@@ -340,7 +350,7 @@
     {
       "id": "inventory_registry_validates_parseable_source",
       "status": "PASS",
-      "detail": "parseable source validates: 48 classes"
+      "detail": "parseable source validates: 49 classes"
     },
     {
       "id": "dom_injection_guarded",
@@ -360,7 +370,7 @@
     {
       "id": "cd_control_built",
       "status": "PASS",
-      "detail": "control repository carrying an invalid path entry built at C:\\Users\\apviz\\AppData\\Local\\Temp\\sentinel-cd-verify-1edfbr7b\\control"
+      "detail": "control repository carrying an invalid path entry built at C:\\Users\\apviz\\AppData\\Local\\Temp\\sentinel-cd-verify-7ydpiiut\\control"
     },
     {
       "id": "cd_clone_verifier_blocks_broken_tree",
