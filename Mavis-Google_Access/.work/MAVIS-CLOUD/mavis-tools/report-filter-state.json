@@ -1,0 +1,211 @@
+{
+  "totalFilters": 19,
+  "mavisFilters": 6,
+  "withAddLabelIds": 6,
+  "withCategoryAdd": 6,
+  "functionalFilters": 6,
+  "withRemoveInbox": 6,
+  "rows": [
+    {
+      "id": "ANe1Bmh4apfrWZA0T6Dx1Ha8qm8sLNXnDWtPevfLsJ8QCQ",
+      "query": "from:(notifications@github.com OR *jules*) OR subject:(Jules OR GitHub OR \"apvizual-max\")",
+      "addLabelIds": [
+        "CATEGORY_UPDATES",
+        "Optimus CD"
+      ],
+      "removeLabelIds": [
+        "INBOX",
+        "SPAM"
+      ],
+      "categories": [
+        "agenti"
+      ],
+      "functional": true
+    },
+    {
+      "id": "ANe1Bmgu_4pn0Q3f-3dPwYaSEJfLoKVPZ4svwJZZnDsOWQ",
+      "query": "from:{jooble bestjobs hipo indeed jobleads linkedin} OR subject:{job angajare vacanta oportunitate}",
+      "addLabelIds": [
+        "MAVIS/Joburi"
+      ],
+      "removeLabelIds": [
+        "UNREAD",
+        "INBOX"
+      ],
+      "categories": [
+        "joburi"
+      ],
+      "functional": true
+    },
+    {
+      "id": "ANe1BmhfBNF17H3V8yb39Uc-EEym8olEBnbQQyNR-Utj1w",
+      "query": "from:{substack goatacademy aiautomationsociety sadhguru beehiiv twine} OR subject:{AI artificial intelligence}",
+      "addLabelIds": [
+        "AI Folder/AI si Comunitati"
+      ],
+      "removeLabelIds": [
+        "UNREAD",
+        "INBOX"
+      ],
+      "categories": [
+        "ai"
+      ],
+      "functional": true
+    },
+    {
+      "id": "ANe1Bmhr0TFhSeF75mv4H0xOCCEIxw7k6PTf2dl_5RCoOA",
+      "query": "from:{skool facebook instagram pinterest tiktok polibrawl}",
+      "addLabelIds": [
+        "Socials"
+      ],
+      "removeLabelIds": [
+        "UNREAD",
+        "INBOX"
+      ],
+      "categories": [
+        "social"
+      ],
+      "functional": true
+    },
+    {
+      "id": "ANe1BmhvRgLhU5cyxG-jCADLUhXt5C_29MotSxK2SlilOQ",
+      "query": "from:{noreply no-reply newsletter digest mail@ info@ news@ updates@}",
+      "addLabelIds": [
+        "Newsletter"
+      ],
+      "removeLabelIds": [
+        "UNREAD",
+        "INBOX"
+      ],
+      "categories": [
+        "newsletter"
+      ],
+      "functional": true
+    },
+    {
+      "id": "ANe1BmhiLu_ahhYfNmDqesTn0hLQGeoXBzHRaktmyFLt1Q",
+      "query": "from:{kraken tradingview bitunix coinbase binance} OR subject:{factura investitie trading}",
+      "addLabelIds": [
+        "Finante"
+      ],
+      "removeLabelIds": [
+        "UNREAD",
+        "INBOX"
+      ],
+      "categories": [
+        "finante"
+      ],
+      "functional": true
+    }
+  ],
+  "tests": [
+    {
+      "id": "ANe1Bmh4apfrWZA0T6Dx1Ha8qm8sLNXnDWtPevfLsJ8QCQ",
+      "query": "from:(notifications@github.com OR *jules*) OR subject:(Jules OR GitHub OR \"apvizual-max\")",
+      "fixedQuery": "from:{notifications@github.com OR *jules*} OR subject:{Jules OR GitHub OR \"apvizual-max\"}",
+      "matchesAsIs": 929,
+      "matchesFixed": 929,
+      "categories": [
+        "agenti"
+      ]
+    },
+    {
+      "id": "ANe1Bmgu_4pn0Q3f-3dPwYaSEJfLoKVPZ4svwJZZnDsOWQ",
+      "query": "from:{jooble bestjobs hipo indeed jobleads linkedin} OR subject:{job angajare vacanta oportunitate}",
+      "fixedQuery": "from:{jooble bestjobs hipo indeed jobleads linkedin} OR subject:{job angajare vacanta oportunitate}",
+      "matchesAsIs": 1098,
+      "matchesFixed": 1098,
+      "categories": [
+        "joburi"
+      ]
+    },
+    {
+      "id": "ANe1BmhfBNF17H3V8yb39Uc-EEym8olEBnbQQyNR-Utj1w",
+      "query": "from:{substack goatacademy aiautomationsociety sadhguru beehiiv twine} OR subject:{AI artificial intelligence}",
+      "fixedQuery": "from:{substack goatacademy aiautomationsociety sadhguru beehiiv twine} OR subject:{AI artificial intelligence}",
+      "matchesAsIs": 389,
+      "matchesFixed": 389,
+      "categories": [
+        "ai"
+      ]
+    },
+    {
+      "id": "ANe1Bmhr0TFhSeF75mv4H0xOCCEIxw7k6PTf2dl_5RCoOA",
+      "query": "from:{skool facebook instagram pinterest tiktok polibrawl}",
+      "fixedQuery": "from:{skool facebook instagram pinterest tiktok polibrawl}",
+      "matchesAsIs": 146,
+      "matchesFixed": 146,
+      "categories": [
+        "social"
+      ]
+    },
+    {
+      "id": "ANe1BmhvRgLhU5cyxG-jCADLUhXt5C_29MotSxK2SlilOQ",
+      "query": "from:{noreply no-reply newsletter digest mail@ info@ news@ updates@}",
+      "fixedQuery": "from:{noreply no-reply newsletter digest mail@ info@ news@ updates@}",
+      "matchesAsIs": 1215,
+      "matchesFixed": 1215,
+      "categories": [
+        "newsletter"
+      ]
+    },
+    {
+      "id": "ANe1BmhiLu_ahhYfNmDqesTn0hLQGeoXBzHRaktmyFLt1Q",
+      "query": "from:{kraken tradingview bitunix coinbase binance} OR subject:{factura investitie trading}",
+      "fixedQuery": "from:{kraken tradingview bitunix coinbase binance} OR subject:{factura investitie trading}",
+      "matchesAsIs": 9,
+      "matchesFixed": 9,
+      "categories": [
+        "finante"
+      ]
+    }
+  ],
+  "verdict": {
+    "parenthesisIsAnd": false,
+    "note": "Gmail: () = SI, {} = SAU. Filtrele cu from:(...) nu pot lovi niciun mesaj.",
+    "working": [
+      {
+        "id": "ANe1Bmh4apfrWZA0T6Dx1Ha8qm8sLNXnDWtPevfLsJ8QCQ",
+        "categories": [
+          "agenti"
+        ],
+        "matches": 929
+      },
+      {
+        "id": "ANe1Bmgu_4pn0Q3f-3dPwYaSEJfLoKVPZ4svwJZZnDsOWQ",
+        "categories": [
+          "joburi"
+        ],
+        "matches": 1098
+      },
+      {
+        "id": "ANe1BmhfBNF17H3V8yb39Uc-EEym8olEBnbQQyNR-Utj1w",
+        "categories": [
+          "ai"
+        ],
+        "matches": 389
+      },
+      {
+        "id": "ANe1Bmhr0TFhSeF75mv4H0xOCCEIxw7k6PTf2dl_5RCoOA",
+        "categories": [
+          "social"
+        ],
+        "matches": 146
+      },
+      {
+        "id": "ANe1BmhvRgLhU5cyxG-jCADLUhXt5C_29MotSxK2SlilOQ",
+        "categories": [
+          "newsletter"
+        ],
+        "matches": 1215
+      },
+      {
+        "id": "ANe1BmhiLu_ahhYfNmDqesTn0hLQGeoXBzHRaktmyFLt1Q",
+        "categories": [
+          "finante"
+        ],
+        "matches": 9
+      }
+    ]
+  }
+}

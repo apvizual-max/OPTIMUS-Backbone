@@ -1,0 +1,28 @@
+PROMPT DE START — trimite asta într-o sesiune nouă, pe capitolul Google Workspace:
+
+────────────────────────────────────────────────────────────
+Continui proiectul MAVIS-CLOUD, capitolul Google Workspace.
+
+Repo: https://github.com/apvizual-max/MAVIS-CLOUD.git  (PUBLIC)
+Ultimul commit cunoscut: vezi `git log -1` din repo.
+
+Fă asta, în ordine:
+1. git clone https://github.com/apvizual-max/MAVIS-CLOUD.git && cd MAVIS-CLOUD
+2. Citește AGENTS.md
+3. Citește folderul 18-GOOGLE/ și tot 18-GOOGLE/*Priming*/
+4. Citește docs/PROCEDURA-LIVRARE-SECRETE.md
+5. Rezumă în 5 rânduri: unde suntem, ce e gata, ce lipsește, ce e blocat
+6. Așteaptă instrucțiunea mea. NU construiește nimic înainte să știi
+   exact ce vreau, și NU inventa date care nu sunt în repo.
+
+Reguli care nu se încalcă:
+- nu inventa, lasă gol dacă nu știi
+- nu șterge definitiv
+- nu trimite nimic în numele meu
+- main, fără ramuri, dacă nu cer altfel
+- comit + push FĂRĂ aprobare (cerință explicită a lui POPY)
+- valorile din secret manager NU trec prin chat — se livrează prin repo
+  (fixture: docs/PROCEDURA-LIVRARE-SECRETE.md)
+────────────────────────────────────────────────────────────
+
+Voi completa după ce îmi spui ce vreau.

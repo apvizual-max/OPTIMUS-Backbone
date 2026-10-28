@@ -1,0 +1,106 @@
+{
+  "date": "2026-10-28",
+  "note": "Leads din alertele de job de azi (2026-10-28). Fiecare poartă calea de verificare declarată in `verifiedVia` — unde pagina sursei a raspuns 403, am folosit textul integral indexat de motorul de cautare si am spus-o explicit, nu am trecut drept citire directa. Leadurile reaparute (BD Lemntech, Apex Digital Alliance, AGRESIV MEDIA) au fost verificate cu zile in urma si reapar in alerta de azi; nu re-verific paginile lor azi, deci nu le-am inclus ca leaduri noi.",
+  "leads": [
+    {
+      "resolvedTitle": "Graphic Designer — part-time 15h (remote) @ CreativeEd Media (NOU)",
+      "from": "Bestjobs",
+      "subject": "13 new jobs for you: graphic design, bucharest",
+      "summary": "Angajator: CreativeEd Media. Rol de Graphic Designer creativ, 100% remote, part-time 15 ore pe saptamana. Materiale pentru campanii de marketing, bannere, flyere, cataloage, carti de vizita, evenimente, mock-up-uri si continut vizual pentru mediul digital. Echipa internationala.",
+      "requirements": [
+        "Graphic Designer creativ, cu atentie la detalii si simt estetic",
+        "Transformarea ideilor in materiale vizuale moderne, attractive, cu personalitate",
+        "Persoana organizata, atenta la detalii, creativa si eficienta",
+        "Capabilitatea de a livra materiale de calitate intr-un timp scurt, respectand termenele-limita, inclusiv la solicitari urgente"
+      ],
+      "rates": [
+        "525 EURO/luna (publicat de angajator)",
+        "Part-time, 15 ore pe saptamana, zilele de lucru stabilite de comun acord"
+      ],
+      "terms": "100% remote. Remuneratie 525 EUR/luna, plata la timp. Flexibilitate, dar se cere seriozitate si respectarea termenelor-limita.",
+      "process": "Aplicare direct pe anuntul Bestjobs. Echipa internationala.",
+      "caveat": "La 525 EUR/luna pentru 15h/saptamana, iesitul orar e sub 9 EUR/h — mult sub rata micro1 (50–90 USD/h) si sub ce plateste YO AI Labs. E o masa de baza, nu un venit. Merita doar daca e fundal sau intrare in platforma.",
+      "verifiedVia": "Text integral al anuntului, obtinut din indexarea motorului de cautare pe bestjobs.eu/loc-de-munca/graphic-designer-part-time-15h-remote. Pagina /en/job/ raspunde 403 pentru acces automat, deci NU am deschis pagina direct.",
+      "url": "https://www.bestjobs.eu/en/job/graphic-designer-part-time-15h-remote"
+    },
+    {
+      "resolvedTitle": "Graphic Designer @ ELBI ElectricLighting (NOU)",
+      "from": "Bestjobs",
+      "subject": "13 new jobs for you: graphic design, bucharest",
+      "summary": "ELBI ElectricLighting angajeaza Graphic Designer. Localizare: Bragadiru, Romania (Bucuresti — zona Ilfov).",
+      "requirements": [
+        "Necesa in anunt (pagina de anunt este blocata pentru acces automat; vezi caveat)"
+      ],
+      "rates": [
+        "1195 - 1325 (Estimare — valoarea afisata de Bestjobs, nu de angajator)"
+      ],
+      "terms": "Bragadiru, Romania.",
+      "process": "Aplicare pe anuntul Bestjobs.",
+      "caveat": "Salariul e ESTIMAT de Bestjobs, nu publicat de angajator. Nu am putut citi cerintele de pe pagina anuntului (403 la acces automat) — le-am dedus din pagina de listare, care n-are sectiunea de cerinte. Bragadiru = Ilfov, deci nu e fix la centrul orasului.",
+      "verifiedVia": "Sumat de pe pagina de listare Bestjobs (accesibila prin indexarea motorului de cautare): titlu, angajator, localizare si interval de plata estimat. Pagina de anunt /en/job/graphic-designer-723 raspunde 403 — NU am deschis-o.",
+      "url": "https://www.bestjobs.eu/en/job/graphic-designer-723"
+    },
+    {
+      "resolvedTitle": "UX/UI Designer — Video Annotation Remote (micro1 / AI training) (REAPĂRUT)",
+      "from": "Bestjobs",
+      "subject": "13 new jobs for you: graphic design, bucharest",
+      "summary": "micro1 cauta UX/UI Designeri si profesionisti cu experienta in domenii vizuale/digitale pentru un proiect international de AI Training, axat pe video annotation si robotica. Participantii analizeaza videoclipuri in care brate robotice executa proceduri si evalueaza/anoteaza fiecare sesiune conform unor guideline-uri clare. Rolul se potriveste cu persoane atente la detalii, cu experienta in UX/UI, web design, video editing, fotografie, filmmaking, audiovisual production, robotics sau engineering.",
+      "requirements": [
+        "Experienta intr-unul sau mai multe dintre: UX/UI Design, Web Design, Video Editing, Filmmaking, productie audiovizuala",
+        "Experienta anterioara in: Video Annotation, Data Labeling, AI Training, Machine Learning datasets, evaluarea continutului video, robotica — avantaj important, dar NU obligatoriu",
+        "Atentie la detalii si consistenta calitatii: marcarea exacta a actiunilor, comportamentelor si rezultatelor conform guideline-urilor primite",
+        "Documentarea clara a observatiilor si justificarea fiecarei evaluari",
+        "Feedback catre traineri si mentinerea unui nivel constant de calitate",
+        "Livrarea taskurilor in termenele solicitate",
+        "Engleză avansată (cerută explicit)"
+      ],
+      "rates": [
+        "3000 EUR/luna (cum apare pe anuntul Bestjobs)",
+        "Contractor, nu angajare. Fără experiență anterioară în AI cerută"
+      ],
+      "terms": "Remote, contractor. Proiect internațional de AI training. Fără experiență anterioară în AI.",
+      "process": "Aplicare pe anuntul Bestjobs („Aplică & Începe interviul”). Platforma micro1 conduce interviul, cu assessment de domeniu. Aceleași joburi apar și ca 'Xperteez Technology' pe designproject.io — NU confunda platforma cu jobul.",
+      "caveat": "Bestjobs afișează 3000 EUR/luna; pe platforma micro1 același tip de rol apare la 50–90 USD/oră. Diferența e de metodă de tarifare (lună vs. oră) și de agregator, nu de job — verifică rata reală direct pe jobs.micro1.ai înainte să te bazezi pe 3000 EUR. Platforma a mai apărut și pe 26.10 cu un rol similar, dar nu același titlu.",
+      "verifiedVia": "Text integral al anuntului, obtinut din indexarea motorului de cautare pe bestjobs.eu/loc-de-munca/ux-ui-designer-video-annotation-remote-2. Pagina /en/job/ raspunde 403 pentru acces automat, deci NU am deschis pagina direct.",
+      "url": "https://www.bestjobs.eu/loc-de-munca/ux-ui-designer-video-annotation-remote-2"
+    },
+    {
+      "resolvedTitle": "Editor imagine TV Junior @ Aleph News (NOU)",
+      "from": "Hipo.ro",
+      "subject": "Alex - 7 Joburi noi adaugate pentru tine pe hipo.ro",
+      "summary": "Aleph News angajeaza Editor imagine TV Junior, full-time, on-site in Bucuresti. Munca de montaj pentru stiri si productii editoriale: montarea materialelor video pentru stiri, organizarea si editarea secventelor video pentru impact maxim, sincronizarea muzicii si efectelor sonore, arhiva video, statia de editare. Ritm alert, specific productiei de stiri.",
+      "requirements": [
+        "Adobe Premiere Pro, Adobe After Effects si Adobe Photoshop — folosite foarte bine",
+        "Baza solida de montaj video (chiar daca nu ai experienta in TV)",
+        "Rapid, organizat si atent la detalii",
+        "Dispozitie de a invata constant si de a-ti imbunatati tehnica",
+        "Familiarizare ( sau curiozitatea de a invata ) cu DaVinci Resolve si instrumente moderne de editare cu AI",
+        "UNATC sau similar = avantaj, nu obligatoriu",
+        "Portofoliul conteaza mai mult decat anii de experienta"
+      ],
+      "rates": [
+        "4000 - 5000 RON NET/luna (publicat de angajator, confirmat pe pagina HiPo)"
+      ],
+      "terms": "Bucuresti, full-time, on-site. Nivel job: 0-1 ani experienta.",
+      "process": "Aplicare pe HiPo.ro. Portofoliu cerut explicit.",
+      "caveat": "Este rol de EDITOR VIDEO, nu de design grafic — nu atinge direct profilul de art direction. Totuși: 4000-5000 RON net cu doar 0-1 ani cerință e un prag real de intrare pe piata de continut, iar portofoliul conteaza mai mult decat anii de experienta — deci e o usa de intrare cu prag mic, nu un job de design. On-site, la ritm de productie de stiri.",
+      "verifiedVia": "Pagina HiPo.ro citita DIRECT (HTTP 200) — salariul, cerintele si conditiile sunt textul paginii de anunt, nu un snippet.",
+      "url": "https://www.hipo.ro/locuri-de-munca/locuri_de_munca/268926/Aleph-News/Editor-imagine-TV-Junior"
+    },
+    {
+      "resolvedTitle": "Junior Mid-Level Graphic Designer & DTP Specialist @ BRAYTRON SRL (NEVERIFICAT PE PAGINA)",
+      "from": "eJobs",
+      "subject": "Un job nou te asteapta azi pe eJobs.ro!",
+      "summary": "BRAYTRON SRL — Junior Mid-Level Graphic Designer & DTP Specialist. Singurul anunt din alerta de azi de pe eJobs, cu 1 job potrivit profilului. Anuntul a venit fara text/plain (doar HTML), deci informatiile vin din continutul de tip snippet.",
+      "requirements": [
+        "Necesa in anunt — pagina eJobs raspunde 403 pentru acces automat, deci NU am putut citi cerintele"
+      ],
+      "rates": [],
+      "terms": "Necunoscute — anuntul nu a fost citit pe pagină.",
+      "process": "Aplicare pe eJobs.ro.",
+      "caveat": "NEVERIFICAT. eJobs.ro raspunde 403 (Forbidden) la acces automat, iar cautarea nu a indexat anuntul. Tot ce se stie aici vine din corpul emailului de alerta. Fara salariu, fara cerinte, fara oras — deschide anuntul manual inainte sa iei in calcul. Titlul promite junior-to-mid, adica sub pragul de senioritate pe care-l cauti.",
+      "verifiedVia": "DOAR corpul emailului de alerta (snippet inclus). Pagina eJobs.ro raspunde 403 pentru acces automat, iar motorul de cautare nu a indexat anuntul — deci nu am putut citi niciun camp al anuntului.",
+      "url": "https://www.ejobs.ro"
+    }
+  ]
+}

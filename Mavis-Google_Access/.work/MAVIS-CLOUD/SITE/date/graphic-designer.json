@@ -1,0 +1,217 @@
+{
+  "_nota": "Strat de date pentru site-urile de CV. Fiecare rol are fisierul lui. UI-ul ramane acelasi, se schimba doar datele.",
+  "rol": {
+    "slug": "graphic-designer",
+    "titluSite": "Senior Graphic Designer",
+    "titluPortofolio": "Graphic Design & Visual Identity",
+    "pozitionare": "Executing Design That Holds Up in Production",
+    "rolWord": "graphic designer",
+    "diferentaVsArtDirector": "Art direction coordoneaza si gestioneaza. Graphic designer executa si creeaza. Acelasi meiestesit, alt post.",
+    "email": "apvizual@gmail.com",
+    "telefon": "+40722121752",
+    "oras": "Bucharest, Romania",
+    "website": "ap-id.ro"
+  },
+  "cv": {
+    "rezumat": "Graphic designer with 20+ years in visual design and 4 building AI-augmented production systems. Delivered 25,000+ product visuals across 12 European countries for Microsoft, Nikon and Yokogawa. Builds brand systems that survive contact with real production, and brings generative AI into the pipeline so volume rises without the standard dropping. Execution and creativity, at production speed.",
+    "competente": [
+      "Brand Identity & Visual Systems",
+      "Typography & Editorial Layout",
+      "Adobe Creative Cloud",
+      "DTP & Large-Format Production",
+      "Figma Design Systems",
+      "Packaging & Page Layout",
+      "Product Visual & Catalogue Work",
+      "AI Production Workflows",
+      "Colour Management & Prepress QA"
+    ],
+    "realizari": [
+      {
+        "titlu": "Producție la scară, 12 țări",
+        "text": "A construit un depozit de 200+ de șabloane grafice unificate și ghiduri vizuale pentru Yokogawa în 12 țări europene, reducând ciclurile de producție vizuală cu 30%."
+      },
+      {
+        "titlu": "25.000+ de vizualuri de produs",
+        "text": "A produs vizualuri pentru Microsoft, Nikon, Yokogawa, Veeam și ASSA ABLOY, cu aceeași coerență de marcă pe fiecare piață."
+      },
+      {
+        "titlu": "Identitate de restaurant, lanț național",
+        "text": "A dezvoltat sistemul vizual pentru City Grill, un lanț de restaurante prezent în toată țara, cu tehnică de progresie vizuală consistentă între puncte."
+      }
+    ],
+    "experienta": [
+      {
+        "perioada": "2000 — prezent",
+        "rol": "Senior Graphic Designer / Art Director",
+        "detaliu": "Direcție artistică și execuție pentru clienți din tech, industrie și retail."
+      },
+      {
+        "perioada": "1996 — 2000",
+        "rol": "Graphic Designer",
+        "detaliu": "Agenție, campanii end-to-end pe toate mediile."
+      },
+      {
+        "perioada": "Învățare continuă",
+        "rol": "Formare în design grafic și tipografie",
+        "detaliu": "20+ ani de practică continuă."
+      }
+    ],
+    "educatie": [
+      "Formare în design grafic și tipografie",
+      "Perfecționare continuă în direcție artistică și sisteme vizuale"
+    ]
+  },
+  "portofolio": [
+    {
+      "client": "Yokogawa Europe",
+      "categorie": "Industrial",
+      "titlu": "Identitate corporate, 12 țări",
+      "note": "200+ șabloane grafice, ghiduri de stil, sisteme vizuale unificate.",
+      "url": "https://ap-id.ro/index.php/portfolio/yokogawa/",
+      "status": "pe site"
+    },
+    {
+      "client": "ROMEXPO",
+      "categorie": "Evenimente",
+      "titlu": "Identitate vizuală pentru expoziții",
+      "note": "Propuneri de trademark pentru 15+ expoziții internaționale înregistrate.",
+      "url": "https://ap-id.ro/index.php/portfolio/branding-romexpo/",
+      "status": "pe site"
+    },
+    {
+      "client": "AP-ID",
+      "categorie": "Branduri bespoke",
+      "titlu": "Colecție de proiecte de branding",
+      "note": "Inițiative de identitate, manuale de marcă, sisteme de logo.",
+      "url": "https://ap-id.ro/index.php/branding_projects/",
+      "status": "pe site"
+    },
+    {
+      "client": "Croitorul Tau",
+      "categorie": "Tailoring premium",
+      "titlu": "Lansare de brand comercial",
+      "note": "Identitate completă pentru brand de tailoring premium.",
+      "url": "https://ap-id.ro/index.php/portfolio/croitorul-tau/",
+      "status": "pe site"
+    },
+    {
+      "client": "City Grill Group",
+      "categorie": "Lanț de restaurante",
+      "titlu": "Identitate vizuală de lanț",
+      "note": "Proiecte de direcție artistică pentru brandul de restaurante.",
+      "url": "https://ap-id.ro/index.php/portfolio/city-grill/",
+      "status": "pe site"
+    },
+    {
+      "client": "Aderma Protect",
+      "categorie": "Cosmetică",
+      "titlu": "Sistem vizual de marcă",
+      "note": "Direcție artistică pentru brandul de cosmetică.",
+      "url": "https://ap-id.ro/index.php/portfolio/aderma-protect/",
+      "status": "pe site"
+    },
+    {
+      "client": "IL PASSO",
+      "categorie": "Retail premium",
+      "titlu": "Aliniere identitate și produs",
+      "note": "Identitate vizuală, interfețe e-commerce, fotografie de produs.",
+      "url": "",
+      "status": "URL 404",
+      "nota": " Link mort (HTTP 404 verificat de Mavis Local). Dovezile se furnizeaza la cerere."
+    },
+    {
+      "client": "Optima Call",
+      "categorie": "SaaS / B2B",
+      "titlu": "Panou de control și dashboard-uri",
+      "note": "Dashboard cu metrici, rutare apeluri, tracking live.",
+      "url": "https://ap-id.ro/index.php/portfolio/optima-call/",
+      "status": "pe site"
+    },
+    {
+      "client": "Smite",
+      "categorie": "Agenție",
+      "titlu": "Art Director",
+      "note": "30+ campanii multimedia, rebranding-uri de trademark, creștere 20-25% interacțiune online.",
+      "status": "agenție închisă · dovedare pe cerere"
+    },
+    {
+      "client": "Skin Media",
+      "categorie": "Agenție",
+      "titlu": "Senior Graphic Designer / Video",
+      "note": "50+ campanii de marketing pentru Nikon, Aiper, Pure Electric, Ninja. +20% vânzări.",
+      "status": "agenție închisă · dovedare pe cerere",
+      "url": ""
+    },
+    {
+      "client": "Ducray",
+      "categorie": "Cosmetică",
+      "titlu": "Direcție artistică",
+      "note": "Brand de cosmetică din același grup ca Aderma Protect.",
+      "status": "agenție · dovedare pe cerere"
+    },
+    {
+      "client": "Engino Toys",
+      "categorie": "Jocuri / jucării",
+      "titlu": "Identitate de brand",
+      "note": "Proiect de identitate realizat prin AP-ID.ro.",
+      "status": "agenție · dovedare pe cerere"
+    },
+    {
+      "client": "Tripingers Agency",
+      "categorie": "Agenție",
+      "titlu": "Direcție artistică",
+      "note": "30+ campanii, creștere 20-25% a interacțiunii online.",
+      "status": "agenție · dovedare pe cerere"
+    },
+    {
+      "client": "Alte proiecte",
+      "categorie": "Diverse",
+      "titlu": "Restul dosarului",
+      "note": "WuXing, La Stampa Cafe, DaCIA Beer, RestoByte, LogOut Cafe, Bio Ortoclinic, BU Online, Digital U, Baltic Invest, Dacia Serus.",
+      "status": "dovedare pe cerere"
+    }
+  ],
+  "scrisoare": {
+    "salutare": "Dear [COMPANY] team,",
+    "paragrafe": [
+      "A design company doesn't need more hands — it needs someone who can execute cleanly at production volume without the standard dropping as the deadline closes in.",
+      "I've solved that at scale. At Yokogawa Europe I built a repository of 200+ unified graphic templates across 12 countries, cutting visual production cycles by 30%. For Microsoft, Nikon and Veeam I produced 25,000+ product visuals that stayed on-brand in every market. At Smite I ran campaigns end-to-end — from online promotion to business cards, banners, posters and in-store material.",
+      "I don't avoid the AI question — I build on it. Over the past four years I've structured AI-augmented production pipelines with Comfy UI, Adobe Firefly and prompt engineering built on harness and JSON scripting. The output ships faster and the craft still holds.",
+      "My background is economic, so I optimise against outcomes, not preferences. Send me the brief and I'll tell you exactly where design is the bottleneck."
+    ],
+    "semnatura": "Sincerely,\nAlexandru Popescu\nSenior Graphic Designer"
+  },
+  "contact": {
+    "_nota": "Email verificat in ALEX_LINK_MATRIX si toate CV-urile: apvizual@gmail.com",
+    "email": "apvizual@gmail.com",
+    "telefon": "+40722121752",
+    "oras": "Bucharest, Romania",
+    "website": "ap-id.ro",
+    "linkuri": [
+      {
+        "eticheta": "Website",
+        "url": "https://ap-id.ro"
+      },
+      {
+        "eticheta": "LinkedIn",
+        "url": "[LINKEDIN_URL]"
+      }
+    ]
+  },
+  "reguli": {
+    "lungimeMaxima": "1.5 pagini tiparite, 3 ecrane citite",
+    "reguli": [
+      "Fără formular de contact la nivelul 1",
+      "Dovada de lucru: 'proof of work provided on request'",
+      "Fără linkuri video inventate — doar linkuri verificate",
+      "Text alternativ real pe fiecare imagine",
+      "Fără tabele — se strică pe mobil",
+      "Contrast minim 4.5:1 pentru textul mic"
+    ]
+  },
+  "portofolio_dovedire_video": {
+    "_nota": "Formula standard obligatorie pentru dovada video. Nu se promite nimic ce nu poate fi trimis.",
+    "text": "proof of work provided on request",
+    "ro": "dovezile video se furnizează la cerere"
+  }
+}

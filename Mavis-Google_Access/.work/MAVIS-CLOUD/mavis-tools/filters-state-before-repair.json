@@ -1,0 +1,70 @@
+{
+  "savedAt": "2026-10-22T05:32:33.514Z",
+  "filters": [
+    {
+      "id": "ANe1Bmg1Fp1gbOOwpbMP0GYRtHr2q4oCoz90_slWYtidpg",
+      "name": "MAVIS/Joburi",
+      "criteria": {
+        "query": "from:(jooble bestjobs hipo indeed jobleads linkedin) OR subject:(job angajare vacanta oportunitate)"
+      },
+      "action": {
+        "removeLabelIds": [
+          "UNREAD",
+          "INBOX"
+        ]
+      }
+    },
+    {
+      "id": "ANe1BmgxeOQZnhS7PuIpbDL2KG-KhW7EziLSCnfX14ZLjQ",
+      "name": "MAVIS/AI si comunitati",
+      "criteria": {
+        "query": "from:(substack goatacademy aiautomationsociety sadhguru beehiiv twine) OR subject:(AI artificial intelligence)"
+      },
+      "action": {
+        "removeLabelIds": [
+          "UNREAD",
+          "INBOX"
+        ]
+      }
+    },
+    {
+      "id": "ANe1BmgzA59DVN8xmb64FSv7pOAFhVMCMoMpstsgrBKSBQ",
+      "name": "MAVIS/Social",
+      "criteria": {
+        "query": "from:(skool facebook instagram pinterest tiktok polibrawl)"
+      },
+      "action": {
+        "removeLabelIds": [
+          "UNREAD",
+          "INBOX"
+        ]
+      }
+    },
+    {
+      "id": "ANe1Bmixbpuav9nBZ5L7iBdSSWT9NWRsH6Ft7qleiTwQrw",
+      "name": "MAVIS/Newsletter",
+      "criteria": {
+        "query": "from:(noreply no-reply newsletter digest mail@ info@ news@ updates@)"
+      },
+      "action": {
+        "removeLabelIds": [
+          "UNREAD",
+          "INBOX"
+        ]
+      }
+    },
+    {
+      "id": "ANe1Bmhp4knu_xnQ3Pvf2URK-MKc-lKsgJiqGW-KY-ZPTA",
+      "name": "MAVIS/Finante",
+      "criteria": {
+        "query": "from:(kraken tradingview bitunix coinbase binance) OR subject:(factura investitie trading)"
+      },
+      "action": {
+        "removeLabelIds": [
+          "UNREAD",
+          "INBOX"
+        ]
+      }
+    }
+  ]
+}

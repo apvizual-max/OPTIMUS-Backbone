@@ -1,0 +1,26 @@
+[
+  {
+    "name": "MAVIS-CLOUD",
+    "role": "Scout / Documentare",
+    "branch": "main",
+    "remote": "https://github.com/apvizual-max/MAVIS-CLOUD"
+  },
+  {
+    "name": "MAVIS-OPTIMUS-CI",
+    "role": "Infrastructură & Punte CI",
+    "branch": "main",
+    "remote": "https://github.com/apvizual-max/MAVIS-OPTIMUS-CI"
+  },
+  {
+    "name": "pkms-vault-automation",
+    "role": "Motor PKMS Vault",
+    "branch": "master",
+    "remote": "https://github.com/apvizual-max/pkms-vault-automation"
+  },
+  {
+    "name": "Optimus-Mavis-Skills",
+    "role": "Depozit Sub-Skill-uri",
+    "branch": "main",
+    "remote": "https://github.com/apvizual-max/Optimus-Mavis-Skills"
+  }
+]

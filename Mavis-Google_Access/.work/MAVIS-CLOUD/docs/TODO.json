@@ -1,0 +1,277 @@
+{
+  "_nota": "Lista de sarcini. Se actualizeaza la fiecare schimbare reala. Citita de build-hub.py pentru tab-ul TO DO.",
+  "sarcini": [
+    {
+      "id": "jules-env",
+      "titlu": "Jules - Environment setup script",
+      "cine": "POPY",
+      "status": "GATA",
+      "rezultat": "Scriptul ruleaza cu succes. Jules a clonat repo-ul, a instalat git si ripgrep, a confirmat node v22.22.1, npm 11.11.0, python3 3.12.13.",
+      "ramase": ""
+    },
+    {
+      "id": "jules-memory",
+      "titlu": "Jules - Knowledge / Add Memory",
+      "cine": "POPY",
+      "status": "GATA",
+      "rezultat": "Memorii adăugate.",
+      "ramase": ""
+    },
+    {
+      "id": "jules-var",
+      "titlu": "Jules - Environment variables",
+      "cine": "POPY",
+      "status": "GATA",
+      "rezultat": "Variabile setate. POPY a raportat că sunt corecte.",
+      "ramase": ""
+    },
+    {
+      "id": "lrc-1",
+      "titlu": "Live Review - primul pull request ca să prindă prima rulare",
+      "cine": "POPY sau Mavis Cloud",
+      "status": "URMĂTORUL",
+      "rezultat": "Live Review activ pe cont (hexmos.com, free 30%). Nu a rulat: nu a existat PR.",
+      "ramase": "git push -u origin <ramura>  apoi  gh pr create --base main. ATENȚIE: ramura se face DOAR dacă POPY cere. Altfel: main → push → PR deschis de la distanță."
+    },
+    {
+      "id": "jules-test",
+      "titlu": "Cererea de teste de la Jules",
+      "cine": "Jules",
+      "status": "AMÂNAT",
+      "rezultat": "Amânat până se rezolvă fluxul Live Review. Jules a identificat deja că nu există un singur test automat.",
+      "ramase": "amânat până se rezolvă fluxul Live Review. Task scris în docs/JULES-INSTRUMENTARE.md"
+    },
+    {
+      "id": "jules-workflow",
+      "titlu": "Workflow cu teste automate",
+      "cine": "Mavis Cloud",
+      "status": "AMÂNAT",
+      "rezultat": "Amânat până când testele există.",
+      "ramase": "după ce Jules scrie testele, le adaug în verify.yml"
+    },
+    {
+      "id": "site-uri",
+      "titlu": "Site-uri de CV pentru celelalte roluri",
+      "cine": "Mavis Cloud",
+      "status": "DE FACUT",
+      "rezultat": "1 din 9. graphic-designer merge; restul ies din același build.py.",
+      "ramase": "art-director, brand-designer, product-designer, ai-design-lead, video-motion, print-dtp, presentation, social-content"
+    },
+    {
+      "id": "cv-generice",
+      "titlu": "CV-uri Word regenerate din șabloanele generice",
+      "cine": "Mavis Cloud",
+      "status": "DE FACUT",
+      "rezultat": "7 CV-uri există, dar cu date particulare de firmă.",
+      "ramase": "regenerare din șabloane, cu [COMPANY] și [ROLE]"
+    },
+    {
+      "id": "jules-api",
+      "titlu": "Apeluri Jules prin API",
+      "cine": "Mavis Cloud",
+      "status": "AMÂNAT",
+      "rezultat": "Cheia e stocată în secrets.",
+      "ramase": "după ce POPY confirmă Environment + Memory + PR"
+    },
+    {
+      "id": "gmail-inbox",
+      "titlu": "3.000+ mailuri rămase în inbox",
+      "cine": "POPY + Mavis Cloud",
+      "status": "AMÂNAT",
+      "rezultat": "Sortarea a acoperit fereastra 1-3 ani. Cele mai vechi rămân.",
+      "ramase": "POPY a spus că se face mai târziu, când emailul devine instrument"
+    },
+    {
+      "id": "site-b2b",
+      "titlu": "SITE NIVEL 2: B2B / freelancing - serviciu cu rate",
+      "cine": "POPY cere dezvoltare locală",
+      "status": "AMÂNAT — discussionsă separată",
+      "rezultat": "POPY: „alt subiect, altă discuție și la cu totul alt moment. acum e prematur\". Am discutat: vinde serviciul, nu sistemul. Clientul are o treabă, primește un preț. Intră după Nivelul 1.",
+      "ramase": "POPY deschide discuția când e pregătit. Agentul local primește documentația completă din 07-SITEURI-NIVEL1/SPECIFICATIE.md secțiunea 1 și 3."
+    },
+    {
+      "id": "site-systems",
+      "titlu": "SITE NIVEL 3: AP-ID Systems - agent AI între client și POPY",
+      "cine": "POPY cere dezvoltare locală",
+      "status": "AMÂNAT — discussionsă separată",
+      "rezultat": "POPY: agent AI între client și POPY, care rămâne furnizor de direcție artistică. B2B pentru companii mari, cu nevoie de relație permanentă și structuri. Site-ul final de agenție le cuprinde pe primele două.",
+      "ramase": "POPY deschide discuția. Logica și rațiunea sunt scrise în 07-SITEURI-NIVEL1/SPECIFICATIE.md."
+    },
+    {
+      "id": "maxhermes",
+      "titlu": "2.1 MAXHERMES — ultimul",
+      "cine": "POPY",
+      "status": "DE FACUT — următorul",
+      "rezultat": "Tot ce era blocat e rezolvat sau e pe listă cu cine răspunde. POPY a spus: „trebuie să rămâi cu MaxHermes dacă totul e ok\".",
+      "ramase": "Verifică starea reală înainte: sortarea Gmail s-a terminat, workflow-ul e verde, deciziile de pe listă sunt luate. MaxHermes preia repo-ul după regulile din BRIDGE.md."
+    },
+    {
+      "id": "apple-design-verif",
+      "titlu": "Mavis Apple Design — verificare repo",
+      "cine": "Mavis Cloud",
+      "status": "GATA",
+      "rezultat": "Repo-ul emilkowalski/skills e importat integral: 15/15 skill-uri, cu licență, în vendor/ și în cloud. 4 folosite efectiv (mobile-native, break-ui, emil-design-eng, apple-design), 8 nefolosite dar utile pentru Local.",
+      "ramase": "Raport: vendor/RAPORT-UTILIZARE.md. Pentru skill-uri noi de prototipare: POPY trimite linkul."
+    },
+    {
+      "id": "email-clarify",
+      "titlu": "Email corect: apvizual@gmail.com sau apvisual.arond@gmail.com",
+      "cine": "POPY",
+      "status": "BLOCHAT — decizie umană",
+      "rezultat": "CV-urile tale vechi au apvizual@gmail.com. Tu mi-ai dat azi apvisual.arond@gmail.com. Le-am folosit pe cel nou în site.",
+      "ramase": "POPY confirmă. Se propagă în toate CV-urile și pe site-uri DUPă ce se răspunde."
+    },
+    {
+      "id": "sort-full-final",
+      "titlu": "Sortare completa Gmail — verificare finala dupa terminare",
+      "cine": "Mavis Cloud",
+      "status": "DE FACUT",
+      "rezultat": "Prima rulare s-a terminat. A etichetat 19.070 de mesaje (Joburi 8.062, Newsletter 4.103, Social 2.818, AI 2.398, De raspuns 1.345, Facturi 97, Personal 176, Finante 71). Inbox-ul mai are pagini nesortate.",
+      "ramase": "Repornit pe ce a ramas. Ruleaza in fundal. Verificarea finala se face cand procesul se opreste - nu se masoara in timpul sortarii."
+    },
+    {
+      "id": "masura-concurenta",
+      "titlu": "Regula: nu masura in timpul unei operatii pe Gmail",
+      "cine": "Mavis Cloud",
+      "status": "GATA",
+      "rezultat": "Am masurat 0 pentru 3 etichete pline, pentru ca sortarea rula si cererile se ciocneau. Acelasi efect l-am avut si inainte, cand am crezut ca etichetele sunt goale.",
+      "ramase": "Regula scrisa in 10-GMAIL/CATALOG.md. Zero in timpul operatiei = nu am putut masura."
+    },
+    {
+      "id": "gh-instalat",
+      "titlu": "gh CLI reinstalat in repo",
+      "cine": "Mavis Cloud",
+      "status": "GATA",
+      "rezultat": "Dispare din /usr/local/bin la fiecare sesiune de sandbox. Mutat in mavis-tools/bin/gh, apelat cu cale plina.",
+      "ramase": "Nimic. Documentat in .skills/sandbox-gotchas/"
+    },
+    {
+      "id": "livecopilot-api",
+      "titlu": "Copilot: API zice Not Found pe contul free",
+      "cine": "POPY",
+      "status": "BLOCHAT — cont",
+      "rezultat": "gh api /repos/apvizual-max/MAVIS-CLOUD/copilot -> Not Found. Cont apvizual-max e pe plan free.",
+      "ramase": "POPY: fie activează din web, fie dă-mi contul corect unde e abonamentul."
+    },
+    {
+      "id": "cron-8",
+      "titlu": "Cron 08:00 — raport zilnic",
+      "cine": "Mavis Cloud",
+      "status": "GATA",
+      "rezultat": "task_id 450095445102875. Rulează zilnic la 08:00, scrie raport pe Drive in Alex Work/00-INTRARE, caută joburi noi cu scoring.",
+      "ramase": "De verificat dacă a rulat efectiv vreodată — nu am confirmat output-ul lui."
+    },
+    {
+      "id": "drive-arbore",
+      "titlu": "Arborele Alex Work pe Drive",
+      "cine": "Mavis Cloud",
+      "status": "GATA",
+      "rezultat": "00-INTRARE, 01-IDENTITATE, 02-CERERI, 03-PROIECTE, 04-ARHIVA, 90-SETUP + ALEX-KIT.",
+      "ramase": "De verificat daca CV-urile noi ajung in 02-CERERI cand se regenereaza."
+    },
+    {
+      "id": "workflow-live",
+      "titlu": "Workflow-ul nu ruleaza la push, doar 03:00",
+      "cine": "POPY",
+      "status": "URMĂTORUL",
+      "rezultat": "Declanșatorii au fost corecțiți: schedule 03:00 + workflow_dispatch. POPY a cerut săptămânal, nu zilnic.",
+      "ramase": "Decizie: zilnic (03:00) sau săptămânal (0 3 * * 0)? Se schimbă un singur șir."
+    },
+    {
+      "id": "jules-prag",
+      "titlu": "Jules: primul pull request pentru audit",
+      "cine": "POPY sau Mavis Cloud",
+      "status": "DE FACUT",
+      "rezultat": "Fără PR, Jules nu vede nimic. Cloud împinge direct, deci un modul nou e vizibil imediat.",
+      "ramase": "RAMURĂ doar cu cerere explicită a lui POPY. Altfel: main + push, apoi ceri review din interfață."
+    },
+    {
+      "id": "site-deployment-final",
+      "titlu": "Deployment-ul unic — cine îl actualizează",
+      "cine": "POPY",
+      "status": "BLOCHAT — decizie",
+      "rezultat": "https://4nsxl2or95u1a.space.minimax.io e site-ul activ. Deployment-ul meu creează mereu site NOU, nu actualizează. Site-ul trece la Local — Local are acces la fișiere și poate face build.",
+      "ramase": "Dacă Local preia site-ul: panoul se generează local, nu se mai face deploy din cloud."
+    },
+    {
+      "id": "notebooklm-setup",
+      "titlu": "NotebookLM: 4 notebook-uri, cate unul pe utilizare",
+      "cine": "POPY",
+      "status": "DE FACUT",
+      "rezultat": "Cercetare / pregatire interviu / cercetare client / design schema. Catalogul e gata in 13-NOTEBOOKLM/.",
+      "ramase": "Discutație separata pentru personalizare. POPY: ce convenție de limbă pentru citări?"
+    },
+    {
+      "id": "prototipare",
+      "titlu": "Skill-uri pentru prototipare rapida on the go",
+      "cine": "POPY",
+      "status": "DE FACUT",
+      "rezultat": "POPY: „ai nevoie de skill-uri de design pentru prototipare rapidă... nu poti coda complex dar nu poti prototipa out of context\". Am nevoie de: șablon schiță rapidă, registru de decizii de design, frontend-design, visual-page.",
+      "ramase": "POPY trimite linkurile. NU descarc nimic fără linkul lui."
+    },
+    {
+      "id": "limba",
+      "titlu": "Limba de lucru: engleză",
+      "cine": "POPY",
+      "status": "DECISIE",
+      "rezultat": "POPY: „hai să vorbim în engleză, nu vrei? e mai simplu?\"",
+      "ramase": "Folosesc româna pentru că așa scrii. Dacă vrei engleză, spune-mi o dată și schimb."
+    },
+    {
+      "id": "verify-inainte",
+      "titlu": "REGULA: verifica inainte sa intrebi",
+      "cine": "Mavis Cloud",
+      "status": "APLICAT",
+      "rezultat": "Am intrebat 3 lucruri pe care le puteam verifica singur. Le-am verificat: email=apvizual@gmail.com (17 surse), Smite SI Skin Media sunt ambele reali, City Grill+Aderma pe site=0 rezultate (in fisiere e Ducray).",
+      "ramase": "Nu mai cer ce pot citi din surse."
+    },
+    {
+      "id": "priming-kit",
+      "titlu": "Priming KIT in fiecare folder de capitol",
+      "cine": "Mavis Cloud",
+      "status": "GATA",
+      "rezultat": "11 foldere, fiecare cu README, SKILL, HANDOFF, PROMPT-START, STATUS. Agent cu 0 memorie citeste folderul si stie tot.",
+      "ramase": "Se regenereaza: python3 mavis-tools/priming-kit.py"
+    },
+    {
+      "id": "notebook-naming",
+      "titlu": "Conventie de naming: MavisCloud-(subiect)",
+      "cine": "Mavis Cloud",
+      "status": "GATA",
+      "rezultat": "Toate notebook-urile create de mine se numesc MavisCloud-(subiect). Ex: MavisCloud-NotebookLM.",
+      "ramase": "POPY pune informatia in ele mai tarziu."
+    },
+    {
+      "id": "conversatii-separate",
+      "titlu": "Conversatii separate pe capitol",
+      "cine": "POPY organizeaza",
+      "status": "IN PLAN",
+      "rezultat": "POPY: fiecare capitol devine conversatie separata cu faldere si skill-uri proprii. Lista: Gmail, NotebookLM, Skills, Google Workspace, LinkedIn, Site Nivel 2 B2B, Site Nivel 3 AP-ID.",
+      "ramase": "Fiecare are deja Priming KIT pregatit."
+    },
+    {
+      "id": "skills-github",
+      "titlu": "Toate skill-urile sunt pe GitHub",
+      "cine": "Mavis Cloud",
+      "status": "GATA",
+      "rezultat": "19 proprii in .skills/ + 15 vendor in vendor/. Copy in cloud la /workspace/.skills.",
+      "ramase": "Nimic. Verificat."
+    },
+    {
+      "id": "jules-api-test",
+      "titlu": "Testez API-ul Jules cu cheia din secrets",
+      "cine": "Mavis Cloud",
+      "status": "DE FACUT",
+      "rezultat": "Cheia e stocata. Nu am facut inca un apel real, pentru ca nu am gasit endpoint-ul documentat.",
+      "ramase": "Nevoie de aprobare explicita a lui POPY pentru a face apelul."
+    },
+    {
+      "id": "cron-verify-verificat",
+      "titlu": "Cron-urile din interfata lui POPY",
+      "cine": "POPY",
+      "status": "BLOCHAT — acces",
+      "rezultat": "In captura: rebuild-classifier-weekly (ruleaza 04:00) + SENTINEL_Online cu 3x „Raport zilnic - email prins + joburi noi\". Stau in sesiunea lui, nu in a mea. Nu am acces la ele.",
+      "ramase": "POPY: daca vrei sa le verific, da-mi ID-urile, sau spun ce ies din ele."
+    }
+  ]
+}

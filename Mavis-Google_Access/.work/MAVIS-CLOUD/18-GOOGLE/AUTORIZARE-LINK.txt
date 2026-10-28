@@ -1,0 +1,19 @@
+=== GOOGLE — LINK DE AUTORIZARE ===
+
+Generat: 2026-10-28 00:38
+Mod: implicit (token viu → select_account, NU revocă)
+
+--- LINK (copiaza tot cu tot) ---
+
+https://accounts.google.com/o/oauth2/v2/auth?client_id=1068987308935-bp47aoerh6gu1aohm74blfhnccnku773.apps.googleusercontent.com&redirect_uri=http%3A%2F%2F127.0.0.1%3A8976&response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.modify+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdocuments+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fspreadsheets+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fpresentations+https%3A%2F%2Fmail.google.com%2F+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fbooks+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.events+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fchat.messages+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fchat.spaces.readonly+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcontacts+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.appdata+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.readonly+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fforms.body+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fforms.responses.readonly+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.compose+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.readonly+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.send+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.settings.basic+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fphotospicker.mediaitems.readonly+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fscript.projects+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube.readonly+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube.upload+openid&access_type=offline&prompt=select_account&include_granted_scopes=true
+
+--- CE FACI CU EL ---
+
+1. Deschide linkul in browser.
+2. Contul apvizual@gmail.com -> Continue -> Allow.
+3. Browserul va incerca http://127.0.0.1:8976 si da ecran gol sau eroare.
+   ASTA E NORMAL — nimic nu ruleaza acolo.
+4. Copiaza bara de adresa intreaga (contine ?code=...).
+5. Trimite-o inapoi la Mavis Cloud.
+
+IMPORTANT: client_id e identificator public, nu secret. Nu trimite client_secret.

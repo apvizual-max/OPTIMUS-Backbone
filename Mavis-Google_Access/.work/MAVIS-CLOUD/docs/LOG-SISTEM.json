@@ -1,0 +1,287 @@
+{
+ "intrari": [
+  {
+   "t": "2026-10-12 00:53:08",
+   "nivel": "info",
+   "msg": "3 intrebari pe care le puteam verifica singur - rezolvate, eliminate din lista",
+   "rol": "regula",
+   "detaliu": "",
+   "commit": "eb323a2"
+  },
+  {
+   "t": "2026-10-12 00:53:08",
+   "nivel": "info",
+   "msg": "11 Priming KIT-uri create, unul pe capitol",
+   "rol": "structura",
+   "detaliu": "",
+   "commit": "eb323a2"
+  },
+  {
+   "t": "2026-10-12 00:53:08",
+   "nivel": "info",
+   "msg": "Portofoliu reconstruit: 14 proiecte VERIFICATE din matricea lui POPY",
+   "rol": "site",
+   "detaliu": "",
+   "commit": "eb323a2"
+  },
+  {
+   "t": "2026-10-12 00:53:07",
+   "nivel": "info",
+   "msg": "Email corectat: apvizual@gmail.com (verificat in 17 surse)",
+   "rol": "site",
+   "detaliu": "",
+   "commit": "eb323a2"
+  },
+  {
+   "t": "2026-10-11 22:53:39",
+   "nivel": "info",
+   "msg": "Prima sortare completa s-a terminat: 19.070 etichetate",
+   "rol": "gmail",
+   "detaliu": "re Pornit pe restul",
+   "commit": "ff1db01"
+  },
+  {
+   "t": "2026-10-11 22:50:45",
+   "nivel": "info",
+   "msg": "Fisierul cu parola LinkedIn sters - nu a fost niciodata in istoric",
+   "rol": "securitate",
+   "detaliu": "",
+   "commit": "c578ec7"
+  },
+  {
+   "t": "2026-10-11 22:50:45",
+   "nivel": "info",
+   "msg": "CV-urile originale ale lui POPY copiate in repo, ca sursa",
+   "rol": "cv-uri",
+   "detaliu": "22 fisiere; am introdus erori reconstruind de la zero",
+   "commit": "c578ec7"
+  },
+  {
+   "t": "2026-10-11 22:50:45",
+   "nivel": "info",
+   "msg": "Sortare completa: 18.731 mesaje etichetate",
+   "rol": "gmail",
+   "detaliu": "fereastra de varsta eliminata; 106 mutate din spam",
+   "commit": "c578ec7"
+  },
+  {
+   "t": "2026-10-11 20:48:54",
+   "nivel": "info",
+   "msg": "Circuit breaker 50 commituri, doar pentru LOCAL",
+   "rol": "guvernanta",
+   "detaliu": "",
+   "commit": "046287b"
+  },
+  {
+   "t": "2026-10-11 20:48:54",
+   "nivel": "info",
+   "msg": "git-autonom.md si git-install.md create",
+   "rol": "guvernanta",
+   "detaliu": "",
+   "commit": "046287b"
+  },
+  {
+   "t": "2026-10-11 20:48:54",
+   "nivel": "info",
+   "msg": "Skill de control creat: skill-mavis-cloud-control",
+   "rol": "guvernanta",
+   "detaliu": "",
+   "commit": "046287b"
+  },
+  {
+   "t": "2026-10-11 20:48:54",
+   "nivel": "info",
+   "msg": "Protocol C3 aplicat: Live Review nu mai ruleaza la push",
+   "rol": "guvernanta",
+   "detaliu": "doar 03:00 zilnic si la cerere",
+   "commit": "046287b"
+  },
+  {
+   "t": "2026-10-11 20:20:27",
+   "nivel": "info",
+   "msg": "Regula generala implementata: totul in repo automat",
+   "rol": "sistem",
+   "detaliu": "mavis-cloud-autosave.sh: pull, R0, commit, push",
+   "commit": "8526a53"
+  },
+  {
+   "t": "2026-10-11 14:28:48",
+   "nivel": "info",
+   "msg": "2 skilluri noi: git auto commit R0 push, si github setup",
+   "rol": "skilluri",
+   "detaliu": "",
+   "commit": "f857669"
+  },
+  {
+   "t": "2026-10-11 14:28:48",
+   "nivel": "info",
+   "msg": "DEPLOYMENT FIXAT: unul singur, nu se mai face altul",
+   "rol": "regula",
+   "detaliu": "https://da15e9yb994ps.space.minimax.io - nu mai ating",
+   "commit": "f857669"
+  },
+  {
+   "t": "2026-10-11 14:28:48",
+   "nivel": "info",
+   "msg": "Tab TO DO adaugat, cu 10 sarcini si status",
+   "rol": "interfata",
+   "detaliu": "",
+   "commit": "f857669"
+  },
+  {
+   "t": "2026-10-11 13:16:03",
+   "nivel": "info",
+   "msg": "Reparat: setup script Jules cu sudo, set -uo pipefail",
+   "rol": "jules",
+   "detaliu": "eroarea era Permission denied pe apt, Jules nu ruleaza ca root",
+   "commit": "71f2db2"
+  },
+  {
+   "t": "2026-10-11 13:16:03",
+   "nivel": "info",
+   "msg": "Reparat: documentele nu mai dau 404, vizualizator inclus",
+   "rol": "site",
+   "detaliu": "",
+   "commit": "71f2db2"
+  },
+  {
+   "t": "2026-10-10 21:59:00",
+   "nivel": "info",
+   "msg": "Jules a gasit 30+ probleme reale, inclusiv lipsa testelor",
+   "rol": "jules",
+   "detaliu": "cea mai utila: cv-mutator.js si letter-engine.js nu au niciun test automat",
+   "commit": "1a73909"
+  },
+  {
+   "t": "2026-10-10 21:59:00",
+   "nivel": "info",
+   "msg": "Cheie Jules API stocata in secrets",
+   "rol": "jules",
+   "detaliu": "",
+   "commit": "1a73909"
+  },
+  {
+   "t": "2026-10-10 21:59:00",
+   "nivel": "info",
+   "msg": "Jules instrumentat: setup script, memorii, task de teste",
+   "rol": "jules",
+   "detaliu": "",
+   "commit": "1a73909"
+  },
+  {
+   "t": "2026-10-10 21:59:00",
+   "nivel": "info",
+   "msg": "Panoul devine un singur site cu 5 tab-uri",
+   "rol": "interfata",
+   "detaliu": "Pano, Site CV, Punte, Jules/Git/GitHub, Prompt",
+   "commit": "1a73909"
+  },
+  {
+   "t": "2026-10-10 21:57:29",
+   "nivel": "info",
+   "msg": "Repo redenumit: apvizual-max/Mavis -> apvizual-max/MAVIS-CLOUD",
+   "rol": "git",
+   "detaliu": "",
+   "commit": "bdefb8f"
+  },
+  {
+   "t": "2026-10-10 20:36:39",
+   "nivel": "info",
+   "msg": "14.146 mesaje sortate pe 8 etichete",
+   "rol": "gmail",
+   "detaliu": "",
+   "commit": "bc6a680"
+  },
+  {
+   "t": "2026-10-10 20:36:39",
+   "nivel": "info",
+   "msg": "Sentinel si Registru extern create",
+   "rol": "documentatie",
+   "detaliu": "",
+   "commit": "bc6a680"
+  },
+  {
+   "t": "2026-10-10 20:36:38",
+   "nivel": "info",
+   "msg": "Site CV Graphic Designer construit",
+   "rol": "graphic-designer",
+   "detaliu": "3 taburi, 12 proiecte reale, strat de date separat de UI",
+   "commit": "bc6a680"
+  },
+  {
+   "t": "2026-10-10 20:36:38",
+   "nivel": "info",
+   "msg": "14 skill-uri importate din emilkowalski/skills",
+   "rol": "skilluri",
+   "detaliu": "",
+   "commit": "bc6a680"
+  },
+  {
+   "t": "2026-10-10 20:36:38",
+   "nivel": "info",
+   "msg": "7 skill-uri noi create din lectii",
+   "rol": "skilluri",
+   "detaliu": "generic-vs-specific, job-sourcing-methods, cv-generation-pipeline, data-driven-site-build, gmail-label-correction, sandbox-gotchas, google-drive-file-organization",
+   "commit": "bc6a680"
+  },
+  {
+   "t": "2026-10-10 20:36:38",
+   "nivel": "info",
+   "msg": "Workflow GitHub Actions verde la 5 verificari",
+   "rol": "git",
+   "detaliu": "",
+   "commit": "bc6a680"
+  },
+  {
+   "t": "2026-10-10 20:36:38",
+   "nivel": "info",
+   "msg": "Flux CI: ramura + PR in loc de push direct in main",
+   "rol": "git",
+   "detaliu": "",
+   "commit": "bc6a680"
+  },
+  {
+   "t": "2026-10-10 20:36:38",
+   "nivel": "info",
+   "msg": "Corectat numaratorul: replace(' ','') sterga primul spatiu",
+   "rol": "gmail",
+   "detaliu": "3 etichete raportate ca 0, erau pline",
+   "commit": "bc6a680"
+  },
+  {
+   "t": "2026-10-10 20:36:38",
+   "nivel": "info",
+   "msg": "Renumit MAVIS/Actiune - de raspuns -> MAVIS/De raspuns",
+   "rol": "gmail",
+   "detaliu": "Gmail nu indexeaza etichete cu liniuta",
+   "commit": "bc6a680"
+  },
+  {
+   "t": "2026-10-10 20:36:38",
+   "nivel": "info",
+   "msg": "Panou de bord redenumit Mavis Cloud",
+   "rol": "sistem",
+   "detaliu": "",
+   "commit": "bc6a680"
+  },
+  {
+   "t": "2026-10-10 20:36:38",
+   "nivel": "info",
+   "msg": "Sistem de log pornit: plafon 150, rotatie FIFO",
+   "rol": "sistem",
+   "detaliu": "",
+   "commit": "bc6a680"
+  },
+  {
+   "t": "2026-10-10 20:36:38",
+   "nivel": "info",
+   "msg": "Contact real introdus in site",
+   "rol": "graphic-designer",
+   "detaliu": "apvisual.arond@gmail.com / +40722121752",
+   "commit": "bc6a680"
+  }
+ ],
+ "nivel": {
+  "info": 35
+ }
+}

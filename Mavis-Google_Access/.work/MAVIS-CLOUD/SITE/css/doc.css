@@ -1,0 +1,43 @@
+/* Vizualizator de documente: markdown -> HTML, fara dependinte.
+   Deschise din panou cu ?doc=Nume.md */
+:root{--bg:#0b0f19;--panel:#0f172a;--line:#1e293b;--ink:#f8fafc;--muted:#94a3b8;--brand:#14b8a6}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',-apple-system,sans-serif;
+     line-height:1.7;padding:0 0 90px}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px}
+
+.bar{position:sticky;top:0;z-index:40;background:rgba(11,15,25,.95);backdrop-filter:blur(12px);
+     border-bottom:1px solid var(--line);padding:14px 0;margin-bottom:34px}
+.bar .wrap{display:flex;align-items:center;gap:14px}
+.back{color:var(--brand);text-decoration:none;font-weight:700;font-size:13.5px}
+.back:hover{text-decoration:underline}
+.name{color:var(--muted);font-size:13px;font-family:ui-monospace,Menlo,monospace;
+      overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+h1{font-size:2rem;font-weight:800;letter-spacing:-.02em;margin:0 0 22px;line-height:1.15}
+h2{font-size:1.12rem;font-weight:800;margin:34px 0 12px;padding-bottom:8px;
+   border-bottom:1px solid var(--line);color:var(--brand)}
+h3{font-size:1rem;font-weight:700;margin:24px 0 8px}
+p{margin-bottom:13px;color:#cbd5e1;font-size:15px}
+ul,ol{margin:0 0 16px 22px;color:#cbd5e1;font-size:15px}
+li{margin-bottom:6px}
+hr{border:0;border-top:1px solid var(--line);margin:26px 0}
+code{background:rgba(20,184,166,.1);border:1px solid rgba(20,184,166,.22);color:#5eead4;
+     padding:1px 6px;border-radius:5px;font-family:ui-monospace,Menlo,monospace;font-size:.87em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:15px;
+    overflow-x:auto;margin-bottom:16px}
+pre code{background:none;border:0;padding:0;color:#cbd5e1;font-size:13px;line-height:1.65}
+strong{color:#f8fafc;font-weight:700}
+em{color:var(--muted)}
+a{color:var(--brand)}
+table{border-collapse:collapse;width:100%;margin-bottom:18px;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:8px 11px;text-align:left}
+th{background:var(--panel);color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+blockquote{border-left:3px solid var(--brand);padding-left:15px;margin-bottom:16px;color:var(--muted)}
+.err{color:#f87171;background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.25);
+     padding:16px;border-radius:10px;margin-top:40px}
+.choose{margin-top:60px}
+.choose a{display:block;padding:11px 15px;margin-bottom:6px;background:var(--panel);
+          border:1px solid var(--line);border-radius:9px;text-decoration:none;font-size:13.5px}
+.choose a:hover{border-color:var(--brand)}

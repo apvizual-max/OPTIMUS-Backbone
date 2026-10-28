@@ -1,0 +1,7 @@
+## 2024-10-23 - Interactive elements accessibility in dynamically generated UIs
+**Learning:** Found that custom tab interfaces generated dynamically via Python scripts often lack standard ARIA roles (`tablist`, `tab`, `tabpanel`) and native focus indicators, making them difficult to use for keyboard and screen reader users. Additionally, icon-only action buttons (like delete 'X') frequently miss `aria-label`s.
+**Action:** When inspecting statically generated or custom UI hubs, proactively check tab structures for proper ARIA roles and ensure all interactive elements (buttons, links, tabs) have a `:focus-visible` outline applied in the embedded CSS.
+
+## 2024-10-24 - Form accessibility in custom UI hubs
+**Learning:** Found that custom tab interfaces generated dynamically via Python scripts often miss the `for` attribute in their `<label>` elements, disconnecting them from their input fields (like `<textarea>`). This not only breaks screen reader experience but also reduces the clickable area for interacting with the inputs. Additionally, inline JavaScript callbacks in generated HTML can easily contain typos (e.g., `stergeActțiune` instead of `stergeAcțiune`), breaking fundamental UX interactions like deleting items.
+**Action:** Always ensure that `for` attributes correctly map to input `id`s in custom HTML generation tools. When reviewing generated UI code, cross-check inline HTML event handlers against their JavaScript definitions to catch functional UX regressions.

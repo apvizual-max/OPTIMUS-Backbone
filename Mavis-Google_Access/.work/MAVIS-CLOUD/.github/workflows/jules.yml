@@ -1,0 +1,74 @@
+name: Invoke Jules
+
+# CUM SE DECLANȘEA JULES - mecanisme reale, verificate în documentație:
+#
+# 1. eticheta 'jules' pe un GitHub issue  → "label on, task live"
+# 2. mențiune @jules pe un comentariu de PR  → DOAR dacă Jules are deja
+#    un PR deschis, și doar în Reactive Mode
+# 3. jules-action (asta e aici)       → declanșează din orice eveniment
+# 4. Jules CLI                               → jules remote new / task create
+#
+# #3 este singurul care se poate programa. Îl folosim pentru eticheta 'jules'
+# și pentru o programare săptămânală, ca să nu ardem cota de 100/zi.
+
+on:
+  issues:
+    types: [opened, labeled, reopened]
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+    inputs:
+      sarcina:
+        description: 'Instrucțiunea pentru Jules'
+        required: true
+        default: 'Citește AGENTS.md, apoi docs/HANDOFF-COMPLET.md, apoi raportează starea. Nu construiește nimic până nu primește o sarcină concretă.'
+  schedule:
+    # Weekly tech-debt sweep - duminică la 09:00. Nu zilnic: cota e 100/zi.
+    - cron: '0 9 * * 0'
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  jules:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # eticheta 'jules' pe issue declanșează automat
+      - name: Task din eticheta 'jules'
+        if: github.event_name == 'issues' && contains(github.event.issue.labels.*.name, 'jules')
+        uses: google-labs-code/jules-action@v1.0.0
+        with:
+          jules_api_key: ${{ secrets.JULES_API_KEY }}
+          prompt: |
+            Citește AGENTS.md și docs/HANDOFF-COMPLET.md înainte de orice lucru.
+            Citește issue-ul: ${{ github.event.issue.title }}
+            ${{ github.event.issue.body }}
+            Lucrează pe main, deschide pull request, nu împinge direct pe main.
+            Respectă cele 8 reguli din AGENTS.md. Nu inventa date.
+
+      # invocare manuală din workflow_dispatch
+      - name: Task manual
+        if: github.event_name == 'workflow_dispatch'
+        uses: google-labs-code/jules-action@v1.0.0
+        with:
+          jules_api_key: ${{ secrets.JULES_API_KEY }}
+          prompt: ${{ github.event.inputs.sarcina }}
+
+      # sweep săptămânal: audit, nu implementare
+      - name: Audit săptămânal
+        if: github.event_name == 'schedule'
+        uses: google-labs-code/jules-action@v1.0.0
+        with:
+          jules_api_key: ${{ secrets.JULES_API_KEY }}
+          prompt: |
+            Audit săptămânal. NU construiește nimic.
+            1. Citește docs/LOG-SISTEM.json, filtrează nivel=eroare sau critic
+            2. Rulează node --check pe toate fișierele .js
+            3. Verifică dacă ALEX-KIT/SABLOANE/ conține nume de firmă
+            4. Verifică dacă workflow-ul Verificare trece
+            5. Scrie un raport în docs/SENTINEL/ și deschide un PR cu el
+            Dacă totul e verde, scrie doar „nimic de reparat" și nu deschide PR.

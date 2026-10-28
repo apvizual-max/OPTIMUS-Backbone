@@ -1,0 +1,272 @@
+{
+  "stamp": "2026-10-28-01-29",
+  "proofFolder": "15yF4DXBUuaEQ1J2GjRlvUt0e7KGP6DEd",
+  "results": [
+    {
+      "nume": "drive: listare (children)",
+      "serviciu": "Drive",
+      "status": "OK",
+      "detail": "7 elemente",
+      "ms": 554
+    },
+    {
+      "nume": "drive: about (cota)",
+      "serviciu": "Drive",
+      "status": "OK",
+      "detail": "107.78 GB folositi",
+      "ms": 184
+    },
+    {
+      "nume": "drive: search (q pe nume)",
+      "serviciu": "Drive",
+      "status": "OK",
+      "detail": "5 rezultate",
+      "ms": 381
+    },
+    {
+      "nume": "drive: create folder",
+      "serviciu": "Drive",
+      "status": "OK",
+      "detail": "id 15yF4DXBUuaEQ1J2GjRlvUt0e7KGP6DEd",
+      "ms": 689
+    },
+    {
+      "nume": "drive: upload fisier text",
+      "serviciu": "Drive",
+      "status": "OK",
+      "detail": "id 1GjWmNdCME9KTGsCzKEzjUnmQL5jqMbM- · 104B",
+      "ms": 1514
+    },
+    {
+      "nume": "drive: read back continut",
+      "serviciu": "Drive",
+      "status": "OK",
+      "detail": "15 caractere citite",
+      "ms": 660
+    },
+    {
+      "nume": "drive: rename",
+      "serviciu": "Drive",
+      "status": "OK",
+      "detail": "nume nou: PROBE-RENUMIT-2026-10-28-01-29.md",
+      "ms": 1060
+    },
+    {
+      "nume": "drive: move intre foldere",
+      "serviciu": "Drive",
+      "status": "OK",
+      "detail": "parinte nou: corect",
+      "ms": 2024
+    },
+    {
+      "nume": "drive: create Google Doc NATIV (workaround)",
+      "serviciu": "Drive",
+      "status": "OK",
+      "detail": "id 1fu2i7h_34O-TOe6TzEiB29mKSepjSXNxzGsppHYVt78 · export: 0 caractere",
+      "ms": 2113
+    },
+    {
+      "nume": "drive: write in Google Doc (batchUpdate)",
+      "serviciu": "Drive",
+      "status": "FAIL",
+      "detail": "HTTP 400: {\"raw\":\"<!DOCTYPE html><html lang=\\\"en\\\"><head><script nonce=\\\"DgmfsNOdthBSk2xLnIjGaA\\\">window['ppConfig'] = {productName: '26981ed0d57bbad3",
+      "ms": 1403
+    },
+    {
+      "nume": "drive: permissions.list",
+      "serviciu": "Drive",
+      "status": "OK",
+      "detail": "1 permisiuni",
+      "ms": 160
+    },
+    {
+      "nume": "drive: share (create permission)",
+      "serviciu": "Drive",
+      "status": "OK",
+      "detail": "permission id anyoneWithLink",
+      "ms": 1011
+    },
+    {
+      "nume": "drive: trash + untrash (reversibil)",
+      "serviciu": "Drive",
+      "status": "OK",
+      "detail": "trashed=undefined -> recuperat=true",
+      "ms": 1911
+    },
+    {
+      "nume": "drive: copy",
+      "serviciu": "Drive",
+      "status": "OK",
+      "detail": "copie id 1-zenaAtUyNSwZb5-c95DTxVZaA9WH0ds",
+      "ms": 1327
+    },
+    {
+      "nume": "gmail: profile",
+      "serviciu": "Gmail",
+      "status": "OK",
+      "detail": "apvizual@gmail.com · 82880 mesaje",
+      "ms": 179
+    },
+    {
+      "nume": "gmail: list mesaje",
+      "serviciu": "Gmail",
+      "status": "OK",
+      "detail": "5 returnate",
+      "ms": 186
+    },
+    {
+      "nume": "gmail: read mesaj",
+      "serviciu": "Gmail",
+      "status": "OK",
+      "detail": "id 1a1801e330556e6b · Alexandru Popescu shared an item Alexand",
+      "ms": 354
+    },
+    {
+      "nume": "gmail: labels (read)",
+      "serviciu": "Gmail",
+      "status": "OK",
+      "detail": "51 etichete",
+      "ms": 156
+    },
+    {
+      "nume": "gmail: create DRAFT (nu trimite)",
+      "serviciu": "Gmail",
+      "status": "OK",
+      "detail": "draft id r-3475396682826498101",
+      "ms": 360
+    },
+    {
+      "nume": "gmail: modify mesaj (add label) — pe draft-ul propriu",
+      "serviciu": "Gmail",
+      "status": "OK",
+      "detail": "labels: DRAFT,IMPORTANT",
+      "ms": 863
+    },
+    {
+      "nume": "gmail: batchModify",
+      "serviciu": "Gmail",
+      "status": "OK",
+      "detail": "status: ok",
+      "ms": 603
+    },
+    {
+      "nume": "gmail: filters.list (read)",
+      "serviciu": "Gmail",
+      "status": "OK",
+      "detail": "19 filtre",
+      "ms": 257
+    },
+    {
+      "nume": "gmail: filter CREATE+DELETE (throwaway) → dovedeste write",
+      "serviciu": "Gmail",
+      "status": "OK",
+      "detail": "filtru id ANe1BmjB_Jj9yzn7W6F9QE45lTE3LQOZJwzcBLE36OAxfQ",
+      "ms": 393
+    },
+    {
+      "nume": "calendar: list calendars",
+      "serviciu": "Calendar",
+      "status": "OK",
+      "detail": "4 calendare · tinta: apvizual@gmail.com",
+      "ms": 222
+    },
+    {
+      "nume": "calendar: list events",
+      "serviciu": "Calendar",
+      "status": "OK",
+      "detail": "5 evenimente",
+      "ms": 224
+    },
+    {
+      "nume": "calendar: create event",
+      "serviciu": "Calendar",
+      "status": "OK",
+      "detail": "event id u8u1mgqp9i0lf6h6to1ell0r90",
+      "ms": 325
+    },
+    {
+      "nume": "calendar: read event back",
+      "serviciu": "Calendar",
+      "status": "OK",
+      "detail": "[PROBE Mavis Cloud] test 2026-10-28-01-29",
+      "ms": 173
+    },
+    {
+      "nume": "calendar: update event",
+      "serviciu": "Calendar",
+      "status": "OK",
+      "detail": "[PROBE Mavis Cloud] EDITAT 2026-10-28-01-29",
+      "ms": 477
+    },
+    {
+      "nume": "sheets: create spreadsheet",
+      "serviciu": "Sheets",
+      "status": "OK",
+      "detail": "id 1zc2bf9O_dWRUwhsHGl2ytI7YmPnZyIvUHy7ljzSpr7M",
+      "ms": 707
+    },
+    {
+      "nume": "sheets: write values",
+      "serviciu": "Sheets",
+      "status": "OK",
+      "detail": "updatedRange: Probe!A1:C2",
+      "ms": 818
+    },
+    {
+      "nume": "sheets: read values",
+      "serviciu": "Sheets",
+      "status": "OK",
+      "detail": "2 randuri · A1=Mavis Cloud",
+      "ms": 150
+    },
+    {
+      "nume": "sheets: append",
+      "serviciu": "Sheets",
+      "status": "OK",
+      "detail": "updatedRange: undefined",
+      "ms": 143
+    },
+    {
+      "nume": "sheets: move spreadsheet in proof folder",
+      "serviciu": "Sheets",
+      "status": "OK",
+      "detail": "corect",
+      "ms": 1172
+    },
+    {
+      "nume": "slides: create presentation",
+      "serviciu": "Slides",
+      "status": "OK",
+      "detail": "id 1NVjxFFM_rfPqsgXr56T9mA01Vi9ysVFKRd-WGbce42k · 1 slide-uri",
+      "ms": 650
+    },
+    {
+      "nume": "slides: read presentation",
+      "serviciu": "Slides",
+      "status": "OK",
+      "detail": "1 slide-uri · titlu: PROBE-Slides-2026-10-28-01-29",
+      "ms": 279
+    },
+    {
+      "nume": "slides: batchUpdate (add slide cu text)",
+      "serviciu": "Slides",
+      "status": "OK",
+      "detail": "2 slide-uri · text scris: [\"Titlu scris de Mavis Cloud.\\n\",\"Corp scris de Mavis Cloud.\\n\"]",
+      "ms": 825
+    },
+    {
+      "nume": "docs: API direct (asteptat BLOCAT din cloud)",
+      "serviciu": "Docs",
+      "status": "FAIL",
+      "detail": "HTTP 400: {\"raw\":\"<!DOCTYPE html><html lang=\\\"en\\\"><head><script nonce=\\\"VqSqVa34UghaAe0-kvQTtw\\\">window['ppConfig'] = {productName: '26981ed0d57bbad3",
+      "ms": 1059
+    },
+    {
+      "nume": "docs: WORKAROUND (upload -> copy nativ -> export)",
+      "serviciu": "Docs",
+      "status": "OK",
+      "detail": "doc nativ id 1-EAXGf3RGych8_Erz3BrIdiiz_G8jOM7k-K2aQpf6Qo · export 53 char · continut CORECT",
+      "ms": 4849
+    }
+  ]
+}

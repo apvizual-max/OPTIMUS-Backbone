@@ -1,0 +1,95 @@
+name: Verificare
+
+# PROTOCOL C3: Live Review NU ruleaza la fiecare push - arde cotele.
+# Ruleaza doar:
+#   - o data pe zi, noaptea (03:00)
+#   - la cerere explicita (workflow_dispatch)
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  verificare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Niciun secret în commit
+        run: |
+          HIT=$(git ls-files | grep -iE '(^|/)(\.env|oauth\.json|tokens?\.json|.*\.pem|.*\.key|.*credentials.*)$' || true)
+          if [ -n "$HIT" ]; then
+            echo "❌ SECRET ÎN COMMIT — build oprit:"; echo "$HIT"; exit 1
+          fi
+          echo "✅ niciun fisier de secret"
+
+      - name: JSON-uri valide
+        run: |
+          python3 - <<'PY'
+          import json, glob, sys
+          bad = 0
+          for f in glob.glob('**/*.json', recursive=True):
+              if 'node_modules' in f or f.endswith('package-lock.json'):
+                  continue
+              try:
+                  json.load(open(f, encoding='utf-8'))
+              except Exception as e:
+                  print('❌ JSON INCORECT:', f, e); bad = 1
+          print('✅ toate JSON-urile sunt valide' if not bad else '')
+          sys.exit(bad)
+          PY
+
+      - name: JavaScript fără erori de sintaxă
+        run: |
+          bad=0
+          for f in $(find . -name "*.js" -not -path "*/node_modules/*" -not -path "*/vendor/*"); do
+            if ! node --check "$f"; then bad=1; fi
+          done
+          [ $bad -eq 0 ] && echo "✅ sintaxă JS corectă"
+          exit $bad
+
+      - name: Teste automate CV Mutator
+        run: |
+          node --test ALEX-KIT/cv-mutator.test.js
+          echo "✅ teste cv-mutator trecute"
+
+      - name: Teste automate memory snapshot
+        run: |
+          node --test mavis-tools/memory-snapshot.test.js
+          echo "✅ teste memory-snapshot trecute"
+
+      - name: Python fără erori de sintaxă
+        run: |
+          python3 - <<'PY'
+          import ast, glob, sys
+          bad = 0
+          for f in glob.glob('SITE/*.py') + glob.glob('mavis-tools/*.py'):
+              try:
+                  ast.parse(open(f, encoding='utf-8').read())
+              except Exception as e:
+                  print('❌ PY INCORECT:', f, e); bad = 1
+          print('✅ sintaxă Python corectă' if not bad else '')
+          sys.exit(bad)
+          PY
+
+      - name: Endpoint-uri Google validate
+        run: |
+          node mavis-tools/test-endpoints.js
+          echo "✅ endpoint-uri Google verificate (404 = URL gresit)"
+
+      - name: Site-ul se construiește
+        run: |
+          python3 SITE/build-hub.py
+          test -s SITE/dist/index.html
+          echo "✅ site generat"
+
+      - name: Șabloanele generice nu conțin nume de firmă
+        run: |
+          HIT=$(grep -ril "saatchi\|bell studio\|ontheroof\|flaminjoy\|international waters" ALEX-KIT/SABLOANE/ 2>/dev/null || true)
+          if [ -n "$HIT" ]; then
+            echo "❌ SABLOANE NE-GENERICE:"; echo "$HIT"; exit 1
+          fi
+          echo "✅ șabloanele sunt generice"

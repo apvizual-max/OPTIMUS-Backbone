@@ -1,0 +1,359 @@
+{
+  "today": "2026/10/28",
+  "labels": [
+    {
+      "key": "joburi",
+      "title": "Joburi",
+      "name": "MAVIS/Joburi",
+      "counts": {
+        "azi": 5,
+        "24h": 39,
+        "7z": 39,
+        "30z": 350
+      },
+      "newest": {
+        "id": "1a180e70c885994c",
+        "subject": "13 new jobs for you: graphic design, bucharest",
+        "date": "Wed, 28 Oct 2026 07:06:10 +0200",
+        "from": "Bestjobs <contact@bestjobs.eu>"
+      },
+      "newestDate": "Wed, 28 Oct 2026 07:06:10 +0200",
+      "samples": [
+        {
+          "id": "1a180e70c885994c",
+          "subject": "13 new jobs for you: graphic design, bucharest",
+          "date": "Wed, 28 Oct 2026 07:06:10 +0200",
+          "from": "Bestjobs <contact@bestjobs.eu>"
+        },
+        {
+          "id": "1a180ea91e4c7e9a",
+          "subject": "Un job nou te asteapta azi pe eJobs.ro!",
+          "date": "Wed, 28 Oct 2026 05:04:34 +0000",
+          "from": "Alerta eJobs <contact@mta.ejobs.ro>"
+        },
+        {
+          "id": "1a180d9ce7d3e20f",
+          "subject": "Travel Planner caută Full-Stack Engineer (Laravel + Vue.js), UX-focused, Customer-Facing Web și 100 mai multe oferte noi de muncă",
+          "date": "Wed, 28 Oct 2026 04:52:00 +0000",
+          "from": "Jooble <subscribe@ro.jooble.org>"
+        },
+        {
+          "id": "1a180c8bcc37e7b5",
+          "subject": "Alex - 7 Joburi noi adaugate pentru tine pe hipo.ro",
+          "date": "Wed, 28 Oct 2026 06:33:20 +0200",
+          "from": "\"Joburi Hipo.ro\" <joburi@alertele.hipo.ro>"
+        }
+      ]
+    },
+    {
+      "key": "ai",
+      "title": "AI si comunitati",
+      "name": "AI Folder/AI si Comunitati",
+      "counts": {
+        "azi": 3,
+        "24h": 18,
+        "7z": 18,
+        "30z": 128
+      },
+      "newest": {
+        "id": "1a181072100875d1",
+        "subject": "Death and Dissolution: The Role of a Master",
+        "date": "Wed, 28 Oct 2026 05:41:30 +0000",
+        "from": "Isha News <isha.offerings@sadhguru.org>"
+      },
+      "newestDate": "Wed, 28 Oct 2026 05:41:30 +0000",
+      "samples": [
+        {
+          "id": "1a181072100875d1",
+          "subject": "Death and Dissolution: The Role of a Master",
+          "date": "Wed, 28 Oct 2026 05:41:30 +0000",
+          "from": "Isha News <isha.offerings@sadhguru.org>"
+        },
+        {
+          "id": "1a180ecdaa07388d",
+          "subject": "HOW MANY WOMEN DOES A MAN NEED",
+          "date": "Wed, 28 Oct 2026 05:12:39 +0000",
+          "from": "DocFreemason <docfreemason@substack.com>"
+        },
+        {
+          "id": "1a18013b326c76ae",
+          "subject": "Fwd: Mentoring Application",
+          "date": "Wed, 28 Oct 2026 01:00:45 +0000",
+          "from": "\"Felix & Winston 🐶\" <felix@goatacademy.org>"
+        },
+        {
+          "id": "1a17fc62cb321e36",
+          "subject": "Mid-Level Thumbnail Designer job at There's An AI For That - 1 connection",
+          "date": "Tue, 27 Oct 2026 23:50:56 +0000 (UTC)",
+          "from": "LinkedIn Job Alerts <jobalerts-noreply@linkedin.com>"
+        }
+      ]
+    },
+    {
+      "key": "social",
+      "title": "Social",
+      "name": "Socials",
+      "counts": {
+        "azi": 3,
+        "24h": 4,
+        "7z": 4,
+        "30z": 212
+      },
+      "newest": {
+        "id": "1a1810fda288de35",
+        "subject": "Weekly digest for Wed, Oct 21 2026",
+        "date": "Wed, 28 Oct 2026 05:51:02 +0000 (UTC)",
+        "from": "\"The RoboNuggets Network (free) (Skool)\" <noreply@skool.com>"
+      },
+      "newestDate": "Wed, 28 Oct 2026 05:51:02 +0000 (UTC)",
+      "samples": [
+        {
+          "id": "1a1810fda288de35",
+          "subject": "Weekly digest for Wed, Oct 21 2026",
+          "date": "Wed, 28 Oct 2026 05:51:02 +0000 (UTC)",
+          "from": "\"The RoboNuggets Network (free) (Skool)\" <noreply@skool.com>"
+        },
+        {
+          "id": "1a180efe3b97dc9c",
+          "subject": "Weekly digest for Wed, Oct 21 2026",
+          "date": "Wed, 28 Oct 2026 05:16:06 +0000 (UTC)",
+          "from": "\"AI Automation Society (Skool)\" <noreply@skool.com>"
+        },
+        {
+          "id": "1a18047fff8fe026",
+          "subject": "51 new notifications since 4:12 am (Oct 27, 2026)",
+          "date": "Wed, 28 Oct 2026 02:12:43 +0000 (UTC)",
+          "from": "\"AI Money Lab (Skool)\" <noreply@skool.com>"
+        },
+        {
+          "id": "1a17c6669aab5e9e",
+          "subject": "1 event happening tomorrow",
+          "date": "Tue, 27 Oct 2026 08:07:28 +0000 (UTC)",
+          "from": "\"Samin's Free AI Resource Hub (Skool)\" <noreply@skool.com>"
+        }
+      ]
+    },
+    {
+      "key": "newsletter",
+      "title": "Newsletter",
+      "name": "Newsletter",
+      "counts": {
+        "azi": 6,
+        "24h": 50,
+        "7z": 50,
+        "30z": 271
+      },
+      "newest": {
+        "id": "1a1810fda288de35",
+        "subject": "Weekly digest for Wed, Oct 21 2026",
+        "date": "Wed, 28 Oct 2026 05:51:02 +0000 (UTC)",
+        "from": "\"The RoboNuggets Network (free) (Skool)\" <noreply@skool.com>"
+      },
+      "newestDate": "Wed, 28 Oct 2026 05:51:02 +0000 (UTC)",
+      "samples": [
+        {
+          "id": "1a1810fda288de35",
+          "subject": "Weekly digest for Wed, Oct 21 2026",
+          "date": "Wed, 28 Oct 2026 05:51:02 +0000 (UTC)",
+          "from": "\"The RoboNuggets Network (free) (Skool)\" <noreply@skool.com>"
+        },
+        {
+          "id": "1a181072100875d1",
+          "subject": "Death and Dissolution: The Role of a Master",
+          "date": "Wed, 28 Oct 2026 05:41:30 +0000",
+          "from": "Isha News <isha.offerings@sadhguru.org>"
+        },
+        {
+          "id": "1a180efe3b97dc9c",
+          "subject": "Weekly digest for Wed, Oct 21 2026",
+          "date": "Wed, 28 Oct 2026 05:16:06 +0000 (UTC)",
+          "from": "\"AI Automation Society (Skool)\" <noreply@skool.com>"
+        },
+        {
+          "id": "1a18047fff8fe026",
+          "subject": "51 new notifications since 4:12 am (Oct 27, 2026)",
+          "date": "Wed, 28 Oct 2026 02:12:43 +0000 (UTC)",
+          "from": "\"AI Money Lab (Skool)\" <noreply@skool.com>"
+        }
+      ]
+    },
+    {
+      "key": "finante",
+      "title": "Finante",
+      "name": "Finante",
+      "counts": {
+        "azi": 0,
+        "24h": 3,
+        "7z": 3,
+        "30z": 8
+      },
+      "newest": {
+        "id": "1a17dc482342f6b9",
+        "subject": "New idea by Cryptollica — check it out",
+        "date": "Tue, 27 Oct 2026 14:29:51 -0000",
+        "from": "TradingView <noreply@tradingview.com>"
+      },
+      "newestDate": "Tue, 27 Oct 2026 14:29:51 -0000",
+      "samples": [
+        {
+          "id": "1a17dc482342f6b9",
+          "subject": "New idea by Cryptollica — check it out",
+          "date": "Tue, 27 Oct 2026 14:29:51 -0000",
+          "from": "TradingView <noreply@tradingview.com>"
+        },
+        {
+          "id": "1a17d422fa02742e",
+          "subject": "A new mind by TradingView, check it out",
+          "date": "Tue, 27 Oct 2026 12:07:30 +0000",
+          "from": "TradingView <noreply@tradingview.com>"
+        },
+        {
+          "id": "1a17c49a45562efc",
+          "subject": "New idea by Cryptollica — check it out",
+          "date": "Tue, 27 Oct 2026 07:36:01 -0000",
+          "from": "TradingView <noreply@tradingview.com>"
+        },
+        {
+          "id": "1a112cd10810c41d",
+          "subject": "Ether.fi Partners with MoonPay to Power Full Stack Payments for Crypto Neobanking",
+          "date": "Tue, 6 Oct 2026 19:59:51 +0000 (UTC)",
+          "from": "MoonPay via LinkedIn <newsletters-noreply@linkedin.com>"
+        }
+      ]
+    },
+    {
+      "key": "personal",
+      "title": "Personal",
+      "name": "Personal",
+      "counts": {
+        "azi": 0,
+        "24h": 0,
+        "7z": 0,
+        "30z": 0
+      },
+      "newest": null,
+      "newestDate": null
+    },
+    {
+      "key": "actiune",
+      "title": "De raspuns",
+      "name": "De raspuns",
+      "counts": {
+        "azi": 0,
+        "24h": 0,
+        "7z": 0,
+        "30z": 28
+      },
+      "newest": {
+        "id": "1a120e8558d6b485",
+        "subject": "Re: Follow-up aplicare job Happy Advertising",
+        "date": "Fri, 9 Oct 2026 16:44:22 +0300",
+        "from": "Alexandru Popescu <apvizual@gmail.com>"
+      },
+      "newestDate": "Fri, 9 Oct 2026 16:44:22 +0300",
+      "samples": [
+        {
+          "id": "1a120e8558d6b485",
+          "subject": "Re: Follow-up aplicare job Happy Advertising",
+          "date": "Fri, 9 Oct 2026 16:44:22 +0300",
+          "from": "Alexandru Popescu <apvizual@gmail.com>"
+        },
+        {
+          "id": "1a120df95086ff94",
+          "subject": "Re: Follow-up aplicare job Happy Advertising",
+          "date": "Fri, 9 Oct 2026 16:34:33 +0300",
+          "from": "Alex Filoti <alex@happyadv.ro>"
+        },
+        {
+          "id": "1a120dd75d412b7e",
+          "subject": "Re: Follow-up aplicare job Happy Advertising",
+          "date": "Fri, 9 Oct 2026 16:32:29 +0300",
+          "from": "Alexandru Popescu <apvizual@gmail.com>"
+        },
+        {
+          "id": "1a120c2749efaee8",
+          "subject": "Re: Follow-up aplicare job Happy Advertising",
+          "date": "Fri, 9 Oct 2026 16:02:44 +0300",
+          "from": "Alex Filoti <alex@happyadv.ro>"
+        }
+      ]
+    },
+    {
+      "key": "facturi",
+      "title": "Facturi si conturi",
+      "name": "Facturi si Conturi",
+      "counts": {
+        "azi": 0,
+        "24h": 0,
+        "7z": 0,
+        "30z": 1
+      },
+      "newest": {
+        "id": "1a120593ede9884b",
+        "subject": "Confirmare plată facturi prin Pago",
+        "date": "Fri, 09 Oct 2026 11:08:01 +0000 (UTC)",
+        "from": "\"Plăți Pago\" <plati@pagoplateste.ro>"
+      },
+      "newestDate": "Fri, 09 Oct 2026 11:08:01 +0000 (UTC)",
+      "samples": [
+        {
+          "id": "1a120593ede9884b",
+          "subject": "Confirmare plată facturi prin Pago",
+          "date": "Fri, 09 Oct 2026 11:08:01 +0000 (UTC)",
+          "from": "\"Plăți Pago\" <plati@pagoplateste.ro>"
+        }
+      ]
+    },
+    {
+      "key": "agenti",
+      "title": "Agenti (pipeline propriu)",
+      "name": "Optimus CD",
+      "counts": {
+        "azi": 1,
+        "24h": 14,
+        "7z": 596,
+        "30z": 650
+      },
+      "newest": {
+        "id": "1a17feca52df51a4",
+        "subject": "[apvizual-max/MAVIS-OPTIMUS-CI] Run failed: CI-verify - main (1c5ec27)",
+        "date": "Tue, 27 Oct 2026 17:32:56 -0700",
+        "from": "apvizual-max <notifications@github.com>"
+      },
+      "newestDate": "Tue, 27 Oct 2026 17:32:56 -0700",
+      "samples": [
+        {
+          "id": "1a17feca52df51a4",
+          "subject": "[apvizual-max/MAVIS-OPTIMUS-CI] Run failed: CI-verify - main (1c5ec27)",
+          "date": "Tue, 27 Oct 2026 17:32:56 -0700",
+          "from": "apvizual-max <notifications@github.com>"
+        },
+        {
+          "id": "1a17d21cbd411862",
+          "subject": "[apvizual-max/MAVIS-OPTIMUS-CI] Run failed: CI-verify - main (0404154)",
+          "date": "Tue, 27 Oct 2026 04:32:07 -0700",
+          "from": "apvizual-max <notifications@github.com>"
+        },
+        {
+          "id": "1a17d20eee79c873",
+          "subject": "[apvizual-max/MAVIS-CLOUD] Run failed: google-access - main (e108a24)",
+          "date": "Tue, 27 Oct 2026 04:31:11 -0700",
+          "from": "apvizual-max <notifications@github.com>"
+        },
+        {
+          "id": "1a17d20a76da3025",
+          "subject": "[apvizual-max/MAVIS-CLOUD] Run failed: google-access - main (e108a24)",
+          "date": "Tue, 27 Oct 2026 04:30:53 -0700",
+          "from": "apvizual-max <notifications@github.com>"
+        }
+      ]
+    }
+  ],
+  "missing": [],
+  "totals": {
+    "azi": 18,
+    "24h": 128,
+    "7z": 710,
+    "30z": 1648
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-24",
+  "_nota": "Leads extrase din alertele de job de azi, DUPA ce pagina sursa a fost citita si verificata direct. Fiecare obiect = un mesaj care a condus la un anunt real, cu URL, rate si conditii. Daca fisierul nu exista, raportul sare peste sectiune.",
+  "leads": [
+    {
+      "from": "Jooble",
+      "subject": "YO AI Labs caută Graphic designer - Remote și 101 mai multe oferte noi de muncă",
+      "resolvedTitle": "Remote Jobs for Graphic designers — YO AI Labs",
+      "url": "https://yoailabs.com/remote-jobs/graphic-designers/",
+      "summary": "121 roluri de design, toate remote, pe 5 platforme de AI-training (Micro1, SuperAnnotate, Ethos AI, AfterQuery, Handshake AI).",
+      "rates": [
+        "Graphic Designer — Micro1 · $35–105/h",
+        "Graphic Designer — SuperAnnotate · $30–60/h",
+        "Graphic Designer Expert — AfterQuery · $40–80/h",
+        "Graphic Designer / UI-UX Designer — Ethos AI · până la $150/h",
+        "Creative Director — Ethos AI · până la $80/h",
+        "Brand Director — Ethos AI · până la $70–80/h"
+      ],
+      "terms": "Contract, nu angajare. Contractezi cu platforma, nu cu YO AI Labs. Plătit per task sau per oră, în USD. Ore flexibile, majoritatea asincrone. Fără taxă de aplicare.",
+      "process": "CV standard → interviu AI → assessment de domeniu → aplicare pe platformă.",
+      "caveat": "Contractor cu platforma, nu cu YO AI Labs. Verifică clauza de moonlighting din contractul tău actual.",
+      "verified": "2026-10-24 — pagina sursă citită direct, nu din snippet de motor de căutare"
+    }
+  ]
+}

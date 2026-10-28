@@ -1,0 +1,1897 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alexandru Popescu | Art Direction Portfolio & CV for RepubliKa</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter for sleek systemized typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Lucide Icons for clean vector-level layouts -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            900: '#115e59',
+                            slate: '#0f172a',
+                            dark: '#0b0f19',
+                        }
+                    },
+                    animation: {
+                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'glow-flow': 'glow 3s ease-in-out infinite alternate',
+                        'marquee-ltr': 'marquee-ltr 40s linear infinite',
+                    },
+                    keyframes: {
+                        glow: {
+                            '0%': { boxShadow: '0 0 15px #14b8a6' },
+                            '100%': { boxShadow: '0 0 40px #0d9488, 0 0 20px #14b8a6 inset' }
+                        },
+                        'marquee-ltr': {
+                            '0%': { transform: 'translateX(-50%)' },
+                            '100%': { transform: 'translateX(0%)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0f19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #14b8a6;
+        }
+        
+        /* Print media styles to ensure elegant PDF extraction */
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-break {
+                page-break-after: always;
+            }
+        }
+
+        /* Animated Gradient Text Utility */
+        .text-gradient-animated {
+            background: linear-gradient(to right, #14b8a6, #3b82f6, #10b981, #14b8a6);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: gradientShift 3s linear infinite;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+    </style>
+</head>
+<body class="bg-brand-dark text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-brand-500 selection:text-slate-900">
+
+    <!-- MAIN APP STRUCTURE -->
+    <!-- Navigation & Core Profile coordinates -->
+    <header class="sticky top-0 z-40 bg-brand-dark/90 backdrop-blur-md border-b border-slate-800/80 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center py-4 gap-4">
+                <!-- Branding signature -->
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-gradient-to-tr from-brand-600 to-emerald-500 flex items-center justify-center font-extrabold text-white text-lg tracking-wider shadow-lg shadow-brand-500/10">
+                        AP
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h1 class="text-lg font-bold text-white tracking-tight">Alexandru Popescu</h1>
+                            <span class="px-2 py-0.5 bg-brand-500/10 text-brand-500 text-[10px] font-semibold tracking-wider uppercase rounded">INTJ-A</span>
+                        </div>
+                        <p class="text-xs text-slate-400">Senior Art Director & Visual Systems Architect</p>
+                    </div>
+                </div>
+
+                <!-- Contact Fast Access Coordinates -->
+                <div class="flex flex-wrap items-center justify-center gap-4 text-xs text-slate-400">
+                    <a href="mailto:apvizual@gmail.com" class="flex items-center gap-1.5 hover:text-brand-500 transition-colors">
+                        <i data-lucide="mail" class="w-4 h-4"></i> apvizual@gmail.com
+                    </a>
+                    <a href="tel:+40722121752" class="flex items-center gap-1.5 hover:text-brand-500 transition-colors">
+                        <i data-lucide="phone" class="w-4 h-4"></i> +40 722 121 752
+                    </a>
+                    <span class="flex items-center gap-1.5">
+                        <i data-lucide="map-pin" class="w-4 h-4 text-slate-500"></i> Bucharest, RO
+                    </span>
+                    <a href="https://linkedin.com/in/ap-id" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 hover:text-brand-500 transition-colors">
+                        <i data-lucide="linkedin" class="w-4 h-4"></i> LinkedIn
+                    </a>
+                    <a href="https://ap-id.ro" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 hover:text-brand-500 transition-colors text-brand-500 font-medium">
+                        <i data-lucide="globe" class="w-4 h-4"></i> ap-id.ro
+                    </a>
+                </div>
+            </div>
+
+            <!-- TAB MENU (3 Primary Sections requested) -->
+            <div class="flex justify-center border-t border-slate-800/50">
+                <nav class="flex space-x-8" aria-label="Tabs">
+                    <button onclick="switchTab('cv-tab')" id="btn-cv-tab" class="tab-btn py-4 px-1 border-b-2 border-brand-500 text-brand-500 text-sm font-semibold tracking-wide flex items-center gap-2 transition-all duration-200">
+                        <i data-lucide="user-check" class="w-4.5 h-4.5"></i>
+                        1. TAILORED CV
+                    </button>
+                    <button onclick="switchTab('portfolio-tab')" id="btn-portfolio-tab" class="tab-btn py-4 px-1 border-b-2 border-transparent text-slate-400 hover:text-slate-200 hover:border-slate-700 text-sm font-semibold tracking-wide flex items-center gap-2 transition-all duration-200">
+                        <i data-lucide="folder-git" class="w-4.5 h-4.5"></i>
+                        2. INTENT & PORTFOLIO
+                    </button>
+                    <button onclick="switchTab('contact-tab')" id="btn-contact-tab" class="tab-btn py-4 px-1 border-b-2 border-transparent text-slate-400 hover:text-slate-200 hover:border-slate-700 text-sm font-semibold tracking-wide flex items-center gap-2 transition-all duration-200">
+                        <i data-lucide="message-square" class="w-4.5 h-4.5"></i>
+                        3. PROOF & CONTACT
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- ==================== TAB 1: CV SECTION ==================== -->
+        <section id="cv-tab" class="tab-content block space-y-10 animate-fadeIn duration-300">
+            
+            <!-- Pitch Executive / RepubliKa Context -->
+            <div class="bg-gradient-to-r from-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-6 sm:p-8 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-96 h-96 bg-brand-500/5 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                    <div class="lg:col-span-2 space-y-4">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-brand-500/10 text-brand-500 text-xs font-semibold rounded-full tracking-wide uppercase">
+                            <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
+                            Art Direction for RepubliKa Interactive
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-none">
+                            Systemizing Creative Production with Strategic Art Direction
+                        </h2>
+                        <p class="text-sm text-slate-300 leading-relaxed max-w-2xl">
+                            Over 15 years as a Senior Creative Architect, blending rigorous economic analytical thinking with deep multi-media execution capability. Specialize in architecting prompt-to-production AI pipelines that accelerate asset delivery by 60%+, maintaining enterprise brand compliance, and translating complex campaign guidelines into scalable high-impact digital products.
+                        </p>
+                    </div>
+                    
+                    <!-- Fast Impact Metric Dashboard -->
+                    <div class="grid grid-cols-2 gap-4 border-l border-slate-800/80 pl-0 lg:pl-8">
+                        <div class="bg-slate-900/60 border border-slate-800/50 p-4 rounded-xl text-center">
+                            <div class="text-2xl font-black text-brand-500 tracking-tight">15+ Yrs</div>
+                            <div class="text-[10px] text-slate-400 font-semibold tracking-wider uppercase mt-1">Creative Mastery</div>
+                        </div>
+                        <div class="bg-slate-900/60 border border-slate-800/50 p-4 rounded-xl text-center">
+                            <div class="text-2xl font-black text-emerald-500 tracking-tight">60%+</div>
+                            <div class="text-[10px] text-slate-400 font-semibold tracking-wider uppercase mt-1">AI Speed Efficiency</div>
+                        </div>
+                        <div class="bg-slate-900/60 border border-slate-800/50 p-4 rounded-xl text-center col-span-2">
+                            <div class="text-lg font-bold text-white tracking-tight">Microsoft, Yokogawa, Nikon</div>
+                            <div class="text-[10px] text-slate-400 font-semibold tracking-wider uppercase mt-1">Enterprise-Scale Execution</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid Layout: Sidebar & Career History -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Left Sidebar: Cognitive Stack & Core Skill System -->
+                <div class="lg:col-span-4 space-y-6">
+                    
+                    <!-- INTJ-A Cognitive Core Profile Widget -->
+                    <div class="bg-slate-900/40 border border-slate-800/60 rounded-xl p-5 space-y-4">
+                        <h3 class="text-xs font-bold text-slate-400 tracking-wider uppercase flex items-center gap-2">
+                            <i data-lucide="brain" class="w-4 h-4 text-brand-500"></i> Cognitive Infrastructure (INTJ-A)
+                        </h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            The Architect profile means visual creativity is not built on unpredictable impulse, but on a rigorous, structured logic system:
+                        </p>
+                        <div class="space-y-3">
+                            <div class="bg-slate-900/80 border border-slate-800/50 p-3 rounded-lg">
+                                <div class="flex justify-between items-center text-xs font-semibold text-white mb-1">
+                                    <span>Strategic Vision (Intuitive)</span>
+                                    <span class="text-brand-500">95%</span>
+                                </div>
+                                <p class="text-[11px] text-slate-400">Excels at seeing patterns, predicting visual trends, and structuring long-term campaign paths.</p>
+                            </div>
+                            <div class="bg-slate-900/80 border border-slate-800/50 p-3 rounded-lg">
+                                <div class="flex justify-between items-center text-xs font-semibold text-white mb-1">
+                                    <span>Analytical Clarity (Thinking)</span>
+                                    <span class="text-brand-500">81%</span>
+                                </div>
+                                <p class="text-[11px] text-slate-400">Every design decision is backed by conversion metrics, economic efficiency, and corporate utility.</p>
+                            </div>
+                            <div class="bg-slate-900/80 border border-slate-800/50 p-3 rounded-lg">
+                                <div class="flex justify-between items-center text-xs font-semibold text-white mb-1">
+                                    <span>Process Discipline (Judging)</span>
+                                    <span class="text-brand-500">67%</span>
+                                </div>
+                                <p class="text-[11px] text-slate-400">Relentless pursuit of deadline discipline, clean layout rules, and optimization templates.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Production Toolchain Widget -->
+                    <div class="bg-slate-900/40 border border-slate-800/60 rounded-xl p-5 space-y-4">
+                        <h3 class="text-xs font-bold text-slate-400 tracking-wider uppercase flex items-center gap-2">
+                            <i data-lucide="zap" class="w-4.5 h-4.5 text-brand-500"></i> AI-Augmented Pipelines
+                        </h3>
+                        <ul class="space-y-3 text-xs text-slate-300">
+                            <li class="flex items-start gap-2 bg-slate-950 p-2.5 rounded-lg border border-slate-800/40">
+                                <span class="w-2 h-2 mt-1 rounded-full bg-brand-500 flex-shrink-0"></span>
+                                <span><strong>AI-Powered Design Automation:</strong> Utilizing tools like Adobe Sensei and Canva’s AI design features for streamlined asset creation and layout suggestions.</span>
+                            </li>
+                            <li class="flex items-start gap-2 bg-slate-950 p-2.5 rounded-lg border border-slate-800/40">
+                                <span class="w-2 h-2 mt-1 rounded-full bg-emerald-500 flex-shrink-0"></span>
+                                <span><strong>Generative AI:</strong> Experience with generative tools like Midjourney or DALL-E for custom graphics and creative inspiration.</span>
+                            </li>
+                            <li class="flex items-start gap-2 bg-slate-950 p-2.5 rounded-lg border border-slate-800/40">
+                                <span class="w-2 h-2 mt-1 rounded-full bg-cyan-500 flex-shrink-0"></span>
+                                <span><strong>AI-Based Image and Video Processing:</strong> Proficiency in tools like Runway for real-time video edits and CapCut’s automated effects.</span>
+                            </li>
+                            <li class="flex items-start gap-2 bg-slate-950 p-2.5 rounded-lg border border-slate-800/40">
+                                <span class="w-2 h-2 mt-1 rounded-full bg-purple-500 flex-shrink-0"></span>
+                                <span><strong>Data-Driven Design Insights:</strong> Using AI to analyze engagement metrics, like with Figma's analytics tools, to optimize design strategies.</span>
+                            </li>
+                            <li class="flex items-start gap-2 bg-slate-950 p-2.5 rounded-lg border border-slate-800/40">
+                                <span class="w-2 h-2 mt-1 rounded-full bg-amber-500 flex-shrink-0"></span>
+                                <span><strong>Workflow Optimization with AI:</strong> Knowledge of automation in creative workflows, leveraging platforms like ChatGPT for concept ideation and visual strategy support.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Core Traditional Skill Stack -->
+                    <div class="bg-slate-900/40 border border-slate-800/60 rounded-xl p-5 space-y-4">
+                        <h3 class="text-xs font-bold text-slate-400 tracking-wider uppercase flex items-center gap-2">
+                            <i data-lucide="grid" class="w-4.5 h-4.5 text-brand-500"></i> Core Artistry Stack
+                        </h3>
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="px-2.5 py-1 bg-slate-800 text-slate-300 rounded-md text-xs font-medium">Creative Direction</span>
+                            <span class="px-2.5 py-1 bg-slate-800 text-slate-300 rounded-md text-xs font-medium">Brand Identity</span>
+                            <span class="px-2.5 py-1 bg-slate-800 text-slate-300 rounded-md text-xs font-medium">User-Centered Design (UX/UI)</span>
+                            <span class="px-2.5 py-1 bg-slate-800 text-slate-300 rounded-md text-xs font-medium">Multimedia Campaigns</span>
+                            <span class="px-2.5 py-1 bg-slate-800 text-slate-300 rounded-md text-xs font-medium">Visual Marketing & Communication</span>
+                            <span class="px-2.5 py-1 bg-slate-800 text-slate-300 rounded-md text-xs font-medium">Advertising & Multimedia Design</span>
+                            <span class="px-2.5 py-1 bg-slate-800 text-slate-300 rounded-md text-xs font-medium">Journalistic Photography</span>
+                            <span class="px-2.5 py-1 bg-slate-800 text-slate-300 rounded-md text-xs font-medium">Studio Lighting & Commercial Photo</span>
+                            <span class="px-2.5 py-1 bg-slate-800 text-slate-300 rounded-md text-xs font-medium">Photo editing & Post-Processing</span>
+                            <span class="px-2.5 py-1 bg-slate-800 text-slate-300 rounded-md text-xs font-medium">AI Prompting</span>
+                            <span class="px-2.5 py-1 bg-brand-900/50 text-brand-400 border border-brand-500/30 rounded-md text-xs font-medium">Adobe Suite: Photoshop, Illustrator, InDesign, LightRoom, AfterEffects</span>
+                        </div>
+                    </div>
+
+                    <!-- Education & Achievements Card -->
+                    <div class="bg-slate-900/40 border border-slate-800/60 rounded-xl p-5 space-y-4">
+                        <h3 class="text-xs font-bold text-slate-400 tracking-wider uppercase flex items-center gap-2">
+                            <i data-lucide="award" class="w-4.5 h-4.5 text-brand-500"></i> Education, Certs & Honors
+                        </h3>
+                        <div class="space-y-4 text-xs text-slate-300">
+                            <div>
+                                <div class="font-bold text-white text-sm">Bachelor's degree Economics</div>
+                                <div class="text-slate-400">Romanian-American University</div>
+                            </div>
+                            <div>
+                                <div class="font-bold text-white">Business Summer-School</div>
+                                <div class="text-slate-400">"Management, Marketing & Financial Planning" @ ASE Bucharest</div>
+                            </div>
+                            <div class="border-t border-slate-800/40 pt-3">
+                                <div class="font-bold text-white text-xs mb-2 text-brand-500 uppercase">Certifications & Training</div>
+                                <ul class="list-disc list-inside space-y-1 text-slate-400">
+                                    <li>Microsoft Deal Excellence</li>
+                                    <li>Fundamental AI Concepts</li>
+                                    <li>Create Accessible AI Experiences</li>
+                                    <li>Web Design Accessibility Fundamentals</li>
+                                    <li>Adobe Premiere Fundamentals</li>
+                                    <li>Generative AI with Adobe Tools & Firefly</li>
+                                    <li>Pro Graphics Designer</li>
+                                    <li>Pro Photography & Photo-processing</li>
+                                    <li>Professional Training & Coaching</li>
+                                    <li>Assistant Programmer</li>
+                                </ul>
+                            </div>
+                            <div class="border-t border-slate-800/40 pt-3 flex justify-between items-center">
+                                <span class="font-bold text-white uppercase text-[10px]">Languages:</span>
+                                <span class="bg-brand-500/10 text-brand-500 px-2 py-0.5 rounded text-[10px] font-bold tracking-wider">Proficient English Speaker</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Main Grid: Full Chronological Career History -->
+                <div class="lg:col-span-8 space-y-6">
+                    <h3 class="text-lg font-bold text-white tracking-tight flex items-center gap-2 border-b border-slate-800 pb-3">
+                        <i data-lucide="briefcase" class="w-5 h-5 text-brand-500"></i> Full Professional Milestones
+                    </h3>
+
+                    <div class="space-y-8 relative before:absolute before:inset-y-0 before:left-3.5 before:w-[1px] before:bg-slate-800">
+                        
+                        <!-- Milestone 1: Microsoft via Shipley -->
+                        <div class="relative pl-10 group">
+                            <!-- Timeline Dot Indicator -->
+                            <div class="absolute left-0 top-1.5 w-8 h-8 rounded-full bg-slate-900 border border-brand-500 flex items-center justify-center transition-all group-hover:bg-brand-500 group-hover:text-slate-950 text-brand-500 z-10">
+                                <i data-lucide="layers" class="w-4 h-4"></i>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
+                                    <h4 class="text-base font-extrabold text-white leading-none">
+                                        Senior Graphic Designer for MICROSOFT PCoE | Video Editing
+                                    </h4>
+                                    <span class="px-2.5 py-0.5 bg-brand-500/10 text-brand-500 text-xs font-semibold rounded-full border border-brand-500/20">
+                                        Jan 2025 - May 2026
+                                    </span>
+                                </div>
+                                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                                    SHIPLEY ASSOCIATES (Remote - Bucharest)
+                                </p>
+                                <ul class="space-y-2 text-xs text-slate-300 leading-relaxed list-disc list-inside">
+                                    <li><strong>Global Deal Support:</strong> Designed custom PowerPoint and Word documents for 20+ global clients like H&M, Erste Group, and the UAE Ministry of Education, and more.</li>
+                                    <li><strong>Visual Data Engagement:</strong> Created branded infographics and data visualizations aligned with Microsoft standards, boosting evaluator engagement by ~15%.</li>
+                                    <li><strong>Cross-Functional Collaboration:</strong> Partnered with PCoE teams to streamline proposal workflows and cut down revision cycles, directly contributing to winning multimillion-dollar deals.</li>
+                                    <li><strong>Accessibility Compliance:</strong> Crafted inclusive, 90%+ WCAG-compliant designs that smoothly passed rigorous Microsoft accessibility audits.</li>
+                                    <li><strong>AI-Powered Design:</strong> Utilized Adobe Firefly and Creative Suite to accelerate content creation, supporting Microsoft's ~80-85% deal win rate.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Milestone 2: Skin Media -->
+                        <div class="relative pl-10 group">
+                            <div class="absolute left-0 top-1.5 w-8 h-8 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center transition-all group-hover:bg-brand-500 group-hover:border-brand-500 group-hover:text-slate-950 text-slate-400 z-10">
+                                <i data-lucide="camera" class="w-4 h-4"></i>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
+                                    <h4 class="text-base font-extrabold text-white leading-none">
+                                        Senior Graphic Designer | Video Editing
+                                    </h4>
+                                    <span class="px-2.5 py-0.5 bg-slate-800 text-slate-300 text-xs font-semibold rounded-full border border-slate-700">
+                                        Jan 2024 - Aug 2024
+                                    </span>
+                                </div>
+                                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                                    SKIN MEDIA (Hybrid - Bucharest)
+                                </p>
+                                <ul class="space-y-2 text-xs text-slate-300 leading-relaxed list-disc list-inside">
+                                    <li><strong>Online Marketing Campaigns:</strong> Led design and publishing of 50+ online marketing campaigns, accelerating sales by 20% for brands like Nikon, Aiper & Pure.</li>
+                                    <li><strong>Graphic Concepts Development:</strong> Created graphic concepts for 10+ Nikon Romania campaigns, increasing brand visibility and sales revenue.</li>
+                                    <li><strong>Brand Launch Support:</strong> Led design and publishing of Aiper, Pure, and Ninja's market launch online materials in Romania, driving brand awareness through 50+ targeted online campaigns and enhancing audience engagement by 25%.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Milestone 3: STEP IT Academy -->
+                        <div class="relative pl-10 group">
+                            <div class="absolute left-0 top-1.5 w-8 h-8 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center transition-all group-hover:bg-brand-500 group-hover:border-brand-500 group-hover:text-slate-950 text-slate-400 z-10">
+                                <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
+                                    <h4 class="text-base font-extrabold text-white leading-none">
+                                        Teacher | Professional Coach
+                                    </h4>
+                                    <span class="px-2.5 py-0.5 bg-slate-800 text-slate-300 text-xs font-semibold rounded-full border border-slate-700">
+                                        Oct 2023 - Jul 2024
+                                    </span>
+                                </div>
+                                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                                    STEP IT ACADEMY
+                                </p>
+                                <ul class="space-y-2 text-xs text-slate-300 leading-relaxed list-disc list-inside">
+                                    <li><strong>Course Direction:</strong> Directed courses in Graphic Design, Advertising Design, and software such as Photoshop, Illustrator, and InDesign, improving student proficiency.</li>
+                                    <li><strong>Lesson Delivery:</strong> Delivered engaging lessons on Prepress, Photography, and Photo Editing, enhancing student skills and achieving a 20 - 25 % increase in course completion rates.</li>
+                                    <li><strong>Teaching Innovation:</strong> Implemented innovative teaching methods with a hands-on approach, resulting in an improvement in student performance and retention throughout the program.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Milestone 4: Yokogawa -->
+                        <div class="relative pl-10 group">
+                            <div class="absolute left-0 top-1.5 w-8 h-8 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center transition-all group-hover:bg-brand-500 group-hover:border-brand-500 group-hover:text-slate-950 text-slate-400 z-10">
+                                <i data-lucide="layout" class="w-4 h-4"></i>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
+                                    <h4 class="text-base font-extrabold text-white leading-none">
+                                        Senior Graphic Designer | UX/UI | Video Editing
+                                    </h4>
+                                    <span class="px-2.5 py-0.5 bg-slate-800 text-slate-300 text-xs font-semibold rounded-full border border-slate-700">
+                                        May 2021 - Jan 2024
+                                    </span>
+                                </div>
+                                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                                    YOKOGAWA (Remote)
+                                </p>
+                                <ul class="space-y-2 text-xs text-slate-300 leading-relaxed list-disc list-inside">
+                                    <li><strong>Brand Identity System:</strong> Created cohesive visual aesthetics and video concepts across 12 European countries, enhancing sales and marketing support.</li>
+                                    <li><strong>Graphic Templates Development:</strong> Designed over 200 graphic templates to ensure consistent branding across all assets, boosting brand recognition.</li>
+                                    <li><strong>Visual Rebranding:</strong> Led the design of Yokogawa's European rebrand effort, creating videos, trade show booths, and prints, elevating online brand awareness by 20% in one year.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Milestone 5: MADE.com -->
+                        <div class="relative pl-10 group">
+                            <div class="absolute left-0 top-1.5 w-8 h-8 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center transition-all group-hover:bg-brand-500 group-hover:border-brand-500 group-hover:text-slate-950 text-slate-400 z-10">
+                                <i data-lucide="image" class="w-4 h-4"></i>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
+                                    <h4 class="text-base font-extrabold text-white leading-none">
+                                        Photo Retouch | QA
+                                    </h4>
+                                    <span class="px-2.5 py-0.5 bg-slate-800 text-slate-300 text-xs font-semibold rounded-full border border-slate-700">
+                                        Sep 2020 - Nov 2020
+                                    </span>
+                                </div>
+                                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                                    MADE.COM
+                                </p>
+                                <ul class="space-y-2 text-xs text-slate-300 leading-relaxed list-disc list-inside">
+                                    <li><strong>User Experience (UX) Enhancement:</strong> Facilitated international collaboration to enhance 25,000+ product visuals, propelling MADE's online shop debut across 5 countries, resulting in a 20% increase in user interaction.</li>
+                                    <li><strong>Project Deadline & QA:</strong> Ensured high-quality visual content and updated the company's entire product photography database within the specified project deadline, a 3-month timeframe, achieving a 100% on-time delivery rate.</li>
+                                    <li><strong>Visual Content Improvement:</strong> Improved website UX and met client standards, resulting in a full "facelift" of all product images, which elevated customer experience and increased customer engagement ratings post-launch.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Milestone 6: Pathway -->
+                        <div class="relative pl-10 group">
+                            <div class="absolute left-0 top-1.5 w-8 h-8 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center transition-all group-hover:bg-brand-500 group-hover:border-brand-500 group-hover:text-slate-950 text-slate-400 z-10">
+                                <i data-lucide="mouse-pointer-click" class="w-4 h-4"></i>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
+                                    <h4 class="text-base font-extrabold text-white leading-none">
+                                        Senior Graphic Designer | UI Design
+                                    </h4>
+                                    <span class="px-2.5 py-0.5 bg-slate-800 text-slate-300 text-xs font-semibold rounded-full border border-slate-700">
+                                        May 2018 - May 2019
+                                    </span>
+                                </div>
+                                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                                    PATHWAY (Hybrid - Bucharest)
+                                </p>
+                                <ul class="space-y-2 text-xs text-slate-300 leading-relaxed list-disc list-inside">
+                                    <li><strong>Promotional Campaign Design:</strong> Led the design of promotional materials for casino and bingo platforms, increasing user engagement by 35-40%.</li>
+                                    <li><strong>UI/UX Improvements:</strong> Designed UI/UX improvements, boosting website traffic by 20% and enhancing player interaction.</li>
+                                    <li><strong>Web Layout Redesign:</strong> Redesigned web layout, reducing bounce rate by 30% and increasing engagement with interactive features.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Milestone 7: Smite -->
+                        <div class="relative pl-10 group">
+                            <div class="absolute left-0 top-1.5 w-8 h-8 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center transition-all group-hover:bg-brand-500 group-hover:border-brand-500 group-hover:text-slate-950 text-slate-400 z-10">
+                                <i data-lucide="crosshair" class="w-4 h-4"></i>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
+                                    <h4 class="text-base font-extrabold text-white leading-none">
+                                        Art Director
+                                    </h4>
+                                    <span class="px-2.5 py-0.5 bg-slate-800 text-slate-300 text-xs font-semibold rounded-full border border-slate-700">
+                                        Nov 2017 - May 2018
+                                    </span>
+                                </div>
+                                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                                    SMITE (Bucharest)
+                                </p>
+                                <ul class="space-y-2 text-xs text-slate-300 leading-relaxed list-disc list-inside">
+                                    <li><strong>Brand Identity Design:</strong> Led over 25 creative projects for WuXing, City Grill Group, Aderma Protect, and Ducray, developing cohesive brand identities and visual strategies that improved overall brand recognition.</li>
+                                    <li><strong>Cross-Platform Multimedia Coordination:</strong> Created more than 30 multimedia campaigns across digital and print platforms, ensuring consistent representation of brand guidelines across all channels.</li>
+                                    <li><strong>Creative Direction:</strong> Achieved a 20-25% increase in online customer engagement thus achieving increased brand memorability through cohesive branding and consistent messaging across multiple platforms.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Milestone 8: Romexpo -->
+                        <div class="relative pl-10 group">
+                            <div class="absolute left-0 top-1.5 w-8 h-8 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center transition-all group-hover:bg-brand-500 group-hover:border-brand-500 group-hover:text-slate-950 text-slate-400 z-10">
+                                <i data-lucide="map" class="w-4 h-4"></i>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
+                                    <h4 class="text-base font-extrabold text-white leading-none">
+                                        Senior Graphic Designer | UI Design | Photography
+                                    </h4>
+                                    <span class="px-2.5 py-0.5 bg-slate-800 text-slate-300 text-xs font-semibold rounded-full border border-slate-700">
+                                        May 2015 - Oct 2017
+                                    </span>
+                                </div>
+                                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                                    ROMEXPO (Bucharest)
+                                </p>
+                                <ul class="space-y-2 text-xs text-slate-300 leading-relaxed list-disc list-inside">
+                                    <li><strong>Trademark Rebranding:</strong> Directed 10+ trademark rebrands for expos, achieving a 30% increase in visibility and multi-platform recognition.</li>
+                                    <li><strong>Event Photography:</strong> Captured and edited photographs for Romexpo events, enhancing online engagement by 25-30% through high-quality visual content.</li>
+                                    <li><strong>Multimedia Design Projects:</strong> Streamlined photo retouching for outdoor, metro, indoor, and web displays, cutting production time by 30% and costs by 20%.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Milestone 9: CroitorulTau -->
+                        <div class="relative pl-10 group">
+                            <div class="absolute left-0 top-1.5 w-8 h-8 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center transition-all group-hover:bg-brand-500 group-hover:border-brand-500 group-hover:text-slate-950 text-slate-400 z-10">
+                                <i data-lucide="scissors" class="w-4 h-4"></i>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
+                                    <h4 class="text-base font-extrabold text-white leading-none">
+                                        Branding | Art Direction | Photography | UI / UX
+                                    </h4>
+                                    <span class="px-2.5 py-0.5 bg-slate-800 text-slate-300 text-xs font-semibold rounded-full border border-slate-700">
+                                        Apr 2014 - May 2015
+                                    </span>
+                                </div>
+                                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                                    CROITORULTAU.RO
+                                </p>
+                                <ul class="space-y-2 text-xs text-slate-300 leading-relaxed list-disc list-inside">
+                                    <li><strong>Commercial Identity Branding:</strong> Directed the development of logo design, website, and photography, resulting in a significant increase in brand recognition across digital and print platforms.</li>
+                                    <li><strong>UX Strategies and DTP:</strong> Implemented strategies for marketing materials such as business cards, magazine adverts, and social media content, boosting online engagement by 70% and increasing conversion rates by 50%.</li>
+                                    <li><strong>Brand Launch:</strong> Launched a high-end bespoke tailoring brand, achieving 70-75% customer retention and sales rates in the first year through strategic collaborations with notable public figures.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Milestone 10: AP-ID.ro -->
+                        <div class="relative pl-10 group">
+                            <div class="absolute left-0 top-1.5 w-8 h-8 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center transition-all group-hover:bg-brand-500 group-hover:border-brand-500 group-hover:text-slate-950 text-slate-400 z-10">
+                                <i data-lucide="crown" class="w-4 h-4"></i>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
+                                    <h4 class="text-base font-extrabold text-white leading-none">
+                                        Bespoke Branding House (Freelancing)
+                                    </h4>
+                                    <span class="px-2.5 py-0.5 bg-slate-800 text-slate-300 text-xs font-semibold rounded-full border border-slate-700">
+                                        Aug 2010 – Present
+                                    </span>
+                                </div>
+                                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                                    AP-ID.RO
+                                </p>
+                                <ul class="space-y-2 text-xs text-slate-300 leading-relaxed list-disc list-inside">
+                                    <li><strong>Brand Identity Development:</strong> Collaborated with teams to create appealing brand identities for Serus Dacia, CRD Credit, and Engino Toys, increasing sales revenue through effective brand positioning and client retention strategies.</li>
+                                    <li><strong>Digital Design Innovation:</strong> Partnered with marketing to design innovative digital assets for Optima Call, Auditeco, and Soho Design, leading to a 25% growth in online engagement and boosting sales revenue.</li>
+                                    <li><strong>Rebranding Initiatives:</strong> Led rebranding efforts for Serus Dacia, Figo Decor, and Algeco, enhancing brand recognition and driving a 10-15% increase in online customer engagement post-rebranding.</li>
+                                    <li><strong>Event | Portrait | Journalistic:</strong> Captured high-quality event, portrait, and product photos for diverse clients, boosting client satisfaction by 30%. Specialized in journalistic photography; featured in Bucharest's official photobook and public exhibitions.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ==================== TAB 2: PORTFOLIO & INTENT ==================== -->
+        <section id="portfolio-tab" class="tab-content hidden space-y-10 animate-fadeIn duration-300">
+            
+            <!-- MEGA ANIMATED LINK BANNER -->
+            <div class="relative w-full overflow-hidden rounded-2xl group flex items-center justify-center p-1 sm:p-2 bg-slate-950 border border-slate-800 shadow-[0_0_50px_-12px_rgba(20,184,166,0.3)] hover:shadow-[0_0_80px_-15px_rgba(20,184,166,0.5)] transition-all duration-500">
+                <!-- Glowing rotating background layer -->
+                <div class="absolute inset-0 bg-gradient-to-r from-brand-500 via-[#3b82f6] to-emerald-500 opacity-20 blur-xl group-hover:opacity-40 transition-opacity duration-700 animate-pulse-fast"></div>
+                
+                <a href="https://ap-id.ro" target="_blank" rel="noopener noreferrer" class="relative w-full bg-slate-900 border border-slate-700/50 rounded-xl px-4 py-8 sm:py-12 flex flex-col items-center justify-center gap-3 overflow-hidden z-10">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-brand-500/10 rounded-full blur-3xl"></div>
+                    <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
+                    
+                    <span class="text-xs font-bold tracking-[0.3em] uppercase text-slate-400 flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-brand-500 animate-ping"></span> Live Master Portfolio
+                    </span>
+                    <h2 class="text-3xl sm:text-5xl md:text-7xl font-black text-center tracking-tighter">
+                        <span class="text-gradient-animated select-all">WWW.AP-ID.RO</span>
+                    </h2>
+                    <p class="text-sm text-slate-400 mt-2 flex items-center gap-2 group-hover:text-brand-400 transition-colors">
+                        Enter the Visual Architect's Domain <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-2"></i>
+                    </p>
+                </a>
+            </div>
+
+            <!-- ANIMATED ENTERPRISE LOGO RIBBON -->
+            <div class="relative w-full overflow-hidden bg-slate-900/30 border-y border-slate-800/60 py-8 mb-6 group">
+                <!-- Fade edges -->
+                <div class="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-brand-dark to-transparent z-10 pointer-events-none"></div>
+                <div class="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-brand-dark to-transparent z-10 pointer-events-none"></div>
+
+                <!-- Marquee Track -->
+                <div class="flex w-max animate-marquee-ltr gap-16 pr-16 group-hover:[animation-play-state:paused]">
+                    
+                    <!-- Group 1 -->
+                    <div class="flex items-center gap-16 min-w-max">
+                        <!-- Microsoft -->
+                        <div class="flex items-center gap-3 text-white/40 hover:text-white transition-colors duration-300 cursor-default">
+                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M11.4 24H0V12.6h11.4V24zM24 24H12.6V12.6H24V24zM11.4 11.4H0V0h11.4v11.4zm12.6 0H12.6V0H24v11.4z"/></svg>
+                            <span class="text-2xl font-bold tracking-tight">Microsoft</span>
+                        </div>
+                        <!-- Skin Media -->
+                        <div class="flex items-center gap-2 text-white/40 hover:text-white transition-colors duration-300 cursor-default">
+                            <span class="text-2xl font-black tracking-widest uppercase">SKIN<span class="font-light">MEDIA</span></span>
+                        </div>
+                        <!-- Yokogawa -->
+                        <div class="flex items-center gap-2 text-white/40 hover:text-white transition-colors duration-300 cursor-default">
+                            <span class="text-2xl font-black tracking-tighter uppercase">YOKOGAWA</span>
+                        </div>
+                        <!-- Romexpo -->
+                        <div class="flex items-center gap-2 text-white/40 hover:text-white transition-colors duration-300 cursor-default">
+                            <span class="text-2xl font-extrabold tracking-widest uppercase">ROMEXPO</span>
+                        </div>
+                        <!-- Made.com -->
+                        <div class="flex items-center gap-2 text-white/40 hover:text-white transition-colors duration-300 cursor-default">
+                            <span class="text-2xl font-bold tracking-tight uppercase">MADE<span class="opacity-50">.</span>COM</span>
+                        </div>
+                        <!-- Smite -->
+                        <div class="flex items-center gap-2 text-white/40 hover:text-white transition-colors duration-300 cursor-default">
+                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M13 2L3 14h8l-2 8 10-12h-8l2-8z"/></svg>
+                            <span class="text-2xl font-black tracking-widest uppercase italic">SMITE</span>
+                        </div>
+                        <!-- Pathwwway -->
+                        <div class="flex items-center gap-2 text-white/40 hover:text-white transition-colors duration-300 cursor-default">
+                            <span class="text-2xl font-bold tracking-tight">Path<span class="font-black">www</span>ay</span>
+                        </div>
+                    </div>
+
+                    <!-- Group 2 (Duplicate for Seamless Loop) -->
+                    <div class="flex items-center gap-16 min-w-max">
+                        <!-- Microsoft -->
+                        <div class="flex items-center gap-3 text-white/40 hover:text-white transition-colors duration-300 cursor-default">
+                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M11.4 24H0V12.6h11.4V24zM24 24H12.6V12.6H24V24zM11.4 11.4H0V0h11.4v11.4zm12.6 0H12.6V0H24v11.4z"/></svg>
+                            <span class="text-2xl font-bold tracking-tight">Microsoft</span>
+                        </div>
+                        <!-- Skin Media -->
+                        <div class="flex items-center gap-2 text-white/40 hover:text-white transition-colors duration-300 cursor-default">
+                            <span class="text-2xl font-black tracking-widest uppercase">SKIN<span class="font-light">MEDIA</span></span>
+                        </div>
+                        <!-- Yokogawa -->
+                        <div class="flex items-center gap-2 text-white/40 hover:text-white transition-colors duration-300 cursor-default">
+                            <span class="text-2xl font-black tracking-tighter uppercase">YOKOGAWA</span>
+                        </div>
+                        <!-- Romexpo -->
+                        <div class="flex items-center gap-2 text-white/40 hover:text-white transition-colors duration-300 cursor-default">
+                            <span class="text-2xl font-extrabold tracking-widest uppercase">ROMEXPO</span>
+                        </div>
+                        <!-- Made.com -->
+                        <div class="flex items-center gap-2 text-white/40 hover:text-white transition-colors duration-300 cursor-default">
+                            <span class="text-2xl font-bold tracking-tight uppercase">MADE<span class="opacity-50">.</span>COM</span>
+                        </div>
+                        <!-- Smite -->
+                        <div class="flex items-center gap-2 text-white/40 hover:text-white transition-colors duration-300 cursor-default">
+                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M13 2L3 14h8l-2 8 10-12h-8l2-8z"/></svg>
+                            <span class="text-2xl font-black tracking-widest uppercase italic">SMITE</span>
+                        </div>
+                        <!-- Pathwwway -->
+                        <div class="flex items-center gap-2 text-white/40 hover:text-white transition-colors duration-300 cursor-default">
+                            <span class="text-2xl font-bold tracking-tight">Path<span class="font-black">www</span>ay</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- LETTER OF INTENT FOR REPUBLIKA -->
+            <div class="bg-gradient-to-br from-slate-900 via-slate-950 to-brand-slate border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-80 h-80 bg-brand-500/5 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="flex flex-col md:flex-row justify-between items-start gap-4 border-b border-slate-800/80 pb-5">
+                    <div class="space-y-1">
+                        <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">Letter of Intent</h2>
+                        <p class="text-xs text-slate-400">Direct Pitch: Art Direction Position @ RepubliKa Interactive</p>
+                    </div>
+                    <div class="flex items-center gap-2 text-xs text-slate-400 bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-lg">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                        Strategic Intent Match
+                    </div>
+                </div>
+
+                <div class="space-y-4 text-xs sm:text-sm text-slate-300 leading-relaxed">
+                    <p><strong>Dear RepubliKa Interactive Creative Leadership,</strong></p>
+                    
+                    <p>
+                        A premier digital advertising agency doesn't just need "more designers"—it needs creative systems architects who understand the rigorous relationship between visual impact, economics, and production speed. As a Senior Art Director with an Economics background, my entire philosophy is built around a single metric: how to convert brand logic into unforgettable memory with absolute execution discipline.
+                    </p>
+                    
+                    <p>
+                        In your agency environment, volume is the norm. Client campaigns require rapid ideation, multiformat digital assets, high-impact video, and exact UI execution, all without a single drop in visual quality. During my tenure supporting Shipley Associates for Microsoft PCoE, I systemized presentation frameworks and infographics for multimillion-dollar global deals under extreme timeline pressures. As the Lead UI/UX Graphic Designer at Microsoft, I built digital products that streamlined agency delivery. And for massive clients like Romexpo and Yokogawa Europe, I engineered vast, multi-format environmental visual matrices.
+                    </p>
+
+                    <p>
+                        Moreover, I’m not afraid of the AI ​​revolution in design – I’m leading it. I’ve spent years structuring AI-optimized processing pipelines (using Ideogram, NanoBanana, Comfy UI, Adobe Firefly, and video automation engines) that eliminate production latency. This means I can provide the RepubliKa creative team with a true production accelerator: rapid generation of visual campaign concepts while maintaining a strict and disciplined art direction.
+                    </p>
+
+                    <p>
+                        My INTJ-A (Architect) mindset guarantees that I work with logic, objective clarity, and systematic discipline. I thrive when deconstructing complex, multi-layered client requests and rebuilding them into simple, visually stunning narratives. I am eager to bring this speed, volume capability, and premium strategic art direction directly to the RepubliKa Interactive team.
+                    </p>
+
+                    <p class="pt-2">Sincerely and logically yours,</p>
+                    <p class="font-bold text-white text-base">Alexandru Popescu</p>
+                    <p class="text-xs text-brand-500">Founder & Art Director, AP-ID.ro</p>
+                </div>
+            </div>
+
+            <!-- PORTFOLIO SHOWROOM CONTAINER -->
+            <div class="space-y-6">
+                
+                <!-- Category Filter Controls -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-white tracking-tight flex items-center gap-2">
+                            <i data-lucide="image" class="w-5 h-5 text-brand-500"></i> The Complete Visual Database
+                        </h3>
+                        <p class="text-xs text-slate-400">Extensive curation combining Freelance, Agency, Enterprise, and UI/UX projects.</p>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-2" id="portfolio-filters">
+                        <button onclick="filterPortfolio('all')" class="filter-btn px-3 py-1.5 bg-brand-500 text-slate-950 text-xs font-bold rounded-lg transition-all">
+                            All Works
+                        </button>
+                        <button onclick="filterPortfolio('enterprise')" class="filter-btn px-3 py-1.5 bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800 text-xs font-semibold rounded-lg transition-all">
+                            Enterprise/Corporate
+                        </button>
+                        <button onclick="filterPortfolio('agency')" class="filter-btn px-3 py-1.5 bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800 text-xs font-semibold rounded-lg transition-all">
+                            Agency & UI/UX
+                        </button>
+                        <button onclick="filterPortfolio('print')" class="filter-btn px-3 py-1.5 bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800 text-xs font-semibold rounded-lg transition-all">
+                            Print & Exhibition
+                        </button>
+                        <button onclick="filterPortfolio('photography')" class="filter-btn px-3 py-1.5 bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800 text-xs font-semibold rounded-lg transition-all">
+                            Photography & AI
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PORTFOLIO GRID -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="portfolio-grid">
+                    
+                    <!-- Case 1: Microsoft PCoE -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full" data-category="enterprise">
+                        <div class="h-44 bg-gradient-to-br from-blue-900/40 to-slate-950 flex items-center justify-center p-6 border-b border-slate-800 relative overflow-hidden">
+                            <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#14b8a6_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                            <div class="text-center relative z-10 space-y-2">
+                                <span class="text-blue-500 text-2xl font-black tracking-widest block">MICROSOFT PCoE</span>
+                                <span class="text-[10px] text-slate-400 font-semibold tracking-wider uppercase bg-blue-950/60 border border-blue-900/40 px-2 py-0.5 rounded">Shipley Associates</span>
+                            </div>
+                        </div>
+                        <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-[10px] text-brand-500 font-extrabold uppercase tracking-widest">Enterprise Strategy</span>
+                                    <span class="text-[10px] text-slate-500">Jan 2025 - May 2026</span>
+                                </div>
+                                <h4 class="text-base font-extrabold text-white group-hover:text-brand-500 transition-colors">
+                                    Global Deal Visual Architecture
+                                </h4>
+                            </div>
+                            <button onclick="openProjectModal('microsoft')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors">
+                                Deconstruct Project
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Case 2: Skin Media -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full" data-category="agency">
+                        <div class="h-44 bg-gradient-to-br from-yellow-900/40 to-slate-950 flex items-center justify-center p-6 border-b border-slate-800 relative overflow-hidden">
+                            <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#eab308_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                            <div class="text-center relative z-10 space-y-2">
+                                <span class="text-yellow-500 text-2xl font-black tracking-widest block">SKIN MEDIA</span>
+                                <span class="text-[10px] text-slate-400 font-semibold tracking-wider uppercase bg-yellow-950/60 border border-yellow-900/40 px-2 py-0.5 rounded">Nikon, Aiper & Pure</span>
+                            </div>
+                        </div>
+                        <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-[10px] text-brand-500 font-extrabold uppercase tracking-widest">Digital Campaigns</span>
+                                    <span class="text-[10px] text-slate-500">Jan 2024 - Aug 2024</span>
+                                </div>
+                                <h4 class="text-base font-extrabold text-white group-hover:text-brand-500 transition-colors">
+                                    Online Marketing & Brand Launch
+                                </h4>
+                            </div>
+                            <button onclick="openProjectModal('skinmedia')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors">
+                                Deconstruct Project
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Case 3: Yokogawa Europe -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full" data-category="enterprise">
+                        <div class="h-44 bg-gradient-to-br from-amber-900/20 to-slate-950 flex items-center justify-center p-6 border-b border-slate-800 relative overflow-hidden">
+                            <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#f59e0b_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                            <div class="text-center relative z-10 space-y-2">
+                                <span class="text-amber-500 text-2xl font-black tracking-widest block">YOKOGAWA</span>
+                                <span class="text-[10px] text-slate-400 font-semibold tracking-wider uppercase bg-amber-950/60 border border-amber-900/40 px-2 py-0.5 rounded">Visual Rebranding</span>
+                            </div>
+                        </div>
+                        <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-[10px] text-brand-500 font-extrabold uppercase tracking-widest">Enterprise Identity</span>
+                                    <span class="text-[10px] text-slate-500">May 2021 - Jan 2024</span>
+                                </div>
+                                <h4 class="text-base font-extrabold text-white group-hover:text-brand-500 transition-colors">
+                                    European Exhibition Identity
+                                </h4>
+                            </div>
+                            <button onclick="openProjectModal('yokogawa')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors">
+                                Deconstruct Project
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Case 4: Pathway -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full" data-category="agency">
+                        <div class="h-44 bg-gradient-to-br from-purple-900/30 to-slate-950 flex items-center justify-center p-6 border-b border-slate-800 relative overflow-hidden">
+                            <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#a855f7_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                            <div class="text-center relative z-10 space-y-2">
+                                <span class="text-purple-400 text-2.5xl font-black tracking-wider block">PATHWAY</span>
+                                <span class="text-[10px] text-slate-400 font-semibold tracking-wider uppercase bg-purple-950/60 border border-purple-900/40 px-2 py-0.5 rounded">UI Design & Promos</span>
+                            </div>
+                        </div>
+                        <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-[10px] text-brand-500 font-extrabold uppercase tracking-widest">UI/UX Redesign</span>
+                                    <span class="text-[10px] text-slate-500">May 2018 - May 2019</span>
+                                </div>
+                                <h4 class="text-base font-extrabold text-white group-hover:text-brand-500 transition-colors">
+                                    Digital Platform Optimization
+                                </h4>
+                            </div>
+                            <button onclick="openProjectModal('pathway')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors">
+                                Deconstruct Project
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Case 5: Smite -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full" data-category="agency">
+                        <div class="h-44 bg-gradient-to-br from-indigo-900/40 to-slate-950 flex items-center justify-center p-6 border-b border-slate-800 relative overflow-hidden">
+                            <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#6366f1_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                            <div class="text-center relative z-10 space-y-2">
+                                <span class="text-indigo-400 text-2.5xl font-black tracking-wider block">SMITE</span>
+                                <span class="text-[10px] text-slate-400 font-semibold tracking-wider uppercase bg-indigo-950/60 border border-indigo-900/40 px-2 py-0.5 rounded">Art Direction</span>
+                            </div>
+                        </div>
+                        <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-[10px] text-brand-500 font-extrabold uppercase tracking-widest">Brand Identity</span>
+                                    <span class="text-[10px] text-slate-500">Nov 2017 - May 2018</span>
+                                </div>
+                                <h4 class="text-base font-extrabold text-white group-hover:text-brand-500 transition-colors">
+                                    Cross-Platform Campaigns
+                                </h4>
+                            </div>
+                            <button onclick="openProjectModal('smite')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors">
+                                Deconstruct Project
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Case 6: Romexpo -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full" data-category="print">
+                        <div class="h-44 bg-gradient-to-br from-emerald-900/30 to-slate-950 flex items-center justify-center p-6 border-b border-slate-800 relative overflow-hidden">
+                            <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                            <div class="text-center relative z-10 space-y-2">
+                                <span class="text-emerald-500 text-2.5xl font-black tracking-tight block">ROMEXPO</span>
+                                <span class="text-[10px] text-slate-400 font-semibold tracking-wider uppercase bg-emerald-950/60 border border-emerald-900/40 px-2 py-0.5 rounded">Mass-Scale Signage</span>
+                            </div>
+                        </div>
+                        <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-[10px] text-brand-500 font-extrabold uppercase tracking-widest">Outdoor Branding</span>
+                                    <span class="text-[10px] text-slate-500">May 2015 - Oct 2017</span>
+                                </div>
+                                <h4 class="text-base font-extrabold text-white group-hover:text-brand-500 transition-colors">
+                                    Trademark Rebranding
+                                </h4>
+                            </div>
+                            <button onclick="openProjectModal('romexpo')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors">
+                                Deconstruct Project
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Case 7: MADE.com -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full" data-category="photography">
+                        <div class="h-44 bg-gradient-to-br from-pink-900/30 to-slate-950 flex items-center justify-center p-6 border-b border-slate-800 relative overflow-hidden">
+                            <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#ec4899_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                            <div class="text-center relative z-10 space-y-2">
+                                <span class="text-pink-400 text-2.5xl font-black tracking-wider block">MADE.COM</span>
+                                <span class="text-[10px] text-slate-400 font-semibold tracking-wider uppercase bg-pink-950/60 border border-pink-900/40 px-2 py-0.5 rounded">Photography QA</span>
+                            </div>
+                        </div>
+                        <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-[10px] text-brand-500 font-extrabold uppercase tracking-widest">Visual QA</span>
+                                    <span class="text-[10px] text-slate-500">Sep 2020 - Nov 2020</span>
+                                </div>
+                                <h4 class="text-base font-extrabold text-white group-hover:text-brand-500 transition-colors">
+                                    Visual Content Improvement
+                                </h4>
+                            </div>
+                            <button onclick="openProjectModal('madecom')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors">
+                                Deconstruct Project
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Case 8: CroitorulTau.ro -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full" data-category="agency">
+                        <div class="h-44 bg-gradient-to-br from-teal-900/30 to-slate-950 flex items-center justify-center p-6 border-b border-slate-800 relative overflow-hidden">
+                            <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#14b8a6_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                            <div class="text-center relative z-10 space-y-2">
+                                <span class="text-teal-400 text-2xl font-black tracking-tight block">CROITORULTAU</span>
+                                <span class="text-[10px] text-slate-400 font-semibold tracking-wider uppercase bg-teal-950/60 border border-teal-900/40 px-2 py-0.5 rounded">UI/UX & Identity</span>
+                            </div>
+                        </div>
+                        <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-[10px] text-brand-500 font-extrabold uppercase tracking-widest">Brand Launch</span>
+                                    <span class="text-[10px] text-slate-500">Apr 2014 - May 2015</span>
+                                </div>
+                                <h4 class="text-base font-extrabold text-white group-hover:text-brand-500 transition-colors">
+                                    Bespoke Tailoring Branding
+                                </h4>
+                            </div>
+                            <button onclick="openProjectModal('croitorultau')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors">
+                                Deconstruct Project
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Case 9: AP-ID.ro -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full" data-category="enterprise">
+                        <div class="h-44 bg-gradient-to-br from-red-900/30 to-slate-950 flex items-center justify-center p-6 border-b border-slate-800 relative overflow-hidden">
+                            <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#ef4444_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                            <div class="text-center relative z-10 space-y-2">
+                                <span class="text-red-500 text-2.5xl font-black tracking-wider block">AP-ID.RO</span>
+                                <span class="text-[10px] text-slate-400 font-semibold tracking-wider uppercase bg-red-950/60 border border-red-900/40 px-2 py-0.5 rounded">Bespoke Branding House</span>
+                            </div>
+                        </div>
+                        <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-[10px] text-brand-500 font-extrabold uppercase tracking-widest">Brand Identity</span>
+                                    <span class="text-[10px] text-slate-500">Aug 2010 - Present</span>
+                                </div>
+                                <h4 class="text-base font-extrabold text-white group-hover:text-brand-500 transition-colors">
+                                    Serus Dacia, Algeco & More
+                                </h4>
+                            </div>
+                            <button onclick="openProjectModal('apid')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors">
+                                Deconstruct Project
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ==================== TAB 3: PROOF & CONTACT ==================== -->
+        <section id="contact-tab" class="tab-content hidden space-y-10 animate-fadeIn duration-300">
+            
+            <!-- VERIFIED LINKEDIN TESTIMONIAL PANEL -->
+            <div class="space-y-6">
+                <div class="text-center max-w-2xl mx-auto space-y-2">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 bg-brand-500/10 text-brand-500 text-xs font-semibold rounded-full tracking-wide uppercase">
+                        Executive Endorsements
+                    </div>
+                    <h3 class="text-3xl font-black text-white tracking-tight">Peer & Client Validation</h3>
+                    <p class="text-sm text-slate-400">Authentic reviews proving operational excellence, workflow optimization, and high client satisfaction from prominent industry leaders.</p>
+                </div>
+
+                <!-- 22 Complete Cards with Modals, Uniform Slate Styling -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4" id="testimonial-grid">
+                    
+                    <!-- 1. Katie Bui -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full">
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-6 relative">
+                            <div class="absolute top-4 right-6 text-brand-500/10 text-8xl font-serif select-none pointer-events-none leading-none">“</div>
+                            <div class="flex items-center gap-4 relative z-10">
+                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center font-bold text-white border border-slate-700 shadow-lg text-lg flex-shrink-0">KB</div>
+                                <div>
+                                    <h4 class="text-base font-black text-white leading-tight">Katie Bui</h4>
+                                    <p class="text-[10px] text-brand-500 font-bold uppercase tracking-wider mt-1">Sr. Manager, Operations</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4 relative z-10 flex-1 flex flex-col justify-between">
+                                <p class="text-sm text-slate-300 italic leading-relaxed line-clamp-3">
+                                    "Alexandru brings strong creativity, professionalism, and a genuine team-first mindset to his work. He approaches design and collaboration thoughtfully..."
+                                </p>
+                                <button onclick="openTestimonialModal('kbui')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors mt-4">
+                                    Read Full Endorsement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Kevin Donlan -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full">
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-6 relative">
+                            <div class="absolute top-4 right-6 text-brand-500/10 text-8xl font-serif select-none pointer-events-none leading-none">“</div>
+                            <div class="flex items-center gap-4 relative z-10">
+                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center font-bold text-white border border-slate-700 shadow-lg text-lg flex-shrink-0">KD</div>
+                                <div>
+                                    <h4 class="text-base font-black text-white leading-tight">Kevin Donlan</h4>
+                                    <p class="text-[10px] text-brand-500 font-bold uppercase tracking-wider mt-1">VP, Strategic Alliances</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4 relative z-10 flex-1 flex flex-col justify-between">
+                                <p class="text-sm text-slate-300 italic leading-relaxed line-clamp-3">
+                                    "Alexandru is a world class graphic designer and someone you absolutely want on your team when it comes to visual design supporting new business pursuits..."
+                                </p>
+                                <button onclick="openTestimonialModal('kdonlan')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors mt-4">
+                                    Read Full Endorsement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Alexey Gukov -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full">
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-6 relative">
+                            <div class="absolute top-4 right-6 text-brand-500/10 text-8xl font-serif select-none pointer-events-none leading-none">“</div>
+                            <div class="flex items-center gap-4 relative z-10">
+                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center font-bold text-white border border-slate-700 shadow-lg text-lg flex-shrink-0">AG</div>
+                                <div>
+                                    <h4 class="text-base font-black text-white leading-tight">Alexey Gukov</h4>
+                                    <p class="text-[10px] text-brand-500 font-bold uppercase tracking-wider mt-1">Solution Sales Dev</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4 relative z-10 flex-1 flex flex-col justify-between">
+                                <p class="text-sm text-slate-300 italic leading-relaxed line-clamp-3">
+                                    "I have had the pleasure of working with Alexandru for two years at Yokogawa... Alexandru's ability to handle urgent requests with efficiency was notable."
+                                </p>
+                                <button onclick="openTestimonialModal('agukov')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors mt-4">
+                                    Read Full Endorsement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Gaetano Micera -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full">
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-6 relative">
+                            <div class="absolute top-4 right-6 text-brand-500/10 text-8xl font-serif select-none pointer-events-none leading-none">“</div>
+                            <div class="flex items-center gap-4 relative z-10">
+                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center font-bold text-white border border-slate-700 shadow-lg text-lg flex-shrink-0">GM</div>
+                                <div>
+                                    <h4 class="text-base font-black text-white leading-tight">Gaetano Micera</h4>
+                                    <p class="text-[10px] text-brand-500 font-bold uppercase tracking-wider mt-1">Director, Life Science</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4 relative z-10 flex-1 flex flex-col justify-between">
+                                <p class="text-sm text-slate-300 italic leading-relaxed line-clamp-3">
+                                    "Alexandru is passionate in his job and it is greatly reflected in the quality of the deliverables of his activity. During our collaboration he demonstrated great professionalism..."
+                                </p>
+                                <button onclick="openTestimonialModal('gmicera')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors mt-4">
+                                    Read Full Endorsement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5. Niklas Frielingsdorf -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full">
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-6 relative">
+                            <div class="absolute top-4 right-6 text-brand-500/10 text-8xl font-serif select-none pointer-events-none leading-none">“</div>
+                            <div class="flex items-center gap-4 relative z-10">
+                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center font-bold text-white border border-slate-700 shadow-lg text-lg flex-shrink-0">NF</div>
+                                <div>
+                                    <h4 class="text-base font-black text-white leading-tight">Niklas Frielingsdorf</h4>
+                                    <p class="text-[10px] text-brand-500 font-bold uppercase tracking-wider mt-1">European Marketing Adv.</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4 relative z-10 flex-1 flex flex-col justify-between">
+                                <p class="text-sm text-slate-300 italic leading-relaxed line-clamp-3">
+                                    "I got to know Alex as a helpful and creative colleague who has a great deal of expertise in his specialist area."
+                                </p>
+                                <button onclick="openTestimonialModal('nfrielingsdorf')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors mt-4">
+                                    Read Full Endorsement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 6. Maria Claus -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full">
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-6 relative">
+                            <div class="absolute top-4 right-6 text-brand-500/10 text-8xl font-serif select-none pointer-events-none leading-none">“</div>
+                            <div class="flex items-center gap-4 relative z-10">
+                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center font-bold text-white border border-slate-700 shadow-lg text-lg flex-shrink-0">MC</div>
+                                <div>
+                                    <h4 class="text-base font-black text-white leading-tight">Maria Claus</h4>
+                                    <p class="text-[10px] text-brand-500 font-bold uppercase tracking-wider mt-1">Marketing Coordinator</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4 relative z-10 flex-1 flex flex-col justify-between">
+                                <p class="text-sm text-slate-300 italic leading-relaxed line-clamp-3">
+                                    "Working with Alex has been crazy. The best kind of crazy. He is capable of transforming abstract ideas into concrete designs, from concept to execution..."
+                                </p>
+                                <button onclick="openTestimonialModal('mclaus')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors mt-4">
+                                    Read Full Endorsement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 7. Dominiek Vanthuyne -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full">
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-6 relative">
+                            <div class="absolute top-4 right-6 text-brand-500/10 text-8xl font-serif select-none pointer-events-none leading-none">“</div>
+                            <div class="flex items-center gap-4 relative z-10">
+                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center font-bold text-white border border-slate-700 shadow-lg text-lg flex-shrink-0">DV</div>
+                                <div>
+                                    <h4 class="text-base font-black text-white leading-tight">Dominiek Vanthuyne</h4>
+                                    <p class="text-[10px] text-brand-500 font-bold uppercase tracking-wider mt-1">Managing Director Samson NV</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4 relative z-10 flex-1 flex flex-col justify-between">
+                                <p class="text-sm text-slate-300 italic leading-relaxed line-clamp-3">
+                                    "I have worked with Alexandru on a number of projects and could always count on him to have a very creative input during design phase in addition to a well-maintained management..."
+                                </p>
+                                <button onclick="openTestimonialModal('dvanthuyne')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors mt-4">
+                                    Read Full Endorsement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 8. Cynthia Doms -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full">
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-6 relative">
+                            <div class="absolute top-4 right-6 text-brand-500/10 text-8xl font-serif select-none pointer-events-none leading-none">“</div>
+                            <div class="flex items-center gap-4 relative z-10">
+                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center font-bold text-white border border-slate-700 shadow-lg text-lg flex-shrink-0">CD</div>
+                                <div>
+                                    <h4 class="text-base font-black text-white leading-tight">Cynthia Doms</h4>
+                                    <p class="text-[10px] text-brand-500 font-bold uppercase tracking-wider mt-1">Marketing | Quality | H&S</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4 relative z-10 flex-1 flex flex-col justify-between">
+                                <p class="text-sm text-slate-300 italic leading-relaxed line-clamp-3">
+                                    "I have had the privilege of working with Alexandru for the last few years. Alexandru is a creative mind and knows exactly how to put into images what you need..."
+                                </p>
+                                <button onclick="openTestimonialModal('cdoms')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors mt-4">
+                                    Read Full Endorsement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 9. Paul Holthuis -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full">
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-6 relative">
+                            <div class="absolute top-4 right-6 text-brand-500/10 text-8xl font-serif select-none pointer-events-none leading-none">“</div>
+                            <div class="flex items-center gap-4 relative z-10">
+                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center font-bold text-white border border-slate-700 shadow-lg text-lg flex-shrink-0">PH</div>
+                                <div>
+                                    <h4 class="text-base font-black text-white leading-tight">Paul Holthuis</h4>
+                                    <p class="text-[10px] text-brand-500 font-bold uppercase tracking-wider mt-1">Head of Cloud Marketing</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4 relative z-10 flex-1 flex flex-col justify-between">
+                                <p class="text-sm text-slate-300 italic leading-relaxed line-clamp-3">
+                                    "Working with Alex has been a pleasure. I recommend him for his excellent design skills and creativity. Working closely with him at Yokogawa, I've witnessed his ability..."
+                                </p>
+                                <button onclick="openTestimonialModal('pholthuis')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors mt-4">
+                                    Read Full Endorsement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 10. Manish Kalika -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full">
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-6 relative">
+                            <div class="absolute top-4 right-6 text-brand-500/10 text-8xl font-serif select-none pointer-events-none leading-none">“</div>
+                            <div class="flex items-center gap-4 relative z-10">
+                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center font-bold text-white border border-slate-700 shadow-lg text-lg flex-shrink-0">MK</div>
+                                <div>
+                                    <h4 class="text-base font-black text-white leading-tight">Manish Kalika</h4>
+                                    <p class="text-[10px] text-brand-500 font-bold uppercase tracking-wider mt-1">Global Product Manager</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4 relative z-10 flex-1 flex flex-col justify-between">
+                                <p class="text-sm text-slate-300 italic leading-relaxed line-clamp-3">
+                                    "I highly recommend Alexandru for graphic design projects. Having had the pleasure of working closely with him at Yokogawa, I can attest to his exceptional creativity..."
+                                </p>
+                                <button onclick="openTestimonialModal('mkalika')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors mt-4">
+                                    Read Full Endorsement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 11. Mailyn Schürmann -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full">
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-6 relative">
+                            <div class="absolute top-4 right-6 text-brand-500/10 text-8xl font-serif select-none pointer-events-none leading-none">“</div>
+                            <div class="flex items-center gap-4 relative z-10">
+                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center font-bold text-white border border-slate-700 shadow-lg text-lg flex-shrink-0">MS</div>
+                                <div>
+                                    <h4 class="text-base font-black text-white leading-tight">Mailyn Schürmann</h4>
+                                    <p class="text-[10px] text-brand-500 font-bold uppercase tracking-wider mt-1">Digital Marketing Team Leader</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4 relative z-10 flex-1 flex flex-col justify-between">
+                                <p class="text-sm text-slate-300 italic leading-relaxed line-clamp-3">
+                                    "It was a pleasure to work with Alexandru. He created outstanding designs for brochures, flyers, and campaigns according to the CI specifications..."
+                                </p>
+                                <button onclick="openTestimonialModal('mschurmann')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors mt-4">
+                                    Read Full Endorsement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 12. H.Gaye Özen -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full">
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-6 relative">
+                            <div class="absolute top-4 right-6 text-brand-500/10 text-8xl font-serif select-none pointer-events-none leading-none">“</div>
+                            <div class="flex items-center gap-4 relative z-10">
+                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center font-bold text-white border border-slate-700 shadow-lg text-lg flex-shrink-0">HÖ</div>
+                                <div>
+                                    <h4 class="text-base font-black text-white leading-tight">H.Gaye Özen</h4>
+                                    <p class="text-[10px] text-brand-500 font-bold uppercase tracking-wider mt-1">QHSSE Advisor</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4 relative z-10 flex-1 flex flex-col justify-between">
+                                <p class="text-sm text-slate-300 italic leading-relaxed line-clamp-3">
+                                    "A designer who always understands what you want and design it better. His creativity and communication are always excellent."
+                                </p>
+                                <button onclick="openTestimonialModal('hozen')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors mt-4">
+                                    Read Full Endorsement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 13. Emma Bundy -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full">
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-6 relative">
+                            <div class="absolute top-4 right-6 text-brand-500/10 text-8xl font-serif select-none pointer-events-none leading-none">“</div>
+                            <div class="flex items-center gap-4 relative z-10">
+                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center font-bold text-white border border-slate-700 shadow-lg text-lg flex-shrink-0">EB</div>
+                                <div>
+                                    <h4 class="text-base font-black text-white leading-tight">Emma Bundy</h4>
+                                    <p class="text-[10px] text-brand-500 font-bold uppercase tracking-wider mt-1">Head of Marketing</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4 relative z-10 flex-1 flex flex-col justify-between">
+                                <p class="text-sm text-slate-300 italic leading-relaxed line-clamp-3">
+                                    "Alex is a very bright and creative graphic designer who is a pleasure to work with. Always ready to help with requests and translating requirements into striking..."
+                                </p>
+                                <button onclick="openTestimonialModal('ebundy')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors mt-4">
+                                    Read Full Endorsement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 14. Bert Konings -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full">
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-6 relative">
+                            <div class="absolute top-4 right-6 text-brand-500/10 text-8xl font-serif select-none pointer-events-none leading-none">“</div>
+                            <div class="flex items-center gap-4 relative z-10">
+                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center font-bold text-white border border-slate-700 shadow-lg text-lg flex-shrink-0">BK</div>
+                                <div>
+                                    <h4 class="text-base font-black text-white leading-tight">Bert Konings</h4>
+                                    <p class="text-[10px] text-brand-500 font-bold uppercase tracking-wider mt-1">VP of Product Management</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4 relative z-10 flex-1 flex flex-col justify-between">
+                                <p class="text-sm text-slate-300 italic leading-relaxed line-clamp-3">
+                                    "It must be a trade of Graphic designers (or at least the ones I worked with), they know how we free up their hats and come up with cool things obeying the corporate guidelines..."
+                                </p>
+                                <button onclick="openTestimonialModal('bkonings')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors mt-4">
+                                    Read Full Endorsement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 15. Antonio Satîru -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full">
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-6 relative">
+                            <div class="absolute top-4 right-6 text-brand-500/10 text-8xl font-serif select-none pointer-events-none leading-none">“</div>
+                            <div class="flex items-center gap-4 relative z-10">
+                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center font-bold text-white border border-slate-700 shadow-lg text-lg flex-shrink-0">AS</div>
+                                <div>
+                                    <h4 class="text-base font-black text-white leading-tight">Antonio Satîru</h4>
+                                    <p class="text-[10px] text-brand-500 font-bold uppercase tracking-wider mt-1">Actor, Illusionist, Photographer</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4 relative z-10 flex-1 flex flex-col justify-between">
+                                <p class="text-sm text-slate-300 italic leading-relaxed line-clamp-3">
+                                    "Vision, creativity and simply amazing.....That is all I can say about APvizual. I requested a complete branding package, and to be honest, with every element that I was shown..."
+                                </p>
+                                <button onclick="openTestimonialModal('asatiru')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors mt-4">
+                                    Read Full Endorsement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 16. Vișan Miu Tudor -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full">
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-6 relative">
+                            <div class="absolute top-4 right-6 text-brand-500/10 text-8xl font-serif select-none pointer-events-none leading-none">“</div>
+                            <div class="flex items-center gap-4 relative z-10">
+                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center font-bold text-white border border-slate-700 shadow-lg text-lg flex-shrink-0">VT</div>
+                                <div>
+                                    <h4 class="text-base font-black text-white leading-tight">Vișan Miu Tudor</h4>
+                                    <p class="text-[10px] text-brand-500 font-bold uppercase tracking-wider mt-1">General Secretary</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4 relative z-10 flex-1 flex flex-col justify-between">
+                                <p class="text-sm text-slate-300 italic leading-relaxed line-clamp-3">
+                                    "I first met Alex Popescu in a Romanian NGO. My impression was that he was a man full of brilliant ideas and time proved I wasn't wrong. Alex is a creative graphic designer..."
+                                </p>
+                                <button onclick="openTestimonialModal('vtudor')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors mt-4">
+                                    Read Full Endorsement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 17. Bogdan Bârligea -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full">
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-6 relative">
+                            <div class="absolute top-4 right-6 text-brand-500/10 text-8xl font-serif select-none pointer-events-none leading-none">“</div>
+                            <div class="flex items-center gap-4 relative z-10">
+                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center font-bold text-white border border-slate-700 shadow-lg text-lg flex-shrink-0">BB</div>
+                                <div>
+                                    <h4 class="text-base font-black text-white leading-tight">Bogdan Bârligea</h4>
+                                    <p class="text-[10px] text-brand-500 font-bold uppercase tracking-wider mt-1">Marketing Specialist</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4 relative z-10 flex-1 flex flex-col justify-between">
+                                <p class="text-sm text-slate-300 italic leading-relaxed line-clamp-3">
+                                    "Expect the unexpected when you work with Alex. As a graphic designer, he delivers creativity in any project, a unique point of view and great artistic vision..."
+                                </p>
+                                <button onclick="openTestimonialModal('bbarligea')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors mt-4">
+                                    Read Full Endorsement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 18. Caali -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full">
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-6 relative">
+                            <div class="absolute top-4 right-6 text-brand-500/10 text-8xl font-serif select-none pointer-events-none leading-none">“</div>
+                            <div class="flex items-center gap-4 relative z-10">
+                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center font-bold text-white border border-slate-700 shadow-lg text-lg flex-shrink-0">C</div>
+                                <div>
+                                    <h4 class="text-base font-black text-white leading-tight">Caali</h4>
+                                    <p class="text-[10px] text-brand-500 font-bold uppercase tracking-wider mt-1">Songwriter / Producer</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4 relative z-10 flex-1 flex flex-col justify-between">
+                                <p class="text-sm text-slate-300 italic leading-relaxed line-clamp-3">
+                                    "I confidently recommend Alex, for professionalism and involvement. We became friends by working together. Thanks to his professional experience, pragmatism..."
+                                </p>
+                                <button onclick="openTestimonialModal('caali')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors mt-4">
+                                    Read Full Endorsement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 19. Alexandru Păun -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full">
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-6 relative">
+                            <div class="absolute top-4 right-6 text-brand-500/10 text-8xl font-serif select-none pointer-events-none leading-none">“</div>
+                            <div class="flex items-center gap-4 relative z-10">
+                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center font-bold text-white border border-slate-700 shadow-lg text-lg flex-shrink-0">AP</div>
+                                <div>
+                                    <h4 class="text-base font-black text-white leading-tight">Alexandru Păun</h4>
+                                    <p class="text-[10px] text-brand-500 font-bold uppercase tracking-wider mt-1">CEO Topo Delta Pad</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4 relative z-10 flex-1 flex flex-col justify-between">
+                                <p class="text-sm text-slate-300 italic leading-relaxed line-clamp-3">
+                                    "Pe Alex Popescu aka Popicu’ - îl cunosc din adolescență, de cand jucam volei împreună în echipa liceului... Eu dorindu-mi să aduc o nouă imagine companiei noastre..."
+                                </p>
+                                <button onclick="openTestimonialModal('apaun')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors mt-4">
+                                    Read Full Endorsement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 20. Liliana Costache -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full">
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-6 relative">
+                            <div class="absolute top-4 right-6 text-brand-500/10 text-8xl font-serif select-none pointer-events-none leading-none">“</div>
+                            <div class="flex items-center gap-4 relative z-10">
+                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center font-bold text-white border border-slate-700 shadow-lg text-lg flex-shrink-0">LC</div>
+                                <div>
+                                    <h4 class="text-base font-black text-white leading-tight">Liliana Costache</h4>
+                                    <p class="text-[10px] text-brand-500 font-bold uppercase tracking-wider mt-1">Content Manager</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4 relative z-10 flex-1 flex flex-col justify-between">
+                                <p class="text-sm text-slate-300 italic leading-relaxed line-clamp-3">
+                                    "Alex is an extremely competent and responsible person, who complies with deadlines often under pressure and difficult conditions... His professional approach is impeccable."
+                                </p>
+                                <button onclick="openTestimonialModal('lcostache')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors mt-4">
+                                    Read Full Endorsement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 21. Anca Buzatu -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full">
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-6 relative">
+                            <div class="absolute top-4 right-6 text-brand-500/10 text-8xl font-serif select-none pointer-events-none leading-none">“</div>
+                            <div class="flex items-center gap-4 relative z-10">
+                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center font-bold text-white border border-slate-700 shadow-lg text-lg flex-shrink-0">AB</div>
+                                <div>
+                                    <h4 class="text-base font-black text-white leading-tight">Anca Buzatu</h4>
+                                    <p class="text-[10px] text-brand-500 font-bold uppercase tracking-wider mt-1">Head of Marketing IL PASSO</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4 relative z-10 flex-1 flex flex-col justify-between">
+                                <p class="text-sm text-slate-300 italic leading-relaxed line-clamp-3">
+                                    "Alexandru is an \"one of a kind\" designer who is constantly striving to be more creative in his designs and more efficient in everything he does..."
+                                </p>
+                                <button onclick="openTestimonialModal('abuzatu')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors mt-4">
+                                    Read Full Endorsement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 22. Luca Costea -->
+                    <div class="portfolio-item bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-brand-500/50 transition-all duration-300 group flex flex-col h-full">
+                        <div class="p-6 flex-1 flex flex-col justify-between space-y-6 relative">
+                            <div class="absolute top-4 right-6 text-brand-500/10 text-8xl font-serif select-none pointer-events-none leading-none">“</div>
+                            <div class="flex items-center gap-4 relative z-10">
+                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center font-bold text-white border border-slate-700 shadow-lg text-lg flex-shrink-0">LC</div>
+                                <div>
+                                    <h4 class="text-base font-black text-white leading-tight">Luca Costea</h4>
+                                    <p class="text-[10px] text-brand-500 font-bold uppercase tracking-wider mt-1">Copywriter</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4 relative z-10 flex-1 flex flex-col justify-between">
+                                <p class="text-sm text-slate-300 italic leading-relaxed line-clamp-3">
+                                    "Hard projects were made easy working with Alex. His input goes beyond his pure design skills - to brainstorming, good time management, and developing the right creative concept..."
+                                </p>
+                                <button onclick="openTestimonialModal('lcostea')" class="w-full text-center py-2 bg-slate-800 hover:bg-brand-500 hover:text-slate-950 text-xs font-bold rounded-lg text-slate-300 transition-colors mt-4">
+                                    Read Full Endorsement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- EXPANDED CONTACT TERMINAL -->
+            <div class="pt-8 border-t border-slate-800">
+                <div class="text-center max-w-2xl mx-auto space-y-2 mb-10">
+                    <h3 class="text-2xl font-black text-white tracking-tight uppercase">Direct Contact Terminal</h3>
+                    <p class="text-sm text-slate-400">
+                        Available immediately for systemic art direction consulting, high-volume agency contracts, and long-term roles in Bucharest / hybrid structures.
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    
+                    <!-- Email Node -->
+                    <a href="mailto:apvizual@gmail.com" class="group bg-slate-900/50 border border-slate-800 hover:border-brand-500 rounded-xl p-6 flex flex-col items-center text-center gap-3 transition-all duration-300 hover:bg-slate-900">
+                        <div class="w-12 h-12 rounded-full bg-slate-950 border border-slate-800 flex items-center justify-center text-slate-400 group-hover:text-brand-500 group-hover:border-brand-500/50 transition-colors shadow-lg">
+                            <i data-lucide="mail" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <div class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Email Interface</div>
+                            <div class="text-sm font-semibold text-white group-hover:text-brand-400 transition-colors">apvizual@gmail.com</div>
+                        </div>
+                    </a>
+
+                    <!-- Phone Node -->
+                    <a href="tel:+40722121752" class="group bg-slate-900/50 border border-slate-800 hover:border-brand-500 rounded-xl p-6 flex flex-col items-center text-center gap-3 transition-all duration-300 hover:bg-slate-900">
+                        <div class="w-12 h-12 rounded-full bg-slate-950 border border-slate-800 flex items-center justify-center text-slate-400 group-hover:text-brand-500 group-hover:border-brand-500/50 transition-colors shadow-lg">
+                            <i data-lucide="phone" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <div class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Mobile Secure Connection</div>
+                            <div class="text-sm font-semibold text-white group-hover:text-brand-400 transition-colors">+40 722 121 752</div>
+                        </div>
+                    </a>
+
+                    <!-- Web Node -->
+                    <a href="https://ap-id.ro" target="_blank" rel="noopener noreferrer" class="group bg-slate-900/50 border border-slate-800 hover:border-brand-500 rounded-xl p-6 flex flex-col items-center text-center gap-3 transition-all duration-300 hover:bg-slate-900 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-brand-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="w-12 h-12 rounded-full bg-slate-950 border border-slate-800 flex items-center justify-center text-slate-400 group-hover:text-brand-500 group-hover:border-brand-500/50 transition-colors shadow-lg relative z-10">
+                            <i data-lucide="globe" class="w-5 h-5"></i>
+                        </div>
+                        <div class="relative z-10">
+                            <div class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Live Portfolio</div>
+                            <div class="text-sm font-semibold text-white group-hover:text-brand-400 transition-colors">www.ap-id.ro</div>
+                        </div>
+                    </a>
+
+                    <!-- LinkedIn Node -->
+                    <a href="https://linkedin.com/in/ap-id" target="_blank" rel="noopener noreferrer" class="group bg-slate-900/50 border border-slate-800 hover:border-brand-500 rounded-xl p-6 flex flex-col items-center text-center gap-3 transition-all duration-300 hover:bg-slate-900">
+                        <div class="w-12 h-12 rounded-full bg-slate-950 border border-slate-800 flex items-center justify-center text-white group-hover:text-brand-500 group-hover:border-brand-500/50 transition-colors shadow-lg">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Professional Network</div>
+                            <div class="text-sm font-semibold text-white group-hover:text-brand-400 transition-colors">linkedin.com/in/ap-id</div>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- PROJECT PORTFOLIO MODAL (DYNAMIC CONTENT CONTAINER) -->
+    <div id="projectModal" class="fixed inset-0 z-50 flex items-center justify-center bg-brand-dark/80 backdrop-blur-sm p-4 hidden transition-opacity duration-300 opacity-0">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 sm:p-8 space-y-6 relative">
+            
+            <!-- Close Modal Trigger -->
+            <button onclick="closeProjectModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white transition-colors p-1.5 bg-slate-950 border border-slate-800 rounded-lg">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+
+            <!-- Modal Headers -->
+            <div class="space-y-2 border-b border-slate-800 pb-4">
+                <div class="flex items-center gap-2">
+                    <span id="modalCategory" class="px-2 py-0.5 bg-brand-500/10 text-brand-500 text-[10px] font-extrabold uppercase rounded">Category</span>
+                    <span id="modalTimeline" class="text-xs text-slate-500">Timeline</span>
+                </div>
+                <h3 id="modalTitle" class="text-xl font-bold text-white tracking-tight">Project Title</h3>
+            </div>
+
+            <!-- Modal Content Block -->
+            <div class="space-y-4 text-xs sm:text-sm text-slate-300 leading-relaxed">
+                <div>
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-1">Corporate Client Context</h4>
+                    <p id="modalContext" class="text-slate-400"></p>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-1">Operational Design Challenge</h4>
+                    <p id="modalChallenge" class="text-slate-400"></p>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-1">Alexandru's Strategic Execution</h4>
+                    <p id="modalSolution" class="text-slate-400"></p>
+                </div>
+
+                <div class="bg-brand-500/5 border border-brand-500/20 p-4 rounded-xl">
+                    <h4 class="text-xs font-bold text-brand-500 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                        <i data-lucide="zap" class="w-4 h-4"></i> RepubliKa Synergy Advantage
+                    </h4>
+                    <p id="modalSynergy" class="text-slate-300 text-xs italic"></p>
+                </div>
+            </div>
+
+            <!-- Footer control -->
+            <div class="border-t border-slate-800 pt-4 flex justify-between items-center">
+                <a href="https://ap-id.ro" target="_blank" rel="noopener noreferrer" class="text-xs font-bold text-brand-500 hover:text-brand-400 flex items-center gap-1">
+                    See Visuals on ap-id.ro <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+                <button onclick="closeProjectModal()" class="px-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-bold text-slate-300 hover:text-white hover:border-slate-700 transition-all">
+                    Done Reading
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TESTIMONIAL MODAL (DYNAMIC CONTENT CONTAINER) -->
+    <div id="testimonialModal" class="fixed inset-0 z-50 flex items-center justify-center bg-brand-dark/80 backdrop-blur-sm p-4 hidden transition-opacity duration-300 opacity-0">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 sm:p-8 space-y-6 relative">
+            
+            <!-- Close Modal Trigger -->
+            <button onclick="closeTestimonialModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white transition-colors p-1.5 bg-slate-950 border border-slate-800 rounded-lg">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+
+            <!-- Modal Headers -->
+            <div class="space-y-4 border-b border-slate-800 pb-6">
+                <div class="flex items-center gap-4">
+                    <div id="testModalInitials" class="w-14 h-14 rounded-full bg-slate-800 flex items-center justify-center font-bold text-white border border-slate-700 shadow-lg text-lg flex-shrink-0">
+                        --
+                    </div>
+                    <div>
+                        <h3 id="testModalAuthor" class="text-xl font-bold text-white tracking-tight">Name</h3>
+                        <p id="testModalRole" class="text-xs text-brand-500 font-bold uppercase tracking-wider mt-1">Role</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Content Block -->
+            <div class="space-y-4 text-sm text-slate-300 leading-relaxed italic relative">
+                <div class="absolute -top-4 left-0 text-brand-500/10 text-6xl font-serif select-none pointer-events-none leading-none">“</div>
+                <p id="testModalText" class="relative z-10 pl-4 border-l-2 border-brand-500/30 whitespace-pre-wrap"></p>
+            </div>
+
+            <!-- Footer control -->
+            <div class="border-t border-slate-800 pt-4 flex justify-end">
+                <button onclick="closeTestimonialModal()" class="px-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-bold text-slate-300 hover:text-white hover:border-slate-700 transition-all">
+                    Close Document
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN FOOTER PANEL -->
+    <footer class="bg-slate-950 border-t border-slate-900/80 py-8 no-print mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
+            <div class="space-y-1">
+                <div class="text-sm font-bold text-white">Alexandru Popescu</div>
+                <p class="text-xs text-slate-500">Senior Creative Systems & Art Direction Portfolio. Tailored for RepubliKa Interactive.</p>
+            </div>
+            <div class="text-xs text-slate-500">
+                &copy; 2026 AP-ID.ro. All system metrics verified.
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE APP SCRIPT CORE -->
+    <script>
+        // Core Static Database for Projects Case Studies
+        const projectDatabase = {
+            microsoft: {
+                title: "Microsoft Global Bid Visual Architecture",
+                category: "Enterprise Strategy",
+                timeline: "Jan 2025 - May 2026",
+                context: "Shipley Associates supports high-stakes proposal teams globally. Designed custom PowerPoint and Word documents for 20+ global clients like H&M, Erste Group, and the UAE Ministry of Education.",
+                challenge: "Creating branded infographics and data visualizations aligned with strict Microsoft standards, while ensuring 90%+ WCAG accessibility compliance for rigorous audits.",
+                solution: "Utilized Adobe Firefly and Creative Suite to accelerate content creation and streamline proposal workflows with PCoE teams, cutting revision cycles.",
+                synergy: "Boosted evaluator engagement by ~15% and contributed to an 80-85% global deal win rate."
+            },
+            skinmedia: {
+                title: "Skin Media Online Marketing Campaigns",
+                category: "Digital Campaigns & Art Direction",
+                timeline: "Jan 2024 - Aug 2024",
+                context: "Led design and publishing of 50+ online marketing campaigns for brands like Nikon, Aiper, Pure, and Ninja.",
+                challenge: "Developing cohesive graphic concepts and managing market launch materials across Romania to drive rapid brand awareness.",
+                solution: "Created engaging graphic concepts for 10+ Nikon Romania campaigns and led the digital launch of Aiper, Pure, and Ninja.",
+                synergy: "Accelerated sales by 20% and enhanced audience engagement by 25% through targeted online campaigns."
+            },
+            yokogawa: {
+                title: "Yokogawa European Visual Rebranding",
+                category: "Enterprise Identity & UI",
+                timeline: "May 2021 - Jan 2024",
+                context: "Yokogawa required a cohesive visual aesthetic, video concepts, and a complete rebrand effort across 12 European countries.",
+                challenge: "Ensuring consistent branding across all corporate assets, including trade show booths, prints, and massive volumes of marketing support materials.",
+                solution: "Designed over 200 graphic templates and led the visual rebranding of Yokogawa's European presence, establishing a unified corporate identity.",
+                synergy: "Elevated online brand awareness by 20% in one year and significantly boosted brand recognition."
+            },
+            pathway: {
+                title: "Pathway Digital & UI/UX Redesign",
+                category: "Agency & UI/UX",
+                timeline: "May 2018 - May 2019",
+                context: "Required promotional campaign design and UI/UX improvements for casino and bingo digital platforms.",
+                challenge: "Redesigning web layouts to enhance player interaction and reduce high bounce rates on interactive features.",
+                solution: "Executed comprehensive UI/UX improvements and structured the design of key promotional materials.",
+                synergy: "Boosted website traffic by 20%, increased user engagement by 35-40%, and reduced bounce rates by 30%."
+            },
+            smite: {
+                title: "Smite Agency Brand Identity Design",
+                category: "Brand Architecture",
+                timeline: "Nov 2017 - May 2018",
+                context: "Serving as Art Director for over 25 creative projects for prominent brands including WuXing, City Grill Group, Aderma Protect, and Ducray.",
+                challenge: "Developing cohesive brand identities and coordinating more than 30 multimedia campaigns across both digital and print platforms.",
+                solution: "Ensured consistent representation of brand guidelines across all channels through strict creative direction and visual strategies.",
+                synergy: "Achieved a 20-25% increase in online customer engagement and improved overall brand recognition and memorability."
+            },
+            romexpo: {
+                title: "Romexpo Trademark Rebranding & Signage",
+                category: "Print & Exhibition",
+                timeline: "May 2015 - Oct 2017",
+                context: "Romexpo, a massive event arena, needed trademark rebranding for 10+ expos and comprehensive event photography coverage.",
+                challenge: "Handling massive multimedia design projects and streamlining photo retouching for outdoor, metro, indoor, and web displays.",
+                solution: "Directed the trademark rebrands, captured high-quality event photography, and optimized the production workflow.",
+                synergy: "Achieved a 30% increase in visibility, cut production time by 30%, reduced costs by 20%, and enhanced engagement by 25-30%."
+            },
+            madecom: {
+                title: "MADE.com Visual QA & Enhancements",
+                category: "Photography QA & UX",
+                timeline: "Sep 2020 - Nov 2020",
+                context: "Facilitated international collaboration to enhance 25,000+ product visuals for MADE's online shop debut across 5 countries.",
+                challenge: "Updating the company's entire product photography database within a strict 3-month project deadline.",
+                solution: "Ensured high-quality visual content through rigorous QA, delivering a full 'facelift' of all product images.",
+                synergy: "Achieved a 100% on-time delivery rate and increased user interaction by 20% post-launch."
+            },
+            croitorultau: {
+                title: "CroitorulTau.ro Bespoke Brand Launch",
+                category: "Branding & UI/UX",
+                timeline: "Apr 2014 - May 2015",
+                context: "A high-end bespoke tailoring brand requiring complete commercial identity development, including logo, website, and photography.",
+                challenge: "Implementing UX strategies and DTP for marketing materials (business cards, magazine adverts, social media) to launch the brand.",
+                solution: "Directed the art and photography, established the UI/UX, and forged strategic collaborations with notable public figures.",
+                synergy: "Boosted online engagement by 70%, increased conversions by 50%, and achieved 70-75% customer retention in year one."
+            },
+            apid: {
+                title: "AP-ID Bespoke Branding House",
+                category: "Freelance Creative Leadership",
+                timeline: "Aug 2010 - Present",
+                context: "Collaborating with diverse teams to create brand identities, digital assets, and rebranding initiatives for clients like Serus Dacia, CRD Credit, Engino Toys, Optima Call, and Algeco.",
+                challenge: "Driving sales revenue and online engagement through effective brand positioning and high-quality journalistic/event photography.",
+                solution: "Designed innovative digital assets, directed complete rebranding initiatives, and produced premium commercial photography.",
+                synergy: "Driven 10-15% increases in customer engagement post-rebranding, 25% growth for digital clients, and boosted satisfaction by 30%."
+            }
+        };
+
+        // Core Static Database for Testimonials
+        const testimonialDatabase = {
+            kbui: { initials: "KB", author: "Katie Bui", role: "Senior Manager, Account & People Operations", text: "Alexandru brings strong creativity, professionalism, and a genuine team-first mindset to his work. He approaches design and collaboration thoughtfully, leads with good intentions, and is always willing to support others. His passion for his craft shows in the quality of his output and in how he collaborates. Alexandru is someone you can rely on to contribute meaningfully and elevate the work around him." },
+            kdonlan: { initials: "KD", author: "Kevin Donlan", role: "VP, Strategic Alliances & Programs", text: "Alexandru is a world class graphic designer and someone you absolutely want on your team when it comes to visual design supporting new business pursuits and proposal activities. Throughout my time working with Alexandru, multiple client stakeholders noted that Alexandru's graphic design work on presentations and proposals was some of the \"most impressive\" they'd seen within the organization. Additionally, Alexandru's ability to work directly with subject matter experts to scope, tailor and customize presentations sets him apart in the field." },
+            agukov: { initials: "AG", author: "Alexey Gukov", role: "Solution Sales & Business Development", text: "I have had the pleasure of working with Alexandru for two years at Yokogawa, where I served as a Channel Business Developer and he was the Graphic Designer. During our collaboration, Alexandru helped greatly in designing channel partners marketing materials such as banners, channel partner certificates, and congratulatory postcards. Alexandru's ability to handle urgent requests with efficiency was notable. He consistently demonstrated a keen ability to listen to our team's needs, offering creative solutions swiftly. His designs were visually compelling, greatly enhancing our engagement with channel partners. The quality of Alexandru's work was consistently high. His designs were well received by our partners, often complimented for their appeal and clarity. I recommend Alex for any future projects. I am confident he will bring the same creativity, dedication, and professionalism to new challenges as he has always shown in our work together." },
+            gmicera: { initials: "GM", author: "Gaetano Micera", role: "Director, Life Science Industry", text: "Alexandru is passionate in his job and it is greatly reflected in the quality of the deliverables of his activity. During our collaboration he demonstrated great professionalism and dedication in his role of Graphic Designer. He was reliable and sharp on his task assignment being on time and exceeding expectations on final product. Personally, I appreciated his ability to understand user's request and his friendly/easy approach to people." },
+            nfrielingsdorf: { initials: "NF", author: "Niklas Frielingsdorf", role: "European Marketing & Communications Advisor", text: "I got to know Alex as a helpful and creative colleague who has a great deal of expertise in his specialist area." },
+            mclaus: { initials: "MC", author: "Maria Claus", role: "Marketing Event Coordinator", text: "Working with Alex has been crazy. The best kind of crazy. He is capable of transforming abstract ideas into concrete designs, from concept to execution, implementation and simplification. There is nothing he can't do when he puts his mind to it.\nThank you, Alex, for all the great projects and to many more!" },
+            dvanthuyne: { initials: "DV", author: "Dominiek Vanthuyne", role: "Managing Director Samson NV", text: "I have worked with Alexandru on a number of projects and could always count on him to have a very creative input during design phase in addition to a well-maintained management throughout the project execution. It was a pleasure working with him." },
+            cdoms: { initials: "CD", author: "Cynthia Doms", role: "Marketing | Quality | Health & Safety", text: "I have had the privilege of working with Alexandru for the last few years. Alexandru is a creative mind and knows exactly how to put into images what you need. He is very professional, friendly and always ready for a joke. Working with Alexandru has been a pleasure." },
+            pholthuis: { initials: "PH", author: "Paul Holthuis", role: "Head of Yokogawa Cloud Marketing", text: "Working with Alex has been a pleasure. I recommend him for his excellent design skills and creativity. Working closely with him at Yokogawa, I've witnessed his ability to think outside the box and deliver innovative designs consistently. Alex’s designs have significantly contributed to our projects, showcasing both talent and dedication. It's been a pleasure collaborating with someone who brings such creativity and expertise to the table." },
+            mkalika: { initials: "MK", author: "Manish Kalika", role: "Global Product Manager", text: "I highly recommend Alexandru for graphic design projects. Having had the pleasure of working closely with him at Yokogawa, I can attest to his exceptional creativity and work ethic. During our time at Yokogawa Europe B.V., Alexandru played a crucial role in elevating the visual identity of our brand. His designs not only captured the essence of our messaging but also resonated well with our target audience, contributing significantly to the success of several campaigns. Beyond his technical and creative abilities, Alexandru is a pleasure to work with. His collaborative nature, attention to detail, and ability to meet tight deadlines make him a valuable asset to any team." },
+            mschurmann: { initials: "MS", author: "Mailyn Schürmann", role: "Digital Marketing | Team Leader", text: "It was a pleasure to work with Alexandru. He created outstanding designs for brochures, flyers, and campaigns according to the CI specifications. It was very helpful that Alexandru has a Marketing background as well. He not only creates graphics according to the briefing, but he is also a creative artist and does very aesthetic work." },
+            hozen: { initials: "HÖ", author: "H.Gaye Özen", role: "QHSSE Advisor", text: "A designer who always understands what you want and design it better. His creativity and communication are always excellent." },
+            ebundy: { initials: "EB", author: "Emma Bundy", role: "Head of Marketing | Yokogawa RAP Ltd", text: "Alex is a very bright and creative graphic designer who is a pleasure to work with. Always ready to help with requests and translating requirements into striking and professional designs to promote the product and business. I wouldn’t hesitate to recommend Alex, he would be an asset to any project and team." },
+            bkonings: { initials: "BK", author: "Bert Konings", role: "Vice President of Product Management", text: "It must be a trade of Graphic designers (or at least the ones I worked with), they know how we free up their hats and come up with cool things obeying the corporate guidelines on what is allowed and what is not. Guiding teams in need through a creative process and building structure to what is needed for the business to support written text with graphics is what Alex does, and he does it well...... really really well.\nWhat Graphic designers also need is time management and when you look at the journey of Alex he went in our team from being all over the map and struggling for time, all the time, to a smooth process where everyone knew what they could expect in terms of outcome, when and what.\nLove to work with this guy. Thanks for the learning Alex." },
+            asatiru: { initials: "AS", author: "Antonio Satîru", role: "Actor, Illusionist, Photographer", text: "“Vision, creativity and simply amazing.....That is all I can say about APvizual. I requested a complete branding package, and to be honest, with every element that I was shown, my jaw dropped ... every time.”" },
+            vtudor: { initials: "VT", author: "Vișan Miu Tudor", role: "General Secretary", text: "“I first met Alex Popescu in a Romanian NGO. My impression was that he was a man full of brilliant ideas and time proved I wasn't wrong. Alex is a creative graphic designer and a perceptive photographer. It brings me great pleasure to remind our work together.\nIn Autumn 2014 he designed a brochure about the Romanian Royal Family, which our NGO distributed during the city days of Sinaia to locals and tourists. That same Autumn, he was our official photographer at an event dedicated to young artists, attended by Prince Nicholas of Romania.\nIn 2015, Alex was the main designer and photographer for a series of conferences dedicated to Romanian historical contributions, hosted by the \"Carol I\" Central University Library in Bucharest. His posters highlighted how special such occasions were and attracted hundreds of attendants. I especially remind the conference held by Professor Adrian Cioroianu, historian and former Romanian Minister of Foreign Affairs.\nI cannot write about Alex without reminding that he is a great people person. During the conversations you can have with him, you will always feel that he is there, listening to what you say, and provide a very energic feedback to it.\nAfter you start working with him you can't help but think of him as a friend.”" },
+            bbarligea: { initials: "BB", author: "Bogdan Bârligea", role: "Marketing Specialist & Journalist", text: "“Expect the unexpected when you work with Alex. As a graphic designer, he delivers creativity in any project, a unique point of view and great artistic vision. As a person, Alex is always an honest man, passionate storyteller and caring companion.”" },
+            caali: { initials: "C", author: "Caali", role: "Songwriter / Producer", text: "“I confidently recommend Alex, for professionalism and involvement. We became friends by working together. Thanks to his professional experience, pragmatism, and a developed artistic vision, he managed to stay true to his own brand, as an impactful commercial storyteller. I quickly received our logo and cover artwork, \"the product\" as he called it, of which I'm truly satisfied. Our first collaboration only led to the next project, and so on. To this day he is our identity designer, because the man loves his craft, in detail.”" },
+            apaun: { initials: "AP", author: "Alexandru Păun", role: "CEO Topo Delta Pad", text: "“Pe Alex Popescu aka Popicu’ - îl cunosc din adolescență, de cand jucam volei împreună în echipa liceului. Anii au trecut și ne-am reînalnit, însă de data asta, stând la o altfel de masă, a discutiilor: Eu dorindu-mi să aduc o nouă imagine companiei noastre, iar Alex oferindu-mi consultanță ... da, consultanță zic, oferită de un artist! Suna poate puțin ciudat, dar Alex nu mi-a oferit doar un “desen”, mi-a oferit o nouă imagine. Astfel, așa cum spune și vorba: \"Dacă ești mulțumit de ce ai primit, cu siguranță ai să revii\", anul acesta, Alex, te rog sa mă programezi și pe mine prin toamnă, pentru un nou proiect. Mersi!”" },
+            lcostache: { initials: "LC", author: "Liliana Costache", role: "Content Manager", text: "“Alex is an extremely competent and responsible person, who complies with deadlines often under pressure and difficult conditions (last minute changes to be made urgently). His professional approach is impeccable, his work is of high quality. In his interactions with clients he is always courteous and patient. Always creative, in a good mood and ready to help, he is a valuable asset to anyone who uses her services. His research is precise and his suggestions are always original and relevant. It is with great pleasure that I warmly recommend him.”" },
+            abuzatu: { initials: "AB", author: "Anca Buzatu", role: "Head of Marketing IL PASSO", text: "“Alexandru is an \"one of a kind\" designer who is constantly striving to be more creative in his designs and more efficient in everything he does. He is smart, easy to get along with and also clear thinking and quick-witted.”" },
+            lcostea: { initials: "LC", author: "Luca Costea", role: "Copywriter", text: "“Hard projects were made easy working with Alex. His input goes beyond his pure design skills - to brainstorming, good time management, and developing the right creative concept. All this with a jolly personality and a smile on top.”" }
+        };
+
+        // Tab Switching Logic
+        function switchTab(targetTabId) {
+            // Hide all tab sections
+            document.querySelectorAll('.tab-content').forEach(section => {
+                section.classList.add('hidden');
+                section.classList.remove('block');
+            });
+
+            // Show targeted tab section
+            const targetSection = document.getElementById(targetTabId);
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+                targetSection.classList.add('block');
+            }
+
+            // Update tab button classes to reflect active state
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('border-brand-500', 'text-brand-500');
+                btn.classList.add('border-transparent', 'text-slate-400');
+            });
+
+            // Highlight target button
+            const activeBtn = document.getElementById(`btn-${targetTabId}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('border-transparent', 'text-slate-400');
+                activeBtn.classList.add('border-brand-500', 'text-brand-500');
+            }
+        }
+
+        // Portfolio Filtering Engine
+        function filterPortfolio(category) {
+            const items = document.querySelectorAll('.portfolio-item[data-category]'); // Target only portfolio items, ignore testimonials
+            
+            // Loop through grid items
+            items.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Update active state class of filter buttons
+            const filterButtons = document.querySelectorAll('#portfolio-filters button');
+            filterButtons.forEach(btn => {
+                btn.className = "filter-btn px-3 py-1.5 bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800 text-xs font-semibold rounded-lg transition-all";
+            });
+
+            // Highlight chosen filter
+            event.target.className = "filter-btn px-3 py-1.5 bg-brand-500 text-slate-950 text-xs font-bold rounded-lg transition-all";
+        }
+
+        // Project Modal Engine
+        function openProjectModal(projectId) {
+            const data = projectDatabase[projectId];
+            if (!data) return;
+
+            document.getElementById('modalTitle').textContent = data.title;
+            document.getElementById('modalCategory').textContent = data.category;
+            document.getElementById('modalTimeline').textContent = data.timeline;
+            document.getElementById('modalContext').textContent = data.context;
+            document.getElementById('modalChallenge').textContent = data.challenge;
+            document.getElementById('modalSolution').textContent = data.solution;
+            document.getElementById('modalSynergy').textContent = data.synergy;
+
+            const modal = document.getElementById('projectModal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+            }, 50);
+        }
+
+        function closeProjectModal() {
+            const modal = document.getElementById('projectModal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Testimonial Modal Engine
+        function openTestimonialModal(testId) {
+            const data = testimonialDatabase[testId];
+            if (!data) return;
+
+            document.getElementById('testModalInitials').textContent = data.initials;
+            document.getElementById('testModalAuthor').textContent = data.author;
+            document.getElementById('testModalRole').textContent = data.role;
+            document.getElementById('testModalText').textContent = data.text;
+
+            const modal = document.getElementById('testimonialModal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+            }, 50);
+        }
+
+        function closeTestimonialModal() {
+            const modal = document.getElementById('testimonialModal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Initialize Lucide Icons on DOM ready
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+[
+ {
+  "slug": "art-director",
+  "nume": "Art Director / Creative Lead",
+  "jd": "art direction, creative direction, brand, campaign, advertising, agency, studio, concept, conceptor, omnichannel",
+  "notes": "Pentru agentii. Cauta standard-setter, nu executor.",
+  "family": "art-director"
+ },
+ {
+  "slug": "brand-designer",
+  "nume": "Senior Brand Designer",
+  "jd": "brand identity, design system, brand guidelines, rebranding, trademark, visual identity, brand governance",
+  "notes": "Pentru companii cu brand matur care trebuie sa-l rearanjeze.",
+  "family": "brand-designer"
+ },
+ {
+  "slug": "product-designer",
+  "nume": "Senior UX-UI / Product Designer",
+  "jd": "ux, ui, product designer, interface design, figma, user flow, wireframe, usability, wcag, accessibility, design tokens",
+  "notes": "Accesibilitate WCAG e ceruta frecvent in Romania si la companii mari.",
+  "family": "product-designer"
+ },
+ {
+  "slug": "graphic-designer",
+  "nume": "Senior Graphic Designer",
+  "jd": "graphic design, layout, typography, visual design, print, adobe creative suite, brand application",
+  "notes": "Rolul de baza. Fii cel mai concret dintre toti.",
+  "family": "graphic-designer"
+ },
+ {
+  "slug": "ai-design-lead",
+  "nume": "AI-Augmented Design Lead",
+  "jd": "ai, generative ai, design automation, comfy ui, prompt engineering, llm, mcp, firefly, pipeline, workflow",
+  "notes": "Aici diferenta ta fata de piata se vede cel mai mult. AI slop vs AI util.",
+  "family": "ai-design-lead"
+ },
+ {
+  "slug": "video-motion",
+  "nume": "Video & Motion Designer",
+  "jd": "video, motion graphics, after effects, premiere, runway, capcut, animation, short form, editing",
+  "notes": "Combinat cu art direction, nu doar editare.",
+  "family": "video-motion"
+ },
+ {
+  "slug": "print-dtp",
+  "nume": "Print & DTP Production Architect",
+  "jd": "dtp, prepress, large format, packaging, page layout, print production, imposition, color management",
+  "notes": " Romania are nevoie reala aici, mai ales productie la scara.",
+  "family": "print-dtp"
+ },
+ {
+  "slug": "presentation",
+  "nume": "Presentation & Proposal Designer",
+  "jd": "proposal, presentation, pitch deck, data visualisation, infographic, enterprise, tender, rfp",
+  "notes": "Foarte cautat in B2B si consultanta. Converteaza bine.",
+  "family": "presentation"
+ },
+ {
+  "slug": "social-content",
+  "nume": "Social Media & Content Designer",
+  "jd": "social media, content, community, instagram, tiktok, editorial, always-on, campaign adaptation",
+  "notes": "Diferentia ta: identitate pe canal, nu postari izolate.",
+  "family": "social-content"
+ }
+]

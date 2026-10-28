@@ -1,0 +1,57 @@
+{
+  "date": "2026-10-25",
+  "note": "Leads verificate din alertele de job de azi. Fiecare a fost CONFIRMAT pe pagina sursei (nu din snippet de motor de cautare).",
+  "leads": [
+    {
+      "resolvedTitle": "UI/UX Designer — 4PSA",
+      "from": "Jooble",
+      "subject": "4PSA caută UI/UX Designer și 100 mai multe oferte noi de muncă",
+      "summary": "4PSA (companie techă din București) angajează UI/UX Designer în departamentul Product, pe bază full-time în București. Rolul intră în topul alertelor de azi și este încă listat activ pe pagina oficială de joburi a companiei.",
+      "requirements": [
+        "3+ ani de experiență în UI/UX design pentru web și/sau aplicații mobile",
+        "Portofoliu cu lucrări de UI design",
+        "Figma la nivel avansat (creare + colaborare)",
+        "Design responsive; noțiuni de HTML/CSS reprezintă un plus",
+        "Proces de design centrat pe utilizator: wireframes, prototipuri, user flows, user research, usability testing",
+        "Lucru strâns cu developeri front-end și product managers"
+      ],
+      "terms": "Full-time, București, Romania. Aplicare prin formularul oficial de pe pagina companiei sau prin jobs@4psa.com.",
+      "process": "CV + portofoliu pe formularul oficial (jobs-addcv.html?id=121) sau pe jobs@4psa.com.",
+      "caveat": "Pagina oficială afișează simultan mesajul \"No positions are currently available!\" și cele trei roluri cu buton de aplicare. Anunțul e real, dar merită confirmat cu un email înainte să investești timp în portofoliu.",
+      "url": "https://www.4psa.com/people"
+    },
+    {
+      "resolvedTitle": "Experience Design Manager — Concentrix",
+      "from": "LinkedIn Job Alerts",
+      "subject": "Experience Design Manager job at Concentrix - 3 connections",
+      "summary": "Concentrix angajează Experience Design Manager în București, în echipa Experience Design. Rolul conduce designul end-to-end pentru o arie de produs și conduce o echipă de designeri. Postarea există pe canalul de joburi oficial Concentrix și pe Indeed România (listată de peste 30 de zile).",
+      "requirements": [
+        "6+ ani de experiență proiectând produse digitale complexe (B2B, SaaS sau securitate preferate)",
+        "Experiență în managementul unor echipe de minimum 5 designeri",
+        "UX, research, usability testing, interaction design — expertiză solidă",
+        "Figma, UserTesting, Miro, FigJam și prototipare asistată de AI",
+        "Google Analytics și Amplitude — un plus",
+        "Engleză avansată; comunicare care influențează echipele de Product și Engineering"
+      ],
+      "terms": "Full-time, București, Romania. Postare activă pe jobs.concentrix.com (ref. R1744497) și pe ro.indeed.com/cmp/Concentrix.",
+      "process": "Aplicare direct pe jobs.concentrix.com/job/?id=R1744497.",
+      "caveat": "E un rol de LEAD cu responsabilitate de echipă, nu un rol de execuție. Se potrivește dacă vrei să treci de la hands-on la people-leadership — și e o piață cu foarte puține anunțuri de genul ăsta în România.",
+      "url": "https://jobs.concentrix.com/job/?id=R1744497"
+    },
+    {
+      "resolvedTitle": "Colaboratori design grafic, creație și grafică — AGRESIV MEDIA",
+      "from": "Bestjobs",
+      "subject": "AGRESIV MEDIA is hiring Colaboratori design grafic creatie si grafica",
+      "summary": "AGRESIV MEDIA SRL, agenție fullservice de publicitate, print și branding din București (Sector 2, Str. Zambilelor 62-64, zona Lacul Tei), angajează colaboratori de design grafic și creație. Compania lucrează de la 2003 și are între 0 și 9 angajați.",
+      "requirements": [
+        "Design grafic și creație publicitară (LOGO/siglă, cărți de vizită, pliante, brosuri, materiale de prezentare)",
+        "Grafica vectorială, webdesign, bannere web, prezentări interactive",
+        "Producție grafică: print offset și digital, signalistică, panouri, totemuri"
+      ],
+      "terms": "București, Sector 2. Agenție cu 17+ ani de activitate (și-a extins oferta de la print la branding, outdoor și marketing).",
+      "process": "Contact direct la office@agresivmedia.ro / 0724.331.791 (sau prin anunțul Bestjobs).",
+      "caveat": "Anunțul de pe Bestjobs nu publică orașul, tipul de contract sau salariul, iar pagina de joburi a companiei (agresivmedia.ro) nu expune un anunț de angajare — am verificat direct. Poziția e reală la nivel de companie, dar tipul de colaborare (angajare vs. colaborator/freelance) trebuie lămurit în primul reply.",
+      "url": "https://agresivmedia.ro/"
+    }
+  ]
+}

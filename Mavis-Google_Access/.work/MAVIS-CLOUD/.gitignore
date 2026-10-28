@@ -1,0 +1,52 @@
+# SECRETE — nu se comiteaza niciodata
+*.env
+.env*
+*token*
+*secret*
+*credential*
+*.key
+*.pem
+oauth.json
+tokens.json
+account*.json
+
+# DEPENDINTE
+node_modules/
+package-lock.json
+.venv/
+__pycache__/
+*.pyc
+
+# TEMPORARE
+*.log
+*.tmp
+.DS_Store
+/tmp/
+/sandbox/
+SITE/prev-*.png
+mavis-tools/bin/
+
+# PRODUSE GENERATE — se construiesc la deploy, nu se versioneaza
+SITE/dist/
+# FISIERE CU CREDENTIALE - NU SE COMITEAZA NICIODATA
+*Access*.md
+*LinkedIn*Access*
+*credential*
+*password*
+
+# OAuth Google - NU se comiteaza niciodata
+credentials.json
+client_secret*.json
+
+# actionlint si orice binar de 3rd-party NU se comiteaza (PR #4 respins)
+actionlint
+actionlint_*.tar.gz
+*.exe
+*.tar.gz
+SESIUNI/
+
+# DATE PERSONALE — dumpuri de mail cu corpuri complete. Repo-ul e PUBLIC.
+# Se citesc in timpul raportului, dar nu se versioneaza.
+mavis-tools/report-inbox.json
+mavis-tools/report-simulate-sort.json
+mavis-tools/*-inbox-dump.json

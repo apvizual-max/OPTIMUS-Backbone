@@ -1,0 +1,131 @@
+{
+  "_nota": "Inventarul variabilelor de mediu. VALORILE NU SUNT AICI - sunt secrete. Fiecare valoare se citeste din secret manager cu ${NUME}. Asta e ce trebuie stiut operational.",
+  "generat": "2026-10-28",
+  "secret_manager": {
+    "GOOGLE_CLIENT_ID_MAVIS_CLOUD": {
+      "rol": "client_id OAuth (Desktop app)",
+      "nota": "identificator PUBLIC - apare si in mavis-tools/google-client.json",
+      "secret": true
+    },
+    "GOOGLE_CLIENT_SECRET_MAVIS_CLOUD": {
+      "rol": "secretul clientului OAuth",
+      "secret": true
+    },
+    "GOOGLE_REFRESH_TOKEN_MAVIS_CLOUD": {
+      "rol": "refresh token viu",
+      "stare": "app IN PRODUCTION - fara limita de 7 zile, 27 scope-uri",
+      "secret": true
+    },
+    "GOOGLE_EMAIL": {
+      "rol": "adresa de email a lui POPY (apvizual@gmail.com)",
+      "secret": true
+    },
+    "GOOGLE_CLIENT_TOKEN_MAVIS_CLOUD": {
+      "rol": "link de autorizare vechi",
+      "stare": "REDUNDANT - eliminabil",
+      "secret": true
+    },
+    "GOOGLE_OAUTH_MAVIS_CLOUD": {
+      "rol": "credentials.json (JSON cu installed)",
+      "stare": "REDUNDANT - eliminabil",
+      "secret": true
+    },
+    "GOOGLE_10_28_2026": {
+      "rol": "cod OAuth consumat (URL de redirect http://127.0.0.1:8976/?iss=..&code=..)",
+      "stare": "CONSUMAT - nu mai serveste la nimic",
+      "secret": true
+    },
+    "GOOGLE_API_KEY_EXPOSED_HERMES_TEMP": {
+      "rol": "cheie API Google expusa public in istoricul repo-ului hermes-agent-temp",
+      "stare": "VIEE (403 pe discovery/v1/apis) - DE ROTIT, prioritate",
+      "secret": true
+    },
+    "GOOGLE_AI_STUDIO_FREE_TIER_KEY": {
+      "rol": "cheie Gemini API (AI Studio free tier)",
+      "stare": "FUNCTIONALA - 37 modele, folosita de gemini-filestore.js",
+      "secret": true
+    },
+    "JULES_API_KEY": {
+      "rol": "cheie Jules API (Google) - CLI si repo-ul Mavis",
+      "secret": true
+    },
+    "GITHUB_TOKEN": {
+      "rol": "token GitHub - acces complet la repo-uri",
+      "secret": true
+    },
+    "LINKEDIN_EMAIL": {
+      "rol": "email de login LinkedIn",
+      "secret": true
+    },
+    "LINKEDIN_PASSWORD": {
+      "rol": "parola LinkedIn",
+      "nota": "folosit DOAR la cerere explicita",
+      "secret": true
+    }
+  },
+  "env_runtime": {
+    "GITHUB_TOKEN": {
+      "rol": "token pentru gh CLI"
+    },
+    "NODE_EXTRA_CA_CERTS": {
+      "rol": "trust store sandbox"
+    },
+    "SSL_CERT_FILE": {
+      "rol": "trust store sandbox"
+    },
+    "CURL_CA_BUNDLE": {
+      "rol": "trust store sandbox"
+    },
+    "REQUESTS_CA_BUNDLE": {
+      "rol": "trust store sandbox"
+    },
+    "MCODE_REGION": {
+      "rol": "configuratie connectori"
+    },
+    "IS_SANDBOX": {
+      "rol": "flag runtime"
+    },
+    "E2B_SANDBOX": {
+      "rol": "flag runtime"
+    },
+    "HOME": {
+      "rol": "home sandbox (/workspace/.home)"
+    },
+    "PIP_INDEX_URL / PIP_TRUSTED_HOST / UV_INDEX_URL / UV_DEFAULT_INDEX / UV_PYTHON_INSTALL_DIR": {
+      "rol": "index-uri pypi pentru instalari"
+    },
+    "PATH / PWD / SHLVL / USER / LOGNAME / _ / XDG_*": {
+      "rol": "runtime standard"
+    }
+  },
+  "de_rotit": [
+    {
+      "nume": "GOOGLE_API_KEY_EXPOSED_HERMES_TEMP",
+      "motiv": "expusa public in istoricul repo-ului hermes-agent-temp",
+      "verificare": "GET https://www.googleapis.com/discovery/v1/apis?key=... -> 403=vie, 400=moarta",
+      "revocare": "POST https://oauth2.googleapis.com/revoke?token=... sau din Cloud Console",
+      "status": "IN LISTA - POPY: o rotiesc mai tarziu"
+    }
+  ],
+  "de_eliminat": [
+    {
+      "nume": "GOOGLE_10_28_2026",
+      "motiv": "cod OAuth consumat, utilitate zero"
+    },
+    {
+      "nume": "GOOGLE_CLIENT_TOKEN_MAVIS_CLOUD",
+      "motiv": "link de autorizare vechi, redundant"
+    },
+    {
+      "nume": "GOOGLE_OAUTH_MAVIS_CLOUD",
+      "motiv": "credentials.json, redundant fata de google-client.json"
+    }
+  ],
+  "resurse_drive": {
+    "bot_folder": "1UQIxhctyJxBXIIFnpxSc5Jd0wvFxEylu",
+    "handoff_folder": "17ZhddHK3uvR1FlbU7HUZy3CHzLQoeoDA",
+    "connect_to_google": "1ea51IvZRtt7eDPbzKXotguCYg7I4kXB4",
+    "vault": "GDrive-Second_Brain_PKMS"
+  },
+  "file_search_store": "fileSearchStores/maviscloudknowledge-ca5rla3w4dnz"
+}

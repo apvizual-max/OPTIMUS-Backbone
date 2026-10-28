@@ -1,0 +1,7 @@
+🔒 [security fix] Remove shell=True from subprocess.run calls
+
+🎯 **What:** The vulnerability fixed was a potential command injection risk when executing git commands via `subprocess.run(shell=True)` in `mavis-tools/priming-kit.py`.
+⚠️ **Risk:** The potential impact if left unfixed would be execution of arbitrary shell commands if the `cwd` or git environment could be manipulated, allowing possible sandbox escape or unauthorized system access.
+🛡️ **Solution:** The fix replaces `shell=True` with a list of arguments and `shell=False` to securely execute the git commands, neutralizing any command injection risks.
+
+(Note: This PR is submitted as a formality, as the issue was discovered to be already fixed in the current version of the repository main branch)

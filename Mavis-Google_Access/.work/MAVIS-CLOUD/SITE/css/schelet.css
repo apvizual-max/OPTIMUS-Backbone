@@ -1,0 +1,256 @@
+/* ============================================================
+   MAVIS — schelet de site CV
+   Un singur template. Datele vin din JSON la build.
+   Adaptabil la orice rol: schimbi fisierul de date, pastrezi UI-ul.
+   ============================================================ */
+
+:root{
+  --bg:#0b0f19;
+  --panel:#0f172a;
+  --line:#1e293b;
+  --ink:#f8fafc;
+  --muted:#94a3b8;
+  --dim:#64748b;
+  --brand:#14b8a6;
+  --brand-deep:#0f766e;
+  --radius:14px;
+  --maxw:1140px;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  line-height:1.6;
+  font-size:16px;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* zgomot fin — textura care da profunzime fara sa tulbure */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- CONTURURI DE LUMINA IN FUNDAL ---------- */
+.aura{
+  position:fixed;pointer-events:none;z-index:0;border-radius:50%;
+  filter:blur(90px);opacity:.16;
+}
+.aura-1{width:520px;height:520px;background:var(--brand);top:-160px;right:-140px}
+.aura-2{width:420px;height:420px;background:#6366f1;bottom:-140px;left:-160px;opacity:.11}
+@media (prefers-reduced-motion:no-preference){
+  .aura{animation:drift 26s var(--ease) infinite alternate}
+}
+@keyframes drift{
+  from{transform:translate3d(0,0,0) scale(1)}
+  to{transform:translate3d(-42px,52px,0) scale(1.12)}
+}
+
+.wrap{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+/* ---------- NAVIGARE ---------- */
+.nav{
+  position:sticky;top:0;z-index:50;
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  background:rgba(11,15,25,.82);
+  border-bottom:1px solid var(--line);
+}
+.nav-in{display:flex;align-items:center;gap:24px;height:66px}
+.brand{display:flex;align-items:baseline;gap:10px;font-weight:800;letter-spacing:-.02em;margin-right:auto}
+.brand-mark{
+  width:30px;height:30px;border-radius:8px;flex:none;
+  background:linear-gradient(135deg,var(--brand),var(--brand-deep));
+  display:grid;place-items:center;color:#04211e;font-weight:900;font-size:13px;
+  align-self:center;
+}
+.brand-name{font-size:16px}
+.brand-sub{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.14em;font-weight:700}
+.tabs{display:flex;gap:4px}
+.tab{
+  appearance:none;background:none;border:0;cursor:pointer;
+  color:var(--muted);font:inherit;font-size:13.5px;font-weight:600;
+  padding:8px 15px;border-radius:9px;transition:.22s var(--ease);
+}
+.tab:hover{color:var(--ink);background:rgba(255,255,255,.045)}
+.tab[aria-selected="true"]{color:var(--bg);background:var(--brand)}
+@media (max-width:620px){
+  .nav-in{height:auto;flex-wrap:wrap;padding:12px 0;gap:10px}
+  .brand{width:100%;margin-right:0}
+  .tabs{width:100%;overflow-x:auto;padding-bottom:2px}
+}
+
+/* ---------- ANUNT DE TASTATURA ---------- */
+.kbd{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:20px;height:20px;padding:0 6px;margin:0 2px;
+  border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;
+  background:var(--panel);font-size:11px;font-weight:700;color:var(--muted);
+  font-family:ui-monospace,'SF Mono',Menlo,monospace;
+}
+
+/* ---------- TAB-URI: continut + ascuirea in fundal ---------- */
+.panel{display:none;animation:rise .5s var(--ease) both}
+.panel.on{display:block}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* ---------- ANTET ---------- */
+.hero{padding:72px 0 44px}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:10.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--brand);margin-bottom:18px;
+  padding:6px 12px;border:1px solid rgba(20,184,166,.28);
+  border-radius:99px;background:rgba(20,184,166,.07);
+}
+.eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--brand);flex:none}
+h1{
+  font-size:clamp(2.4rem,7vw,4.6rem);font-weight:900;
+  letter-spacing:-.035em;line-height:1.02;margin-bottom:18px;
+}
+h1 .accent{
+  background:linear-gradient(120deg,var(--brand),#67e8f9);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.lede{
+  font-size:clamp(1.02rem,2.1vw,1.22rem);color:var(--muted);
+  max-width:66ch;margin-bottom:12px;
+}
+.role-tag{color:var(--brand);font-weight:700}
+.meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.chip{
+  font-size:12.5px;font-weight:600;color:var(--muted);
+  padding:7px 14px;border:1px solid var(--line);border-radius:99px;background:var(--panel);
+}
+
+/* ---------- SECTIUNI ---------- */
+section.block{padding:34px 0}
+.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.sec-head h2{
+  font-size:12px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--ink);
+}
+.sec-head::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+.sec-num{font-size:11px;font-weight:800;color:var(--brand);font-family:ui-monospace,monospace}
+
+/* ---------- CARDURI COMPETENTE ---------- */
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:10px}
+.skill{
+  display:flex;align-items:center;gap:11px;
+  padding:13px 15px;border:1px solid var(--line);border-radius:var(--radius);
+  background:linear-gradient(180deg,rgba(255,255,255,.028),transparent);
+  font-size:14px;font-weight:600;
+  transition:.25s var(--ease);
+}
+.skill:hover{border-color:rgba(20,184,166,.45);transform:translateY(-2px)}
+.skill svg{width:15px;height:15px;color:var(--brand);flex:none}
+
+/* ---------- REALIZARI ---------- */
+.ach{display:grid;gap:12px}
+.ach-item{
+  padding:19px 21px;border:1px solid var(--line);border-radius:var(--radius);
+  background:linear-gradient(180deg,rgba(255,255,255,.028),transparent);
+  position:relative;overflow:hidden;
+  transition:.25s var(--ease);
+}
+.ach-item::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:2px;
+  background:linear-gradient(180deg,var(--brand),transparent);
+}
+.ach-item:hover{border-color:rgba(20,184,166,.35)}
+.ach-t{font-weight:800;font-size:15px;margin-bottom:5px}
+.ach-d{color:var(--muted);font-size:14.5px;line-height:1.62}
+
+/* ---------- TIMELINE ---------- */
+.tl{border-left:1px solid var(--line);padding-left:24px;display:grid;gap:22px}
+.tl-item{position:relative}
+.tl-item::before{
+  content:'';position:absolute;left:-29px;top:6px;
+  width:9px;height:9px;border-radius:50%;
+  background:var(--bg);border:2px solid var(--brand);
+}
+.tl-when{font-size:11.5px;font-weight:700;color:var(--brand);letter-spacing:.05em;margin-bottom:4px}
+.tl-role{font-weight:700;font-size:15.5px;margin-bottom:3px}
+.tl-detail{color:var(--muted);font-size:14px}
+
+/* ---------- PORTOFOLIO ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:16px}
+.pf{
+  display:flex;flex-direction:column;justify-content:space-between;gap:18px;
+  padding:22px;border:1px solid var(--line);border-radius:var(--radius);
+  background:linear-gradient(180deg,rgba(255,255,255,.03),transparent);
+  position:relative;overflow:hidden;min-height:212px;
+  transition:.28s var(--ease);
+}
+.pf::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(420px circle at var(--x,50%) var(--y,50%),rgba(20,184,166,.10),transparent 62%);
+  opacity:0;transition:opacity .3s var(--ease);
+}
+.pf:hover{border-color:rgba(20,184,166,.4);transform:translateY(-3px)}
+.pf:hover::after{opacity:1}
+.pf-top{display:flex;align-items:center;gap:12px;position:relative;z-index:1}
+.pf-ico{
+  width:42px;height:42px;border-radius:11px;flex:none;
+  background:linear-gradient(135deg,rgba(20,184,166,.18),rgba(20,184,166,.05));
+  border:1px solid rgba(20,184,166,.3);
+  display:grid;place-items:center;font-weight:800;font-size:15px;color:var(--brand);
+}
+.pf-client{font-weight:800;font-size:15.5px;line-height:1.25}
+.pf-cat{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--brand);margin-top:2px}
+.pf-title{font-weight:700;font-size:14.5px;margin-bottom:5px;position:relative;z-index:1}
+.pf-note{color:var(--muted);font-size:13.5px;line-height:1.58;position:relative;z-index:1}
+.pf-status{
+  align-self:flex-start;font-size:10.5px;font-weight:700;
+  padding:4px 9px;border-radius:6px;
+  background:rgba(148,163,184,.1);color:var(--muted);border:1px solid var(--line);
+}
+.pf-status[data-s="Prezent în portofoliu"]{background:rgba(20,184,166,.1);color:var(--brand);border-color:rgba(20,184,166,.28)}
+.pf-status[data-s^="Agenție închisă"]{background:rgba(148,163,184,.07);color:var(--dim)}
+
+/* ---------- SCRISOARE ---------- */
+.letter{
+  padding:28px;border:1px solid var(--line);border-radius:var(--radius);
+  background:linear-gradient(180deg,rgba(255,255,255,.03),transparent);
+}
+.letter p{margin-bottom:15px;color:var(--muted);font-size:15px;line-height:1.72}
+.letter p:last-of-type{margin-bottom:0}
+.letter .sig{color:var(--ink);font-weight:700;white-space:pre-line;margin-top:22px;line-height:1.5}
+.letter .lead{color:var(--ink);font-weight:600}
+
+/* ---------- CONTACT ---------- */
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-bottom:24px}
+.cbox{
+  padding:20px;border:1px solid var(--line);border-radius:var(--radius);
+  background:linear-gradient(180deg,rgba(255,255,255,.028),transparent);
+  transition:.25s var(--ease);
+}
+.cbox:hover{border-color:rgba(20,184,166,.4)}
+.cbox-l{font-size:10.5px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);margin-bottom:7px}
+.cbox-v{font-weight:700;font-size:15px;word-break:break-word}
+.cbox-v a{color:var(--brand);text-decoration:none}
+.cbox-v a:hover{text-decoration:underline}
+
+.note{
+  padding:14px 17px;border-radius:11px;margin-top:20px;
+  border:1px solid rgba(20,184,166,.22);background:rgba(20,184,166,.05);
+  font-size:13.5px;color:var(--muted);
+}
+.note strong{color:var(--brand)}
+
+/* ---------- PICIOR ---------- */
+.foot{border-top:1px solid var(--line);margin-top:56px;padding:26px 0 40px}
+.foot-in{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;font-size:12.5px;color:var(--dim)}
+.foot a{color:var(--muted);text-decoration:none}
+.foot a:hover{color:var(--brand)}
+</style>
