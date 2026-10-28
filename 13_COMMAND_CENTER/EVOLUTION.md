@@ -2501,3 +2501,90 @@ the wrong direction - emptying an allowlist whose predicate *blocks what is not
 listed* makes the gate block more, not less. A control that cannot fail is not a
 control; the third version widens the allowlist to admit everything and requires
 the block count to drop from 4 to 0.
+
+## R18 - The gap register stopped being a ledger, and the panel counted the wrong number
+
+**Requested**: the takeover verification. Measure the state of the build, verify
+the suites and the live page, and say what I propose - with measured numbers, not
+impressions. Not: build things.
+**Run**: 2026-10-28, 05:00 to 07:40.
+
+### Result: **the build is healthy. The ledger that describes it was three weeks stale, and the tool that regenerates it was eating it.**
+
+Everything I was asked to verify held: both suites green, the page live with 13
+panels and zero console messages, the remote clone reproducing the tree. What
+was not healthy was the instrument.
+
+### The finding: `GAP_REGISTER.json` is dated 2026-10-06 and had nobody writing to it
+
+The register is the project's source of truth for what is outstanding, and it was
+last written on **6 October**. Its nine `HPROF_*` entries said the Hermes
+profile servers "are declared and not yet constructed", with
+`target_present=False`.
+
+Measured on 2026-10-28, all nine exist and answer a real MCP stdio handshake:
+
+| server | kind | target | tools served | registered live |
+|---|---|---|---|---|
+| `prime-bridge` | python | 8 533 B, mtime 2026-10-28 02:19:34 | 4 | yes |
+| `sentinel-state` | python | 1 184 B, mtime 2026-10-10 15:09:46 | 3 | no, deliberately |
+| `rule-triggers` | python | 1 212 B, mtime 2026-10-10 15:09:53 | 2 | no, deliberately |
+| `learning-loop` | python | 1 225 B, mtime 2026-10-10 15:09:58 | 3 | no, deliberately |
+| `context-pressure` | python | 1 143 B, mtime 2026-10-10 15:10:03 | 1 | no, deliberately |
+| `web-tools` | python | 11 661 B, mtime 2026-10-28 02:19:34 | 3 | yes |
+| `git` | python | 16 453 B, mtime 2026-10-28 02:19:34 | 6 | yes, as `git-tools` |
+| `filesystem` | npm | `@modelcontextprotocol/server-filesystem` | resolves | yes, as `mcp-server-filesystem` |
+| `browser` | npm | `@playwright/mcp` | resolves | yes, as `agent-browser-mcp` |
+
+**22 tools over stdio from the seven python servers**, every one handshaked with
+the exact command and env from the blueprint, not read out of a file. The four
+servers not registered in the live profile are a ratified decision of 2026-10-10:
+their tools are already served by `sentinel-hub`, and registering them would put
+duplicate tool names in front of every session.
+
+The same three-week gap applied to the handoff itself: `14_HANDOFF/02_GAPS.md`
+is dated **7 October**, and the session handoff of 28 October listed "the seven
+unbuilt Hermes servers" among Popy's open decisions - a decision about work that
+had already been done.
+
+### The landmine: the builder that regenerates the register was destroying it
+
+`build_program_matrix.py` wrote the register with the gaps it had measured and
+nothing else. One run, measured in a sandbox: **18 entries in, 7 out.** Gone:
+all nine `HPROF_*` tickets, the `HERMES_GATEWAY_PROFILES` umbrella and
+`BIN_TESSERACT`. The blueprint stayed intact and every suite stayed green, so
+nothing announced it.
+
+It was also wrong in three smaller ways: `ARTIFACT_EMPTY` was predicted by file
+size (`<= 400 bytes`), a proxy the project had already killed in the monitor
+with a regression test - 224 artefacts, **0 empty by content**; `WIRING_MCP`
+claimed no handshake had ever been performed, while `mcp_tools_wired` has
+reported OK with 26 tools over stdio; and `mcp_wired` was hardcoded `False` in
+the matrix, so the generated report printed "**0 are wired**" beside a busy
+wire.
+
+### What changed
+
+| | before | after |
+|---|---|---|
+| ledger entries | 18, all `OPEN` | 19 - 6 open, 13 `CLOSED-BUILT` |
+| builder writes | overwrites: 18 -> 7 entries | merges: nothing deleted |
+| second builder run | rewrites the file | byte-identical |
+| closed entry | no evidence | carries the dated measurement that closed it |
+| `mcp_wired` | hardcoded `False` | measured on the wire: 8 of 8 declaring concepts wired |
+| panel tile "Open gaps" | counts the whole ledger | counts the open entries: 6, with 13 closed counted beside them |
+| control | none | `Gap register integrity` - **falsified**: red on the old builder, naming the 12 lost entries; green on the new one |
+
+The blueprint was not touched. A declaration is the target, not a snapshot. The
+one new ledger entry is a measured finding, not a rewrite: the blueprint launches
+its two npm-backed profile servers with the bare command `npx`, which resolves
+to a batch file and failed to spawn from a non-shell launcher (`WinError 2`),
+while the live profile launches the installed `.cmd` shims instead. Repointing a
+blueprint is Popy's R0.
+
+### The doctrine this produced
+
+M-31 (the generator of a ledger is not its owner), M-32 (a number in a
+source-of-truth file is a claim about the world, and it expires), M-33 (a field
+hardcoded where a measurement belongs is a placeholder that reads as a fact).
+

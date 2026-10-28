@@ -1,0 +1,182 @@
+[
+  {
+    "id": "BIN_TESSERACT",
+    "area": "dependency",
+    "status": "OPEN",
+    "what": "OCR engine not on PATH",
+    "evidence": "monitor.py bin_tesseract check",
+    "impact": "OCR is unverified even if pytesseract were installed",
+    "fix_requires": "R0 - external binary install",
+    "owner": "Popy"
+  },
+  {
+    "id": "CONCEPT_C18",
+    "area": "concept",
+    "status": "OPEN",
+    "what": "Partnership protocol (two blind men) is DESIGNED",
+    "evidence": "doctrine_exists=True implementation_exists=False symbols_missing=[]",
+    "impact": "documented but not running",
+    "fix_requires": "DOCUMENTED ONLY - no implementation exists. This is the design-only smell named in Stage 2.",
+    "owner": "Popy"
+  },
+  {
+    "id": "CONCEPT_C19",
+    "area": "concept",
+    "status": "OPEN",
+    "what": "The 3-Propozitii ritual as an invocable command is DESIGNED",
+    "evidence": "doctrine_exists=True implementation_exists=False symbols_missing=[]",
+    "impact": "documented but not running",
+    "fix_requires": "DOCUMENTED ONLY - the ritual is described but not wired to a command, so it cannot fail visibly.",
+    "owner": "Popy"
+  },
+  {
+    "id": "CONCEPT_C21",
+    "area": "concept",
+    "status": "OPEN",
+    "what": "Context pressure monitor is PARTIAL",
+    "evidence": "doctrine_exists=True implementation_exists=True symbols_missing=[]",
+    "impact": "documented but not running",
+    "fix_requires": "Expose through the MCP hub and surface it in a panel.",
+    "owner": "Mavis"
+  },
+  {
+    "id": "CONCEPT_C23",
+    "area": "concept",
+    "status": "OPEN",
+    "what": "Historical cultures (Cucuteni, Geto, Atos, Romani) is DESIGNED",
+    "evidence": "doctrine_exists=True implementation_exists=False symbols_missing=[]",
+    "impact": "documented but not running",
+    "fix_requires": "Wisdom layer. Correctly documentation-only; it is a corpus, not a program.",
+    "owner": "Popy"
+  },
+  {
+    "id": "CONCEPT_C24",
+    "area": "concept",
+    "status": "OPEN",
+    "what": "963 Hz / SACRU proverbs is DESIGNED",
+    "evidence": "doctrine_exists=True implementation_exists=False symbols_missing=[]",
+    "impact": "documented but not running",
+    "fix_requires": "HONEST FINDING: the source file is a 25-axis decision matrix, not a 963-proverb enumeration, and its per-proverb attributions are flagged in-file as fabricated by an earlier agent.",
+    "owner": "Popy"
+  },
+  {
+    "id": "WIRING_MCP",
+    "area": "wiring",
+    "status": "OPEN",
+    "what": "MCP tools are DECLARED but not WIRED to any runtime",
+    "evidence": "no Hermes handshake has been performed; monitor reports mcp_tools_wired as NOT_RUN",
+    "impact": "an agent cannot actually call the SENTINEL tools through Hermes",
+    "fix_requires": "R0 - registering an MCP server is a cross-system change",
+    "owner": "Popy"
+  },
+  {
+    "id": "ARTIFACT_EMPTY",
+    "area": "logs",
+    "status": "OPEN",
+    "what": "50 empty result files in 09_LOGS/scraped",
+    "evidence": "left by browser test runs; they look like success and are not",
+    "impact": "visual noise that reads as evidence",
+    "fix_requires": "explicit operator decision - deletion is never automatic",
+    "owner": "Popy"
+  },
+  {
+    "id": "HPROF_prime_bridge",
+    "area": "hermes-gateway-profile",
+    "status": "OPEN",
+    "what": "PLANNED - Hermes profile gateway server 'prime-bridge' is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
+    "evidence": "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares prime-bridge -> C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\prime_bridge_server.py; target_present=False",
+    "impact": "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
+    "fix_requires": "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
+    "owner": "Popy"
+  },
+  {
+    "id": "HPROF_sentinel_state",
+    "area": "hermes-gateway-profile",
+    "status": "OPEN",
+    "what": "PLANNED - Hermes profile gateway server 'sentinel-state' is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
+    "evidence": "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares sentinel-state -> C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\sentinel_state_server.py; target_present=False",
+    "impact": "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
+    "fix_requires": "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
+    "owner": "Popy"
+  },
+  {
+    "id": "HPROF_rule_triggers",
+    "area": "hermes-gateway-profile",
+    "status": "OPEN",
+    "what": "PLANNED - Hermes profile gateway server 'rule-triggers' is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
+    "evidence": "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares rule-triggers -> C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\rule_triggers_server.py; target_present=False",
+    "impact": "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
+    "fix_requires": "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
+    "owner": "Popy"
+  },
+  {
+    "id": "HPROF_learning_loop",
+    "area": "hermes-gateway-profile",
+    "status": "OPEN",
+    "what": "PLANNED - Hermes profile gateway server 'learning-loop' is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
+    "evidence": "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares learning-loop -> C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\learning_loop_server.py; target_present=False",
+    "impact": "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
+    "fix_requires": "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
+    "owner": "Popy"
+  },
+  {
+    "id": "HPROF_context_pressure",
+    "area": "hermes-gateway-profile",
+    "status": "OPEN",
+    "what": "PLANNED - Hermes profile gateway server 'context-pressure' is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
+    "evidence": "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares context-pressure -> C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\context_pressure_server.py; target_present=False",
+    "impact": "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
+    "fix_requires": "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
+    "owner": "Popy"
+  },
+  {
+    "id": "HPROF_web_tools",
+    "area": "hermes-gateway-profile",
+    "status": "OPEN",
+    "what": "PLANNED - Hermes profile gateway server 'web-tools' is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
+    "evidence": "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares web-tools -> -y @modelcontextprotocol/server-fetch; target_present=None",
+    "impact": "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
+    "fix_requires": "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
+    "owner": "Popy"
+  },
+  {
+    "id": "HPROF_filesystem",
+    "area": "hermes-gateway-profile",
+    "status": "OPEN",
+    "what": "PLANNED - Hermes profile gateway server 'filesystem' is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
+    "evidence": "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares filesystem -> -y @modelcontextprotocol/server-filesystem; target_present=None",
+    "impact": "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
+    "fix_requires": "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
+    "owner": "Popy"
+  },
+  {
+    "id": "HPROF_browser",
+    "area": "hermes-gateway-profile",
+    "status": "OPEN",
+    "what": "PLANNED - Hermes profile gateway server 'browser' is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
+    "evidence": "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares browser -> -y @playwright/mcp; target_present=None",
+    "impact": "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
+    "fix_requires": "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
+    "owner": "Popy"
+  },
+  {
+    "id": "HPROF_git",
+    "area": "hermes-gateway-profile",
+    "status": "OPEN",
+    "what": "PLANNED - Hermes profile gateway server 'git' is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
+    "evidence": "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares git -> -y @modelcontextprotocol/server-git; target_present=None",
+    "impact": "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
+    "fix_requires": "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
+    "owner": "Popy"
+  },
+  {
+    "id": "HERMES_GATEWAY_PROFILES",
+    "area": "architecture",
+    "status": "OPEN",
+    "what": "The Hermes gateway is to carry one server per Hermes profile - nine profiles, nine servers. The four profile mailboxes (SENTINEL-DESKTOP, SENTINEL-COWORK, SENTINEL-CHAT, CODER-APP) are already in place as scaffolding.",
+    "evidence": "9 servers declared in OPTIMUS_MCP_CONFIG.json; 4 profile mailboxes present under 09_LOGS/cross_instance/mailbox/",
+    "impact": "the multi-profile swarm cannot be built until the gateway carries its servers",
+    "fix_requires": "Build each profile's gateway server in turn. The blueprints and the empty profile mailboxes are scaffolding: they come down only when the building is finished, not because the building is not up yet.",
+    "owner": "Popy"
+  }
+]

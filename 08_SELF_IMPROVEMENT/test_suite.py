@@ -2720,6 +2720,146 @@ def test_the_plan_is_never_pruned():
     return result
 
 
+def test_gap_register_integrity():
+    """The register is a ledger. The builder merges it; it must never eat it.
+
+    Measured 2026-10-28: the builder used to WRITE GAP_REGISTER.json with the
+    gaps it had measured and nothing else. A run destroyed 11 of the 18 entries
+    - all nine HPROF_* profile tickets and the HERMES_GATEWAY_PROFILES umbrella
+    - because it never knew they existed. Nothing announced the loss: the
+    blueprint was intact, the suites were green, and the next reader simply saw
+    a shorter, tidier register and believed it. A measurement instrument that
+    owns the file it measures eventually eats it.
+
+    Checked:
+      1. Every entry carries the fields the construction schema makes
+         mandatory, and `fix_requires` is not empty.
+      2. A closed entry carries the measurement that closed it. A status with no
+         evidence is a claim, not a closure.
+      3. All nine profile tickets and the umbrella are still tracked, whatever
+         their status - the plan stays visible after it is built.
+      4. POLARITY - an entry the builder does not measure SURVIVES a full
+         builder run, and the test proves the builder does not measure it, so
+         the survival cannot be an accident.
+      5. CONTROL - from an empty ledger the builder still produces its measured
+         gaps. A builder that only copies would report nothing and look clean.
+      6. A second builder run leaves the ledger byte-identical.
+    """
+    result = TestResult('Gap register integrity')
+
+    import contextlib
+    import io
+
+    register = WORKSPACE / '12_PROGRAM' / 'GAP_REGISTER.json'
+    if not register.exists():
+        result.error('the gap register does not exist')
+        return result
+    try:
+        entries = json.loads(register.read_text(encoding='utf-8'))
+    except Exception as exc:
+        result.error(f'could not parse the gap register: {exc}')
+        return result
+    if not isinstance(entries, list):
+        result.error('the gap register is not a list of entries')
+        return result
+
+    # -- 1. the mandatory fields -----------------------------------------
+    mandatory = ('id', 'area', 'status', 'what', 'evidence', 'impact',
+                 'fix_requires', 'owner')
+    incomplete = [e.get('id') for e in entries
+                  if any(not str(e.get(k) or '').strip() for k in mandatory)]
+    result.assert_equals(incomplete, [],
+                         'every entry carries the fields the schema makes mandatory')
+
+    # -- 2. a closure carries its measurement ------------------------------
+    unmeasured = [e.get('id') for e in entries
+                  if e.get('status') == 'CLOSED-BUILT'
+                  and not str(e.get('verification') or '').strip()]
+    result.assert_equals(unmeasured, [],
+                         'every closed entry carries the measurement that closed it')
+
+    # -- 3. the plan stays tracked ----------------------------------------
+    ids = {e.get('id') for e in entries}
+    tickets = ['HPROF_' + n for n in (
+        'prime_bridge', 'sentinel_state', 'rule_triggers', 'learning_loop',
+        'context_pressure', 'web_tools', 'filesystem', 'browser', 'git')]
+    result.assert_equals([t for t in tickets if t not in ids], [],
+                         'all nine profile tickets are still tracked, whatever their status')
+    result.assert_true('HERMES_GATEWAY_PROFILES' in ids,
+                       'the umbrella entry is still tracked')
+
+    # -- 4/5/6. the builder must not eat the ledger ------------------------
+    try:
+        import build_program_matrix as bpm
+    except Exception as exc:
+        result.error(f'could not import the builder: {exc}')
+        return result
+
+    sentinel = {
+        'id': 'MANUAL_SENTINEL', 'area': 'wiring', 'status': 'OPEN',
+        'what': 'an entry the builder does not measure',
+        'evidence': 'written by this test, not by the builder',
+        'impact': 'if it survives a builder run, the merge is non-destructive',
+        'fix_requires': 'nothing - this entry exists to be measured',
+        'owner': 'Mavis',
+    }
+
+    real_gaps, real_matrix = bpm.GAPS_JSON, bpm.MATRIX_JSON
+    measured_ids = set()
+    try:
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            bpm.GAPS_JSON = tmp / 'GAP_REGISTER.json'
+            bpm.MATRIX_JSON = tmp / 'IDEA_TO_SCRIPT_MATRIX.json'
+
+            bpm.GAPS_JSON.write_text(
+                json.dumps(entries + [sentinel], indent=2, ensure_ascii=False),
+                encoding='utf-8')
+            with contextlib.redirect_stdout(io.StringIO()):
+                bpm.main()
+            after = json.loads(bpm.GAPS_JSON.read_text(encoding='utf-8'))
+            after_ids = [e.get('id') for e in after]
+
+            result.assert_true('MANUAL_SENTINEL' in after_ids,
+                               'an entry the builder does not measure survives a full run')
+            result.assert_equals([i for i in ids if i not in after_ids], [],
+                                 'no entry of the ledger was lost by a builder run')
+
+            first_bytes = bpm.GAPS_JSON.read_bytes()
+            with contextlib.redirect_stdout(io.StringIO()):
+                bpm.main()
+            result.assert_equals(first_bytes == bpm.GAPS_JSON.read_bytes(), True,
+                                 'a second builder run leaves the ledger byte-identical')
+
+            # CONTROL: from an empty ledger the builder still produces its gaps
+            bpm.GAPS_JSON.write_text('[]', encoding='utf-8')
+            with contextlib.redirect_stdout(io.StringIO()):
+                bpm.main()
+            fresh = json.loads(bpm.GAPS_JSON.read_text(encoding='utf-8'))
+            measured_ids = {e.get('id') for e in fresh}
+            result.assert_true(len(fresh) > 0,
+                               'the builder produces its measured gaps from an empty ledger')
+    except Exception as exc:
+        result.error(f'the builder run raised: {type(exc).__name__}: {exc}')
+    finally:
+        bpm.GAPS_JSON, bpm.MATRIX_JSON = real_gaps, real_matrix
+
+    # -- the collector must not hand the panel a wrong number --------------
+    # The panel counts what it is given under the heading "Open gaps". If the
+    # collector passes the whole ledger, the number is wrong the moment the
+    # first entry closes - and it was.
+    collector = WORKSPACE / '13_COMMAND_CENTER' / 'api' / 'collect-sentinel.ps1'
+    if collector.exists():
+        src = collector.read_text(encoding='utf-8', errors='replace')
+        result.assert_contains(src, 'CLOSED-BUILT',
+                               'the collector separates closed entries from the gaps it '
+                               'hands the panel')
+    else:
+        result.skip('the collector script is missing - the gap split cannot be checked')
+
+    return result
+
+
 def _integrity_violations(workspace, record):
     """Return the list of ways one baseline record fails against the live tree.
 
@@ -3603,6 +3743,7 @@ def run_all_tests():
         test_ecosystem_collector_surfaces,
         test_monitor_capability_coverage,
         test_the_plan_is_never_pruned,
+        test_gap_register_integrity,
         test_append_only_integrity,
         test_project_references_resolve,
         test_prime_bridge_list_area,

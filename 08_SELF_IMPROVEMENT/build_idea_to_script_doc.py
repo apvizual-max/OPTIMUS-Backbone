@@ -157,16 +157,20 @@ def render(matrix: List[Dict[str, Any]], gaps: List[Dict[str, Any]], meta) -> st
     a('')
 
     # ---------------------------------------------------------- the unwired
-    unwired = [c for c in matrix if c.get('mcp_tool')]
+    declared = [c for c in matrix if c.get('mcp_tool')]
+    wired = [c for c in declared if c.get('mcp_wired')]
     a('## Declared vs wired MCP surface')
     a('')
-    a('%d of %d concepts declare an MCP tool. **0 are wired.** The sentinel_hub server exists on '
-      'disk, but no handshake has been performed, so every `mcp_wired: false` above is an honest '
-      'measurement and not a placeholder. Wiring requires a cross-system action and therefore '
-      'explicit R0.' % (len(unwired), len(matrix)))
+    a('%d of %d concepts declare an MCP tool. **%d are wired** - measured on the wire, by the '
+      'last live stdio handshake against the sentinel_hub server, not by reading the '
+      'declaration. The rest declare a tool the handshake did not return; each one names '
+      'itself below with the basis of that reading.'
+      % (len(declared), len(matrix), len(wired)))
     a('')
-    for c in unwired:
-        a('- `%s` %s -> `%s`' % (c.get('id'), c.get('concept'), c.get('mcp_tool')))
+    for c in declared:
+        a('- `%s` %s -> `%s`%s' % (
+            c.get('id'), c.get('concept'), c.get('mcp_tool'),
+            '' if c.get('mcp_wired') else ' - **not wired** (%s)' % c.get('mcp_wired_basis')))
     a('')
 
     # ------------------------------------------------------ next actions
@@ -185,22 +189,27 @@ def render(matrix: List[Dict[str, Any]], gaps: List[Dict[str, Any]], meta) -> st
     a('## Gap register (companion)')
     a('')
     if gaps:
-        a('%d open gaps, straight from `GAP_REGISTER.json`. The real fields are '
-          '`id, area, status, what, evidence, impact, fix_requires, owner` — an '
+        open_gaps = [g for g in gaps if g.get('status') != 'CLOSED-BUILT']
+        closed_gaps = [g for g in gaps if g.get('status') == 'CLOSED-BUILT']
+        a('%d open gaps and %d closed, straight from `GAP_REGISTER.json` - the ledger keeps '
+          'the closed entries, because a gap that was decided and then done is the record '
+          'that the work happened. The real fields are '
+          '`id, area, status, what, evidence, impact, fix_requires, owner` - an '
           'earlier version of this renderer asked for `severity` and `title`, which '
           'do not exist, and so printed `?` for every row while looking fine.'
-          % len(gaps))
+          % (len(open_gaps), len(closed_gaps)))
         a('')
-        a('| ID | Area | Status | What | Owner | Fix requires |')
-        a('|---|---|---|---|---|---|')
+        a('| ID | Area | Status | What | Owner | Fix requires | Measured |')
+        a('|---|---|---|---|---|---|---|')
         for g in gaps:
-            a('| `%s` | %s | `%s` | %s | %s | %s |' % (
+            a('| `%s` | %s | `%s` | %s | %s | %s | %s |' % (
                 g.get('id', '?'),
                 g.get('area', '-'),
                 g.get('status', '-'),
                 g.get('what', '-'),
                 g.get('owner', '-'),
-                g.get('fix_requires', '-')))
+                g.get('fix_requires', '-'),
+                g.get('verification', '-') or '-'))
         a('')
         a('**Why these are not being fixed silently.** Each one names what it would take, and two '
           'of the three classes require explicit R0 from the operator. A gap that quietly repairs '

@@ -35,6 +35,7 @@ python survey_build.py
 | **10** | **`10_PRIMING_PROMPT.md`** | **Start here for a new AI instance with zero memory and zero context. Copy it whole, paste it as the first message.** |
 | **11** | **`11_SESSION_HANDOFF_2026-10-28.md`** | **The state as of the last session: what was found, what was fixed, what is left, what is Popy's decision.** |
 | **12** | **`12_GIT_GITHUB_STATE.md`** | **Exact Git and GitHub state: branch, SHAs, what is pushed, who else writes to this repo, and the rules for pushing.** |
+| **13** | **`13_GAP_REGISTER_AUDIT_2026-10-28.md`** | **The gap register, measured and repaired: why the ledger was three weeks stale, what the nine Hermes profile servers actually are, and why the tool that regenerates the ledger used to destroy it.** |
 | **—** | **`SKILLS/`** | **The 10 skills handed to the new instance, plus a manifest. Copies, so a fresh agent without a skills directory still has them.** |
 | 01 | `01_BUILD_STATUS.md` | **Start here.** What is live, what is strong, what is weak. |
 | 02 | `02_GAPS.md` | Every gap, sorted into **BUG** (went wrong) and **SCAFFOLDING** (not built yet). |
@@ -55,7 +56,7 @@ rule that an edited file keeps its previous version. They are not content and
 are not part of the reading order; the same rule says nothing is deleted to
 make a folder tidy.
 
-### Five things that changed after this package was written
+### Six things that changed after this package was written
 
 - **2026-10-28 — the repository was broken for every Windows clone.** `origin/main`
   carried a top-level directory whose name was the project's own absolute path,
@@ -94,6 +95,15 @@ make a folder tidy.
   tested by the `cd_clone_verify` phase in
   `08_SELF_IMPROVEMENT\test_deployment.py`. **Run it after every pipeline push**
   — see `12_GIT_GITHUB_STATE.md` §6.
+- **2026-10-28 — the gap register stopped being a ledger.** `12_PROGRAM\GAP_REGISTER.json`
+  had not been written since **6 October**, and its nine `HPROF_*` entries still said the
+  Hermes profile servers "are not yet constructed". Measured: all nine exist and answer
+  a real MCP stdio handshake — 22 tools over stdio. The tool that regenerates the
+  register used to **overwrite** it, and one run destroyed 11 of the 18 entries; it now
+  merges, re-measures what it can measure, and preserves what it cannot. The ledger holds
+  19 entries: **6 open, 13 closed**, each closed entry carrying the measurement that
+  closed it. The control was falsified — red on the old builder, naming the 12 lost
+  entries. Details in `13_GAP_REGISTER_AUDIT_2026-10-28.md`.
 
 **Figures in files 01–09 are from 2026-10-06** and are a snapshot, not the
 current state. The live numbers are in file 11 and in the status report at the

@@ -465,6 +465,12 @@ corectată aici):
     E pe disk și în `stash@{0}`.
 11. `BIN_TESSERACT`, Design `HILO_USER_TOKEN`, cele 7 servere Hermes
     nebuiltuite, rotația `09_LOGS`.
+    **Actualizare 2026-10-28 07:40 (Mavis, instanția nouă):** cele 7 servere
+    Hermes **sunt construite** — măsurat: toate cele 9 profile servere există
+    pe disc și fac handshake real peste stdio (22 tool-uri servite). `BIN_TESSERACT`
+    e închis prin măsurătoare (tesseract pe PATH, OCR funcționează). Din acest
+    punct rămâne deschisă doar linia de pornire `npx` din blueprint, care cere
+    R0. Detalii: `13_GAP_REGISTER_AUDIT_2026-10-28.md`.
 
 **Amânate de infrastructură:**
 

@@ -838,6 +838,62 @@ def test_ecosystem_snapshot_fresh() -> None:
           f"refreshing it. A panel this old is a snapshot, not a live hub.")
 
 
+def test_gap_count_matches_the_ledger() -> None:
+    """The panel says "Open gaps", so the number it shows must be the open count.
+
+    Measured 2026-10-28: the collector handed the panel the WHOLE ledger and
+    the tile counted the array length, so a ledger of 19 entries with 13 of
+    them closed read as "19 open gaps". The error ran in the direction that
+    flatters the system, which is the worst direction for a number whose whole
+    job is to tell the truth.
+
+    The collector is run HERE, on purpose, so the comparison is against a state
+    written by the current collector rather than whatever the worker last left
+    behind. A check that reads a stale artefact cannot tell a wrong number from
+    an old number.
+    """
+    workspace = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
+    register = os.path.join(workspace, "12_PROGRAM", "GAP_REGISTER.json")
+    collector = os.path.join(workspace, "13_COMMAND_CENTER", "api", "collect-sentinel.ps1")
+    if not os.path.exists(register) or not os.path.exists(collector):
+        not_run("gap_count_matches_ledger", "the ledger or the collector is missing")
+        return
+
+    rc, out = run_tool(
+        ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", collector],
+        timeout=300, log_name="deployment_gap_count_collector.log")
+    if rc != 0:
+        not_run("gap_count_matches_ledger",
+                f"the collector did not complete (exit {rc}); its own checks report why")
+        trace(f"collector output tail: {out[-400:]}")
+        return
+
+    try:
+        st, body, _ = http(FRONT + "/api/state", timeout=30)
+        state = json.loads(body.decode("utf-8"))
+        with open(register, "r", encoding="utf-8") as fh:
+            entries = json.load(fh)
+    except Exception as e:
+        not_run("gap_count_matches_ledger", f"could not read the live state: {type(e).__name__}")
+        return
+
+    open_entries = [g for g in entries if g.get("status") != "CLOSED-BUILT"]
+    closed_entries = [g for g in entries if g.get("status") == "CLOSED-BUILT"]
+    served = state.get("gaps") or []
+    served_ids = sorted(str(g.get("id")) for g in served)
+    want_open = sorted(str(g.get("id")) for g in open_entries)
+    closed_count = state.get("gaps_closed_count")
+
+    ok = (st == 200
+          and served_ids == want_open
+          and closed_count == len(closed_entries))
+    check("gap_count_matches_ledger", ok,
+          f"{len(served)} open gaps served (the ledger has {len(open_entries)} open) and "
+          f"{closed_count} closed counted (the ledger has {len(closed_entries)} closed)",
+          f"the panel is served {len(served)} gaps {served_ids} against {len(open_entries)} "
+          f"open in the ledger, and {closed_count} closed against {len(closed_entries)}")
+
+
 def test_ecosystem_route() -> None:
     """The route must serve the snapshot, and must say NOT_AVAILABLE rather than
     returning an empty object that renders as a panel of nothing."""
@@ -2330,6 +2386,7 @@ def main() -> int:
             ("startup_entry", lambda: test_startup_entry(coldstart=cold)),
             ("ecosystem_snapshot_fresh", "test_ecosystem_snapshot_fresh"),
             ("ecosystem_route", "test_ecosystem_route"),
+            ("gap_count_matches_ledger", "test_gap_count_matches_the_ledger"),
             ("action_whitelist", "test_action_whitelist_rejects_unapproved"),
             ("action_missing_id", "test_action_missing_id_is_refused_separately"),
             ("action_whitelist_admits", "test_action_whitelist_admits"),

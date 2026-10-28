@@ -182,11 +182,26 @@ if (Test-Path $testLog) {
 }
 
 # 7. Gaps, straight from the register.
+#
+# The ledger keeps every entry, closed ones included: a gap that was decided
+# and then done is the record that the work happened, and deleting it would
+# delete the requirement. But the panel says "Open gaps" and counts what it is
+# handed, so feeding it the whole ledger makes the number wrong the moment the
+# first entry closes - measured 2026-10-28, a ledger of 19 entries with 13
+# closed would have read as "19 open gaps".
+#
+# The split happens HERE, on the data side, so no markup has to change and
+# nothing is dropped: `gaps` carries the open entries, and the closed ones are
+# still counted and named next to them.
 $gaps = @()
+$gapsClosed = @()
 $gapPath = Join-Path $WORKSPACE '12_PROGRAM\GAP_REGISTER.json'
 if (Test-Path $gapPath) {
   $g = Read-Json $gapPath
-  if ($g) { $gaps = $g }
+  if ($g) {
+    $gaps = @($g | Where-Object { $_.status -ne 'CLOSED-BUILT' })
+    $gapsClosed = @($g | Where-Object { $_.status -eq 'CLOSED-BUILT' })
+  }
 }
 
 $now = (Get-Date).ToString('o')
@@ -251,6 +266,10 @@ $state = [ordered]@{
   learning = $learning
   tests = $tests
   gaps = $gaps
+  # The closed entries are not hidden by being left out of `gaps`: they are
+  # counted and named here, and their full text stays in the ledger.
+  gaps_closed_count = $gapsClosed.Count
+  gaps_closed_ids = @($gapsClosed | ForEach-Object { $_.id })
 }
 
 # Age is measured at write time, so the UI never has to guess it.

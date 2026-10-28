@@ -1,10 +1,10 @@
 {
   "suite": "mavis-sentinel-hub deployment e2e",
-  "generated_at": "2026-10-28T04:40:42",
-  "passed": 69,
+  "generated_at": "2026-10-28T07:29:26",
+  "passed": 70,
   "failed": 0,
   "not_run": 1,
-  "total": 70,
+  "total": 71,
   "green": true,
   "checks": [
     {
@@ -80,17 +80,17 @@
     {
       "id": "route_readyz",
       "status": "PASS",
-      "detail": "200 98248 B"
+      "detail": "200 91030 B"
     },
     {
       "id": "route_api_state",
       "status": "PASS",
-      "detail": "200 98248 B"
+      "detail": "200 91030 B"
     },
     {
       "id": "route_api_health",
       "status": "PASS",
-      "detail": "200 20334 B"
+      "detail": "200 20335 B"
     },
     {
       "id": "served_by_front",
@@ -160,12 +160,17 @@
     {
       "id": "ecosystem_snapshot_fresh",
       "status": "PASS",
-      "detail": "snapshot age 106s, refreshed by the server's worker (bound 600s)"
+      "detail": "snapshot age 28s, refreshed by the server's worker (bound 600s)"
     },
     {
       "id": "ecosystem_route",
       "status": "PASS",
       "detail": "200, 29 surfaces, counts={\"measured\": 22, \"not_available\": 7, \"error\": 0, \"total\": 29}"
+    },
+    {
+      "id": "gap_count_matches_ledger",
+      "status": "PASS",
+      "detail": "6 open gaps served (the ledger has 6 open) and 13 closed counted (the ledger has 13 closed)"
     },
     {
       "id": "action_whitelist_rejects",
@@ -325,7 +330,7 @@
     {
       "id": "inventory_registry_validates_parseable_source",
       "status": "PASS",
-      "detail": "parseable source validates: 47 classes"
+      "detail": "parseable source validates: 48 classes"
     },
     {
       "id": "dom_injection_guarded",
@@ -345,7 +350,7 @@
     {
       "id": "cd_control_built",
       "status": "PASS",
-      "detail": "control repository carrying an invalid path entry built at C:\\Users\\apviz\\AppData\\Local\\Temp\\sentinel-cd-verify-3xevrho1\\control"
+      "detail": "control repository carrying an invalid path entry built at C:\\Users\\apviz\\AppData\\Local\\Temp\\sentinel-cd-verify-1msjf1sg\\control"
     },
     {
       "id": "cd_clone_verifier_blocks_broken_tree",

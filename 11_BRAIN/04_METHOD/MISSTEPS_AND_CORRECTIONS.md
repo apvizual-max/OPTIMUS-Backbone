@@ -601,3 +601,90 @@ re-measuring. And the same rule governs the M-28 entry above: it is left exactly
 as written, because correcting forward means adding, never editing a record.
 
 M-24, M-25, M-26 and M-27 remain lost and are marked as such above.
+
+### M-31 (2026-10-28) - The generator of a ledger is not its owner
+
+**What happened.** `08_SELF_IMPROVEMENT/build_program_matrix.py` wrote
+`12_PROGRAM/GAP_REGISTER.json` with the gaps it had measured and nothing else.
+Measured on 2026-10-28, one run of the builder reduced the ledger from 18
+entries to 7: all nine `HPROF_*` profile tickets, the `HERMES_GATEWAY_PROFILES`
+umbrella and `BIN_TESSERACT` were gone. The blueprint stayed intact, every
+suite stayed green, and nothing announced the loss - the next reader saw a
+shorter, tidier register and believed it. The tool was called "the thing that
+generates the register", so running it read as maintenance, not as an edit.
+
+**Why it was possible.** The builder was allowed to own the file it measured.
+It knew about seven gaps; the ledger held eighteen; the difference was not a
+gap in the builder, it was eleven entries written by someone else, and the
+builder had no way to see them.
+
+**What was done.** The builder now MERGES. An entry is never deleted. An entry
+whose gap it can measure is re-measured, and the measurement is written beside
+the original claim, which stays visible. An entry it cannot measure is
+preserved byte for byte. A closed entry keeps the record of its closure, so a
+second run leaves the file byte-identical. A probe that cannot run reports
+NOT_MEASURED and changes no status - a transient is not a verdict.
+
+*Correction in force:* **the generator of a ledger is not its owner.** A tool
+that writes a file it did not create must merge, never overwrite. And the proof
+is a control that fails on the old behaviour: the new test class was run
+against the old builder and went red with the twelve lost entries named
+(`Gap register integrity`, `test_suite.py`). A control that has only ever
+passed has proved nothing.
+
+### M-32 (2026-10-28) - A number in a source-of-truth file is a claim about the world, and it expires
+
+**What happened.** `GAP_REGISTER.json` was last written on **2026-10-06**. Its
+nine `HPROF_*` entries said the Hermes profile servers "are declared and not
+yet constructed", with `target_present=False`. Measured on 2026-10-28: all nine
+exist and answer a real MCP stdio handshake - five since 10 October, three
+rewritten on 28 October at 02:19. The ledger had become history while still
+being the source of truth, and the session handoff of 28 October listed "the
+seven unbuilt Hermes servers" among Popy's open decisions, on the strength of
+that ledger. It was also a trap in the handoff pack: `14_HANDOFF/02_GAPS.md`
+is dated 7 October, and the package README says so - but the priming prompt
+points at it as the gap inventory.
+
+**Why nothing caught it.** The register had no writer. Nothing re-measured it,
+so its numbers aged silently while every file it named stayed in place. A file
+being there is not a file being true, and a document nobody re-opens is a
+claim nobody checks.
+
+**What was done.** The builder re-measures every gap it can measure and writes
+the measurement into the entry, dated; every closed entry carries the
+measurement that closed it, and the original claim stays visible above it.
+`13_COMMAND_CENTER/api/collect-sentinel.ps1` now hands the panel the OPEN
+entries and counts the closed ones next to them, so the tile "Open gaps" is
+the open count. The audit that found all of this is
+`14_HANDOFF/13_GAP_REGISTER_AUDIT_2026-10-28.md`.
+
+*Correction in force:* **re-measure before quoting a number from a file you did
+not write.** The age of a source-of-truth file is part of its meaning. This is
+the same rule M-30 put in force for recorded losses, applied to ledger
+entries: a stored claim is a claim, and claims expire.
+
+### M-33 (2026-10-28) - A field hardcoded where a measurement belongs is a placeholder that reads as a fact
+
+**What happened.** The programme matrix opens with the sentence "The matrix is
+DERIVED BY MEASUREMENT, not written by hand", and one field in it was written
+by hand: `mcp_wired` was hardcoded `False` for every row. The generated report
+then printed "**0 are wired**", while the hub was serving **26 tools over
+stdio** - a live handshake, measured, with a timestamp. The report looked
+careful and was wrong, in the same direction as the blueprint: it claimed
+nothing was connected while the wire was busy.
+
+**Why it survived.** `mcp_wired` was the only field the renderer used to
+describe a live capability, and nothing tested it. A hardcoded `False` is
+indistinguishable from a measured `False` at the reading desk.
+
+**What was done.** `evaluate()` now reads the tools the hub actually SERVED -
+from `09_LOGS/mcp_handshake.json`, the artefact the handshake itself writes -
+and a concept is wired only if every tool it declares was returned over the
+wire. Measured 2026-10-28: **8 of the 8 concepts that declare an MCP tool are
+wired**, and the generated report says so with the basis attached.
+
+*Correction in force:* **a field that answers a question about the world must
+come from a measurement of the world.** Where a field is hardcoded, the honest
+options are to measure it or to delete it - but never to leave a constant
+standing in for a fact, because a constant is the one value that can never be
+wrong and therefore can never be right either.

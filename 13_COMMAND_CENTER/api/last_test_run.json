@@ -1,6 +1,6 @@
 {
-  "ran_at": "2026-10-28T04:31:01.954654",
-  "passed": 596,
+  "ran_at": "2026-10-28T07:36:02.718604",
+  "passed": 607,
   "failed": 0,
   "skipped": 0,
   "not_run": [],
@@ -49,7 +49,7 @@
     },
     {
       "name": "NoRomanianInCode",
-      "passed": 144,
+      "passed": 146,
       "failed": 0,
       "skipped": 0,
       "not_run": false,
@@ -352,6 +352,14 @@
       "partial": false
     },
     {
+      "name": "Gap register integrity",
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
       "name": "AppendOnlyIntegrity",
       "passed": 14,
       "failed": 0,
@@ -384,5 +392,5 @@
       "partial": false
     }
   ],
-  "total_classes": 47
+  "total_classes": 48
 }

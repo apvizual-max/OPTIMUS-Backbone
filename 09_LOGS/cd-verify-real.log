@@ -1,18 +1,18 @@
 CHECK repo_exists C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME PASS | inspected repository: C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME
 CHECK remote_url C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME PASS | remote 'origin'
-CHECK remote_main_sha dc5f356cebae0f362e8dd7ada50f97a5f386f301 PASS | git ls-remote C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME refs/heads/main
+CHECK remote_main_sha a80bf496adce3b65a35af3bdd24385ec7b1bcd51 PASS | git ls-remote C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME refs/heads/main
 CHECK remote_branches 1 PASS | refs/heads/main
-CHECK local_head dc5f356cebae0f362e8dd7ada50f97a5f386f301 PASS | HEAD of C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME
+CHECK local_head a80bf496adce3b65a35af3bdd24385ec7b1bcd51 PASS | HEAD of C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME
 CHECK behind_ahead 0/0 PASS | remote main relative to local HEAD (behind/ahead)
 CHECK invalid_tree_entries 0 PASS | no path component contains a colon
-CHECK clone_exit 0 PASS | probe clone: C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-3xevrho1\probes\clone-probe-20261028-044037-25272
-CHECK clone_head_sha dc5f356cebae0f362e8dd7ada50f97a5f386f301 PASS | probe HEAD must equal remote main
+CHECK clone_exit 0 PASS | probe clone: C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-1msjf1sg\probes\clone-probe-20261028-072921-22448
+CHECK clone_head_sha a80bf496adce3b65a35af3bdd24385ec7b1bcd51 PASS | probe HEAD must equal remote main
 CHECK clone_dirty 0 PASS | lines reported by git status --porcelain
 CHECK clone_branches main PASS | local branches in the probe clone
-CHECK clone_tracked_files 1493 PASS | files tracked in the probe clone
+CHECK clone_tracked_files 1514 PASS | files tracked in the probe clone
 CHECK expect_files_missing 0 PASS | 0 required paths present
-PROBE_CLONE=C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-3xevrho1\probes\clone-probe-20261028-044037-25272
+PROBE_CLONE=C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-1msjf1sg\probes\clone-probe-20261028-072921-22448
 VERDICT=PASS
 FAILURES=
 ### argv type: list of 12
-### cmdline: powershell -NoProfile -ExecutionPolicy Bypass -File C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\scripts\verify-remote-clone.ps1 -Repo C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME -RemoteUrl C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME -CloneRoot C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-3xevrho1\probes
+### cmdline: powershell -NoProfile -ExecutionPolicy Bypass -File C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\scripts\verify-remote-clone.ps1 -Repo C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME -RemoteUrl C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME -CloneRoot C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-1msjf1sg\probes

@@ -20,10 +20,13 @@ found it. Gaps are reported, never silently repaired, and never deleted from.
 
 Usage: python 08_SELF_IMPROVEMENT\\build_program_matrix.py
 """
+import importlib
 import json
 import os
+import shutil
+from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Callable, Dict, List, Set, Tuple
 # unused imports removed for code health
 
 WORKSPACE = Path(os.environ.get(
@@ -36,6 +39,26 @@ GAPS_JSON = PROGRAM / 'GAP_REGISTER.json'
 SI = WORKSPACE / '08_SELF_IMPROVEMENT'
 HUB = WORKSPACE / '07_BACKBONE' / 'mcp' / 'sentinel_hub_server.py'
 SUITE = SI / 'test_suite.py'
+
+# The blueprint is the target, not a snapshot: it is read, never written here.
+BLUEPRINT = WORKSPACE / '07_BACKBONE' / 'mcp' / 'OPTIMUS_MCP_CONFIG.json'
+# The monitor's own verdicts, and the artefact its handshake writes. Both are
+# measurements this builder READS - it does not invent a second opinion.
+HEALTH_JSON = WORKSPACE / '13_COMMAND_CENTER' / 'api' / 'health.json'
+HANDSHAKE_JSON = WORKSPACE / '09_LOGS' / 'mcp_handshake.json'
+SCRAPED = WORKSPACE / '09_LOGS' / 'scraped'
+
+OPEN = 'OPEN'
+CLOSED = 'CLOSED-BUILT'
+
+# The modules the monitor probes, with the capability each one carries.
+DEP_MODULES = (
+    ('playwright', 'browser automation'), ('PIL', 'image processing'),
+    ('pypdf', 'PDF processing'), ('docx', 'DOCX processing'),
+    ('openpyxl', 'XLSX processing'), ('pptx', 'PPTX processing'),
+    ('cv2', 'video processing'), ('pytesseract', 'OCR binding'),
+    ('faster_whisper', 'audio transcription'),
+)
 
 
 def read(path: Path) -> str:
@@ -213,7 +236,8 @@ CONCEPTS = [
 ]
 
 
-def evaluate(c: Dict[str, Any], suite_src: str, hub_src: str) -> Dict[str, Any]:
+def evaluate(c: Dict[str, Any], suite_src: str, hub_src: str,
+             served: Set[str] = ()) -> Dict[str, Any]:
     doctrine_path = WORKSPACE / c['doctrine'] if c['doctrine'] else None
     doctrine_ok = bool(doctrine_path and doctrine_path.exists())
     impl_path = WORKSPACE / c['impl'] if c['impl'] else None
@@ -221,6 +245,11 @@ def evaluate(c: Dict[str, Any], suite_src: str, hub_src: str) -> Dict[str, Any]:
     symbols_found = has_all(*c['symbols'], source=read(impl_path)) if impl_ok else []
     tests_found = [t for t in c['tests'] if t in suite_src]
     tools_found = [t for t in c['tools'] if t in hub_src]
+    # WIRED is a claim about the wire, so it is measured on the wire. It used to
+    # be hardcoded False, which is why the generated report said "0 are wired"
+    # while 26 tools were answering over stdio: the matrix was DERIVED BY
+    # MEASUREMENT in every field except this one.
+    wired = bool(tools_found) and all(t in served for t in tools_found)
 
     if not doctrine_ok and not impl_ok:
         status = 'ABSENT'
@@ -249,7 +278,11 @@ def evaluate(c: Dict[str, Any], suite_src: str, hub_src: str) -> Dict[str, Any]:
         'test': ','.join(tests_found) if tests_found else None,
         'test_found': bool(tests_found),
         'mcp_tool': ','.join(tools_found) if tools_found else None,
-        'mcp_wired': False,
+        'mcp_wired': wired,
+        'mcp_wired_basis': ('served over stdio by the last live handshake'
+                            if wired else
+                            ('declared in source but not served by the last handshake'
+                             if tools_found else 'no MCP tool declared')),
         'panel': c['panel'],
         'status': status,
         'owner': c['owner'],
@@ -259,24 +292,224 @@ def evaluate(c: Dict[str, Any], suite_src: str, hub_src: str) -> Dict[str, Any]:
     }
 
 
+# ---------------------------------------------------------------------------
+# The register is a ledger. It is merged, never overwritten.
+# ---------------------------------------------------------------------------
+#
+# Measured 2026-10-28: this builder used to WRITE GAP_REGISTER.json with the
+# gaps it had measured and nothing else. Running it destroyed 11 of the 18
+# entries in the ledger - all nine HPROF_* profile tickets plus the
+# HERMES_GATEWAY_PROFILES umbrella - because it never knew they existed. A
+# measurement instrument that owns the file it measures will eventually eat it.
+#
+# The contract, in this order:
+#   1. An entry is never deleted.
+#   2. An entry whose gap can be MEASURED is re-measured. The original claim
+#      stays visible, and the measurement is added beside it.
+#   3. An entry that cannot be measured is preserved byte for byte. It belongs
+#      to whoever wrote it, and closing it is an operator decision.
+
+
+def now_iso() -> str:
+    return datetime.now().astimezone().isoformat(timespec='seconds')
+
+
+def load_json(path: Path) -> Any:
+    try:
+        return json.loads(path.read_text(encoding='utf-8'))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+        return None
+
+
+def file_stamp(path: Path) -> str:
+    try:
+        st = path.stat()
+    except OSError:
+        return f'{path} is not on disk'
+    when = datetime.fromtimestamp(st.st_mtime).isoformat(timespec='seconds')
+    return f'{path} exists, {st.st_size} B, mtime {when}'
+
+
+def blueprint_servers() -> Dict[str, Any]:
+    cfg = load_json(BLUEPRINT)
+    if not isinstance(cfg, dict):
+        return {}
+    return cfg.get('servers') or {}
+
+
+def served_tools() -> Tuple[Set[str], str]:
+    """The tools the hub SERVED, from the artefact the handshake itself wrote.
+
+    Not the tools the hub declares in its source. The gap between declared and
+    served is the finding, so the declared count cannot stand in for it.
+    """
+    art = load_json(HANDSHAKE_JSON)
+    if not isinstance(art, dict):
+        return set(), 'no handshake artefact: NOT_MEASURED'
+    names = set(art.get('tool_names') or [])
+    note = (f"{art.get('attempted_at')} "
+            f"({art.get('tools_returned_by_server')} served of "
+            f"{art.get('tools_declared_in_source')} declared)")
+    return names, note
+
+
+# -- the probes -------------------------------------------------------------
+# Each probe answers one question: is the thing this gap is about present NOW?
+# It returns (satisfied, detail, conclusive).
+#
+# `conclusive` is the third value, and it is the one that matters. A probe that
+# could not run - the artefact it reads is missing, the monitor has not
+# measured - returns False and NOT conclusive. That is NOT_MEASURED, and it is
+# not a verdict: a gap whose measurement could not be taken keeps the status it
+# has. Flipping a closed gap to open because a file was momentarily absent is
+# the class of red that teaches the reader to ignore red.
+#
+# A probe that never guesses is worth more than a probe that always answers.
+
+def probe_tesseract() -> Tuple[bool, str, bool]:
+    found = shutil.which('tesseract')
+    how = 'PATH'
+    if not found:
+        local = os.environ.get('LOCALAPPDATA', '')
+        if local:
+            candidate = Path(local) / 'TesseractOCR' / 'tesseract.exe'
+            if candidate.exists():
+                found, how = str(candidate), 'known location'
+    if found:
+        return True, f'OCR engine resolves at {found} (via {how})', True
+    return False, 'no tesseract binary on PATH and none at the known location', True
+
+
+def artefact_counts() -> Tuple[int, int, int]:
+    """(inspected, empty, unreadable) judged by CONTENT.
+
+    Emptiness is a content claim. Size is not a proxy for it: the old
+    predicate was `size <= 400 bytes`, which flagged a successful scrape of a
+    small page as empty - the exact defect the monitor's own check and its
+    regression test exist to kill.
+    """
+    inspected = empty = unreadable = 0
+    if SCRAPED.exists():
+        for f in sorted(SCRAPED.glob('*.json')):
+            inspected += 1
+            data = load_json(f)
+            if data is None:
+                unreadable += 1
+                continue
+            extracted = (data or {}).get('extracted') or {}
+            has_title = bool(str(extracted.get('title') or '').strip())
+            has_items = bool(extracted.get('headings') or extracted.get('links'))
+            if has_title and has_items:
+                continue
+            url = str((data or {}).get('url') or '').strip()
+            scheme = url.split(':', 1)[0].lower() if ':' in url else ''
+            if not url or scheme in ('about', 'data', 'javascript', 'chrome', 'blob'):
+                continue
+            empty += 1
+    return inspected, empty, unreadable
+
+
+def probe_artefacts() -> Tuple[bool, str, bool]:
+    inspected, empty, unreadable = artefact_counts()
+    detail = (f'{inspected} scrape artefacts inspected by content: {empty} carry no '
+              f'result, {unreadable} unreadable')
+    return (empty == 0 and unreadable == 0), detail, True
+
+
+def probe_wiring() -> Tuple[bool, str, bool]:
+    """The hub's own handshake, read from the artefact that handshake writes."""
+    art = load_json(HANDSHAKE_JSON)
+    if not isinstance(art, dict):
+        return False, 'no handshake artefact on disk: NOT_MEASURED', False
+    served = art.get('tools_returned_by_server')
+    declared = art.get('tools_declared_in_source')
+    when = art.get('attempted_at')
+    if art.get('status') != 'OK':
+        return False, f'last handshake at {when} did not complete: {art.get("error")}', True
+    if not served or served != declared:
+        return False, (f'last handshake at {when}: {declared} declared, {served} served - '
+                       f'a tool that is declared but not served is a defect, not scaffolding'), True
+    return True, (f'live MCP handshake at {when}: {served} of {declared} declared tools '
+                  f'returned over stdio'), True
+
+
+def probe_profile_server(name: str) -> Tuple[bool, str, bool]:
+    """Is one declared Hermes profile server present and reachable?"""
+    spec = blueprint_servers().get(name) or {}
+    args = [str(a) for a in (spec.get('args') or [])]
+    py_arg = next((a for a in args if a.endswith('.py')), None)
+    if py_arg:
+        target = Path(py_arg)
+        if target.exists():
+            return True, file_stamp(target), True
+        return False, f'the declared target {target} is not on disk', True
+    # npm-backed entry: the registry answer is the measurement, and it is the
+    # monitor's own check rather than an assumption about the package.
+    health = load_json(HEALTH_JSON) or {}
+    for c in (health.get('checks') or []):
+        if c.get('id') == 'mcp_npx_packages_resolve':
+            evidence = f"{c.get('evidence', '')} (measured {c.get('measured_at', '')})"
+            if c.get('status') == 'NOT_RUN':
+                return False, f'{evidence} - NOT_RUN: NOT_MEASURED', False
+            return c.get('status') == 'OK', evidence, True
+    return False, 'mcp_npx_packages_resolve is not available: NOT_MEASURED', False
+
+
+def probe_dependency(module: str) -> Tuple[bool, str, bool]:
+    try:
+        importlib.import_module(module)
+        return True, f'{module} is importable on this interpreter', True
+    except Exception as exc:
+        return False, f'{module} is not importable: {type(exc).__name__}', True
+
+
+def probe_concept(row: Dict[str, Any]) -> Tuple[bool, str, bool]:
+    detail = (f'concept {row["id"]} computes to {row["status"]} '
+              f'(doctrine_exists={row["doctrine_exists"]}, '
+              f'implementation_exists={row["implementation_exists"]}, '
+              f'symbols_missing={row["symbols_missing"]})')
+    return row['status'] in ('CODED', 'TESTED', 'WIRED', 'OBSERVABLE'), detail, True
+
+
+def build_probes(matrix: Dict[str, Any]) -> Dict[str, Callable[[], Tuple[bool, str, bool]]]:
+    """One probe per gap this builder is allowed to re-measure."""
+    probes: Dict[str, Callable[[], Tuple[bool, str, bool]]] = {
+        'BIN_TESSERACT': probe_tesseract,
+        'ARTIFACT_EMPTY': probe_artefacts,
+        'WIRING_MCP': probe_wiring,
+    }
+    for name in blueprint_servers():
+        gid = 'HPROF_' + name.replace('-', '_')
+        probes[gid] = (lambda n=name: probe_profile_server(n))
+
+    def umbrella() -> Tuple[bool, str, bool]:
+        parts, all_ok, conclusive = [], True, True
+        for name in blueprint_servers():
+            ok, detail, sure = probe_profile_server(name)
+            all_ok = all_ok and ok
+            conclusive = conclusive and sure
+            parts.append(f'{name}: {detail}')
+        return all_ok, '; '.join(parts), conclusive
+
+    probes['HERMES_GATEWAY_PROFILES'] = umbrella
+    for mod, _capability in DEP_MODULES:
+        probes['DEP_' + mod] = (lambda m=mod: probe_dependency(m))
+    for mid, row in matrix.items():
+        probes['CONCEPT_' + mid] = (lambda r=row: probe_concept(r))
+    return probes
+
+
 def build_gaps(rows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """Every known degradation, each with the evidence that found it."""
-    import importlib
+    """Every degradation the builder can measure, each with the evidence."""
     gaps = []
 
-    for mod, capability in (
-        ('playwright', 'browser automation'), ('PIL', 'image processing'),
-        ('pypdf', 'PDF processing'), ('docx', 'DOCX processing'),
-        ('openpyxl', 'XLSX processing'), ('pptx', 'PPTX processing'),
-        ('cv2', 'video processing'), ('pytesseract', 'OCR binding'),
-        ('faster_whisper', 'audio transcription'),
-    ):
+    for mod, capability in DEP_MODULES:
         try:
             importlib.import_module(mod)
             continue
         except Exception:
             gaps.append({
-                'id': f'DEP_{mod}', 'area': 'dependency', 'status': 'OPEN',
+                'id': f'DEP_{mod}', 'area': 'dependency', 'status': OPEN,
                 'what': f'{capability} is UNVERIFIED: {mod} is not importable',
                 'evidence': 'measured by monitor.py dependency family on both '
                             'interpreter 3.14.6 and 3.11.15',
@@ -285,10 +518,9 @@ def build_gaps(rows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
                 'owner': 'Popy',
             })
 
-    import shutil
     if not shutil.which('tesseract'):
         gaps.append({
-            'id': 'BIN_TESSERACT', 'area': 'dependency', 'status': 'OPEN',
+            'id': 'BIN_TESSERACT', 'area': 'dependency', 'status': OPEN,
             'what': 'OCR engine not on PATH',
             'evidence': 'monitor.py bin_tesseract check',
             'impact': 'OCR is unverified even if pytesseract were installed',
@@ -298,7 +530,7 @@ def build_gaps(rows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     for r in rows:
         if r['status'] in ('DESIGNED', 'ABSENT', 'PARTIAL'):
             gaps.append({
-                'id': f"CONCEPT_{r['id']}", 'area': 'concept', 'status': 'OPEN',
+                'id': f"CONCEPT_{r['id']}", 'area': 'concept', 'status': OPEN,
                 'what': f"{r['concept']} is {r['status']}",
                 'evidence': f"doctrine_exists={r['doctrine_exists']} "
                             f"implementation_exists={r['implementation_exists']} "
@@ -309,7 +541,7 @@ def build_gaps(rows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
             })
 
     gaps.append({
-        'id': 'WIRING_MCP', 'area': 'wiring', 'status': 'OPEN',
+        'id': 'WIRING_MCP', 'area': 'wiring', 'status': OPEN,
         'what': 'MCP tools are DECLARED but not WIRED to any runtime',
         'evidence': 'no Hermes handshake has been performed; monitor reports '
                     'mcp_tools_wired as NOT_RUN',
@@ -318,33 +550,156 @@ def build_gaps(rows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         'owner': 'Popy',
     })
 
-    scraped = WORKSPACE / '09_LOGS' / 'scraped'
-    empty = [f.name for f in scraped.glob('*.json') if f.stat().st_size <= 400] \
-        if scraped.exists() else []
+    _inspected, empty, _unreadable = artefact_counts()
     if empty:
         gaps.append({
-            'id': 'ARTIFACT_EMPTY', 'area': 'logs', 'status': 'OPEN',
-            'what': f'{len(empty)} empty result files in 09_LOGS/scraped',
+            'id': 'ARTIFACT_EMPTY', 'area': 'logs', 'status': OPEN,
+            'what': f'{empty} empty result files in 09_LOGS/scraped',
             'evidence': 'left by browser test runs; they look like success and are not',
             'impact': 'visual noise that reads as evidence',
             'fix_requires': 'explicit operator decision - deletion is never automatic',
             'owner': 'Popy',
         })
 
+    for name in blueprint_servers():
+        ok, detail, _conclusive = probe_profile_server(name)
+        if ok:
+            continue
+        spec = blueprint_servers().get(name) or {}
+        target = next((str(a) for a in (spec.get('args') or [])
+                       if str(a).endswith('.py')), 'an npm package')
+        gaps.append({
+            'id': 'HPROF_' + name.replace('-', '_'),
+            'area': 'hermes-gateway-profile', 'status': OPEN,
+            'what': f"PLANNED - Hermes profile gateway server '{name}' is declared in "
+                    f"OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, "
+                    f"not a defect.",
+            'evidence': f'blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares '
+                        f'{name} -> {target}; target_present=False',
+            'impact': 'one of nine Hermes profile gateway servers; the swarm cannot be '
+                      'complete while this profile has no server',
+            'fix_requires': 'Construct the server in the Hermes gateway. DO NOT remove '
+                            'the declaration: the blueprint is the plan, and a gap is '
+                            'closed by upgrading the system, never by deleting the line '
+                            'that names it.',
+            'owner': 'Popy',
+        })
+
     return gaps
+
+
+def merge_gaps(existing: List[Dict[str, Any]],
+               measured: List[Dict[str, Any]],
+               probes: Dict[str, Callable[[], Tuple[bool, str]]],
+               ) -> Tuple[List[Dict[str, Any]], Dict[str, int]]:
+    """Merge the measured gaps into the ledger. Nothing is ever deleted."""
+    out: List[Dict[str, Any]] = []
+    stats = {'preserved': 0, 'closed': 0, 'still_closed': 0, 'reopened': 0,
+             'verified_open': 0, 'not_measured': 0, 'added': 0}
+    known = set()
+
+    for entry in existing:
+        if not isinstance(entry, dict):
+            continue
+        gid = str(entry.get('id'))
+        known.add(gid)
+        probe = probes.get(gid)
+        if probe is None:
+            # Another writer's entry, and this builder cannot measure it. It
+            # is preserved exactly as it was found.
+            out.append(entry)
+            stats['preserved'] += 1
+            continue
+
+        satisfied, detail, conclusive = probe()
+        stamp = now_iso()
+        was_closed = entry.get('status') == CLOSED
+
+        merged: Dict[str, Any] = {
+            'id': entry.get('id'),
+            'status': CLOSED if satisfied else OPEN,
+        }
+
+        if not conclusive:
+            # The measurement could not be taken. NOT_MEASURED is not a verdict:
+            # the status stays exactly as it was, and the entry says why.
+            merged['status'] = entry.get('status', OPEN)
+            unchanged = entry.get('verification') == detail
+            merged['verification'] = detail
+            merged['verified_at'] = entry.get('verified_at', stamp) if unchanged else stamp
+            stats['not_measured'] += 1
+        elif satisfied and not was_closed:
+            # The gap closes now, and this measurement is the record of it.
+            merged['verification'] = detail
+            merged['verified_at'] = stamp
+            merged['closed_at'] = stamp
+            stats['closed'] += 1
+        elif satisfied and was_closed:
+            # Still closed. The ledger keeps the record of the closure as it was
+            # written - a ledger that rewrites itself on every read is not a
+            # ledger, and a changed file is a changed history.
+            merged['verification'] = entry.get('verification', detail)
+            merged['verified_at'] = entry.get('verified_at', stamp)
+            if 'closed_at' in entry:
+                merged['closed_at'] = entry['closed_at']
+            stats['still_closed'] += 1
+        elif was_closed:
+            merged['verification'] = f'REOPENED {stamp}: {detail}'
+            merged['verified_at'] = stamp
+            stats['reopened'] += 1
+        else:
+            unchanged = entry.get('verification') == detail
+            merged['verification'] = detail
+            merged['verified_at'] = entry.get('verified_at', stamp) if unchanged else stamp
+            stats['verified_open'] += 1
+
+        for key in ('area', 'what', 'evidence', 'impact', 'fix_requires', 'owner'):
+            if key in entry:
+                merged[key] = entry[key]
+        for key, value in entry.items():
+            if key not in merged:
+                merged[key] = value
+
+        out.append(merged)
+
+    for gap in measured:
+        gid = str(gap.get('id'))
+        if gid in known:
+            continue
+        entry = dict(gap)
+        entry['verification'] = gap.get('evidence', '')
+        entry['verified_at'] = now_iso()
+        out.append(entry)
+        known.add(gid)
+        stats['added'] += 1
+
+    return out, stats
 
 
 def main():
     PROGRAM.mkdir(parents=True, exist_ok=True)
     suite_src = read(SUITE)
     hub_src = read(HUB)
+    served, handshake_note = served_tools()
 
-    rows = [evaluate(c, suite_src, hub_src) for c in CONCEPTS]
+    rows = [evaluate(c, suite_src, hub_src, served) for c in CONCEPTS]
     gaps = build_gaps(rows)
+    matrix = {r['id']: r for r in rows}
+    probes = build_probes(matrix)
+
+    existing: List[Dict[str, Any]] = []
+    if GAPS_JSON.exists():
+        loaded = load_json(GAPS_JSON)
+        if isinstance(loaded, list):
+            existing = [g for g in loaded if isinstance(g, dict)]
+        elif isinstance(loaded, dict):
+            existing = [g for g in (loaded.get('gaps') or []) if isinstance(g, dict)]
+
+    merged, stats = merge_gaps(existing, gaps, probes)
 
     MATRIX_JSON.write_text(json.dumps(rows, indent=2, ensure_ascii=False),
                            encoding='utf-8')
-    GAPS_JSON.write_text(json.dumps(gaps, indent=2, ensure_ascii=False),
+    GAPS_JSON.write_text(json.dumps(merged, indent=2, ensure_ascii=False) + '\n',
                          encoding='utf-8')
 
     counts: Dict[str, int] = {}
@@ -353,7 +708,17 @@ def main():
     print(f'concepts: {len(rows)}')
     for k in sorted(counts):
         print(f'  {k:12s} {counts[k]}')
-    print(f'gaps    : {len(gaps)} open')
+    print(f'handshake: {handshake_note}')
+    still_open = [g for g in merged if g.get('status') != CLOSED]
+    print(f'register : {len(merged)} entries '
+          f'({len(still_open)} open, {len(merged) - len(still_open)} closed)')
+    print(f'  measured and closed  : {stats["closed"]}')
+    print(f'  closed and unchanged : {stats["still_closed"]}')
+    print(f'  reopened             : {stats["reopened"]}')
+    print(f'  measured and open    : {stats["verified_open"]}')
+    print(f'  not measured         : {stats["not_measured"]}')
+    print(f'  preserved untouched  : {stats["preserved"]}')
+    print(f'  added                : {stats["added"]}')
     print(f'written : {MATRIX_JSON}')
     print(f'written : {GAPS_JSON}')
     return 0

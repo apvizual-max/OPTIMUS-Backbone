@@ -1,12 +1,12 @@
 {
-    "generated":  "2026-10-28T05:08:14.2231850+02:00",
+    "generated":  "2026-10-28T07:37:12.6502023+02:00",
     "age_sec":  0,
     "age_bound_sec":  300,
     "status":  "DEGRADED",
     "counts":  {
-                   "OK":  53,
+                   "OK":  55,
                    "FAIL":  0,
-                   "STALE":  3,
+                   "STALE":  1,
                    "NOT_RUN":  0
                },
     "by_family":  {
@@ -17,9 +17,9 @@
                                      "NOT_RUN":  0
                                  },
                       "workflow":  {
-                                       "OK":  3,
+                                       "OK":  5,
                                        "FAIL":  0,
-                                       "STALE":  2,
+                                       "STALE":  0,
                                        "NOT_RUN":  0
                                    },
                       "code":  {
@@ -72,17 +72,17 @@
                               "status":  "OK",
                               "value":  2388756,
                               "bound":  "file must exist",
-                              "evidence":  "corpus_full.jsonl age=1974004s",
-                              "measured_at":  "2026-10-28T05:08:04.796294"
+                              "evidence":  "corpus_full.jsonl age=1982943s",
+                              "measured_at":  "2026-10-28T07:37:02.926841"
                           },
                           {
                               "id":  "corpus_fresh",
                               "family":  "corpus",
                               "status":  "STALE",
-                              "value":  1974004.5,
+                              "value":  1982942.6,
                               "bound":  "\u003c 3600s",
                               "evidence":  "extraction is a snapshot; older than the bound means the conversation moved on",
-                              "measured_at":  "2026-10-28T05:08:04.796336"
+                              "measured_at":  "2026-10-28T07:37:02.926880"
                           },
                           {
                               "id":  "corpus_stats",
@@ -95,7 +95,7 @@
                                         },
                               "bound":  "",
                               "evidence":  "corpus_stats.json parsed",
-                              "measured_at":  "2026-10-28T05:08:04.797000"
+                              "measured_at":  "2026-10-28T07:37:02.927436"
                           },
                           {
                               "id":  "corpus_no_unplaced",
@@ -104,7 +104,7 @@
                               "value":  0,
                               "bound":  "== 0",
                               "evidence":  "UNPLACED.md declares \"None\" - every verbatim message belongs to a chapter",
-                              "measured_at":  "2026-10-28T05:08:04.797008"
+                              "measured_at":  "2026-10-28T07:37:02.927443"
                           },
                           {
                               "id":  "corpus_retention",
@@ -113,7 +113,7 @@
                               "value":  1.0,
                               "bound":  "\u003e= 0.95",
                               "evidence":  "emitted verbatim text vs extracted source text - the \"nothing cut\" measure",
-                              "measured_at":  "2026-10-28T05:08:04.797012"
+                              "measured_at":  "2026-10-28T07:37:02.927447"
                           },
                           {
                               "id":  "corpus_chapters",
@@ -122,7 +122,7 @@
                               "value":  17,
                               "bound":  "\u003e 0",
                               "evidence":  "17 chapter files under 02_CHAPTERS/",
-                              "measured_at":  "2026-10-28T05:08:04.797679"
+                              "measured_at":  "2026-10-28T07:37:02.928078"
                           },
                           {
                               "id":  "corpus_unplaced_declared",
@@ -131,7 +131,7 @@
                               "value":  true,
                               "bound":  "file present and empty",
                               "evidence":  "UNPLACED.md must exist and state that nothing was dropped",
-                              "measured_at":  "2026-10-28T05:08:04.797932"
+                              "measured_at":  "2026-10-28T07:37:02.928298"
                           },
                           {
                               "id":  "corpus_index",
@@ -141,8 +141,8 @@
                                             "bytes":  5178
                                         },
                               "bound":  "file must exist",
-                              "evidence":  "00_CORPUS_INDEX.md age=2062700s",
-                              "measured_at":  "2026-10-28T05:08:04.798058"
+                              "evidence":  "00_CORPUS_INDEX.md age=2071638s",
+                              "measured_at":  "2026-10-28T07:37:02.928418"
                           },
                           {
                               "id":  "corpus_freeze",
@@ -152,8 +152,8 @@
                                             "bytes":  16253
                                         },
                               "bound":  "file must exist",
-                              "evidence":  "SHA256SUMS.txt age=2063070s",
-                              "measured_at":  "2026-10-28T05:08:04.798162"
+                              "evidence":  "SHA256SUMS.txt age=2072008s",
+                              "measured_at":  "2026-10-28T07:37:02.928509"
                           },
                           {
                               "id":  "workflow_mode",
@@ -162,7 +162,7 @@
                               "value":  "MODE_B",
                               "bound":  "one of the four modes",
                               "evidence":  "MODE_A -\u003e R0 -\u003e MODE_B -\u003e STOPPED; anything else is a corrupted machine",
-                              "measured_at":  "2026-10-28T05:08:04.798471"
+                              "measured_at":  "2026-10-28T07:37:02.928776"
                           },
                           {
                               "id":  "workflow_stop_consistent",
@@ -174,7 +174,7 @@
                                         },
                               "bound":  "no orphaned stop reason",
                               "evidence":  "a stop reason outside MODE_A/STOPPED is inconsistent state",
-                              "measured_at":  "2026-10-28T05:08:04.798479"
+                              "measured_at":  "2026-10-28T07:37:02.928784"
                           },
                           {
                               "id":  "workflow_failures",
@@ -183,25 +183,25 @@
                               "value":  0,
                               "bound":  "\u003c 5",
                               "evidence":  "5 consecutive MODE_B failures must land in STOPPED, never a 6th attempt",
-                              "measured_at":  "2026-10-28T05:08:04.798485"
+                              "measured_at":  "2026-10-28T07:37:02.928787"
                           },
                           {
                               "id":  "workflow_state_fresh",
                               "family":  "workflow",
-                              "status":  "STALE",
-                              "value":  2341.5,
+                              "status":  "OK",
+                              "value":  190.2,
                               "bound":  "\u003c 300s",
                               "evidence":  "how long since the workflow last wrote its state",
-                              "measured_at":  "2026-10-28T05:08:04.798535"
+                              "measured_at":  "2026-10-28T07:37:02.928834"
                           },
                           {
                               "id":  "workflow_log",
                               "family":  "workflow",
-                              "status":  "STALE",
-                              "value":  2335.6,
+                              "status":  "OK",
+                              "value":  184.2,
                               "bound":  "\u003c 1800s",
                               "evidence":  "transition log freshness",
-                              "measured_at":  "2026-10-28T05:08:04.798600"
+                              "measured_at":  "2026-10-28T07:37:02.928896"
                           },
                           {
                               "id":  "code_modules_present",
@@ -215,7 +215,7 @@
                                         },
                               "bound":  "none missing",
                               "evidence":  "each engine must exist as a file",
-                              "measured_at":  "2026-10-28T05:08:04.799005"
+                              "measured_at":  "2026-10-28T07:37:02.929257"
                           },
                           {
                               "id":  "code_no_romanian",
@@ -226,18 +226,18 @@
                                         ],
                               "bound":  "no diacritics in code",
                               "evidence":  "the language law: code, identifiers, docstrings and runtime messages in English. Romanian belongs in wisdom, not in source.",
-                              "measured_at":  "2026-10-28T05:08:04.822370"
+                              "measured_at":  "2026-10-28T07:37:02.951912"
                           },
                           {
                               "id":  "code_test_suite",
                               "family":  "code",
                               "status":  "OK",
                               "value":  {
-                                            "bytes":  173297
+                                            "bytes":  180291
                                         },
                               "bound":  "file must exist",
                               "evidence":  "test harness present",
-                              "measured_at":  "2026-10-28T05:08:04.822488"
+                              "measured_at":  "2026-10-28T07:37:02.952032"
                           },
                           {
                               "id":  "mcp_tools_declared",
@@ -246,7 +246,7 @@
                               "value":  26,
                               "bound":  "\u003e 0",
                               "evidence":  "26 SENTINEL tools registered in the hub",
-                              "measured_at":  "2026-10-28T05:08:04.823146"
+                              "measured_at":  "2026-10-28T07:37:02.952679"
                           },
                           {
                               "id":  "mcp_tools_wired",
@@ -257,12 +257,12 @@
                                             "probe_tool":  "sentinel_confirm_identity",
                                             "probe_ok":  true,
                                             "handshake_status":  "OK",
-                                            "record_age_seconds":  8089.5,
+                                            "record_age_seconds":  17027.6,
                                             "record_superseded_by_server_edit":  false
                                         },
                               "bound":  "a completed handshake returning \u003e 0 tools, with a probe whose arguments provably reached the handler",
-                              "evidence":  "26 tools returned by the server over stdio; probe \"sentinel_confirm_identity\" ok=True, arguments arrived=True. Measured 8089s ago by mcp_handshake.py, not asserted here.",
-                              "measured_at":  "2026-10-28T05:08:04.823583"
+                              "evidence":  "26 tools returned by the server over stdio; probe \"sentinel_confirm_identity\" ok=True, arguments arrived=True. Measured 17028s ago by mcp_handshake.py, not asserted here.",
+                              "measured_at":  "2026-10-28T07:37:02.953095"
                           },
                           {
                               "id":  "mcp_config",
@@ -271,7 +271,7 @@
                               "value":  null,
                               "bound":  "",
                               "evidence":  "OPTIMUS_MCP_CONFIG.json is valid JSON",
-                              "measured_at":  "2026-10-28T05:08:04.824004"
+                              "measured_at":  "2026-10-28T07:37:02.953503"
                           },
                           {
                               "id":  "mcp_config_servers_exist",
@@ -292,7 +292,7 @@
                                         },
                               "bound":  "every referenced .py server exists on disk",
                               "evidence":  "7 .py servers referenced by the config, 0 not on disk. All referenced servers exist.",
-                              "measured_at":  "2026-10-28T05:08:08.677578"
+                              "measured_at":  "2026-10-28T07:37:06.650987"
                           },
                           {
                               "id":  "mcp_npx_packages_resolve",
@@ -307,7 +307,7 @@
                                         },
                               "bound":  "every npx package the config declares actually resolves",
                               "evidence":  "2/2 declared npx packages resolve (registry control answered: 19.3.1)",
-                              "measured_at":  "2026-10-28T05:08:11.541502"
+                              "measured_at":  "2026-10-28T07:37:09.424495"
                           },
                           {
                               "id":  "mcp_live_profile_registered",
@@ -333,7 +333,7 @@
                                         },
                               "bound":  "every server the config records as live is actually registered and enabled in the live MCP profile",
                               "evidence":  "3 of 7 declared .py servers are registered and enabled in the live profile: git-tools, prime-bridge, web-tools. Declared but deliberately not registered: context-pressure, learning-loop, rule-triggers, sentinel-state - their tools are already served by the live sentinel-hub, and registering them would put duplicate tool names in front of every session",
-                              "measured_at":  "2026-10-28T05:08:11.542162"
+                              "measured_at":  "2026-10-28T07:37:09.425215"
                           },
                           {
                               "id":  "skills_present",
@@ -350,70 +350,70 @@
                                         ],
                               "bound":  "\u003e 0",
                               "evidence":  "7 skill files",
-                              "measured_at":  "2026-10-28T05:08:11.542711"
+                              "measured_at":  "2026-10-28T07:37:09.425801"
                           },
                           {
                               "id":  "log_bimodal_state",
                               "family":  "logs",
                               "status":  "OK",
-                              "value":  2348.3,
+                              "value":  196.7,
                               "bound":  "\u003c 3000s",
-                              "evidence":  "bimodal_state.json last written 2348s ago",
-                              "measured_at":  "2026-10-28T05:08:11.542852"
+                              "evidence":  "bimodal_state.json last written 197s ago",
+                              "measured_at":  "2026-10-28T07:37:09.425969"
                           },
                           {
                               "id":  "log_bimodal_log",
                               "family":  "logs",
                               "status":  "OK",
-                              "value":  2342.4,
+                              "value":  190.7,
                               "bound":  "\u003c 3000s",
-                              "evidence":  "bimodal_workflow.log last written 2342s ago",
-                              "measured_at":  "2026-10-28T05:08:11.543169"
+                              "evidence":  "bimodal_workflow.log last written 191s ago",
+                              "measured_at":  "2026-10-28T07:37:09.426292"
                           },
                           {
                               "id":  "log_orchestrator_state",
                               "family":  "logs",
                               "status":  "OK",
-                              "value":  2354.9,
+                              "value":  203.2,
                               "bound":  "\u003c 3000s",
-                              "evidence":  "orchestrator_state.json last written 2355s ago",
-                              "measured_at":  "2026-10-28T05:08:11.543234"
+                              "evidence":  "orchestrator_state.json last written 203s ago",
+                              "measured_at":  "2026-10-28T07:37:09.426358"
                           },
                           {
                               "id":  "log_performance_metrics",
                               "family":  "logs",
                               "status":  "OK",
-                              "value":  2353.8,
+                              "value":  202.1,
                               "bound":  "\u003c 3000s",
-                              "evidence":  "performance_metrics.json last written 2354s ago",
-                              "measured_at":  "2026-10-28T05:08:11.543548"
+                              "evidence":  "performance_metrics.json last written 202s ago",
+                              "measured_at":  "2026-10-28T07:37:09.426666"
                           },
                           {
                               "id":  "log_self_modifications",
                               "family":  "logs",
                               "status":  "OK",
-                              "value":  2354.9,
+                              "value":  203.2,
                               "bound":  "\u003c 3000s",
-                              "evidence":  "self_modifications.log last written 2355s ago",
-                              "measured_at":  "2026-10-28T05:08:11.543995"
+                              "evidence":  "self_modifications.log last written 203s ago",
+                              "measured_at":  "2026-10-28T07:37:09.427096"
                           },
                           {
                               "id":  "log_state_transitions",
                               "family":  "logs",
                               "status":  "OK",
-                              "value":  2354.9,
+                              "value":  203.2,
                               "bound":  "\u003c 3000s",
-                              "evidence":  "state_transitions.log last written 2355s ago",
-                              "measured_at":  "2026-10-28T05:08:11.544052"
+                              "evidence":  "state_transitions.log last written 203s ago",
+                              "measured_at":  "2026-10-28T07:37:09.427157"
                           },
                           {
                               "id":  "log_self_improvement",
                               "family":  "logs",
                               "status":  "OK",
-                              "value":  2342.3,
+                              "value":  190.7,
                               "bound":  "\u003c 3000s",
-                              "evidence":  "self_improvement.log last written 2342s ago",
-                              "measured_at":  "2026-10-28T05:08:11.544105"
+                              "evidence":  "self_improvement.log last written 191s ago",
+                              "measured_at":  "2026-10-28T07:37:09.427213"
                           },
                           {
                               "id":  "logs_parse",
@@ -424,14 +424,14 @@
                                         ],
                               "bound":  "no parse errors",
                               "evidence":  "every state JSON must parse; a corrupt state file is a silent failure",
-                              "measured_at":  "2026-10-28T05:08:11.544111"
+                              "measured_at":  "2026-10-28T07:37:09.427220"
                           },
                           {
                               "id":  "logs_empty_artifacts",
                               "family":  "logs",
                               "status":  "OK",
                               "value":  {
-                                            "inspected":  223,
+                                            "inspected":  226,
                                             "empty":  0,
                                             "unreadable":  0,
                                             "empty_files":  [
@@ -445,8 +445,8 @@
                                                                                   ]
                                         },
                               "bound":  "0 empty and 0 unreadable artefacts",
-                              "evidence":  "223 scrape artefacts inspected by content: 0 of a content-bearing URL carry no result, 0 unreadable, 1 are navigation-only targets with no content by definition. Size is never the criterion - a successful scrape of a small page is small. Reported, not deleted: deleting is an explicit operator decision.",
-                              "measured_at":  "2026-10-28T05:08:11.590023"
+                              "evidence":  "226 scrape artefacts inspected by content: 0 of a content-bearing URL carry no result, 0 unreadable, 1 are navigation-only targets with no content by definition. Size is never the criterion - a successful scrape of a small page is small. Reported, not deleted: deleting is an explicit operator decision.",
+                              "measured_at":  "2026-10-28T07:37:09.467563"
                           },
                           {
                               "id":  "dep_playwright",
@@ -455,7 +455,7 @@
                               "value":  null,
                               "bound":  "",
                               "evidence":  "browser automation: importable",
-                              "measured_at":  "2026-10-28T05:08:11.591487"
+                              "measured_at":  "2026-10-28T07:37:09.469383"
                           },
                           {
                               "id":  "dep_PIL",
@@ -464,7 +464,7 @@
                               "value":  null,
                               "bound":  "",
                               "evidence":  "image processing: importable",
-                              "measured_at":  "2026-10-28T05:08:11.594408"
+                              "measured_at":  "2026-10-28T07:37:09.473000"
                           },
                           {
                               "id":  "dep_pypdf",
@@ -473,7 +473,7 @@
                               "value":  null,
                               "bound":  "",
                               "evidence":  "PDF processing: importable",
-                              "measured_at":  "2026-10-28T05:08:11.817115"
+                              "measured_at":  "2026-10-28T07:37:09.697984"
                           },
                           {
                               "id":  "dep_docx",
@@ -482,7 +482,7 @@
                               "value":  null,
                               "bound":  "",
                               "evidence":  "DOCX processing: importable",
-                              "measured_at":  "2026-10-28T05:08:11.977314"
+                              "measured_at":  "2026-10-28T07:37:09.856286"
                           },
                           {
                               "id":  "dep_openpyxl",
@@ -491,7 +491,7 @@
                               "value":  null,
                               "bound":  "",
                               "evidence":  "XLSX processing: importable",
-                              "measured_at":  "2026-10-28T05:08:12.487408"
+                              "measured_at":  "2026-10-28T07:37:10.364810"
                           },
                           {
                               "id":  "dep_pptx",
@@ -500,7 +500,7 @@
                               "value":  null,
                               "bound":  "",
                               "evidence":  "PPTX processing: importable",
-                              "measured_at":  "2026-10-28T05:08:12.716448"
+                              "measured_at":  "2026-10-28T07:37:10.604899"
                           },
                           {
                               "id":  "dep_cv2",
@@ -509,7 +509,7 @@
                               "value":  null,
                               "bound":  "",
                               "evidence":  "video processing (OpenCV): importable",
-                              "measured_at":  "2026-10-28T05:08:12.755010"
+                              "measured_at":  "2026-10-28T07:37:10.643719"
                           },
                           {
                               "id":  "dep_pytesseract",
@@ -518,7 +518,7 @@
                               "value":  null,
                               "bound":  "",
                               "evidence":  "OCR binding: importable",
-                              "measured_at":  "2026-10-28T05:08:12.767230"
+                              "measured_at":  "2026-10-28T07:37:10.655768"
                           },
                           {
                               "id":  "dep_faster_whisper",
@@ -527,7 +527,7 @@
                               "value":  null,
                               "bound":  "",
                               "evidence":  "audio transcription: importable",
-                              "measured_at":  "2026-10-28T05:08:13.013659"
+                              "measured_at":  "2026-10-28T07:37:10.915856"
                           },
                           {
                               "id":  "dep_av_faster_whisper_compat",
@@ -539,7 +539,7 @@
                                         },
                               "bound":  "the audio path opens a real container, not just an import",
                               "evidence":  "av 15.1.0 accepts metadata_errors - the exact call faster-whisper makes opens a real container (1 streams)",
-                              "measured_at":  "2026-10-28T05:08:13.021215"
+                              "measured_at":  "2026-10-28T07:37:10.950370"
                           },
                           {
                               "id":  "bin_tesseract",
@@ -551,7 +551,7 @@
                                         },
                               "bound":  "a working binary, located rather than assumed",
                               "evidence":  "OCR engine (tesseract) at C:\\Users\\apviz\\AppData\\Local\\TesseractOCR\\tesseract.exe [resolved via known_location, not assumed from PATH]",
-                              "measured_at":  "2026-10-28T05:08:13.021308"
+                              "measured_at":  "2026-10-28T07:37:10.950472"
                           },
                           {
                               "id":  "bin_docker",
@@ -560,7 +560,7 @@
                               "value":  "C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE",
                               "bound":  "a working binary, located rather than assumed",
                               "evidence":  "container runtime (docker) at C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE",
-                              "measured_at":  "2026-10-28T05:08:13.026220"
+                              "measured_at":  "2026-10-28T07:37:10.955252"
                           },
                           {
                               "id":  "bin_git",
@@ -569,7 +569,7 @@
                               "value":  "C:\\Program Files\\Git\\cmd\\git.EXE",
                               "bound":  "a working binary, located rather than assumed",
                               "evidence":  "version control (git) at C:\\Program Files\\Git\\cmd\\git.EXE",
-                              "measured_at":  "2026-10-28T05:08:13.030428"
+                              "measured_at":  "2026-10-28T07:37:10.959735"
                           },
                           {
                               "id":  "program_matrix",
@@ -578,15 +578,15 @@
                               "value":  {
                                             "rows":  24,
                                             "by_status":  {
-                                                              "OBSERVABLE":  18,
-                                                              "CODED":  1,
+                                                              "OBSERVABLE":  14,
+                                                              "CODED":  5,
                                                               "DESIGNED":  4,
                                                               "PARTIAL":  1
                                                           }
                                         },
                               "bound":  "file must parse",
                               "evidence":  "concept -\u003e file -\u003e tool -\u003e test -\u003e panel correlation",
-                              "measured_at":  "2026-10-28T05:08:13.030937"
+                              "measured_at":  "2026-10-28T07:37:10.960267"
                           },
                           {
                               "id":  "program_no_unowned_design",
@@ -597,7 +597,7 @@
                                         ],
                               "bound":  "no unowned DESIGNED rows",
                               "evidence":  "a concept left in DESIGNED must still have an owner and a next action",
-                              "measured_at":  "2026-10-28T05:08:13.030949"
+                              "measured_at":  "2026-10-28T07:37:10.960280"
                           },
                           {
                               "id":  "cc_index",
@@ -607,8 +607,8 @@
                                             "bytes":  122479
                                         },
                               "bound":  "Command Center part present",
-                              "evidence":  "index.html age=10118s",
-                              "measured_at":  "2026-10-28T05:08:13.031093"
+                              "evidence":  "index.html age=19056s",
+                              "measured_at":  "2026-10-28T07:37:10.960424"
                           },
                           {
                               "id":  "cc_server",
@@ -618,30 +618,30 @@
                                             "bytes":  37242
                                         },
                               "bound":  "Command Center part present",
-                              "evidence":  "server.ps1 age=8130s",
-                              "measured_at":  "2026-10-28T05:08:13.031192"
+                              "evidence":  "server.ps1 age=17068s",
+                              "measured_at":  "2026-10-28T07:37:10.960515"
                           },
                           {
                               "id":  "cc_collector",
                               "family":  "dashboard",
                               "status":  "OK",
                               "value":  {
-                                            "bytes":  14030
+                                            "bytes":  15052
                                         },
                               "bound":  "Command Center part present",
-                              "evidence":  "collect-sentinel.ps1 age=1844979s",
-                              "measured_at":  "2026-10-28T05:08:13.031283"
+                              "evidence":  "collect-sentinel.ps1 age=1553s",
+                              "measured_at":  "2026-10-28T07:37:10.960603"
                           },
                           {
                               "id":  "cc_state",
                               "family":  "dashboard",
                               "status":  "OK",
                               "value":  {
-                                            "bytes":  98269
+                                            "bytes":  91028
                                         },
                               "bound":  "Command Center part present",
-                              "evidence":  "sentinel-state.json age=35s",
-                              "measured_at":  "2026-10-28T05:08:13.031366"
+                              "evidence":  "sentinel-state.json age=37s",
+                              "measured_at":  "2026-10-28T07:37:10.960684"
                           },
                           {
                               "id":  "ps_scripts_found",
@@ -650,7 +650,7 @@
                               "value":  22,
                               "bound":  "",
                               "evidence":  "22 PowerShell script(s) under the workspace",
-                              "measured_at":  "2026-10-28T05:08:13.202732"
+                              "measured_at":  "2026-10-28T07:37:11.125694"
                           },
                           {
                               "id":  "ps_variable_case_collisions",
@@ -659,7 +659,7 @@
                               "value":  0,
                               "bound":  "PowerShell folds $Foo and $foo into one variable",
                               "evidence":  "no two script-scope variables in any .ps1 differ only by case",
-                              "measured_at":  "2026-10-28T05:08:13.267710"
+                              "measured_at":  "2026-10-28T07:37:11.191557"
                           },
                           {
                               "id":  "ps_shadowed_script_vars",
@@ -668,7 +668,7 @@
                               "value":  0,
                               "bound":  "a local $py silently replaces a script $PY inside the function",
                               "evidence":  "no function-local variable shadows or collides with a script variable",
-                              "measured_at":  "2026-10-28T05:08:13.343022"
+                              "measured_at":  "2026-10-28T07:37:11.286257"
                           },
                           {
                               "id":  "ps_stray_type_named_files",
@@ -677,7 +677,7 @@
                               "value":  0,
                               "bound":  "catches the collector writing state to its own ToString()",
                               "evidence":  "no file is named after a .NET type inside SENTINEL_PRIME\\ or in its immediate parent (a path/object variable collision)",
-                              "measured_at":  "2026-10-28T05:08:13.675096"
+                              "measured_at":  "2026-10-28T07:37:11.639846"
                           }
                       ],
     "health_total_checks":  56,
@@ -831,7 +831,7 @@
                      "max_failures":  5,
                      "execution_attempts":  3,
                      "agreement_goal":  "Test",
-                     "age_sec":  2350.9
+                     "age_sec":  199.8
                  },
     "program":  {
                     "status":  "MEASURED",
@@ -848,10 +848,10 @@
                                  },
                                  {
                                      "concept":  "Anti-mimicry detectors A1-A12",
-                                     "status":  "CODED",
+                                     "status":  "OBSERVABLE",
                                      "doctrine":  "03_INTELLIGENCE/filters/ANTI_MIMICRY_DETECTORS.md",
                                      "implementation":  "07_BACKBONE/mcp/sentinel_hub_server.py",
-                                     "test":  null,
+                                     "test":  "Mimicry",
                                      "panel":  "Doctrine",
                                      "owner":  "Mavis"
                                  },
@@ -902,28 +902,28 @@
                                  },
                                  {
                                      "concept":  "Corpus extraction - chronological, deduplicated, verifiable",
-                                     "status":  "OBSERVABLE",
+                                     "status":  "CODED",
                                      "doctrine":  "11_BRAIN/01_RAW/CHANGELOG_EXTRACTION.md",
                                      "implementation":  "08_SELF_IMPROVEMENT/corpus_extractor.py",
-                                     "test":  "BrainAndMonitor",
+                                     "test":  null,
                                      "panel":  "Brain",
                                      "owner":  "Mavis"
                                  },
                                  {
                                      "concept":  "Self-improvement with an R0 ratify gate",
-                                     "status":  "OBSERVABLE",
+                                     "status":  "CODED",
                                      "doctrine":  "11_BRAIN/04_METHOD/TANY_LLM_TO_SENTINEL.md",
                                      "implementation":  "08_SELF_IMPROVEMENT/self_improvement.py",
-                                     "test":  "BrainAndMonitor",
+                                     "test":  null,
                                      "panel":  "Learning",
                                      "owner":  "Mavis"
                                  },
                                  {
                                      "concept":  "Self-monitor with NOT_RUN as a first-class status",
-                                     "status":  "OBSERVABLE",
+                                     "status":  "CODED",
                                      "doctrine":  "13_COMMAND_CENTER/README.md",
                                      "implementation":  "08_SELF_IMPROVEMENT/monitor.py",
-                                     "test":  "BrainAndMonitor",
+                                     "test":  null,
                                      "panel":  "Overview",
                                      "owner":  "Mavis"
                                  },
@@ -1010,10 +1010,10 @@
                                  },
                                  {
                                      "concept":  "Feedback loop and evaluators",
-                                     "status":  "OBSERVABLE",
+                                     "status":  "CODED",
                                      "doctrine":  "05_LEARNING/evaluators/FEEDBACK_LOOP.md",
                                      "implementation":  "08_SELF_IMPROVEMENT/self_improvement.py",
-                                     "test":  "BrainAndMonitor",
+                                     "test":  null,
                                      "panel":  "Learning",
                                      "owner":  "Mavis"
                                  },
@@ -1028,10 +1028,10 @@
                                  },
                                  {
                                      "concept":  "Auto-learning loop",
-                                     "status":  "OBSERVABLE",
+                                     "status":  "CODED",
                                      "doctrine":  "05_LEARNING/loops/AUTO_LEARNING_LOOP.md",
                                      "implementation":  "08_SELF_IMPROVEMENT/self_improvement.py",
-                                     "test":  "BrainAndMonitor",
+                                     "test":  null,
                                      "panel":  "Learning",
                                      "owner":  "Mavis"
                                  },
@@ -1067,10 +1067,10 @@
     "tests":  {
                   "status":  "MEASURED",
                   "reason":  "last_test_run.json",
-                  "passed":  596,
+                  "passed":  607,
                   "failed":  0,
                   "skipped":  0,
-                  "ran_at":  "2026-10-28T04:31:01.954654",
+                  "ran_at":  "2026-10-28T07:36:02.718604",
                   "not_run":  [
 
                               ],
@@ -1121,7 +1121,7 @@
                                   },
                                   {
                                       "name":  "NoRomanianInCode",
-                                      "passed":  144,
+                                      "passed":  146,
                                       "failed":  0,
                                       "skipped":  0,
                                       "not_run":  false,
@@ -1424,6 +1424,14 @@
                                       "partial":  false
                                   },
                                   {
+                                      "name":  "Gap register integrity",
+                                      "passed":  9,
+                                      "failed":  0,
+                                      "skipped":  0,
+                                      "not_run":  false,
+                                      "partial":  false
+                                  },
+                                  {
                                       "name":  "AppendOnlyIntegrity",
                                       "passed":  14,
                                       "failed":  0,
@@ -1456,23 +1464,15 @@
                                       "partial":  false
                                   }
                               ],
-                  "total_classes":  47
+                  "total_classes":  48
               },
     "gaps":  [
                  {
-                     "id":  "BIN_TESSERACT",
-                     "area":  "dependency",
-                     "status":  "OPEN",
-                     "what":  "OCR engine not on PATH",
-                     "evidence":  "monitor.py bin_tesseract check",
-                     "impact":  "OCR is unverified even if pytesseract were installed",
-                     "fix_requires":  "R0 - external binary install",
-                     "owner":  "Popy"
-                 },
-                 {
                      "id":  "CONCEPT_C18",
-                     "area":  "concept",
                      "status":  "OPEN",
+                     "verification":  "concept C18 computes to DESIGNED (doctrine_exists=True, implementation_exists=False, symbols_missing=[])",
+                     "verified_at":  "2026-10-28T07:09:28+02:00",
+                     "area":  "concept",
                      "what":  "Partnership protocol (two blind men) is DESIGNED",
                      "evidence":  "doctrine_exists=True implementation_exists=False symbols_missing=[]",
                      "impact":  "documented but not running",
@@ -1481,8 +1481,10 @@
                  },
                  {
                      "id":  "CONCEPT_C19",
-                     "area":  "concept",
                      "status":  "OPEN",
+                     "verification":  "concept C19 computes to DESIGNED (doctrine_exists=True, implementation_exists=False, symbols_missing=[])",
+                     "verified_at":  "2026-10-28T07:09:28+02:00",
+                     "area":  "concept",
                      "what":  "The 3-Propozitii ritual as an invocable command is DESIGNED",
                      "evidence":  "doctrine_exists=True implementation_exists=False symbols_missing=[]",
                      "impact":  "documented but not running",
@@ -1491,8 +1493,10 @@
                  },
                  {
                      "id":  "CONCEPT_C21",
-                     "area":  "concept",
                      "status":  "OPEN",
+                     "verification":  "concept C21 computes to PARTIAL (doctrine_exists=True, implementation_exists=True, symbols_missing=[])",
+                     "verified_at":  "2026-10-28T07:09:28+02:00",
+                     "area":  "concept",
                      "what":  "Context pressure monitor is PARTIAL",
                      "evidence":  "doctrine_exists=True implementation_exists=True symbols_missing=[]",
                      "impact":  "documented but not running",
@@ -1501,8 +1505,10 @@
                  },
                  {
                      "id":  "CONCEPT_C23",
-                     "area":  "concept",
                      "status":  "OPEN",
+                     "verification":  "concept C23 computes to DESIGNED (doctrine_exists=True, implementation_exists=False, symbols_missing=[])",
+                     "verified_at":  "2026-10-28T07:09:28+02:00",
+                     "area":  "concept",
                      "what":  "Historical cultures (Cucuteni, Geto, Atos, Romani) is DESIGNED",
                      "evidence":  "doctrine_exists=True implementation_exists=False symbols_missing=[]",
                      "impact":  "documented but not running",
@@ -1511,8 +1517,10 @@
                  },
                  {
                      "id":  "CONCEPT_C24",
-                     "area":  "concept",
                      "status":  "OPEN",
+                     "verification":  "concept C24 computes to DESIGNED (doctrine_exists=True, implementation_exists=False, symbols_missing=[])",
+                     "verified_at":  "2026-10-28T07:09:28+02:00",
+                     "area":  "concept",
                      "what":  "963 Hz / SACRU proverbs is DESIGNED",
                      "evidence":  "doctrine_exists=True implementation_exists=False symbols_missing=[]",
                      "impact":  "documented but not running",
@@ -1520,124 +1528,32 @@
                      "owner":  "Popy"
                  },
                  {
-                     "id":  "WIRING_MCP",
+                     "id":  "HPROF_NPX_LAUNCH",
+                     "status":  "OPEN",
+                     "verification":  "MEASURED 2026-10-28T06:52:38+02:00 - the declared launch line does not start on this machine. shutil.which(\u0027npx\u0027) -\u003e C:\\Program Files\\nodejs\\npx.CMD (a batch file), and a stdio MCP launch of the declared command failed with FileNotFoundError [WinError 2]: a process launcher that does not go through a shell cannot execute it. The live profile does not use that line - it launches the installed shims C:\\Users\\apviz\\AppData\\Roaming\\npm\\mcp-server-filesystem.cmd (367 B) and agent-browser-mcp-server.cmd (352 B), both present, mtime 2026-08-06. Whether a live client can execute a .cmd shim was NOT_MEASURED from this session.",
+                     "verified_at":  "2026-10-28T06:52:38+02:00",
                      "area":  "wiring",
-                     "status":  "OPEN",
-                     "what":  "MCP tools are DECLARED but not WIRED to any runtime",
-                     "evidence":  "no Hermes handshake has been performed; monitor reports mcp_tools_wired as NOT_RUN",
-                     "impact":  "an agent cannot actually call the SENTINEL tools through Hermes",
-                     "fix_requires":  "R0 - registering an MCP server is a cross-system change",
-                     "owner":  "Popy"
-                 },
-                 {
-                     "id":  "ARTIFACT_EMPTY",
-                     "area":  "logs",
-                     "status":  "OPEN",
-                     "what":  "50 empty result files in 09_LOGS/scraped",
-                     "evidence":  "left by browser test runs; they look like success and are not",
-                     "impact":  "visual noise that reads as evidence",
-                     "fix_requires":  "explicit operator decision - deletion is never automatic",
-                     "owner":  "Popy"
-                 },
-                 {
-                     "id":  "HPROF_prime_bridge",
-                     "area":  "hermes-gateway-profile",
-                     "status":  "OPEN",
-                     "what":  "PLANNED - Hermes profile gateway server \u0027prime-bridge\u0027 is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
-                     "evidence":  "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares prime-bridge -\u003e C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\prime_bridge_server.py; target_present=False",
-                     "impact":  "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
-                     "fix_requires":  "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
-                     "owner":  "Popy"
-                 },
-                 {
-                     "id":  "HPROF_sentinel_state",
-                     "area":  "hermes-gateway-profile",
-                     "status":  "OPEN",
-                     "what":  "PLANNED - Hermes profile gateway server \u0027sentinel-state\u0027 is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
-                     "evidence":  "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares sentinel-state -\u003e C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\sentinel_state_server.py; target_present=False",
-                     "impact":  "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
-                     "fix_requires":  "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
-                     "owner":  "Popy"
-                 },
-                 {
-                     "id":  "HPROF_rule_triggers",
-                     "area":  "hermes-gateway-profile",
-                     "status":  "OPEN",
-                     "what":  "PLANNED - Hermes profile gateway server \u0027rule-triggers\u0027 is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
-                     "evidence":  "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares rule-triggers -\u003e C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\rule_triggers_server.py; target_present=False",
-                     "impact":  "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
-                     "fix_requires":  "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
-                     "owner":  "Popy"
-                 },
-                 {
-                     "id":  "HPROF_learning_loop",
-                     "area":  "hermes-gateway-profile",
-                     "status":  "OPEN",
-                     "what":  "PLANNED - Hermes profile gateway server \u0027learning-loop\u0027 is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
-                     "evidence":  "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares learning-loop -\u003e C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\learning_loop_server.py; target_present=False",
-                     "impact":  "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
-                     "fix_requires":  "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
-                     "owner":  "Popy"
-                 },
-                 {
-                     "id":  "HPROF_context_pressure",
-                     "area":  "hermes-gateway-profile",
-                     "status":  "OPEN",
-                     "what":  "PLANNED - Hermes profile gateway server \u0027context-pressure\u0027 is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
-                     "evidence":  "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares context-pressure -\u003e C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\context_pressure_server.py; target_present=False",
-                     "impact":  "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
-                     "fix_requires":  "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
-                     "owner":  "Popy"
-                 },
-                 {
-                     "id":  "HPROF_web_tools",
-                     "area":  "hermes-gateway-profile",
-                     "status":  "OPEN",
-                     "what":  "PLANNED - Hermes profile gateway server \u0027web-tools\u0027 is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
-                     "evidence":  "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares web-tools -\u003e -y @modelcontextprotocol/server-fetch; target_present=None",
-                     "impact":  "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
-                     "fix_requires":  "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
-                     "owner":  "Popy"
-                 },
-                 {
-                     "id":  "HPROF_filesystem",
-                     "area":  "hermes-gateway-profile",
-                     "status":  "OPEN",
-                     "what":  "PLANNED - Hermes profile gateway server \u0027filesystem\u0027 is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
-                     "evidence":  "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares filesystem -\u003e -y @modelcontextprotocol/server-filesystem; target_present=None",
-                     "impact":  "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
-                     "fix_requires":  "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
-                     "owner":  "Popy"
-                 },
-                 {
-                     "id":  "HPROF_browser",
-                     "area":  "hermes-gateway-profile",
-                     "status":  "OPEN",
-                     "what":  "PLANNED - Hermes profile gateway server \u0027browser\u0027 is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
-                     "evidence":  "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares browser -\u003e -y @playwright/mcp; target_present=None",
-                     "impact":  "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
-                     "fix_requires":  "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
-                     "owner":  "Popy"
-                 },
-                 {
-                     "id":  "HPROF_git",
-                     "area":  "hermes-gateway-profile",
-                     "status":  "OPEN",
-                     "what":  "PLANNED - Hermes profile gateway server \u0027git\u0027 is declared in OPTIMUS_MCP_CONFIG.json and not yet constructed. This is the plan, not a defect.",
-                     "evidence":  "blueprint 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json declares git -\u003e -y @modelcontextprotocol/server-git; target_present=None",
-                     "impact":  "one of nine Hermes profile gateway servers; the swarm cannot be complete while this profile has no server",
-                     "fix_requires":  "Construct the server in the Hermes gateway. DO NOT remove the declaration: the blueprint is the plan, and a gap is closed by upgrading the system, never by deleting the line that names it.",
-                     "owner":  "Popy"
-                 },
-                 {
-                     "id":  "HERMES_GATEWAY_PROFILES",
-                     "area":  "architecture",
-                     "status":  "OPEN",
-                     "what":  "The Hermes gateway is to carry one server per Hermes profile - nine profiles, nine servers. The four profile mailboxes (SENTINEL-DESKTOP, SENTINEL-COWORK, SENTINEL-CHAT, CODER-APP) are already in place as scaffolding.",
-                     "evidence":  "9 servers declared in OPTIMUS_MCP_CONFIG.json; 4 profile mailboxes present under 09_LOGS/cross_instance/mailbox/",
-                     "impact":  "the multi-profile swarm cannot be built until the gateway carries its servers",
-                     "fix_requires":  "Build each profile\u0027s gateway server in turn. The blueprints and the empty profile mailboxes are scaffolding: they come down only when the building is finished, not because the building is not up yet.",
+                     "what":  "The blueprint launches its two npm-backed profile servers (filesystem, browser) with the bare command \u0027npx\u0027, which is not directly spawnable on Windows: npx resolves to a batch file, and the form that actually runs lives in the live MCP profile, not in the declaration.",
+                     "evidence":  "Measured 2026-10-28T06:52:38+02:00 with a real stdio MCP launch of the declared command and args: FileNotFoundError [WinError 2]. shutil.which(\u0027npx\u0027) = C:\\Program Files\\nodejs\\npx.CMD; `where npx` lists npx, npx.cmd and npx.ps1 in three roots. The live profile registers the capability through the installed shims instead: mcp-server-filesystem.cmd and agent-browser-mcp-server.cmd.",
+                     "impact":  "An agent that follows 07_BACKBONE/mcp/OPTIMUS_MCP_CONFIG.json literally cannot start the filesystem or browser profile server. The working form is real but lives elsewhere, so the declaration and the runtime disagree.",
+                     "fix_requires":  "R0 - repointing a blueprint declaration is an operator decision. The blueprint is the target, not a snapshot, so it is not edited here to match the present. Precedent on 2026-10-10: web-tools and git were repointed from phantom npx packages to local servers, by decision, with the reasoning recorded in builtFromScaffolding.",
                      "owner":  "Popy"
                  }
-             ]
+             ],
+    "gaps_closed_count":  13,
+    "gaps_closed_ids":  [
+                            "BIN_TESSERACT",
+                            "WIRING_MCP",
+                            "ARTIFACT_EMPTY",
+                            "HPROF_prime_bridge",
+                            "HPROF_sentinel_state",
+                            "HPROF_rule_triggers",
+                            "HPROF_learning_loop",
+                            "HPROF_context_pressure",
+                            "HPROF_web_tools",
+                            "HPROF_filesystem",
+                            "HPROF_browser",
+                            "HPROF_git",
+                            "HERMES_GATEWAY_PROFILES"
+                        ]
 }
