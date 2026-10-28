@@ -197,6 +197,20 @@ neconstruite (`gateway\package.json`) · două căi numite **expre ca inexistent
 `.json` și inventezi un pointer rupt care nu există — exact ce s-a întâmplat la
 prima rulare, unde `state-history.jsonl` a apărut ca `state-history.json`.
 
+### Prima ușă, auditată contra discului — 03:55
+
+Cele două documente pe care instanța nouă le citește **prima** au fost verificate
+pe disk, nu din memorie. Ce a ieșit:
+
+| Ce | Măsurat | Acțiune |
+|---|---|---|
+| Reviziile din `EVOLUTION.md` | **R17 e ultima** | priming prompt-ul spunea „R1…R18" → corectat la **R1…R17** |
+| Fișiere în `14_HANDOFF\` necuprinse în index | **2**: `00_INTRARE_HANDBOOK.md`, `Last_active_goal-28-10-2026.txt` | **indexate**, cu ce sunt și de unde vin |
+| `00_INTRARE_HANDBOOK.md` deschide cu „citește asta primul" | scris la stadiul din 6 oct | **marcat ca depășit** — intrarea reală e priming prompt-ul |
+| „62 skills" în rândul despre `06_SKILLS_AND_MCP.md` | cifră de la 6 oct | **datat explicit**; cei 26 de tool-uri SENTINEL sunt **măsurați azi** la 26 |
+| Erori de scriere în priming prompt | **2** | corectate |
+| Intrări noi în sweep după corectări | 126 tokenuri, 113 rezolvate, **13 explicate, 0 rupt** | — |
+
 Diferența față de `521/0/0` și `63/0/1` de mai sus: **suprafețe adăugate**, nu
 teste slăbite. Collectorul produce acum 29 de suprafețe (erau 25), iar
 `test_deployment.py` a primit un test nou, `handshake_refresh`, cu 3 verificări

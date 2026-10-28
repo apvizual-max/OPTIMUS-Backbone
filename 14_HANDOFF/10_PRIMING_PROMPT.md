@@ -63,7 +63,7 @@ Nu se ascunde și nu se șterge nicio cifră brută; reprezentarea grafică se
 adaugă peste ea.
 
 ═══════════════════════════════════════════════════════════════
-4. CUM VERIFICI (REGULA CARE OPELEște DE FIECARE DATĂ)
+4. CUM VERIFICI (REGULA CARE OPREȘTE DE FIECARE DATĂ)
 ═══════════════════════════════════════════════════════════════
 
 O cifră citită din memorie e o afirmație. O cifră măsurată acum e o dovadă.
@@ -97,7 +97,7 @@ Regula, pentru orice limită de prospețime:
   - există scriitor cu ceas?  -> păstrează limita
   - nu există scriitor deloc? -> ADAUGĂ scriitorul pe buclă
 Handshake-ul MCP era al doilea caz: acum rulează pe bucla de refresh, la 144
-de cicluri (~1 oră), deci mcp_tools_wired nu mai cad în roșu peste 24 de ore.
+de cicluri (~1 oră), deci mcp_tools_wired nu mai cade în roșu peste 24 de ore.
 
 core.hooksPath gol NU e un defect: e starea intenționată. LiveReview rulează
 doar după push, niciodată la comit - pentru că pe 2026-10-11 bloca fiecare
@@ -143,6 +143,7 @@ Cele mai importante, pe scurt:
 14_HANDOFF\00_README.md               indexul pachetului
 14_HANDOFF\11_SESSION_HANDOFF_2026-10-28.md   ← starea de acum, citeste asta primul
 14_HANDOFF\12_GIT_GITHUB_STATE.md     ← starea exactă a repo-ului
+14_HANDOFF\SKILLS\MANIFEST.md        ← ce aduce fiecare skill, și de unde vine
 14_HANDOFF\10_PRIMING_PROMPT.md       ← acest document
 14_HANDOFF\01_BUILD_STATUS.md         ce e viu, ce e puternic, ce e slab
 14_HANDOFF\02_GAPS.md                 gap-uri, separate în BUG și SCAFFOLDING
@@ -150,7 +151,7 @@ Cele mai importante, pe scurt:
 14_HANDOFF\06_SKILLS_AND_MCP.md       cele 26 de tool-uri SENTINEL, profilul MCP
 14_HANDOFF\07_OPERATIONS.md          cum rulezi, oprești, repornești, testezi
 14_HANDOFF\09_ROADMAP.md             ce urmează, în ordine, cu dependențe
-13_COMMAND_CENTER\EVOLUTION.md        R1…R18 — istoricul măsurărilor și al defectelor
+13_COMMAND_CENTER\EVOLUTION.md        R1…R17 — istoricul măsurărilor și al defectelor
 11_BRAIN\04_METHOD\MISSTEPS_AND_CORRECTIONS.md   M-01…M-30, append-only
 
 ═══════════════════════════════════════════════════════════════

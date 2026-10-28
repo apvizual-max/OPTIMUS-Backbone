@@ -41,12 +41,19 @@ python survey_build.py
 | 03 | `03_ARCHITECTURE_SPEC.md` | The system as actually built, with measured file sizes and routes. |
 | 04 | `04_BLUEPRINTS.md` | The nine Hermes gateway profiles, and every future design. |
 | 05 | `05_DEPENDENCIES.md` | Every external dependency, what it is, whether it resolves. |
-| 06 | `06_SKILLS_AND_MCP.md` | The 26 SENTINEL tools, the live MCP profile, 62 skills. |
+| 06 | `06_SKILLS_AND_MCP.md` | The 26 SENTINEL tools (still 26 — re-measured 28 Oct), the live MCP profile, and the skill roster as it stood on 6 Oct. |
 | 07 | `07_OPERATIONS.md` | How to run, stop, restart, test and troubleshoot this. |
 | 08 | `08_CONSTRUCTION_SCHEMA.md` | **How to add work correctly.** Read before building anything. |
 | 09 | `09_ROADMAP.md` | What comes next, in order, with dependencies between steps. |
 | — | `HANDOFF.md` | The one-page state of play for the next session. |
+| — | `00_INTRARE_HANDBOOK.md` | Handbook from the **6 Oct stage** (updated 10 Oct). It opens with "read this first" — **that order is superseded**: the current entry point is `10_PRIMING_PROMPT.md` above. Kept because it explains the project's *purpose* in a way nothing else does. |
+| — | `Last_active_goal-28-10-2026.txt` | The goal of an **earlier** stage (UI maturation), kept as context for the long arc. It is **not** the current goal — the current one is the handoff itself. Valid UTF-8, no BOM; a terminal with the wrong codepage can make it look corrupted. |
 | — | `_BUILD_SURVEY.json` | Raw measurement. 30,136 bytes. The source for every number above. |
+
+**The `.bak-2026…` files in this folder are the session's backups**, kept per the
+rule that an edited file keeps its previous version. They are not content and
+are not part of the reading order; the same rule says nothing is deleted to
+make a folder tidy.
 
 ### Four things that changed after this package was written
 

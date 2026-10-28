@@ -80,12 +80,25 @@ STALE back."*
 
 | | Măsurat |
 |---|---|
-| Tokenuri de fișiere citite din documentele de predare | **121** distincte |
-| Rezolvate la prima încercare | **110** |
-| Nerezolvate | **11 — toate explicate**: cozi de nume în proză, căi absolute din afara proiectului, ținte de blueprint, și două căi numite **expre ca inexistente** |
+| Tokenuri de fișiere citite din documentele de predare | **126** distincte |
+| Rezolvate la prima încercare | **113** |
+| Nerezolvate | **13 — toate explicate**: cozi de nume în proză, căi absolute din afara proiectului, ținte de blueprint, și două căi numite **expre ca inexistente** |
 | **Pointer-uri rupte** | **0** |
 | Fișiere scrise azi | **toate BOM-free, strict UTF-8** (măsurat pe octeți) |
 | Skilluri în pachet | **9**, fiecare **byte-identic** cu sursa (verificat prin hash) |
+
+### Prima ușă, auditată cap la cap — 03:55
+
+Cele două documente pe care instanța nouă le citește **prima** au fost verificate
+contra discului, nu contra memoriei:
+
+| Ce | Măsurat | Ce s-a corectat |
+|---|---|---|
+| Reviziile din `EVOLUTION.md` | **R17 e ultima** | priming prompt-ul spunea „R1…R18" → **R1…R17** |
+| Fișiere în `14_HANDOFF\` necuprinse în index | **2** (`00_INTRARE_HANDBOOK.md`, `Last_active_goal-28-10-2026.txt`) | **indexate**, cu ce sunt și de unde vin |
+| `00_INTRARE_HANDBOOK.md` zice „citește asta primul" | de la stadiul din 6 oct | **marcat ca depășit** — intrarea e acum priming prompt-ul |
+| „62 skills" în rândul despre `06_SKILLS_AND_MCP.md` | de la 6 oct | **datat explicit**; cei 26 de tool-uri SENTINEL sunt **măsurați azi** la 26 |
+| Erori de scriere în priming prompt | 2 (`OPELEște`, „nu mai cad") | **corectate** |
 
 ### Skilluri — actualizate și transmise
 
