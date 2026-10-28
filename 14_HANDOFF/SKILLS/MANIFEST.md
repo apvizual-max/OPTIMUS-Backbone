@@ -12,7 +12,7 @@ directorul de skilluri al agentului.
 | Fișier | De unde | Ce aduce |
 |---|---|---|
 | `mavis-autonomous-operator-skill.SKILL.md` | agent | modul general de lucru: gândirea e peste făcere, trei treceri, când te oprești și când nu |
-| `mavis-git-autonom-skill.SKILL.md` | agent | §14: repo-ul trebuie să se poată clona; rețeta de reparare a arborelui cu cale absolută · **§15: orice comandă git se leagă de repository-ul potrivit** · **§16: `git add -A` ia tot ce e în director** |
+| `mavis-git-autonom-skill.SKILL.md` | agent | §14: repo-ul trebuie să se poată clona; rețeta de reparare a arborelui cu cale absolută · **§15: orice comandă git se leagă de repository-ul potrivit** · **§16: `git add -A` ia tot ce e în director** · **§17: un mesaj de commit cu ghilimele duble se sparge în PowerShell 5.1** |
 | `popy-project-status-report.SKILL.md` | agent | formatul fix al raportului + **starea Git/GitHub obligatorie** · **SHA-ul se citește, nu se memorează** |
 | `mavis-jules-contract-skill.SKILL.md` | agent | §8: pipeline-ul CD măsurat — cine scrie, că nu există CI, invariantul de ramură unică |
 | `mavis-sentinel-command-center-skill.SKILL.md` | agent | rețete server-side dovedite: ruta allowlist, trecerea octeților, poarta Origin · **limita fără scriitor: adaugă scriitorul, nu lărgește limita** |

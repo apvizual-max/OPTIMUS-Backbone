@@ -442,3 +442,34 @@ git diff --cached --name-only | Where-Object { $_ -ne '' } | Measure-Object -Lin
 - Nu tine material de lucru temporar in radacina unui repository pe care il
   comiti cu `git add -A`.
 - Nu comiti fara sa citesti lista de intrari pe care o vei introduce in istoric.
+
+### Un mesaj de commit cu ghilimele duble se sparge in PowerShell 5.1
+
+Masurat de doua ori in aceeasi sesiune. In PowerShell 5.1, un sir cu ghilimele
+duble trimis unui executabil nativ este re-cuotat si **cutat la ghilimele**:
+argumentul se sparge in mai multe, iar `git` primeste bucatile drept
+*pathspec-uri*.
+
+```
+error: pathspec 'asta' did not match any file(s) known to git
+```
+
+Mesajul e bun; comitul pur si simplu nu s-a facut. Se vede ca **eroare de
+ghilimele**, nu ca mesaj gresit — si apare ca pathspec-uri ciudate, care trimit
+la texte care *exista* in commit.
+
+**Solutia, in ordine de preferinta:**
+
+1. **Foloseste `git commit -F <fisier>`** — scrie mesajul intr-un fisier si
+   scapa de quoting-ul complet. Fisierul poate sta in directorul temporar al
+   sistemului, ca sa nu fie prins de `git add -A`.
+2. **Sau un mesag fara ghilimele duble** — cu apostrof pentru citare, cum in
+   exemplele de mai sus.
+
+Ce **nu** merge: `git commit -m "text cu "citare" in el"` in PowerShell 5.1.
+
+**Greseli de repetat.**
+- Nu trimite un mesaj de commit cu ghilimele duble ca argument direct in
+  PowerShell 5.1. Foloseste `-F <fisier>`.
+- Nu citi un *pathspec* care conține fragmente din mesajul tău ca pe o
+  problemă cu arborele. E quoting.
