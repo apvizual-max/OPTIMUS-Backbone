@@ -160,6 +160,20 @@ Commitul de reparare: **`e89887f`**, împins și verificat cu `git ls-remote`
 | Cele 2 STALE | `corpus_fresh` (1.966.320 s ≈ **22,8 zile**, limită 3.600 s) și `workflow_state_fresh` (360,6 s, limită 300 s) | 03:00 |
 | `HEAD` local = `origin/main` | **`27023fd`** — identic, 0 ahead / 0 behind | 02:45 |
 
+### Verificarea finală cu clonă nouă, de la zero — 03:34
+
+Pe starea **finală**, nu pe o stare intermediară:
+
+| | Măsurat |
+|---|---|
+| `git clone` de pe GitHub | **exit 0** |
+| `HEAD` al clonei = `origin/main` | **identic** |
+| `dirty` | **0** |
+| Fișiere urmărite | **1.489** |
+| Ramuri | **`main` doar** (plus `origin/HEAD`) |
+| Intrări invalide în arbore (`: într-o componentă de nume`) | **0** — defectul CRITICAL e mort, măsurat pe starea finală |
+| Livrabile verificate prezente | **13/13**, `missing = 0` |
+
 Diferența față de `521/0/0` și `63/0/1` de mai sus: **suprafețe adăugate**, nu
 teste slăbite. Collectorul produce acum 29 de suprafețe (erau 25), iar
 `test_deployment.py` a primit un test nou, `handshake_refresh`, cu 3 verificări
@@ -390,6 +404,15 @@ corectată aici):
 - **Nu s-a refăcut corpusul.** E materialul lui Popy.
 - **Nu s-a reformat istoricul.** Repararea e un commit nou, în linie.
 - **Nu s-a lărgit nicio limită de prospețime.** Măsurat și ratificat — vezi §4.
+- **Nu s-a șters raportul din 10 oct de la rădăcină.** Conținutul lui e identic
+  cu `raport-archive\raport-2026-10-10_20-04.md`, deci nimic nu se pierde, dar
+  **mutarea lui din rădăcină e o ștergere de material din proiect** — decizia
+  e a lui, nu a mea. E documentat în `00_README.md` ca să nu confunde
+  instanța nouă.
+- **Nu s-a atins fișierul `14_HANDOFF\Last_active_goal-28-10-2026.txt`.** E un
+  dump al unui obiectiv **supersedat** (evoluția UI a Command Center-ului), cu
+  rol de context pentru instanța nouă. Citit corect (UTF-8 strict, fără BOM) —
+  o afișare de terminal îl poate face să pară corupt, dar conținutul e bun.
 
 ---
 

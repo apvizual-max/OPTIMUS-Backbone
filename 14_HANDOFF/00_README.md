@@ -80,6 +80,16 @@ python survey_build.py
 current state. The live numbers are in file 11 and in the status report at the
 repository root.
 
+**Which report is the current one.** The repository root can hold more than one
+status report: **the current one is the newest by date** —
+`RAPORT DE STARE — SENTINEL PRIME DASHBOARD - 2026-10-28 03-31.md`. All
+superseded reports live in `raport-archive\`. One older copy is still at the
+root: `… 2026-10-10 20-04.md`, whose content is identical to
+`raport-archive\raport-2026-10-10_20-04.md`. **It was left in place on
+purpose** — removing material from the project root is not a call this session
+makes on its own. Nothing is lost either way: the content is in the archive and
+in the git history.
+
 ---
 
 ## The single most important rule in this project
