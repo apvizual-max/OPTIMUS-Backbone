@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "bot": "mavis-session-extract-bot-skill",
+  "bot_display_name": "Mavis Session Extract Bot",
+  "version": "1.0",
+  "created_at": "2026-10-28",
+  "purpose": "A hub of small, independent, per-source session-extraction skills. The bot owns the list, the shared contract, and the update loop; each member skill owns one source and knows how to pull that source's full, traceable session.",
+  "naming": {
+    "functional": "mavis-session-<artifact>-skill",
+    "meta": "mavis-bot-<process>-skill",
+    "rule": "One source per functional skill. The artifact word names WHAT is produced (transcript, transcript-archive, diff, map); the source is declared in the skill's frontmatter `source:` field, not in the folder name, so the same artifact type can exist once per source without name collisions."
+  },
+  "frontmatter_required": [
+    "name",
+    "description",
+    "role",
+    "bot"
+  ],
+  "roles": {
+    "hub": "the bot itself — owns the list and the contract",
+    "functional": "extracts sessions from one source",
+    "meta": "a process the bot needs to run (creation, verification, publication)"
+  },
+  "output_contract": {
+    "md": "<title>.md — full readable transcript text",
+    "jsonl": "<title>.jsonl — full machine-readable transcript, one object per message",
+    "manifest": "manifest.json — provenance, byte accounting, explicit gaps[]",
+    "raw": "raw\\ — verbatim copies of the source session's own sidecar files"
+  },
+  "skills": [
+    {
+      "name": "mavis-session-transcript-skill",
+      "role": "functional",
+      "source": "minimax-code-local-runtime",
+      "purpose": "Extract the FULL transcript of a local MiniMax Code session (every message, thinking block, tool call, and the tool outputs the runtime externalised to disk), with an independent coverage verifier.",
+      "status": "WIRED",
+      "path": "",
+      "added_at": "2026-10-27",
+      "verified": "2026-10-27 — 2.903 mesaje / 3.393 apeluri de unelte / 0 gapuri, verifier exit 0"
+    },
+    {
+      "name": "mavis-bot-creator-skill",
+      "role": "meta",
+      "source": "self",
+      "purpose": "The process of creating a new member skill for this bot: naming format, required structure, the linking procedure, and the definition of done.",
+      "status": "WIRED",
+      "path": "",
+      "added_at": "2026-10-28",
+      "verified": "2026-10-28 — created with the bot; template + checklist shipped"
+    }
+  ],
+  "planned_sources": [
+    {
+      "source": "minimax-code-local-runtime",
+      "skill": "mavis-session-transcript-skill",
+      "status": "WIRED",
+      "note": "Measured 2026-10-27: 2.903 mesaje extrase dintr-o sesiune de 16 zile, 0 gapuri."
+    },
+    {
+      "source": "minimax-code-cloud",
+      "skill": "(to be created)",
+      "status": "PLANNED",
+      "note": "Cloud sessions au NU au randuri locale. Interfata: tool-ul nativ `mavis session messages --source cloud`. Se va defini si in sectiunea cloud a MiniMax Code, conform cerintei lui Popy — aici doar planul."
+    },
+    {
+      "source": "qwen-studio",
+      "skill": "(to be created)",
+      "status": "PLANNED",
+      "note": "CLI v0.19.2 local + daemon HTTP optional. Interfata nu a fost identificata pe disc inca — se cauta la momentul construirii skill-ului, nu se ghicește."
+    },
+    {
+      "source": "deepseek",
+      "skill": "(to be created)",
+      "status": "PLANNED",
+      "note": "Sesiuni web-based. Interfata probabila: browser (agent-browser / chrome-devtools) cu profilul deja logat. De verificat pe disc."
+    },
+    {
+      "source": "web-browser-ai",
+      "skill": "(to be created)",
+      "status": "PLANNED",
+      "note": "Orice AI cu sesiune vizibila intr-un browser: capturarea DOM-ului + a traficului de retea, apoi aceeasi forma de output (.md/.jsonl/manifest.json/raw)."
+    },
+    {
+      "source": "hermes-local",
+      "skill": "(to be created)",
+      "status": "PLANNED",
+      "note": "Namespace SEPARAT de minimax (regula lui Popy din 2026-10-05): nu se atinge nimic din Hermes; se citeste doar ce e necesar pentru un transcript cerut explicit."
+    },
+    {
+      "source": "antigravity",
+      "skill": "(to be created)",
+      "status": "PLANNED",
+      "note": "CLI v1.2.5 + IDE. Localizarea stocului de sesiuni nu a fost inca identificata."
+    },
+    {
+      "source": "space-agent",
+      "skill": "(to be created)",
+      "status": "PLANNED",
+      "note": "Numit de Popy in lista surselor. Interfata exacta nu a fost identificata pe disc — se cauta la construire, nu se inventeaza."
+    }
+  ],
+  "update_loop": {
+    "rule": "A skill that is used gets updated. After EVERY extraction the member skill's runs.md gains an entry: the measured success with its numbers, or the error verbatim.",
+    "log": "scripts/log-run.mjs",
+    "registry": "scripts/bot-registry.mjs"
+  }
+}

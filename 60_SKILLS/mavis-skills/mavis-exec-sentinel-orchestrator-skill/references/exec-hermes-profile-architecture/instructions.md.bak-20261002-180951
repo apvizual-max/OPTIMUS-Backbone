@@ -1,0 +1,77 @@
+# Sub-Skill: exec-hermes-profile-architecture
+
+* **Description:** Structural guide to the 9 active agent profiles, including model-routing tables, context window configurations, and CPU/GPU hardware overrides.
+
+---
+
+# Hermes Profile Architecture & Hardware Optimization
+
+An operational skill describing the structure, configuration, and hardware optimizations of the 9 active agent profiles in Hermes.
+
+## When to Use
+- When modifying model routing configurations for specific profiles.
+- When configuring Ollama parameters for local model execution.
+- When adjusting context limits (`num_ctx`) or token predictors (`num_predict`) across the system.
+
+## Prerequisites
+- Access to the profiles directory: `C:\Users\apviz\AppData\Local\hermes\profiles\`.
+- Active Ollama local server (port 11434).
+
+---
+
+## 1. The 9 Agent Profiles & Model Routing
+Each profile is located in its own subfolder under `profiles/` containing a dedicated `config.yaml` and `.env`. 
+
+| Profile | Purpose / Agent | Cloud Default (OpenRouter) | Fallback / Local Model (Ollama) |
+|---|---|---|---|
+| `default` | Base Orchestrator | `stepfun/step-3.7-flash:free` | `sentinel-prime:latest` |
+| `prime` | Chief Executive Agent | `nvidia/nemotron-3-ultra-550b-a55b:free` | `sentinel-prime:latest` |
+| `assist` | Personal Assistant | `openai/gpt-oss-20b` (free) | `sentinel-assist:latest` |
+| `coder` | Developer Agent | `poolside/laguna-xs-2.1` (free) | `hermes-coder:latest` |
+| `translator` | ROM ↔ ENG Translator | `google/gemini-2.5-pro` | `hermes-translator:latest` |
+| `cli-prime` | System CLI executor | `qwen/qwen-2.5-coder-32b-instruct:free` | `sentinel-coo:latest` |
+| `cowork` | Task Planner / Manager | `meta-llama/llama-3.3-70b-instruct:free` | `sentinel-ceo:latest` |
+| `designer` | Creative Asset Builder | `meta-llama/llama-3.3-70b-instruct:free` | `sentinel-designer:latest` |
+| `trader` | Market Analyst | `deepseek/deepseek-r1` | `sentinel-cfo:latest` |
+
+---
+
+## 2. Hardware and Context Limits Optimizations
+To support local execution under hardware constraints, specific parameter tuning is compiled into all local Ollama modelfiles.
+
+### A. Context Size Optimization (`num_ctx 131072`)
+Hermes requires at least 64k tokens to boot. Local profiles are configured to compile local model variants with `PARAMETER num_ctx 131072` (128k context) to prevent startup crashes.
+
+### B. Output Truncation Bypass (`num_predict -1`)
+To prevent local models (like Gemma 4) from cutting off long outputs prematurely, models are compiled with `PARAMETER num_predict -1` (unlimited completion length).
+
+### C. CPU QPI Bus Lag Fix (`num_thread 12`)
+The server runs on dual-socket Intel Xeon E5-2690 v3 CPUs. If a thread-count exceeds the physical core count of a single socket (12 cores), data must cross the slow Intel QPI socket bridge.
+Local Ollama modelfiles are compiled with `PARAMETER num_thread 12` to force generation to stay entirely on a single CPU socket, avoiding this bus latency.
+
+---
+
+## 3. Configuration Structures
+
+### Profile `config.yaml` Sample:
+```yaml
+model:
+  default: stepfun/step-3.7-flash:free
+  provider: nous
+  base_url: https://inference-api.nousresearch.com/v1
+  context_length: 131072
+  reasoning_effort: high
+providers:
+  ollama:
+    api_key: ollama
+    base_url: http://localhost:11434/v1
+fallback_providers: '["gemini"]'
+```
+
+### Profile `.env` Sample:
+```env
+GOOGLE_API_KEY=GOOGLE_API_KEY=[REDACTED-2026-10-02]
+GEMINI_API_KEY=GOOGLE_API_KEY=[REDACTED-2026-10-02]
+OPENROUTER_API_KEY=OPENROUTER_API_KEY=[REDACTED-2026-10-02]
+```
+*(Note: Per-profile config files in `/profiles/<name>/config.yaml` take precedence over the global `/config.yaml` file).*

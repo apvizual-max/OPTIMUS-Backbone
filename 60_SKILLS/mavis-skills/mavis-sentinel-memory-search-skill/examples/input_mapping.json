@@ -1,0 +1,7 @@
+{
+  "properties": {
+    "title": {"type": "text"},
+    "tags": {"type": "keyword"},
+    "created_at": {"type": "date"}
+  }
+}
