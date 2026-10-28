@@ -1,0 +1,19 @@
+=== GOOGLE — LINK DE AUTORIZARE ===
+
+Generat: 2026-10-22 03:27
+Mod: implicit (token viu → select_account, NU revocă)
+
+--- LINK (copiaza tot cu tot) ---
+
+https://accounts.google.com/o/oauth2/v2/auth?client_id=1068987308935-bp47aoerh6gu1aohm74blfhnccnku773.apps.googleusercontent.com&redirect_uri=http%3A%2F%2F127.0.0.1%3A8976&response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.modify+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdocuments+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fspreadsheets+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fpresentations&access_type=offline&prompt=select_account&include_granted_scopes=true
+
+--- CE FACI CU EL ---
+
+1. Deschide linkul in browser.
+2. Contul apvizual@gmail.com -> Continue -> Allow.
+3. Browserul va incerca http://127.0.0.1:8976 si da ecran gol sau eroare.
+   ASTA E NORMAL — nimic nu ruleaza acolo.
+4. Copiaza bara de adresa intreaga (contine ?code=...).
+5. Trimite-o inapoi la Mavis Cloud.
+
+IMPORTANT: client_id e identificator public, nu secret. Nu trimite client_secret.

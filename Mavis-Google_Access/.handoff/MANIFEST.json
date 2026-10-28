@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 1,
+  "kind": "handoff",
+  "subject": "Google Access — permanent Google connection on this station",
+  "created_at": "2026-10-28",
+  "measured_at": "2026-10-28T00:03Z .. 2026-10-28T01:54Z",
+  "for": "a session with zero context and zero memory",
+  "entry_point": "PRIMING-PROMPT.md",
+  "root": "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Google_Access\\.handoff",
+  "files": [
+    {
+      "name": "README.md",
+      "purpose": "the entry point: what this is, what to read first, the one command that decides"
+    },
+    {
+      "name": "PRIMING-PROMPT.md",
+      "purpose": "the copy-ready prompt for the new session: goal, commands, measured state, rules, skills"
+    },
+    {
+      "name": "HANDOFF-GOOGLE-ACCESS.md",
+      "purpose": "the complete handoff: the contract, the procedures, the known limits, what must not be redone"
+    },
+    {
+      "name": "SKILLS-INDEX.md",
+      "purpose": "every skill that matters, indexed and linked: 9 members + 27 references + the pattern skills"
+    },
+    {
+      "name": "STATE-MEASURED.md",
+      "purpose": "the measured state, dated, with the command that reproduces each number"
+    },
+    {
+      "name": "MANIFEST.json",
+      "purpose": "this file — the machine-readable index"
+    }
+  ],
+  "control_point": {
+    "command": "node \"C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Google_Access\\scripts\\ga-doctor.mjs\"",
+    "checks": 11,
+    "verdict": "PASS",
+    "exit_code": 0,
+    "exit_codes": { "0": "green - a WARN (transient refusal that did not recover) is still 0", "2": "a check failed", "3": "the control point crashed - never green" },
+    "falsified": [
+      "--self-test --fail C1.container -> VERDICT=FAIL exit 2",
+      "--self-test --fail C10.mcp-paths -> VERDICT=FAIL exit 2",
+      "--self-test -> SELFTEST probes=3 falsified=2 blocked=1 expectations_met=3/3 VERDICT=PASS exit 0"
+    ],
+    "spec": "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Google_Access\\docs\\PUNCT-DE-CONTROL.md"
+  },
+  "measured": {
+    "container": {
+      "name": "Google_Access",
+      "image": "google-access:1.0.10",
+      "state": "Up 13 minutes (healthy)",
+      "port": "127.0.0.1:8766",
+      "restart": "unless-stopped",
+      "volumes": {
+        "rw": "C:\\Users\\apviz\\.minimax\\google-access\\data -> /data",
+        "ro": "E:\\--- System Secrets -> /secrets"
+      },
+      "credential_in_image": false,
+      "running_sha256": "63e4ea8d2bbb",
+      "repo_sha256": "63e4ea8d2bbb",
+      "running_equals_repo": true
+    },
+    "grant": {
+      "account": "apvizual@gmail.com",
+      "scopes": 33,
+      "tools": 32,
+      "live": true
+    },
+    "services": { "OK": 14, "REFUSED": 2, "ERROR": 0, "SKIP": 0 },
+    "refusals": [
+      { "service": "keep", "http": 403, "reason": "Google publishes no grantable OAuth scope for Keep", "status": "accepted by decision" },
+      { "service": "sites", "http": 404, "reason": "the Google Sites API was retired", "status": "accepted by decision" }
+    ],
+    "transient_refusals": [
+      {
+        "service": "books",
+        "http": 503,
+        "reason": "Google Books backend blip - measured on 3 of 5 raw probes (01:59:41Z, 02:01:48Z, 02:05:26Z); OK on the other 2",
+        "status": "transient - C3.services re-probes up to 4 attempts and prints the cause; recovered -> state=HEALTHY, not recovered -> state=DEGRADED_TRANSIENT -> WARN, exit 0"
+      }
+    ],
+    "mcp": {
+      "servers_registered": 22,
+      "paths_checked": 23,
+      "paths_dead": 0,
+      "handshakes": {
+        "minimax-notebooklm": { "server": "minimax-notebooklm", "tools": 4 },
+        "gdrive-mcp": { "tools": 9 },
+        "gmail-mcp": { "tools": 36 },
+        "docker-mcp": { "server": "docker-agent", "tools": 19 }
+      }
+    },
+    "extendlm": {
+      "token_minutes_left": 109,
+      "refresh_token_present": true,
+      "refresh_token_length": 87,
+      "cloud_secret_age_minutes": 11,
+      "notebooks": {
+        "JULES": 182,
+        "GEMINI & AI Studio": 251,
+        "CV-Automation": 98,
+        "SENTINEL Role": 225,
+        "AGENTS": 8,
+        "TRADE": 1,
+        "CV-Notebook": 99,
+        "CLIENTS": 2,
+        "OPTIMUS System": 5
+      }
+    },
+    "photos": {
+      "captured_files": 6,
+      "all_real_jpegs": true,
+      "session_state": "consumed",
+      "session_expires": "2026-11-03T22:45:51.866639Z",
+      "automatic_capture_task": "MavisPickerHeartbeat"
+    },
+    "tasks": {
+      "Google_Access_Watch": 0,
+      "Google_Access_Consent": 0,
+      "Google_Access_Doctor": 0,
+      "MavisExtendLMHeartbeat": 0,
+      "MavisPickerHeartbeat": 0
+    },
+    "repos": {
+      "Mavis-Google_Access": { "branch": "main", "head_at_measurement": "87f963b", "divergence": "0/0", "clean": true, "contains_handoff": true },
+      "OPTIMUS-Backbone": { "head": "267ef3c", "origin": "267ef3c", "divergence": "0/0", "clean": true }
+    },
+    "handoff_commit": {
+      "introduced_in": "3c97e18",
+      "branch": "main",
+      "pushed": true,
+      "verified_by": "git ls-remote origin refs/heads/main",
+      "note": "the .handoff folder is versioned - the transfer is a git pull, not a file copy; a commit cannot contain its own SHA, so the anchor is the commit that introduced the folder"
+    },
+    "gates": {
+      "secret_scan": { "scanned_lines": 883, "blocks": 0, "warns": 0, "scope": "staged diff of the handoff commit" },
+      "secret_scan_whole_repo": {
+        "scanned_files": 105,
+        "blocks": 4,
+        "warns": 0,
+        "scope": "whole repo index, measured 2026-10-28T02:09Z - all 4 blocks were PRE-EXISTING and already published: official example tokens (AKIA-EXEMPLU-AWS, xoxb EXEMPLU) in the Cloud-side docs under 'Mavis-Cloud - GOOGLE_Setup_Session'. None was in a file changed by this handoff update; each of the 8 changed files scanned individually returns BLOCKS=0 WARNS=0. Corrected 02:12Z: the example tokens were masked in source, so the whole-repo gate is usable instead of permanently red on old material."
+      },
+      "encoding": { "files_checked": 105, "problems": 0, "bom": 0 }
+    }
+  },
+  "bot": {
+    "name": "mavis-google-access-bot",
+    "path": "C:\\Users\\apviz\\.minimax\\agents\\mavis\\skills\\mavis-google-access-bot",
+    "registry": "scripts/bot-registry.mjs",
+    "members": [
+      "mavis-skill-google-access-control-point",
+      "mavis-skill-docker-access-point",
+      "mavis-skill-browser-mcp",
+      "mavis-skill-mcp-development",
+      "mavis-skill-photo-picker",
+      "mavis-skill-notebooklm-extendlm",
+      "mavis-skill-google-keep-sites",
+      "mavis-skill-access-handoff",
+      "mavis-skill-background-task-verdict"
+    ],
+    "references": 27,
+    "pattern_followed": "mavis-session-extract-bot-skill",
+    "naming": "mavis-skill-<capability> (specified by Popy, 2026-10-28)"
+  },
+  "human_actions_remaining": [
+    "the consent click - only when Google demands it (the listener is permanent on port 80, task every 5 min)",
+    "the photo selection in the Photo Picker (everything after the click is automatic)"
+  ],
+  "never_do": [
+    "rebuild or reconfigure the settings",
+    "re-authenticate unless Google demands it and the control point shows reauth_required=true",
+    "add a Google scope without verifying it first - one invalid scope invalidates the whole consent request",
+    "read, print or copy the credential",
+    "run docker container prune -a",
+    "touch the Hermes namespace - duplication is correct, sharing is not",
+    "move content between repos without comparing it - a file that is present but older is a regression"
+  ],
+  "roadmap": {
+    "browser_mcp_on_the_central_point": "PLANNED - see mavis-skill-browser-mcp section 4",
+    "second_docker_based_mcp": "PLANNED - the interface must be decided per capability",
+    "new_tools_in_the_container": "PLANNED - the route in mavis-skill-mcp-development section 3",
+    "keep_automation": "DEFERRED_BY_USER - needs a grantable scope to exist in the current Google directory",
+    "sites_automation": "DEFERRED_BY_USER - the API is retired; only a migration to Drive remains",
+    "drive_side_import": "PLANNED - belongs to the Drive side, not to this container",
+    "google_cloud": "OUT_OF_SCOPE - excluded by Popy's instruction"
+  }
+}

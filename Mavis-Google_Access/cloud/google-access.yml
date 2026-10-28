@@ -1,0 +1,112 @@
+name: google-access
+# Permanent Google connectivity for the Cloud side.
+#
+# The image is built from the PUBLIC source of truth
+# (apvizual-max/Mavis-Google_Access -> container/), the credential comes from
+# one Actions secret, and the probe below makes REAL API calls - it does not
+# check a scope list, it checks what Google answers.
+#
+# The credential is never printed: it is base64 in a secret, decoded straight
+# into the mounted volume, and the volume is discarded with the runner.
+#
+# It does NOT run on pull_request: a secret must never be reachable from a
+# pull request.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 6 * * *"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/google-access.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: google-access
+  cancel-in-progress: true
+
+jobs:
+  google-access:
+    name: Google access probe
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout the source of truth
+        run: |
+          git clone --depth 1 https://github.com/apvizual-max/Mavis-Google_Access.git _src
+          echo "SOURCE_COMMIT=$(git -C _src rev-parse HEAD)"
+
+      - name: Diagnose the secret shape (counts only, never the value)
+        env:
+          S: ${{ secrets.GOOGLE_ACCESS_CREDENTIAL_B64 }}
+        run: |
+          echo "SECRET_LEN=${#S}"
+          echo "SECRET_FOREIGN_CHARS=$(printf '%s' "$S" | tr -d 'A-Za-z0-9+/=' | wc -c)"
+          echo "SECRET_FOREIGN_HEX=$(printf '%s' "$S" | tr -d 'A-Za-z0-9+/=' | od -An -t x1 | tr -s ' ' | tr -d '\n')"
+          echo "SECRET_PADDING=$(printf '%s' "$S" | tr -cd '=' | wc -c)"
+          echo "SECRET_EQ_POS=$(printf '%s' "$S" | awk '{print index($0,"=")}')"
+          echo "SECRET_LEN_MOD4=$(( ${#S} % 4 ))"
+          echo "SECRET_VALID_B64_CHARS=$(printf '%s' "$S" | tr -dc 'A-Za-z0-9+/=' | wc -c)"
+
+      - name: Materialize the credential from the secret
+        env:
+          GOOGLE_ACCESS_CREDENTIAL_B64: ${{ secrets.GOOGLE_ACCESS_CREDENTIAL_B64 }}
+        run: |
+          mkdir -p _src/data
+          # A UTF-8 BOM (ef bb bf) written in front of the value breaks the
+          # decoder; measured, not guessed. Strip it, then the newlines.
+          printf '%s' "$GOOGLE_ACCESS_CREDENTIAL_B64" | sed '1s/^\xEF\xBB\xBF//' | tr -d '\r\n' | base64 -d > _src/data/credentials.json
+          if [ ! -s _src/data/credentials.json ]; then
+            echo "FATAL=credential secret missing or empty"
+            exit 1
+          fi
+          # Never print the credential: report only its shape.
+          node -e 'const c=require("./_src/data/credentials.json");console.log("CREDENTIAL_FIELDS="+Object.keys(c).join(",")+"scope_chars="+String(c.scope||"").length)'
+
+      - name: Materialize the ExtendLM credential from the secret
+        env:
+          GOOGLE_EXTENDLM_CREDENTIAL_B64: ${{ secrets.GOOGLE_EXTENDLM_CREDENTIAL_B64 }}
+        run: |
+          # Optional on purpose: without the secret the probe reports notebooklm
+          # as REFUSED, it does not fail the run.
+          if [ -z "$GOOGLE_EXTENDLM_CREDENTIAL_B64" ]; then
+            echo "EXTENDLM_SECRET=absent (notebooklm stays REFUSED)"
+            exit 0
+          fi
+          # Same BOM guard as the Google credential: the decoder dies on a
+          # leading ef bb bf, so the value is stripped before it is decoded.
+          printf '%s' "$GOOGLE_EXTENDLM_CREDENTIAL_B64" | sed '1s/^\xEF\xBB\xBF//' | tr -d '\r\n' | base64 -d > _src/data/extendlm.json
+          if [ ! -s _src/data/extendlm.json ]; then
+            echo "FATAL=extendlm secret missing or empty"
+            exit 1
+          fi
+          node -e 'const c=require("./_src/data/extendlm.json");console.log("EXTENDLM_FIELDS="+Object.keys(c).join(",")+"token_len="+String(c.token||"").length+"refresh="+(c.refresh_token?"yes":"no"))'
+
+      - name: Build the image
+        run: docker build -t google-access:cloud _src/container
+
+      - name: Start the container
+        run: |
+          # GA_EXTENDLM_NO_REFRESH=1: the host owns the ExtendLM refresh token
+          # and rotates it. A second rotation from the Cloud would invalidate
+          # the host copy, so the Cloud only ever consumes the snapshot.
+          docker run -d --name Google_Access --restart unless-stopped \
+            -p 127.0.0.1:8766:8766 -e GA_PORT=8766 -e GA_EXTENDLM_NO_REFRESH=1 \
+            -v "$PWD/_src/data:/data" google-access:cloud
+          for i in $(seq 1 30); do
+            if curl -sf http://127.0.0.1:8766/health > /tmp/health.json; then break; fi
+            sleep 2
+          done
+          cat /tmp/health.json
+
+      - name: Probe every service against the live Google APIs
+        run: |
+          set +e
+          node _src/container/probe-services.mjs --out /tmp/probe.txt
+          code=$?
+          cat /tmp/probe.txt
+          echo "PROBE_EXIT=$code"
+          exit $code
