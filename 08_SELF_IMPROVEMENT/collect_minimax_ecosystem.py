@@ -508,6 +508,27 @@ def collect_design_integration() -> None:
     if not DESIGN_DIR.exists():
         add("design_gateway", "Design gateway", NOT_AVAILABLE, None,
             f"MINIMAX Design is not installed at {DESIGN_DIR}", str(DESIGN_DIR))
+        # The install root being absent is a MEASUREMENT, not a reason to leave
+        # holes in the inventory. A surface that cannot be measured is still
+        # NAMED, with the reason it could not be measured - exactly like a
+        # missing key that reads NOT_MEASURED instead of a silent blank. A
+        # reader must be able to see that the route loader, the cloud hosts
+        # and the cloud reach were looked for and not found, instead of
+        # inferring it from their absence.
+        #
+        # Measured 2026-10-28: the install root existed on 2026-10-05 and is
+        # absent now. The app was uninstalled, or moved. Which one is not
+        # knowable from here, so it is not claimed.
+        for _sid, _label in (
+            ("design_route_loader", "Design route loader"),
+            ("design_cloud_hosts", "Design cloud gateway hosts"),
+            ("design_cloud_reach", "Design cloud reachability"),
+            ("design_cloud_auth", "Design cloud credential"),
+        ):
+            add(_sid, _label, NOT_AVAILABLE, None,
+                f"MINIMAX Design is not installed at {DESIGN_DIR}, so this "
+                f"surface could not be measured - not available, not zero, "
+                f"and not working", str(DESIGN_DIR))
         return
 
     res = DESIGN_DIR / "current" / "resources"

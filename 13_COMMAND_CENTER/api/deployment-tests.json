@@ -1,16 +1,16 @@
 {
   "suite": "mavis-sentinel-hub deployment e2e",
-  "generated_at": "2026-10-11T02:16:09",
-  "passed": 47,
+  "generated_at": "2026-10-28T02:40:50",
+  "passed": 63,
   "failed": 0,
   "not_run": 1,
-  "total": 48,
+  "total": 64,
   "green": true,
   "checks": [
     {
       "id": "engine_available",
       "status": "PASS",
-      "detail": "docker server 29.8.1"
+      "detail": "docker server 29.9.2"
     },
     {
       "id": "precondition_serving",
@@ -60,7 +60,7 @@
     {
       "id": "loopback_only",
       "status": "PASS",
-      "detail": "8910 refused on 3 non-loopback address(es): 172.21.224.1, 172.30.224.1, 192.168.1.193"
+      "detail": "8910 refused on 3 non-loopback address(es): 172.17.192.1, 172.21.224.1, 192.168.1.193"
     },
     {
       "id": "port_binding",
@@ -70,7 +70,7 @@
     {
       "id": "route_root",
       "status": "PASS",
-      "detail": "200 121635 B"
+      "detail": "200 122479 B"
     },
     {
       "id": "route_healthz",
@@ -80,22 +80,22 @@
     {
       "id": "route_readyz",
       "status": "PASS",
-      "detail": "200 90405 B"
+      "detail": "200 98242 B"
     },
     {
       "id": "route_api_state",
       "status": "PASS",
-      "detail": "200 90405 B"
+      "detail": "200 98242 B"
     },
     {
       "id": "route_api_health",
       "status": "PASS",
-      "detail": "200 20229 B"
+      "detail": "200 20332 B"
     },
     {
       "id": "served_by_front",
       "status": "PASS",
-      "detail": "Server=nginx/1.31.6 X-SENTINEL-Deployment=mavis-sentinel-hub"
+      "detail": "Server=nginx/1.31.7 X-SENTINEL-Deployment=mavis-sentinel-hub"
     },
     {
       "id": "gateway_independent",
@@ -160,12 +160,12 @@
     {
       "id": "ecosystem_snapshot_fresh",
       "status": "PASS",
-      "detail": "snapshot age 146s, refreshed by the server's worker (bound 600s)"
+      "detail": "snapshot age 5s, refreshed by the server's worker (bound 600s)"
     },
     {
       "id": "ecosystem_route",
       "status": "PASS",
-      "detail": "200, 32 surfaces, counts={\"measured\": 32, \"not_available\": 0, \"error\": 0, \"total\": 32}"
+      "detail": "200, 29 surfaces, counts={\"measured\": 22, \"not_available\": 7, \"error\": 0, \"total\": 29}"
     },
     {
       "id": "action_whitelist_rejects",
@@ -228,9 +228,89 @@
       "detail": "across 4 list-bearing routes: every list over 25 is a declared inventory, each declared total matches what is shipped, the class count matches the suite that produced it, and no scan was truncated"
     },
     {
-      "id": "inventory_registry_discriminates",
+      "id": "inventory_registry_exempts_correctly",
       "status": "PASS",
-      "detail": "the registry exempts tests.classes but still reports rows[0].classes under the same leaf name; a declared total that disagrees with the shipped list, a declared total with no list behind it, an exemption no declared total can contradict, a pair naming a key the producer never writes, an exempt list with no total at all, a flat key that only looks like the nested inventory, a feed nested INSIDE a registered inventory, a flat impostor shadowed by a real nested inventory, and a total that is not an integer count are each reported - while the real flat payload, a flat surfaces list of the declared length, and a genuine int total all still pass; a class count that contradicts the source and an unreadable source are each reported; test_suite.py registers 29 classes"
+      "detail": "exemption works: 26-entry tests.classes is clean"
+    },
+    {
+      "id": "inventory_registry_catches_same_leaf_name",
+      "status": "PASS",
+      "detail": "same leaf name is caught: rows[0].classes is flagged"
+    },
+    {
+      "id": "inventory_registry_catches_lying_total",
+      "status": "PASS",
+      "detail": "declared total that lies is caught"
+    },
+    {
+      "id": "inventory_registry_catches_headless_total",
+      "status": "PASS",
+      "detail": "headless total is caught"
+    },
+    {
+      "id": "inventory_registry_catches_unbacked_exemption",
+      "status": "PASS",
+      "detail": "unbacked exemption is caught"
+    },
+    {
+      "id": "inventory_registry_catches_inert_pair",
+      "status": "PASS",
+      "detail": "inert pair is caught"
+    },
+    {
+      "id": "inventory_registry_catches_exempt_list_with_no_total",
+      "status": "PASS",
+      "detail": "exempt list with no total is caught"
+    },
+    {
+      "id": "inventory_registry_catches_flat_key_impostor",
+      "status": "PASS",
+      "detail": "flat key impostor is caught"
+    },
+    {
+      "id": "inventory_registry_accepts_real_flat_payload",
+      "status": "PASS",
+      "detail": "real flat payload is accepted"
+    },
+    {
+      "id": "inventory_registry_catches_nested_feed",
+      "status": "PASS",
+      "detail": "nested feed is caught"
+    },
+    {
+      "id": "inventory_registry_accepts_flat_surfaces_list",
+      "status": "PASS",
+      "detail": "flat surfaces list is accepted"
+    },
+    {
+      "id": "inventory_registry_catches_shadowed_impostor",
+      "status": "PASS",
+      "detail": "shadowed impostor is caught"
+    },
+    {
+      "id": "inventory_registry_catches_non_int_total",
+      "status": "PASS",
+      "detail": "non-int total is caught"
+    },
+    {
+      "id": "inventory_registry_accepts_int_total",
+      "status": "PASS",
+      "detail": "int total is accepted"
+    },
+    {
+      "id": "inventory_registry_catches_contradicting_class_count",
+      "status": "PASS",
+      "detail": "contradicting class count is caught"
+    },
+    {
+      "id": "inventory_registry_reports_unverified_for_unreadable_source",
+      "status": "PASS",
+      "detail": "unreadable source is unverified"
+    },
+    {
+      "id": "inventory_registry_validates_parseable_source",
+      "status": "PASS",
+      "detail": "parseable source validates: 47 classes"
     },
     {
       "id": "dom_injection_guarded",

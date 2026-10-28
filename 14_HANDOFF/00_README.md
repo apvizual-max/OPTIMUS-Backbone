@@ -32,6 +32,10 @@ python survey_build.py
 | # | File | What it is for |
 |---|---|---|
 | 00 | this file | Orientation |
+| **10** | **`10_PRIMING_PROMPT.md`** | **Start here for a new AI instance with zero memory and zero context. Copy it whole, paste it as the first message.** |
+| **11** | **`11_SESSION_HANDOFF_2026-10-28.md`** | **The state as of the last session: what was found, what was fixed, what is left, what is Popy's decision.** |
+| **12** | **`12_GIT_GITHUB_STATE.md`** | **Exact Git and GitHub state: branch, SHAs, what is pushed, who else writes to this repo, and the rules for pushing.** |
+| **—** | **`SKILLS/`** | **The 7 skills handed to the new instance, plus a manifest. Copies, so a fresh agent without a skills directory still has them.** |
 | 01 | `01_BUILD_STATUS.md` | **Start here.** What is live, what is strong, what is weak. |
 | 02 | `02_GAPS.md` | Every gap, sorted into **BUG** (went wrong) and **SCAFFOLDING** (not built yet). |
 | 03 | `03_ARCHITECTURE_SPEC.md` | The system as actually built, with measured file sizes and routes. |
@@ -43,6 +47,18 @@ python survey_build.py
 | 09 | `09_ROADMAP.md` | What comes next, in order, with dependencies between steps. |
 | — | `HANDOFF.md` | The one-page state of play for the next session. |
 | — | `_BUILD_SURVEY.json` | Raw measurement. 30,136 bytes. The source for every number above. |
+
+### Two things that changed after this package was written
+
+- **2026-10-28 — the repository was broken for every Windows clone.** `origin/main`
+  carried a top-level directory whose name was the project's own absolute path,
+  and git refuses `:` in a path component. Repaired in commit `e89887f`, verified
+  by a fresh clone. Details in `12_GIT_GITHUB_STATE.md` and in
+  `07_BACKBONE\skills\sentinel-cd-pipeline-sync.SKILL.md`.
+- **2026-10-28 — a continuous development pipeline now writes to `main` directly**
+  (Antigravity CD Engine and `google-labs-jules[bot]`). There are no branches on
+  the remote and **no CI** — `gh run list` is empty. The test suites have to be
+  run by hand, sequentially. Details in `12_GIT_GITHUB_STATE.md`.
 
 ---
 

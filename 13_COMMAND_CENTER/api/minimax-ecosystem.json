@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-10-12T02:01:07",
+  "generated_at": "2026-10-28T02:38:53",
   "minimax_root": "C:\\Users\\apviz\\.minimax",
   "counts": {
-    "measured": 32,
-    "not_available": 0,
+    "measured": 22,
+    "not_available": 7,
     "error": 0,
-    "total": 32
+    "total": 29
   },
   "surfaces": [
     {
@@ -42,7 +42,7 @@
           {
             "name": "mavis",
             "config_bytes": 55,
-            "skills": 70,
+            "skills": 97,
             "memory": 3,
             "sessions": 0,
             "workspace": 0
@@ -67,14 +67,14 @@
       },
       "detail": "6 agents installed: coder, explore, general, mavis, verifier, worker",
       "source": "C:\\Users\\apviz\\.minimax\\agents",
-      "measured_at": "2026-10-12T02:00:52"
+      "measured_at": "2026-10-28T02:38:51"
     },
     {
       "id": "skills",
       "label": "Installed skills",
       "status": "MEASURED",
       "value": {
-        "count": 68,
+        "count": 93,
         "sentinel_count": 10,
         "sentinel": [
           "mavis-exec-sentinel-orchestrator-skill",
@@ -89,9 +89,9 @@
           "mavis-tany-llm-to-sentinel-skill"
         ]
       },
-      "detail": "68 skills in the mavis runtime root; 10 are SENTINEL",
+      "detail": "93 skills in the mavis runtime root; 10 are SENTINEL",
       "source": "C:\\Users\\apviz\\.minimax\\agents\\mavis\\skills",
-      "measured_at": "2026-10-12T02:00:52"
+      "measured_at": "2026-10-28T02:38:51"
     },
     {
       "id": "skills_drift",
@@ -100,15 +100,16 @@
       "value": "see_console",
       "detail": "run: python install_skills.py --check",
       "source": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\08_SELF_IMPROVEMENT\\install_skills.py",
-      "measured_at": "2026-10-12T02:00:52"
+      "measured_at": "2026-10-28T02:38:51"
     },
     {
       "id": "mcp_config",
       "label": "MCP configuration",
       "status": "MEASURED",
       "value": {
-        "count": 20,
+        "count": 22,
         "names": [
+          "Google_Access",
           "agent-browser-mcp",
           "chrome-devtools-mcp",
           "docker-mcp",
@@ -124,6 +125,7 @@
           "minimax-whatsapp",
           "notebooklm-mcp",
           "obsidian-mcp",
+          "optimus-ci-server",
           "prime-bridge",
           "qwen-acp-adapter",
           "qwen-mcp-http",
@@ -131,9 +133,9 @@
           "web-tools"
         ]
       },
-      "detail": "20 servers declared: hermes-mcp-router(stdio), qwen-mcp-http(http), docker-mcp(stdio), git-mcp(stdio), obsidian-mcp(stdio), notebooklm-mcp(stdio), minimax-notebooklm(stdio), chrome-devtools-mcp(stdio), agent-browser-mcp(stdio), mcp-server-filesystem(stdio), gdrive-mcp(stdio), gmail-mcp(stdio), google-workspace-mcp(stdio), google-calendar-mcp(stdio), qwen-acp-adapter(stdio), sentinel-hub(stdio), minimax-whatsapp(streamable-http), prime-bridge(stdio), web-tools(stdio), git-tools(stdio)",
+      "detail": "22 servers declared: hermes-mcp-router(stdio), qwen-mcp-http(http), docker-mcp(stdio), git-mcp(stdio), obsidian-mcp(stdio), notebooklm-mcp(stdio), minimax-notebooklm(stdio), chrome-devtools-mcp(stdio), agent-browser-mcp(stdio), mcp-server-filesystem(stdio), gdrive-mcp(stdio), gmail-mcp(stdio), google-workspace-mcp(stdio), google-calendar-mcp(stdio), qwen-acp-adapter(stdio), sentinel-hub(stdio), minimax-whatsapp(streamable-http), prime-bridge(stdio), web-tools(stdio), git-tools(stdio), Google_Access(streamable-http), optimus-ci-server(stdio)",
       "source": "C:\\Users\\apviz\\.minimax\\mcp.json",
-      "measured_at": "2026-10-12T02:00:52"
+      "measured_at": "2026-10-28T02:38:51"
     },
     {
       "id": "mcp_runtime",
@@ -148,7 +150,7 @@
       },
       "detail": "2 names resolved by the runtime",
       "source": "C:\\Users\\apviz\\.minimax\\mcp-runtime-names.json",
-      "measured_at": "2026-10-12T02:00:52"
+      "measured_at": "2026-10-28T02:38:51"
     },
     {
       "id": "sessions",
@@ -159,7 +161,7 @@
       },
       "detail": "0 entries",
       "source": "C:\\Users\\apviz\\.minimax\\agents\\mavis\\sessions",
-      "measured_at": "2026-10-12T02:00:52"
+      "measured_at": "2026-10-28T02:38:51"
     },
     {
       "id": "memory",
@@ -170,7 +172,7 @@
       },
       "detail": "3 entries",
       "source": "C:\\Users\\apviz\\.minimax\\agents\\mavis\\memory",
-      "measured_at": "2026-10-12T02:00:52"
+      "measured_at": "2026-10-28T02:38:51"
     },
     {
       "id": "integrations",
@@ -181,7 +183,7 @@
       },
       "detail": "1 entries",
       "source": "C:\\Users\\apviz\\.minimax\\integrations",
-      "measured_at": "2026-10-12T02:00:52"
+      "measured_at": "2026-10-28T02:38:51"
     },
     {
       "id": "plugins",
@@ -192,18 +194,18 @@
       },
       "detail": "0 entries",
       "source": "C:\\Users\\apviz\\.minimax\\plugins",
-      "measured_at": "2026-10-12T02:00:52"
+      "measured_at": "2026-10-28T02:38:51"
     },
     {
       "id": "config",
       "label": "Runtime config",
       "status": "MEASURED",
       "value": {
-        "bytes": 3811
+        "bytes": 2953
       },
-      "detail": "config.yaml present (3811 B)",
+      "detail": "config.yaml present (2953 B)",
       "source": "C:\\Users\\apviz\\.minimax\\config.yaml",
-      "measured_at": "2026-10-12T02:00:52"
+      "measured_at": "2026-10-28T02:38:51"
     },
     {
       "id": "permissions",
@@ -214,7 +216,7 @@
       },
       "detail": "permission.json present (1104 B)",
       "source": "C:\\Users\\apviz\\.minimax\\permission.json",
-      "measured_at": "2026-10-12T02:00:52"
+      "measured_at": "2026-10-28T02:38:51"
     },
     {
       "id": "channel_bindings",
@@ -225,7 +227,7 @@
       },
       "detail": "channel-bindings.yaml present (892 B)",
       "source": "C:\\Users\\apviz\\.minimax\\channel-bindings.yaml",
-      "measured_at": "2026-10-12T02:00:52"
+      "measured_at": "2026-10-28T02:38:51"
     },
     {
       "id": "channel_routes",
@@ -236,7 +238,7 @@
       },
       "detail": "channel-routes.yaml present (502 B)",
       "source": "C:\\Users\\apviz\\.minimax\\channel-routes.yaml",
-      "measured_at": "2026-10-12T02:00:52"
+      "measured_at": "2026-10-28T02:38:51"
     },
     {
       "id": "minimax_cli",
@@ -254,29 +256,29 @@
       },
       "detail": "mcode -> C:\\Users\\apviz\\AppData\\Roaming\\npm\\mcode.CMD (agent (headless exec + ACP delegation)); mmx -> C:\\Users\\apviz\\AppData\\Roaming\\npm\\mmx.CMD (capability CLI (text/image/video/speech/vision/search))",
       "source": "PATH",
-      "measured_at": "2026-10-12T02:00:52"
+      "measured_at": "2026-10-28T02:38:51"
     },
     {
       "id": "desktop_code_processes",
       "label": "Code desktop app processes",
       "status": "MEASURED",
-      "value": 10,
-      "detail": "10 live processes, 1798 MB working set in total (largest 602 MB)",
+      "value": 11,
+      "detail": "11 live processes, 2258 MB working set in total (largest 809 MB)",
       "source": "Get-Process via PowerShell",
-      "measured_at": "2026-10-12T02:00:54"
+      "measured_at": "2026-10-28T02:38:53"
     },
     {
       "id": "task_telemetry",
       "label": "App task telemetry",
       "status": "MEASURED",
       "value": {
-        "events": 216,
-        "distinct": 8,
-        "newest_age_s": 1473.5
+        "events": 52,
+        "distinct": 5,
+        "newest_age_s": 93.6
       },
-      "detail": "216 events, 8 distinct kinds; newest 1473s old. Most frequent: workspace_indexing.state x93, desktop.abnormal_page x8, app.db_migration_summary x2, app.startup_performance_summary x1, app.startup_runtime_ready_summary x1",
+      "detail": "52 events, 5 distinct kinds; newest 94s old. Most frequent: workspace_indexing.state x21, utility_runtime.execution_gap x2, app.startup_performance_summary x1, app.db_migration_summary x1, app.startup_runtime_ready_summary x1",
       "source": "C:\\Users\\apviz\\AppData\\Roaming\\MiniMax Agent\\observability-outbox.jsonl",
-      "measured_at": "2026-10-12T02:00:54"
+      "measured_at": "2026-10-28T02:38:53"
     },
     {
       "id": "embedded_browser",
@@ -289,7 +291,7 @@
       },
       "detail": "1 session(s), 1 tab(s) across 0 host(s). This is the surface the desktop app uses to reach cloud services.",
       "source": "C:\\Users\\apviz\\AppData\\Roaming\\MiniMax Agent\\embedded-browser-tabs.json",
-      "measured_at": "2026-10-12T02:00:54"
+      "measured_at": "2026-10-28T02:38:53"
     },
     {
       "id": "cloud_bridge_device",
@@ -298,7 +300,7 @@
       "value": "20627eb6-1274-4cb3-bfe8-64b5b56849fd",
       "detail": "the desktop app has registered a remote-control device id, which is the identity the cloud side addresses this machine by",
       "source": "C:\\Users\\apviz\\AppData\\Roaming\\MiniMax Agent\\remote-control\\state.json",
-      "measured_at": "2026-10-12T02:00:54"
+      "measured_at": "2026-10-28T02:38:53"
     },
     {
       "id": "agent_identity",
@@ -309,259 +311,92 @@
           "config",
           "localStorageConfig",
           "mainWindowState",
+          "miniAppWindowBounds",
           "sharedUser",
           "tokens",
           "user"
         ],
         "tokens_present": true
       },
-      "detail": "config present with keys: config, localStorageConfig, mainWindowState, sharedUser, tokens, user. Tokens are present; their VALUES are never read or emitted by this collector.",
+      "detail": "config present with keys: config, localStorageConfig, mainWindowState, miniAppWindowBounds, sharedUser, tokens, user. Tokens are present; their VALUES are never read or emitted by this collector.",
       "source": "C:\\Users\\apviz\\AppData\\Roaming\\MiniMax Agent\\minimax-agent-config.json",
-      "measured_at": "2026-10-12T02:00:54"
+      "measured_at": "2026-10-28T02:38:53"
     },
     {
       "id": "design_app",
       "label": "MINIMAX Design",
-      "status": "MEASURED",
-      "value": {
-        "installed": true,
-        "running": false,
-        "exe_bytes": 631144
-      },
-      "detail": "installed (631144 B launcher) but not running, so its local gateway under resources\\gateway is not up and nothing it serves can be measured",
+      "status": "NOT_AVAILABLE",
+      "value": null,
+      "detail": "not installed at C:\\Users\\apviz\\AppData\\Local\\Programs\\MiniMax Design\\MiniMax Design.exe",
       "source": "C:\\Users\\apviz\\AppData\\Local\\Programs\\MiniMax Design\\MiniMax Design.exe",
-      "measured_at": "2026-10-12T02:00:54"
+      "measured_at": "2026-10-28T02:38:53"
     },
     {
       "id": "hub_app",
       "label": "MINIMAX Hub",
-      "status": "MEASURED",
-      "value": {
-        "installed": true,
-        "running": false
-      },
-      "detail": "installed at C:\\Program Files\\MiniMaxHub, not running",
-      "source": "C:\\Program Files\\MiniMaxHub\\MiniMax Hub.exe",
-      "measured_at": "2026-10-12T02:00:54"
+      "status": "NOT_AVAILABLE",
+      "value": null,
+      "detail": "no executable under C:\\Program Files\\MiniMaxHub",
+      "source": "C:\\Program Files\\MiniMaxHub",
+      "measured_at": "2026-10-28T02:38:53"
     },
     {
       "id": "design_gateway",
       "label": "Design gateway",
-      "status": "MEASURED",
-      "value": {
-        "installed": true,
-        "version": "0.1.0",
-        "migrations": 13,
-        "running": false
-      },
-      "detail": "embedded gateway present (v0.1.0, 13 schema migrations); NOT running - the app has not been launched, so no Design operation can be routed through it and any such capability is unmeasured rather than absent",
-      "source": "C:\\Users\\apviz\\AppData\\Local\\Programs\\MiniMax Design\\current\\resources\\gateway\\package.json",
-      "measured_at": "2026-10-12T02:00:56"
+      "status": "NOT_AVAILABLE",
+      "value": null,
+      "detail": "MINIMAX Design is not installed at C:\\Users\\apviz\\AppData\\Local\\Programs\\MiniMax Design",
+      "source": "C:\\Users\\apviz\\AppData\\Local\\Programs\\MiniMax Design",
+      "measured_at": "2026-10-28T02:38:53"
     },
     {
       "id": "design_route_loader",
       "label": "Design route loader",
-      "status": "MEASURED",
-      "value": {
-        "loader_present": true,
-        "loader_bytes": 17090864,
-        "embedded_route_literals": 224,
-        "raw_api_occurrences": 657,
-        "yaml_candidates": 2,
-        "primary_resolves": true
-      },
-      "detail": "the route table is read at gateway startup by main.js (17,090,864 bytes, 2 YAML_CANDIDATES search paths, the first resolving to this external_api_conf.yaml); the bundle carries 224 distinct `key: \"/api/...\"` literals and 657 `/api/` occurrences in all - two different counts, both reported so neither is mistaken for the other - it is live config, not documentation",
-      "source": "C:\\Users\\apviz\\AppData\\Local\\Programs\\MiniMax Design\\current\\resources\\gateway\\dist\\main.js",
-      "measured_at": "2026-10-12T02:00:56"
-    },
-    {
-      "id": "design_cloud_seam",
-      "label": "Design cloud seam",
-      "status": "MEASURED",
-      "value": {
-        "categories": [
-          "video",
-          "image",
-          "speech",
-          "music",
-          "media",
-          "super_resolution"
-        ],
-        "vendor_count": 13,
-        "vendors": [
-          "kling",
-          "kling_avatar",
-          "midjourney",
-          "minimax",
-          "minimax_v3",
-          "nano_banana",
-          "openai",
-          "qwen",
-          "seedance",
-          "seedream",
-          "veo3",
-          "wan",
-          "wan3"
-        ],
-        "operations": 47
-      },
-      "detail": "6 capability categories (video, image, speech, music, media, super_resolution) across 13 providers and 47 routed operations, traced to a live loader (see design_route_loader)",
-      "source": "C:\\Users\\apviz\\AppData\\Local\\Programs\\MiniMax Design\\current\\resources\\conf\\external_api_conf.yaml",
-      "measured_at": "2026-10-12T02:00:56"
-    },
-    {
-      "id": "design_profiles",
-      "label": "Design agent profiles",
-      "status": "MEASURED",
-      "value": {
-        "count": 6,
-        "names": [
-          "README",
-          "comfyui-agent",
-          "executor",
-          "media-agent",
-          "planner",
-          "router"
-        ]
-      },
-      "detail": "6 agent profiles shipped: README, comfyui-agent, executor, media-agent, planner, router",
-      "source": "C:\\Users\\apviz\\AppData\\Local\\Programs\\MiniMax Design\\current\\resources\\agent-profiles\\v2\\config\\agents",
-      "measured_at": "2026-10-12T02:00:56"
-    },
-    {
-      "id": "design_plugins",
-      "label": "Design bundled plugins",
-      "status": "MEASURED",
-      "value": {
-        "count": 3,
-        "names": [
-          "3d-director-stage",
-          "clip-studio",
-          "comfyui"
-        ]
-      },
-      "detail": "3 bundled plugins: 3d-director-stage, clip-studio, comfyui",
-      "source": "C:\\Users\\apviz\\AppData\\Local\\Programs\\MiniMax Design\\current\\resources\\bundled-plugins",
-      "measured_at": "2026-10-12T02:00:56"
+      "status": "NOT_AVAILABLE",
+      "value": null,
+      "detail": "MINIMAX Design is not installed at C:\\Users\\apviz\\AppData\\Local\\Programs\\MiniMax Design, so this surface could not be measured - not available, not zero, and not working",
+      "source": "C:\\Users\\apviz\\AppData\\Local\\Programs\\MiniMax Design",
+      "measured_at": "2026-10-28T02:38:53"
     },
     {
       "id": "design_cloud_hosts",
       "label": "Design cloud gateway hosts",
-      "status": "MEASURED",
-      "value": {
-        "regions": 2,
-        "urls": 8,
-        "table": {
-          "domestic": {
-            "dev": "https://hub-pre.xaminim.com",
-            "test": "https://hub-pre.xaminim.com",
-            "staging": "https://design.minimax.cn",
-            "prod": "https://design.minimax.cn"
-          },
-          "overseas": {
-            "dev": "https://hilo-test.xaminim.com",
-            "test": "https://hilo-test.xaminim.com",
-            "staging": "https://design.minimax.io",
-            "prod": "https://design.minimax.io"
-          }
-        },
-        "default": "https://hub-pre.xaminim.com"
-      },
-      "detail": "getCloudGatewayUrl() resolves the cloud gateway to 8 URLs across 2 regions; default https://hub-pre.xaminim.com (overridable with CLOUD_GATEWAY_BASE_URL)",
-      "source": "C:\\Users\\apviz\\AppData\\Local\\Programs\\MiniMax Design\\current\\resources\\app.asar",
-      "measured_at": "2026-10-12T02:00:56"
+      "status": "NOT_AVAILABLE",
+      "value": null,
+      "detail": "MINIMAX Design is not installed at C:\\Users\\apviz\\AppData\\Local\\Programs\\MiniMax Design, so this surface could not be measured - not available, not zero, and not working",
+      "source": "C:\\Users\\apviz\\AppData\\Local\\Programs\\MiniMax Design",
+      "measured_at": "2026-10-28T02:38:53"
     },
     {
       "id": "design_cloud_reach",
       "label": "Design cloud reachability",
-      "status": "MEASURED",
-      "value": {
-        "probed": 4,
-        "live": 2,
-        "live_hosts": [
-          "design.minimax.cn",
-          "design.minimax.io"
-        ],
-        "unreachable_hosts": [
-          "hilo-test.xaminim.com",
-          "hub-pre.xaminim.com"
-        ],
-        "rfc1918_hosts": [
-          "hilo-test.xaminim.com",
-          "hub-pre.xaminim.com"
-        ],
-        "hosts": {
-          "design.minimax.cn": {
-            "host": "design.minimax.cn",
-            "ips": [
-              "39.101.122.149"
-            ],
-            "scope": "public",
-            "tls": "ok",
-            "tls_ms": 422,
-            "tls_cn": "*.minimax.cn",
-            "tls_expires": "Feb 21 23:59:59 2027 GMT"
-          },
-          "design.minimax.io": {
-            "host": "design.minimax.io",
-            "ips": [
-              "47.252.25.151"
-            ],
-            "scope": "public",
-            "tls": "ok",
-            "tls_ms": 265,
-            "tls_cn": "*.minimax.io",
-            "tls_expires": "Feb 11 23:59:59 2027 GMT"
-          },
-          "hilo-test.xaminim.com": {
-            "host": "hilo-test.xaminim.com",
-            "ips": [
-              "10.136.2.211"
-            ],
-            "scope": "rfc1918",
-            "tls": "unreachable",
-            "error": "TimeoutError"
-          },
-          "hub-pre.xaminim.com": {
-            "host": "hub-pre.xaminim.com",
-            "ips": [
-              "10.4.12.109"
-            ],
-            "scope": "rfc1918",
-            "tls": "unreachable",
-            "error": "TimeoutError"
-          }
-        }
-      },
-      "detail": "2 of 4 gateway hosts complete a TLS handshake from this machine (design.minimax.cn, design.minimax.io); 2 do not (hilo-test.xaminim.com, hub-pre.xaminim.com), resolving to RFC1918 internal addresses",
-      "source": "dns + tls/443",
-      "measured_at": "2026-10-12T02:01:07"
+      "status": "NOT_AVAILABLE",
+      "value": null,
+      "detail": "MINIMAX Design is not installed at C:\\Users\\apviz\\AppData\\Local\\Programs\\MiniMax Design, so this surface could not be measured - not available, not zero, and not working",
+      "source": "C:\\Users\\apviz\\AppData\\Local\\Programs\\MiniMax Design",
+      "measured_at": "2026-10-28T02:38:53"
     },
     {
       "id": "design_cloud_auth",
       "label": "Design cloud credential",
-      "status": "MEASURED",
-      "value": {
-        "HILO_USER_TOKEN_set": false,
-        "HILO_USER_TOKEN_FILE_set": false,
-        "file_exists": false
-      },
-      "detail": "no HILO_USER_TOKEN or HILO_USER_TOKEN_FILE in this process - the app itself warns \"no HILO_USER_TOKEN / HILO_USER_TOKEN_FILE set; cloud-bound MCP tool calls will 401\", so every route above answers 401 even once the host is reachable",
-      "source": "process environment",
-      "measured_at": "2026-10-12T02:01:07"
+      "status": "NOT_AVAILABLE",
+      "value": null,
+      "detail": "MINIMAX Design is not installed at C:\\Users\\apviz\\AppData\\Local\\Programs\\MiniMax Design, so this surface could not be measured - not available, not zero, and not working",
+      "source": "C:\\Users\\apviz\\AppData\\Local\\Programs\\MiniMax Design",
+      "measured_at": "2026-10-28T02:38:53"
     },
     {
       "id": "sentinel_profile",
       "label": "SENTINEL in MCP profile",
       "status": "MEASURED",
       "value": {
-        "servers": 20,
-        "enabled": 20,
+        "servers": 22,
+        "enabled": 21,
         "has_sentinel_hub": true
       },
-      "detail": "20 MCP servers declared in the live profile, 20 enabled, sentinel-hub registered",
+      "detail": "22 MCP servers declared in the live profile, 21 enabled, sentinel-hub registered",
       "source": "C:\\Users\\apviz\\.minimax\\mcp.json",
-      "measured_at": "2026-10-12T02:01:07"
+      "measured_at": "2026-10-28T02:38:53"
     },
     {
       "id": "sentinel_hub",
@@ -575,11 +410,11 @@
         "argv": [
           "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\sentinel_hub_server.py"
         ],
-        "source_bytes": 42447
+        "source_bytes": 43571
       },
       "detail": "26 tools declared in source; registered=True; transport=stdio",
       "source": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\sentinel_hub_server.py",
-      "measured_at": "2026-10-12T02:01:07"
+      "measured_at": "2026-10-28T02:38:53"
     },
     {
       "id": "swarm_liveness",
@@ -599,7 +434,7 @@
         "stale": [
           {
             "instance_id": "PRIME-CLI",
-            "age_seconds": 468279.3,
+            "age_seconds": 1856545.5,
             "reported_status": "ACTIVE",
             "is_alive": false
           }
@@ -614,7 +449,7 @@
       },
       "detail": "0 of 5 instances alive; never registered: SENTINEL-DESKTOP, SENTINEL-COWORK, SENTINEL-CHAT, CODER-APP; 1 heartbeat(s) expired - derived STALE although the writer claimed ACTIVE",
       "source": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\09_LOGS\\cross_instance\\heartbeats",
-      "measured_at": "2026-10-12T02:01:07"
+      "measured_at": "2026-10-28T02:38:53"
     }
   ]
 }

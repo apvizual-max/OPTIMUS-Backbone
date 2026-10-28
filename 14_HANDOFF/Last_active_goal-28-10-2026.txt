@@ -1,0 +1,172 @@
+MINIMAX_CONTROL_CENTER_UI_EVOLUTION_AND_DEBUGGING
+
+================================================================================
+GOAL (INSTRUCTIONAL):
+Transformarea și maturizarea aplicației existente (build-ul aflat la stadiul de ~70%)
+într-un veritabil Centru de Comandă și Control HMI (Human-Machine Interface), aducând
+designul, experiența de utilizare și reprezentarea vizuală la nivelul unui produs finit
+de clasă enterprise. Structura tehnică și fluxul de date existente sunt solide, însă
+interfața actuală este austeră și lipsită de ergonomie vizuală. Obiectivul central este
+ridicarea completă a nivelului vizual și interactiv, îmbogățind datele existente prin
+reprezentări grafice dinamice (fără a șterge sau reduce informația brută), integrând o
+zonă dedicată de profil utilizator / identitate de sistem și realizând un audit complet
+de debugging pentru eliminarea oricăror erori ascunse, decalaje de layout sau breșe de
+stabilitate.
+
+Aplicația este concepută ca hub unificat pentru întreg ecosistemul MINIMAX (Code Desktop,
+CLI Agent, Design System) și punțile sale locale-spre-cloud, găzduită într-o topologie
+dual-plane (frontend Docker reverse-proxy pe 127.0.0.1:8910 și backend Windows pe portul
+127.0.0.1:8912, integrată în Windows Startup). Modelul primește libertate creativă deplină
+în alegerea soluțiilor de design, a componentelor grafice și a modului de interacțiune,
+fiind ghidat de repere de bune practici, fără a-i fi impusă o rețetă rigidă sau rigidizată.
+Scopul este ca agentul să conceapă, să rafineze și să propună evoluții arhitecturale care
+să facă interfața vie, animată, precisă și demnă de benchmark-ul de referință.
+
+NOTA SISTEM PRIVIND NATURA DATELOR:
+Obiectivul definit in GOAL si perspectivele detaliate in sectiunea CRITERIA sunt
+strict INSTRUCTIONALE si reprezinta autoritatea de evaluare.
+Capitolul TASKS de mai jos este strict ORIENTATIV: serveste exclusiv ca model
+arhitectural de referinta si exemplu de flux de lucru pentru a fi extins si adaptat
+la arhitectura build-ului local. TASKS NU reprezinta instructiuni actionabile directe
+sau cerinte rigide emise de utilizator.
+================================================================================
+
+CRITERIA (INSTRUCTIONAL - SCOPE PERSPECTIVES):
+C1 (Perspectivă Estetică & Direcție Vizuală HMI):
+   - Realizarea unui salt calitativ vizual profund, inspirat din benchmark-ul de design
+     al platformei de referință (http://127.0.0.1:8900/#overview) și din limbajul 50X Slate /
+     Obsidian Telemetry Dark: canvas de mare adâncime (#0B0F17), suprafețe elevate (#111827),
+     contururi subtile (#1E293B) și accente cromatice funcționale (Cyan #38BDF8 pentru telemetrie
+     vie, Emerald #10B981 pentru stări nominale, Amber #F59E0B pentru atenționări, Crimson #EF4444
+     pentru breșe).
+   - Spațiere aerisită, tipografie ierarhizată riguros (sans-serif modern pentru navigare,
+     monospace JetBrains Mono / Fira Code pentru date numerice, porturi și jurnale) și eliminarea
+     aspectului brut de tabel static neformatat.
+
+C2 (Perspectivă Reprezentare Grafică & Conservare de Date):
+   - Transpunerea cifrelor și a matricilor textuale în reprezentări grafice intuitive: cadrane
+     de telemetrie (gauges), bare de progres segmentate, grafice dinamice de latență/istoric,
+     hărți vizuale de conectivitate și noduri de stare pulsatile.
+   - Regula strictă de îmbogățire vizuală: datele existente NU se șterg și NU se ascund;
+     graficele se adaugă peste sau în tandem cu datele măsurate, oferind operatorului atât
+     claritate vizuală la o primă privire, cât și acces la valoarea exactă măsurată la nivel
+     de detaliu.
+
+C3 (Perspectivă Interactivitate & Animații Organice):
+   - Interfața trebuie să devină vie și dinamică: micro-interacțiuni pe controale, tranziții
+     CSS fluide (accelerate hardware, sub 200ms), efecte vizuale de hover bine temperate și
+     indicatori dinamici de streaming (live heartbeats) care reflectă ritmul real al sistemului.
+   - Navigarea între panouri/tab-uri trebuie să fie instantanee, fără flicker, fără decalaje
+     de randare și garantând clasa de activare (.active) pe elementul selectat.
+
+C4 (Perspectivă Identitate Operator & Panou Utilizator):
+   - Proiectarea și integrarea unei secțiuni / pagini dedicate de profil („Operator Cockpit /
+     User Identity”), unde sunt reprezentate grafic și contextual: datele operatorului uman,
+     starea sesiunii curente, starea abonamentelor la serviciile cloud MINIMAX, rezumatul
+     resurselor hardware utilizate și profilul agenților de sistem activi.
+
+C5 (Perspectivă Debugging Complet & Închidere de Gap-uri):
+   - Inspectarea end-to-end a întregului cod (HTML, CSS, JS, scripturi de suport backend/proxy):
+     identificarea și remedierea oricăror erori tăcute (silent failures), a apelurilor API
+     nesupravegheate, a căilor greșite și a nepotrivirilor de aliniere vizuală.
+   - Fiecare buton, acțiune din whitelist și comutator de interfață trebuie testat funcțional,
+     asigurându-se că generează feedback vizual și că nu lasă interfața blocată în stări nedefinite.
+
+C6 (Perspectivă Integritate DOM & Protecție Null-Pointer SPEC_R104):
+   - Nicio actualizare de date, animație sau injectare de grafic nu are voie să fie apelată
+     fără verificarea prealabilă a existenței fizice a containerului țintă în DOM (aplicarea
+     strictă a gărzii: if (!element) return;).
+   - Menținerea integrității structurale: nicio rearanjare de stil nu are voie să distrugă
+     alinierea pe o singură coloană sau ierarhia containerelor de bază.
+
+C7 (Perspectivă Arhitectură Dual-Plane & Deployment Local):
+   - Păstrarea strictă a arhitecturii decuplate: Backend-ul Windows Host pe loopback (127.0.0.1:8912)
+     citește faptele locale ale mașinii; containerul Docker (gemini-minimax-hub) publică portul
+     127.0.0.1:8910 ca reverse-proxy gateway dedicat, emițând antetul de identificare
+     X-GEMINI-Deployment pentru a preveni deturnarea portului de către procese orfane.
+   - Imaginea Docker rămâne un gateway inteligent, fără date statice pre-coapte („zero baked-in
+     data”), iar comanda de pornire la logare în Windows (%APPDATA% Startup .bat) trebuie să
+     rămână verificată și aliniată la convențiile fără privilegii de administrator.
+
+C8 (Perspectivă Propuneri de Evoluție & Spirit Constructiv):
+   - Agentul este încurajat să exploreze dincolo de instrucțiunile primite: să identifice
+     oportunități de optimizare, să propună funcționalități noi care ar aduce valoare operatorului
+     (ex. comutatoare rapide pentru profiluri de inferență, inspectoare de consum de memorie,
+     jurnale interactive filtrate) și să documenteze clar aceste propuneri ca evoluții viitoare.
+
+C9 (Perspectivă Invariant Non-Destructiv - Grow, Don't Cut):
+   - Principiul fundamental de lucru este extinderea și evoluția arhitecturii, nu reducerea ei.
+   - Nu se acceptă tăierea de colțuri, eliminarea modulelor complexe pentru simplificare facilă
+     sau aplicarea de patch-uri provizorii. Fiecare soluție implementată trebuie să fie robustă,
+     modulară și gândită pe termen lung.
+
+================================================================================
+TASKS (ORIENTATIVE / REFERENCE BLUEPRINT ONLY):
+*Model de lucru orientativ pentru Hermes. Nu reprezinta comenzi rigide; agentul este
+pe deplin împuternicit să își structureze propriul plan modular de execuție.*
+
+T1 (Audit Inițial & Cartografierea Stării de 70%):
+   - Evaluarea bazei de cod existente (frontend și backend), inventarierea punctelor unde
+     datele sunt afișate brut și izolarea zonelor care generează un impact vizual precar.
+   - Rularea testelor de consolă în browser pentru depistarea eventualelor erori de execuție,
+     a variabilelor globale volatile sau a elementelor DOM nelegate.
+
+T2 (Stabilirea Sistemului de Design & Componente Reutilizabile):
+   - Definirea arhitecturii de stiluri (variabile CSS / tokens) bazată pe paleta 50X Slate,
+     asigurând consistență la nivel de fundaluri, carduri, tipografie și culori de accent.
+   - Crearea unor structuri vizuale modulare: carduri de telemetrie ergonomice, badge-uri de stare,
+     containere cu scroll discret și bare de acțiune bine ancorate vizual.
+
+T3 (Traducerea Datelor Textuale în Reprezentări Grafice Interactive):
+   - Proiectarea și integrarea de cadrane grafice (SVG sau Canvas ușor) pentru sănătatea sistemului,
+     ratele de utilizare a resurselor și starea conexiunilor.
+   - Înlocuirea listelor lungi de loguri sau tabele statice cu vederi interactive tip timeline,
+     fluxuri de evenimente animate subtil și grid-uri receptive cu indicatori de puls.
+
+T4 (Crearea Panoului de Identitate & Profil Utilizator):
+   - Adăugarea unui nou panou/ecran dedicat („User & System Cockpit”) care să sintetizeze identitatea
+     operatorului, contextul local al mașinii, starea integrării cu abonamentele cloud MINIMAX
+     și instrumentele active din ecosistem.
+   - Asigurarea unui echilibru perfect între datele de telemetrie tehnică și elementele vizuale
+     personale de configurare.
+
+T5 (Implementarea Micro-Animațiilor & a Dinamismului Vizual):
+   - Adăugarea de tranziții line la schimbarea tab-urilor, micro-animații pe butoanele de acțiune
+     și efecte vizuale de iluminare/glow la recepționarea evenimentelor în timp real (SSE/WebSocket).
+   - Validarea performanței: asigurarea că animațiile nu încarcă procesorul și că nu produc
+     sacadări sau mișcări bruște de layout (zero Cumulative Layout Shift).
+
+T6 (Audit Profund de Debugging & Verificare a Stabilității):
+   - Verificarea fiecărui selector DOM din codul JavaScript împotriva invariantului SPEC_R104
+     pentru a elimina definitiv riscul de TypeError: Cannot read properties of null.
+   - Testarea rezistenței sistemului la scenarii de deconectare a backend-ului, asigurându-se că
+     frontend-ul raportează onest starea DEGRADED sau reconectarea fără să se blocheze.
+   - Confirmarea faptului că porturile 8910 și 8912 rămân strict legate la loopback (127.0.0.1).
+
+T7 (Formularea Recomandărilor Strategice de Extindere):
+   - Documentarea clară a pașilor următori: propunerea a 2-3 direcții concrete de dezvoltare
+     pe care operatorul le poate explora în iterațiile viitoare (ex. noi panouri analitice,
+     comutatoare de teme, rapoarte automate de audit).
+
+================================================================================
+EXECUTION PROTOCOL & HARNESS:
+1. TRADUCERE ÎN SESSION CONTROL: Hermes citește directiva GOAL și perspectivele CRITERIA (C1..C9),
+   tratează capitolul TASKS (T1..T7) ca un model orientativ de inspirație și își derivează
+   propria listă activă de sarcini în Session Control înainte de a începe modificările fizice.
+2. CREATIVITATE GHIDATĂ DE BUNE PRACTICI: Agentul este încurajat să fie creativ și autonom în
+   alegerea designului și a soluțiilor tehnice, având libertatea de a inova și de a adăuga valoare,
+   cu condiția respectării stricte a cerințelor de calitate, a paletei de tokens și a stabilității.
+3. DOVEZI EMPIRICE & VERIFICARE PE ECRAN: Execuția se bazează exclusiv pe dovezi reale rezultate
+   din apeluri de unelte. Nu este suficient ca un fișier să fie scris; interfața trebuie să fie
+   demonstrabil funcțională, randată pe ecran și lipsită de erori în consola browserului.
+4. SUVERANITATEA JUDGE: Doar Judge-ul de sesiune are autoritatea de a valida atingerea stării
+   complete și de a trece indicatorul în starea gri („Goal done”). Modelul nu are voie să declare
+   autonom că sarcina este finalizată.
+5. CONSERVARE & EVOLUȚIE (NON-DESTRUCTIV): Orice fișier modificat trebuie protejat prin copii de
+   siguranță (.bak), datele existente nu se trunchiază, iar îmbunătățirile vizuale se construiesc
+   prin adiție și elevare calitativă continuă.
+================================================================================
+
+
+
+

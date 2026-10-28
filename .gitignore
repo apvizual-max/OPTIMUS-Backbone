@@ -25,3 +25,19 @@ desktop.ini
 .DS_Store
 *.swp
 *~
+
+# The working clone of this same repository.
+#
+# This is the ONE exclusion added on 2026-10-28, and it is stated out loud here
+# and in the commit message, because the rule above is "nothing is excluded on
+# purpose". The exception is narrow and is not project material:
+#
+#   .github-repo/ is a git clone of THIS repository, placed inside it by the
+#   operator's instruction on 2026-10-28. It holds a second copy of every
+#   tracked file. Without this line, `git add -A` would try to add a nested
+#   repository's entire contents to this one, and git would record it as a
+#   gitlink - a 1400-file commit that says nothing.
+#
+# Nothing that exists ONLY in .github-repo/ is lost by excluding it: it is a
+# clone, and everything in it is in the history this repository already has.
+.github-repo/
