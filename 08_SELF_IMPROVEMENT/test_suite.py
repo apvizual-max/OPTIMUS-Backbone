@@ -1513,6 +1513,101 @@ def test_mcp_handshake_stale_verdicts():
     return result
 
 
+def test_logs_parse_is_independent_of_age():
+    """A corrupt state file must be reported as corrupt, however old it is.
+
+    Defect found 2026-10-28, in the `logs` family of the monitor.
+
+    The check `logs_parse` carries the evidence "every state JSON must parse; a
+    corrupt state file is a silent failure" and the bound "no parse errors". But
+    the parse itself ran only while the artefact was younger than MAX_STATE_AGE
+    - one hour. The artefacts in that family (bimodal_state.json,
+    orchestrator_state.json, performance_metrics.json) are written ON DEMAND, by
+    the test suites and by operator actions, and nothing else writes them - so
+    on a machine that is simply running, they are routinely older than an hour.
+
+    The consequence is the exact opposite of what the check says: in the normal
+    state of the system it did not parse them, and it reported OK for state
+    files it had never opened. A corrupt orchestrator_state.json older than an
+    hour was silently accepted - while the sibling `log_*` check reported the
+    same file as STALE, so one report said "this file is too old to trust" AND
+    "this file is valid" without having looked at it.
+
+    The fix removes the age from the parse. Validity does not expire, and the
+    freshness verdict is already carried by the sibling check with its own
+    bound. This test pins three things:
+
+      1. a corrupt state file OLDER than the bound is reported as FAIL, and it
+         is named in the evidence - against the old code this was OK, so this
+         assertion is the discriminating one
+      2. a VALID old file is not turned into a failure - the fix must not report
+         age as corruption
+      3. the freshness verdict of the same file is untouched: still STALE, with
+         the same bound. The fix moved no bound.
+    """
+    result = TestResult('LogsParseAgeIndependent')
+    import monitor
+    import time
+
+    original_logs = monitor.LOGS
+    with tempfile.TemporaryDirectory() as tmp:
+        base = Path(tmp)
+        logs = base / '09_LOGS'
+        logs.mkdir(parents=True)
+        corrupt = logs / 'orchestrator_state.json'
+        valid = logs / 'performance_metrics.json'
+        corrupt.write_text('{"broken": ', encoding='utf-8')
+        valid.write_text('{"ok": true}', encoding='utf-8')
+
+        # Older than both the freshness bound of the sibling check (3000 s) and
+        # the one hour window the old parse was confined to: the normal state of
+        # a machine on which only the test suites write these files.
+        stale = time.time() - 4200
+        os.utime(corrupt, (stale, stale))
+        os.utime(valid, (stale, stale))
+
+        def family():
+            monitor.LOGS = logs
+            return {c['id']: c for c in monitor.log_checks()}
+
+        try:
+            checks = family()
+            parse = checks.get('logs_parse')
+            result.assert_true(parse is not None,
+                               'the logs family reports a logs_parse check')
+            listed = (parse or {}).get('value')
+            listed = listed if isinstance(listed, list) else []
+            result.assert_equals((parse or {}).get('status'), 'FAIL',
+                                 'a corrupt state file is reported as corrupt '
+                                 'even when it is older than the freshness bound')
+            result.assert_true(
+                any('orchestrator_state.json' in str(x) for x in listed),
+                f'the corrupt file is named in the evidence ({listed})')
+            result.assert_true(
+                not any('performance_metrics.json' in str(x) for x in listed),
+                'a valid state file is not reported as corrupt - age is not '
+                'corruption')
+            sibling = checks.get('log_orchestrator_state')
+            result.assert_equals((sibling or {}).get('status'), 'STALE',
+                                 'the freshness verdict of the same file is '
+                                 'unchanged - the fix moved no bound')
+
+            # And the behaviour that was already correct stays correct: a
+            # corrupt file that is fresh was reported before the fix too.
+            now = time.time()
+            os.utime(corrupt, (now, now))
+            fresh = family()
+            fresh_parse = fresh.get('logs_parse') or {}
+            result.assert_equals(fresh_parse.get('status'), 'FAIL',
+                                 'a corrupt state file is reported as corrupt '
+                                 'when it is fresh as well')
+        except Exception as exc:
+            result.error(f'Exception: {exc}')
+        finally:
+            monitor.LOGS = original_logs
+    return result
+
+
 def test_dashboard_boot_activates_a_panel():
     """Boot must activate a panel, or the dashboard renders blank.
 
@@ -3914,6 +4009,7 @@ def run_all_tests():
         test_scrape_artifact_emptiness,
         test_mcp_handshake_measure,
         test_mcp_handshake_stale_verdicts,
+        test_logs_parse_is_independent_of_age,
         test_dashboard_boot_activates_a_panel,
         test_ui_never_stringifies_an_object,
         test_mcp_slice_slug,

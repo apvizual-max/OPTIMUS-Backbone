@@ -2711,3 +2711,49 @@ suite now holds the record's **age** against twice the daemon's refresh period
 5.9x - so the bound separates the two regimes. That is the outcome the panel's
 "wired" claim rests on, and it was the part nothing was measuring.
 
+---
+
+## R21 - The check that catches a corrupt state file had not opened it
+
+**Requested**: the same sweep - gaps, errors, bugs, silent failures,
+misalignments, monitors, daemons.
+
+**What was wrong.** The monitor's `logs` family holds seven artefacts and one
+integrity check over the three JSON ones. The check is `logs_parse`, and its own
+evidence reads *"every state JSON must parse; a corrupt state file is a silent
+failure"*, with the bound *"no parse errors"*.
+
+The parse ran only while the artefact was younger than `MAX_STATE_AGE` - one
+hour. The three artefacts (`bimodal_state.json`, `orchestrator_state.json`,
+`performance_metrics.json`) are written **on demand**: by the test suites and by
+operator actions. Nothing else writes them - the collector says so explicitly
+about `bimodal_state.json`: *"this script only reads it. Two writers would"* be
+a problem.
+
+So on a machine that is simply running, those files are routinely older than an
+hour. Measured: all seven `logs` artefacts were last written between **09:24:16
+and 09:24:28** - by the unit suite - and the daemon writes none of them. Which
+means the check whose purpose is to catch a corrupt state file was, in the
+normal state of the system, **reporting OK for state files it had never opened**.
+And the sibling `log_*` check was reporting the same file as STALE at the same
+moment, so a single report said *"this file is too old to trust"* and *"this
+file is valid"* without having looked at it.
+
+**Measured payoff.** Nothing was actually corrupt: all three artefacts parse
+today. So no corruption was being hidden - the control simply had never done its
+job. That is the harder case, because a control that is off in the normal state
+is indistinguishable from a control that has nothing to report.
+
+| | before | after |
+|---|---|---|
+| the parse | ran only while the artefact was under 1 hour old | runs on every artefact, whatever its age |
+| a corrupt state file older than an hour | reported **OK** - never opened | reported **FAIL**, and named in the evidence |
+| a valid state file older than an hour | OK | OK - age is not corruption |
+| the freshness verdict of the same file | STALE | STALE, same bound - **no bound was moved** |
+| an unreadable artefact | raised, turning the whole family into NOT_RUN | reported as a parse error; the other six artefacts are still checked |
+
+**The control was falsified before it was trusted.** The new class
+`LogsParseAgeIndependent` was run against a mutant of the monitor with the age
+condition put back: **2 assertions go red** - the corrupt old file reads OK, and
+the evidence list is empty. Against the repaired monitor: **6/6**.
+

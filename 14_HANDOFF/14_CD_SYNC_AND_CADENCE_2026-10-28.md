@@ -178,6 +178,9 @@ Three things changed:
 | handshake cadence | declared 3600 s, wall clock | **live since 09:28:29** — the worker's log line and the startup refresh are in `09_LOGS\refresh-worker.log` |
 | handshake verdict | `STALE` whenever the hub source is newer than the record | **OK** after the re-measure at 09:28:31 — `record_age_seconds 99.5`, `record_superseded_by_server_edit false` |
 | `McpHandshakeStale` | did not exist | **5 assertions**, control falsified in both directions (2 reds against each mutant) |
+| `LogsParseAgeIndependent` | did not exist | **6 assertions**, control falsified against the mutant with the age condition restored (2 reds) |
+| `logs_parse` | parsed only while the artefact was under 1 hour old — so in the normal state it never parsed | **unconditional**, with an unreadable artefact reported instead of raising |
+| who writes the `logs` artefacts | only the test suites and operator actions | measured: all seven written **09:24:16–09:24:28** by the unit suite; the daemon writes none |
 | `handshake_record_is_current` | did not exist | new deployment phase — bound 7200 s against a declared 3600 s |
 | npm membership test | O(n) set, not O(n²) list rebuild | 2026-10-28 |
 | hub log write | `asyncio.to_thread`, not a blocking open | 2026-10-28 |
@@ -227,16 +230,21 @@ Three things changed:
 ## 7. Suite results
 
 Both suites were run **sequentially**, never concurrently, against the tree committed
-as `aa49c72` and against the live system after the restart.
+as `aa49c72` and against the live system after the restart — and then re-run after the
+second repair (the `logs_parse` one, §8).
 
 | suite | result | when |
 |---|---|---|
 | `08_SELF_IMPROVEMENT\test_suite.py` | **612 passed / 0 failed / 0 skipped** | 09:26 |
+| `08_SELF_IMPROVEMENT\test_suite.py` | **618 passed / 0 failed / 0 skipped** | 10:00 |
 | `08_SELF_IMPROVEMENT\test_deployment.py` | **74 passed / 0 failed / 1 not-run (75 checks)** | 09:34 |
+| `08_SELF_IMPROVEMENT\test_deployment.py` | **74 passed / 0 failed / 1 not-run (75 checks)** | 10:10 |
 
-The unit suite went **607 → 612**. The five extra assertions are the new class
-`McpHandshakeStale`, which reaches `STALE` deliberately — where nothing had reached
-it before.
+The unit suite went **607 → 612 → 618**. The five extra assertions in the first
+step are the class `McpHandshakeStale`, which reaches `STALE` deliberately —
+where nothing had reached it before. The six in the second are
+`LogsParseAgeIndependent`, which reaches the corrupt-file path that the old
+parse could never take.
 
 The single `not-run` in the deployment suite is **`startup_cold_start`**, and it is
 destructive by design: it tears the deployment down to prove the Startup entry
@@ -260,4 +268,103 @@ The live system, measured after the restart:
 | `mcp_tools_wired` | **OK** — 26 tools over the wire, probe ok, `record_age_seconds 99.5`, `record_superseded_by_server_edit false` |
 | open gaps served | **6**, and the ledger holds 6 — the `gap_count_matches_ledger` phase reads the two numbers against each other, not against a constant |
 | live page | **13 tabs**, **0 console messages**, 12 requests all 2xx, `DEGRADED · 54 ok / 0 fail / 2 stale / 0 not-run` |
+
+## 8. The third defect: the check that catches a corrupt state file had not opened it
+
+**The `logs` family of the monitor holds seven artefacts and one integrity check
+over the three JSON ones.** The check is `logs_parse`, and its own evidence reads
+*"every state JSON must parse; a corrupt state file is a silent failure"*, with
+the bound *"no parse errors"*.
+
+The parse was wrapped in `if a < MAX_STATE_AGE` — **one hour**. The three
+artefacts (`bimodal_state.json`, `orchestrator_state.json`,
+`performance_metrics.json`) are written **on demand**: by the test suites and by
+operator actions. Nothing else writes them — the collector says so explicitly
+about `bimodal_state.json`: *"this script only reads it. Two writers would"* be
+a problem.
+
+**Measured.** All seven `logs` artefacts were last written between **09:24:16
+and 09:24:28** — by the unit suite — and the daemon writes none of them. So on a
+machine that is simply running, those files are routinely older than an hour,
+and the check was, in the normal state of the system, **reporting OK for state
+files it had never opened**. The sibling `log_*` check was reporting the same
+file as STALE at the same moment: one report said *"this file is too old to
+trust"* and *"this file is valid"* without having looked at it.
+
+**The payoff, stated honestly: nothing was actually corrupt.** All three
+artefacts parse today, and so do the live `sentinel-state.json`, `health.json`
+and `mcp_handshake.json`. No corruption was being hidden — the control simply
+had never done its job. That is the harder case, because a control that is off
+in the normal state is indistinguishable, in the output, from a control that has
+nothing to report.
+
+**The fix.** The age was removed from the parse. Validity does not expire, and
+the freshness verdict is already carried, with its own bound, by the sibling
+`log_*` check — so **no bound was moved and no check was deleted**. An
+unreadable artefact is now reported as a parse error instead of being allowed
+to escape: an escaping exception would turn the whole family into NOT_RUN and
+hide the other six artefacts with it.
+
+| | before | after |
+|---|---|---|
+| the parse | only while the artefact was under 1 hour old | on every artefact, whatever its age |
+| a corrupt state file older than an hour | **OK** — never opened | **FAIL**, and named in the evidence |
+| a valid state file older than an hour | OK | OK — age is not corruption |
+| the freshness verdict of the same file | STALE | STALE, same bound — no bound moved |
+| an unreadable artefact | raised → the whole family NOT_RUN | reported as a parse error; the other six still checked |
+
+**The control, falsified before it was trusted.** The new class
+`LogsParseAgeIndependent` was run against a mutant of the monitor with the age
+condition put back: **2 assertions go red** — the corrupt old file reads OK and
+the evidence list is empty. Against the repaired monitor: **6/6**.
+
+**What the sweep did not find.** The same shape — a control conditioned on a
+property unrelated to its claim — was looked for across the project: `monitor.py`
+and the collector were swept for age-gated conditions. The only remaining ones
+are the freshness verdicts themselves, which is what they are for. No other
+inert control of this class was found.
+
+## 9. The writer map, re-measured by cadence — and the two rows that were wrong
+
+The writer→artefact table in `11_SESSION_HANDOFF_2026-10-28.md` §4 is the
+reference every freshness bound in the monitor hangs on. It was measured at
+03:00 on 28 Oct. It has been **re-measured at 10:03–10:04**, by cadence rather
+than by reading the code: two samples 52 s apart, and the difference in mtimes.
+
+| Artefact | A scris în fereastra de 52 s? | Cadența observată | Scriitorul real | Cum e dovedit |
+|---|---|---|---|---|
+| `health.json` | da | ~25 s | worker-ul de refresh (`server.ps1`) | avansează o dată pe ciclu |
+| `sentinel-state.json` | da | ~25 s | worker | idem |
+| `state-history.jsonl` | da | ~25 s | worker | idem |
+| `minimax-ecosystem.json` | **nu** | ~100 s (al 4-lea ciclu) | worker | neatins în 52 s, dar scris la fiecare al 4-lea ciclu |
+| `guardian.log` | **da** | **~45 s** | **guardianul EXTERN** — `projects\scripts\sentinel-guardian.ps1`, task `OPTIMUS_SentinelGuardian`, pid 9976 | `server.ps1` nu conține niciun cuvânt „guardian", iar mtime-ul coincide cu timestamp-ul **propriei ultime linii** (10:03:00 → 10:04:31) |
+| `refresh-worker.log` | nu | la fiecare refresh de handshake (oră) | worker | neatins în 52 s; ultima intrare la 09:28:31 |
+
+**The row that was wrong.** The map said the refresh worker writes
+`guardian.log`. It does not — and the proof does not depend on reading the
+other repository: the worker cannot write a file whose name does not appear in
+it, and `guardian.log`'s mtime is its own content timestamp.
+
+**And the same map carried the same lie about the handshake.** Its row said the
+record was rewritten *"at 144 cycles (~1 hour)"*. 144 was the **divisor**; the
+delivered period was 144 × 4 = **576 cycles = 5h54m** (§4). The map repeated the
+defect it was meant to describe — a period read off a number in the code instead
+of off the clock. It is corrected there, and it now says 3600 s on the wall
+clock, which is what the code does since the fix.
+
+### Where the anchors that keep the deployment alive actually live
+
+| Mecanism | Unde e codul | Starea măsurată |
+|---|---|---|
+| ancora de Startup (`.bat`) | generată de `sentinel-hub.ps1 install-startup` | prezentă, 4557 B, scrisă 2026-10-06 — și **validă față de codul de azi**: conține `-Action start -FrontPort 8910 -BackPort 8912` și `-File "%SENTINEL_HUB%"`, adică exact cheile pe care installerul le verifică înainte de a scrie |
+| `OPTIMUS_SentinelGuardian` | `projects\scripts\sentinel-guardian.ps1` — repo **exterior** (HEAD `9c35528`, curat) | Running, pid 9976, scrie `guardian.log` la ~45 s |
+| `OPTIMUS_ControlCenter` | `projects\scripts\cc-watchdog.ps1` — același repo exterior | Running, pid 10024 |
+| `sentinel-cc.ps1 install-task` | **în acest repo** | **nu a fost rulat** — taskul `SENTINEL_CommandCenter` **nu există** pe mașină |
+
+**Nu e o nealiniere ascunsă:** repo-ul documentează explicit că `install-task` nu
+a fost rulat, ca decizie a lui Popy (`11_PLANS\DEPLOYMENT_GAP_CLOSURE.md`: *„is
+not run … Popy's call"*). Dar e un fapt structural de reținut: **codul care ține
+deploymentul viu trăiește în alt repository**, iar o clonă a acestui repo nu
+conține ancorele de activare — doar mecanismul de a le instala.
+
 

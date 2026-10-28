@@ -912,11 +912,36 @@ def log_checks() -> List[Dict[str, Any]]:
         out.append(check(f'log_{name}', 'logs', status, round(a, 1),
                          f'{path.name} last written {a:.0f}s ago',
                          f'< {STALE_SECONDS * 10}s'))
-        if path.suffix == '.json' and a < MAX_STATE_AGE:
+        # The age must not decide whether the file is VALID.
+        #
+        # Measured 2026-10-28: this parse ran only while the artefact was younger
+        # than MAX_STATE_AGE (1 hour). The artefacts in this family are written
+        # ON DEMAND - by the test suites and by operator actions - and nothing
+        # else writes them, so on a machine that is simply running they are
+        # routinely older than an hour. Which means the check whose own
+        # evidence reads "every state JSON must parse; a corrupt state file is
+        # a silent failure" did not parse them at all, and reported OK for a
+        # state file it had never opened. A corrupt orchestrator_state.json or
+        # performance_metrics.json older than an hour was silently accepted -
+        # while the sibling `log_*` check was reporting the same file as STALE,
+        # so one report said "this file is too old to trust" and "this file is
+        # valid" without having looked at it.
+        #
+        # Validity does not expire. The freshness verdict is already carried by
+        # the sibling `log_*` check, with its own bound; this check carries the
+        # INTEGRITY verdict, and it must carry it whatever the age.
+        if path.suffix == '.json':
             try:
                 json.loads(path.read_text(encoding='utf-8'))
             except json.JSONDecodeError as exc:
                 parse_errors.append(f'{path.name}: {exc}')
+            except OSError as exc:
+                # A file that exists and cannot be read cannot be parsed
+                # either, and it is the same silent failure. It is reported
+                # here rather than allowed to escape, because an escaping
+                # exception would turn the whole family into NOT_RUN and hide
+                # the other six artefacts with it.
+                parse_errors.append(f'{path.name}: unreadable: {exc}')
     out.append(check(
         'logs_parse', 'logs', OK if not parse_errors else FAIL, parse_errors,
         'every state JSON must parse; a corrupt state file is a silent failure',

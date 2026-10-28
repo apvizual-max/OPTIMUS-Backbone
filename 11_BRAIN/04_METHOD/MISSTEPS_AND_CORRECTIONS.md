@@ -764,3 +764,43 @@ had four. And **every branch a system can take must be reachable by a test on
 purpose** - a branch reached only by accident is a branch whose behaviour was
 never chosen, only discovered.
 
+### M-36 (2026-10-28) - A control conditioned on something unrelated to its claim is a control that is off in the normal state, and an off control reports green
+
+**What happened.** The monitor's check `logs_parse` carries the evidence "every
+state JSON must parse; a corrupt state file is a silent failure". The parse it
+performed was wrapped in `if a < MAX_STATE_AGE` - an hour. The artefacts are
+written on demand, by the test suites and by operator actions, so they are older
+than an hour whenever nobody has acted recently - which is the normal state of a
+machine that is simply running. The check was therefore reporting OK for state
+files it had never opened, and the sibling freshness check was reporting the same
+files as STALE in the same breath.
+
+**Why nothing was red.** The check's output is a status, not a fact about the
+file: "no parse errors" is exactly what a check that never parsed reports. A
+green control is not evidence that it ran; the evidence is what it read. Nothing
+in the report distinguished "parsed and valid" from "never opened", because the
+evidence list was empty in both cases.
+
+**What was done.** The age was removed from the parse. Validity does not expire,
+and the freshness verdict was already carried - with its own bound - by the
+sibling `log_*` check, so no bound was moved and no check was deleted. An
+unreadable artefact is now reported as a parse error instead of being allowed
+to escape, because an escaping exception would turn the whole family into
+NOT_RUN and hide the other six artefacts with it. The new class
+`LogsParseAgeIndependent` pins all of it, including the directions that must NOT
+change: a valid old file is still OK, and the freshness verdict of the same
+file is still STALE.
+
+**The control.** Run against a mutant with the age condition restored, two
+assertions go red - the corrupt old file reads OK and the evidence list is
+empty. Against the repaired monitor, 6/6.
+
+*Correction in force:* **a control conditioned on a property unrelated to its
+claim is a control that is off in the normal state - and an off control reports
+green.** Before trusting a green check, ask what it would have to read to fail,
+and then make it read that. If the answer is "it would have to be asked", the
+condition is the defect, not the artefact. And **an empty evidence list is not
+proof of absence**: "no parse errors" from a check that never parsed and "no
+parse errors" from a check that parsed everything are the same string and
+opposite facts.
+

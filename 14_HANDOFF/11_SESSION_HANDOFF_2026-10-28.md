@@ -270,8 +270,14 @@ module diferite. Fereastra coincide cu rularea suitei unitare.
 **2. Nicio buclă nu le atinge.** La 02:59:47, la ~6 minute de la pornirea
 worker-ului, vârstele erau **341–353 s** — deci **nu** au fost rescrise în
 ciclurile de 25 s care au trecut între timp. Worker-ul de refresh scrie altceva:
-`health.json`, `sentinel-state.json`, `state-history.jsonl`, `guardian.log`, și
-`minimax-ecosystem.json` la fiecare al 4-lea ciclu. Mulțimi disjuncte.
+`health.json`, `sentinel-state.json`, `state-history.jsonl` și
+`minimax-ecosystem.json` (acesta din urmă la fiecare al 4-lea ciclu).
+`guardian.log` **nu** e în această listă — **corecție măsurată pe 28 oct la
+10:03–10:04**, vezi `14_CD_SYNC_AND_CADENCE_2026-10-28.md` §9: `server.ps1` nu
+conține niciun cuvânt „guardian", iar `guardian.log` avansează pe o cadență de
+~45 s, cu mtime-ul egal cu timestamp-ul propriei ultime linii — deci e scris de
+guardianul extern `projects\scripts\sentinel-guardian.ps1`, nu de worker.
+Mulțimi disjuncte.
 
 **3. Codul spune cine scrie.** `bimodal_workflow.py` → `bimodal_state.json` +
 `bimodal_workflow.log`; `sentinel_orchestrator.py` → `orchestrator_state.json` +
@@ -287,12 +293,19 @@ acțiunile operatorului. Nu există scriitor cu ceas în spatele lor.
 
 | Artefact | Scris de | Când | Limita | Ce înseamnă STALE |
 |---|---|---|---|---|
-| `mcp_handshake.json` | `mcp_handshake.py` | **pe buclă**, la 144 de cicluri (~1 oră) + o dată la pornire | 24 h | scriitorul lipsește → defect real |
+| `mcp_handshake.json` | `mcp_handshake.py` | **pe buclă, pe ceas: 3600 s + o dată la pornire** — *corecție măsurată 28 oct: la momentul acestei tabel era „la 144 de cicluri (~1 oră)", dar 144 era ÎMPĂRȚITORUL, iar perioada livrată era 144 × 4 = 576 de cicluri = 5h54m (02:53:13 → 08:47:50); vezi `14_CD_SYNC_AND_CADENCE_2026-10-28.md` §4* | 24 h | scriitorul lipsește → defect real |
 | `health.json`, `sentinel-state.json`, `state-history.jsonl` | `collect-sentinel.ps1` | fiecare ciclu (25 s) | — | — |
 | `minimax-ecosystem.json` | `collect_minimax_ecosystem.py` | fiecare al 4-lea ciclu | — | — |
 | `bimodal_state.json` | `bimodal_workflow.py` | **la cerere** | 300 s (`workflow_state_fresh`) | vârsta e adevărul, nu o defecțiune |
 | `bimodal_workflow.log` | `bimodal_workflow.py` | **la cerere** | 1.800 s (`workflow_log`) | idem |
 | `orchestrator_state.json`, `state_transitions.log`, `performance_metrics.json`, `self_modifications.log`, `self_improvement.log` | cele 4 module proprii | **la cerere** | 3.000 s (cele 5 `log_*`) | idem |
+
+**Corecție măsurată pe 28 oct la 10:05.** Familia `log_*` are **7** artefacte
+(`monitor.py`, dicționarul `artifacts`), deci cu înregistrarea handshake sunt **8**;
+numărul „9" din sesiunea anterioară număra un fișier care nu e în familie —
+`guardian.log`, scris de guardianul extern, nu de bucla de refresh (vezi §9 din
+`14_CD_SYNC_AND_CADENCE_2026-10-28.md`). Cei doi termeni măsurați azi — *cine
+scrie* și *cât des* — sunt în tabel; restul e neschimbat.
 
 #### Decizia: limitele NU se ating
 

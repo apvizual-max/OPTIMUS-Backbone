@@ -1,6 +1,6 @@
 {
   "suite": "mavis-sentinel-hub deployment e2e",
-  "generated_at": "2026-10-28T09:34:46",
+  "generated_at": "2026-10-28T10:02:05",
   "passed": 74,
   "failed": 0,
   "not_run": 1,
@@ -80,12 +80,12 @@
     {
       "id": "route_readyz",
       "status": "PASS",
-      "detail": "200 91443 B"
+      "detail": "200 91870 B"
     },
     {
       "id": "route_api_state",
       "status": "PASS",
-      "detail": "200 91443 B"
+      "detail": "200 91870 B"
     },
     {
       "id": "route_api_health",
@@ -160,7 +160,7 @@
     {
       "id": "ecosystem_snapshot_fresh",
       "status": "PASS",
-      "detail": "snapshot age 116s, refreshed by the server's worker (bound 600s)"
+      "detail": "snapshot age 128s, refreshed by the server's worker (bound 600s)"
     },
     {
       "id": "ecosystem_route",
@@ -245,7 +245,7 @@
     {
       "id": "handshake_record_is_current",
       "status": "PASS",
-      "detail": "handshake record age 252s, rewritten by the daemon every 3600s (bound 7200s)"
+      "detail": "handshake record age 1890s, rewritten by the daemon every 3600s (bound 7200s)"
     },
     {
       "id": "handshake_record_control_discriminates",
@@ -350,7 +350,7 @@
     {
       "id": "inventory_registry_validates_parseable_source",
       "status": "PASS",
-      "detail": "parseable source validates: 49 classes"
+      "detail": "parseable source validates: 50 classes"
     },
     {
       "id": "dom_injection_guarded",
@@ -370,7 +370,7 @@
     {
       "id": "cd_control_built",
       "status": "PASS",
-      "detail": "control repository carrying an invalid path entry built at C:\\Users\\apviz\\AppData\\Local\\Temp\\sentinel-cd-verify-7ydpiiut\\control"
+      "detail": "control repository carrying an invalid path entry built at C:\\Users\\apviz\\AppData\\Local\\Temp\\sentinel-cd-verify-36shlpgt\\control"
     },
     {
       "id": "cd_clone_verifier_blocks_broken_tree",
