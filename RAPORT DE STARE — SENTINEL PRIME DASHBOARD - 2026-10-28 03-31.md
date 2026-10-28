@@ -39,6 +39,16 @@ git rev-parse HEAD          # local
 git ls-remote origin main   # remote  <- asta e verificarea de push
 ```
 
+**La fel, comiturile și fișierele:** cele de mai sus sunt cele măsurate la
+**03:30**, înainte de comitarea acestui raport — deci comitarea acestui raport
+le mărește fiecare cu 1. Verifică-le:
+
+```powershell
+git rev-list --count main
+git ls-files | Measure-Object -Line
+git -C .github-repo status --porcelain   # trebuie sa fie gol
+```
+
 ### Stare live a sistemului — măsurată 03:30
 
 | | Valoare |
