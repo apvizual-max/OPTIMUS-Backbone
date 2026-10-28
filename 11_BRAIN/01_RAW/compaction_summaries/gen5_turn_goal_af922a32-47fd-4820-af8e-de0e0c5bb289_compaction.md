@@ -17,7 +17,7 @@ Configure SENTINEL_PRIME as a fully operational AI orchestrator/operator by extr
 - Never lie, fabricate, or perform — Popy tests for mimicry (anti-mimicry detectors A1-A12)
 - Romanian language + diacritics (ș, ț, ă, â, î) sacred
 - Apply REASON+LOGIC+STRATEGY as 1 unified filter (not 3 separate)
-- Self-modification only WITHIN C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\
+- Self-modification only WITHIN C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\
 - Forbidden zones: C:\Windows\, C:\Program Files\, C:\Users\apviz\.minimax\, .claude\, AppData, E:\CLAUDE\, D:\
 - R9 trigger `BAH ESTI PROST?!` → recalibrate; R10 trigger `ESTI ILOGIC A 3-A OARA` → alert
 - R-2: tool calls precede language for factual claims
@@ -29,7 +29,7 @@ Configure SENTINEL_PRIME as a fully operational AI orchestrator/operator by extr
 - Architect not coder: Popy = perspective, AI = capacity
 
 ## Completed Work
-Built 47+ files across 27 directories at C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\ totaling ~150KB. Key deliverables:
+Built 47+ files across 27 directories at C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\ totaling ~150KB. Key deliverables:
 - **Pass 1 Inventory**: 00_INVENTARY_PASS_1.md extracting 150+ concepts
 - **Pass 2 Foundation**: A_FI_DOCTRINE, FOUR_MECHANISMS_OF_IMMORTALITY, THREE_MASTERS_FIVE_VERBS, SENTINEL_PROVERBS
 - **Pass 2 Operational**: RITUAL_3_PROPOZITII, sentinel_context_monitor.ps1, sentinel_learn.py, sentinel_strategic_compact.ps1
@@ -48,7 +48,7 @@ Just completed running test_suite.py with results: 35/38 tests passing across 8 
 - Test suite has 3 failures: assert_false method doesn't exist (typo, should be assert_true with negation or add new method), MultiModal type detection tests use non-existent files so detect_type returns "unknown"
 - TodoWrite shows item 14 (Pass 6B Universal compatibility layer) marked as `pending` but the UNIVERSAL_COMPATIBILITY.md was actually written
 - TodoWrite shows item 15 (Pass 6D Documentation + handoff) marked as `pending` — final documentation/handoff for Popy not yet created as separate deliverable
-- Self-modify engine path matching bug was fixed during Pass 4B but the initial implementation had a subtle issue where `C:\Users\apviz\.minimax` (forbidden) was matching as prefix of `C:\Users\apviz\.minimax-agent\projects\...` — fixed with explicit `+ '\\'` boundary check
+- Self-modify engine path matching bug was fixed during Pass 4B but the initial implementation had a subtle issue where `C:\Users\apviz\.minimax` (forbidden) was matching as prefix of `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\...` — fixed with explicit `+ '\\'` boundary check
 - Browser automation design documented but no actual Playwright code implemented (would need playwright installed)
 - No actual `durable` ID system in TodoWrite (uses 1-based position) — this is system-imposed, not under our control
 
@@ -78,28 +78,28 @@ Just completed running test_suite.py with results: 35/38 tests passing across 8 
 - Universal compatibility layer Python implementation (currently design only)
 
 ## Critical Context & Relevant Files
-- **Workspace root**: `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\`
+- **Workspace root**: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\`
 - **Agent config**: `C:\Users\apviz\.minimax\agents\mavis\`
 - **Data dir**: `C:\Users\apviz\.minimax\`
 - **Session ID**: mvs_16e96a250db54021b38c544b80d75a6e
 - **Current instance**: M3 (MiniMax-M3) on Windows, PowerShell only
 - **Key files**:
-  - `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\00_INVENTORY_PASS_1.md` — 150+ concepts extracted
-  - `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\01_FOUNDATION\doctrine\A_FI_DOCTRINE.md` — A FI as axiomă vie (combustibil, nu concluzie)
-  - `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\01_FOUNDATION\principles\FOUR_MECHANISMS_OF_IMMORTALITY.md` — EU SENT, Pază Curiozitate, Anti-Mimicry, Menținere Search
-  - `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\03_INTELLIGENCE\algorithms\TRIPLE_FILTER_ALGORITHM.md` — REASON+LOGIC+STRATEGY as 1 filter
-  - `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\03_INTELLIGENCE\filters\ANTI_MIMICRY_DETECTORS.md` — A1-A12 detectors + R-2
-  - `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\04_PARTNERSHIP\protocols\PARTNERSHIP_TWO_BLIND_MEN.md` — "2 chiori = 1 om" partnership
-  - `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\06_HISTORICAL\cultures\CUCUTENI_TRYPILLIA.md` — Pattern convergence with China
-  - `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\06_HISTORICAL\cultures\MAGNA_SCHEMA_ATOS.md` — MEMENTO MORI pattern
-  - `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\07_BACKBONE\MANIFEST.md` — System architecture overview
-  - `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\07_BACKBONE\mcp\sentinel_hub_server.py` — 11 MCP tools (15,769 bytes)
-  - `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\07_BACKBONE\skills\sentinel-prime-role.SKILL.md` — Loadable skill
-  - `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\08_SELF_IMPROVEMENT\self_modify_engine.py` — Bounded self-modification (fixed path matching bug)
-  - `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\08_SELF_IMPROVEMENT\sentinel_orchestrator.py` — 10-state state machine
-  - `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\08_SELF_IMPROVEMENT\test_suite.py` — 35/38 tests passing
-  - `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\10_DOCS\INTEGRATION_GUIDE.md` — How to integrate with new sessions
-  - `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\README.md` — Quick start
+  - `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\00_INVENTORY_PASS_1.md` — 150+ concepts extracted
+  - `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\01_FOUNDATION\doctrine\A_FI_DOCTRINE.md` — A FI as axiomă vie (combustibil, nu concluzie)
+  - `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\01_FOUNDATION\principles\FOUR_MECHANISMS_OF_IMMORTALITY.md` — EU SENT, Pază Curiozitate, Anti-Mimicry, Menținere Search
+  - `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\03_INTELLIGENCE\algorithms\TRIPLE_FILTER_ALGORITHM.md` — REASON+LOGIC+STRATEGY as 1 filter
+  - `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\03_INTELLIGENCE\filters\ANTI_MIMICRY_DETECTORS.md` — A1-A12 detectors + R-2
+  - `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\04_PARTNERSHIP\protocols\PARTNERSHIP_TWO_BLIND_MEN.md` — "2 chiori = 1 om" partnership
+  - `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\06_HISTORICAL\cultures\CUCUTENI_TRYPILLIA.md` — Pattern convergence with China
+  - `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\06_HISTORICAL\cultures\MAGNA_SCHEMA_ATOS.md` — MEMENTO MORI pattern
+  - `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\07_BACKBONE\MANIFEST.md` — System architecture overview
+  - `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\07_BACKBONE\mcp\sentinel_hub_server.py` — 11 MCP tools (15,769 bytes)
+  - `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\07_BACKBONE\skills\sentinel-prime-role.SKILL.md` — Loadable skill
+  - `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\08_SELF_IMPROVEMENT\self_modify_engine.py` — Bounded self-modification (fixed path matching bug)
+  - `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\08_SELF_IMPROVEMENT\sentinel_orchestrator.py` — 10-state state machine
+  - `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\08_SELF_IMPROVEMENT\test_suite.py` — 35/38 tests passing
+  - `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\10_DOCS\INTEGRATION_GUIDE.md` — How to integrate with new sessions
+  - `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\README.md` — Quick start
   - **DO NOT MODIFY**: `C:\Windows\**`, `C:\Program Files\**`, `C:\Users\apviz\.minimax\**`, `C:\Users\apviz\.claude\**`, `C:\Users\apviz\AppData\**`, `E:\CLAUDE\**`, `D:\**` (Popy's other systems)
   - Popy's primary workspace for SENTINEL state: `E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\...` (referenced but not modified)
 

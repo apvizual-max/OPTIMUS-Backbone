@@ -26,7 +26,7 @@ from pathlib import Path
 
 WORKSPACE = Path(os.environ.get(
     'WORKSPACE_ROOT',
-    r'C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME'))
+    r'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME'))
 OUT = WORKSPACE / '11_BRAIN' / '05_SOURCES' / 'source_registry.json'
 
 DOC_EXT = {'.md', '.txt', '.json', '.jsonl', '.py', '.ps1', '.yaml', '.yml'}
@@ -53,11 +53,11 @@ SOURCES = [
     ('SENTINEL_CHARACTER', 'SENTINEL character assets (AUDIO / VIDEO catalogued, not opened)',
      Path(r'D:\Alex_Knowlege_Vault\03_Resources\03_7-SENTINEL_Character'), 'media'),
     ('PROJECTS_ROOT_REPORTS', 'Integration and status reports at the projects root',
-     Path(r'C:\Users\apviz\.minimax-agent\projects'), 'md'),
+     Path(r'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard'), 'md'),
     ('OPTIMUS_CONTROL_CENTER', 'The proven dashboard pattern, read-only reference',
-     Path(r'C:\Users\apviz\.minimax-agent\projects\90_CONTROL_CENTER'), 'md'),
+     Path(r'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\90_CONTROL_CENTER'), 'md'),
     ('DESIGN_SOT', 'Obsidian Telemetry Dark design system, read-only working copy',
-     Path(r'C:\Users\apviz\.minimax-agent\projects\95_DESIGN_SOT'), 'full'),
+     Path(r'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\95_DESIGN_SOT'), 'full'),
 ]
 
 

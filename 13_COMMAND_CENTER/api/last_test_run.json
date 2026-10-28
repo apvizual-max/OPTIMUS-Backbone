@@ -1,6 +1,6 @@
 {
-  "ran_at": "2026-10-28T09:58:04.968842",
-  "passed": 618,
+  "ran_at": "2026-10-28T11:57:12.531966",
+  "passed": 661,
   "failed": 0,
   "skipped": 0,
   "not_run": [],
@@ -288,6 +288,14 @@
       "partial": false
     },
     {
+      "name": "ContextPressure",
+      "passed": 43,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
       "name": "DashboardBoot",
       "passed": 10,
       "failed": 0,
@@ -408,5 +416,5 @@
       "partial": false
     }
   ],
-  "total_classes": 50
+  "total_classes": 51
 }

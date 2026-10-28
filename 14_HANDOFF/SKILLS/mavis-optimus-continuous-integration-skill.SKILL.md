@@ -12,8 +12,8 @@ construiesc sistemul pe care lucrează toți ceilalți.
 |---|---|
 | **Proiect** | Mavis Optimus Continuous Integration |
 | **Instanță** | **LOCAL** → am nevoie de R0 la push |
-| **HQ** | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Continuous-Integration\` → **`E:\Google\GDrive\GDrive-Second_Brain_PKMS\02_Areas\02-2-AI-SOT\CASA\OPTIMUS - Prime\Optimus_CI (by Mavis)`** (mutat pe `E:` în 2026-10-27; vezi secțiunea „Puntea Local ↔ Cloud") |
-| **Joncțiune locală** | `C:\Users\apviz\.minimax-agent\projects\Optimus_CI (by Mavis)` → `E:` (`LinkType=Junction`) |
+| **HQ** | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Optimus-Continuous-Integration\` → **`E:\Google\GDrive\GDrive-Second_Brain_PKMS\02_Areas\02-2-AI-SOT\CASA\OPTIMUS - Prime\Optimus_CI (by Mavis)`** (mutat pe `E:` în 2026-10-27; vezi secțiunea „Puntea Local ↔ Cloud") |
+| **Joncțiune locală** | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Optimus_CI (by Mavis)` → `E:` (`LinkType=Junction`) |
 | **Repo** | `apvizual-max/MAVIS-OPTIMUS-CI` |
 | **Plan** | `blueprint\BLUEPRINT-PLAN-CI.md` |
 | **Canal primar** | **Google Drive** — `BRIDGE-DRIVE\` |
@@ -261,7 +261,7 @@ Costul canalului primar e **latența: ≈ 80 min** măsurată (scriere locală
 | Element | Valoare |
 |---|---|
 | Sursa CI | `E:\Google\GDrive\GDrive-Second_Brain_PKMS\02_Areas\02-2-AI-SOT\CASA\OPTIMUS - Prime\Optimus_CI (by Mavis)` |
-| Joncțiune | `C:\Users\apviz\.minimax-agent\projects\Optimus_CI (by Mavis)` → `E:` (`LinkType=Junction`) |
+| Joncțiune | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Optimus_CI (by Mavis)` → `E:` (`LinkType=Junction`) |
 | `.git` | **fișier** (worktree link) → `gitdir: E:/Google/GitData-Optimus-CI/repo` |
 | Gitdata | **un singur folder** pe proiect: `E:\Google\GitData-Optimus-CI\` → `repo\` · `clone-MAVIS-CLOUD\` · `clone-MAVIS-OPTIMUS-CI\` · `scratch\` |
 | `G:` | volum fix, **nu** mount virtual; `G:\My Drive.lnk` → `E:\Google\GDrive` |
