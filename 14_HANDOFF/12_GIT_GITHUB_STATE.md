@@ -40,25 +40,25 @@ Atestation-ul se face manual: `lrc review --vouch --staged` înainte de commit.
 
 | | Valoare | Ora |
 |---|---|---|
-| Ramură locală | `main` | 02:45 |
-| `HEAD` local | `27023fd` (pachetul de predare) | 02:45 |
-| `origin/main` | `27023fd` — **identic** | 02:45 |
-| Ahead / behind | **0 / 0** | 02:45 |
-| Comituri pe `main` | **55** | 02:45 |
-| Fișiere urmărite | 1.477 | 02:45 |
+| Ramură locală | `main` | 03:12 |
+| `HEAD` local | `git rev-parse HEAD` (la 03:12: `956485e`, commitul de lucru) | 03:12 |
+| `origin/main` | **identic** — `git ls-remote origin refs/heads/main` | 03:12 |
+| Ahead / behind | **0 / 0** | 03:12 |
+| Comituri pe `main` | **58** | 03:12 |
+| Fișiere urmărite | 1.485 | 03:12 |
 | Obiecte git | 1.481, `size-pack` 1,54 MiB | 02:34 |
 | Stash | `stash@{0}` — snapshot pre-sync, păstrat | 02:34 |
 
-**SHA-ul curent se citește, nu se memorează:**
+**SHA-ul nu e scris ca cifră aici pentru că s-ar invalida singur** la fiecare
+commit. Se citește:
 
 ```powershell
 git rev-parse HEAD          # local
 git ls-remote origin main   # remote  <- asta e verificarea de push
 ```
 
-Cifrele de mai sus sunt cele măsurate la **02:45 pe 28 oct**. După ultimul
-commit al sesiunii, SHA-ul final e în raportul de stare din rădăcină și în
-mesajul de commit — nu într-un document care s-ar invalida singur.
+Cifrele de mai sus sunt cele măsurate la **03:12 pe 28 oct**. După ultimul
+commit al sesiunii, SHA-ul final e în mesajul de commit.
 
 ### Comitul de reparare `e89887f`
 
@@ -116,7 +116,7 @@ IDENTICE = True
 |---|---|
 | Locație | `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\.github-repo` |
 | Origine | clonă a aceluiași repository, la `main` |
-| Statut | creată la `main`-ul final: **1.477 fișiere, `dirty=0`, SHA identic cu `main` și `origin/main`** (măsurat 02:45 pe 28 oct) |
+| Statut | creată la `main`-ul final: **1.485 fișiere, `dirty=0`, SHA identic cu `main` și `origin/main`** (măsurat 03:12 pe 28 oct) |
 | În `.gitignore` | **da**, cu motiv scris — e copie de lucru, nu conținut de proiect |
 
 Se resincronizează după orice push nou, cu `git -C .github-repo pull --ff-only`.

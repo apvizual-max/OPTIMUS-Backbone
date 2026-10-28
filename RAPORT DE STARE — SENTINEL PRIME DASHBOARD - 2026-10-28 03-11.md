@@ -11,23 +11,35 @@ Toate cifrele din acest raport sunt **măsurate acum**, între 03:00 și 03:11 p
 2026-10-28, pe arborele care se împinge. Ce nu a fost măsurat scrie
 `NOT_MEASURED`, nu se estimează.
 
-### Stare Git și GitHub — măsurată 03:09–03:11
+### Stare Git și GitHub — măsurată 03:09–03:12
 
 | | Valoare |
 |---|---|
 | Ramură | `main` — singura ramură activă, pe remote și în local |
 | Remote | `https://github.com/apvizual-max/SENTINEL_PRIME.git` |
 | Vizibilitate GitHub | **PRIVATE** |
-| `HEAD` local = `origin/main` | **`956485e`** — identic, 0 ahead / 0 behind |
-| Comituri pe `main` | **56** |
-| Fișiere urmărite | **1.484** |
-| Clona `.github-repo` | **1.484 fișiere, `dirty=0`, SHA identic cu `main` și `origin/main`** |
+| `HEAD` local = `origin/main` | **identic, 0 ahead / 0 behind** — SHA-ul curent se citește cu `git ls-remote origin refs/heads/main` |
+| Comituri pe `main` | **58** |
+| Fișiere urmărite | **1.485** |
+| Clona `.github-repo` | **1.485 fișiere, `dirty=0`, SHA identic cu `main` și `origin/main`** |
 | Obiecte git | `size-pack` 1,54 MiB |
 | Identitate | `Sentinel Prime <sentinel.prime@optimus.local>` |
 | `core.hooksPath` local | **gol** — starea **intenționată**, nu defect (corecție, vezi §5) |
 | Atestation | `lrc review --vouch --staged`, înainte de fiecare commit |
 | Verificare de push | `git ls-remote`, niciodată exit code-ul |
 | `stash@{0}` | păstrat ca a doua cale de recuperare |
+
+**De ce SHA-ul nu e scris ca cifră aici:** ar îmbătrâni la fiecare commit și ar
+contrazice chiar rândul de deasupra. Se citește, nu se memorează:
+
+```powershell
+git rev-parse HEAD          # local
+git ls-remote origin main   # remote  <- asta e verificarea de push
+```
+
+La 03:09, când am măsurat pentru prima dată, `main` era la `956485e` — commitul
+de lucru. După el au urmat comitul raportului și un `chore` care a scos un
+fișier temporar. Local, remote și clona sunt la același SHA, măsurat.
 
 ### Stare live a sistemului — măsurată 03:09, pe instanța curentă
 
