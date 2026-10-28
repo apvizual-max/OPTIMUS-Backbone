@@ -148,9 +148,12 @@ for (const m of parsed) {
   }
 }
 
-// markdown sections
+// markdown sections — the sequence is zero-padded to 4 digits but grows past that:
+// a session with more than 9 999 messages renders `## [10000]`, so the pattern must
+// accept 4 OR MORE digits. Measured 2026-10-28: with `\d{4}\]` the count stopped at
+// 9 999 and the verifier reported a false mismatch on a 10 585-message archive.
 const md = readFileSync(mdPath, 'utf8');
-const mdSections = (md.match(/^## \[\d{4}\] /gm) || []).length;
+const mdSections = (md.match(/^## \[\d{4,}\] /gm) || []).length;
 
 // content integrity: every user message's first 120 chars must appear in the markdown
 const mdHas = (s) => md.includes(s);
@@ -232,6 +235,7 @@ console.log(`tool calls    : store ${dbToolCalls} / transcript ${outToolCalls}`)
 console.log(`md sections   : ${mdSections}`);
 console.log(`md bytes      : ${statSync(mdPath).size}  jsonl bytes: ${statSync(jsonlPath).size}`);
 console.log(`declared gaps : ${(manifest.gaps ?? []).length}`);
+console.log(`in-session ENOENT reads: ${(manifest.read_failures_in_session ?? []).length} (the session's own record; not a gap in this archive)`);
 console.log(`sha256 seal   : ${sumsState}`);
 if (missingSamples.length) console.log(`missing ids   : ${missingSamples.join(', ')}`);
 if (userSamples.length) console.log(`user text not in md: ${JSON.stringify(userSamples)}`);

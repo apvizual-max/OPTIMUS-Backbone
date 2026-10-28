@@ -306,6 +306,7 @@ function main() {
 
   const msgs = [];
   const gaps = [];
+  const readFailures = [];
   const artifactCopies = new Map();
   const textFileIndex = new Map();
   let toolCallCount = 0;
@@ -361,13 +362,25 @@ function main() {
           inlineArtifactBytes += art.bytes;
           artifactCopies.set(art.resolved ?? ref, art.sha256);
         } else if (art.status === 'MISSING-ON-DISK') {
-          gaps.push({
-            kind: 'externalized-artifact-missing',
-            msg_id: rec.msg_id,
-            tool: call.tool_name,
-            path: ref,
-            resolved_as: art.resolved,
-          });
+          // A read that ALREADY failed inside the session is not a gap in the archive:
+          // the record is complete — the file simply never existed. Measured 2026-10-28
+          // (session mvs_e8f4c73a82b342d59a8a240e4379f812): a `read` of a non-existent
+          // tool-outputs file returned ENOENT inside the session, and the extractor
+          // reported that as a missing artefact — a false-positive gap that also makes
+          // the verifier fail for an archive that is in fact complete.
+          const failedInSession =
+            /ENOENT|no such file or directory|cannot find the (file|path)|The system cannot find/i.test(text);
+          if (failedInSession) {
+            readFailures.push({ msg_id: rec.msg_id, tool: call.tool_name, path: ref });
+          } else {
+            gaps.push({
+              kind: 'externalized-artifact-missing',
+              msg_id: rec.msg_id,
+              tool: call.tool_name,
+              path: ref,
+              resolved_as: art.resolved,
+            });
+          }
         } else if (art.status === 'TOO-LARGE-NOT-INLINED') {
           gaps.push({
             kind: 'externalized-artifact-not-inlined-too-large',
@@ -478,6 +491,7 @@ function main() {
   md.push(`| Tool calls recorded | ${toolCallCount} |`);
   md.push(`| Externalised artifacts inlined | ${artifactCopies.size} (${inlineArtifactBytes} B) |`);
   md.push(`| Externalised artifacts missing on disk | ${gaps.filter((g) => g.kind === 'externalized-artifact-missing').length} |`);
+  md.push(`| Reads that already failed inside the session (ENOENT) | ${readFailures.length} |`);
   md.push(`| Distinct read-file pointers | ${textFileIndex.size} |`);
   md.push(`| Tokens (in/out/cache-read) | ${usage?.in_tok ?? '—'} / ${usage?.out_tok ?? '—'} / ${usage?.cache_tok ?? '—'} |`);
   md.push('');
@@ -656,6 +670,7 @@ function main() {
       raw_copies: copied,
     },
     gaps,
+    read_failures_in_session: readFailures,
     read_file_pointers: [...textFileIndex.values()].map((v) => ({
       path: v.path,
       refs: v.refs,

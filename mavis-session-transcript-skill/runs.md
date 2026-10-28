@@ -30,3 +30,9 @@ Written by `mavis-session-extract-bot-skill` → `log-run.mjs`.
 - outcome: 5794 rows / 5569 tool calls / 0 gaps at boundary id<=74015; md 21982758 B, jsonl 23896944 B, raw 123 files, SHA256SUMS.txt seals 126 files. verify-transcript.mjs exit 0 (PASS) and now reports drift (store now 5795, 1 row past the boundary, session status=started). Three falsification controls, all blocking on the right reason: --strict-current -> exit 1 (stale); truncated copy -> exit 1 (coverage); one flipped byte -> exit 1 (seal digest mismatch, 1 named defect). Also unstaged 126 archive files that a peer had git-added (150 -> 24 staged, files kept on disk).
 - logged-by: mavis-session-extract-bot-skill
 
+## 2026-10-28 11:30:57 — success — Full transcript extraction: mvs_e8f4c73a82b342d59a8a240e4379f812 (Mavis - QWEN - Ecosystem Dashboard) -> AI_Tools\QWEN_Optimus_System_Dashboard\.transcripts\Optimus-Qwen_System-Dashboard-10-28-2026-chat
+- source: minimax-code-local-runtime
+- session: mvs_e8f4c73a82b342d59a8a240e4379f812
+- outcome: 10590 messages (99 user / 10208 assistant / 283 system-event), 10474 tool calls, 0 gaps at boundary id<=78319; md 40286976 B, jsonl 43528859 B, raw 94 files, SHA256SUMS.txt seals 97 files; 98 files / 121.9 MB total. verify-transcript.mjs exit 0 (PASS, seal CHECKED 97 files 0 problems), 1 row past the boundary (session still started). Three falsification controls block on the right reason: --strict-current exit 1 (stale), truncated copy exit 1 (coverage), one flipped byte exit 1 (digest mismatch). Two defects fixed at source: an in-session ENOENT read was counted as a missing artefact (false-positive gap), and the md section counter stopped at 9999 (false mismatch on a 10585-message archive). Archive protected from an accidental git add -A by a clone-local .git/info/exclude rule.
+- logged-by: mavis-session-extract-bot-skill
+

@@ -167,6 +167,21 @@ a row count (both are self-consistent) but not to a digest.
   - A third party verifying the archive must be told the boundary explicitly; "is it
     complete?" and "is it current?" are different questions, and for a live session the
     second one is answered by the store, not by the archive.
+- **A read that already failed inside the session is not a gap in this archive.** Measured
+  2026-10-28 (session `mvs_e8f4c73a82b342d59a8a240e4379f812`, 10 585 messages): the session
+  called `read` on a `tool-outputs\…txt` that did not exist and the runtime answered
+  `ENOENT: no such file or directory` — the record is complete, the file never existed. The
+  extractor was reporting that as `externalized-artifact-missing`, i.e. a false-positive gap
+  that also made the verifier fail on a complete archive. Fixed: a result whose text carries
+  the ENOENT/not-found marker is counted as `read_failures_in_session` in the manifest and
+  in the ledger, not as a gap. **A gap must mean "the archive is missing something", never
+  "the session recorded a failure".**
+- **The markdown section counter must survive 9 999 messages.** The section heading is
+  `## [0001] …`, zero-padded to four digits — but a session with more than 9 999 messages
+  renders `## [10000]`, so a `\d{4}\]` pattern stops counting at 9 999 and the verifier
+  reports a false mismatch (measured: 9 999 counted vs 10 585 real, difference exactly 586).
+  The pattern is `\d{4,}]`. When a counter disagrees with the total, check the counter's own
+  ceiling before doubting the data.
 - **Times are Europe/Bucharest** in the rendered text; the JSONL carries both the epoch
   ms and the local rendering.
 - **Cleaning the falsification copy on Windows needs the recoverable route.** The
