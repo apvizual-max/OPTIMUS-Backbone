@@ -12,3 +12,9 @@ Written by `mavis-session-extract-bot-skill` → `log-run.mjs`.
 - outcome: 2.903 mesaje (55 user / 2.806 assistant / 42 system-event), 3.393 apeluri de unelte, 6 iesiri externalizate incorporate (394.086 B), 0 gapuri, 55 fisiere / 40,5 MB; verifier exit 0 (store 2.903 = transcript 2.903, tool calls 3.393 = 3.393, 2.903 sectiuni md); iesire in Optimus_CI (by Mavis)\sessions\Mavis Local - Optimus CI Bridge - Setup Session
 - logged-by: mavis-session-extract-bot-skill
 
+## 2026-10-28 02:01:07 — success — Full transcript extraction: mvs_16e96a250db54021b38c544b80d75a6e (Mavis - SENTINEL - Role Dashboard) -> SENTINEL_PRIME\.transcripts\Sentinel_Role-Dashboard-10-28-2026-chat
+- source: minimax-code-local-runtime
+- session: mvs_16e96a250db54021b38c544b80d75a6e
+- outcome: 5716 message rows (131 user / 5438 assistant / 147 system-event), 5492 tool calls, 0 gaps, md 21479246 B + jsonl 23362364 B + raw 123 files, verify-transcript.mjs exit 0 (PASS), falsification control on truncated copy exit 1 with 63 defects
+- logged-by: mavis-session-extract-bot-skill
+

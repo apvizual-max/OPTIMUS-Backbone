@@ -106,9 +106,24 @@ transcript that was not verified is a claim, not a deliverable.
   exist; files deleted since the session are reported as `NOT ON DISK AT EXTRACTION TIME`.
   This is a limit of the *session record*, not of the extractor.
 - **The transcript can be large.** A 16-day session with 3 200+ tool calls is ~17 MB of
-  markdown and ~18 MB of JSONL. That is the size of the record, not padding.
+  markdown and ~18 MB of JSONL. That is the size of the record, not padding. Measured
+  ceiling so far — a **46-day** branch session (2026-09-11 → 2026-10-28, 5 716 rows,
+  5 492 tool calls) came out at **21 479 246 B** markdown + **23 362 364 B** JSONL +
+  **10 690 867 B** of raw sidecars = **55 582 434 B across 126 files** (53,01 MB).
+  Budget ~60 MB per extraction and check the free space before starting.
+- **Branch sessions reach outside their own folder.** The artifact index for the run
+  above covered **570 files across 10 `tool-outputs` directories** — files written by
+  sibling sessions, resolved by content-addressed name. The `raw\` folder in the
+  deliverable carries only what this session owns (123 files in that run); the rest are
+  inlined into the transcript body.
 - **Times are Europe/Bucharest** in the rendered text; the JSONL carries both the epoch
   ms and the local rendering.
+- **Cleaning the falsification copy on Windows needs the recoverable route.** The
+  PowerShell shell resolves `rm` to the `Remove-Item` alias, which the safety gate
+  refuses (permanent delete, no Recycle Bin). Use the trusted launcher instead:
+  `ELECTRON_RUN_AS_NODE=1` + `MiniMax Code.exe` + `bin\mavis-trash.js` — the same call
+  `bin\mavis-trash.cmd` makes. The scratch copy of a control must not be deleted with a
+  permanent command.
 
 ## Doctrine this skill obeys
 
