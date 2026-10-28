@@ -38,9 +38,10 @@
   },
   {
     "id": "CONCEPT_C21",
-    "status": "OPEN",
-    "verification": "concept C21 computes to PARTIAL (doctrine_exists=True, implementation_exists=True, symbols_missing=[])",
-    "verified_at": "2026-10-28T07:09:28+02:00",
+    "status": "CLOSED-BUILT",
+    "verification": "concept C21 computes to OBSERVABLE (doctrine_exists=True, implementation_exists=True, symbols_missing=[])",
+    "verified_at": "2026-10-28T11:00:39+02:00",
+    "closed_at": "2026-10-28T11:00:39+02:00",
     "area": "concept",
     "what": "Context pressure monitor is PARTIAL",
     "evidence": "doctrine_exists=True implementation_exists=True symbols_missing=[]",

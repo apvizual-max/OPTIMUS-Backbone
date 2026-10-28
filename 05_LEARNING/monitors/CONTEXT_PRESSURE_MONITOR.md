@@ -22,7 +22,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-WORKSPACE = Path('C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME')
+WORKSPACE = Path('C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME')
 
 class ContextPressureMonitor:
     def __init__(self):
@@ -154,7 +154,7 @@ La fiecare prompt SENTINEL:
 ```powershell
 # context_pressure.ps1
 param(
-    [string]$WorkspaceRoot = 'C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME'
+    [string]$WorkspaceRoot = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME'
 )
 
 $counter = Get-Content "$WorkspaceRoot\09_LOGS\context_counter.txt" -ErrorAction SilentlyContinue
@@ -162,7 +162,11 @@ if (-not $counter) { $counter = 0 }
 $counter = [int]$counter + 1
 $counter | Set-Content "$WorkspaceRoot\09_LOGS\context_counter.txt"
 
-$pct = [Math]::Min(100, [Math]::Round($counter * 2.5, 1))
+# 100.0, not 100: `[Math]::Min(100, <double>)` resolves to the
+# Math.Min(Int32, Int32) overload and truncates the double on the way in.
+# Measured 2026-10-28: it turned 2.5 into 2, so the figure this wrapper
+# prints did not match the one the Python reference computes.
+$pct = [Math]::Min(100.0, [Math]::Round($counter * 2.5, 1))
 
 if ($pct -ge 85) {
     Write-Host "🚨 CRITICAL ($pct%) - strategic-compact MANDATORY" -ForegroundColor Red

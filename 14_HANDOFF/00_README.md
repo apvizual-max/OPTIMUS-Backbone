@@ -102,9 +102,23 @@ make a folder tidy.
   a real MCP stdio handshake — 22 tools over stdio. The tool that regenerates the
   register used to **overwrite** it, and one run destroyed 11 of the 18 entries; it now
   merges, re-measures what it can measure, and preserves what it cannot. The ledger holds
-  19 entries: **6 open, 13 closed**, each closed entry carrying the measurement that
+  19 entries: **5 open, 14 closed**, each closed entry carrying the measurement that
   closed it. The control was falsified — red on the old builder, naming the 12 lost
   entries. Details in `13_GAP_REGISTER_AUDIT_2026-10-28.md`.
+- **2026-10-28 — the context pressure monitor had never watched anything.**
+  `CONCEPT_C21` was the only one of the 24 concepts whose status could not change: it sat
+  on a rung that asked for a non-empty list of symbols while the row declared `symbols=[]`.
+  Under that unchangeable verdict: the role skill invoked a `.ps1` with `python` (exit 1,
+  `SyntaxError`), so the counter was never written; the hub read a missing counter as a
+  pressure of zero and answered `OK / 0%`; the script published two scores it had never
+  measured (`mimicryScore` = 100, `dorScore` = 75) as if they were readings; and
+  `[Math]::Min(100, 2.5)` truncated the pressure figure to 2 while the hub and the monitor
+  said 2.5. Repaired and re-measured: `CONCEPT_C21` is `CLOSED-BUILT` — the register now
+  holds **5 open, 14 closed** — the live reading is counter 2 / 5% with anti-mimicry and
+  DOR **measured** (the state file is now written, by the system's own tool, over a real
+  MCP handshake), and the new class `ContextPressure` (43 assertions) was falsified against
+  six mutants, each of which goes red. Details in R22 and in
+  `14_CD_SYNC_AND_CADENCE_2026-10-28.md` §10.
 
 **Figures in files 01–09 are from 2026-10-06** and are a snapshot, not the
 current state. The live numbers are in file 11 and in the status report at the

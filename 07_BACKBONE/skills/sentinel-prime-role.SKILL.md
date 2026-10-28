@@ -142,14 +142,19 @@ Combinare prin REASON+LOGIC+STRATEGY
 ## Operational Scripts
 
 ```bash
-# Check context pressure
-python C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\02_OPERATIONAL\scripts\sentinel_context_monitor.ps1
+# Check context pressure.
+# The script is POWERSHELL, not Python. It was invoked here with `python`,
+# and a .ps1 is not Python: `python sentinel_context_monitor.ps1` exits 1
+# with a SyntaxError at the `param(...)` line. Measured 2026-10-28 in a
+# sandbox. So the context counter was NEVER written on this machine, and
+# the pressure watchdog answered OK because it had never measured anything.
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\02_OPERATIONAL\scripts\sentinel_context_monitor.ps1
 
 # Extract patterns
-python C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\02_OPERATIONAL\scripts\sentinel_learn.py
+python C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\02_OPERATIONAL\scripts\sentinel_learn.py
 
 # Strategic compact
-powershell C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\02_OPERATIONAL\scripts\sentinel_strategic_compact.ps1
+powershell C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\02_OPERATIONAL\scripts\sentinel_strategic_compact.ps1
 ```
 
 ## Validation Tests

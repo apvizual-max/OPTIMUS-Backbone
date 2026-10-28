@@ -98,7 +98,7 @@ Every file below has its previous version kept as `<file>.bak-20261028_0705`.
 | file | what changed |
 |---|---|
 | `08_SELF_IMPROVEMENT\build_program_matrix.py` | the builder **merges** the ledger instead of overwriting it; every measurable gap has a probe; a probe that cannot run reports NOT_MEASURED and changes no status; a closed entry keeps the record of its closure, so a second run leaves the file byte-identical; `mcp_wired` is measured from the handshake artefact |
-| `12_PROGRAM\GAP_REGISTER.json` | 19 entries: **6 open, 13 `CLOSED-BUILT`**, each closed entry carrying the dated measurement that closed it, the original claim kept visible above it |
+| `12_PROGRAM\GAP_REGISTER.json` | 19 entries: **5 open, 14 `CLOSED-BUILT`** (the fourteenth closed at 11:00:39, when `CONCEPT_C21` was built), each closed entry carrying the dated measurement that closed it, the original claim kept visible above it |
 | `13_COMMAND_CENTER\api\collect-sentinel.ps1` | the panel is handed the **open** entries; the closed ones are counted and named beside them (`gaps_closed_count`, `gaps_closed_ids`) |
 | `08_SELF_IMPROVEMENT\test_suite.py` | new class `Gap register integrity` (9 assertions) |
 | `08_SELF_IMPROVEMENT\test_deployment.py` | new phase `gap_count_matches_ledger` — runs the collector, then checks the live `/api/state` against the ledger |
@@ -139,17 +139,28 @@ proved nothing.
 | live `/api/state` | `gaps` = 6, `gaps_closed_count` = 13 | 07:24 |
 | live `/api/health` | 56 checks, **0 FAIL**, 54 OK / 2 STALE at rest, 46 OK / 10 STALE when the on-demand artefacts age | 06:53 / 07:24 |
 | `build_program_matrix.py` run twice | the file is byte-identical after the second run | 07:07 |
+| ledger, after `CONCEPT_C21` was closed | 19 entries — **5 open, 14 closed** | 11:00 |
+| live `/api/state`, after `CONCEPT_C21` was closed | `gaps` = 5, `gaps_closed_count` = 14, `CONCEPT_C21` in `gaps_closed_ids` | 11:07 |
+| context pressure, first live readings | counter 1 → 2, pressure 2.5% → 5%, status OK; anti-mimicry and DOR measured from the state file | 11:01 / 11:20 |
+| the sentinel state | written by `sentinel_set_state` over a real MCP handshake; all four flags active, with `updated_at` | 11:18 |
 
-## 8. Still open — six entries, and they are real
+## 8. Still open — five entries, and they are real
 
 | id | what it is | why it is open |
 |---|---|---|
 | `CONCEPT_C18` | Partnership protocol (two blind men) | documentation only, by design |
 | `CONCEPT_C19` | The 3-Propozitii ritual as an invocable command | described, not wired to a command |
-| `CONCEPT_C21` | Context pressure monitor | partially implemented, not surfaced |
 | `CONCEPT_C23` | Historical cultures corpus | a corpus, not a program — correctly so |
 | `CONCEPT_C24` | 963 Hz / SACRU proverbs | doctrine only; the source is a 25-axis matrix, and its per-proverb attributions are flagged in-file as fabricated by an earlier agent |
 | `HPROF_NPX_LAUNCH` | **new, measured 2026-10-28** | the blueprint launches its two npm-backed profile servers with the bare command `npx`, which resolves to a batch file and failed to spawn from a non-shell launcher (`WinError 2`); the live profile launches the installed `.cmd` shims instead |
+
+`CONCEPT_C21` was the sixth entry on this list, and it left it on **2026-10-28 at
+11:00:39** — closed by construction, not by editing a declaration. The chain
+is now doctrine -> script (`Read-Counter`, `Read-SentinelState`,
+`Write-PressureLog`) -> test (`ContextPressure`) -> MCP tool
+(`sentinel_check_context`, measured as served over stdio) -> panel (`Wiring`).
+See R22 in `13_COMMAND_CENTER\EVOLUTION.md` and
+`14_HANDOFF\14_CD_SYNC_AND_CADENCE_2026-10-28.md` §10.
 
 `HPROF_NPX_LAUNCH` needs Popy's R0, because the only honest fix is to repoint a
 blueprint declaration. The precedent is on record: on 2026-10-10 `web-tools` and `git`

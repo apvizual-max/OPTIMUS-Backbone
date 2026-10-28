@@ -14,7 +14,7 @@ from datetime import datetime
 from typing import Optional
 
 
-WORKSPACE = Path(os.environ.get('WORKSPACE_ROOT', 'C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME'))
+WORKSPACE = Path(os.environ.get('WORKSPACE_ROOT', 'C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME'))
 sys.path.insert(0, str(WORKSPACE / '08_SELF_IMPROVEMENT'))
 
 
@@ -1608,6 +1608,324 @@ def test_logs_parse_is_independent_of_age():
     return result
 
 
+def test_context_pressure():
+    """The context pressure monitor must measure, not announce.
+
+    Defect found 2026-10-28, in CONCEPT_C21.
+
+    The context pressure monitor was a watchdog that had never watched
+    anything, and four failures lined up - each one hiding the next:
+
+      1. The role skill invoked the script with `python`, which cannot parse
+         a .ps1 and exits 1 with a SyntaxError at the `param(...)` line. The
+         counter file was therefore never written on this machine: the
+         pressure was never measured at all.
+      2. The hub tool answered OK / 0% / "Continue normally" when the counter
+         was missing, because a missing counter was read as a counter of
+         zero. The anti-overflow watchdog reported the best possible state
+         because it had measured nothing.
+      3. The script published two numbers it had never measured: a mimicry
+         score (the constant 100, commented as a placeholder) and a DOR score
+         (the constant 75). They went into the status document as readings,
+         and the guards compared against those same constants, so the guards
+         could never fire.
+      4. `[Math]::Min(100, ...)` resolved to the Int32 overload and
+         truncated the figure: 2.5 was reported as 2, so the script disagreed
+         with the hub and with the monitor about the same quantity.
+
+    This test runs the repaired script for real, in a sandbox, and pins the
+    behaviour that matters:
+      - no score is published that was not measured
+      - a missing counter is NOT_RUN in the monitor and NOT_MEASURED in the
+        hub - never OK, never 0%
+      - a corrupt counter is a named failure: no exception, no silent zero,
+        and the broken counter is not overwritten
+      - the pressure figure is the doctrine figure, not a truncated one
+      - the matrix row declares the tool that exposes the monitor, and the
+        concept computes OBSERVABLE
+    """
+    result = TestResult('ContextPressure')
+    import asyncio
+    import importlib.util
+    import subprocess
+    import monitor
+
+    script = WORKSPACE / '02_OPERATIONAL' / 'scripts' / 'sentinel_context_monitor.ps1'
+    if not script.exists():
+        result.error('the context monitor script is missing')
+        return result
+
+    # -- 1. the code publishes no invented score -------------------------
+    # The script's comment block NAMES the two fields it used to publish, so
+    # the check runs against the code and not against the prose.
+    source = script.read_text(encoding='utf-8', errors='replace')
+    code = '\n'.join(ln.split('#', 1)[0] for ln in source.splitlines()
+                     if not ln.strip().startswith('#'))
+    for fake in ('mimicryScore', 'dorScore'):
+        result.assert_false(fake in code,
+                            f'the script does not publish {fake} any more')
+    for constant in ('return 100', 'return 75'):
+        result.assert_false(constant in code,
+                            f'the placeholder constant "{constant}" is gone')
+
+    with tempfile.TemporaryDirectory() as tmp:
+        base = Path(tmp)
+        logs = base / '09_LOGS'
+        counter = logs / 'context_counter.txt'
+
+        def run_monitor():
+            return subprocess.run(
+                ['powershell', '-NoProfile', '-ExecutionPolicy', 'Bypass',
+                 '-File', str(script), '-WorkspaceRoot', str(base)],
+                capture_output=True, text=True, timeout=180,
+                encoding='utf-8', errors='replace')
+
+        # -- 2. the script, run for real, measures what it reports -------
+        try:
+            proc = run_monitor()
+        except Exception as exc:
+            result.error(f'the context monitor did not run: {exc}')
+            return result
+
+        result.assert_equals(proc.returncode, 0,
+                             'the monitor runs and reports success')
+        result.assert_true(counter.exists(),
+                           'the run records the counter it measures')
+        if counter.exists():
+            result.assert_equals(counter.read_text(encoding='utf-8').strip(), '1',
+                                 'the first run records one turn')
+
+        status_path = logs / 'session_status.json'
+        result.assert_true(status_path.exists(),
+                           'the run writes the status document')
+        if not status_path.exists():
+            return result
+        try:
+            status = json.loads(status_path.read_text(encoding='utf-8'))
+        except Exception as exc:
+            result.error(f'the status document does not parse: {exc}')
+            return result
+
+        result.assert_false('mimicryScore' in status,
+                            'the status document publishes no mimicry score')
+        result.assert_false('dorScore' in status,
+                            'the status document publishes no DOR score')
+        anti = status.get('anti_mimicry') or {}
+        dor = status.get('dor') or {}
+        result.assert_equals(anti.get('score'), None,
+                             'no score is reported when none was measured')
+        result.assert_equals(anti.get('score_measured'), False,
+                             'the score is marked as not measured')
+        result.assert_equals(anti.get('measured'), False,
+                             'the state flags are marked as not measured - '
+                             'the state file does not exist on this machine')
+        result.assert_equals(dor.get('score'), None,
+                             'no DOR score is reported')
+        result.assert_equals(dor.get('score_measured'), False,
+                             'the DOR score is marked as not measured')
+        # 1 * 2.5 = 2.5. The old `[Math]::Min(100, ...)` truncated it to 2.
+        result.assert_equals(status.get('estimated_pct'), 2.5,
+                             'the pressure figure is the doctrine figure, '
+                             'not a truncated one')
+
+        plog = logs / 'pressure_log.json'
+        result.assert_true(plog.exists(),
+                           'the pressure log the doctrine names is written')
+        if plog.exists():
+            entries = json.loads(plog.read_text(encoding='utf-8'))
+            result.assert_true(isinstance(entries, list),
+                                'the pressure log is a JSON list')
+            result.assert_equals(len(entries), 1,
+                                 'the pressure log holds the reading')
+
+        # -- 3. a corrupt counter is a named failure ---------------------
+        counter.write_text('not-a-number', encoding='utf-8')
+        try:
+            broken = run_monitor()
+        except Exception as exc:
+            result.error(f'the monitor did not run on a corrupt counter: {exc}')
+            return result
+        result.assert_equals(broken.returncode, 1,
+                             'a corrupt counter is a failure, not a success')
+        result.assert_equals(counter.read_text(encoding='utf-8').strip(),
+                             'not-a-number',
+                             'the broken counter is evidence and is not '
+                             'overwritten')
+        try:
+            broken_status = json.loads(
+                (logs / 'session_status.json').read_text(encoding='utf-8'))
+            result.assert_equals(broken_status.get('status'), 'ERROR',
+                                 'the failure is named in the status document')
+        except Exception as exc:
+            result.error(f'the status document does not parse: {exc}')
+
+        # -- 4. the monitor names every state of the counter -------------
+        original_logs = monitor.LOGS
+        original_handshake = monitor._HANDSHAKE
+        try:
+            # The handshake script spawns a server. Pointing it at a path
+            # that does not exist keeps this test on the decision it is about.
+            monitor._HANDSHAKE = base / 'no-such-handshake.py'
+            monitor.LOGS = logs
+
+            counter.unlink(missing_ok=True)
+            missing = {c['id']: c for c in monitor.wiring_checks()}
+            result.assert_equals(
+                (missing.get('context_pressure') or {}).get('status'), 'NOT_RUN',
+                'a counter that was never recorded is NOT_RUN, not OK and '
+                'not FAIL')
+
+            counter.write_text('garbage', encoding='utf-8')
+            corrupt = {c['id']: c for c in monitor.wiring_checks()}
+            result.assert_equals(
+                (corrupt.get('context_pressure') or {}).get('status'), 'FAIL',
+                'a counter that cannot be read is a named failure')
+
+            counter.write_text('1', encoding='utf-8')
+            low = {c['id']: c for c in monitor.wiring_checks()}
+            result.assert_equals(
+                (low.get('context_pressure') or {}).get('status'), 'OK',
+                'a measured pressure below the WARN threshold is OK')
+
+            counter.write_text('20', encoding='utf-8')
+            high = {c['id']: c for c in monitor.wiring_checks()}
+            result.assert_equals(
+                (high.get('context_pressure') or {}).get('status'), 'FAIL',
+                'a measured pressure at the WARN threshold is a failure')
+        finally:
+            monitor.LOGS = original_logs
+            monitor._HANDSHAKE = original_handshake
+
+        # -- 5. the hub tool names every state too -----------------------
+        # The hub is loaded from its file, and never by putting its directory
+        # on sys.path: the modules inside that directory would shadow the
+        # standard library for every test that runs after this one.
+        #
+        # The real `mcp` package must not stay in sys.modules either. The
+        # bridge test installs a mock of it, and it used to install that mock
+        # only when the real package was absent - so a leftover import from
+        # this test turned the bridge test into a pydantic validation error
+        # instead of a bridge test. Both sides are fixed: this test cleans up
+        # after itself, and the bridge test no longer depends on what ran
+        # before it.
+        hub_path = WORKSPACE / '07_BACKBONE' / 'mcp' / 'sentinel_hub_server.py'
+        mcp_keys = [k for k in list(sys.modules)
+                    if k == 'mcp' or k.startswith('mcp.')]
+        saved_modules = {k: sys.modules[k] for k in mcp_keys}
+        saved_path = list(sys.path)
+        try:
+            spec = importlib.util.spec_from_file_location(
+                'sentinel_hub_server_context_pressure', hub_path)
+            hub = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(hub)
+        except Exception as exc:
+            result.error(f'could not import the hub: {exc}')
+            return result
+
+        original_hub_ws = hub.WORKSPACE
+        try:
+            hub.WORKSPACE = base
+
+            async def ask():
+                out = await hub.call_tool('sentinel_check_context', {})
+                return json.loads(out[0].text)
+
+            async def ask_state():
+                out = await hub.call_tool('sentinel_get_state', {})
+                return json.loads(out[0].text)
+
+            # The state tool must not answer for a state it never read. It
+            # used to return a hardcoded all-true dictionary when the state
+            # file was absent - the best possible answer, produced by not
+            # measuring. The sandbox starts with no state file at all.
+            result.assert_false((logs / 'sentinel_state.json').exists(),
+                                'the sandbox starts with no state file')
+            absent_state = asyncio.run(ask_state())
+            result.assert_equals(absent_state.get('measured'), False,
+                                 'the state tool reports a state it did not '
+                                 'read as not measured')
+            result.assert_equals(absent_state.get('dor'), None,
+                                 'no flag is invented when there is no state '
+                                 'file')
+            result.assert_true(bool(absent_state.get('reason')),
+                               'the state tool says why it did not measure')
+
+            counter.unlink(missing_ok=True)
+            absent = asyncio.run(ask())
+            result.assert_equals(absent.get('status'), 'NOT_MEASURED',
+                                 'the hub reports a missing counter as '
+                                 'NOT_MEASURED, never OK')
+            result.assert_equals(absent.get('measured'), False,
+                                 'the hub says it did not measure')
+            result.assert_equals(absent.get('estimated_pct'), None,
+                                 'the hub reports no percentage it did not '
+                                 'measure')
+
+            counter.write_text('garbage', encoding='utf-8')
+            broken_hub = None
+            try:
+                broken_hub = asyncio.run(ask())
+            except Exception as exc:
+                # The old code called int() on the raw text with no guard, so
+                # a corrupt counter raised ValueError straight out of the tool
+                # handler and the caller got an exception instead of a verdict.
+                result.error(f'the hub raised on a corrupt counter instead of '
+                             f'reporting it: {exc}')
+            if isinstance(broken_hub, dict):
+                result.assert_equals(broken_hub.get('status'), 'NOT_MEASURED',
+                                     'the hub reports a broken counter as '
+                                     'NOT_MEASURED, not an exception')
+                result.assert_true(bool(broken_hub.get('error')),
+                                   'the hub names the failure')
+
+            counter.write_text('4', encoding='utf-8')
+            measured = asyncio.run(ask())
+            result.assert_equals(measured.get('status'), 'OK',
+                                 'a measured pressure below the threshold '
+                                 'is OK')
+            result.assert_equals(measured.get('estimated_pct'), 10.0,
+                                 'the hub computes the doctrine figure')
+        finally:
+            hub.WORKSPACE = original_hub_ws
+            for k in mcp_keys:
+                sys.modules.pop(k, None)
+            sys.modules.update(saved_modules)
+            sys.path[:] = saved_path
+
+    # -- 6. the matrix row declares the tool and computes OBSERVABLE ----
+    try:
+        import build_program_matrix as bpm
+    except Exception as exc:
+        result.error(f'could not import the matrix builder: {exc}')
+        return result
+
+    row = next((c for c in bpm.CONCEPTS if c.get('id') == 'C21'), None)
+    result.assert_true(row is not None, 'the matrix carries the C21 row')
+    if row is None:
+        return result
+    result.assert_contains(list(row.get('tools') or []),
+                           'sentinel_check_context',
+                           'the row declares the tool that exposes the monitor')
+    result.assert_true(bool(row.get('symbols')),
+                        'the row names the symbols it measures - an empty list '
+                        'measures nothing')
+    suite_src = (WORKSPACE / '08_SELF_IMPROVEMENT' / 'test_suite.py').read_text(
+        encoding='utf-8', errors='replace')
+    hub_src = (WORKSPACE / '07_BACKBONE' / 'mcp' / 'sentinel_hub_server.py').read_text(
+        encoding='utf-8', errors='replace')
+    evaluated = bpm.evaluate(row, suite_src, hub_src,
+                             served={'sentinel_check_context'})
+    result.assert_equals(evaluated.get('status'), 'OBSERVABLE',
+                         'the concept computes OBSERVABLE: implemented, '
+                         'tested and surfaced in a panel')
+    result.assert_equals(evaluated.get('symbols_missing'), [],
+                         'every declared symbol is found in the implementation')
+    result.assert_true(bool(evaluated.get('mcp_wired')),
+                        'the tool that exposes the monitor is measured as '
+                        'wired')
+    return result
+
+
 def test_dashboard_boot_activates_a_panel():
     """Boot must activate a panel, or the dashboard renders blank.
 
@@ -2082,30 +2400,40 @@ def test_mcp_bridge_error_handling():
     result = TestResult('McpBridgeErrorHandling')
 
     # Setup full mock for mcp using standard unittest.mock.MagicMock
-    if 'mcp' not in sys.modules:
-        mcp = MagicMock()
-        mcp.types = MagicMock()
-        mcp.server = MagicMock()
-        mcp.server.stdio = MagicMock()
-        mcp.server.mcpserver = MagicMock()
-        mcp.server.mcpserver.tools = MagicMock()
-        mcp.server.mcpserver.tools.base = MagicMock()
+    #
+    # The mock is installed for the duration of this test, and the real
+    # modules are put back afterwards. It used to be installed only when
+    # `mcp` was absent from sys.modules, which made the test behave
+    # differently depending on what ran before it: with the real package
+    # already imported, the mock was skipped, the hub was exec'd against the
+    # real pydantic models, and the fake content block was rejected by
+    # CallToolResult - a failure that belonged to this test's isolation, not
+    # to the bridge it claims to check.
+    mcp_keys = [k for k in list(sys.modules) if k == 'mcp' or k.startswith('mcp.')]
+    saved_modules = {k: sys.modules[k] for k in mcp_keys}
+    mcp = MagicMock()
+    mcp.types = MagicMock()
+    mcp.server = MagicMock()
+    mcp.server.stdio = MagicMock()
+    mcp.server.mcpserver = MagicMock()
+    mcp.server.mcpserver.tools = MagicMock()
+    mcp.server.mcpserver.tools.base = MagicMock()
 
-        class CallToolResult:
-            def __init__(self, content, isError):
-                self.content = content
-                self.isError = isError
+    class CallToolResult:
+        def __init__(self, content, isError):
+            self.content = content
+            self.isError = isError
 
-        mcp.types.CallToolResult = CallToolResult
-        mcp.types.Tool = MagicMock()
+    mcp.types.CallToolResult = CallToolResult
+    mcp.types.Tool = MagicMock()
 
-        sys.modules['mcp'] = mcp
-        sys.modules['mcp.types'] = mcp.types
-        sys.modules['mcp.server'] = mcp.server
-        sys.modules['mcp.server.stdio'] = mcp.server.stdio
-        sys.modules['mcp.server.mcpserver'] = mcp.server.mcpserver
-        sys.modules['mcp.server.mcpserver.tools'] = mcp.server.mcpserver.tools
-        sys.modules['mcp.server.mcpserver.tools.base'] = mcp.server.mcpserver.tools.base
+    sys.modules['mcp'] = mcp
+    sys.modules['mcp.types'] = mcp.types
+    sys.modules['mcp.server'] = mcp.server
+    sys.modules['mcp.server.stdio'] = mcp.server.stdio
+    sys.modules['mcp.server.mcpserver'] = mcp.server.mcpserver
+    sys.modules['mcp.server.mcpserver.tools'] = mcp.server.mcpserver.tools
+    sys.modules['mcp.server.mcpserver.tools.base'] = mcp.server.mcpserver.tools.base
 
     try:
         hub_path = WORKSPACE / '07_BACKBONE' / 'mcp' / 'sentinel_hub_server.py'
@@ -2142,6 +2470,10 @@ def test_mcp_bridge_error_handling():
 
     except Exception as e:
         result.errors.append(f"Exception: {e}")
+    finally:
+        for k in mcp_keys:
+            sys.modules.pop(k, None)
+        sys.modules.update(saved_modules)
 
     return result
 
@@ -4010,6 +4342,7 @@ def run_all_tests():
         test_mcp_handshake_measure,
         test_mcp_handshake_stale_verdicts,
         test_logs_parse_is_independent_of_age,
+        test_context_pressure,
         test_dashboard_boot_activates_a_panel,
         test_ui_never_stringifies_an_object,
         test_mcp_slice_slug,

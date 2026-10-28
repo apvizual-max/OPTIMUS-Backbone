@@ -473,17 +473,21 @@
     "doctrine_exists": true,
     "implementation": "02_OPERATIONAL/scripts/sentinel_context_monitor.ps1",
     "implementation_exists": true,
-    "symbols": [],
+    "symbols": [
+      "Read-Counter",
+      "Read-SentinelState",
+      "Write-PressureLog"
+    ],
     "symbols_missing": [],
-    "test": "Scripts",
+    "test": "ContextPressure",
     "test_found": true,
-    "mcp_tool": null,
-    "mcp_wired": false,
-    "mcp_wired_basis": "no MCP tool declared",
+    "mcp_tool": "sentinel_check_context",
+    "mcp_wired": true,
+    "mcp_wired_basis": "served over stdio by the last live handshake",
     "panel": "Wiring",
-    "status": "PARTIAL",
+    "status": "OBSERVABLE",
     "owner": "Mavis",
-    "next_action": "Expose through the MCP hub and surface it in a panel."
+    "next_action": ""
   },
   {
     "id": "C22",

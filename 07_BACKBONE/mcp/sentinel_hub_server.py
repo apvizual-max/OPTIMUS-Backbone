@@ -20,7 +20,7 @@ from mcp.server.mcpserver import MCPServer
 from mcp.server.mcpserver.tools.base import Tool as _RegisteredTool
 
 
-WORKSPACE = Path(os.environ.get('WORKSPACE_ROOT', 'C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME'))
+WORKSPACE = Path(os.environ.get('WORKSPACE_ROOT', 'C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME'))
 sys.path.insert(0, str(WORKSPACE / '08_SELF_IMPROVEMENT'))
 
 # ---------------------------------------------------------------- hot reload
@@ -636,10 +636,55 @@ async def call_tool(name: str, arguments: dict) -> list[types.TextContent]:
 
     elif name == "sentinel_check_context":
         counter_file = WORKSPACE / '09_LOGS' / 'context_counter.txt'
-        if counter_file.exists():
-            count = int(counter_file.read_text().strip())
-        else:
-            count = 0
+        # The ABSENCE of the counter is not a measurement of zero pressure.
+        #
+        # Measured 2026-10-28: the counter file had never existed on this
+        # machine. The only writer of it is
+        # 02_OPERATIONAL/scripts/sentinel_context_monitor.ps1, and the role
+        # skill invoked that script with `python` - which cannot parse a .ps1
+        # and exits 1 with a SyntaxError. So the old branch set count = 0 and
+        # answered OK / 0% / "Continue normally": the anti-overflow watchdog
+        # reporting the best possible state because it had never measured
+        # anything. The same failure shape as a control that reports green
+        # without having run.
+        #
+        # A missing measurement is reported as missing. The counter is written
+        # by the context monitor script; run it to produce the measurement.
+        if not counter_file.exists():
+            result = {
+                "measured": False,
+                "status": "NOT_MEASURED",
+                "action": ("run 02_OPERATIONAL\\scripts\\sentinel_context_monitor.ps1 "
+                           "to record a turn before asking about pressure"),
+                "counter": None,
+                "estimated_pct": None,
+                "counter_file": str(counter_file),
+                "counter_file_exists": False,
+            }
+            return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
+
+        # A counter file that exists but does not hold an integer is a broken
+        # measurement, not a measurement of zero. The old line called int() on
+        # the raw text with no guard, so a corrupt counter raised ValueError
+        # out of the tool handler: the caller got an exception instead of a
+        # verdict, and the reason for the failure was carried nowhere. The
+        # counter is now read the same way the monitor reads it - a missing
+        # measurement and a broken one are different, and both are named.
+        try:
+            count = int(counter_file.read_text(encoding='utf-8').strip())
+        except (ValueError, OSError) as exc:
+            result = {
+                "measured": False,
+                "status": "NOT_MEASURED",
+                "action": ("the context counter exists but does not hold an "
+                           "integer - repair 09_LOGS\\context_counter.txt"),
+                "counter": None,
+                "estimated_pct": None,
+                "counter_file": str(counter_file),
+                "counter_file_exists": True,
+                "error": str(exc),
+            }
+            return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
 
         pct = min(100, round(count * 2.5, 1))
 
@@ -657,6 +702,7 @@ async def call_tool(name: str, arguments: dict) -> list[types.TextContent]:
             action = 'Continue normally'
 
         result = {
+            "measured": True,
             "counter": count,
             "estimated_pct": pct,
             "status": status,
@@ -722,13 +768,25 @@ async def call_tool(name: str, arguments: dict) -> list[types.TextContent]:
     elif name == "sentinel_get_state":
         state_file = WORKSPACE / '09_LOGS' / 'sentinel_state.json'
         if state_file.exists():
-            state = json.loads(state_file.read_text())
+            state = json.loads(state_file.read_text(encoding='utf-8'))
+            state.setdefault('measured', True)
         else:
+            # Measured 2026-10-28: this used to answer with a hardcoded
+            # all-true dictionary when the state file was absent. A state
+            # tool that returns "everything is on" because it read nothing
+            # is the same defect as a missing counter read as a pressure of
+            # zero: the best possible answer, produced by not measuring. The
+            # state file is written by sentinel_set_state; until it is
+            # written, the state is not measured, and this says so.
             state = {
-                "eu_sent": True,
-                "dor": True,
-                "search": True,
-                "anti_mimicry": True
+                "measured": False,
+                "eu_sent": None,
+                "dor": None,
+                "search": None,
+                "anti_mimicry": None,
+                "state_file": str(state_file),
+                "reason": ("the sentinel state file has never been written; "
+                           "call sentinel_set_state to record the state"),
             }
 
         return [types.TextContent(type="text", text=json.dumps(state, indent=2))]

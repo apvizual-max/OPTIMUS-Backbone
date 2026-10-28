@@ -31,7 +31,7 @@ from typing import Any, Callable, Dict, List, Set, Tuple
 
 WORKSPACE = Path(os.environ.get(
     'WORKSPACE_ROOT',
-    r'C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME'))
+    r'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME'))
 PROGRAM = WORKSPACE / '12_PROGRAM'
 MATRIX_JSON = PROGRAM / 'IDEA_TO_SCRIPT_MATRIX.json'
 GAPS_JSON = PROGRAM / 'GAP_REGISTER.json'
@@ -216,7 +216,15 @@ CONCEPTS = [
     dict(id='C21', concept='Context pressure monitor',
          chapter='CH_13', doctrine='05_LEARNING/monitors/CONTEXT_PRESSURE_MONITOR.md',
          impl='02_OPERATIONAL/scripts/sentinel_context_monitor.ps1',
-         symbols=[], tests=['Scripts'], tools=[], panel='Wiring', owner='Mavis', next_action=''),
+         # The symbols are the functions the implementation actually has, so
+         # the row measures itself: if one of them disappears from the
+         # script, the concept drops to PARTIAL and the gap reopens. An
+         # empty symbol list measures nothing, which is how this row sat on
+         # a rung it could never leave.
+         symbols=['Read-Counter', 'Read-SentinelState', 'Write-PressureLog'],
+         tests=['ContextPressure'],
+         tools=['sentinel_check_context'], panel='Wiring', owner='Mavis',
+         next_action=''),
     dict(id='C22', concept='Auto-learning loop',
          chapter='CH_13', doctrine='05_LEARNING/loops/AUTO_LEARNING_LOOP.md',
          impl='08_SELF_IMPROVEMENT/self_improvement.py',
@@ -255,7 +263,17 @@ def evaluate(c: Dict[str, Any], suite_src: str, hub_src: str,
         status = 'ABSENT'
     elif not impl_ok:
         status = 'DESIGNED'
-    elif not symbols_found:
+    elif c['symbols'] and not symbols_found:
+        # A concept with NO required symbols has nothing missing, so the
+        # missing-symbols rung does not apply to it. It used to apply to all
+        # of them, because `has_all()` over an empty list returns an empty
+        # list - and an empty list is falsy. So every concept whose symbols
+        # list was empty was PARTIAL forever: a verdict that no amount of
+        # building could change, because the rung it sat on asked for a
+        # non-empty list of symbols and the concept had none by design.
+        # C21 (the context pressure monitor) was the only row that reached
+        # this rung, and its own gap action - "expose through the MCP hub" -
+        # could never have changed it.
         status = 'PARTIAL'
     elif not tests_found:
         status = 'CODED'

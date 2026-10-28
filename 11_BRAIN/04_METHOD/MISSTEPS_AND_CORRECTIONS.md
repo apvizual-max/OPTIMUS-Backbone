@@ -804,3 +804,142 @@ proof of absence**: "no parse errors" from a check that never parsed and "no
 parse errors" from a check that parsed everything are the same string and
 opposite facts.
 
+### M-37 (2026-10-28) - A constant published in a status file is a measurement that reads as a fact
+
+**What happened.** `02_OPERATIONAL\scripts\sentinel_context_monitor.ps1` wrote
+two numbers into `09_LOGS\session_status.json`: `mimicryScore`, the constant
+`100`, commented *"Placeholder: returns perfect score"*, and `dorScore`, the
+constant `75`, commented *"placeholder"*. Nothing measured them. The guards
+below compared against those same constants, so `mimicryScore -lt 70` and
+`dorScore -lt 50` could never fire - the comparison was `100 < 70` and
+`75 < 50`, decided at authoring time.
+
+A placeholder inside a function body is a bug waiting to be noticed. A
+placeholder inside a **status file** is a reading: every consumer sees a
+perfect anti-mimicry score and a healthy DOR, forever, with nothing in the
+file that distinguishes it from a measurement.
+
+The deeper error was asking for a number where the doctrine has no number. DOR
+is a state function - `01_FOUNDATION\proverbs\SENTINEL_PROVERBS.md` says it is
+not a word but a state function - and the anti-mimicry score belongs to the 13
+documented detectors, which need the output text to inspect. The script had
+neither a state file to read nor a text to measure, so it produced two numbers
+that meant nothing.
+
+**What was done.** The two constants are gone. The script now reads the state
+flags the hub writes (`09_LOGS\sentinel_state.json`) and reports them as what
+they are: a measured flag, or `measured: false` with the reason. No score is
+published unless one was measured, and the pointer to the instrument that can
+measure it (`sentinel_check_mimicry`) sits in the file where the number was.
+The state file does not exist on this machine, so the live reading is
+"NOT MEASURED" - which is the truth, and was previously "100" and "75".
+
+**The control.** `ContextPressure` runs the script for real in a sandbox and
+reads the document it produced. With the two constants put back, **4 assertions
+go red**. Against the repaired script: **39/39**.
+
+*Correction in force:* **a number in a status file is a claim about the
+world.** If nothing measured it, it is not a reading - it is a constant
+wearing a measurement's clothes. Report the absence (`measured: false`,
+`NOT_MEASURED`, `NOT_RUN`) and point at the instrument that could measure it.
+**And before inventing a number, check whether the doctrine has one**: a scale
+that does not exist in the concept cannot be reported honestly, and the honest
+form of "DOR is alive" is a flag, not a score.
+
+### M-38 (2026-10-28) - A falsifier that does not re-import the module under test measures the cache, not the code
+
+**What happened.** The new class `ContextPressure` was run against five
+mutants. Two of them - the monitor answering `OK` for a missing counter, and
+the hub raising on a corrupt one - came back **green**. The mutants were
+applied to `.py` files the test process had already imported, and Python caches
+an import for the life of the interpreter, so the mutated code was never
+executed. The falsifier was measuring the cache.
+
+This is the same shape as the defect it was hunting, one level up: a green
+result that says nothing about the thing it was supposed to check. The only
+reason it was caught is that the mutant was *expected* to be red - nothing in
+the instrument would have flagged it otherwise.
+
+**What was done.** The falsifier now drops the mutated module from
+`sys.modules` before every run, and every mutant is checked to have actually
+changed the file: an anchor that matches nothing is reported, not skipped.
+Two further things were needed on the way - the mutants had to match the
+file's line endings (the `.py` files are CRLF, and an anchor written with LF
+matches nothing), and one mutant was written as invalid Python, so the test
+went red for the wrong reason, which proves nothing.
+
+Re-measured: **5 of 5 mutants go red**, each for the reason it was built to
+fail on.
+
+*Correction in force:* **before believing a falsifier, check that the
+falsifier executed the mutation.** "The mutant survived" may be a statement
+about the import cache. Make the mutation observable - re-import, and verify
+the file changed - and remember that **a red is only evidence when the reason
+is the right one**: a mutant that breaks the syntax proves that the suite
+reads the file, not that the suite checks the behaviour.
+
+### M-39 (2026-10-28) - An overload chosen by the interpreter decides what a number means, silently
+
+**What happened.** The context pressure monitor computed
+`estimated_pct = [Math]::Min(100, [Math]::Round($count * 2.5, 1))`. Measured:
+`[Math]::Min(100, 2.5)` returns **2**, not 2.5. PowerShell picked the
+`Math.Min(Int32, Int32)` overload and truncated the double on the way in.
+Every pressure figure the script printed was floored - 2.5 was reported as 2,
+52.5 as 52.
+
+The hub and the monitor compute the same quantity in Python
+(`min(100, round(count * 2.5, 1))`) and reported 2.5. Two instruments, one
+quantity, two answers - and neither was wrong about its own code.
+
+The threshold verdicts survived, because 50, 70 and 85 are whole numbers and
+truncation cannot move them. Only the number the operator reads was wrong,
+which is exactly the kind of defect that hides: nothing goes red, nothing
+crashes, and the report stays plausible.
+
+**What was done.** The bound is now a double (`100.0`), which forces the
+`Math.Min(Double, Double)` overload. The three instruments now agree on 2.5.
+The doctrine's own PowerShell sample carried the same line and was corrected
+with it, since the next author would have copied it.
+
+*Correction in force:* **a numeric literal in a call is a type, not just a
+value.** `100` and `100.0` are not the same argument. When two languages
+compute the same quantity, verify they compute the *same* number: the verdict
+can be right while the measurement is wrong. And when a number can be whole,
+make the type explicit instead of letting the interpreter choose.
+
+### M-40 (2026-10-28) - A reader that answers for a state it never read lies with the best possible answer
+
+**What happened.** `sentinel_get_state` returned a hardcoded dictionary - every
+flag `true` - whenever `09_LOGS\sentinel_state.json` was absent. The file was
+absent, because nothing had ever called `sentinel_set_state`. So the state tool
+had never read a state, and it answered with the best one imaginable.
+
+The defect is invisible from the response: the shape is right, the values are
+the values the system believes in, and the tool never fails. What makes it a
+lie is the provenance - the answer did not come from the file, it came from a
+constant inside the function.
+
+It surfaced only because the repaired context monitor went looking for a real
+source of the same flags. The monitor asked the state file; the file was not
+there; and the honest answer ("not measured") turned out to be a different
+answer from the one the state tool was giving.
+
+**What was done.** `sentinel_get_state` now reports `measured: false`, the flags
+as `null`, and the reason, when the file is absent. The file itself was then
+written **through the system's own tool**, over a real MCP handshake, with the
+posture the system already declares elsewhere - so the state became a recorded,
+dated, inspectable fact instead of a constant inside a reader. The two changes
+belong together: the first makes the absence visible, the second removes it.
+
+**The control.** `ContextPressure` asserts, in a sandbox that has no state file,
+that the state tool reports `measured: false`, invents no flag, and gives a
+reason. With the hardcoded dictionary put back: **3 red**.
+
+*Correction in force:* **a default is an answer, and it is the answer that
+never needs a file.** When a reader cannot find its source, it must say it
+could not find it. The tempting default is the flattering one - all flags true,
+all checks passing, zero pressure - because a fabricated green is the only
+default nobody questions. And when the source is missing because the writer was
+never called, **call the writer** - the system's own path - rather than
+hardcoding what it would have written.
+

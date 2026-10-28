@@ -41,7 +41,7 @@ from typing import Any, Dict, List, Optional
 
 WORKSPACE = Path(os.environ.get(
     'WORKSPACE_ROOT',
-    r'C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME'))
+    r'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME'))
 BRAIN = WORKSPACE / '11_BRAIN'
 PROGRAM = WORKSPACE / '12_PROGRAM'
 LOGS = WORKSPACE / '09_LOGS'
@@ -885,6 +885,44 @@ def wiring_checks() -> List[Dict[str, Any]]:
     out.append(check(
         'skills_present', 'wiring', OK if skills else FAIL,
         [s.name for s in skills], f'{len(skills)} skill files', '> 0'))
+
+    # Context pressure: the anti-overflow watchdog, surfaced.
+    #
+    # Measured 2026-10-28: the counter this reads had NEVER been written on
+    # this machine. The only writer of it is
+    # 02_OPERATIONAL/scripts/sentinel_context_monitor.ps1, and the role skill
+    # invoked that script with `python`, which cannot parse a .ps1 and exits 1
+    # with a SyntaxError. The hub tool then answered OK / 0% because the
+    # counter was missing - the watchdog reporting the best possible state
+    # because it had never measured anything.
+    #
+    # So the absence is reported as absence: NOT_RUN, never OK. The pressure
+    # itself is measured when the counter exists, and the WARN threshold is
+    # the bound (50% - the doctrine's first rung).
+    counter = LOGS / 'context_counter.txt'
+    if not counter.exists():
+        out.append(check(
+            'context_pressure', 'wiring', NOT_RUN, None,
+            'the context counter has never been recorded on this machine - run '
+            '02_OPERATIONAL\\scripts\\sentinel_context_monitor.ps1 to produce '
+            'the measurement. A missing counter is NOT a pressure of zero.',
+            'a recorded counter'))
+    else:
+        try:
+            count = int(counter.read_text(encoding='utf-8').strip())
+        except (ValueError, OSError) as exc:
+            out.append(check(
+                'context_pressure', 'wiring', FAIL, None,
+                f'the context counter is unreadable: {exc}',
+                'a counter holding an integer'))
+        else:
+            pct = min(100, round(count * 2.5, 1))
+            out.append(check(
+                'context_pressure', 'wiring', OK if pct < 50 else FAIL,
+                {'counter': count, 'estimated_pct': pct},
+                f'context pressure {pct}% (counter {count}); the WARN '
+                f'threshold is 50%',
+                '< 50%'))
     return out
 
 
@@ -900,6 +938,14 @@ def log_checks() -> List[Dict[str, Any]]:
         'self_modifications': LOGS / 'self_modifications.log',
         'state_transitions': LOGS / 'state_transitions.log',
         'self_improvement': LOGS / 'self_improvement.log',
+        # Written by the context monitor, on demand, like the rest of this
+        # family. They are here because they now exist and can be corrupt:
+        # before 2026-10-28 the monitor script published two invented numbers
+        # into session_status.json and nothing ever opened the file to see
+        # whether it held anything real. An artefact nobody reads is an
+        # artefact nobody can catch.
+        'pressure_log': LOGS / 'pressure_log.json',
+        'session_status': LOGS / 'session_status.json',
     }
     parse_errors = []
     for name, path in artifacts.items():

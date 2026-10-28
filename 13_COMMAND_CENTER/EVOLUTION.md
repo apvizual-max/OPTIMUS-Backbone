@@ -2757,3 +2757,110 @@ is indistinguishable from a control that has nothing to report.
 condition put back: **2 assertions go red** - the corrupt old file reads OK, and
 the evidence list is empty. Against the repaired monitor: **6/6**.
 
+---
+
+## R22 - The context pressure monitor had never watched anything
+
+**Requested**: the same sweep - gaps, errors, bugs, silent failures,
+misalignments, monitors, daemons.
+
+**What was wrong.** `CONCEPT_C21` was the only one of the twenty-four concepts
+whose status could not change. It sat on the `PARTIAL` rung, and that rung
+asked for a non-empty list of symbols - while the row declared `symbols=[]`. An
+empty list is falsy, so the rung fired, and the gap's own remedy ("expose
+through the MCP hub") could never have moved it: the verdict asked for
+something the concept did not have by design. Underneath that unchangeable
+verdict, four real defects sat.
+
+1. **The watchdog was never started.** The role skill invoked
+   `02_OPERATIONAL\scripts\sentinel_context_monitor.ps1` with `python`. A
+   `.ps1` is not Python: the call exits 1 with a `SyntaxError` at the
+   `param(...)` line. So `09_LOGS\context_counter.txt` had never existed on
+   this machine - the pressure had never been measured at all.
+2. **A missing counter was read as a pressure of zero.** The hub tool
+   `sentinel_check_context` answered `OK / 0% / "Continue normally"` when the
+   counter was absent. The anti-overflow watchdog reported the best possible
+   state because it had measured nothing.
+3. **The script published two numbers it had never measured.**
+   `mimicryScore` was the constant `100` (commented *"Placeholder: returns
+   perfect score"*), `dorScore` the constant `75`. Both went into
+   `session_status.json` as readings, and the guards below them compared
+   against those same constants - so the guards could never fire, and the file
+   announced a perfect session forever.
+4. **The pressure figure was truncated.** `[Math]::Min(100, ...)` resolves to
+   the `Math.Min(Int32, Int32)` overload, so the double was floored on the way
+   in: 2.5 was reported as 2. The hub and the monitor compute the same
+   quantity in Python and said 2.5 - two instruments, one quantity, two
+   answers.
+5. **The state tool answered for a state it had never read.** When
+   `09_LOGS\sentinel_state.json` did not exist, `sentinel_get_state` returned a
+   hardcoded dictionary with every flag set to `true`. A state tool that says
+   "everything is on" because it read nothing is the same defect as a missing
+   counter read as a pressure of zero: the best possible answer, produced by
+   not measuring.
+
+**What changed.**
+
+| | before | after |
+|---|---|---|
+| the skill's invocation | `python ...ps1` -> exit 1, SyntaxError | `powershell -NoProfile -ExecutionPolicy Bypass -File ...ps1` -> exit 0 |
+| the counter on this machine | never existed | written: `1`, at 11:01:17 |
+| a missing counter, in the hub | `OK / 0% / Continue normally` | `NOT_MEASURED`, `measured: false`, no percentage at all |
+| a missing counter, in the monitor | no check existed | `NOT_RUN` - never `OK` |
+| a corrupt counter | `int()` raised out of the tool handler | named: `NOT_MEASURED` plus the error; the script exits 1 and does not overwrite the evidence |
+| the published scores | `mimicryScore: 100`, `dorScore: 75` | no score unless one was measured; the flags come from the file the hub writes, and DOR is a state function in the doctrine, not a number |
+| the pressure figure | 2 (floored) | 2.5 - the doctrine's figure, and all three instruments agree |
+| the pressure log | never written | `09_LOGS\pressure_log.json`, the JSON list the doctrine names |
+| the encoding of the artefacts | `Set-Content -Encoding UTF8` -> BOM, unreadable by a plain-UTF-8 reader | UTF-8 without BOM |
+| a missing state file, in the hub | a hardcoded all-true dictionary | `measured: false`, the flags `null`, and the reason |
+| the state itself | never written | written by the system's own tool over a real MCP handshake, 11:18:40, with `updated_at` |
+| the matrix row | `symbols=[]`, `tools=[]`, `PARTIAL` | 3 measured symbols, `sentinel_check_context` declared and measured as wired, `OBSERVABLE` |
+
+**The control was falsified before it was trusted.** The new class
+`ContextPressure` (43 assertions) runs the repaired script for real in a
+sandbox, reads the document it produced, and was run against six mutants:
+
+| mutant | result |
+|---|---|
+| the script publishes the two invented scores again | **4 red** |
+| `[Math]::Min(100, ...)` - the truncation | **1 red** |
+| the hub answers `OK / 0%` for a missing counter | **3 red** |
+| the monitor answers `OK` for a missing counter | **1 red** |
+| the hub lets `ValueError` out on a corrupt counter | **1 red** |
+| the hub fabricates the state when the file is absent | **3 red** |
+
+Against the repaired code: **43/43**.
+
+The falsifier itself had to be repaired first. Two of the mutants came back
+**green**: the monitor and the hub mutants changed `.py` files that the test
+process had already imported, and Python caches an import for the life of the
+interpreter - so the mutated code was never executed. The falsifier was
+measuring the cache. It now drops the mutated module from `sys.modules` before
+each run, and every mutant is checked to have actually changed the file. A
+control that is not re-imported does not measure the code under it.
+
+**The ledger, measured.** `CONCEPT_C21` is `CLOSED-BUILT`:
+`concept C21 computes to OBSERVABLE (doctrine_exists=True,
+implementation_exists=True, symbols_missing=[])`, verified 11:00:39. The
+register holds **19 entries - 5 open, 14 closed**. The five open ones are
+Popy's: `CONCEPT_C18`, `CONCEPT_C19`, `CONCEPT_C23`, `CONCEPT_C24` and
+`HPROF_NPX_LAUNCH`.
+
+**The state, written by the tool.** The state file did not exist, because
+nobody had called `sentinel_set_state`. It was initialised **through the tool,
+over a real MCP handshake** at 11:18:40, with the posture the system already
+declares in `sentinel_confirm_identity` and in `sentinel_strategic_compact.ps1`:
+`eu_sent`, `dor`, `search`, `anti_mimicry` - all active, with `updated_at`. The
+difference is not the value (it is the same one); it is the **provenance**: no
+longer a constant inside a function, but a recorded, dated, inspectable state.
+And if the file disappears tomorrow, the tool says "I did not measure" instead
+of "everything is fine".
+
+**The honest reading, live (11:20:38).** The monitor: counter **2**, pressure
+**5%**, status OK. Anti-mimicry: **ACTIVE**, measured from the state file. DOR:
+**ACTIVE**, measured. The scores: **NOT MEASURED** - a score needs the output
+text, and that is what `sentinel_check_mimicry` has (13 documented detectors).
+The hub agrees (`measured: true, counter: 2, estimated_pct: 5`) and the
+monitor's own check agrees (`context pressure 5% (counter 2); the WARN
+threshold is 50%`).
+

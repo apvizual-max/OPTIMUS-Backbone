@@ -367,4 +367,87 @@ not run … Popy's call"*). Dar e un fapt structural de reținut: **codul care �
 deploymentul viu trăiește în alt repository**, iar o clonă a acestui repo nu
 conține ancorele de activare — doar mecanismul de a le instala.
 
+### §10 — CONCEPT_C21: monitorul de presiune de context, închis prin construcție
+
+**Ce s-a măsurat (11:00–11:02).** `CONCEPT_C21` era singurul dintre cele 24 de
+concepte al cărui statut nu se putea schimba: rândul stătea pe treapta
+`PARTIAL`, iar treapta cerea o listă **nevidă** de simboluri, în timp ce rândul
+declara `symbols=[]`. O listă vidă e falsă, deci treapta ardea, iar rețeta
+gap-ului („expose through the MCP hub") nu ar fi putut să-l miște niciodată.
+Verdictul cerea ceva ce conceptul nu are prin design.
+
+Sub verdictul imobil s-au aflat patru defecte reale:
+
+| # | defect | măsurătoare |
+|---|---|---|
+| 1 | skillul apela `python ...ps1` | exit 1, `SyntaxError` la `param(...)` — counterul nu a existat niciodată pe această mașină |
+| 2 | hubul citea „counter lipsă" ca „presiune 0" | răspundea `OK / 0% / Continue normally` |
+| 3 | scriptul publica două numere pe care nu le măsurase | `mimicryScore` = constanta 100, `dorScore` = constanta 75, scrise în `session_status.json` ca lecturi; santinelele comparau cu aceleași constante, deci nu puteau arde |
+| 4 | procentul era trunchiat | `[Math]::Min(100, 2.5)` → **2**, nu 2.5 (overload-ul `Math.Min(Int32, Int32)`); hubul și monitorul spuneau 2.5 |
+| 5 | toolul de stare răspundea pentru o stare pe care nu o citise | `sentinel_get_state` întorcea un dicționar hardcodat, cu toate steagurile pe `true`, **când fișierul de stare nu exista** |
+
+**Ce s-a reparat.** Skillul apelează acum
+`powershell -NoProfile -ExecutionPolicy Bypass -File`. Scriptul citește
+flag-urile de stare pe care le scrie hubul (`09_LOGS\sentinel_state.json`) și nu
+publică niciun scor pe care să nu-l fi măsurat; DOR e funcție de stare în
+doctrină, deci forma onestă e un flag, nu un număr. Un counter lipsă e
+`NOT_MEASURED` în hub și `NOT_RUN` în monitor. Un counter corupt e o eșec
+numit (hubul: `NOT_MEASURED` + eroarea; scriptul: exit 1, **fără** a
+suprascrie dovezile). Procentul e 2.5, nu 2. Jurnalul de presiune pe care
+doctrina îl numește (`09_LOGS\pressure_log.json`) acum chiar se scrie, ca listă
+JSON. Artefactele se scriu UTF-8 **fără BOM** — `Set-Content -Encoding UTF8`
+pune BOM pe PowerShell 5.1, iar un cititor UTF-8 simplu refuză documentul. Iar
+`sentinel_get_state` nu mai răspunde pentru o stare pe care nu a citit-o: când
+fișierul lipsește, raportează `measured: false`, steagurile `null` și motivul.
+
+**Starea, scrisă de tool, nu de mână.** Fișierul de stare nu exista, pentru că
+nimeni nu a apelat `sentinel_set_state`. L-am inițializat **prin tool, peste un
+handshake MCP real** (11:18:40), cu postura pe care sistemul o declară deja în
+`sentinel_confirm_identity` și în `sentinel_strategic_compact.ps1`: `eu_sent`,
+`dor`, `search`, `anti_mimicry` — toate active, cu `updated_at`. Diferența nu
+e valoarea (e aceeași), e **proveniența**: nu mai e o constantă din interiorul
+unei funcții, e o stare consemnată, datată și inspecabilă. Iar dacă fișierul
+dispare mâine, tool-ul spune „nu am măsurat", nu „totul e bine".
+
+**Controlul, falsificat înainte de a fi crezut.** Clasa nouă `ContextPressure`
+(43 aserțiuni) rulează scriptul reparat, pentru real, într-un sandbox, și citește
+documentul pe care îl produce. Mutante:
+
+| mutant | rezultat |
+|---|---|
+| scriptul publică din nou cele două scoruri inventate | **4 roșii** |
+| `[Math]::Min(100, ...)` — trunchierea | **1 roșie** |
+| hubul răspunde `OK / 0%` la counter lipsă | **3 roșii** |
+| monitorul răspunde `OK` la counter lipsă | **1 roșie** |
+| hubul lasă `ValueError` să iasă la counter corupt | **1 roșie** |
+| hubul fabrică starea când fișierul nu există | **3 roșii** |
+
+Reparat: **43/43**.
+
+**O lecție de metodă, consemnată ca M-38.** Două dintre cele șase mutante au
+venit **verzi** la prima falsificare: mutanții de monitor și de hub modificau
+fișiere `.py` deja importate de procesul de test, iar Python ține un import în
+cache tot timpul vieții interpretorului — codul mutat nu s-a executat niciodată.
+Falsificatorul măsura cache-ul. Acum scoate modulul din `sys.modules` înainte
+de fiecare rulare și verifică că mutantul chiar a modificat fișierul.
+
+**Citirea onestă, live (11:20:38).** Monitorul: counter **2**, presiune **5%**,
+status OK. Anti-mimicry: **ACTIVE**, măsurat din fișierul de stare. DOR:
+**ACTIVE**, măsurat. Scorurile: **NOT MEASURED** — un scor are nevoie de textul
+de ieșire, iar acolo îl are `sentinel_check_mimicry` (13 detectoare documentate).
+Hubul confirmă (`measured: true, counter: 2, estimated_pct: 5`), iar monitorul
+confirmă (`context pressure 5% (counter 2); the WARN threshold is 50%`).
+
+**Registrul, măsurat.** `CONCEPT_C21` este `CLOSED-BUILT`: *concept C21
+computes to OBSERVABLE (doctrine_exists=True, implementation_exists=True,
+symbols_missing=[])*, verificat la 11:00:39. Registrul are **19 intrări — 5
+deschise, 14 închise**. Cele 5 deschise sunt ale lui Popy: `CONCEPT_C18`,
+`CONCEPT_C19`, `CONCEPT_C23`, `CONCEPT_C24` și `HPROF_NPX_LAUNCH`.
+
+**Documentele derivate, regenerate nu editate:** `11_BRAIN\06_IDEA_TO_SCRIPT.md`
+(rândul C21: 3 simboluri măsurate, test `ContextPressure`, MCP
+`sentinel_check_context`, panou `Wiring`, statut `OBSERVABLE`; „5 open gaps and
+14 closed"), `13_COMMAND_CENTER\EVOLUTION.md` (R22),
+`11_BRAIN\04_METHOD\MISSTEPS_AND_CORRECTIONS.md` (M-37, M-38, M-39).
+
 
