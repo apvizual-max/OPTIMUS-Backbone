@@ -114,6 +114,16 @@
       "verified": "2026-10-28 - the handoff's own verifier checks every path it names, and the bot registry verifies"
     },
     {
+      "name": "mavis-skill-background-task-verdict",
+      "role": "meta",
+      "source": "self",
+      "purpose": "How a long measurement is judged: by the MARKERS it printed, never by the shell's exit code. Ships bg-verdict.mjs, which exits 0 when the measurement produced what it should - including a falsification that was supposed to fail.",
+      "status": "WIRED",
+      "path": "",
+      "added_at": "2026-10-28",
+      "verified": "2026-10-28 - VERDICT=PASS, 17 checks, failed=0, warnings=0, falsified=4; inversion measured: inner exit 2 with the expected marker present -> wrapper exit 0; on a deliberately broken copy of the instrument 6 of 17 checks went red, exit 1"
+    },
+    {
       "name": "mavis-google-access-skill",
       "role": "reference",
       "source": "pre-existing",

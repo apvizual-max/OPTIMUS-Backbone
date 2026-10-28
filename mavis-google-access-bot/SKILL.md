@@ -78,6 +78,7 @@ missing from it.
 | [`mavis-skill-notebooklm-extendlm`](../mavis-skill-notebooklm-extendlm/SKILL.md) | functional | ✅ WIRED | The API route to NotebookLM: single-owner rotation, snapshot publication, and the honest limits |
 | [`mavis-skill-google-keep-sites`](../mavis-skill-google-keep-sites/SKILL.md) | functional | ✅ WIRED | The two refused services: the measured reason, and the deferred automation plan |
 | [`mavis-skill-access-handoff`](../mavis-skill-access-handoff/SKILL.md) | meta | ✅ WIRED | The handoff protocol: location contract, priming-prompt shape, verification before "ready" |
+| [`mavis-skill-background-task-verdict`](../mavis-skill-background-task-verdict/SKILL.md) | meta | ✅ WIRED | How a long measurement is judged: by the MARKERS it printed, never by the shell's exit code — the instrument that makes a successful probe stop looking like a failed task |
 
 ### 3.2 The references (read, not owned)
 
@@ -142,6 +143,36 @@ must never be lost to a blip. When it cannot resolve, it exits **2** and prints
 the registered members and the folders actually on disk, so the mismatch is
 visible instead of guessed. It also accepts `--skills-root <dir>` and
 `--registry <file>` so the self-test can run on a fixture.
+
+### 3.4 How a measurement is judged (the exit code is not the verdict)
+
+**Measured 2026-10-28:** roughly 100 background tasks on this station were
+reported as "failed" while their output was complete and correct. One batch of
+six live probes printed all six result lines and was then reported as failed
+with exit code `4294967295`. A falsification probe whose entire purpose was to
+fail (`--self-test --fail C1.container` -> `VERDICT=FAIL`, exit 2) was
+reported as a failed task although the falsification WORKED.
+
+That is not noise to be ignored — it is how real failures get trained out of
+attention. So the rule of this bot is:
+
+> **The verdict of a measurement is the MARKERS in its output. The exit code of
+> the command is a detail of the inner command.**
+
+Two consequences, both enforced by `mavis-skill-background-task-verdict`:
+
+- A measurement is run through `scripts\bg-verdict.mjs`, which captures the
+  output, checks the required and forbidden markers, and exits **0** when the
+  measurement produced what it should — even when the inner command exited
+  non-zero. A successful probe stops looking like a failed task.
+- A falsification is run the same way with `--expect-exit 2 --expect
+  "VERDICT=FAIL"`: the wrapper exits **0** because the falsification worked.
+
+The wrapper's own exit codes are distinct on purpose: `0` = the verdict is PASS,
+`1` = the verdict is FAIL, `2` = you called the wrapper wrong.
+
+**Why this is a member and not a habit:** a habit is decoration, an instrument
+is a fact. The same reasoning that produced the control point.
 
 ---
 

@@ -1,0 +1,28 @@
+OK   V1.instrument-exists C:\Users\apviz\.minimax\agents\mavis\skills\mavis-skill-background-task-verdict\scripts\bg-verdict.mjs
+OK   V2.instrument-parses node --check exit 0
+OK   V3.usage-without-expect exit=2 usage_line=true
+OK   V4.usage-without-out exit=2 usage_line=true
+OK   P1.inversion-exit2-marker-present wrapper_exit=0 summary="EXIT=2 EXPECTED_EXIT=2 MARKERS=1/1 VERDICT=PASS"
+PROOF inversion: EXIT=2 EXPECTED_EXIT=2 MARKERS=1/1 VERDICT=PASS wrapper_exit=0
+OK   P2.block-missing-marker wrapper_exit=1 named=true
+PROOF block: MISSING=MARKER_NOT_PRESENT wrapper_exit=1
+OK   P3.block-forbidden-marker wrapper_exit=1 named=true
+PROOF block: UNEXPECTED=PROBE_RESULT=COMPLETE wrapper_exit=1
+OK   P4.block-exit-mismatch wrapper_exit=1 named=true
+PROOF block: EXIT_MISMATCH got=2 want=0 wrapper_exit=1
+OK   P5.command-missing wrapper_exit=1 named=true
+PROOF block: COMMAND_MISSING wrapper_exit=1
+OK   P6.marker-accounting wrapper_exit=0 summary="EXIT=0 EXPECTED_EXIT=0 MARKERS=3/3 VERDICT=PASS"
+OK   P7.log-written-on-failure exists=true captured_output=true trailer=true
+OK   P8.stderr-captured wrapper_exit=0 stderr_in_output=true
+OK   P9.summary-line-shape pass_shape=true fail_shape=true
+OK   P10.verdict-code-vs-usage-code verdict_fail_exit=1 usage_exit=2
+OK   P11.pass-is-not-a-failed-task inner_exit=2 wrapper_exit=0
+OK   P12.windows-unsigned-exit-status wrapper_exit=0 summary="EXIT=4294967295 EXPECTED_EXIT=4294967295 MARKERS=1/1 VERDICT=PASS"
+OK   P13.environment-not-echoed wrapper_exit=0 sentinel_leaked=false
+
+SUMMARY checks=17 failed=0 warnings=0 falsified=4
+VERDICT=PASS
+--- bg-verdict ---
+COMMAND=node
+EXIT=0 EXPECTED_EXIT=0 MARKERS=1/1 VERDICT=PASS
