@@ -1,0 +1,24 @@
+# Line endings are a property of the FILE TYPE here, not of the machine that
+# happens to check it out.
+#
+# Added 2026-10-28. `*.bat` files are executed by cmd.exe, which does not
+# reliably honour a bare LF. The live launcher
+# `13_COMMAND_CENTER/bat/sentinel-cc.bat` came back with 104 bare LF after the
+# working tree was replaced from another copy on 2026-10-28 13:09 - a rewrite
+# that bypassed git, so git's checkout never converted it.
+#
+# The blob in git was LF all along, which is correct: git stores LF and
+# converts on checkout. `core.autocrlf=true` was set in this repository, so a
+# normal checkout produced the CRLF cmd.exe needs and the defect stayed
+# invisible for as long as every tree came out of git. A clone on a machine
+# with `core.autocrlf=false` would have produced the same LF file - the
+# conversion was never stated in the repository, only in a machine-local
+# setting.
+#
+# `text eol=crlf` states it in the repository: the blob stays LF (this rule
+# does not rewrite history and does not change any stored content) and every
+# checkout, on every machine, produces the CRLF that cmd.exe needs.
+#
+# Only `.bat` is listed. `.ps1` and `.py` read LF perfectly well, and a rule
+# that normalises files which are already correct is churn for its own sake.
+*.bat text eol=crlf

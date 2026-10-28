@@ -55,3 +55,25 @@ __pycache__/
 # Nothing that exists ONLY in .github-repo/ is lost by excluding it: it is a
 # clone, and everything in it is in the history this repository already has.
 .github-repo/
+
+# Machine-generated backup artefacts - the two directories the backup system
+# writes and rotates on its own.
+#
+# Added 2026-10-28. `08_SELF_IMPROVEMENT/backups/` and
+# `08_SELF_IMPROVEMENT/backup_metadata/` are written by `backup_system.py` and
+# `self_modify_engine.py`, which keep the last 10 copies per file and delete the
+# older ones (`_rotate_backups`, `max_keep=10`). 32 of these files were tracked,
+# so every runtime commit carried 32 machine-written files, and the ones the
+# rotation removed appeared as DELETIONS in the audit trail - noise that reads
+# like data loss and is not.
+#
+# Nothing is lost by excluding them. The rotation is the mechanism: it keeps the
+# newest 10 on disk, and every earlier copy is still in this repository's
+# history, so any backup can be brought back with `git show <commit>:<path>`.
+#
+# The deliberate safety copies made by hand are NOT excluded. The project
+# convention is that every edited file gets a `.bak` next to it, and those
+# copies stay tracked. Only the two machine-written directories are excluded -
+# never a blanket `*.bak`, which would silently disable the convention.
+08_SELF_IMPROVEMENT/backups/
+08_SELF_IMPROVEMENT/backup_metadata/

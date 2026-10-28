@@ -51,10 +51,14 @@ Procesele SOT-ului (8900, 8912) rulează deocamdată doar pentru că au fost
 pornite manual în această sesiune. **La următoarea deconectare, SOT-ul ar
 rămâne fără supraveghere.**
 
-Corectia (aplicată la finalul migrării): două taskuri noi, cu nume distincte,
-care pornesc **copiile din SOT**:
-`OPTIMUS_ControlCenter_SOT` și `OPTIMUS_SentinelGuardian_SOT`. Cele QWEN
-rămân neatinse — sunt ale altui proiect.
+Corectia: două taskuri noi, cu nume distincte, care pornesc **copiile din
+SOT**: `OPTIMUS_ControlCenter_SOT` și `OPTIMUS_SentinelGuardian_SOT`. Cele
+QWEN rămân neatinse — sunt ale altui proiect.
+
+**Neaplicat, pentru că cere privilegii administrative.** Măsurat: atât
+`Register-ScheduledTask`, cât și `schtasks /create` au răspuns
+„Access is denied" (exit 1). Comanda exactă e în `07_DECIZII_DESCHISE.md`
+(D10) — o singură rulare ca administrator închide lacuna.
 
 ### 2.2 Gardianul SENTINEL — îngust, cu re-verificare înainte de kill
 

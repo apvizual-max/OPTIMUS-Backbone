@@ -111,6 +111,28 @@ conveniența lui Jules, și proiectul lui, nu al nostru.
 
 ---
 
+## D10. Supravegherea SOT-ului la logon (două taskuri Windows)
+
+**Fapt.** Măsurat: atât `Register-ScheduledTask`, cât și `schtasks /create` au
+răspuns **„Access is denied"** (exit 1) — în sesiunea curentă nu se pot crea
+taskuri Windows. Taskurile QWEN (`OPTIMUS_ControlCenter`,
+`OPTIMUS_SentinelGuardian`) rămân neatinse; ele supervizează arborele QWEN,
+nu SOT-ul.
+
+**Recomandare: două comenzi, ca administrator.** Copiile sunt deja în SOT și
+funcționează:
+
+```powershell
+schtasks /create /tn OPTIMUS_ControlCenter_SOT /tr 'powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\scripts\cc-watchdog.ps1"' /sc onlogon /f
+schtasks /create /tn OPTIMUS_SentinelGuardian_SOT /tr 'powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\scripts\sentinel-guardian.ps1"' /sc onlogon /f
+```
+
+**Ce câștigi:** după o deconectare, Control Center-ul (8900) și backendul
+SENTINEL (8912) rămân supraveghheate. Azi rulează doar pentru că au fost
+pornite manual în această sesiune — **dacă te deconectezi, mor.**
+
+---
+
 ## Ce **nu** mai e decizia ta
 
 Rezolvat tehnic în această sesiune, cu măsurători:
@@ -122,5 +144,7 @@ Rezolvat tehnic în această sesiune, cu măsurători:
   → la fel, măsurat în două runde consecutive.
 - **Dubla proprietate pe 8900** → încă deschis, pentru că soluția presupune
   să omâți un server dintr-un alt proiect (vezi D7).
-- **Supravegherea SOT-ului la logon** → taskuri noi, `..._SOT`, cu nume
-  distincte; cele QWEN neatinse.
+- **Supravegherea SOT-ului la logon** → **neaplicată**: atât
+  `Register-ScheduledTask`, cât și `schtasks /create` au răspuns
+  „Access is denied" fără privilegii administrative. E o singură comandă de
+  rulat ca administrator (D10).
