@@ -116,6 +116,15 @@ transcript that was not verified is a claim, not a deliverable.
   sibling sessions, resolved by content-addressed name. The `raw\` folder in the
   deliverable carries only what this session owns (123 files in that run); the rest are
   inlined into the transcript body.
+- **A live session keeps growing after you archive it.** Measured 2026-10-28: the session
+  being archived was still `status=started` and a peer agent was writing into it. The first
+  snapshot (id ≤ 73 254, 5 716 rows) was **15 rows stale within four minutes** — the refresh
+  (id ≤ 73 630) found 5 731 rows and 5 506 tool calls, 14 of them new calls. A snapshot is
+  current only as of the boundary it declares, so the handover procedure is: re-run the
+  extractor, then re-run the verifier, and report only a row count the verifier has just
+  confirmed. The verifier compares against the store's *current* `MAX(id)`, so on a live
+  session it can legitimately fail immediately after a successful extraction — that is the
+  check working, not a broken artifact. Re-extract and re-verify until the exit code is 0.
 - **Times are Europe/Bucharest** in the rendered text; the JSONL carries both the epoch
   ms and the local rendering.
 - **Cleaning the falsification copy on Windows needs the recoverable route.** The
