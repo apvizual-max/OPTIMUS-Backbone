@@ -26,9 +26,13 @@
   "0.010275..." during the change that created this file.)
 #>
 
+# The temp-file helper lives in one canonical place. This file is dot-sourced
+# by server.ps1 AND by a Start-Job runspace, and the job needs the same helper,
+# so it is loaded here rather than at each call site.
+. (Join-Path (Split-Path (Split-Path $PSScriptRoot -Parent) -Parent) 'scripts\lib\mavis-temp.ps1')
+
 function Read-SharedText {
-  param([string]$Path)
-  # NOT [IO.File]::ReadAllText. When a child is KILLED, the redirected handle can
+  param([string]$Path)  # NOT [IO.File]::ReadAllText. When a child is KILLED, the redirected handle can
   # still be open, and ReadAllText opens exclusively - so the kill-and-report
   # path threw "being used by another process" instead of reporting the timeout.
   # That path had no runtime coverage at all until this was called directly with
@@ -70,12 +74,12 @@ function Invoke-Bounded {
     [string]$WorkDir,
     [string]$StdinFile
   )
-  $outFile = [IO.Path]::GetTempFileName()
-  $errFile = [IO.Path]::GetTempFileName()
+  $outFile = New-MavisTempFile
+  $errFile = New-MavisTempFile
   $timedOut = $false
   $exitCode = $null
   try {
-    if (-not $StdinFile) { $StdinFile = [IO.Path]::GetTempFileName() }
+    if (-not $StdinFile) { $StdinFile = New-MavisTempFile }
     if (-not (Test-Path -LiteralPath $StdinFile)) { [IO.File]::WriteAllText($StdinFile, '') }
     # -WorkingDirectory is passed ONLY when non-empty. Start-Process validates
     # that argument and throws on a null or empty string, so an unconditional

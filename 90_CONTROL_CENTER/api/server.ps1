@@ -55,6 +55,8 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot '..\..\scripts\lib\mavis-temp.ps1')
+
 $ROOT = Split-Path -Parent $PSScriptRoot
 $COLLECT = Join-Path $PSScriptRoot 'collect-state.ps1'
 $INDEX = Join-Path $ROOT 'index.html'
@@ -171,7 +173,7 @@ $script:ActionTimeoutSec = $ActionTimeoutSec
 # the thing that depends on it.
 function Invoke-Collector {
   param([int]$TimeoutSec = 90)
-  $outFile = [IO.Path]::GetTempFileName()
+  $outFile = New-MavisTempFile
   try {
     $p = Start-Process -FilePath 'powershell.exe' `
       -ArgumentList '-NoProfile','-ExecutionPolicy','Bypass','-File',"`"$COLLECT`"" `
@@ -268,7 +270,7 @@ function Start-RefreshWorker {
     $dir = Split-Path $target -Parent
     $errLog = Join-Path $dir 'refresher.err.log'
     while ($true) {
-      $tmp = [IO.Path]::GetTempFileName()
+      $tmp = New-MavisTempFile
       $stdin = Join-Path $dir 'live-state.stdin'
       $staging = Join-Path $dir ("live-state.{0}.tmp" -f $PID)
       try {
@@ -554,7 +556,7 @@ function Start-JournalRefresh {
   Start-Job -ArgumentList $Which, $cache, $flag, $TimeoutSec, $script:AskDir -ScriptBlock {
     param($which, $cache, $flag, $timeoutSec, $askDir)
     $recs = @()
-    $tmp = [IO.Path]::GetTempFileName()
+    $tmp = $null
     $stdin = Join-Path $askDir 'journal.stdin'
     try {
       # A Start-Job is a SEPARATE runspace: it does not inherit anything this
@@ -562,7 +564,13 @@ function Start-JournalRefresh {
       # throws, the catch swallows it, and the journal silently never caches -
       # so the endpoint would answer `refreshing: true` for ever and look like a
       # daemon problem rather than a missing function.
+      #
+      # The temp file is created AFTER that dot-source, not before: the helper
+      # that names it lives in run-bounded.ps1, and a runspace that asks for it
+      # one line earlier gets "not recognized as a name" - which the catch
+      # swallows, and the symptom would be a journal that never caches.
       . (Join-Path (Split-Path $askDir -Parent) 'run-bounded.ps1')
+      $tmp = New-MavisTempFile
       if (-not (Test-Path $stdin)) { [IO.File]::WriteAllText($stdin, '') }
       $argStr = 'exec minimax-' + $which + '-bridge sh -c "tail -n 40 /opt/optimus/journal/minimax-' + $which + '-bridge.jsonl 2>/dev/null"'
       $dp = Start-Process -FilePath 'docker.exe' -ArgumentList $argStr `

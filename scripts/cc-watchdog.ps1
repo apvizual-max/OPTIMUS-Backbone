@@ -48,8 +48,10 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'lib\mavis-temp.ps1')
 
-$Root     = 'C:\Users\apviz\.minimax-agent\projects'
+
+$Root     = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard'
 $CC       = Join-Path $Root '90_CONTROL_CENTER'
 $Server   = Join-Path $CC 'api\server.ps1'
 $LogDir   = Join-Path $CC 'logs'
@@ -179,7 +181,7 @@ function Test-PageIntegrity {
     $js = $null
     foreach ($b in $blocks) { if ($b.Groups[1].Value.Trim().Length -gt 500) { $js = $b.Groups[1].Value } }
     if (-not $js) { return @{ ok = $false; why = 'no inline script block found' } }
-    $tmp = [IO.Path]::GetTempFileName() + '.js'
+    $tmp = New-MavisTempFile + '.js'
     [IO.File]::WriteAllText($tmp, $js, (New-Object Text.UTF8Encoding($false)))
     # Windows PowerShell 5.1 promotes a native command's STDERR to a TERMINATING
     # error whenever $ErrorActionPreference is 'Stop'. node --check reports every

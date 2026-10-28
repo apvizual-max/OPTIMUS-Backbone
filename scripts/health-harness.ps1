@@ -46,7 +46,9 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$Root   = 'C:\Users\apviz\.minimax-agent\projects'
+. (Join-Path $PSScriptRoot 'lib\mavis-temp.ps1')
+
+$Root   = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard'
 $CC     = Join-Path $Root '90_CONTROL_CENTER'
 $StateF = Join-Path $CC 'api\live-state.json'
 $HistF  = Join-Path $CC 'api\state-history.jsonl'
@@ -386,7 +388,7 @@ function Invoke-Dimensions {
   $anchorOk = $true
   try {
     $diskHash = (Get-FileHash -LiteralPath (Join-Path $CC 'index.html') -Algorithm SHA256).Hash
-    $t = [IO.Path]::GetTempFileName()
+    $t = New-MavisTempFile
     $parts = @("disk $($diskHash.Substring(0,8))")
     foreach ($pair in @(@('8900', $Base), @('8901', 'http://127.0.0.1:8901'))) {
       $port = $pair[0]; $url = $pair[1]

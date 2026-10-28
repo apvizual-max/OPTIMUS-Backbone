@@ -19,15 +19,17 @@
 param([switch]$Quiet)
 
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot '..\..\scripts\lib\mavis-temp.ps1')
+
 $COMPOSE = 'C:\Users\apviz\docker-compose.yml'
-$BACKUPS = 'C:\Users\apviz\.minimax-agent\projects\90_CONTROL_CENTER\backups'
+$BACKUPS = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\90_CONTROL_CENTER\backups'
 
 function Say($m, $c = 'Gray') { if (-not $Quiet) { Write-Host $m -ForegroundColor $c } }
 
 # ---------------------------------------------------------------- validate --
 $exists = Test-Path -LiteralPath $COMPOSE
 if ($exists) {
-  $tmp = [IO.Path]::GetTempFileName()
+  $tmp = New-MavisTempFile
   docker compose -f $COMPOSE config --quiet 2>$tmp | Out-Null
   $valid = ($LASTEXITCODE -eq 0)
   $err = if (Test-Path $tmp) { (Get-Content $tmp -Raw) } else { '' }
@@ -70,7 +72,7 @@ Say "Rebuilding the compose file from live container state..." 'Cyan'
 New-Item -ItemType Directory -Force -Path $BACKUPS | Out-Null
 try {
   $rebuilt = & powershell -NoProfile -ExecutionPolicy Bypass `
-    -File 'C:\Users\apviz\.minimax-agent\projects\scripts\rebuild-compose-from-state.ps1' 2>&1
+    -File 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\scripts\rebuild-compose-from-state.ps1' 2>&1
   $rebuilt | ForEach-Object { Say "  $_" 'DarkGray' }
   if (Test-Path -LiteralPath $COMPOSE) {
     Say "[ok]   compose restored: $COMPOSE" 'Green'
