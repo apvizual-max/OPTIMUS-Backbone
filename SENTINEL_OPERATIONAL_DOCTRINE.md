@@ -119,7 +119,7 @@ Pe această stație, Google **nu** e o capabilitate care se re-configurează la 
 | | |
 |---|---|
 | Endpoint MCP | `http://127.0.0.1:8766/mcp` — înregistrat **global** în `C:\Users\apviz\.minimax\mcp.json` ca `Google_Access`, deci îl moștenește **orice** agent de pe stație, nu doar Mavis |
-| Punct de control (o singură comandă) | `node C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs` → `VERDICT=PASS` / `FAIL`, exit 0 / 2, 9 verificări |
+| Punct de control (o singură comandă) | `node C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs` → `VERDICT=PASS` / `FAIL`, exit 0 / 2 / 3, 11 verificări |
 | Harness CLI (pentru un AI fără client MCP) | `node C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\container\mcp-call.mjs <tool> @args.json` |
 | Proiect | `C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access` (repo public `apvizual-max/Mavis-Google_Access`) |
 | Bridge | `10_BRIDGES\10_google_access.md` |
@@ -131,6 +131,8 @@ Reguli care decurg din asta:
 3. **`keep` și `sites` sunt refuzate de Google** și rămân refuzate. Nu sunt defecte; Popy importă conținutul prin alte unelte în Drive.
 4. **Credentialul nu iese din volum** — nici în repo, nici în log, nici în chat.
 5. **`google-layer\` are o singură casă**: `Mavis-Google_Access\google-layer\`. (Măsurat 28 oct 2026: referințele din control center și din skill au fost reparate pe loc, în aceeași zi.)
+6. **O cale moartă în `mcp.json` stinge capabilitatea pentru TOȚI agentii de pe stație**, nu doar pentru sesiunea care a scris-o — configurația MCP e globală. (Măsurat 28 oct 2026: trei intrări `google-layer\` erau rupte de o mutare și nimic nu semnala; `docker-mcp` indica spre un wrapper pe care npm nu l-a creat niciodată. Reparați cu interfața `mavis`, apoi **probează handshake-ul real** cu `scripts\probe-mcp-stdio.mjs --name <intrare>` — nu te mulțumi că fișierul există.)
+7. **Un fișier prezent dar mai vechi nu e o mutare, e o regresie.** Când muti conținut între repo-uri, compară-l (nu doar prezența): `scripts\compare-layer-versions.py`. (Măsurat 28 oct 2026: mutarea `google-layer\` a lăsat în urmă trei optimizări fuzionate pe 24 oct; `gdrive-mcp` răspundea cu 29.452 ms în loc de 2.264 ms.)
 
 ## §13 Pricing & buying discipline
 

@@ -69,7 +69,7 @@ Google is **not** a capability that gets re-set-up per session. It is one contai
 | | |
 |---|---|
 | MCP endpoint | `http://127.0.0.1:8766/mcp` — registered globally in `C:\Users\apviz\.minimax\mcp.json` as `Google_Access`, so **every** agent on this station inherits it, not only Mavis |
-| Control point (one command) | `node C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs` → `VERDICT=PASS` / `FAIL`, exit 0 / 2, 9 checks |
+| Control point (one command) | `node C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs` → `VERDICT=PASS` / `FAIL`, exit 0 / 2 / 3, 11 checks |
 | CLI harness (no MCP client needed) | `node C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\container\mcp-call.mjs <tool> @args.json` |
 | Project | `C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access` (public repo `apvizual-max/Mavis-Google_Access`) |
 | Bridge spec | `10_BRIDGES\10_google_access.md` |
@@ -80,6 +80,9 @@ Rules that follow from it:
 2. **The human action is ONE click** (the consent screen), and only when Google itself demands it. The listener that catches the callback is kept alive by a scheduled task.
 3. **`keep` and `sites` are refused by Google** and stay refused. They are not defects; Popy imports that content through other tools into Drive.
 4. **The credential never leaves the volume** - not into a repo, not into a log, not into a chat message.
+5. **`google-layer\` has one home**: `Mavis-Google_Access\google-layer\`. (Measured 28 Oct 2026: the references in the control center and in the skill were repaired in place, the same day.)
+6. **A dead path in `mcp.json` disables the capability for EVERY agent on the station**, not just the session that wrote it - the MCP configuration is global. (Measured 28 Oct 2026: three `google-layer\` entries were broken by a move and nothing said so; `docker-mcp` pointed at a wrapper npm never created. Repair through the `mavis` interface, then **probe the real handshake** with `scripts\probe-mcp-stdio.mjs --name <entry>` - a file that exists is not a server that runs.)
+7. **A file that is present but older is not a migration, it is a regression.** When content moves between repos, compare it - not just its presence: `scripts\compare-layer-versions.py`. (Measured 28 Oct 2026: the `google-layer\` move left three optimizations merged on 24 Oct behind; `gdrive-mcp` answered in 29.452 ms instead of 2.264 ms.)
 
 
 ### Tool before words

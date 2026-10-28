@@ -19,7 +19,7 @@ That is the point of the name. A second AI, a new session, or another platform c
 | Container | `Google_Access`, `--restart unless-stopped`, volume `data` (rw) + `E:\--- System Secrets` (ro) |
 | Credential | one OAuth refresh token in the mounted volume, 33 scopes, **never** in an image layer and never in a repo |
 | CLI harness (for AIs without MCP) | `node Mavis-Google_Access\container\mcp-call.mjs <tool> @args.json` |
-| Control point | `node Mavis-Google_Access\scripts\ga-doctor.mjs` → one verdict, 9 checks, exit 0 / 2 |
+| Control point | `node Mavis-Google_Access\scripts\ga-doctor.mjs` → one verdict, 11 checks, exit 0 / 2 / 3 |
 | NotebookLM, second route | `minimax-notebooklm` (own Chrome profile, own CDP port 9412, 4 tools, session authenticated) |
 | Project | `https://github.com/apvizual-max/Mavis-Google_Access` (public, `main`) |
 
@@ -32,6 +32,17 @@ That is the point of the name. A second AI, a new session, or another platform c
 - ✅ Four scheduled tasks keep it alive: `Google_Access_Watch` (hourly, self-healing), `Google_Access_Doctor` (30 min, the control point), `MavisExtendLMHeartbeat` (30 min, rotates the NotebookLM token and publishes the snapshot to the Cloud secret), `MavisPickerHeartbeat` (15 min, captures the user's Photo Picker selection)
 - ✅ `Google_Access_Consent` (5 min) keeps the re-consent listener on `http://localhost:80` alive, so a future re-consent is one click
 - [ ] **Two services are refused by Google itself and stay refused**: `keep` (403, no grantable scope exists) and `sites` (404, the API was retired). Popy imports that content through Gemini/other tools into Drive instead. The tools report the refusal; they never pretend.
+
+### Repaired 2026-10-28 (measured)
+
+- **Three MCP entries were broken** and the registry said nothing: `gdrive-mcp`, `gmail-mcp` and `google-calendar-mcp` pointed at `projects\google-layer\…`, a folder moved on 27 Oct. Because the MCP configuration is **global**, a dead path there disables the capability for **every agent on the station**, not just the session that wrote it. Repaired in place; measured after: `gdrive-mcp` → 9 tools, `gmail-mcp` → 36 tools. `google-calendar-mcp` stays disabled (measured: it is an HTTP server, not a stdio one).
+- **`docker-mcp` pointed at a wrapper npm never created**, and the package could not import its own dependency. Repaired in place (runtime deps installed into the existing package, entry pointed at the real entry point); measured: `INIT_OK=1`, 19 tools.
+- **The `google-layer/` move was verified for presence, not for content** — three optimizations merged on 24 Oct stayed behind in the old repo. Carried forward with byte-level proof. Measured effect: `gdrive-mcp` answered in **2.264 ms** instead of **29.452 ms**.
+- **A consumed Photo Picker session was reported as a defect.** A completed session answers 404 forever after; the control point went red for the user finishing the very action the picker exists for. It is now a state (`SESSION_CONSUMED`), not a failure.
+
+Two checks exist *because* of these: `C1b.running-code` (the bytes running inside the container are the bytes in the repo — the 1.0.9 incident ran old code while every document said it was fixed) and `C10.mcp-paths` (every path the global registry points to exists on disk).
+
+Full specification: `Mavis-Google_Access/docs/PUNCT-DE-CONTROL.md`.
 
 ## Use cases
 
