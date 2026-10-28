@@ -126,18 +126,40 @@ Se resincronizează după orice push nou, cu `git -C .github-repo pull --ff-only
 1. **Git scrie progresul pe stderr și aruncă o eroare roșie chiar la push
    reușit.** Verificarea de push e `git ls-remote`, niciodată exit code-ul.
 2. **Verifică cu o clonă nouă**, nu doar cu `git log`. Un commit poate fi valid
-   și totuși imposibil de checkout.
+   și totuși imposibil de checkout. Asta e acum un instrument, nu o rețetă:
 
    ```powershell
-   git clone --depth 1 https://github.com/apvizual-max/SENTINEL_PRIME.git $env:TEMP\verify_sentinel
-   (Get-ChildItem $env:TEMP\verify_sentinel -Recurse -File).Count
+   powershell -NoProfile -ExecutionPolicy Bypass -File scripts\verify-remote-clone.ps1 `
+       -ExpectFiles '14_HANDOFF\10_PRIMING_PROMPT.md,README.md'
    ```
+
+   Măsoară 10 lucruri — intrări de arbore invalide, clonă nouă de la zero,
+   `dirty=0`, HEAD-ul clonei egal cu SHA-ul remote-ului, o singură ramură,
+   fișierele cerute prezente — și spune `VERDICT=PASS` / `VERDICT=FAIL`
+   (exit 0 / 2). **Nu șterge nimic** și nu atinge arborele de lucru: lasă clona
+   de probă în `%TEMP%` și-i afișează calea în `PROBE_CLONE=`.
 
    Un commit valid poate să nu fie clonabil: git **refuză `:`** într-o
    componentă de nume, iar un director cu cale absolută drept nume intră în
    arbore fără să apară în `git log` sau `git status`. Pipeline-ul a introdus
    exact așa o dată, în 3 zile, la comitul `3b3f9dd` (PR #14 al lui Jules).
    Rețeta de reparare e în `07_BACKBONE\skills\sentinel-cd-pipeline-sync.SKILL.md`.
+
+   Instrumentul e **falsificat**, nu doar trecut: `scripts\make-broken-tree-control.py`
+   construiește, la cerere, un repository cu exact defectul de mai sus, iar
+   verificatorul trebuie să-l refuză:
+
+   ```powershell
+   python scripts\make-broken-tree-control.py
+   powershell -NoProfile -ExecutionPolicy Bypass -File scripts\verify-remote-clone.ps1 `
+       -Repo "$env:TEMP\sentinel-broken-tree-control" `
+       -RemoteUrl "$env:TEMP\sentinel-broken-tree-control"
+   # asteptat: VERDICT=FAIL, invalid_tree_entries 1, clone_exit 128
+   ```
+
+   Măsurat pe 28 oct: controlul → `VERDICT=FAIL` (exit 2), repo-ul real →
+   `VERDICT=PASS` (exit 0). Ambele sensuri sunt testate în faza
+   `cd_clone_verify` din `08_SELF_IMPROVEMENT\test_deployment.py`.
 3. **Nu rescrie istoricul publicat.** Fără force-push, fără `git reset --hard`.
 4. **`stash@{0}` e păstrat** ca a doua cale de recuperare a conținutului
    local-only. Nu se aruncă până când Popy nu confirmă că nu mai trebuie.

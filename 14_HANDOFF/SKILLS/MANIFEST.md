@@ -2,7 +2,7 @@
 
 **Data:** 2026-10-28 · **Sesiune:** închiderea ciclului SENTINEL_PRIME
 
-Aceste 9 fișiere sunt skillurile de care instanța nouă are nevoie ca să nu
+Aceste 10 fișiere sunt skillurile de care instanța nouă are nevoie ca să nu
 înceapă de la zero. Sunt **copii de travelling** — se aplică în repo la
 `07_BACKBONE\skills\` (sursa de adevăr pentru skillurile instalate) și în
 directorul de skilluri al agentului.
@@ -18,10 +18,11 @@ directorul de skilluri al agentului.
 | `mavis-sentinel-command-center-skill.SKILL.md` | agent | rețete server-side dovedite: ruta allowlist, trecerea octeților, poarta Origin · **limita fără scriitor: adaugă scriitorul, nu lărgește limita** |
 | `mavis-live-review-governance-skill.SKILL.md` | agent | **starea LiveReview măsurată în SENTINEL_PRIME**: `core.hooksPath` gol e **intenționat**, hook-urile sunt dezactivate pe outer repo, attestation-ul e `lrc review --vouch --staged` |
 | `mavis-skill-access-handoff.SKILL.md` | agent | cum se predă și cum se ia un handoff: **sweep-ul de verificare a căilor** (măsurat: 121 de tokenuri, 11 explicate, 0 pointer rupt) · **ce NU trebuie reparat** · copiile de skilluri byte-identice |
-| `sentinel-cd-pipeline-sync.SKILL.md` | **repo** (nou) | sincronizarea cu pipeline-ul CD, inclusiv repararea arborelui rupt · **verificarea legată de repository-ul potrivit** |
+| `mavis-optimus-continuous-integration-skill.SKILL.md` | agent | **adăugat pe 28 oct, 04:45** — rețeta măsurată a sync-ului cu pipeline-ul CD + **verificarea remote-ului cu clonă nouă, ca instrument** + trei capcane PowerShell 5.1, măsurate la scrierea lui |
+| `sentinel-cd-pipeline-sync.SKILL.md` | **repo** (nou) | sincronizarea cu pipeline-ul CD, inclusiv repararea arborelui rupt · **verificarea legată de repository-ul potrivit** · **§6: verificatorul executabil + controlul falsificator** |
 | `verification-and-falsification.SKILL.md` | **repo** (nou) | disciplina de măsurare: controale de sensibilitate, probe non-executabile, corectii adăugate · **§8: măsoară cine scrie, înainte să schimbi limita** |
 
-**Copiile sunt regenerate din surse.** Toate cele 9 fișiere de mai sus sunt copii
+**Copiile sunt regenerate din surse.** Toate cele 10 fișiere de mai sus sunt copii
 byte-identice ale surselor lor (`C:\Users\apviz\.minimax\agents\mavis\skills\`
 pentru cele din agent, `07_BACKBONE\skills\` pentru cele din repo). Când o
 sursă se schimbă, copia se regenerează. **Versiunile anterioare ale copiilor
@@ -82,6 +83,34 @@ nu cu presupunere.
 13. **lista „NU REPARA" în priming prompt** — o instanță fără context repară ce
     pare rupt; de aceea fiecare item poartă **motivul** lângă el, nu doar
     interdicția.
+
+**Greseli, doar ca „nu repetati", fără alte detalii** — în secțiunile
+„Greseli de repetat" ale skill-urilor de mai sus.
+
+## Ce s-a mai extras în blocul de 04:00–04:45 (28 oct)
+
+**Succese, cu rețetă reproductibilă:**
+
+14. **verificarea remote-ului a devenit instrument** —
+    `scripts\verify-remote-clone.ps1`: 10 verificări, fiecare cu valoarea
+    măsurată alături; `VERDICT=PASS` (exit 0) / `VERDICT=FAIL` (exit 2) +
+    `FAILURES=<lista>`. Nu șterge nimic, nu atinge arborele de lucru: lasă
+    clona de probă în `%TEMP%` și afișează `PROBE_CLONE=`;
+15. **control falsificator pentru instrumentul de verificare** —
+    `scripts\make-broken-tree-control.py` construiește, la cerere, un repository
+    cu intrarea de arbore cu cale absolută (defectul real din 28 oct). Măsurat:
+    controlul → `VERDICT=FAIL` (`invalid_tree_entries 1`, `clone_exit 128`,
+    „error: invalid path ..."), repo real → `VERDICT=PASS`;
+16. **faza de regresie cere ambele sensuri** — `cd_clone_verify` în
+    `08_SELF_IMPROVEMENT\test_deployment.py`: controlul BLOCAT și repo-ul real
+    ACCEPTAT, în aceeași fază. Suita a urcat la **69 passed / 0 failed /
+    1 not-run (70 verificări)**;
+17. **corecția se adaugă, textul fals rămâne** — C4 și C5 în
+    `11_SESSION_HANDOFF_2026-10-28.md` §8: trei bug-uri ale verificatorului
+    găsite de control, și finalele de linie rupte de editarea prin tool;
+18. **măsoară convenția înainte și după editare** — `core.autocrlf=true`
+    înseamnă CRLF în arborele de lucru; o editare prin tool a rescris fișierul
+    pe LF (194 CRLF → 0), măsurat și reparat.
 
 **Greseli, doar ca „nu repetati", fără alte detalii** — în secțiunile
 „Greseli de repetat" ale skill-urilor de mai sus.

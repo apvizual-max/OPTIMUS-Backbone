@@ -123,6 +123,8 @@ care conțin lecțiile din sesiunea precedentă:
   - mavis-live-review-governance-skill   ← cum se atestă un commit aici
   - mavis-skill-access-handoff           ← cum se ia un handoff
   - mavis-autonomous-operator-skill   ← se încarcă ÎNAINTE de orice altceva
+  - mavis-optimus-continuous-integration-skill  ← rețeta sync-ului cu pipeline-ul CD
+                                              + verificarea remote-ului ca instrument
 
 În pachetul de predare: 14_HANDOFF\SKILLS\ conține **copii byte-identice** ale
 skill-urilor de mai sus, plus un MANIFEST.md care spune ce aduce fiecare. Dacă
@@ -135,6 +137,13 @@ Cele mai importante, pe scurt:
     și conține starea Git/GitHub. Vezi popy-project-status-report.
   - pipeline: Jules și Antigravity CD scriu direct în main. Localul e de obicei
     strict în urmă. Nu crea ramuri pe remote.
+  - după fiecare push al pipeline-ului, verifică remote-ul cu instrumentul, nu
+    cu ochiul: powershell -NoProfile -ExecutionPolicy Bypass -File
+    scripts\verify-remote-clone.ps1
+    → VERDICT=PASS (exit 0) sau VERDICT=FAIL (exit 2) + FAILURES=<lista>.
+    Instrumentul e falsificat cu scripts\make-broken-tree-control.py, care
+    construiește exact defectul care a rupt repo-ul, și la care verificatorul
+    trebuie să răspundă FAIL.
 
 ═══════════════════════════════════════════════════════════════
 6. DE UNDE SĂ CONTINUI (citește în această ordine)

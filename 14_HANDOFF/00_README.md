@@ -35,7 +35,7 @@ python survey_build.py
 | **10** | **`10_PRIMING_PROMPT.md`** | **Start here for a new AI instance with zero memory and zero context. Copy it whole, paste it as the first message.** |
 | **11** | **`11_SESSION_HANDOFF_2026-10-28.md`** | **The state as of the last session: what was found, what was fixed, what is left, what is Popy's decision.** |
 | **12** | **`12_GIT_GITHUB_STATE.md`** | **Exact Git and GitHub state: branch, SHAs, what is pushed, who else writes to this repo, and the rules for pushing.** |
-| **—** | **`SKILLS/`** | **The 9 skills handed to the new instance, plus a manifest. Copies, so a fresh agent without a skills directory still has them.** |
+| **—** | **`SKILLS/`** | **The 10 skills handed to the new instance, plus a manifest. Copies, so a fresh agent without a skills directory still has them.** |
 | 01 | `01_BUILD_STATUS.md` | **Start here.** What is live, what is strong, what is weak. |
 | 02 | `02_GAPS.md` | Every gap, sorted into **BUG** (went wrong) and **SCAFFOLDING** (not built yet). |
 | 03 | `03_ARCHITECTURE_SPEC.md` | The system as actually built, with measured file sizes and routes. |
@@ -55,7 +55,7 @@ rule that an edited file keeps its previous version. They are not content and
 are not part of the reading order; the same rule says nothing is deleted to
 make a folder tidy.
 
-### Four things that changed after this package was written
+### Five things that changed after this package was written
 
 - **2026-10-28 — the repository was broken for every Windows clone.** `origin/main`
   carried a top-level directory whose name was the project's own absolute path,
@@ -82,6 +82,18 @@ make a folder tidy.
   writer; if the writer is on demand, keep the bound.** The copies are
   byte-identical to their sources, and the previous versions are in git history.
   `SKILLS\MANIFEST.md` says what each one now carries.
+- **2026-10-28 — "verify the remote with a fresh clone" became an instrument.**
+  `scripts\verify-remote-clone.ps1` measures ten things (invalid tree entries,
+  a fresh clone from zero, `dirty=0`, probe HEAD equal to the remote SHA, one
+  branch, the required files present) and prints `VERDICT=PASS` / `VERDICT=FAIL`
+  — exit 0 / 2. It is **falsified, not merely passed**:
+  `scripts\make-broken-tree-control.py` builds, on demand, a repository carrying
+  the exact defect that broke this repo on 28 October, and the verifier has to
+  refuse it. Measured: control → `VERDICT=FAIL` (`invalid_tree_entries 1`,
+  `clone_exit 128`), real repository → `VERDICT=PASS`. Both directions are
+  tested by the `cd_clone_verify` phase in
+  `08_SELF_IMPROVEMENT\test_deployment.py`. **Run it after every pipeline push**
+  — see `12_GIT_GITHUB_STATE.md` §6.
 
 **Figures in files 01–09 are from 2026-10-06** and are a snapshot, not the
 current state. The live numbers are in file 11 and in the status report at the

@@ -33,6 +33,7 @@ import os
 import shutil
 import subprocess
 import sys
+import tempfile
 import time
 import urllib.error
 import urllib.request
@@ -2209,6 +2210,75 @@ def test_polling_is_not_starved() -> None:
 
 
 # ------------------------------------------------------------------ summary --
+# ------------------------ 12. CD pipeline: the remote must stay cloneable ------
+def test_cd_clone_verifier_blocks_a_broken_tree() -> None:
+    """The clone verifier must REFUSE the defect class that broke this repo.
+
+    Measured on 2026-10-28: origin/main carried a root tree entry whose name
+    contained ':'. Git refuses ':' in a path component, so read-tree, checkout and
+    every Windows clone failed while `git log` and `git status` looked perfect.
+
+    A verifier that is only ever shown to PASS is not a verifier. This phase
+    builds that exact defect on purpose and requires the script to block it, and
+    then requires the same script to accept the real repository. Both directions
+    are asserted, so the phase cannot pass by always failing and cannot pass by
+    always passing.
+    """
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    verifier = os.path.join(root, "scripts", "verify-remote-clone.ps1")
+    builder = os.path.join(root, "scripts", "make-broken-tree-control.py")
+    if not (os.path.isfile(verifier) and os.path.isfile(builder)):
+        not_run("cd_clone_verifier_present",
+                f"verifier or control builder is missing: {verifier} / {builder}")
+        return
+
+    work = tempfile.mkdtemp(prefix="sentinel-cd-verify-")
+    control = os.path.join(work, "control")
+    probe_root = os.path.join(work, "probes")
+    os.makedirs(probe_root, exist_ok=True)
+    try:
+        rc, out = run_tool([sys.executable, builder, control], timeout=180,
+                           log_name="cd-control-builder.log")
+        if rc != 0:
+            record("cd_control_built", "FAIL",
+                   f"control builder returned rc={rc}: {out[-400:]}")
+            return
+        record("cd_control_built", "PASS",
+               f"control repository carrying an invalid path entry built at {control}")
+
+        # --- direction 1: the broken tree must be REFUSED ---
+        rc_bad, out_bad = run_tool(
+            ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", verifier,
+             "-Repo", control, "-RemoteUrl", control, "-CloneRoot", probe_root],
+            timeout=300, log_name="cd-verify-control.log")
+        refused = (rc_bad != 0
+                   and "VERDICT=FAIL" in out_bad
+                   and "invalid_tree_entries" in out_bad
+                   and "invalid path" in out_bad.lower())
+        check("cd_clone_verifier_blocks_broken_tree", refused,
+              "the verifier refused the tree carrying an invalid path entry: "
+              "VERDICT=FAIL, invalid_tree_entries reported, the git clone error quoted",
+              f"the verifier did not block the broken tree: rc={rc_bad}; "
+              f"tail of output: {out_bad[-500:]}")
+
+        # --- direction 2: the real repository must be ACCEPTED ---
+        rc_good, out_good = run_tool(
+            ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", verifier,
+             "-Repo", root, "-RemoteUrl", root, "-CloneRoot", probe_root],
+            timeout=300, log_name="cd-verify-real.log")
+        accepted = (rc_good == 0
+                    and "VERDICT=PASS" in out_good
+                    and "invalid_tree_entries 0 PASS" in out_good
+                    and "clone_dirty 0 PASS" in out_good)
+        check("cd_clone_verifier_accepts_real_repo", accepted,
+              "the verifier accepted the real repository: VERDICT=PASS, no invalid "
+              "tree entries, clean clone, remote main reachable",
+              f"the verifier did not accept the real repository: rc={rc_good}; "
+              f"tail of output: {out_good[-500:]}")
+    finally:
+        shutil.rmtree(work, ignore_errors=True)
+
+
 def main() -> int:
     print("=" * 74)
     print("  mavis-sentinel-hub - deployment end-to-end tests")
@@ -2285,6 +2355,7 @@ def main() -> int:
             ("dom_guards", "test_dom_injection_is_guarded"),
             ("polling_refresh", "test_polling_is_not_starved"),
             ("no_data_in_image", "test_no_data_in_image"),
+            ("cd_clone_verify", "test_cd_clone_verifier_blocks_a_broken_tree"),
         )
         for name, target in phase_specs:
             fn = target if callable(target) else globals().get(target)

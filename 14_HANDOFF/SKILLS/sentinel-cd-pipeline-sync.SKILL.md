@@ -170,7 +170,63 @@ git -C $repo ls-remote origin refs/heads/main
 La fel pentru starea unui **alt arbore** (o clona plasata in interiorul
 proiectului): `git -C <clona> status --porcelain`.
 
-## 6. Greseli de repetat
+## 6. Verificatorul executabil: `scripts\verify-remote-clone.ps1`
+
+Regula de la sectiunile 1 si 5 are acum o forma care se ruleaza. Dupa fiecare push
+al pipeline-ului (Jules + Antigravity CD Engine):
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\verify-remote-clone.ps1 `
+    -ExpectFiles '14_HANDOFF\10_PRIMING_PROMPT.md,README.md'
+```
+
+Ce masoara - fiecare verificare raporteaza valoarea masurata, nu doar un verdict:
+
+| Verificare | Ce inseamna | Asteptat |
+|---|---|---|
+| `remote_main_sha` | SHA-ul lui `refs/heads/main` pe remote, citit cu `ls-remote` | nevid |
+| `remote_branches` | cate ramuri are remote-ul | 1, anume `main` |
+| `behind_ahead` | remote-ul fata de HEAD-ul local | `0/0` cand e sincronizat |
+| `invalid_tree_entries` | cate intrari de arbore contin `:` | **0** |
+| `clone_exit` | codul de iesire al unei clone NOI, de la zero | 0 |
+| `clone_head_sha` | HEAD-ul clonei noi | egal cu SHA-ul remote-ului |
+| `clone_dirty` | `git status --porcelain` in clona noua | **0** |
+| `clone_branches` | ramurile locale din clona noua | doar `main` |
+| `clone_tracked_files` | cate fisiere urmarite sunt in clona noua | > 0 |
+| `expect_files_missing` | cate din fisierele cerute lipsesc | **0** |
+
+Verdictul se citeste din ultima linie: `VERDICT=PASS` sau `VERDICT=FAIL`, urmat de
+`FAILURES=<lista>`. Codul de iesire: 0 = PASS, 2 = FAIL.
+
+Scriptul **nu sterge nimic** si nu atinge arborele de lucru al repo-ului: nu muta
+nicio referinta si nu scrie niciun fisier in repository. Singurul lucru pe care il
+scrie este o clona de proba in `%TEMP%`, a carei cale o afiseaza in
+`PROBE_CLONE=`. Curata manual, cand nu mai ai nevoie de dovada.
+
+### Controlul falsificator
+
+Un check care nu poate pici nu e un check. `scripts\make-broken-tree-control.py`
+construieste, la cerere, un repository cu intrarea de arbore cu cale absoluta -
+defectul real din 2026-10-28:
+
+```powershell
+python scripts\make-broken-tree-control.py
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\verify-remote-clone.ps1 `
+    -Repo "$env:TEMP\sentinel-broken-tree-control" `
+    -RemoteUrl "$env:TEMP\sentinel-broken-tree-control"
+# asteptat: VERDICT=FAIL, invalid_tree_entries 1, clone_exit 128,
+#   "error: invalid path 'C:\Users\...' - fatal: unable to checkout working tree"
+```
+
+Masurat pe 2026-10-28, pe aceeasi suma: controlul -> `VERDICT=FAIL` (exit 2),
+repository-ul real -> `VERDICT=PASS` (exit 0).
+
+Verificatorul este testat in ambele sensuri de faza `cd_clone_verify` din
+`08_SELF_IMPROVEMENT\test_deployment.py`: controlul trebuie BLOCAT, iar
+repository-ul real trebuie ACCEPTAT. O faza care poate trece doar pica, sau doar
+trece, nu e o faza.
+
+## 7. Greseli de repetat
 
 - Nu verifica sincronizarea doar prin `git log` sau `git status`.
 - Nu folosi `git reset --hard` si nu rescrie istoricul publicat.
@@ -186,9 +242,27 @@ proiectului): `git -C <clona> status --porcelain`.
 - Nu tine material de lucru temporar (mesaje de commit, scripturi) in radacina
   unui repository pe care il comiti cu `git add -A`; citeste lista de intrari
   cu `git diff --cached --name-status` inainte de commit.
+- Nu numi o functie PowerShell ca un executabil aflat pe PATH. `function Git`
+  umbreaza `git.exe`, iar apelul se autoapeleaza la infinit - masurat:
+  `CallDepthOverflow`. Numele sigur: `Invoke-Native`.
+- Nu confunda "un tool nativ a scris pe stderr" cu "a esuat". Cu
+  `$ErrorActionPreference='Stop'`, un `git` care doar avertizeaza ridica o eroare
+  terminanta si iti ascunde diagnosticul pe care voiai sa-l vezi. Captureaza
+  stderr-ul intr-un string si citeste codul de iesire.
+- Cu `powershell -File`, o lista de argumente separate NU se leaga la un parametru
+  `[string[]]`: primeste un singur string cu virgule intre ele. Accepta un string
+  separat prin virgule si descompune-l in interiorul scriptului.
+- La parsarea unui SHA nu cere whitespace dupa el: `git rev-parse HEAD` afiseaza
+  SHA-ul gol. Ancoreaza regexul la inceputul liniei: `^\s*([0-9a-f]{40})\b`.
+- Nu itera peste rezultatul unui pipeline cu `Where-Object` fara sa-l convertesti
+  in array: pe un singur element, PowerShell intoarce un scalar, iar `$x[0]` pe un
+  scalar de tip string intoarce primul CARACTER, nu primul element. Masurat:
+  SHA-ul parsat ca `"b"`.
 
-## 7. Legaturi
+## 8. Legaturi
 
 - Skill-ul sursa al Command Center-ului: `command-center.SKILL.md`
 - Reguli generale de git: `mavis-git-autonom-skill`
 - Disciplina de masurare: `verification-and-falsification.SKILL.md`
+- Verificatorul executabil: `scripts\verify-remote-clone.ps1`
+- Controlul falsificator: `scripts\make-broken-tree-control.py`

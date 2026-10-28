@@ -473,3 +473,35 @@ Ce **nu** merge: `git commit -m "text cu "citare" in el"` in PowerShell 5.1.
   PowerShell 5.1. Foloseste `-F <fisier>`.
 - Nu citi un *pathspec* care conține fragmente din mesajul tău ca pe o
   problemă cu arborele. E quoting.
+
+## 18. Verifică starea remote-ului cu instrumentul, nu cu `git log` (2026-10-28)
+
+**Aditiv.** Nimic de mai sus se rescrie.
+
+Măsurat în `SENTINEL_PRIME`: pipeline-ul CD (Jules + Antigravity CD Engine)
+scrie direct în `main`, și un comit poate fi **valid** și totuși imposibil de
+checkout — git refuză `:` într-o componentă de nume. `git log` și `git status`
+arătau perfect; fiecare clonă pe Windows eșua.
+
+Regula devine un instrument care se rulează după fiecare push al pipeline-ului:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\verify-remote-clone.ps1
+# VERDICT=PASS (exit 0) | VERDICT=FAIL (exit 2) + FAILURES=<lista>
+```
+
+Măsurat: control falsificator → `VERDICT=FAIL` (`invalid_tree_entries 1`,
+`clone_exit 128`, „error: invalid path ..."), repo real → `VERDICT=PASS`.
+Instrumentul **nu șterge nimic** și nu atinge arborele de lucru: lasă clona de
+probă în `%TEMP%` și afișează calea în `PROBE_CLONE=`.
+
+**Trei capcane de shell, măsurate în timp ce l-am scris:**
+- o funcție PowerShell numită ca un executabil de pe PATH (`function Git`)
+  umbrează executabilul și se autoapelează la infinit — `CallDepthOverflow`;
+- cu `$ErrorActionPreference='Stop'`, un tool nativ care doar scrie pe stderr
+  aruncă o eroare terminantă și ascunde diagnosticul pe care voiai să-l vezi;
+- `powershell -File` nu leagă o listă de argumente la un parametru `[string[]]` —
+  primește un singur string cu virgule între ele.
+
+Când scrii un instrument de verificare în PowerShell: **dă-i un control
+falsificator.** Altfel nu știi dacă măsoară ceva sau doar confirmă ce știi deja.

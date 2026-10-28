@@ -331,6 +331,34 @@ spune „handshake every 144 cycle(s)", mtime-ul înregistrării e 02:53:15, iar
 live `mcp_tools_wired = OK — "Measured 2s ago by mcp_handshake.py"`). A doua
 linie e familia `log_*`, decisă astăzi: **se păstrează**.
 
+### Verificatorul de clonă — construit și falsificat, 04:20–04:40
+
+Punctul deschis de la începutul sesiunii („verificarea cu clonă nouă, după
+fiecare push al pipeline-ului") nu mai e o rețetă scrisă: e un executabil care
+măsoară și spune `VERDICT=PASS` sau `VERDICT=FAIL`.
+
+| | Măsurat |
+|---|---|
+| `scripts\verify-remote-clone.ps1` | 10 verificări, fiecare cu valoarea măsurată alături |
+| Cod de ieșire | **0** = PASS, **2** = FAIL |
+| Control falsificator (`scripts\make-broken-tree-control.py`) | repository cu intrarea de arbore cu cale absolută — clasa de defect reală |
+| Control → verificator | **`VERDICT=FAIL`** (exit 2): `invalid_tree_entries 1`, `clone_exit 128`, „error: invalid path 'C:\Users\...' — fatal: unable to checkout working tree" |
+| Repo real, clonă din calea locală | **`VERDICT=PASS`** (exit 0): `invalid_tree_entries 0`, `clone_dirty 0`, 1.493 fișiere, o singură ramură `main` |
+| Repo real, remote GitHub | **`VERDICT=PASS`** (exit 0), aceleași 10 verificări |
+| Fază de regresie în `test_deployment.py` | `cd_clone_verify` — cere **ambele** sensuri: controlul BLOCAT și repo-ul real ACCEPTAT |
+| Suita de deployment după faza nouă | **69 passed / 0 failed / 1 not-run (70 verificări)** |
+
+Verificatorul nu șterge nimic și nu atinge arborele de lucru: lasă clona de probă
+în `%TEMP%` și afișează calea în `PROBE_CLONE=`.
+
+Trei capcane măsurate pe parcurs, toate trei înregistrate în skill-ul de sync CD:
+o funcție PowerShell numită `Git` umbrează executabilul `git` și se autoapelează
+la infinit (`CallDepthOverflow`); cu `$ErrorActionPreference='Stop'`, un tool nativ
+care doar scrie pe stderr aruncă o eroare terminantă și ascunde diagnosticul pe
+care voiai să-l vezi; cu `powershell -File`, o listă de argumente separate nu se
+leagă la un parametru `[string[]]` — primește un singur string cu virgule între
+ele.
+
 ---
 
 ## 5. Skilluri extrase din această sesiune
@@ -412,9 +440,19 @@ byte-identice; versiunile anterioare sunt în istoricul git.
    același skill **nu există în acest proiect** (are `02_OPERATIONAL\scripts\`,
    cu alte două scripturi) — nu e defect al proiectului, dar trebuie spus, ca
    instanța nouă să nu le caute.
-7. **Verificarea cu clonă nouă, după fiecare push al pipeline-ului.** Pipeline-ul
-   a introdus un arbore invalid o dată în 3 zile, și nimic nu îl oprește s-o
-   facă din nou. Comanda e în `12_GIT_GITHUB_STATE.md` §6.
+7. ~~**Verificarea cu clonă nouă, după fiecare push al pipeline-ului.**~~ —
+   **închis la 04:40: nu mai e o rețetă scrisă, e un executabil.**
+   `scripts\verify-remote-clone.ps1` măsoară 10 lucruri și spune `VERDICT=PASS`
+   sau `VERDICT=FAIL` (exit 0 / 2), cu `FAILURES=<lista>`. **Falsificat, nu doar
+   trecut:** `scripts\make-broken-tree-control.py` construiește, la cerere, un
+   repository cu intrarea de arbore cu cale absolută — exact clasa de defect care a
+   rupt repo-ul pe 28 octombrie. Măsurat: controlul → `VERDICT=FAIL` (exit 2,
+   `invalid_tree_entries 1`, `clone_exit 128`), repo-ul real → `VERDICT=PASS`
+   (exit 0). Detalii în secțiunea 4. Verificatorul e testat în ambele sensuri de
+   faza `cd_clone_verify` din `08_SELF_IMPROVEMENT\test_deployment.py`.
+   Pipeline-ul a introdus un arbore invalid o dată în 3 zile; de acum starea
+   remote-ului se verifică după fiecare push, cu un instrument care spune și
+   *de ce* a picat.
 
 **Decizii ale lui Popy** (numerotarea de mai jos era colizionată cu cea de sus —
 corectată aici):
@@ -485,3 +523,21 @@ era prezentată ca actuală (§2, cu data de măsurare lângă ea).
 **Ce nu am schimbat, pentru că n-are rost:** rapoartele arhivate. Ele sunt
 istoricul, nu starea curentă. `raport-archive\raport-2026-10-11_18-45.md` spune
 „6,9 zile" și așa era adevărat atunci.
+
+**C4 — trei bug-uri în verificatorul scris azi, găsite de controlul falsificator.**
+Nu le-am scris în raport înainte să le măsoare, pentru că abia controlul le-a
+putut arăta: (a) o funcție PowerShell numită `Git` umbrează executabilul `git`
+și se autoapelează la infinit — `CallDepthOverflow`; (b) SHA-ul era parsat ca
+primul **caracter** al stringului, pentru că `Where-Object` pe un singur element
+întoarce un scalar, iar `$x[0]` pe un scalar de tip string e o indexare de
+caracter; (c) cu `powershell -File`, argumentele separate nu se leagă la un
+parametru `[string[]]`, ci vin ca un singur string cu virgule. Toate trei sunt
+scrise acum în skill, ca „nu repeta".
+
+**C5 — finalele de linie: le-am rupt eu, le-am reparat.** Editarea prin tool a
+rescris `07_BACKBONE\skills\sentinel-cd-pipeline-sync.SKILL.md` de pe CRLF pe LF,
+într-un arbore de lucru cu `core.autocrlf=true` și convenție CRLF. Măsurat: înainte
+194 linii CRLF, după edit 0. Commitul nu ar fi fost afectat (git normalizează),
+dar arborele de lucru ar fi fost inconsistent, deci fișierul a fost readus cu
+CRLF după editare. Regula rămâne: măsoară convenția înainte și după orice edit
+prin tool.
