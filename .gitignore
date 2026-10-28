@@ -155,3 +155,7 @@ SENTINEL_PRIME/13_COMMAND_CENTER/backups/versions/
 # Continutul ramane pe disk, iar versiunea comitata (cu testele de la
 # momentul migrarii) ramane in istoric.
 SENTINEL_PRIME/08_SELF_IMPROVEMENT/test_suite.py
+
+# MASURAT 2026-10-28: si acest fisier il rescrie motorul de self-improvement
+# (la fel ca test_suite.py). Ramane pe disk; nu se urmareste.
+SENTINEL_PRIME/08_SELF_IMPROVEMENT/test_sentinel.md
