@@ -652,6 +652,7 @@ function main() {
       markdown: mdPath,
       jsonl: jsonlPath,
       manifest: join(outDir, 'manifest.json'),
+      sha256sums: 'SHA256SUMS.txt',
       raw_copies: copied,
     },
     gaps,
@@ -664,6 +665,26 @@ function main() {
     })),
   };
   writeFileSync(join(outDir, 'manifest.json'), JSON.stringify(manifest, null, 2), 'utf8');
+
+  // 5) SHA256SUMS.txt — seal the bytes.
+  //    Measured 2026-10-28: a second agent extracted the SAME session into the SAME
+  //    folder and its stale copy landed on top of a newer one, 23 minutes later. Nothing
+  //    in the folder said which version was on disk. The seal makes that answerable:
+  //    any third party can recompute the digests and know, byte-exactly, what it holds.
+  const sumLines = [];
+  const collectFiles = (dir, base = '') => {
+    for (const e of readdirSync(dir, { withFileTypes: true })) {
+      const full = join(dir, e.name);
+      const rel = base ? `${base}/${e.name}` : e.name;
+      if (e.isDirectory()) collectFiles(full, rel);
+      else if (e.name !== 'SHA256SUMS.txt') {
+        sumLines.push(`${createHash('sha256').update(readFileSync(full)).digest('hex')}  ${rel}`);
+      }
+    }
+  };
+  collectFiles(outDir);
+  sumLines.sort();
+  writeFileSync(join(outDir, 'SHA256SUMS.txt'), sumLines.join('\n') + '\n', 'utf8');
 
   // ---- self-check ----------------------------------------------------
   const problems = [];

@@ -76,6 +76,22 @@ The verifier re-queries the database independently and checks that **every** mes
 and **every** tool call survived into the transcript. It exits non-zero on any gap. A
 transcript that was not verified is a claim, not a deliverable.
 
+| Flag | Meaning |
+|---|---|
+| `--up-to <rowId>` | verify against a specific boundary instead of the manifest's `sources.row_id_max` |
+| `--strict-current` | fail if the session has gained rows past the boundary (i.e. "the archive is stale") |
+
+The verifier answers **two** questions and never conflates them:
+
+- **COMPLETE?** — every store row with `id <= boundary` is present. This is the real check.
+- **CURRENT?** — has the session gained rows past that boundary. The session may still be
+  live, so this is reported on every run (`rows past bnd`) and can be turned into a failure
+  with `--strict-current`.
+
+If the archive carries `SHA256SUMS.txt`, the verifier recomputes every digest in it and
+fails on any mismatch — a stale copy that landed on top of a newer archive is invisible to
+a row count (both are self-consistent) but not to a digest.
+
 ## What the extractor guarantees
 
 1. **Every message row is rendered.** Row count read == row count rendered, and the last
@@ -95,6 +111,9 @@ transcript that was not verified is a claim, not a deliverable.
 5. **Everything else is preserved verbatim** — thinking blocks, token usage, tool-call
    arguments, `source` (api / background-task / questionnaire / thread-goal), and the
    full original row under `raw` in the JSONL.
+6. **The bytes are sealed.** The extractor writes `SHA256SUMS.txt` over every file it
+   produced (`.md`, `.jsonl`, `manifest.json`, all of `raw\`), in `sha256sum` format.
+   Anyone can recompute it and know byte-exactly which version of the archive they hold.
 
 ## Known limits — say them out loud, do not hide them
 
@@ -122,9 +141,32 @@ transcript that was not verified is a claim, not a deliverable.
   (id ≤ 73 630) found 5 731 rows and 5 506 tool calls, 14 of them new calls. A snapshot is
   current only as of the boundary it declares, so the handover procedure is: re-run the
   extractor, then re-run the verifier, and report only a row count the verifier has just
-  confirmed. The verifier compares against the store's *current* `MAX(id)`, so on a live
-  session it can legitimately fail immediately after a successful extraction — that is the
-  check working, not a broken artifact. Re-extract and re-verify until the exit code is 0.
+  confirmed. *(Correction, 2026-10-28: an earlier version of this file said the verifier
+  compares against the store's current `MAX(id)` and can therefore fail right after a
+  successful extraction. That was wrong — it was already boundary-pinned to the manifest's
+  `sources.row_id_max`. What it lacked was any way to *report* the drift, which is what
+  actually made an independent check impossible to finish. Fixed: the verifier now prints
+  `rows past bnd` and the session's live status, and `--strict-current` turns drift into a
+  failure.)*
+- **Another agent can write into your archive folder.** Measured the same day, the same
+  session: a peer agent ran its own extraction of the *same* session into the *same*
+  destination folder. Its stale copy — 5 716 rows, boundary id ≤ 73 254, the content of the
+  FIRST snapshot — landed on top of a newer one (5 731 rows) **23 minutes later**, at
+  02:20:16, with every file's mtime rewritten. Nothing in the folder said which version was
+  on disk: the row count was self-consistent either way. A later PowerShell pass had even
+  rewritten the `.jsonl` with CRLF line endings (5 716 extra bytes, one per line).
+  Consequences that must be handled, not argued about:
+  - **Seal the bytes** (`SHA256SUMS.txt`, written by the extractor) — it is the only thing
+    that distinguishes "my archive" from "a copy of my archive that is older".
+  - **Unstage the archive if it lands in a git index.** `git check-ignore` does not report a
+    path that is already tracked in the index, so an ignore rule alone does not protect a
+    file that was `git add`-ed. `git restore --staged -- <path>` takes it back out while
+    the files stay on disk.
+  - **Re-extract last, and verify after.** If two writers share a folder, the last writer
+    wins and the seal tells you which one that was.
+  - A third party verifying the archive must be told the boundary explicitly; "is it
+    complete?" and "is it current?" are different questions, and for a live session the
+    second one is answered by the store, not by the archive.
 - **Times are Europe/Bucharest** in the rendered text; the JSONL carries both the epoch
   ms and the local rendering.
 - **Cleaning the falsification copy on Windows needs the recoverable route.** The

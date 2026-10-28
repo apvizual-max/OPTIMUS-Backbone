@@ -24,3 +24,9 @@ Written by `mavis-session-extract-bot-skill` → `log-run.mjs`.
 - outcome: Snapshot 1: 5716 rows / 5492 tool calls (id<=73254), md 21479246 B. Refresh: 5731 rows / 5506 tool calls (id<=73630), md 21597171 B, jsonl 23486271 B, gaps 0, verify exit 0. Delta: +15 rows, +14 tool calls, +117925 B md, +123907 B jsonl, in the 4 minutes between the two snapshots.
 - logged-by: mavis-session-extract-bot-skill
 
+## 2026-10-28 02:34:44 — success — Re-extract + seal after a peer agent clobbered the archive folder: mvs_16e96a250db54021b38c544b80d75a6e -> SENTINEL_PRIME\.transcripts\Sentinel_Role-Dashboard-10-28-2026-chat
+- source: minimax-code-local-runtime
+- session: mvs_16e96a250db54021b38c544b80d75a6e
+- outcome: 5794 rows / 5569 tool calls / 0 gaps at boundary id<=74015; md 21982758 B, jsonl 23896944 B, raw 123 files, SHA256SUMS.txt seals 126 files. verify-transcript.mjs exit 0 (PASS) and now reports drift (store now 5795, 1 row past the boundary, session status=started). Three falsification controls, all blocking on the right reason: --strict-current -> exit 1 (stale); truncated copy -> exit 1 (coverage); one flipped byte -> exit 1 (seal digest mismatch, 1 named defect). Also unstaged 126 archive files that a peer had git-added (150 -> 24 staged, files kept on disk).
+- logged-by: mavis-session-extract-bot-skill
+
