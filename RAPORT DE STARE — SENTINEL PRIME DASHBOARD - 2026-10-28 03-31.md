@@ -76,14 +76,25 @@ STALE back."*
 | `test_suite.py` | **594 passed / 0 failed / 0 skipped** |
 | `test_deployment.py` | **66 passed / 0 failed / 1 not-run** (67 verificări) |
 
+### Integritatea pachetului de predare — măsurată 03:40
+
+| | Măsurat |
+|---|---|
+| Tokenuri de fișiere citite din documentele de predare | **121** distincte |
+| Rezolvate la prima încercare | **110** |
+| Nerezolvate | **11 — toate explicate**: cozi de nume în proză, căi absolute din afara proiectului, ținte de blueprint, și două căi numite **expre ca inexistente** |
+| **Pointer-uri rupte** | **0** |
+| Fișiere scrise azi | **toate BOM-free, strict UTF-8** (măsurat pe octeți) |
+| Skilluri în pachet | **9**, fiecare **byte-identic** cu sursa (verificat prin hash) |
+
 ### Skilluri — actualizate și transmise
 
 | | |
 |---|---|
 | Skilluri în repo (`07_BACKBONE\skills\`) | **7** |
-| Skilluri în agent (`C:\Users\apviz\.minimax\agents\mavis\skills\`) | **4** actualizate în acest bloc |
-| Pachetul transmis (`14_HANDOFF\SKILLS\`) | **8 fișiere** = 7 skilluri + `MANIFEST.md` |
-| Skilluri reîmprospătate în acest bloc | **6** (4 în agent, 2 în repo) + copiile lor, regenerate și verificate byte-identice |
+| Skilluri în agent (`C:\Users\apviz\.minimax\agents\mavis\skills\`) | **7** actualizate în acest bloc |
+| Pachetul transmis (`14_HANDOFF\SKILLS\`) | **10 fișiere** = 9 skilluri + `MANIFEST.md` |
+| Skilluri reîmprospătate în acest bloc | **9** (7 în agent, 2 în repo) + copiile lor, regenerate și verificate byte-identice |
 
 ## 2. SCURTĂ TIMELINE / CE S-A FĂCUT
 

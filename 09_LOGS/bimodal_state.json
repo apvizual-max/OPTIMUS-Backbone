@@ -9,7 +9,7 @@
     "constraints": [],
     "out_of_scope": [],
     "verification_method": "",
-    "ratified_at": "2026-10-28T03:24:30.449355"
+    "ratified_at": "2026-10-28T03:47:00.849203"
   },
   "execution_attempts": 3,
   "consecutive_failures": 0,
@@ -27,20 +27,20 @@
   "history_tail": [
     {
       "event": "transition",
-      "timestamp": "2026-10-28T03:24:30.449362",
+      "timestamp": "2026-10-28T03:47:00.849210",
       "from": "MODE_A",
       "to": "R0",
       "reason": "Agreement proposed: Test"
     },
     {
       "event": "transition",
-      "timestamp": "2026-10-28T03:24:30.450998",
+      "timestamp": "2026-10-28T03:47:00.850566",
       "from": "R0",
       "to": "MODE_B",
       "reason": "Agreement ratified"
     },
     {
-      "timestamp": "2026-10-28T03:24:30.452413",
+      "timestamp": "2026-10-28T03:47:00.852086",
       "event": "execution_attempt",
       "attempt": 1,
       "action": "x",
@@ -49,7 +49,7 @@
       "consecutive_failures": 1
     },
     {
-      "timestamp": "2026-10-28T03:24:30.453780",
+      "timestamp": "2026-10-28T03:47:00.853626",
       "event": "execution_attempt",
       "attempt": 2,
       "action": "y",
@@ -58,7 +58,7 @@
       "consecutive_failures": 2
     },
     {
-      "timestamp": "2026-10-28T03:24:30.455091",
+      "timestamp": "2026-10-28T03:47:00.855179",
       "event": "execution_attempt",
       "attempt": 3,
       "action": "z",
@@ -67,5 +67,5 @@
       "consecutive_failures": 0
     }
   ],
-  "updated_at": "2026-10-28T03:24:30.455752"
+  "updated_at": "2026-10-28T03:47:00.855798"
 }

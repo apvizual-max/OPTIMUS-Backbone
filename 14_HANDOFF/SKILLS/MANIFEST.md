@@ -2,7 +2,7 @@
 
 **Data:** 2026-10-28 · **Sesiune:** închiderea ciclului SENTINEL_PRIME
 
-Aceste 7 fișiere sunt skillurile de care instanța nouă are nevoie ca să nu
+Aceste 9 fișiere sunt skillurile de care instanța nouă are nevoie ca să nu
 înceapă de la zero. Sunt **copii de travelling** — se aplică în repo la
 `07_BACKBONE\skills\` (sursa de adevăr pentru skillurile instalate) și în
 directorul de skilluri al agentului.
@@ -16,10 +16,12 @@ directorul de skilluri al agentului.
 | `popy-project-status-report.SKILL.md` | agent | formatul fix al raportului + **starea Git/GitHub obligatorie** · **SHA-ul se citește, nu se memorează** |
 | `mavis-jules-contract-skill.SKILL.md` | agent | §8: pipeline-ul CD măsurat — cine scrie, că nu există CI, invariantul de ramură unică |
 | `mavis-sentinel-command-center-skill.SKILL.md` | agent | rețete server-side dovedite: ruta allowlist, trecerea octeților, poarta Origin · **limita fără scriitor: adaugă scriitorul, nu lărgește limita** |
+| `mavis-live-review-governance-skill.SKILL.md` | agent | **starea LiveReview măsurată în SENTINEL_PRIME**: `core.hooksPath` gol e **intenționat**, hook-urile sunt dezactivate pe outer repo, attestation-ul e `lrc review --vouch --staged` |
+| `mavis-skill-access-handoff.SKILL.md` | agent | cum se predă și cum se ia un handoff: **sweep-ul de verificare a căilor** (măsurat: 121 de tokenuri, 11 explicate, 0 pointer rupt) · **ce NU trebuie reparat** · copiile de skilluri byte-identice |
 | `sentinel-cd-pipeline-sync.SKILL.md` | **repo** (nou) | sincronizarea cu pipeline-ul CD, inclusiv repararea arborelui rupt · **verificarea legată de repository-ul potrivit** |
 | `verification-and-falsification.SKILL.md` | **repo** (nou) | disciplina de măsurare: controale de sensibilitate, probe non-executabile, corectii adăugate · **§8: măsoară cine scrie, înainte să schimbi limita** |
 
-**Copiile sunt regenerate din surse.** Cele 5 fișiere de mai sus sunt copii
+**Copiile sunt regenerate din surse.** Toate cele 9 fișiere de mai sus sunt copii
 byte-identice ale surselor lor (`C:\Users\apviz\.minimax\agents\mavis\skills\`
 pentru cele din agent, `07_BACKBONE\skills\` pentru cele din repo). Când o
 sursă se schimbă, copia se regenerează. **Versiunile anterioare ale copiilor
@@ -72,7 +74,14 @@ nu cu presupunere.
 10. **legarea verificărilor git de repository-ul potrivit** (`-C <repo>`) — ca
     un SHA venit din repo-ul părinte să nu fie citit drept „push al pipeline-ului";
 11. **SHA-ul se citește, nu se memorează** — într-un raport, un SHA literal
-    îmbătrânește la commit-ul care îl transportă.
+    îmbătrânește la commit-ul care îl transportă;
+12. **verificarea căilor din handoff, ca sweep măsurat** — 121 de tokenuri de
+    fișiere în documentele de predare, 110 rezolvate, 11 explicate, **0 pointer
+    rupt**; alternanța regex trebuie să fie *longest-first*, altfel fiecare
+    `.jsonl` se trunchiază la `.json` și inventezi un pointer rupt care nu există;
+13. **lista „NU REPARA" în priming prompt** — o instanță fără context repară ce
+    pare rupt; de aceea fiecare item poartă **motivul** lângă el, nu doar
+    interdicția.
 
 **Greseli, doar ca „nu repetati", fără alte detalii** — în secțiunile
 „Greseli de repetat" ale skill-urilor de mai sus.

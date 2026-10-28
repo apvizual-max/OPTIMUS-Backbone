@@ -1,6 +1,6 @@
 {
   "suite": "mavis-sentinel-hub deployment e2e",
-  "generated_at": "2026-10-28T03:30:14",
+  "generated_at": "2026-10-28T03:52:28",
   "passed": 66,
   "failed": 0,
   "not_run": 1,
@@ -90,7 +90,7 @@
     {
       "id": "route_api_health",
       "status": "PASS",
-      "detail": "200 20331 B"
+      "detail": "200 20332 B"
     },
     {
       "id": "served_by_front",
@@ -160,7 +160,7 @@
     {
       "id": "ecosystem_snapshot_fresh",
       "status": "PASS",
-      "detail": "snapshot age 58s, refreshed by the server's worker (bound 600s)"
+      "detail": "snapshot age 54s, refreshed by the server's worker (bound 600s)"
     },
     {
       "id": "ecosystem_route",

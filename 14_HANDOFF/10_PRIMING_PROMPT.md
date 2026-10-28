@@ -120,6 +120,8 @@ care conțin lecțiile din sesiunea precedentă:
   - popy-project-status-report
   - mavis-jules-contract-skill
   - mavis-sentinel-command-center-skill
+  - mavis-live-review-governance-skill   ← cum se atestă un commit aici
+  - mavis-skill-access-handoff           ← cum se ia un handoff
   - mavis-autonomous-operator-skill   ← se încarcă ÎNAINTE de orice altceva
 
 În pachetul de predare: 14_HANDOFF\SKILLS\ conține **copii byte-identice** ale

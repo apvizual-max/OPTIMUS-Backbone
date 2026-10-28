@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-10-28T03:38:31.343353",
-  "duration_sec": 8.86,
+  "generated_at": "2026-10-28T03:52:46.040556",
+  "duration_sec": 8.965,
   "overall": "DEGRADED",
   "counts": {
     "OK": 54,
@@ -72,17 +72,17 @@
       "status": "OK",
       "value": 2388756,
       "bound": "file must exist",
-      "evidence": "corpus_full.jsonl age=1968622s",
-      "measured_at": "2026-10-28T03:38:22.483590"
+      "evidence": "corpus_full.jsonl age=1969477s",
+      "measured_at": "2026-10-28T03:52:37.075908"
     },
     {
       "id": "corpus_fresh",
       "family": "corpus",
       "status": "STALE",
-      "value": 1968622.2,
+      "value": 1969476.8,
       "bound": "< 3600s",
       "evidence": "extraction is a snapshot; older than the bound means the conversation moved on",
-      "measured_at": "2026-10-28T03:38:22.483633"
+      "measured_at": "2026-10-28T03:52:37.075948"
     },
     {
       "id": "corpus_stats",
@@ -95,7 +95,7 @@
       },
       "bound": "",
       "evidence": "corpus_stats.json parsed",
-      "measured_at": "2026-10-28T03:38:22.484259"
+      "measured_at": "2026-10-28T03:52:37.076533"
     },
     {
       "id": "corpus_no_unplaced",
@@ -104,7 +104,7 @@
       "value": 0,
       "bound": "== 0",
       "evidence": "UNPLACED.md declares \"None\" - every verbatim message belongs to a chapter",
-      "measured_at": "2026-10-28T03:38:22.484266"
+      "measured_at": "2026-10-28T03:52:37.076540"
     },
     {
       "id": "corpus_retention",
@@ -113,7 +113,7 @@
       "value": 1.0,
       "bound": ">= 0.95",
       "evidence": "emitted verbatim text vs extracted source text - the \"nothing cut\" measure",
-      "measured_at": "2026-10-28T03:38:22.484271"
+      "measured_at": "2026-10-28T03:52:37.076545"
     },
     {
       "id": "corpus_chapters",
@@ -122,7 +122,7 @@
       "value": 17,
       "bound": "> 0",
       "evidence": "17 chapter files under 02_CHAPTERS/",
-      "measured_at": "2026-10-28T03:38:22.484944"
+      "measured_at": "2026-10-28T03:52:37.077163"
     },
     {
       "id": "corpus_unplaced_declared",
@@ -131,7 +131,7 @@
       "value": true,
       "bound": "file present and empty",
       "evidence": "UNPLACED.md must exist and state that nothing was dropped",
-      "measured_at": "2026-10-28T03:38:22.485172"
+      "measured_at": "2026-10-28T03:52:37.077388"
     },
     {
       "id": "corpus_index",
@@ -141,8 +141,8 @@
         "bytes": 5178
       },
       "bound": "file must exist",
-      "evidence": "00_CORPUS_INDEX.md age=2057318s",
-      "measured_at": "2026-10-28T03:38:22.485307"
+      "evidence": "00_CORPUS_INDEX.md age=2058172s",
+      "measured_at": "2026-10-28T03:52:37.077505"
     },
     {
       "id": "corpus_freeze",
@@ -152,8 +152,8 @@
         "bytes": 16253
       },
       "bound": "file must exist",
-      "evidence": "SHA256SUMS.txt age=2057688s",
-      "measured_at": "2026-10-28T03:38:22.485404"
+      "evidence": "SHA256SUMS.txt age=2058542s",
+      "measured_at": "2026-10-28T03:52:37.077596"
     },
     {
       "id": "workflow_mode",
@@ -162,7 +162,7 @@
       "value": "MODE_B",
       "bound": "one of the four modes",
       "evidence": "MODE_A -> R0 -> MODE_B -> STOPPED; anything else is a corrupted machine",
-      "measured_at": "2026-10-28T03:38:22.485669"
+      "measured_at": "2026-10-28T03:52:37.077870"
     },
     {
       "id": "workflow_stop_consistent",
@@ -174,7 +174,7 @@
       },
       "bound": "no orphaned stop reason",
       "evidence": "a stop reason outside MODE_A/STOPPED is inconsistent state",
-      "measured_at": "2026-10-28T03:38:22.485676"
+      "measured_at": "2026-10-28T03:52:37.077878"
     },
     {
       "id": "workflow_failures",
@@ -183,25 +183,25 @@
       "value": 0,
       "bound": "< 5",
       "evidence": "5 consecutive MODE_B failures must land in STOPPED, never a 6th attempt",
-      "measured_at": "2026-10-28T03:38:22.485680"
+      "measured_at": "2026-10-28T03:52:37.077881"
     },
     {
       "id": "workflow_state_fresh",
       "family": "workflow",
       "status": "STALE",
-      "value": 832.0,
+      "value": 336.2,
       "bound": "< 300s",
       "evidence": "how long since the workflow last wrote its state",
-      "measured_at": "2026-10-28T03:38:22.485729"
+      "measured_at": "2026-10-28T03:52:37.077929"
     },
     {
       "id": "workflow_log",
       "family": "workflow",
       "status": "OK",
-      "value": 826.1,
+      "value": 330.2,
       "bound": "< 1800s",
       "evidence": "transition log freshness",
-      "measured_at": "2026-10-28T03:38:22.485792"
+      "measured_at": "2026-10-28T03:52:37.077992"
     },
     {
       "id": "code_modules_present",
@@ -213,7 +213,7 @@
       },
       "bound": "none missing",
       "evidence": "each engine must exist as a file",
-      "measured_at": "2026-10-28T03:38:22.486180"
+      "measured_at": "2026-10-28T03:52:37.078365"
     },
     {
       "id": "code_no_romanian",
@@ -222,7 +222,7 @@
       "value": [],
       "bound": "no diacritics in code",
       "evidence": "the language law: code, identifiers, docstrings and runtime messages in English. Romanian belongs in wisdom, not in source.",
-      "measured_at": "2026-10-28T03:38:22.509742"
+      "measured_at": "2026-10-28T03:52:37.100773"
     },
     {
       "id": "code_test_suite",
@@ -233,7 +233,7 @@
       },
       "bound": "file must exist",
       "evidence": "test harness present",
-      "measured_at": "2026-10-28T03:38:22.509885"
+      "measured_at": "2026-10-28T03:52:37.100891"
     },
     {
       "id": "mcp_tools_declared",
@@ -242,7 +242,7 @@
       "value": 26,
       "bound": "> 0",
       "evidence": "26 SENTINEL tools registered in the hub",
-      "measured_at": "2026-10-28T03:38:22.510651"
+      "measured_at": "2026-10-28T03:52:37.101502"
     },
     {
       "id": "mcp_tools_wired",
@@ -253,12 +253,12 @@
         "probe_tool": "sentinel_confirm_identity",
         "probe_ok": true,
         "handshake_status": "OK",
-        "record_age_seconds": 2707.2,
+        "record_age_seconds": 3561.8,
         "record_superseded_by_server_edit": false
       },
       "bound": "a completed handshake returning > 0 tools, with a probe whose arguments provably reached the handler",
-      "evidence": "26 tools returned by the server over stdio; probe \"sentinel_confirm_identity\" ok=True, arguments arrived=True. Measured 2707s ago by mcp_handshake.py, not asserted here.",
-      "measured_at": "2026-10-28T03:38:22.511100"
+      "evidence": "26 tools returned by the server over stdio; probe \"sentinel_confirm_identity\" ok=True, arguments arrived=True. Measured 3562s ago by mcp_handshake.py, not asserted here.",
+      "measured_at": "2026-10-28T03:52:37.101909"
     },
     {
       "id": "mcp_config",
@@ -267,7 +267,7 @@
       "value": null,
       "bound": "",
       "evidence": "OPTIMUS_MCP_CONFIG.json is valid JSON",
-      "measured_at": "2026-10-28T03:38:22.511536"
+      "measured_at": "2026-10-28T03:52:37.102298"
     },
     {
       "id": "mcp_config_servers_exist",
@@ -282,7 +282,7 @@
       },
       "bound": "every referenced .py server exists on disk",
       "evidence": "7 .py servers referenced by the config, 0 not on disk. All referenced servers exist.",
-      "measured_at": "2026-10-28T03:38:26.626034"
+      "measured_at": "2026-10-28T03:52:40.961632"
     },
     {
       "id": "mcp_npx_packages_resolve",
@@ -295,7 +295,7 @@
       },
       "bound": "every npx package the config declares actually resolves",
       "evidence": "2/2 declared npx packages resolve (registry control answered: 19.3.1)",
-      "measured_at": "2026-10-28T03:38:29.341788"
+      "measured_at": "2026-10-28T03:52:43.917422"
     },
     {
       "id": "mcp_live_profile_registered",
@@ -319,7 +319,7 @@
       },
       "bound": "every server the config records as live is actually registered and enabled in the live MCP profile",
       "evidence": "3 of 7 declared .py servers are registered and enabled in the live profile: git-tools, prime-bridge, web-tools. Declared but deliberately not registered: context-pressure, learning-loop, rule-triggers, sentinel-state - their tools are already served by the live sentinel-hub, and registering them would put duplicate tool names in front of every session",
-      "measured_at": "2026-10-28T03:38:29.342484"
+      "measured_at": "2026-10-28T03:52:43.918115"
     },
     {
       "id": "skills_present",
@@ -336,70 +336,70 @@
       ],
       "bound": "> 0",
       "evidence": "7 skill files",
-      "measured_at": "2026-10-28T03:38:29.343039"
+      "measured_at": "2026-10-28T03:52:43.918689"
     },
     {
       "id": "log_bimodal_state",
       "family": "logs",
       "status": "OK",
-      "value": 838.9,
+      "value": 343.1,
       "bound": "< 3000s",
-      "evidence": "bimodal_state.json last written 839s ago",
-      "measured_at": "2026-10-28T03:38:29.343172"
+      "evidence": "bimodal_state.json last written 343s ago",
+      "measured_at": "2026-10-28T03:52:43.918838"
     },
     {
       "id": "log_bimodal_log",
       "family": "logs",
       "status": "OK",
-      "value": 833.0,
+      "value": 337.1,
       "bound": "< 3000s",
-      "evidence": "bimodal_workflow.log last written 833s ago",
-      "measured_at": "2026-10-28T03:38:29.343481"
+      "evidence": "bimodal_workflow.log last written 337s ago",
+      "measured_at": "2026-10-28T03:52:43.919147"
     },
     {
       "id": "log_orchestrator_state",
       "family": "logs",
       "status": "OK",
-      "value": 845.5,
+      "value": 349.8,
       "bound": "< 3000s",
-      "evidence": "orchestrator_state.json last written 845s ago",
-      "measured_at": "2026-10-28T03:38:29.343562"
+      "evidence": "orchestrator_state.json last written 350s ago",
+      "measured_at": "2026-10-28T03:52:43.919214"
     },
     {
       "id": "log_performance_metrics",
       "family": "logs",
       "status": "OK",
-      "value": 844.4,
+      "value": 348.6,
       "bound": "< 3000s",
-      "evidence": "performance_metrics.json last written 844s ago",
-      "measured_at": "2026-10-28T03:38:29.343820"
+      "evidence": "performance_metrics.json last written 349s ago",
+      "measured_at": "2026-10-28T03:52:43.919474"
     },
     {
       "id": "log_self_modifications",
       "family": "logs",
       "status": "OK",
-      "value": 845.5,
+      "value": 349.8,
       "bound": "< 3000s",
-      "evidence": "self_modifications.log last written 845s ago",
-      "measured_at": "2026-10-28T03:38:29.344253"
+      "evidence": "self_modifications.log last written 350s ago",
+      "measured_at": "2026-10-28T03:52:43.919894"
     },
     {
       "id": "log_state_transitions",
       "family": "logs",
       "status": "OK",
-      "value": 845.5,
+      "value": 349.8,
       "bound": "< 3000s",
-      "evidence": "state_transitions.log last written 845s ago",
-      "measured_at": "2026-10-28T03:38:29.344308"
+      "evidence": "state_transitions.log last written 350s ago",
+      "measured_at": "2026-10-28T03:52:43.919953"
     },
     {
       "id": "log_self_improvement",
       "family": "logs",
       "status": "OK",
-      "value": 832.9,
+      "value": 337.0,
       "bound": "< 3000s",
-      "evidence": "self_improvement.log last written 833s ago",
-      "measured_at": "2026-10-28T03:38:29.344392"
+      "evidence": "self_improvement.log last written 337s ago",
+      "measured_at": "2026-10-28T03:52:43.920005"
     },
     {
       "id": "logs_parse",
@@ -408,14 +408,14 @@
       "value": [],
       "bound": "no parse errors",
       "evidence": "every state JSON must parse; a corrupt state file is a silent failure",
-      "measured_at": "2026-10-28T03:38:29.344398"
+      "measured_at": "2026-10-28T03:52:43.920011"
     },
     {
       "id": "logs_empty_artifacts",
       "family": "logs",
       "status": "OK",
       "value": {
-        "inspected": 220,
+        "inspected": 221,
         "empty": 0,
         "unreadable": 0,
         "empty_files": [],
@@ -425,8 +425,8 @@
         ]
       },
       "bound": "0 empty and 0 unreadable artefacts",
-      "evidence": "220 scrape artefacts inspected by content: 0 of a content-bearing URL carry no result, 0 unreadable, 1 are navigation-only targets with no content by definition. Size is never the criterion - a successful scrape of a small page is small. Reported, not deleted: deleting is an explicit operator decision.",
-      "measured_at": "2026-10-28T03:38:29.381903"
+      "evidence": "221 scrape artefacts inspected by content: 0 of a content-bearing URL carry no result, 0 unreadable, 1 are navigation-only targets with no content by definition. Size is never the criterion - a successful scrape of a small page is small. Reported, not deleted: deleting is an explicit operator decision.",
+      "measured_at": "2026-10-28T03:52:43.959168"
     },
     {
       "id": "dep_playwright",
@@ -435,7 +435,7 @@
       "value": null,
       "bound": "",
       "evidence": "browser automation: importable",
-      "measured_at": "2026-10-28T03:38:29.383416"
+      "measured_at": "2026-10-28T03:52:43.960784"
     },
     {
       "id": "dep_PIL",
@@ -444,7 +444,7 @@
       "value": null,
       "bound": "",
       "evidence": "image processing: importable",
-      "measured_at": "2026-10-28T03:38:29.386329"
+      "measured_at": "2026-10-28T03:52:43.963947"
     },
     {
       "id": "dep_pypdf",
@@ -453,7 +453,7 @@
       "value": null,
       "bound": "",
       "evidence": "PDF processing: importable",
-      "measured_at": "2026-10-28T03:38:29.610194"
+      "measured_at": "2026-10-28T03:52:44.181774"
     },
     {
       "id": "dep_docx",
@@ -462,7 +462,7 @@
       "value": null,
       "bound": "",
       "evidence": "DOCX processing: importable",
-      "measured_at": "2026-10-28T03:38:29.769192"
+      "measured_at": "2026-10-28T03:52:44.336500"
     },
     {
       "id": "dep_openpyxl",
@@ -471,7 +471,7 @@
       "value": null,
       "bound": "",
       "evidence": "XLSX processing: importable",
-      "measured_at": "2026-10-28T03:38:30.276919"
+      "measured_at": "2026-10-28T03:52:44.835867"
     },
     {
       "id": "dep_pptx",
@@ -480,7 +480,7 @@
       "value": null,
       "bound": "",
       "evidence": "PPTX processing: importable",
-      "measured_at": "2026-10-28T03:38:30.508428"
+      "measured_at": "2026-10-28T03:52:45.070372"
     },
     {
       "id": "dep_cv2",
@@ -489,7 +489,7 @@
       "value": null,
       "bound": "",
       "evidence": "video processing (OpenCV): importable",
-      "measured_at": "2026-10-28T03:38:30.546413"
+      "measured_at": "2026-10-28T03:52:45.110824"
     },
     {
       "id": "dep_pytesseract",
@@ -498,7 +498,7 @@
       "value": null,
       "bound": "",
       "evidence": "OCR binding: importable",
-      "measured_at": "2026-10-28T03:38:30.557635"
+      "measured_at": "2026-10-28T03:52:45.123979"
     },
     {
       "id": "dep_faster_whisper",
@@ -507,7 +507,7 @@
       "value": null,
       "bound": "",
       "evidence": "audio transcription: importable",
-      "measured_at": "2026-10-28T03:38:30.792829"
+      "measured_at": "2026-10-28T03:52:45.383931"
     },
     {
       "id": "dep_av_faster_whisper_compat",
@@ -519,7 +519,7 @@
       },
       "bound": "the audio path opens a real container, not just an import",
       "evidence": "av 15.1.0 accepts metadata_errors - the exact call faster-whisper makes opens a real container (1 streams)",
-      "measured_at": "2026-10-28T03:38:30.799778"
+      "measured_at": "2026-10-28T03:52:45.392636"
     },
     {
       "id": "bin_tesseract",
@@ -531,7 +531,7 @@
       },
       "bound": "a working binary, located rather than assumed",
       "evidence": "OCR engine (tesseract) at C:\\Users\\apviz\\AppData\\Local\\TesseractOCR\\tesseract.exe [resolved via known_location, not assumed from PATH]",
-      "measured_at": "2026-10-28T03:38:30.799880"
+      "measured_at": "2026-10-28T03:52:45.392788"
     },
     {
       "id": "bin_docker",
@@ -540,7 +540,7 @@
       "value": "C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE",
       "bound": "a working binary, located rather than assumed",
       "evidence": "container runtime (docker) at C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE",
-      "measured_at": "2026-10-28T03:38:30.804148"
+      "measured_at": "2026-10-28T03:52:45.399394"
     },
     {
       "id": "bin_git",
@@ -549,7 +549,7 @@
       "value": "C:\\Program Files\\Git\\cmd\\git.EXE",
       "bound": "a working binary, located rather than assumed",
       "evidence": "version control (git) at C:\\Program Files\\Git\\cmd\\git.EXE",
-      "measured_at": "2026-10-28T03:38:30.808101"
+      "measured_at": "2026-10-28T03:52:45.404868"
     },
     {
       "id": "program_matrix",
@@ -566,7 +566,7 @@
       },
       "bound": "file must parse",
       "evidence": "concept -> file -> tool -> test -> panel correlation",
-      "measured_at": "2026-10-28T03:38:30.808586"
+      "measured_at": "2026-10-28T03:52:45.405435"
     },
     {
       "id": "program_no_unowned_design",
@@ -575,7 +575,7 @@
       "value": [],
       "bound": "no unowned DESIGNED rows",
       "evidence": "a concept left in DESIGNED must still have an owner and a next action",
-      "measured_at": "2026-10-28T03:38:30.808598"
+      "measured_at": "2026-10-28T03:52:45.405447"
     },
     {
       "id": "cc_index",
@@ -585,8 +585,8 @@
         "bytes": 122479
       },
       "bound": "Command Center part present",
-      "evidence": "index.html age=4736s",
-      "measured_at": "2026-10-28T03:38:30.808743"
+      "evidence": "index.html age=5591s",
+      "measured_at": "2026-10-28T03:52:45.405593"
     },
     {
       "id": "cc_server",
@@ -596,8 +596,8 @@
         "bytes": 37242
       },
       "bound": "Command Center part present",
-      "evidence": "server.ps1 age=2748s",
-      "measured_at": "2026-10-28T03:38:30.808858"
+      "evidence": "server.ps1 age=3603s",
+      "measured_at": "2026-10-28T03:52:45.405740"
     },
     {
       "id": "cc_collector",
@@ -607,19 +607,19 @@
         "bytes": 14030
       },
       "bound": "Command Center part present",
-      "evidence": "collect-sentinel.ps1 age=1839597s",
-      "measured_at": "2026-10-28T03:38:30.809038"
+      "evidence": "collect-sentinel.ps1 age=1840451s",
+      "measured_at": "2026-10-28T03:52:45.405839"
     },
     {
       "id": "cc_state",
       "family": "dashboard",
       "status": "OK",
       "value": {
-        "bytes": 98248
+        "bytes": 98245
       },
       "bound": "Command Center part present",
-      "evidence": "sentinel-state.json age=36s",
-      "measured_at": "2026-10-28T03:38:30.809165"
+      "evidence": "sentinel-state.json age=38s",
+      "measured_at": "2026-10-28T03:52:45.405985"
     },
     {
       "id": "ps_scripts_found",
@@ -628,7 +628,7 @@
       "value": 20,
       "bound": "",
       "evidence": "20 PowerShell script(s) under the workspace",
-      "measured_at": "2026-10-28T03:38:30.947745"
+      "measured_at": "2026-10-28T03:52:45.608686"
     },
     {
       "id": "ps_variable_case_collisions",
@@ -637,7 +637,7 @@
       "value": 0,
       "bound": "PowerShell folds $Foo and $foo into one variable",
       "evidence": "no two script-scope variables in any .ps1 differ only by case",
-      "measured_at": "2026-10-28T03:38:31.006112"
+      "measured_at": "2026-10-28T03:52:45.678612"
     },
     {
       "id": "ps_shadowed_script_vars",
@@ -646,7 +646,7 @@
       "value": 0,
       "bound": "a local $py silently replaces a script $PY inside the function",
       "evidence": "no function-local variable shadows or collides with a script variable",
-      "measured_at": "2026-10-28T03:38:31.071120"
+      "measured_at": "2026-10-28T03:52:45.744404"
     },
     {
       "id": "ps_stray_type_named_files",
@@ -655,7 +655,7 @@
       "value": 0,
       "bound": "catches the collector writing state to its own ToString()",
       "evidence": "no file is named after a .NET type inside SENTINEL_PRIME\\ or in its immediate parent (a path/object variable collision)",
-      "measured_at": "2026-10-28T03:38:31.343249"
+      "measured_at": "2026-10-28T03:52:46.040447"
     }
   ],
   "interpretation": "OK means every check ran and passed. DEGRADED means at least one check could not run or is stale - the capability is UNVERIFIED, not working. FAIL means at least one measured value is out of bounds."

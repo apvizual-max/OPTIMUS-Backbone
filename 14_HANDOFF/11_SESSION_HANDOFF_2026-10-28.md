@@ -174,6 +174,29 @@ Pe starea **finală**, nu pe o stare intermediară:
 | Intrări invalide în arbore (`: într-o componentă de nume`) | **0** — defectul CRITICAL e mort, măsurat pe starea finală |
 | Livrabile verificate prezente | **13/13**, `missing = 0` |
 
+### Integritatea pointerilor din pachet — măsurată 03:40
+
+Un pointer rupt într-un handoff costă căutarea întreagă a instanței noi. Sweep
+pe toate documentele din `14_HANDOFF\`:
+
+| | Măsurat |
+|---|---|
+| Tokenuri de fișiere distincte | **121** |
+| Rezolvate la prima încercare | **110** |
+| Nerezolvate | **11 — toate explicate** |
+| **Pointer-uri rupte** | **0** |
+
+Cele 11 nerezolvate, cu explicația fiecăreia: cozi de nume de fișier în proză
+(`03-31.md`, `20-04.md`) · căi absolute din afara proiectului, citite cu prefix
+ul complet (`C:\Users\apviz\.minimax\mcp.json`) · ținte de blueprint, încă
+neconstruite (`gateway\package.json`) · două căi numite **expre ca inexistente**
+(`scripts\git-autopush.ps1`, `scripts\push-status.ps1`).
+
+**O capcană a sweep-ului, măsurată:** alternanța regex trebuie să fie
+**longest-first** (`jsonl|json`). Altfel fiecare `.jsonl` se trunchiază la
+`.json` și inventezi un pointer rupt care nu există — exact ce s-a întâmplat la
+prima rulare, unde `state-history.jsonl` a apărut ca `state-history.json`.
+
 Diferența față de `521/0/0` și `63/0/1` de mai sus: **suprafețe adăugate**, nu
 teste slăbite. Collectorul produce acum 29 de suprafețe (erau 25), iar
 `test_deployment.py` a primit un test nou, `handshake_refresh`, cu 3 verificări
@@ -326,6 +349,10 @@ explicit, nu doar prin descoperire.
 | `popy-project-status-report` | **un SHA scris ca cifră literală îmbătrânește la commit-ul care transportă raportul** — se scrie comanda, nu hash-ul |
 | `verification-and-falsification` (repo) | **§8**: măsoară cine scrie înainte să schimbi limita; cazul opus (scriitor la cerere → limita rămâne); plus: un pipeline gol măsurat cu `Measure-Object -Line` numără 1, nu 0 |
 | `sentinel-cd-pipeline-sync` (repo) | verificarea legată obligatoriu de repository-ul potrivit, și cele două greșeli de repetat |
+| `mavis-live-review-governance-skill` | **starea LiveReview măsurată aici**: `core.hooksPath` gol e **intenționat** (hook-urile sunt înregistrate pe outer repo și **dezactivate**, pentru că la comit blocau), attestation-ul efectiv e `lrc review --vouch --staged`, iar `scripts\git-autopush.ps1` / `scripts\push-status.ps1` **nu există în acest proiect** |
+| `mavis-skill-access-handoff` | **sweep-ul de verificare a căilor** (măsurat: 121 de tokenuri, 110 rezolvate, 11 explicate, 0 pointer rupt) · **lista „NU REPARA" cu motiv lângă fiecare item** · copiile de skilluri trebuie să fie byte-identice cu sursele |
+| `mavis-optimus-continuous-integration-skill` | **rețeta măsurată de sincronizare cu un pipeline CD care scrie direct în `main`**, inclusiv repararea arborelui cu cale absolută și legarea comenzilor git de repository-ul potrivit |
+
 
 Toate sunt **append-only**: textul anterior rămâne, secțiunile noi se adaugă.
 Copiile din `14_HANDOFF\SKILLS\` au fost regenerate din surse și verificate
