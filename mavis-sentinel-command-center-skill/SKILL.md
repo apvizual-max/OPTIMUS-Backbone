@@ -15,7 +15,7 @@ measured, data age always shown. This skill is how you start it, check it, and r
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass `
-  -File C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\13_COMMAND_CENTER\api\sentinel-hub.ps1 start
+  -File C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\13_COMMAND_CENTER\api\sentinel-hub.ps1 start
 ```
 
 Then open **http://127.0.0.1:8910/**.
@@ -241,7 +241,7 @@ console, and were found **only by looking at it**.
 
 ```powershell
 # needs the deployment up
-cd C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\08_SELF_IMPROVEMENT
+cd C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\08_SELF_IMPROVEMENT
 python final_browser_proof.py     # the 11 original panels
 python test_deployment.py         # the deployment itself, non-destructive
 python test_deployment.py --coldstart  # + proves logon recovery (destructive)
@@ -476,3 +476,140 @@ hits.
 - The Cockpit mutates. It is gated by R0. Do not invoke an action the operator has not
   ratified.
 - `90_CONTROL_CENTER` is **read-only reference material**. Do not modify it.
+
+## Server-side recipes that are proven (2026-10-11, all measured)
+
+### The static route is an allowlist, not a path handler
+
+`server.ps1` serveste **doua** fisiere: fonturile TTF. Poarta e o cheie
+literală dintr-un tabel, comparată explicit, și **doar cheia** ajunge la
+`Join-Path`:
+
+```powershell
+$ASSETS = @{ 'fonts/jetbrains-mono-400.ttf' = 'font/ttf'
+             'fonts/jetbrains-mono-600.ttf' = 'font/ttf' }
+$rel = $path.TrimStart('/')
+$key = $null
+foreach ($k in $ASSETS.Keys) {
+  if ([string]::Equals($k, $rel, [StringComparison]::OrdinalIgnoreCase)) { $key = $k; break }
+}
+if ($key) { $file = Join-Path $ROOT ($key -replace '/', [IO.Path]::DirectorySeparatorChar) }
+```
+
+Atacatorul poate **selecta** un nume din tabel; nu poate **compune** o cale.
+Verificat cu 33 de forme de atac, inclusiv traversare, traversare codificata,
+cai absolute, NUL, ADS `::$DATA`, homoglifuri, cai de 300 de caractere.
+
+### Binaries must be passed through as bytes
+
+`Send-Response` transforma **orice** corp in string si il re-codifica UTF-8.
+Un TTF de 21.088 de octeti devenea **37.816 de octeti** corupti, cu HTTP 200
+sanatos. Reparatia: `if ($body -is [byte[]]) { ... }` — octetii trec neatins,
+stringurile se re-codifica.
+
+### The cross-origin gate on `/api/action`
+
+Un `POST` cross-origin cu `Content-Type: text/plain` executa o actiune si
+raspundea 200. E o cerere CORS "simple" — fara preflight, deci browserul nu
+intreba. Poarta se pune **inaintea** stratului de actiuni:
+
+```powershell
+$origin = $ctx.Request.Headers['Origin']
+if ($origin) {
+  $allowedOrigins = @("http://127.0.0.1:$Port" "http://localhost:$Port"
+                      'http://127.0.0.1:8910' 'http://localhost:8910')
+  if ($allowedOrigins -notcontains $origin) { 403; continue }
+}
+```
+
+**Origin absent e permis intentionat**: niciun browser nu poate fi fortat sa
+nu trimita Origin, iar curl, PowerShell si ambele suite trimit none.
+Origin literal `null` (iframe sandbox, `file://`) nu e in lista, deci e
+refuzat.
+
+**Probe-ul care nu executa nimic**: un id de actiune care nu exista. `403` =
+poarta a blocat, `400` = cererea a ajuns in stratul de actiuni. Se poti
+repeta oricand, fara efect lateral.
+
+### A staleness bound is a real gate, not a decoration
+
+`mcp_tools_wired` a devenit STALE la 26,5 ore peste o limita de 24, si **doua
+verificari au dat rosu** din cauza lui. Remedierea era scrisa chiar in campul
+`evidence` al verificarii. Verificarile de prospetime **scad in rosu** cand
+ceva nu se reimprospateaza — nu e un defect, e sistemul spunand-o.
+
+**Greseli de repetat.**
+- Nu servi binare printr-o functie care le recodifica in string.
+- Nu apuna realpath pe cale ceruta de utilizator inainte de a verifica
+  apartenenta la allowlist.
+- Nu inventa o metoda de a verifica ceva ce nu a fost masurat: masurabilitatea
+  se testeaza cu un control, sau nu se afirma.
+
+### O limita fara scriitor in spatele ei — regula completa, masurata 2026-10-28
+
+Sectiunea de mai sus spune ca o limita de prospețime e o poarta reala. **Aceasta
+e jumatatea care lipseste:** poarta are nevoie de un scriitor in spatele ei, si
+regula are doua randuri.
+
+| Situatie | Ce e corect | Ce e greșit |
+|---|---|---|
+| Exista scriitor cu ceas in spatele limitei | **pastreaza limita** | largeste limita |
+| Nu exista niciun scriitor | **adauga scriitorul pe bucla** | largeste limita |
+
+**Cazul "nu exista scriitor" — masurat, pe handshake.** `mcp_handshake.json` avea
+o limita de 24 de ore si **nu era scris de nimic** intre doua rulari de suita.
+Era un termen pe care doar un om il putea onora, iar doua verificari cadeau in
+rosu la fiecare 24 de ore. Repararea a fost **adaugarea scriitorului**, nu
+largirea limitei:
+
+```powershell
+# cadenta CALCULATA din perioada de refresh, nu codificata:
+$handshakeEvery = [Math]::Max(1, [int][Math]::Floor(3600 / [Math]::Max(1, $seconds)))
+# ruleaza o data la pornirea worker-ului, apoi la fiecare $handshakeEvery ciclu
+```
+
+De ce calculata: daca `$RefreshSeconds` se schimba, cadenta se pastreaza in
+interiorul limitei, fara sa fie nevoie de un alt cod. **Limita a ramas
+neatinsa.**
+
+Verificarea ca asta chiar se intampla e masurabila, si are trei semne
+independente:
+1. **logul worker-ului** trebuie sa spuna cadenta ("handshake every 144
+   cycle(s)");
+2. **mtime-ul artefactului** trebuie sa fie mai nou decat ciclul;
+3. verificarea live trebuie sa raporteze OK cu varsta masurata in evidenta.
+
+Test de regresie: `handshake_refresh` in `test_deployment.py`, cu control
+discriminatoriu.
+
+**Cazul "scriitorul e la cerere" — masurat, pe familia `log_*`.** Aceste
+artefacte (si `workflow_state_fresh`) sunt scrise **la cerere** — de suita de
+test si de actiunile operatorului — nu de o bucla cu ceas. Aici **limita se
+pastreaza**. Un STALE pe un artefact scris la cerere inseamna "nu s-a cerut
+nimic de el", nu "e ceva stricat", iar largirea limitei ar face antetul verde,
+adica ar ascunde exact lucrul pe care sistemul e desemnat sa-l spuna.
+
+Inainte de a schimba o limita, **cauta in documentele proiectului** daca
+verificarea e deja ratificata. In SENTINEL_PRIME, `14_HANDOFF/02_GAPS.md:148` si
+`11_PLANS/POST_R0_EXECUTION_RECORD.md:948` spuneau explicit ca STALE pe un
+artefact scris la cerere e comportament corect ("the check working, not a
+fault"). Le-am citit **inainte** de a schimba ceva, si decizia s-a intors: nu
+se atinge nicio limita.
+
+**Cum masuri cine scrie un artefact** — trei pasi, fiecare cu un semne distinct:
+1. **Fereastra de scriere.** Compara mtime-urile: un scriitor cu ceas lasa o
+   fereastra regulata; un scriitor la cerere lasa o fereastra stransa,
+   coincidenta cu evenimentul care l-a declansat.
+2. **Re-masurare peste mai multe cicluri.** Masoara din nou peste cel putin un
+   ciclu complet al refresh-ului. Daca varsta creste in ritm constant, nimeni
+   nu scrie.
+3. **Codul.** Gaseste scrierile reale (`STATE_FILE.write_text`, `open(...,'a')`)
+   si verifica daca sunt apelate din bucla de refresh.
+
+**Greseli de repetat.**
+- Nu largesti o limita de prospețime ca sa faci antetul verde. E exact inversul
+  a ceea ce verifica sistemul.
+- Nu confunda "nimeni nu scrie" cu "e stricat": primul se repara adaugand un
+  scriitor, al doilea se repara reparand scriitorul.
+- Nu schimba semantica unei verificari de stare fara sa cauti mai intai in
+  documentele proiectului daca e deja ratificata.

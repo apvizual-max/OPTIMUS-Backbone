@@ -1,3 +1,10 @@
+---
+name: mavis-git-vault-governance-skill
+description: "Regulile care fac ca git add sa functioneze pe volume reale (DriveFS, bind-mount-uri, symlink-uri). Micro-skill al suitei mavis-optimus-continuous-integration-skill. Incarca-l la orice lucru despre index, filemode, CRLF sau despre volume-mounted."
+role: functional
+bot: mavis-local-optimus-ci-bot
+---
+
 # MAVIS — GIT & VAULT GOVERNANCE
 
 **Tip:** micro-skill în cadrul suitei `mavis-optimus-continuous-integration-skill`

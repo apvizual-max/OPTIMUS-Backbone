@@ -1,11 +1,11 @@
 ---
 name: mavis-minimax-index-folder-update
-description: Use when adding, moving, renaming, or deleting anything under C:\Users\apviz\.minimax-agent\projects — then this skill defines what must be re-indexed and in which folder. Also use to audit that folder for drift, refresh the Master Map, refresh the SOT links, or answer "where does X live / which doc covers Y". Triggers on "update the index", "projects folder", "Master Map", "registry", "new bridge file", "document this change", "SOT", "60_SKILLS", "70_CONNECTORS", "40_REGISTRIES".
+description: Use when adding, moving, renaming, or deleting anything under C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard — then this skill defines what must be re-indexed and in which folder. Also use to audit that folder for drift, refresh the Master Map, refresh the SOT links, or answer "where does X live / which doc covers Y". Triggers on "update the index", "projects folder", "Master Map", "registry", "new bridge file", "document this change", "SOT", "60_SKILLS", "70_CONNECTORS", "40_REGISTRIES".
 ---
 
 # mavis-minimax-index-folder-update
 
-`C:\Users\apviz\.minimax-agent\projects\` is the **central audit point for the
+`C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\` is the **central audit point for the
 whole MiniMax ecosystem on this machine.** Popy's standing instruction: it must
 stay current as the build progresses.
 

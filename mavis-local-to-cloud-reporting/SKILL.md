@@ -1,6 +1,8 @@
 ---
 name: mavis-local-to-cloud-reporting
 description: Procedura standardizată prin care Mavis Local (Windows, Command Hub) agregă starea fizică a discului și a celor 4 repo-uri, emite tichete în QUEUE/, arhivează istoricul vechi prin mutare (niciodată ștergere) și redactează rapoarte datate pentru Cloud — totul sub Poarta R0. Rulează la sfârșit de sesiune, înainte de predare.
+role: functional
+bot: mavis-local-optimus-ci-bot
 ---
 
 # mavis-local-to-cloud-reporting

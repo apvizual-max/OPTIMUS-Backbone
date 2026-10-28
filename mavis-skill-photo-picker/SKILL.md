@@ -60,10 +60,10 @@ presses Done.
 ### 3.2 Capture the selection, automatically
 
 ```powershell
-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\picker-watch.mjs" `
+node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\picker-watch.mjs" `
      --session <sessionId> --data "C:\Users\apviz\.minimax\google-access\data" --delete-after
 
-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\picker-download.mjs"
+node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\picker-download.mjs"
 ```
 
 The watcher writes `data/picked-media.json`; the downloader fetches the media,

@@ -12,6 +12,8 @@ INTERFATA = nu se atinge.
 <!-- /NUCLEU-GIT -->
 name: mavis-git-autonom-skill
 description: "Regula de lucru zilnică cu Git, într-un proiect care are deja .git. Lucrezi PE main, niciodată pe branch, fără să creezi ramuri. COMMIT imediat la fiecare succes măsurat, inclusiv pe modificările lui Popy, fără să ceri confirmare, fără poartă și fără LiveReview. PUSH doar cu acordul lui Popy și doar peste un prag de comituri, prin scripts\\git-autopush.ps1: push pur, LiveReview abia DUPĂ ce serverul e confirmat, două căi (cu review și fără), rate limit nu generează nicio eroare. Verifici cu git ls-remote, niciodată prin codul de ieșire. Semnezi prin scripts\\push-status.ps1, cu tabel mare și balon în tavă, repetat până la push. Nu atingi interfața. Nu ștergi nimic: muți în carantină cu motiv scris. Nu ceri decizii tehnice — le iei tu și continui. Se încarcă la prima treabă care atinge Git; instalarea de la zero e skillul mavis-git-install-skill."
+role: functional
+bot: mavis-local-optimus-ci-bot
 ---
 
 # SKILL: git-autonom
@@ -351,3 +353,157 @@ Dacă repo-ul se reclonează, poarta dispare și trebuie repusă din
 
 `PROMPT git autonom.md`, în același folder — se trimite ca atare altor
  instanțe, în alte proiecte. Rulează **după** `PROMPT git install.md`.
+
+## 14. Repo-ul trebuie sa se poata clona — masurat 2026-10-28
+
+`git log` arata perfect chiar si cand repo-ul e imposibil de checkout. Singura
+verificare care conteaza e **o clona noua de la zero**:
+
+```powershell
+git clone https://github.com/apvizual-max/SENTINEL_PRIME.git _clone_probe
+# verdict: exit 0 SI dirty=0 SI fisierele asteptate prezente
+```
+
+**Succes, masurat.** `origin/main` continea la radacina un director cu numele
+literal `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME`. Git refuza
+`:` intr-o componenta de nume, deci `read-tree`, `checkout` si orice clona
+esueau cu `error: invalid path` / `make_cache_entry failed for path`. Repo-ul
+era rupt pentru orice client Windows, inclusiv pentru pipeline. Repararea s-a
+facut **prin plumbing**, fara index si fara a atinge istoricul publicat:
+
+1. salveaza toate intrarile arborelui fals in quarantine, cu motiv scris;
+2. extrage fisierele care exista DOAR acolo la calea lor reala;
+3. reconstruieste arborele radacina: `git ls-tree -z origin/main` minus
+   intrarea invalida, apoi `git mktree -z`;
+4. `git commit-tree <tree> -p origin/main -m <motiv>` — istoricul ramane liniar;
+5. `git update-ref refs/heads/main <commit>` apoi `git read-tree -u --reset HEAD`;
+6. **verifica cu o clona noua**, nu cu `git log`.
+
+Dupa reparatie: clona 1408 de fisiere, `dirty=0`, totul prezent.
+
+**Greseli de repetat.**
+- Nu verifica sincronizarea doar prin `git log` sau `git status`.
+- Nu sterge intrarile suspecte din arbore fara sa le salvezi intai.
+- Nu rescrie istoricul publicat si nu folosi force-push.
+- Nu folosi `git reset --hard`.
+- Nu considera ca "merge-ul a mers" daca `git merge` a scris un avertisment.
+
+## 15. Orice comanda git trebuie legata de repo-ul potrivit — masurat 2026-10-28
+
+O sesiune poate rula cu **cwd-ul intr-un repo parinte**. In SENTINEL_PRIME,
+cwd-ul era `...\projects`, care e el insusi un repository git (OPTIMUS-Backbone),
+iar proiectul lucrat era `...\projects\SENTINEL_PRIME` — un repository **nested**.
+
+Cand am rulat `git ls-remote origin refs/heads/main` **fara `-C`**, comanda a
+interogat remote-ul repo-ului **parinte**. A returnat un SHA care nu exista in
+SENTINEL_PRIME, iar eu l-am citit ca "pipeline-ul CD a impins ceva nou intre
+mine si ultima verificare". Era o iminenta de panica bazata pe un repository
+strain. Corectat in cateva secunde prin `git -C`, dar semnul de pericol a fost
+ca **ambele SHA-uri arata la fel**: un hash de 40 de caractere nu isi spune
+repositorul.
+
+**Regula:** orice comanda git care raspunde despre un repository **neclase** se
+leaga explicit si verifica ce remote exista:
+
+```powershell
+git -C $repo remote -v
+git -C $repo ls-remote origin refs/heads/main
+```
+
+Acelasi lucru pentru starea unui **alt arbore** (de exemplu o clona plasata
+in interiorul proiectului): `git -C <clona> status --porcelain`.
+
+**Greseli de repetat.**
+- Nu folosi comanda git "din directorul curent" cand proiectul lucrat e altul.
+- Nu compara doua SHA-uri venite din repo-uri diferite fara sa verifici mai
+  intai **din ce repository** a venit fiecare.
+- Nu citi un SHA strain drept "push al pipeline-ului" inainte de a verifica
+  `git -C <repo> remote -v`.
+
+## 16. `git add -A` ia tot ce e in director, inclusiv materialul tau de lucru
+
+Am scris mesajul de commit intr-un fisier temporar in **radacina repo-ului**,
+ca sa pot folosi `git commit -F` cu un mesaj lung. Comanda `git add -A` de mai
+devreme l-a prins in commit, iar a trebuit un comit `chore` care sa-l scoata
+din istoric.
+
+**Regula:** fisierele de lucru (mesaje de commit, scripturi temporare) stau
+**in afara arborelui repository-ului** — in directorul temporar al sistemului —
+sau sunt introduse cu `git add <cale exacta>`, nu cu `git add -A`.
+
+**Verificarea, inainte de commit:** numara intrarile si citeste-le.
+`git diff --cached --name-status` arata exact ce va intra in istoric:
+
+```powershell
+git add -A
+git diff --cached --name-status
+git diff --cached --name-only | Where-Object { $_ -ne '' } | Measure-Object -Line
+```
+
+**Greseli de repetat.**
+- Nu tine material de lucru temporar in radacina unui repository pe care il
+  comiti cu `git add -A`.
+- Nu comiti fara sa citesti lista de intrari pe care o vei introduce in istoric.
+
+### Un mesaj de commit cu ghilimele duble se sparge in PowerShell 5.1
+
+Masurat de doua ori in aceeasi sesiune. In PowerShell 5.1, un sir cu ghilimele
+duble trimis unui executabil nativ este re-cuotat si **cutat la ghilimele**:
+argumentul se sparge in mai multe, iar `git` primeste bucatile drept
+*pathspec-uri*.
+
+```
+error: pathspec 'asta' did not match any file(s) known to git
+```
+
+Mesajul e bun; comitul pur si simplu nu s-a facut. Se vede ca **eroare de
+ghilimele**, nu ca mesaj gresit — si apare ca pathspec-uri ciudate, care trimit
+la texte care *exista* in commit.
+
+**Solutia, in ordine de preferinta:**
+
+1. **Foloseste `git commit -F <fisier>`** — scrie mesajul intr-un fisier si
+   scapa de quoting-ul complet. Fisierul poate sta in directorul temporar al
+   sistemului, ca sa nu fie prins de `git add -A`.
+2. **Sau un mesag fara ghilimele duble** — cu apostrof pentru citare, cum in
+   exemplele de mai sus.
+
+Ce **nu** merge: `git commit -m "text cu "citare" in el"` in PowerShell 5.1.
+
+**Greseli de repetat.**
+- Nu trimite un mesaj de commit cu ghilimele duble ca argument direct in
+  PowerShell 5.1. Foloseste `-F <fisier>`.
+- Nu citi un *pathspec* care conține fragmente din mesajul tău ca pe o
+  problemă cu arborele. E quoting.
+
+## 18. Verifică starea remote-ului cu instrumentul, nu cu `git log` (2026-10-28)
+
+**Aditiv.** Nimic de mai sus se rescrie.
+
+Măsurat în `SENTINEL_PRIME`: pipeline-ul CD (Jules + Antigravity CD Engine)
+scrie direct în `main`, și un comit poate fi **valid** și totuși imposibil de
+checkout — git refuză `:` într-o componentă de nume. `git log` și `git status`
+arătau perfect; fiecare clonă pe Windows eșua.
+
+Regula devine un instrument care se rulează după fiecare push al pipeline-ului:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts\verify-remote-clone.ps1
+# VERDICT=PASS (exit 0) | VERDICT=FAIL (exit 2) + FAILURES=<lista>
+```
+
+Măsurat: control falsificator → `VERDICT=FAIL` (`invalid_tree_entries 1`,
+`clone_exit 128`, „error: invalid path ..."), repo real → `VERDICT=PASS`.
+Instrumentul **nu șterge nimic** și nu atinge arborele de lucru: lasă clona de
+probă în `%TEMP%` și afișează calea în `PROBE_CLONE=`.
+
+**Trei capcane de shell, măsurate în timp ce l-am scris:**
+- o funcție PowerShell numită ca un executabil de pe PATH (`function Git`)
+  umbrează executabilul și se autoapelează la infinit — `CallDepthOverflow`;
+- cu `$ErrorActionPreference='Stop'`, un tool nativ care doar scrie pe stderr
+  aruncă o eroare terminantă și ascunde diagnosticul pe care voiai să-l vezi;
+- `powershell -File` nu leagă o listă de argumente la un parametru `[string[]]` —
+  primește un singur string cu virgule între ele.
+
+Când scrii un instrument de verificare în PowerShell: **dă-i un control
+falsificator.** Altfel nu știi dacă măsoară ceva sau doar confirmă ce știi deja.

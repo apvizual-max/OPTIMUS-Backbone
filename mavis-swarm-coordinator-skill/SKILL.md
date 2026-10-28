@@ -47,5 +47,5 @@ If a bridge fails:
 ## Cross-references
 
 - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §9`
-- Per-bridge files: `C:/Users/apviz/.minimax-agent/projects/10_BRIDGES/`
-- Bridge registry (live state): `C:/Users/apviz/.minimax-agent/projects/00_INDEX/00_bridge_registry.md`
+- Per-bridge files: `C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/10_BRIDGES/`
+- Bridge registry (live state): `C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/00_INDEX/00_bridge_registry.md`

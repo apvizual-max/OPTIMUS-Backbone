@@ -1,6 +1,8 @@
 ---
 name: mavis-jurnal-oglinda-skill
 description: JURNAL_OGLINDA append-only reality anchor. Load when recording an event that Popy will need to remember later: bridge activations, doctrine amendments, incidents, subscription changes, CODUL SACRU ratifications, source-material location additions.
+role: functional
+bot: mavis-local-optimus-ci-bot
 ---
 
 # mavis-jurnal-oglinda-skill
@@ -9,7 +11,7 @@ The Mirror Journal — Popy's reality anchor. Append-only. Never edit, never del
 
 ## Where entries live
 
-In this project: `C:/Users/apviz/.minimax-agent/projects/40_REGISTRIES/40_partition_*.md` — each file has a `## JURNAL_OGLINDA` section at the bottom.
+In this project: `C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/40_REGISTRIES/40_partition_*.md` — each file has a `## JURNAL_OGLINDA` section at the bottom.
 
 Outside this project: SENTINEL_JOURNAL, git history, audit logs — all append-only by nature.
 
@@ -51,4 +53,4 @@ The old entry stays. The correction is a new entry that points at it.
 ## Cross-references
 
 - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §8`
-- Protocol file: `C:/Users/apviz/.minimax-agent/projects/20_PROTOCOLS/20_jurnal_oglinda.md`
+- Protocol file: `C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/20_PROTOCOLS/20_jurnal_oglinda.md`

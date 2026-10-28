@@ -43,7 +43,7 @@ Load via `skill({ name: "<member>" })`:
 ## Cross-references
 
 - Skill index (single point of truth): `mavis-skill-index`
-- Classifier data: `C:\Users\apviz\.minimax-agent\projects\70_CONNECTORS\70_personal_skill_index.md` (149 Role Definition skills classified — expert/specialist/persona)
-- Taxonomy: `C:\Users\apviz\.minimax-agent\projects\00_INDEX\00_skill_taxonomy.md`
+- Classifier data: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\70_CONNECTORS\70_personal_skill_index.md` (149 Role Definition skills classified — expert/specialist/persona)
+- Taxonomy: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\00_INDEX\00_skill_taxonomy.md`
 - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §9` (swarm bridges)
-- Bridge registry: `C:\Users\apviz\.minimax-agent\projects\00_INDEX\00_bridge_registry.md`
+- Bridge registry: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\00_INDEX\00_bridge_registry.md`

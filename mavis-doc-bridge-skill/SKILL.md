@@ -17,10 +17,10 @@ an invented route means nothing. See "Verifying a Stirling route" below.
 
 ## Bridge 1 — LibreOffice conversion
 
-Script: `C:\Users\apviz\.minimax-agent\projects\scripts\convert-document.ps1`
+Script: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\scripts\convert-document.ps1`
 
 ```powershell
-& 'C:\Users\apviz\.minimax-agent\projects\scripts\convert-document.ps1' `
+& 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\scripts\convert-document.ps1' `
    -InputPath 'C:\path\brief.docx' -Format pdf -AsJson
 ```
 
@@ -60,10 +60,10 @@ The container publishes a Selkies web-desktop (VNC-over-browser) on
 
 ## Bridge 2 — Stirling-PDF
 
-Script: `C:\Users\apviz\.minimax-agent\projects\scripts\stirling-pdf.ps1`
+Script: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\scripts\stirling-pdf.ps1`
 
 ```powershell
-& 'C:\Users\apviz\.minimax-agent\projects\scripts\stirling-pdf.ps1' `
+& 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\scripts\stirling-pdf.ps1' `
    -Operation pdfa -InputPath 'C:\path\in.pdf' -AsJson
 ```
 
@@ -111,8 +111,8 @@ curl.exe -s -o NUL -w "%{http_code}" -X POST -H "Content-Type: application/json"
 ## Typical chains
 
 ```powershell
-$S  = 'C:\Users\apviz\.minimax-agent\projects\scripts'
-$w  = 'C:\Users\apviz\.minimax-agent\projects\scratch\docbridge'
+$S  = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\scripts'
+$w  = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\scratch\docbridge'
 
 # text -> pdf -> PDF/A
 $pdf = (& "$S\convert-document.ps1" -InputPath "$w\notes.txt" -Format pdf -AsJson | ConvertFrom-Json).output

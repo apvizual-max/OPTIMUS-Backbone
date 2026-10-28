@@ -48,5 +48,5 @@ When a decision has ethical, strategic, or long-horizon weight:
 ## Reference
 
 - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §4`
-- Protocol file: `C:\Users\apviz\.minimax-agent\projects\20_PROTOCOLS\20_sacru_963hz.md`
-- Registry (was pending): `C:\Users\apviz\.minimax-agent\projects\40_REGISTRIES\40_sacru_corpus_pending.md` — needs to be flipped to ✅ WIRED
+- Protocol file: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\20_PROTOCOLS\20_sacru_963hz.md`
+- Registry (was pending): `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\40_REGISTRIES\40_sacru_corpus_pending.md` — needs to be flipped to ✅ WIRED

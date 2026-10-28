@@ -51,4 +51,4 @@ If Popy pre-authorizes a class of actions (e.g., "auto-fix lint in workspace"), 
 ## Cross-references
 
 - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §2`
-- Protocol file: `C:/Users/apviz/.minimax-agent/projects/20_PROTOCOLS/20_r33_bimodal.md`
+- Protocol file: `C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/20_PROTOCOLS/20_r33_bimodal.md`

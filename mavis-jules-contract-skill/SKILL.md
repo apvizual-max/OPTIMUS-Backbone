@@ -1,3 +1,10 @@
+---
+name: mavis-jules-contract-skill
+description: "Frontiera cu Jules: cine face ce cu Jules si ce nu atinge Mavis Local. Micro-skill al suitei mavis-optimus-continuous-integration-skill. Incarca-l inainte de orice lucru despre Optimus CD, despre o cerere care vine de la Jules sau despre o granita intre instante."
+role: functional
+bot: mavis-local-optimus-ci-bot
+---
+
 # MAVIS — JULES CONTRACT (frontiera, nu operator)
 
 **Tip:** micro-skill în cadrul suitei `mavis-optimus-continuous-integration-skill`
@@ -83,3 +90,62 @@ lucrează pe ramuri. Reconcilierea, nu ignorarea:
 - `cloud-ingest\MAVIS-CLOUD\docs\HANDOFF-2026-10-12-0440-jules.md` — cel mai nou handoff, citit 2026-10-12
 - `cloud-ingest\MAVIS-CLOUD\.github\workflows\jules.yml` — implementarea reală
 - `cloud-ingest\MAVIS-CLOUD\docs\JULES-INSTRUMENTARE.md` — documentația
+
+## 8. Masurat in SENTINEL_PRIME, 2026-10-28 — cum arata pipeline-ul de fapt
+
+Aceasta este masurarea, nu Blueprint-ul.
+
+| Fapt | Masurat |
+|---|---|
+| pipeline-ul | Antigravity CD Engine + `google-labs-jules[bot]` |
+| tinta | `main`, direct. **Nu exista ramuri pe remote** |
+| CI | **Nu exista.** `gh run list` gol, `.github/workflows` absent |
+| ledger | `JULES_HANDOFF.md` in radacina — ce a intrat si cand |
+| comituri | ~37 in 3 zile: code health, teste, security, plus starea runtime |
+| Jules introduce si defecte | PR #14 a introdus o intrare de arbore cu cale absoluta |
+
+**Succes, masurat — cum se sincronizeaza localul cu pipeline-ul.**
+
+1. `git fetch --all --prune`, apoi compara: `git rev-list --left-right --count origin/main...HEAD`.
+2. Verifica, pentru fiecare commit local, ca e in istoricul remote:
+   `git merge-base --is-ancestor <commit> origin/main`. Daca toate sunt acolo,
+   **nu ai nimic de fuzuit**, doar de materializat.
+3. Snapshot inainte de orice operatiune: `git stash push -u` **si** o copie
+   fizica in quarantine. Doua cai de recuperare.
+4. `git merge --ff-only origin/main` pe arborele curat. Istorie liniara.
+5. Restaureaza selectiv: `git checkout 'stash@{0}^3' -- <cai>` pentru
+   fisierele neurmarite. `stash@{0}^3` e commitul cu cele neurmarite.
+6. **Ruleaza ambele suite, secvential.** Nu exista CI care sa le ruleze.
+7. **Verifica cu o clona noua**, nu cu `git log`.
+
+**Foloseste skill-ul `sentinel-cd-pipeline-sync`** din
+`SENTINEL_PRIME/07_BACKBONE/skills/` pentru rețeta completa, inclusiv
+reparatia arborelui cu cale absoluta.
+
+**Legarea retetei de repositoryul potrivit — masurat 2026-10-28.** In
+SENTINEL_PRIME, cwd-ul sesiunii a fost `...\projects`, care e el insusi un
+repository git (OPTIMUS-Backbone), iar proiectul lucrat era
+`...\projects\SENTINEL_PRIME` — un repository **nested**. Comanda
+`git ls-remote origin refs/heads/main`, rula **fara `-C`**, a interogat
+remote-ul repository-ului **parinte** si a returnat un SHA care nu exista in
+SENTINEL_PRIME. Citit ca "pipeline-ul a impus ceva nou intre doua verificari",
+era o iminenta de panica bazata pe un repository strain.
+
+Deci pasul 1 al retetei se rescrie:
+
+```powershell
+git -C $repo remote -v                              # ce remote exista, efectiv
+git -C $repo fetch origin --prune
+git -C $repo rev-list --left-right --count origin/main...HEAD
+```
+
+Un SHA strain, inainte de a-l numi "push al pipeline-ului", se verifica cu
+`git -C $repo remote -v`. Regula pentru orice pas al retetei: **fiecare comanda
+git se leaga de repositoryul despre care intreaba.**
+
+**Greseli de repetat.**
+- Nu presupune ca un commit valid inseamna repo clonabil.
+- Nu crea ramuri pe remote; `main` e singura ramura activa.
+- Nu folosi `stash pop` ca pas implicit.
+- Nu rula comenzi git "din directorul curent" cand proiectul lucrat e altul.
+- Nu interpreta un SHA venit din alt repository drept "push al pipeline-ului".

@@ -55,5 +55,5 @@ Some MCPs (`gdrive-mcp`, `gmail-mcp`, `google-workspace-mcp`) are TypeScript and
 ## Cross-references
 
 - Settings locations: `mavis-backbone-skill`
-- Bridge files: `C:/Users/apviz/.minimax-agent/projects/10_BRIDGES/`
-- Registry: `C:/Users/apviz/.minimax-agent/projects/00_INDEX/00_bridge_registry.md`
+- Bridge files: `C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/10_BRIDGES/`
+- Registry: `C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/00_INDEX/00_bridge_registry.md`

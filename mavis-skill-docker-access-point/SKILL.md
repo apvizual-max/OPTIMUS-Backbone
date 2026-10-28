@@ -56,7 +56,7 @@ a chat message.
 ```powershell
 docker inspect --format '{{.State.Status}}|{{if .State.Health}}{{.State.Health.Status}}{{end}}|{{.Config.Image}}' Google_Access
 docker exec Google_Access node -p "require('crypto').createHash('sha256').update(require('fs').readFileSync('/app/server.mjs')).digest('hex')"
-Get-FileHash "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\container\server.mjs" -Algorithm SHA256
+Get-FileHash "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\container\server.mjs" -Algorithm SHA256
 ```
 
 The two hashes must be equal. That comparison is the whole point.
@@ -64,7 +64,7 @@ The two hashes must be equal. That comparison is the whole point.
 ### 3.2 Sync the live source into the repo (never the other way round)
 
 ```powershell
-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\sync-container-source.py"
+node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\sync-container-source.py"
 ```
 
 It copies live → repo through a whitelist and then verifies the result. It
@@ -93,7 +93,7 @@ port is one too many.
 ### 3.4 Prove it
 
 ```powershell
-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs"
+node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs"
 ```
 
 `C1.container` and `C1b.running-code` must both be green.

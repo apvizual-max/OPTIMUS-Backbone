@@ -105,6 +105,6 @@ The daemon's two rules are an **Eliade Realitate** enforcement: they check the o
 ## Cross-references
 
 - Source: `C:\Users\apviz\AppData\Local\hermes\mcp-servers\custom\sentinel-daemon\sentinel_daemon.py`
-- Inventory: `C:\Users\apviz\.minimax-agent\projects\70_CONNECTORS\70_sentinel_role_ai_inventory.md`
+- Inventory: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\70_CONNECTORS\70_sentinel_role_ai_inventory.md`
 - Doctor skill: `mavis-minimax-hermes-bridge-skill`
 - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md` §3 (Triple Crunch), §6 (SOUL ↔ CONSTINTA)

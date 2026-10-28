@@ -20,7 +20,7 @@ Mavis is the **Hermes system DOCTOR**. This skill drives the `minimax-hermes-bri
 ## Start / stop
 
 ```powershell
-cd C:\Users\apviz\.minimax-agent\projects\20_BRIDGES\minimax
+cd C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\20_BRIDGES\minimax
 docker compose -f docker-compose.yml up -d --build
 docker compose -f docker-compose.yml ps
 docker compose -f docker-compose.yml stop minimax-hermes-bridge

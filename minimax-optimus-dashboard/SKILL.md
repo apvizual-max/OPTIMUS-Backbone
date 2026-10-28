@@ -30,9 +30,9 @@ description: |
   and that workflow for the run.
 license: proprietary
 metadata:
-  blueprint: C:\Users\apviz\.minimax-agent\projects\MINIMAX OPTIMUS CONTROL CENTER BLUEPRINT
-  reference_implementation: C:\Users\apviz\.minimax-agent\projects\90_CONTROL_CENTER
-  restore_point: C:\Users\apviz\.minimax-agent\projects\FULL_BACKUP_2026-10-04_QUARANTINE
+  blueprint: C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\MINIMAX OPTIMUS CONTROL CENTER BLUEPRINT
+  reference_implementation: C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\90_CONTROL_CENTER
+  restore_point: C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\FULL_BACKUP_2026-10-04_QUARANTINE
   executable_workflow: C:\Users\apviz\.minimax\agents\mavis\skills\minimax-optimus-dashboard\dashboard-build.dsl.js
   workflow_run_id: 6b698fa6-1060-402d-a224-d07ed4bfb630
   workflow_name: Dashboard Build — zero-context, seven phases

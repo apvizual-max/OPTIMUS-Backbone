@@ -54,5 +54,5 @@ Qwen's strength is Chinese. For Romanian/English tasks, Mavis/Hermes/Gemini are 
 
 ## Reference
 
-- Bridge file: `C:\Users\apviz\.minimax-agent\projects\10_BRIDGES\10_qwen_studio.md`
+- Bridge file: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\10_BRIDGES\10_qwen_studio.md`
 - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §9`

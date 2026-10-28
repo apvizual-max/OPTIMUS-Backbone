@@ -30,7 +30,7 @@ Load the right one via `skill({ name: "<member>" })`:
 This category's "what's authoritative" answers come from:
 
 - **`obsidian-mcp`** — the vault at `E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\` is the SOT for doctrinal text. Use `mcp_invoke({ tool: "obsidian.search" })` for in-vault lookups.
-- **`mcp-server-filesystem`** — for paths in `C:\Users\apviz\.minimax-agent\projects\`, `C:\Users\apviz\AppData\Local\hermes\hermes-agent\`, `D:\Alex_Knowlege_Vault\`, etc.
+- **`mcp-server-filesystem`** — for paths in `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\`, `C:\Users\apviz\AppData\Local\hermes\hermes-agent\`, `D:\Alex_Knowlege_Vault\`, etc.
 
 ## How to use this bundle
 
@@ -47,6 +47,6 @@ This category's "what's authoritative" answers come from:
 ## Cross-references
 
 - Skill index (single point of truth): `mavis-skill-index`
-- Classifier data: `C:\Users\apviz\.minimax-agent\projects\70_CONNECTORS\70_personal_skill_index.md` (80 Identity skills classified)
-- Taxonomy: `C:\Users\apviz\.minimax-agent\projects\00_INDEX\00_skill_taxonomy.md`
+- Classifier data: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\70_CONNECTORS\70_personal_skill_index.md` (80 Identity skills classified)
+- Taxonomy: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\00_INDEX\00_skill_taxonomy.md`
 - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §1` (zero fabrication — paths and tool names must be verified)

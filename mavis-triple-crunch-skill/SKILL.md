@@ -61,4 +61,4 @@ If any axiom fails:
 ## Cross-references
 
 - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §3`
-- Protocol file: `C:/Users/apviz/.minimax-agent/projects/20_PROTOCOLS/20_triple_crunch.md`
+- Protocol file: `C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/20_PROTOCOLS/20_triple_crunch.md`

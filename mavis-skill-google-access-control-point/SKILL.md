@@ -29,7 +29,7 @@ So the connection got a **control point**: one command, one verdict.
 ## 2. The command
 
 ```powershell
-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs"
+node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs"
 ```
 
 | Exit | Meaning |
@@ -105,10 +105,10 @@ authorisation click is the user's, and it is the **only** human step left.
 
 ```powershell
 # the whole point
-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs"
+node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs"
 
 # prove the control point can go red (a check that cannot fail is not a check)
-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs" --self-test --fail C1.container
+node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs" --self-test --fail C1.container
 
 # verify one member skill of this bot
 node "C:\Users\apviz\.minimax\agents\mavis\skills\mavis-skill-google-access-control-point\scripts\verify-control-point.mjs"

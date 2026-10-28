@@ -22,7 +22,7 @@ Antigravity is the **small-tasks / AI-council** back-up. This skill drives `mini
 ## Start / stop
 
 ```powershell
-cd C:\Users\apviz\.minimax-agent\projects\20_BRIDGES\minimax
+cd C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\20_BRIDGES\minimax
 docker compose -f docker-compose.yml up -d --build
 ```
 

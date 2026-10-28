@@ -32,6 +32,8 @@ Repair the process before advancing the work.
 
 1. `mavis-skill-index` — Pillar skill. Loads first so Mavis has the autonomous routing procedure + classifier index pointer (NEW: 2026-09-19).
 2. `mavis-bundle-identity` — loads to map Mavis's skill organization (Identity and File Locations bundle).
+
+> **În sesiunea Optimus CI** (`mvs_eaaf49033892458a8076c7cc9e8d51aa`, „Mavis Local - Ondoard Optimus_CI"): după BUSOLA se încarcă imediat **`mavis-local-optimus-ci-bot`** (skillul principal al sesiunii: rol, 9 funcții, unelte, indexul skillurilor CI), apoi `node scripts\bot-doctor.mjs doctor` — ca să nu pretind că știu unde sunt fără să măsur.
 3. `README.md` — orientation, two-layer model
 4. `OPTIMUS_INDEX.md` — cheat sheet
 5. `AGENTS.md` — project agent instructions
@@ -140,7 +142,7 @@ rule as step 6, applied to the *content* rather than to the verdict.
 - **Project compass: `C:\Users\apviz\.minimax\BUSOLA.md`** — read it first, always.
 - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md` (§0 language, §16 workspace)
 - Workflow file: **BROKEN INDICIE (2026-10-08)** — this pointed at
-  `C:/Users/apviz/.minimax-agent/projects/30_WORKFLOWS/30_session_open.md`.
+  `C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/30_WORKFLOWS/30_session_open.md`.
   That directory no longer exists on this machine. Until Popy says where the backbone
   lives, `BUSOLA.md` is the fallback. Do not treat the old path as valid.
 - `mavis-full-intent-execution-skill` — execute the verb, not the topic around it

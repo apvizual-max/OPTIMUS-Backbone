@@ -151,13 +151,13 @@ Combinare prin REASON+LOGIC+STRATEGY
 
 ```bash
 # Check context pressure
-python C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\02_OPERATIONAL\scripts\sentinel_context_monitor.ps1
+python C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\02_OPERATIONAL\scripts\sentinel_context_monitor.ps1
 
 # Extract patterns
-python C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\02_OPERATIONAL\scripts\sentinel_learn.py
+python C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\02_OPERATIONAL\scripts\sentinel_learn.py
 
 # Strategic compact
-powershell C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\02_OPERATIONAL\scripts\sentinel_strategic_compact.ps1
+powershell C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\02_OPERATIONAL\scripts\sentinel_strategic_compact.ps1
 ```
 
 ## Validation Tests

@@ -43,7 +43,7 @@ Each needs its own OAuth bootstrap.
 
 ## Reference
 
-- Bridge file: `C:\Users\apviz\.minimax-agent\projects\10_BRIDGES\10_gemini.md` (Gemini shares the Google ecosystem)
+- Bridge file: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\10_BRIDGES\10_gemini.md` (Gemini shares the Google ecosystem)
 - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §9`
 
 ## Starea măsurată a rutelor Drive — 2026-10-27

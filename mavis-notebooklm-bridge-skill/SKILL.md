@@ -40,7 +40,7 @@ Profilul e pe disc → sesiunea supraviețuiește repornirii. **E o cheie de uș
 ## 3. Scriptul autonom — calea de scris
 
 ```
-C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Continuous-Integration\scripts\notebooklm-cdp.mjs
+C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Optimus-Continuous-Integration\scripts\notebooklm-cdp.mjs
 ```
 
 Commit-at în `MAVIS-OPTIMUS-CI` la `65c11d2`.

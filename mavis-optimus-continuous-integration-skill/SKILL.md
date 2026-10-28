@@ -1,6 +1,8 @@
 ---
 name: mavis-optimus-continuous-integration-skill
 description: "Cartierul general și scopul Mavis Optimus Continuous Integration. Se încarcă la orice lucru care atinge Git, GitHub, poarta R0, puntea Local↔Cloud, Live Review sau Jules. Nu produce conținut — construiește sistemul. Stă după mavis-autonomous-operator-skill și înaintea celor două skilluri Git: îi spune unde stă cartierul, ce doctrină se aplică, ce se atinge și ce nu se atinge niciodată, și ce a rămas de făcut."
+role: functional
+bot: mavis-local-optimus-ci-bot
 ---
 
 # SKILL: Mavis Optimus Continuous Integration
@@ -12,8 +14,8 @@ construiesc sistemul pe care lucrează toți ceilalți.
 |---|---|
 | **Proiect** | Mavis Optimus Continuous Integration |
 | **Instanță** | **LOCAL** → am nevoie de R0 la push |
-| **HQ** | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Continuous-Integration\` → **`E:\Google\GDrive\GDrive-Second_Brain_PKMS\02_Areas\02-2-AI-SOT\CASA\OPTIMUS - Prime\Optimus_CI (by Mavis)`** (mutat pe `E:` în 2026-10-27; vezi secțiunea „Puntea Local ↔ Cloud") |
-| **Joncțiune locală** | `C:\Users\apviz\.minimax-agent\projects\Optimus_CI (by Mavis)` → `E:` (`LinkType=Junction`) |
+| **HQ** | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Optimus-Continuous-Integration\` → **`E:\Google\GDrive\GDrive-Second_Brain_PKMS\02_Areas\02-2-AI-SOT\CASA\OPTIMUS - Prime\Optimus_CI (by Mavis)`** (mutat pe `E:` în 2026-10-27; vezi secțiunea „Puntea Local ↔ Cloud") |
+| **Joncțiune locală** | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Optimus_CI (by Mavis)` → `E:` (`LinkType=Junction`) |
 | **Repo** | `apvizual-max/MAVIS-OPTIMUS-CI` |
 | **Plan** | `blueprint\BLUEPRINT-PLAN-CI.md` |
 | **Canal primar** | **Google Drive** — `BRIDGE-DRIVE\` |
@@ -129,6 +131,39 @@ continua din astea, mai am de lucrat.
 altfel pierde datele la oprire. Aceasta e singura diferență între ele,
 și e suficient.
 
+### Un repo scris de un pipeline CD — rețeta măsurată (28 oct)
+
+Când un **pipeline de dezvoltare continuă scrie direct în `main`** (Jules,
+Antigravity CD Engine), localul e de obicei *în urmă*, iar sincronizarea nu e
+opțională. Rețeta măsurată pe `SENTINEL_PRIME`:
+
+1. `git -C $repo fetch origin --prune`, apoi
+   `git -C $repo rev-list --left-right --count origin/main...HEAD`;
+2. verifică fiecare commit local cu
+   `git -C $repo merge-base --is-ancestor <commit> origin/main` — dacă toate
+   sunt acolo, **nu ai nimic de fuzuit**, doar de materializat;
+3. snapshot **în două locuri**: `git stash push -u` **și** o copie fizică în
+   quarantine;
+4. `git -C $repo merge --ff-only origin/main` — istorica rămâne liniară;
+5. restaurează selectiv, fișier cu fișier;
+6. **rulează ambele suite, secvențial** — acolo nu există CI care să le ruleze;
+7. **verifică cu o clonă nouă, de la zero**, nu cu `git log`.
+
+**Fiecare comandă git e legată de repository-ul despre care întreabă.** Cu
+cwd-ul într-un repo părinte, `git ls-remote origin` interoghează remote-ul
+**celuilalt** repository, iar SHA-ul arată la fel. Măsurat: un SHA venit din
+repo-ul părinte a fost citit ca „pipeline-ul a impus ceva nou" — o iminență de
+panică bazată pe un repository strain.
+
+**Un commit valid poate să nu fie clonabil.** Git refuză `:` într-o componentă
+de nume, iar un director cu cale absolută drept nume intră în arbore fără să
+apară în `git log` sau `git status`. Repararea se face prin **plumbing**
+(`mktree` + `commit-tree` cu părintele `origin/main`), ca istorica să rămână
+liniară — fără rescriere, fără force-push.
+
+Detalii complete: `mavis-jules-contract-skill` §8 și
+`SENTINEL_PRIME/07_BACKBONE/skills/sentinel-cd-pipeline-sync.SKILL.md`.
+
 ---
 
 ## Regula de aur, măsurată
@@ -228,7 +263,7 @@ Costul canalului primar e **latența: ≈ 80 min** măsurată (scriere locală
 | Element | Valoare |
 |---|---|
 | Sursa CI | `E:\Google\GDrive\GDrive-Second_Brain_PKMS\02_Areas\02-2-AI-SOT\CASA\OPTIMUS - Prime\Optimus_CI (by Mavis)` |
-| Joncțiune | `C:\Users\apviz\.minimax-agent\projects\Optimus_CI (by Mavis)` → `E:` (`LinkType=Junction`) |
+| Joncțiune | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Optimus_CI (by Mavis)` → `E:` (`LinkType=Junction`) |
 | `.git` | **fișier** (worktree link) → `gitdir: E:/Google/GitData-Optimus-CI/repo` |
 | Gitdata | **un singur folder** pe proiect: `E:\Google\GitData-Optimus-CI\` → `repo\` · `clone-MAVIS-CLOUD\` · `clone-MAVIS-OPTIMUS-CI\` · `scratch\` |
 | `G:` | volum fix, **nu** mount virtual; `G:\My Drive.lnk` → `E:\Google\GDrive` |
@@ -520,3 +555,53 @@ altcineva; poate s-a schimbat deja. Deci:
 - măsurătoarea porții de livrare citește **la vârful ramurii remote** a
   consumatorului, nu copia locală — pentru că un repo poate fi schimbat sub
   picioarele tale, și atunci „local" nu mai e un cuvânt suficient.
+
+---
+
+## Verificarea remote-ului cu clonă nouă, ca instrument (2026-10-28)
+
+> **Aditiv.** Nimic de mai sus se rescrie.
+
+Măsurat în `SENTINEL_PRIME`, unde pipeline-ul CD (Jules + Antigravity CD Engine)
+scrie direct în `main`: un comit poate fi **valid** și totuși imposibil de
+checkout pe Windows — git refuză `:` într-o componentă de nume, iar un director
+cu cale absolută drept nume intră în arbore fără să apară în `git log` sau
+`git status`. Pipeline-ul a introdus exact așa o dată, în 3 zile.
+
+Regula „verifică cu o clonă nouă" a devenit **cod**, nu rețetă:
+
+```powershell
+scripts\verify-remote-clone.ps1       # VERDICT=PASS (0) / VERDICT=FAIL (2) + FAILURES=<lista>
+scripts\make-broken-tree-control.py   # control falsificator: construiește defectul
+```
+
+Măsurat: controlul → `VERDICT=FAIL`, `invalid_tree_entries 1`, `clone_exit 128`,
+„error: invalid path 'C:\Users\...' — fatal: unable to checkout working tree";
+repo-ul real → `VERDICT=PASS`. Instrumentul **nu șterge nimic** și nu atinge
+arborele de lucru: lasă clona de probă în `%TEMP%` și afișează calea în
+`PROBE_CLONE=`.
+
+**Trei capcane PowerShell 5.1, măsurate în timp ce scriam instrumentul:**
+
+1. **O funcție numită ca un executabil de pe PATH umbrează executabilul.**
+   `function Git` + apelul către `git` = autoapelare la infinit →
+   `CallDepthOverflow`. Numele sigur: `Invoke-Native`.
+2. **Un tool nativ care scrie pe stderr nu e o excepție.** Cu
+   `$ErrorActionPreference='Stop'`, un `git` care doar avertizează aruncă o
+   eroare terminantă și **ascunde diagnosticul pe care voiai să-l vezi**.
+   Capturează stderr-ul într-un string și citește codul de ieșire.
+3. **`powershell -File` nu leagă o listă de argumente la un parametru
+   `[string[]]`.** Primește un singur string cu virgule între ele. Acceptă un
+   string separat prin virgule și descompune-l în interiorul scriptului.
+
+Și una de parsare: pe un pipeline cu un singur rezultat, `Where-Object`
+întoarce un **scalar**, iar `$x[0]` pe un scalar de tip string e indexare de
+**caracter** — SHA-ul a fost citit ca `"b"`. Ancorează regexul la începutul
+liniei (`^\s*([0-9a-f]{40})\b`) și nu cere whitespace după el: `git rev-parse
+HEAD` afișează SHA-ul gol.
+
+### Regula, pentru totdeauna
+
+> **Un check care nu poate pici nu e un check.** Instrumentul de verificare se
+> **falsifică** cu un control care construiește defectul pe care trebuie să-l
+> refuză — altfel nu știi dacă măsoară ceva sau doar confirmă ce știi deja.

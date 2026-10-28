@@ -61,4 +61,4 @@ For full website deployment, use the `website_deploy` tool — see its contract.
 ## Cross-references
 
 - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §15`
-- Workflow file: `C:/Users/apviz/.minimax-agent/projects/30_WORKFLOWS/30_deliverable_handoff.md`
+- Workflow file: `C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/30_WORKFLOWS/30_deliverable_handoff.md`

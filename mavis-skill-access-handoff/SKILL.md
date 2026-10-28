@@ -90,6 +90,94 @@ better themselves.
 
 ---
 
+## 4-bis. Step 7, measured: what "verify every path" actually means
+
+"Every path it names exists" is not a sentence — it is a **sweep**, and it has a
+measured shape. A path in a handoff rots silently, and a broken pointer costs
+the next agent a whole search.
+
+**The sweep.** Extract every file-like token from every handoff document, then
+resolve each one against **every plausible root** — the project root, the
+handoff folder, and each documented subfolder (`skills\`, `api\`, `mcp\`,
+`09_LOGS\`, `raport-archive\`, …). For the ones still unresolved, try a
+**leaf-name search** across the tree.
+
+```powershell
+$all = @{}
+foreach ($d in Get-ChildItem $handoff -File -Filter *.md) {
+  $txt = [Text.Encoding]::UTF8.GetString([IO.File]::ReadAllBytes($d.FullName))
+  foreach ($m in [regex]::Matches($txt,'[A-Za-z0-9_][A-Za-z0-9_\-\.\\\/]*\.(jsonl|json|md|py|ps1|txt|html)')) {
+    $all[$m.Value] = $d.Name
+  }
+}
+```
+
+**Measured 2026-10-28 (SENTINEL_PRIME):** 121 distinct file-like tokens across
+the handoff documents; 110 resolved on the first pass; 11 unresolved — and
+**all 11 explained**, not one a broken pointer:
+
+- **regex artifacts** (the sweep's fault, not the document's): `state-history.json`
+  where the document actually says `state-history.jsonl`; `03-31.md` and
+  `20-04.md`, which are filename *tails* inside prose; `Node.js` and a bare
+  `SKILL.md`, which are not file references at all; `Users\apviz\…`, where the
+  `C:\` prefix sat outside the character class.
+- **paths outside the project, cited with their full path** — e.g.
+  `C:\Users\apviz\.minimax\mcp.json`.
+- **paths that deliberately do not exist**, named in the handoff *as*
+  non-existent, so the next agent does not hunt for them.
+
+**The rule that fell out:** a document is not wrong because a token does not
+resolve — but **an unresolved token must be explained, in writing, in the same
+handoff.** An unexplained unresolved token is a defect.
+
+**Two traps in the sweep itself.**
+- The alternation must be **longest-first** (`jsonl|json`), or every `.jsonl`
+  truncates to `.json` and you "find" a broken pointer that does not exist.
+- Never let a forward sweep become the verdict. A token that does not resolve
+  under your first root list may resolve under another, and a broken pointer
+  reported from an incomplete root list is a false alarm that sends the next
+  agent looking for a file that was never missing.
+
+## 4-ter. The handoff must also say what NOT to repair
+
+A zero-context instance meets a handoff with fresh eyes and a bias toward
+action. Anything that *looks* broken will be "fixed".
+
+Measured 2026-10-28 (SENTINEL_PRIME): a health-check freshness bound that
+looked mis-tuned, and an empty `core.hooksPath` that looked like a lost
+config. Both had been **ratified as correct** in the project's own documents. A
+new instance that "fixed" them would have:
+
+- widened a bound so a header would read green — hiding the exact fact the
+  system exists to report;
+- re-armed a hook that was disabled on purpose, because it blocked every
+  commit.
+
+So the handoff carries a **"do not repair" list**, inside the priming prompt,
+with the reason next to each item:
+
+```
+NU REPARA limitele de prospețime - măsurat: artefactele sunt scrise la cerere.
+NU "repara" core.hooksPath gol - e starea intenționată.
+```
+
+**The reason next to the item is what makes it stick.** "Don't touch X" alone
+reads as an unexplained warning; "don't touch X, because Y is true and
+ratified" reads as a fact to check.
+
+## 4-quater. The skills must travel as byte-identical copies
+
+When the handoff carries the skills — so a fresh instance without a skills
+directory still has them — the copies are **byte-identical to their sources**,
+verified with a hash and not by eye, and a **manifest** says what each one
+owns. Regenerate a copy when its source changes; never edit a copy. The
+previous versions are not lost: they sit in the version history of whatever
+repository carries them.
+
+**Measured, same session:** a copy left behind a source edit is a silent
+divergence — the instance reads the stale copy and the agent reads the fresh
+one, and neither of them can say why they disagree.
+
 ## 5. The procedure — picking a handoff up
 
 1. Read `README.md`, then `PRIMING-PROMPT.md`, then `HANDOFF-*.md`.

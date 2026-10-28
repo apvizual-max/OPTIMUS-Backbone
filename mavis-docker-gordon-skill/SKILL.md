@@ -50,5 +50,5 @@ Use `mcp_invoke` against `docker-mcp` for tool-level container operations.
 
 ## Reference
 
-- Bridge file: `C:\Users\apviz\.minimax-agent\projects\10_BRIDGES\10_gordon.md`
+- Bridge file: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\10_BRIDGES\10_gordon.md`
 - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §9, §10`

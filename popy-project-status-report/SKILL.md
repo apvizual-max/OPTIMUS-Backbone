@@ -120,3 +120,70 @@ Every number in the report is measured in the session it is written. If a figure
 was not re-measured this turn, mark it with its date or write `NOT_MEASURED`. A
 report repeats old numbers without saying so, it is the defect this whole session
 was about - see `EVOLUTION.md` R10, where a dashboard looked alive and was frozen.
+
+## Git and GitHub status belongs in the report (Popy's correction, 2026-10-28)
+
+He asked for a report and the file I wrote had **no Git or GitHub state in it**.
+He was right: a status report for a version-controlled project that does not say
+where the branch is, what is pushed, and what is not, is incomplete.
+
+**Section 1 (SCOPUL) carries a Git/GitHub table**, measured in the turn the
+report is written:
+
+| Field | Example |
+|---|---|
+| branch | `main` |
+| remote URL | `https://github.com/apvizual-max/SENTINEL_PRIME.git` |
+| visibility | `PRIVATE` |
+| last push (UTC) | `2026-10-10 22:46:32` |
+| local commits on main | 13 |
+| tracked files | 1.390 |
+| **commits not on remote** | **3** |
+| ahead / behind | `3 0` |
+| dirty files | 5 (and say who wrote them) |
+| git identity, hooks | `Sentinel Prime <sentinel.prime@optimus.local>`, hook path, coverage |
+| repo disk usage | 15.442 KB |
+
+**Rules that follow from it.**
+
+- The file and the chat message carry the **same** content. The file is the
+  deliverable; the chat is a delivery of it, not a different, shorter report.
+- Name the file exactly as its H1, character for character, including the em
+  dash. Time is `HH-MM`, never `HH:MM` — a colon is illegal in a Windows file
+  name, and the same substitution goes in the H1.
+- Archive the previous report before writing the new one:
+  `raport-archive\raport-<YYYY-MM-DD_HH-MM>.md`.
+- If a figure was not re-measured this turn, it does not go in the table as a
+  fact. Write `NOT_MEASURED` or give it its date. A status report that quotes
+  yesterday's numbers without saying so is the defect the format exists to
+  prevent.
+- **A change in state between two reports is itself a report item.** When the
+  stale count went from 2 to 10 between 02:15 and 18:45, that belongs in the
+  report, plainly, not smoothed over.
+
+## A SHA written as a literal is stale the moment you commit the report
+
+Measured 2026-10-28. The report's Git table carried `HEAD local = origin/main =
+956485e`. Then the report itself was committed, and that commit got a
+*different* SHA — so the file contradicted the repository it describes, in the
+one table whose entire job is to describe the repository.
+
+**Rule:** in a report, write the **command**, not the hash, whenever the value
+changes with the commit that carries the report:
+
+```
+| HEAD local = origin/main | identical, 0 ahead / 0 behind - read it with `git ls-remote origin refs/heads/main` |
+```
+
+What may be stated as a measured fact:
+- the stable counts — commits on the branch, tracked files;
+- the SHA of the **work** commit, labelled as such, with its time;
+- the equality itself: local == remote == clone, verified in this turn.
+
+What may not: the SHA of the commit that carries the report. It does not exist
+yet when the report is written.
+
+The same trap applies outside the report: any file that states "the current SHA"
+goes stale with the next commit. When such a statement has to live in a file,
+give it the command and the time of the measurement, and let the reader re-read
+it.

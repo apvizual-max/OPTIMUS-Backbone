@@ -34,10 +34,10 @@ Wayland is the **agentic cowork** pillar. It has no CLI, so Mavis does not dispa
 ## Refresh the extracted workflows
 
 ```powershell
-python C:\Users\apviz\.minimax-agent\projects\scripts\extract_wayland_workflows.py
+python C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\scripts\extract_wayland_workflows.py
 ```
 
-Output: `C:\Users\apviz\.minimax-agent\projects\20_BRIDGES\wayland\workflows\`
+Output: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\20_BRIDGES\wayland\workflows\`
 - `bodies\<name>\SKILL.md` × 71
 - `_MANIFEST.json` — path, bytes, sha256, per workflow
 - `README.md` — generated index table

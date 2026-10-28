@@ -1,11 +1,11 @@
 ---
 name: mavis-backbone-skill
-description: Load on session-open when working in the OPTIMUS Backbone project at C:\Users\apviz\.minimax-agent\projects\. Bridges this skill's location with the doctrine file `SENTINEL_OPERATIONAL_DOCTRINE.md` and the deep doctrine substrate at `SENTINEL_PRIME/`.
+description: Load on session-open when working in the OPTIMUS Backbone project at C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\. Bridges this skill's location with the doctrine file `SENTINEL_OPERATIONAL_DOCTRINE.md` and the deep doctrine substrate at `SENTINEL_PRIME/`.
 ---
 
 # OPTIMUS Backbone — Mavis Layer
 
-When Mavis is operating inside `C:\Users\apviz\.minimax-agent\projects\` (the OPTIMUS Backbone project), this skill is the project-level entry point.
+When Mavis is operating inside `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\` (the OPTIMUS Backbone project), this skill is the project-level entry point.
 
 ## Two-layer model
 
@@ -78,7 +78,7 @@ Mavis's skills (under `C:\Users\apviz\.minimax\agents\mavis\skills\`):
 | **Docker CLI** | `C:\Program Files\Docker\Docker\resources\bin\docker.exe` |
 | **Obsidian vault** | `E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\` |
 | **SENTINEL materials (audio/video)** | `D:\Alex_Knowlege_Vault\03_Resources\03_7-SENTINEL_Character\` |
-| **Backbone project (Mavis SOT)** | `C:\Users\apviz\.minimax-agent\projects\` |
+| **Backbone project (Mavis SOT)** | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\` |
 
 ## Reference
 

@@ -60,7 +60,7 @@ after, because a bad scope costs a human click.
    real transport:
 
    ```powershell
-   node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\probe-mcp-stdio.mjs" --name <entry>
+   node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\probe-mcp-stdio.mjs" --name <entry>
    ```
 
    Expected: `INIT_OK=1 ... TOOLS=<n> EXIT=0`. A path that exists is not a

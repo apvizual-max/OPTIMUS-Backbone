@@ -1,3 +1,10 @@
+---
+name: mavis-cloud-bridge-skill
+description: "Protocolul Local <-> Cloud: cum circula informatia intre Mavis Cloud si Mavis Local si unde se opreste fiecare. Micro-skill al suitei mavis-optimus-continuous-integration-skill. Incarca-l la orice lucru despre puntea Google Drive, coada QUEUE sau schimbul de fisiere intre instanta locala si cea cloud."
+role: functional
+bot: mavis-local-optimus-ci-bot
+---
+
 # MAVIS — CLOUD BRIDGE (protocolul Local ↔ Cloud)
 
 **Tip:** micro-skill în cadrul suitei `mavis-optimus-continuous-integration-skill`

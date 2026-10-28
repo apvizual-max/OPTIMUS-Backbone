@@ -1,3 +1,10 @@
+---
+name: mavis-live-review-governance-skill
+description: "Guvernanta verificarii automate Live Review: cand ruleaza, ce inseamna ea si cum se trateaza. Micro-skill al suitei mavis-optimus-continuous-integration-skill. Incarca-l la orice lucru despre review, despre BYOK sau despre un verdict de revizuire."
+role: functional
+bot: mavis-local-optimus-ci-bot
+---
+
 # MAVIS — LIVE REVIEW GOVERNANCE
 
 **Tip:** micro-skill în cadrul suitei `mavis-optimus-continuous-integration-skill`
@@ -37,6 +44,36 @@ push-ul e confirmat, și nu blochează nimic.
 Motivul e ordinea, nu confortul: o verificare care se declanșează la push în
 seamnă că te oprește din cauza unui control care încă nu are istoric. Iar una
 care se declanșează la commit înseamnă că poate bloca un commit corect.
+
+## 1-bis. Starea în SENTINEL_PRIME — măsurată 2026-10-28
+
+Măsurat pe proiectul `SENTINEL_PRIME`, unde LiveReview **nu e armat** — și
+asta e starea corectă, nu un defect:
+
+| Ce | Măsurat |
+|---|---|
+| `core.hooksPath` | **gol** — și e **intenționat** |
+| Unde sunt hook-urile | înregistrate pe repo-ul **exterior** `projects` |
+| Starea lor | **dezactivate** (`.git/lrc/disabled` = True) |
+| De ce | pe **2026-10-11** LiveReview bloca fiecare commit; decizia a fost să ruleze **doar după push** |
+| Ce rulează la comit | **nimic** — comitul nu e blocat |
+| Atestation-ul efectiv | `lrc review --vouch --staged` — manual, înainte de comit |
+| Ce raportează `lrc` | `LiveReview: vouched (iter:N, coverage:0%)` — `coverage: 0%` înseamnă fără conector AI, nu eroare |
+
+**Corecție de marcaj, cu textul fals păstrat.** `core.hooksPath` gol a fost
+prezentat ca „configul a fost rescris de pipeline și direcția hook-urilor
+LiveReview s-a pierdut". **Fals.** Măsurat: hook-urile sunt înregistrate pe
+repo-ul părinte și sunt **dezactivate de intenție**, pentru că la comit
+blochează. Un `core.hooksPath` gol e starea corectă într-un repo în care
+hook-urile nu trebuie să se declanșeze la comit.
+
+**Un skill poate descrie o cale care nu există în proiectul curent.** Skill-ul
+`mavis-git-autonom-skill` descrie `scripts\git-autopush.ps1` și
+`scripts\push-status.ps1`. În `SENTINEL_PRIME` **acele două fișiere nu
+există** — proiectul are `02_OPERATIONAL\scripts\`, cu alte două scripturi. Nu
+e defect al proiectului: e o trăsătură a skill-ului, care descrie mecanismul
+din alt proiect. **Verifică existența unei căi înainte s-o cauți**, și spune
+limpede în handoff ce nu există, în loc să-l lase pe cititor să caute.
 
 ## 2. Politica — măsurată pe implementarea existentă
 

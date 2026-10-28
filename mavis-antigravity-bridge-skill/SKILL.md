@@ -42,5 +42,5 @@ The IDE is installed at `C:\Users\apviz\AppData\Local\Programs\Antigravity IDE`.
 
 ## Reference
 
-- Bridge file: `C:\Users\apviz\.minimax-agent\projects\10_BRIDGES\10_antigravity.md`
+- Bridge file: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\10_BRIDGES\10_antigravity.md`
 - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §9`

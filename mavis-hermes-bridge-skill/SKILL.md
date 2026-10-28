@@ -73,6 +73,6 @@ Romanian output at Popy + Prime + Assist profile; below translator gate = Englis
 
 ## Reference
 
-- Bridge file (Mavis orchestration): `C:\Users\apviz\.minimax-agent\projects\10_BRIDGES\10_hermes.md`
+- Bridge file (Mavis orchestration): `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\10_BRIDGES\10_hermes.md`
 - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §9, §10`
 - Hermes config: `C:\Users\apviz\.hermes\`

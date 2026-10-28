@@ -1,3 +1,10 @@
+---
+name: mavis-search-before-write
+description: "Cauta inainte de a scrie: la fiecare sarcina, in fiecare sesiune, in fiecare proiect, inainte de prima scriere. Incarca-l inainte de orice modificare de fisier, de configuratie sau de cod."
+role: functional
+bot: mavis-local-optimus-ci-bot
+---
+
 # SKILL: search-before-write
 
 **Trigger: every task, every session, every project. Load before the first write.**

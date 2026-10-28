@@ -49,6 +49,26 @@ project folder is a document until that runs.
 | `mavis-deliverable-handoff-skill` | packaging a finished artefact so Popy can actually use it |
 | `mavis-journal-oglinda-skill` | append-only reality anchor (`JURNAL_OGLINDA`) |
 
+## Optimus CI — local ↔ cloud (28 oct 2026)
+
+| Skill | When to load |
+|---|---|
+| `mavis-local-optimus-ci-bot` | **THE HUB for anything touching Optimus CI** — the Mavis Local Optimus CI Bot: role, personality, 9 functions, tools, and the **indexed list of the secondary skills**. Load it first for the server, the local↔cloud bridge, the Drive mirror sync, the R0 publish gate, or the quarantine |
+| `mavis-optimus-ci-server-skill` | the `Mavis-Optimus-CI` container, its engine, its HTTP API and the 7 MCP tools |
+| `mavis-optimus-continuous-integration-skill` | the CI district: scope, boundaries and conventions for anything touching Git, GitHub, the R0 gate, the bridge, Live Review or Jules |
+| `mavis-git-autonom-skill` | the daily Git working rules: main, autonomous commit, no `reset --hard`, no deletion |
+| `mavis-cloud-bridge-skill` | the Local↔Cloud protocol: how information travels, and where each side stops |
+| `mavis-jules-contract-skill` | the Jules boundary: who does what, and what Mavis Local never touches |
+| `mavis-live-review-governance-skill` | when the automatic review runs and what its verdict means |
+| `mavis-local-to-cloud-reporting` | the standard Local→Cloud report: disk + repo state, tickets in `QUEUE/`, archive by move |
+| `mavis-git-vault-governance-skill` | making `git add` work on real volumes (DriveFS, bind mounts, filemode, CRLF) |
+| `mavis-jurnal-oglinda-skill` | the append-only reality anchor (journal mirrored on disk) |
+| `mavis-search-before-write` | every task, every session: search before the first write |
+
+The bot's registry is executable: `node scripts\bot-doctor.mjs verify` (70 checks) and
+`node scripts\bot-doctor.mjs doctor` (19 checks on the live system). It ships with its
+own falsifier (`scripts\falsify.mjs`): 5/5 broken scenarios drive the verifier RED.
+
 ## Routing procedure (autonomous, no user input needed)
 
 When a user request arrives, Mavis follows this exact algorithm — **every step, every turn, no shortcuts**:
@@ -77,7 +97,7 @@ Each bundle's SKILL.md lists the right member skills for that scope. Bundles are
 
 ### Step 3 — Pick the right SKILL from the full classifier table
 
-The classifier table lives at `C:\Users\apviz\.minimax-agent\projects\70_CONNECTORS\70_personal_skill_index.md` (306.695 B = 299.5 KB, full per-category lists, 1,297 skills enumerated).
+The classifier table lives at `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\70_CONNECTORS\70_personal_skill_index.md` (306.695 B = 299.5 KB, full per-category lists, 1,297 skills enumerated).
 
 Procedure:
 
@@ -100,7 +120,7 @@ Before executing the task:
 
 ### Step 6 — Log to JURNAL_OGLINDA
 
-Append a JURNAL entry to `C:\Users\apviz\.minimax-agent\projects\40_REGISTRIES\40_partition_C_system.md` with:
+Append a JURNAL entry to `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\40_REGISTRIES\40_partition_C_system.md` with:
 - Task description (1 line)
 - Skills loaded (which candidates + which bundles)
 - Outcome (PASS / FAIL / partial)
@@ -118,7 +138,7 @@ If a skill was **especially useful or useless** for the task, Mavis records it:
 | <skill-name> | YES / NO | <reason> | NOTE / DEMOTE / REPLACE |
 ```
 
-Append this to `C:\Users\apviz\.minimax-agent\projects\70_CONNECTORS\70_personal_skill_index.md` under a `## Lesson log` section.
+Append this to `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\70_CONNECTORS\70_personal_skill_index.md` under a `## Lesson log` section.
 
 When the lesson log grows past ~10 entries, Mavis should **rebuild the classifier** by:
 
@@ -138,8 +158,8 @@ When the lesson log grows past ~10 entries, Mavis should **rebuild the classifie
 
 ## Cross-references
 
-- Classifier data: `C:\Users\apviz\.minimax-agent\projects\70_CONNECTORS\70_personal_skill_index.md`
+- Classifier data: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\70_CONNECTORS\70_personal_skill_index.md`
 - 4 bundles: `mavis-bundle-identity`, `mavis-bundle-behavioral`, `mavis-bundle-role`, `mavis-bundle-operations`
-- Skill taxonomy: `C:\Users\apviz\.minimax-agent\projects\00_INDEX\00_skill_taxonomy.md`
+- Skill taxonomy: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\00_INDEX\00_skill_taxonomy.md`
 - JURNAL_OGLINDA target: `40_REGISTRIES/40_partition_C_system.md`
 - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §6` (SOUL ↔ CONSTINTA — every output emits SOUL first, CONSTINTA second)

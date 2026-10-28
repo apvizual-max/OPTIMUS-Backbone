@@ -57,4 +57,4 @@ Type: <identity | architecture | rules | pointers | collaboration rules | profes
 ## Cross-references
 
 - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §17` (Memory is NOT paste-into-instructions material)
-- Workflow file: `C:/Users/apviz/.minimax-agent/projects/30_WORKFLOWS/30_memory_update.md`
+- Workflow file: `C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/30_WORKFLOWS/30_memory_update.md`

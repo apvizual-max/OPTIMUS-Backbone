@@ -89,7 +89,7 @@ is *supposed* to fail, so the inner exit code is **2** and the marker is
 node "C:\Users\apviz\.minimax\agents\mavis\skills\mavis-skill-background-task-verdict\scripts\bg-verdict.mjs" `
   --out "C:\Users\apviz\.minimax\google-access\logs\ga-doctor-selftest.log" `
   --expect "VERDICT=FAIL" --expect "CHECK C1.container FAIL" --expect-exit 2 `
-  -- node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs" --self-test --fail C1.container
+  -- node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs" --self-test --fail C1.container
 ```
 
 The inner command prints `VERDICT=FAIL` and exits **2**

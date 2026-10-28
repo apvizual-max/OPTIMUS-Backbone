@@ -70,13 +70,13 @@ host  ──rotates──▶  data/extendlm.json  ──snapshot──▶  Cloud
 
 ```powershell
 # rotate + publish (only when needed)
-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\publish-extendlm-secret.mjs"
+node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\publish-extendlm-secret.mjs"
 
 # the scheduled rotation
-powershell -NoProfile -ExecutionPolicy Bypass -File "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\extendlm-heartbeat.ps1"
+powershell -NoProfile -ExecutionPolicy Bypass -File "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\extendlm-heartbeat.ps1"
 
 # measure
-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\probe-notebooklm.mjs"
+node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\probe-notebooklm.mjs"
 ```
 
 The publisher persists atomically, publishes to the secret, and **reads the

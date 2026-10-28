@@ -35,6 +35,8 @@ Load via `skill({ name: "<member>" })`:
 | `mavis-chrome-browser-skill` | Live browser automation, screenshots, devtools | `chrome-devtools-mcp`, `agent-browser-mcp` |
 | `mavis-session-transcript-skill` | Extract the FULL transcript of a session (every message, thinking, tool call, externalised tool output) for archiving or hand-over | none (reads the runtime's own sqlite + session dirs via `node:sqlite`) |
 
+| `mavis-local-optimus-ci-bot` | **HUB for anything touching Optimus CI** — the Mavis Local Optimus CI Bot: role, personality, 9 functions, tools, and the indexed list of the secondary skills (server, local↔cloud bridge, Drive mirror sync, R0 publish gate, quarantine, CD boundary) | `optimus-ci-server` |
+
 ## MCP servers that enforce scope
 
 This category owns **all 8 enabled bridge MCPs** (Hermes, Qwen, Docker, Git, Obsidian, NotebookLM, Chrome DevTools, Agent Browser) plus **mcp-server-filesystem** for file ops. The 4 OAuth-pending Google MCPs also live in this category (gated on Popy's browser-side OAuth bootstrap).
@@ -48,7 +50,7 @@ This category owns **all 8 enabled bridge MCPs** (Hermes, Qwen, Docker, Git, Obs
 
 ## Personal skill integration (NEW: 2026-09-19)
 
-The 682 personal skills classified as **Operations** in `C:\Users\apviz\.minimax-agent\projects\70_CONNECTORS\70_personal_skill_index.md` are also available here. Mavis uses `mavis-skill-index`'s routing procedure to:
+The 682 personal skills classified as **Operations** in `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\70_CONNECTORS\70_personal_skill_index.md` are also available here. Mavis uses `mavis-skill-index`'s routing procedure to:
 
 1. Scan the Operations section of the classifier table.
 2. Score candidate skills by description overlap with the task.
@@ -68,7 +70,7 @@ The classifier is the single point of truth — Mavis never has to ask Popy whic
 ## Cross-references
 
 - Skill index (single point of truth): `mavis-skill-index`
-- Classifier data: `C:\Users\apviz\.minimax-agent\projects\70_CONNECTORS\70_personal_skill_index.md`
-- Taxonomy: `C:\Users\apviz\.minimax-agent\projects\00_INDEX\00_skill_taxonomy.md`
+- Classifier data: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\70_CONNECTORS\70_personal_skill_index.md`
+- Taxonomy: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\00_INDEX\00_skill_taxonomy.md`
 - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §9` (bridge dispatch protocol)
-- Bridge registry: `C:\Users\apviz\.minimax-agent\projects\00_INDEX\00_bridge_registry.md`
+- Bridge registry: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\00_INDEX\00_bridge_registry.md`

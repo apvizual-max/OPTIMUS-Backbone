@@ -18,7 +18,7 @@ optimus doctor          # deep, 12+ checks
 cc guard                # is docker-compose.yml still there and valid?
 ```
 
-Both commands live in `C:\Users\apviz\.minimax-agent\projects\scripts\` and are
+Both commands live in `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\scripts\` and are
 on the user PATH. `cc` is the Control Center command bar.
 
 ## The architecture in one paragraph

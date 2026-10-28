@@ -55,7 +55,7 @@ Two measured facts made the browser layer mandatory:
 ### 3.1 Prove a registered browser server actually starts
 
 ```powershell
-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\probe-mcp-stdio.mjs" --name minimax-notebooklm
+node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\probe-mcp-stdio.mjs" --name minimax-notebooklm
 ```
 
 It spawns the **exact** command and arguments from the global registry, speaks a
@@ -68,8 +68,8 @@ PROBE=minimax-notebooklm TRANSPORT=stdio INIT_OK=1 SERVER=minimax-notebooklm TOO
 ### 3.2 The health of the NotebookLM browser session
 
 ```powershell
-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\probe-minimax-notebooklm.mjs" --call nblm_health
-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\probe-notebooklm.mjs"
+node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\probe-minimax-notebooklm.mjs" --call nblm_health
+node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\probe-notebooklm.mjs"
 ```
 
 The second one lists the real notebooks (JULES 182 sources, GEMINI & AI Studio

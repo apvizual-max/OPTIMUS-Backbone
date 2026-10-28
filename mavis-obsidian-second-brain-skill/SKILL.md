@@ -40,5 +40,5 @@ The Second Brain has two substrates: Obsidian (local) + NotebookLM (Google). Whe
 
 - Vault root: `E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\`
 - Hermes manuals (subset): `E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\- ORCHESTRATOR - Sys Folder - Hermes Default\`
-- Bridge file: `C:\Users\apviz\.minimax-agent\projects\10_BRIDGES\10_notebooklm.md`
+- Bridge file: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\10_BRIDGES\10_notebooklm.md`
 - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §11`

@@ -44,7 +44,7 @@ archived config since at least 2026-09-17.
 | Bug-Monitor | `…\hermes\HERMES_OPTIMUS\CASA\OPTIMUS - Prime\OPTIMUS_Bug-Monitor` |
 | Systems report | `…\HERMES_OPTIMUS\CASA\OPTIMUS - Prime\OPTIMUS_AI-Bridges\Hermes-Minimax_Bridge\MiniMax_Hermes_SysReport_GhostPath_10-01-2026.md` |
 | MiniMax→Hermes handoff | `…\OPTIMUS_AI-Bridges\Hermes-Minimax_Bridge\Minimax-to-Hermes-Handoff_10-01-2026.md` |
-| Upstream defect report | `C:\Users\apviz\.minimax-agent\projects\HERMES_DEFECT_relaunch_loop_venv_sync.md` |
+| Upstream defect report | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\HERMES_DEFECT_relaunch_loop_venv_sync.md` |
 | Ghost-path forensics | `…\OPTIMUS_AI-Bridges\Hermes-Minimax_Bridge\_ghostpath-forensics\` |
 | **Restricted** restore point | `C:\Users\apviz\HERMES_BACKUP` — ghost-path fixes only, report everything else |
 | Telegram agent SOT | `…\hermes\.telegram-agent` |

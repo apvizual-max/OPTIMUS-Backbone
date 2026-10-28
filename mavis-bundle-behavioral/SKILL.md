@@ -54,6 +54,6 @@ The closest MCPs this category *uses* (but doesn't own):
 ## Cross-references
 
 - Skill index (single point of truth): `mavis-skill-index`
-- Classifier data: `C:\Users\apviz\.minimax-agent\projects\70_CONNECTORS\70_personal_skill_index.md` (248 Behavioral skills classified — review/evaluate/validate/etc.)
-- Taxonomy: `C:\Users\apviz\.minimax-agent\projects\00_INDEX\00_skill_taxonomy.md`
+- Classifier data: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\70_CONNECTORS\70_personal_skill_index.md` (248 Behavioral skills classified — review/evaluate/validate/etc.)
+- Taxonomy: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\00_INDEX\00_skill_taxonomy.md`
 - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §2` (R33), §3 (Triple Crunch), §6 (SOUL/CONSTINTA)
