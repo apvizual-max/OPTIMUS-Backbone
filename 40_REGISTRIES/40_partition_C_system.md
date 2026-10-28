@@ -61,6 +61,10 @@
 | `docker` | `C:\Program Files\Docker\Docker\resources\bin\docker.exe` | 29.8.0 |
 | `hf` (HuggingFace CLI, inside Hermes venv) | `C:\Users\apviz\AppData\Local\hermes\hermes-agent\venv\Scripts\hf.exe` | (Hermes-bundled) |
 
+| 2026-10-28 | **Botul Mavis Local Optimus CI creat si legat de sesiune** | `mavis-local-optimus-ci-bot` in `C:\Users\apviz\.minimax\agents\mavis\skills\`: rol, personalitate, scop, 9 functii (F1-F9), unelte, contract C1-C10, indexul skillurilor secundare (29 membri masurati pe disc, nu inventati). Registrul e executabil: `bot-doctor.mjs` (verify 77 verificari / doctor 32 pe sistemul real) cu falsificator propriu (`falsify.mjs`: 9/9 scenarii stricate duc verificatorul la ROSU). Legat in 7 locuri: frontmatter, `registry.json` -> session, `BUSOLA.md`, `AGENTS.md` §12, lifecycle, skill-index, bundle-operations. |
+| 2026-10-28 | **6 skilluri neincarcabile reparate (frontmatter lipsa)** | `mavis-cloud-bridge-skill`, `mavis-jules-contract-skill`, `mavis-live-review-governance-skill`, `mavis-search-before-write`, `mavis-git-vault-governance-skill` nu aveau frontmatter — routerul nu le vedea. Frontmatter adaugat aditiv (continut neatins) + back-link `bot:` la 6 membri. Masurat: 0 neincarcabile ramase. |
+| 2026-10-28 | **Regula carantinei, in memorie** | Popy: "voi sterge eu folderul din cand in cand tu daca ai asemenea situatii muti acolo. ca sa nu trebuiasca sa stergi foldere." Ce nu poate fi sters se muta in `E:\Google\GitData-Optimus-CI\.quarantine\` cu `MOTIV.txt`; mutarea se face prin container (bash-ul runtime-ului nu poate scrie in afara workspace-ului, iar stergerea recuperabila e respinsa pentru tinte din afara lui). |
+
 ## Open questions for Popy (R0)
 
 1. Are there other user folders on this machine Mavis should know about (e.g., a service account for the swarm)?
