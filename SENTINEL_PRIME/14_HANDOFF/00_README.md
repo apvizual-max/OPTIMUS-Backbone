@@ -57,7 +57,7 @@ rule that an edited file keeps its previous version. They are not content and
 are not part of the reading order; the same rule says nothing is deleted to
 make a folder tidy.
 
-### Six things that changed after this package was written
+### Nine things that changed after this package was written
 
 - **2026-10-28 — the repository was broken for every Windows clone.** `origin/main`
   carried a top-level directory whose name was the project's own absolute path,
@@ -119,6 +119,34 @@ make a folder tidy.
   MCP handshake), and the new class `ContextPressure` (43 assertions) was falsified against
   six mutants, each of which goes red. Details in R22 and in
   `14_CD_SYNC_AND_CADENCE_2026-10-28.md` §10.
+- **2026-10-28 — a document cited a commit that no reader could reach.** The local-commit
+  table in `12_GIT_GITHUB_STATE.md` named `ed0aabc`, a commit that exists in the
+  repository but is **not in the published history**: it is the orphan left behind by an
+  `--amend` (same parent, same second, different tree), kept alive only by the reflog.
+  No branch contains it, so a reader who clones cannot `git show` it — and the document
+  said nothing about that. Corrected to `8390ef1` (the commit that is in the history),
+  and the new control `Documented commits are reachable`
+  (`08_SELF_IMPROVEMENT\test_suite.py`) now requires every commit SHA cited in the
+  project's own history documents to be reachable from the published branch `main` — or
+  to be declared, in words, as an orphan. The scope was measured, not guessed: of 18,944
+  hex tokens in the documentation, only 42 in the documents that record this
+  repository's history are citations at all. The control is falsified in both
+  directions. Details in R23 and in `14_CD_SYNC_AND_CADENCE_2026-10-28.md` §12.
+- **2026-10-28 — the working tree was emptied, and the remote is why the project
+  survived.** Between 12:47:49 and 12:49:30 the project's working tree was deleted:
+  `.git` reduced to an empty directory, five project directories left as empty shells,
+  all 1,584 tracked files gone, not moved and not in the Recycle Bin. The live daemon
+  died with its own source file, and the deployment suite reported its clone-verifier
+  as missing because the instrument was gone from the disk. Nothing that had been
+  pushed was lost: the remote held `3757b53`, a fresh clone reproduced the tree
+  exactly, and the tree was rebuilt from the remote with `git init` + `fetch` +
+  `checkout -f` — 1,584 files, `HEAD` unchanged, the mirror recreated, the daemon
+  restarted. The work that had **not** been committed was lost and had to be rewritten;
+  so was `stash@{0}`, which lived inside the emptied `.git` — recovered afterwards from
+  the dashboard's git bundle. The same thing happened again at 13:09, when the other
+  instance merged this project's history into the dashboard repository and rewrote the
+  tree from its own copy. Details in R24 and in
+  `14_CD_SYNC_AND_CADENCE_2026-10-28.md` §13.
 
 **Figures in files 01–09 are from 2026-10-06** and are a snapshot, not the
 current state. The live numbers are in file 11 and in the status report at the

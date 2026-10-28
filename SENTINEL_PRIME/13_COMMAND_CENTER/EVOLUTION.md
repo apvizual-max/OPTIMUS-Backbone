@@ -2864,3 +2864,118 @@ The hub agrees (`measured: true, counter: 2, estimated_pct: 5`) and the
 monitor's own check agrees (`context pressure 5% (counter 2); the WARN
 threshold is 50%`).
 
+---
+
+## R23 - A document cited a commit that nobody could check out
+
+**Requested**: the same sweep - gaps, errors, bugs, silent failures,
+misalignments, monitors, daemons.
+
+**What was wrong.** `14_HANDOFF/12_GIT_GITHUB_STATE.md` listed the commits
+made after the migration, and one row read `| ed0aabc | starea runtime
+re-masurata |`. The commit is real - `git cat-file -t ed0aabc` answers
+`commit` - but it is **not in the published history**. It is the orphan left
+behind by an `--amend` (same parent `e4c3954`, same second, a tree that
+differs by three backup files), kept alive only by the reflog. No branch
+contains it: `git branch -a --contains ed0aabc` returns nothing.
+
+So the document pointed at a commit a reader who clones the repository cannot
+reach. Nothing was red: the table looked complete, the SHA looked right, and
+one row was unreachable. It is the same shape as every other defect this
+sweep has found - an inventory that names something unreachable reports
+itself as fine.
+
+**The population, measured before any rule was written.** 134 markdown files,
+18,944 distinct hex tokens, 36,288 citations. Almost none of them are
+citations of this repository's commits: 18,815 resolve to nothing here (UUID
+fragments from compaction summary filenames, the sha256 of files, and SHAs
+belonging to *other* projects - `MAVIS-OPTIMUS-CI`, `MAVIS-CLOUD`,
+`AP---ID-Systems`). A rule demanding that every hex token be a commit would
+have been a siren with no signal. The scope was cut by measurement: the
+documents that record **this** repository's history - the handoff set, the
+evolution log, the missteps log, the archived reports - hold **42**
+citations: **32** live commits, **4** foreign (each with a reason) and **1**
+the orphan.
+
+**The control.** `test_documented_commits_are_reachable`, in
+`08_SELF_IMPROVEMENT/test_suite.py`:
+
+1. a SHA that names a commit of this repository must be reachable from the
+   published branch `main` - or the document must declare it an orphan,
+   within 12 lines, in plain words;
+2. a SHA that names nothing here must be one of the declared foreign
+   citations, each carrying its reason;
+3. a SHA naming a blob or a tree is budgeted at 3, and reported.
+
+**The falsifier.** The defect was rebuilt inside the real document - the bare
+row, the orphan declaration removed - and the control was run against it:
+**red**, naming `ed0aabc` on the line it sits on. The document was then
+restored byte for byte (sha256 identical) and the control went green again.
+Both directions are also asserted inside the test: a fabricated SHA is
+classified `foreign`, a published commit `ok`, a commit outside `main`
+`orphan_commit`, and the declaration rule is checked both ways.
+
+**The correction in the document.** `ed0aabc` -> `8390ef1`, the commit that
+is in the history, plus the two commits missing from the table (`aa3d767`,
+the incident write-up, and `3757b53`, the runtime state committed by the
+other instance), and the measured commands that prove the claim.
+
+**The mirror, resynchronised.** The clone `.github-repo` had been left at
+`6a5b136` with **52** dirty files - the absolute-path rewrite applied by the
+other instance - and the ff-only merge was refused. Before touching anything,
+each of the 52 was compared with `origin/main`, CRLF-normalised: **46**
+identical, **6** still at their pre-C21 version, **0** carrying content that
+exists nowhere else. The local state was parked in a stash (recoverable, 52
+files), then `fetch` + `merge --ff-only` -> `Updating 6a5b136..3757b53`,
+`dirty=0`, **1,584** files, `HEAD` == `origin/main`.
+
+---
+
+## R24 - The tree was emptied a second time, and the remote is the only reason it survived
+
+**Requested**: the same sweep - gaps, errors, bugs, silent failures,
+misalignments, monitors, daemons.
+
+**What happened.** Between 12:47:49 and 12:49:30 the working tree of
+SENTINEL_PRIME was emptied. `.git` was reduced to an empty directory;
+`08_SELF_IMPROVEMENT`, `09_LOGS`, `11_BRAIN`, `12_PROGRAM` and
+`13_COMMAND_CENTER` were left as empty shells. All 1584 tracked files were
+deleted - not moved, and not to the Recycle Bin. The evidence is the
+timestamps of the directories that were emptied and the emptiness of what was
+left behind. The live system went with them: 8910 answered 502, 8912 refused
+the connection, because the daemon's own source had been removed from under
+it.
+
+**Why nothing was lost.** The history was on the remote, and it had been
+verified with an instrument before this happened: `git ls-remote` showed
+`refs/heads/main` = `3757b53`, and a fresh clone reproduced the tree exactly
+(1584 tracked files, `dirty=0`). The dashboard kept a second copy as a git
+bundle: `backups\_git_history\SENTINEL_PRIME.bundle`, 12:08:26, 34.7 MB.
+
+**What was lost anyway.** The work that was not committed: the control
+`Documented commits are reachable` and this documentation. Both were rewritten
+from the transcript of the session. And `stash@{0}` - the local-only state
+parked there at 12:14 - went with the emptied `.git`; it was recovered after
+all, from the bundle the dashboard keeps (`refs/stash` = `6892be1` - not in the
+published history, it lives in refs/stash), and
+re-registered with `git stash store`.
+
+**How it was restored.** `git init` into the empty shell, `remote add origin`,
+`fetch origin main`, `checkout -f -B main FETCH_HEAD` -> HEAD = `3757b53`,
+**1584** tracked files. The mirror `.github-repo` was recreated by a fresh
+clone (`dirty=0`, 1584 files) and the live system was brought back up.
+Nothing was reinstalled by hand and nothing was copied over the old tree: the
+tree came back from the same bytes the remote had.
+
+**What happened a third time, and what it means.** At 13:09 the other
+instance merged this project's history into the dashboard repository
+("Unire cu istoric complet: SENTINEL_PRIME"), removed the nested `.git`
+again, and rewrote the tree from its own copy - taking the uncommitted work
+with it, twice over. The tree content came back exactly at `3757b53`, which
+says the sync is faithful; what it cannot preserve is work that was never
+committed. **The lesson that generalises: a working tree that is not pushed
+is a working tree that can be taken away** - and the second copy of the
+history (the bundle) is what turned a total loss into a five-minute
+recovery.
+
+

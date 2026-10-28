@@ -8,6 +8,7 @@ All code/comments/messages in English.
 import sys
 import os
 import json
+import re
 import tempfile
 from pathlib import Path
 from datetime import datetime
@@ -3899,6 +3900,264 @@ def test_project_references_resolve():
 
 
 
+# --- SHA citations in this project's own history documents -------------------
+#
+# Measured 2026-10-28: `14_HANDOFF/12_GIT_GITHUB_STATE.md` cited `ed0aabc` as
+# the runtime-state commit. That commit is a real object in this repository,
+# but it is NOT in the published history: it is the orphan left behind by an
+# `--amend` (same parent, same second, different tree), kept alive only by
+# the reflog. Anyone who clones the repository cannot `git show` it, and the
+# document did not say so - the citation looked authoritative and pointed
+# nowhere.
+#
+# The shape is the one this suite already hunts: an inventory that names
+# something which cannot be reached reports itself as fine.
+
+_SHA_TOKEN_RE = re.compile(r'(?<![0-9A-Fa-f])([0-9a-f]{7,40})(?![0-9A-Fa-f])')
+
+# Citations that name something OUTSIDE this repository's history. Each entry
+# carries the reason it is not this project's commit, so the allowance is
+# visible instead of being a silent pass. Measured 2026-10-28.
+FOREIGN_CITATIONS_ALLOWED = {
+    '9c35528': 'HEAD of the exterior repository (projects\\scripts), not a git repo here',
+    '89a39a38': 'background task id (bg_89a39a38), not a commit',
+    'c6dc466': 'head of the AP---ID-Systems repository, a different project',
+    '4acc5bbc': 'sha256 of the Startup anchor .bat file, not a git object',
+    '86989b62': 'sha256 of the blueprint config (OPTIMUS_MCP_CONFIG.json), not a git object',
+}
+
+# An orphan commit MAY be cited, but only where the document says what it is.
+# Without this rule, a document could not report the very defect this control
+# was written for.
+_ORPHAN_DECLARATION_MARKERS = (
+    'orphan',
+    'orfan',
+    'nu e in istoria publicata',
+    'not in the published history',
+    'not reachable',
+    'reflog',
+    'amend',
+)
+
+# The orphans this project knows about. A document may cite one of these where
+# it declares what it is; a NEW orphan has to be listed here, with its
+# reason, before the documents are allowed to mention it.
+ORPHAN_CITATIONS_ALLOWED = {
+    'ed0aabc': 'the orphan left behind by an --amend on 2026-10-28; it is not in '
+               'the published history and a clone cannot check it out',
+    '6892be1': 'the recovered stash commit (refs/stash) from the dashboard bundle; '
+               'it is not in the published history either',
+}
+
+
+def _normalize_text(text):
+    """Lowercase and strip diacritics, so markers are language-independent."""
+    import unicodedata
+    folded = unicodedata.normalize('NFKD', text)
+    stripped = ''.join(c for c in folded if not unicodedata.combining(c))
+    return stripped.lower()
+
+
+def _doc_sha_citations(text):
+    """Every SHA-shaped token in a document, with the line it sits on.
+
+    A token only counts when it looks like a hash: it must contain a hex
+    letter AND a digit. Counter fields (00000000001) and hex-shaped words
+    are not citations.
+    """
+    out = []
+    for line_no, line in enumerate(text.splitlines(), 1):
+        for m in _SHA_TOKEN_RE.finditer(line):
+            tok = m.group(1)
+            if not re.search(r'[a-f]', tok) or not re.search(r'[0-9]', tok):
+                continue
+            out.append((tok, line_no, line.strip()))
+    return out
+
+
+def _classify_citation(tok, published, commit_shas, kinds):
+    """Classify one cited SHA against the published history.
+
+    ok            - the commit is in the published branch
+    orphan_commit - a commit of this repository that is NOT in the published
+                    branch: a reader who clones cannot check it out
+    other_object  - the token names a blob or a tree, not a commit
+    foreign       - the token names nothing in this repository
+    """
+    if tok in published or any(s.startswith(tok) for s in published):
+        return 'ok'
+    if tok in kinds:
+        return 'orphan_commit' if kinds[tok] == 'commit' else 'other_object'
+    if any(c.startswith(tok) for c in commit_shas):
+        return 'orphan_commit'
+    return 'foreign'
+
+
+def _orphan_is_declared(window):
+    """True when the text around a citation says the commit is an orphan.
+
+    Measured 2026-10-28: the window is 12 lines either side. A document may
+    cite a commit that is NOT in the published history, but only where it
+    says what that commit is - otherwise a reader has no way to tell an
+    orphan from a live commit.
+    """
+    flat = _normalize_text(window)
+    return any(marker in flat for marker in _ORPHAN_DECLARATION_MARKERS)
+
+
+def _history_document_scope():
+    """The documents that record THIS repository's history.
+
+    A rule, not a hand-written list of filenames, so a new handoff document
+    is covered the moment it lands.
+    """
+    out = []
+    handoff = WORKSPACE / '14_HANDOFF'
+    if handoff.is_dir():
+        out += [p for p in sorted(handoff.glob('*.md')) if '.bak' not in p.name]
+    for rel in ('13_COMMAND_CENTER/EVOLUTION.md',
+                '11_BRAIN/04_METHOD/MISSTEPS_AND_CORRECTIONS.md',
+                'README.md', '00_README.md'):
+        p = WORKSPACE / rel
+        if p.is_file():
+            out.append(p)
+    archive = WORKSPACE / 'raport-archive'
+    if archive.is_dir():
+        out += [p for p in sorted(archive.glob('*.md')) if '.bak' not in p.name]
+    return out
+
+
+def test_documented_commits_are_reachable():
+    """Every commit SHA this project's own documents cite must be checkable.
+
+    Measured 2026-10-28: the handoff document cited `ed0aabc` as a commit.
+    The commit exists in this repository but is NOT in the published history:
+    it is the orphan left by an `--amend`, reachable only through the
+    reflog. A reader who clones the repository cannot `git show` it, and
+    nothing in the document said so.
+
+    Checked:
+      1. A SHA that names a commit of THIS repository must be reachable from
+         the published branch `main` - or the document must declare that it
+         is an orphan, with the reason.
+      2. A SHA that names nothing here must be one of the declared foreign
+         citations, each with a written reason.
+      3. POLARITY and CONTROL on the classifier itself: a fabricated SHA is
+         reported, a published SHA is accepted, and a commit outside the
+         published branch is reported as an orphan.
+
+    Deliberately out of scope, each for a measured reason:
+      - `14_HANDOFF/SKILLS/` - documents about OTHER repositories
+        (MAVIS-OPTIMUS-CI, MAVIS-CLOUD); their SHAs are not ours.
+      - `11_BRAIN/02_CHAPTERS/` and `11_PLANS/` - narrative; 149 of their
+        hex tokens are UUID fragments from compaction summary filenames.
+      - `.transcripts/`, `11_BRAIN/01_RAW/`, `_QUARANTINE/`, `*.bak*` - raw
+        or archived copies, excluded from the project on purpose.
+    """
+    result = TestResult('Documented commits are reachable')
+
+    import subprocess
+
+    def git_text(*args):
+        p = subprocess.run(['git', '-C', str(WORKSPACE)] + list(args),
+                           capture_output=True, text=True, errors='replace')
+        return p.returncode, p.stdout
+
+    rc, revs = git_text('rev-list', 'main')
+    if rc != 0:
+        result.skip('git rev-list main unavailable: %s' % revs.strip()[:200])
+        return result
+    published = [s for s in revs.split() if s]
+
+    rc, objs = git_text('cat-file', '--batch-all-objects',
+                         '--batch-check=%(objectname) %(objecttype)')
+    if rc != 0:
+        result.skip('git cat-file --batch-all-objects unavailable: %s'
+                    % objs.strip()[:200])
+        return result
+    kinds = {}
+    for line in objs.splitlines():
+        parts = line.split()
+        if len(parts) == 2:
+            kinds[parts[0]] = parts[1]
+    commit_shas = {s for s, k in kinds.items() if k == 'commit'}
+
+    scope = _history_document_scope()
+    buckets = {'ok': [], 'orphan_commit': [], 'other_object': [], 'foreign': []}
+    total_citations = 0
+    for path in scope:
+        try:
+            text = path.read_text(encoding='utf-8', errors='replace')
+        except Exception as exc:
+            result.error('cannot read %s: %s' % (path.name, exc))
+            continue
+        rel = path.relative_to(WORKSPACE).as_posix()
+        lines = text.splitlines()
+        for tok, line_no, line in _doc_sha_citations(text):
+            total_citations += 1
+            verdict = _classify_citation(tok, published, commit_shas, kinds)
+            window = '\n'.join(lines[max(0, line_no - 13):line_no + 12])
+            buckets[verdict].append((rel, tok, line_no, line, window))
+
+    orphans = buckets['orphan_commit']
+    foreign = buckets['foreign']
+    others = buckets['other_object']
+
+    result.assert_true(len(scope) >= 5,
+                       'scanned %d history documents (floor: 5)' % len(scope))
+    result.assert_true(total_citations >= 20,
+                       'scanned %d SHA citations (floor: 20, so an empty scan cannot pass)'
+                       % total_citations)
+
+    # A citation that is not a published commit must be DECLARED: as an orphan
+    # (the text says what it is) or as a foreign reference (the allowlist
+    # carries the reason). Measured 2026-10-28: the same document cited the
+    # orphan `ed0aabc` twice - once while the object still existed in the
+    # local repository, once after a fresh clone where it does not exist at
+    # all. The declaration is what makes both readings acceptable.
+    undeclared = []
+    declared_tokens = set()
+    declared_count = 0
+    for rel, tok, line_no, line, window in orphans + foreign:
+        if _orphan_is_declared(window) and tok in ORPHAN_CITATIONS_ALLOWED:
+            declared_tokens.add(tok)
+            declared_count += 1
+            continue
+        if tok in FOREIGN_CITATIONS_ALLOWED:
+            continue
+        undeclared.append('%s L%d -> %s' % (rel, line_no, tok))
+    result.assert_equals(undeclared, [],
+                         'a cited SHA that is not a published commit must be declared: '
+                         'as a known orphan, or as a foreign reference with a reason')
+    result.assert_true(declared_tokens <= set(ORPHAN_CITATIONS_ALLOWED),
+                       'orphans declared by the documents: %s (known: %s) across %d citations'
+                       % (sorted(declared_tokens), sorted(ORPHAN_CITATIONS_ALLOWED), declared_count))
+
+    result.assert_true(len(others) <= 3,
+                       'citations naming a blob or tree rather than a commit: %d (budget 3) -> %s'
+                       % (len(others), sorted({t for _, t, _, _, _ in others})))
+
+    # -- POLARITY and CONTROL on the classifier itself --------------------
+    real = published[0]
+    result.assert_equals(_classify_citation(real, published, commit_shas, kinds), 'ok',
+                         'CONTROL: a published commit is accepted')
+    result.assert_equals(_classify_citation('deadbee1234567', published, commit_shas, kinds),
+                         'foreign',
+                         'POLARITY: a fabricated SHA resolves to nothing and is not accepted')
+    result.assert_equals(
+        _classify_citation('deadbee1234567', published,
+                           {'deadbee1234567': 'commit'}, commit_shas),
+        'orphan_commit',
+        'POLARITY: a commit outside the published branch is reported as an orphan')
+
+    result.assert_true(_orphan_is_declared('commit ed0aabc is an orphan, kept only by the reflog'),
+                       'POLARITY: an orphan the text declares is accepted')
+    result.assert_false(_orphan_is_declared('| `ed0aabc` | starea runtime re-masurata |'),
+                        'POLARITY: an orphan with no declaration is not accepted')
+
+    return result
+
+
 def test_prime_bridge_find_files():
     """Test prime_find_files from prime_bridge_server."""
     result = TestResult('PrimeBridgeFindFiles')
@@ -4356,6 +4615,7 @@ def run_all_tests():
         test_gap_register_integrity,
         test_append_only_integrity,
         test_project_references_resolve,
+        test_documented_commits_are_reachable,
         test_prime_bridge_list_area,
         test_prime_bridge_find_files,
     ]

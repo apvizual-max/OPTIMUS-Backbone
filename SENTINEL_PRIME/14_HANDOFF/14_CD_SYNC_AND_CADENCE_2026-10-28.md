@@ -511,4 +511,95 @@ eliminat când nicio referință nu mai depinde de ea — verificabil cu o căut
 după `projects\SENTINEL_PRIME` în codul viu. Până atunci, el e ce păstrează
 funcționând ancorele de startup și daemonii.
 
+### §12 — Mirrorul resincronizat, și un SHA pe care nimeni nu-l putea aduce la `git show`
+
+**12.1 — Mirrorul `.github-repo`.** Clona de lucru a rămas la `6a5b136`, cu
+**52 de fișiere dirty** — rescrierea căii absolute aplicată de cealaltă
+instanță — și `merge --ff-only` refuza modificările locale.
+
+*Înainte de orice ștergere*, fiecare dintre cele 52 de fișiere a fost comparat
+cu `origin/main`, cu normalizarea CRLF: **46** identice, **6** în versiunea
+pre-C21 (mirrorul nu văzuse comitul C21), **0** conținut unic. Conținutul
+era, așadar, integral în `origin/main`.
+
+Starea locală a fost **parcată în stash** (`git -C .github-repo stash push`),
+apoi `fetch` + `merge --ff-only` → `Updating 6a5b136..3757b53` /
+`Fast-forward`, `dirty=0`, **1.584 fișiere**, `HEAD` identic cu
+`origin/main`. Starea parcată rămâne recuperabilă: `git -C .github-repo
+stash list` → `stash@{0}` (52 de fișiere).
+
+**12.2 — Un SHA care nu poate fi adus la `git show`.** Tabelul comiturilor
+din `12_GIT_GITHUB_STATE.md` cita `ed0aabc`. Comitul există — `git cat-file -t
+ed0aabc` răspunde `commit` — dar **nu e în istoria publicată**: e orfanul lăsat
+de un `--amend` (același părinte `e4c3954`, aceeași secundă, arbore diferit cu
+3 fișiere de backup), ținut în viață doar de reflog. `git branch -a
+--contains ed0aabc` nu întoarce nimic.
+
+Cititorul care clonează repository-ul **nu îl poate aduce la `git show`**,
+iar documentul nu spunea nimic despre asta. Comitul aflat în istorie este
+`8390ef1`.
+
+Măsurat: `git rev-list main` nu îl conține; `git rev-parse 8390ef1^{tree}` ≠
+`git rev-parse ed0aabc^{tree}`.
+
+**Controlul adăugat:** `Documented commits are reachable` — orice SHA citat în
+documentele care țin istoria acestui repository, dacă e commit în el, trebuie
+să fie **accesibil din ramura publicată `main`** sau declarat, în cuvinte, ca
+orfan. Populația a fost măsurată înainte de scrierea regulii: din 18.944 de
+token-uri hex în documentație, doar 42 în domeniul potrivit sunt citări — 32
+de commituri vii, 4 străine (fiecare cu motivul), 1 orfan.
+
+Falsificat în ambele direcții: defectul reconstruit în documentul real →
+controlul **roșu**, numărând `ed0aabc`; documentul restaurat octet cu octet
+(sha256 identic) → **verde**.
+
+### §13 — Arborele a fost golit a doua oară (12:47:49 – 12:49:30)
+
+**Ce s-a întâmplat.** Arborele de lucru al proiectului a fost **golit**:
+`.git` a rămas un director gol, iar `08_SELF_IMPROVEMENT`, `09_LOGS`,
+`11_BRAIN`, `12_PROGRAM` și `13_COMMAND_CENTER` au rămas ca învelișuri vide.
+Toate cele **1.584** de fișiere urmărite au fost șterse — **nu mutate**, și
+**nu în Recycle Bin**: în metadatele `$I...` din Recycle Bin nu există nicio
+intrare pentru acest arbore la ora aceea. Dovezile sunt timestamps-urile
+directorilor golite și faptul că ce a rămas în ele e gol.
+
+Sistemul viu a căzut odată cu ele: `8910` a răspuns 502, `8912` a refuzat
+conexiunea — daemon-ul își pierduse propriul fișier sursă. Deployment suite
+a raportat `cd_clone_verifier_present` ca **not-run**: instrumentul pe care îl
+verifică nu mai era pe disc.
+
+**Ce nu s-a pierdut.** Istoricul era pe remote, și fusese verificat cu
+instrumentul înainte: `git ls-remote` → `refs/heads/main` = `3757b53`, iar o
+clonă nouă a reproduș exact arborele (1.584 fișiere urmăriți, `dirty=0`).
+Dashboardul mai păstra o a doua copie, ca bundle git:
+`backups\_git_history\SENTINEL_PRIME.bundle`, 12:08:26, 34,7 MB — care a
+ținut și `refs/stash` = `6892be1` — **nu e în istoria publicată**, trăiește în `refs/stash` — adică starea local-only pierdută odată cu
+`.git`.
+
+**Ce s-a pierdut oricum.** Lucrarea necomitată: controlul `Documented commits
+are reachable` și documentația lui — rescrise din transcriptul sesiunii. Și
+`stash@{0}` (starea local-only parcată la 12:14), care trăia în `.git` și a
+dispărut odată cu el; recuperat ulterior din bundle, cu `git stash store`.
+
+**Cum a fost refăcut.** `git init` în coaja goală, `remote add origin`,
+`fetch origin main`, `checkout -f -B main FETCH_HEAD` → `HEAD = 3757b53`,
+**1.584** fișiere urmărite. Mirrorul `.github-repo` a fost recreat prin clonă
+nouă (`dirty=0`, 1.584 fișiere) și sistemul viu a fost repornit. Nimic nu a
+fost reinstalat cu mâna și nimic nu a fost copiat peste vechiul arbore:
+arborele a venit din aceiași octe pe care îi avea remote-ul.
+
+**A treia oară, la 13:09.** Cealaltă instanță a contopit istoricul proiectului
+în repository-ul dashboard-ului („Unire cu istoric complet: SENTINEL_PRIME"),
+a scos din nou `.git` imbricat și a rescris arborele din propria copie —
+luând cu ea lucrarea necomitată. Conținutul a revenit exact la `3757b53`
+(9 fișiere runtime și 3 ne-tracked diferă), deci sincronizarea e fidelă; ce
+nu poate păstra e lucrarea care nu a fost comitată.
+
+**De ce contează.** Un arbore de lucru necomitat este un arbore de lucru care
+poate fi luat. Instrumentul care verifică remote-ul
+(`scripts\verify-remote-clone.ps1`) a supraviețuit pentru că este **urmărit în
+git** — și nu pentru că era „pe mașină". Diferența dintre un instrument și un
+fișier care se află în întuneric e exact diferența dintre „am recuperat
+proiectul" și „am recuperat un proiect".
+
 

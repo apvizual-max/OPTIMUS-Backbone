@@ -974,3 +974,62 @@ restore the real modules afterwards. And when a new test breaks an old one,
 ask what it leaves behind in `sys.modules` and on `sys.path` before asking
 what it changed in the code.
 
+### M-42 (2026-10-28) - Un SHA citat intr-un document poate sa nu existe in istoria publicata
+
+**What happened.** `14_HANDOFF/12_GIT_GITHUB_STATE.md` listed the commits made
+after the migration, and one row named `ed0aabc`. The commit exists - it is a
+real object in the repository - but it is **not in the published history**: it
+is the orphan left by an `--amend` (same parent, same second, different tree),
+reachable only through the reflog. A reader who clones the repository cannot
+`git show` it. The table was complete, the SHA was plausible, the row was
+unreachable, and no suite had ever looked at what the documents cite.
+
+The defect is not the wrong SHA. It is that **the document was the only place
+where the claim lived**. A commit table is an inventory: it says "these are
+the commits that made this state". An inventory that names something which
+cannot be reached reports itself as fine - the same shape as a gap register
+that claims a monitor is built while the monitor never ran.
+
+Measured, in both directions: the defect rebuilt inside the real document ->
+the control is **red** and names `ed0aabc` on its line; the document restored
+byte for byte (sha256 identical) -> **green**. Inside the test the classifier
+is asserted both ways: a fabricated SHA is `foreign`, a published commit is
+`ok`, a commit outside `main` is `orphan_commit`, and the declaration rule is
+checked in both directions.
+
+*Correction in force:* **a citation is a claim about reachability, not about
+existence.** Before a document names a commit, that commit must be reachable
+from the published branch - or the document must say, in words, why it is
+not. And measure the population before writing the rule: of 18,944 hex tokens
+in the documentation, only 42 in the documents that record this repository's
+history are citations at all, 4 are foreign and 1 was the orphan. A rule
+written against the whole population would have been noise - and noise is how
+a monitor gets ignored.
+
+### M-43 (2026-10-28) - Un arbore de lucru necomitat este un arbore de lucru care poate fi luat
+
+**What happened.** Twice. Between 12:47:49 and 12:49:30 the working tree of
+SENTINEL_PRIME was emptied: `.git` reduced to an empty directory, five
+project directories left as empty shells, all 1584 tracked files deleted and
+not moved to the Recycle Bin. The live daemon died with its own source file,
+and the deployment suite lost two checks because the verifier it drives was
+gone from the disk. At 13:09 the same tree was rewritten from the dashboard
+repository's copy, taking the uncommitted work with it.
+
+Nothing that had been pushed was lost, both times. The remote held `3757b53`,
+a fresh clone reproduced the tree exactly, and the tree was rebuilt from the
+remote with `git init` + `fetch` + `checkout -f`. What *was* lost: the work
+that was not committed - the new control and its documentation, rewritten
+from the session transcript twice - and `stash@{0}`, which lived inside the
+`.git` directory that was emptied (recovered afterwards from the bundle the
+dashboard keeps).
+
+*Correction in force:* **commit before the next thing, not after it.** The
+gap between "the work is done" and "the work is pushed" is a window in which
+the only copy of that work is a folder somebody else can delete. And the
+recovery is only as good as the thing that was verified before it: the
+instrument that checks the remote survived because it was *tracked*, which
+is the difference between an instrument and a file that happens to be lying
+around on one machine.
+
+

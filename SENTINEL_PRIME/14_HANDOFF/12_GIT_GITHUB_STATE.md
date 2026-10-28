@@ -205,7 +205,7 @@ invalidă singur. Starea curentă se citește cu `git ls-remote origin refs/head
 |---|---|
 | Locație | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\.github-repo` |
 | Origine | clonă a aceluiași repository, la `main` |
-| Statut | **resincronizată**: `dirty=0`, **1.547 fișiere**, `HEAD` identic cu `main` local — SHA-ul se citește, nu se memorează: `git -C .github-repo rev-parse HEAD` |
+| Statut | **resincronizată**: `dirty=0`, **1.584 fișiere**, `HEAD` identic cu `main` local — SHA-ul se citește, nu se memorează: `git -C .github-repo rev-parse HEAD` |
 | În `.gitignore` | **da**, cu motiv scris — e copie de lucru, nu conținut de proiect |
 
 **Cum se resincronizează.** Cu `git -C .github-repo pull --ff-only` după orice push
@@ -215,6 +215,17 @@ nou. Când mirrorul trebuie adus la un commit **local, neîmpins încă**, se fa
 Măsurat pe 28 oct: `Updating 7cf6d4b..aa49c72` / `Fast-forward`, apoi încă o
 fast-forward până la comitul de documentație; `dirty=0`, **1.547 fișiere** — același
 număr ca arborele principal, și `HEAD` identic cu `main`.
+
+**Măsurat din nou la 12:14**, după incidentul de mutare (vezi §9): mirrorul era
+blocat la `6a5b136` cu **52 de fișiere** dirty — rescrierea căii absolute
+aplicată de cealaltă instanță. Cele 52 au fost **clasificate unu/unu** contra
+`origin/main`, cu normalizarea CRLF: **46 identice** cu `origin/main`,
+**6** în versiunea pre-C21 (mirrorul nu văzuse comitul C21), **0** conținut
+unic. Nimic nu s-a pierdut: starea locală a fost **parcată în stash**
+(`git -C .github-repo stash push`), apoi `fetch` + `merge --ff-only` →
+`Updating 6a5b136..3757b53` / `Fast-forward`, `dirty=0`, **1.584 fișiere**,
+`HEAD` identic cu `origin/main`. Starea parcată rămâne recuperabilă:
+`git -C .github-repo stash list` → `stash@{0}` (52 de fișiere).
 
 ## 6. Ce trebuie știut înainte de orice push
 
@@ -297,4 +308,28 @@ Comituri locale, după incident:
 |---|---|
 | `237d47e` | rescrierea căii absolute în 60 de fișiere (42 reparate de migrare, 18 completate acum: cod viu + blueprint) |
 | `e4c3954` | CONCEPT_C21: monitorul de presiune de context măsurat, nu anunțat; 5 defecte reparate, 43 de aserțiuni, 6 mutante falsificate |
-| `ed0aabc` | starea runtime re-măsurată |
+| `8390ef1` | starea runtime re-măsurată |
+| `aa3d767` | incidentul de mutare consemnat: arborele, Recycle Bin, calea și măsurătorile refăcute |
+| `3757b53` | starea runtime, instanța de la integrarea în SOT (**alta instanță**, doar stare runtime — 5 fișiere) |
+
+**Un SHA citat aici a fost corectat: `ed0aabc` → `8390ef1`.** `ed0aabc` *există*
+ca obiect în repository, dar **nu e în istoria publicată**: e orfanul lăsat de
+un `--amend` (același părinte `e4c3954`, aceeași secundă, arbore diferit cu 3
+fișiere de backup) și e ținut în viață doar de reflog. Un cititor care clonează
+repository-ul **nu îl poate aduce la `git show`** — și documentul nu spunea
+nimic despre asta. Comitul aflat în istorie este `8390ef1`.
+
+Măsurat: `git cat-file -t ed0aabc` → `commit`; `git branch -a --contains
+ed0aabc` → niciuna; `git rev-list main` nu îl conține; `git rev-parse
+8390ef1^{tree}` ≠ `git rev-parse ed0aabc^{tree}`.
+
+De aceea există acum controlul `Documented commits are reachable`
+(`08_SELF_IMPROVEMENT\test_suite.py`): orice SHA citat în documentele de
+istorie ale proiectului, dacă e commit în acest repository, trebuie să fie
+**accesibil din ramura publicată `main`**.
+
+**`stash@{0}` a fost pierdut odată cu arborele și recuperat din bundle.**
+Parcat la 12:14, în `.git` — care a fost golit odată cu arborele (vezi
+`14_CD_SYNC_AND_CADENCE_2026-10-28.md` §13). A fost recuperat din
+`backups\_git_history\SENTINEL_PRIME.bundle` al dashboard-ului (`refs/stash`
+= `6892be1`, 29 de fișiere — **nu e în istoria publicată**, trăiește în `refs/stash`) și re-înregistrat cu `git stash store`.
