@@ -1,9 +1,4 @@
-﻿{"ts":"2026-10-11T00:50:13.9418616+03:00","status":"DEGRADED","ok":45,"fail":0,"stale":11,"notrun":0,"mode":"MODE_B","corpus_messages":955}
-{"ts":"2026-10-11T00:50:50.7402182+03:00","status":"DEGRADED","ok":45,"fail":0,"stale":11,"notrun":0,"mode":"MODE_B","corpus_messages":955}
-{"ts":"2026-10-11T00:51:28.3005597+03:00","status":"DEGRADED","ok":45,"fail":0,"stale":11,"notrun":0,"mode":"MODE_B","corpus_messages":955}
-{"ts":"2026-10-11T00:52:19.8322633+03:00","status":"DEGRADED","ok":45,"fail":0,"stale":11,"notrun":0,"mode":"MODE_B","corpus_messages":955}
-{"ts":"2026-10-11T00:52:56.4930032+03:00","status":"DEGRADED","ok":45,"fail":0,"stale":11,"notrun":0,"mode":"MODE_B","corpus_messages":955}
-{"ts":"2026-10-11T00:53:32.9508857+03:00","status":"DEGRADED","ok":45,"fail":0,"stale":11,"notrun":0,"mode":"MODE_B","corpus_messages":955}
+﻿{"ts":"2026-10-11T00:53:32.9508857+03:00","status":"DEGRADED","ok":45,"fail":0,"stale":11,"notrun":0,"mode":"MODE_B","corpus_messages":955}
 {"ts":"2026-10-11T00:54:09.8051893+03:00","status":"DEGRADED","ok":45,"fail":0,"stale":11,"notrun":0,"mode":"MODE_B","corpus_messages":955}
 {"ts":"2026-10-11T00:55:01.0967834+03:00","status":"DEGRADED","ok":45,"fail":0,"stale":11,"notrun":0,"mode":"MODE_B","corpus_messages":955}
 {"ts":"2026-10-11T00:55:38.3036976+03:00","status":"DEGRADED","ok":45,"fail":0,"stale":11,"notrun":0,"mode":"MODE_B","corpus_messages":955}
@@ -1998,4 +1993,8 @@
 {"ts":"2026-10-28T07:35:56.3470705+02:00","status":"DEGRADED","ok":55,"fail":0,"stale":1,"notrun":0,"mode":"MODE_B","corpus_messages":955}
 {"ts":"2026-10-28T07:36:33.4873729+02:00","status":"DEGRADED","ok":55,"fail":0,"stale":1,"notrun":0,"mode":"MODE_B","corpus_messages":955}
 {"ts":"2026-10-28T07:37:12.6502023+02:00","status":"DEGRADED","ok":55,"fail":0,"stale":1,"notrun":0,"mode":"MODE_B","corpus_messages":955}
- 
+{"ts":"2026-10-28T07:37:49.3699797+02:00","status":"DEGRADED","ok":55,"fail":0,"stale":1,"notrun":0,"mode":"MODE_B","corpus_messages":955}
+{"ts":"2026-10-28T07:38:26.2705278+02:00","status":"DEGRADED","ok":55,"fail":0,"stale":1,"notrun":0,"mode":"MODE_B","corpus_messages":955}
+{"ts":"2026-10-28T07:39:02.8435421+02:00","status":"DEGRADED","ok":54,"fail":0,"stale":2,"notrun":0,"mode":"MODE_B","corpus_messages":955}
+{"ts":"2026-10-28T07:39:41.7849995+02:00","status":"DEGRADED","ok":54,"fail":0,"stale":2,"notrun":0,"mode":"MODE_B","corpus_messages":955}
+{"ts":"2026-10-28T07:40:17.8495860+02:00","status":"DEGRADED","ok":54,"fail":0,"stale":2,"notrun":0,"mode":"MODE_B","corpus_messages":955}

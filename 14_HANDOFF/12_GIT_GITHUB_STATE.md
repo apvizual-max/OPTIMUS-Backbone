@@ -40,14 +40,15 @@ Atestation-ul se face manual: `lrc review --vouch --staged` înainte de commit.
 
 | | Valoare | Ora |
 |---|---|---|
-| Ramură locală | `main` | 03:12 |
-| `HEAD` local | `git rev-parse HEAD` (la 03:12: `956485e`, commitul de lucru) | 03:12 |
-| `origin/main` | **identic** — `git ls-remote origin refs/heads/main` | 03:12 |
-| Ahead / behind | **0 / 0** | 03:12 |
-| Comituri pe `main` | **58** | 03:12 |
-| Fișiere urmărite | 1.485 | 03:12 |
+| Ramură locală | `main` | 07:50 |
+| `HEAD` local | `git rev-parse HEAD` (la 07:50: `8b7be11`, comitul de lucru al auditului) | 07:50 |
+| `origin/main` | `git ls-remote origin refs/heads/main` → `7cf6d4b` | 07:50 |
+| Ahead / behind | **0 / 2** — doi comituri locali neîmpinși | 07:50 |
+| Comituri pe `main` | **68** | 07:50 |
+| Fișiere urmărite | 1.526 | 07:50 |
 | Obiecte git | 1.481, `size-pack` 1,54 MiB | 02:34 |
 | Stash | `stash@{0}` — snapshot pre-sync, păstrat | 02:34 |
+| Ramuri (local / remote) | `main` / `origin`, `origin/main` — **una singură**, fără ramuri de feature | 07:50 |
 
 **SHA-ul nu e scris ca cifră aici pentru că s-ar invalida singur** la fiecare
 commit. Se citește:
@@ -57,8 +58,20 @@ git rev-parse HEAD          # local
 git ls-remote origin main   # remote  <- asta e verificarea de push
 ```
 
-Cifrele de mai sus sunt cele măsurate la **03:12 pe 28 oct**. După ultimul
-commit al sesiunii, SHA-ul final e în mesajul de commit.
+Cifrele de mai sus sunt cele măsurate la **03:12 pe 28 oct**, plus re-măsurarea de
+la **07:50 pe 28 oct** (sesiunea de preluare: auditul registrului de gap-uri).
+După ultimul commit al sesiunii, SHA-ul final e în mesajul de commit.
+
+### Ce a rămas neîmpins la 07:50 pe 28 oct
+
+| comit | ce | de ce |
+|---|---|---|
+| `a80bf49` | `chore: update health.json` — starea runtime rescisa de daemon | era deja neîmpins la începutul sesiunii |
+| `8b7be11` | registrul de gap-uri reparat: 13 intrări închise prin măsurătoare, constructorul îmbinează în loc să suprascrie, control falsificat | sesiunea de preluare |
+
+**Push = R0.** Nimic nu s-a împins. Verificarea de push rămâne
+`scripts\verify-remote-clone.ps1` — instrument, nu ochi: `VERDICT=PASS` / `FAIL`
+(exit 0 / 2).
 
 ### Comitul de reparare `e89887f`
 
@@ -173,3 +186,10 @@ Se resincronizează după orice push nou, cu `git -C .github-repo pull --ff-only
   și log-uri. Se schimbă cu o comandă.
 - **`.github-repo`** e cerut de Popy ca locul build-ului sincronizat. Nu se
   publică niciodată: conține corpusul.
+- **Noua, 2026-10-28 07:50 — `HPROF_NPX_LAUNCH`.** Blueprintul pornește cele două
+  servere de profil npm (`filesystem`, `browser`) cu comanda bare `npx`, care pe
+  Windows e un batch file și nu s-a putut lansa dintr-un launcher fără shell
+  (`WinError 2`, măsurat). Profilul MCP viu folosește shim-ul `.cmd` instalat.
+  Repointarea unei declarații e decizia lui Popy; precedentul există și e ratificat
+  (2026-10-10, `web-tools` și `git` repointate de la pachete npm fantomă la servere
+  locale). Detalii: `13_GAP_REGISTER_AUDIT_2026-10-28.md` §8.
