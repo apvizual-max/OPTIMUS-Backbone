@@ -1,1 +1,0 @@
-﻿baseline: 11 panels, whitelist, SSE, NOT_MEASURED

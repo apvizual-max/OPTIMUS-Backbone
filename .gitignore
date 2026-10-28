@@ -114,3 +114,36 @@ scratch/
 node_modules/
 __pycache__/
 *.pyc
+
+# ── STAREA RUNTIME DIN SENTINEL_PRIME: NU SE URMARESTE IN ISTORIC ──────────
+# MASURAT 2026-10-28: aceste fisiere se rescriu continuu (serverul SENTINEL
+# ruleaza pe 8912, motorul de self-improvement scrie la fiecare ciclu). In
+# monorepo, un arbore pe care nu-l poti pastra curent nu e un arbore: fiecare
+# commit ar ingropa o urma de stare, nu o schimbare.
+#
+# REGULA: fisierele RAMAN PE DISK, vizibile, si in istoricul de acum inainte
+# (snapshot-urile raman in commit-uri). Ce se schimba: nu mai sunt urmarite.
+# Nimic nu se sterge. Nimic nu se ascunde - exceptia e scrisa aici, cu motiv.
+#
+# Aceasta este o schimbare fata de .gitignore-ul propriu al SENTINEL_PRIME,
+# care spune "nothing is excluded on purpose". Schimbarea e necesara pentru
+# monorepo si e consemnata in mesajul de commit, nu aplicata in taceri.
+SENTINEL_PRIME/09_LOGS/
+SENTINEL_PRIME/13_COMMAND_CENTER/logs/
+SENTINEL_PRIME/13_COMMAND_CENTER/api/health.json
+SENTINEL_PRIME/13_COMMAND_CENTER/api/minimax-ecosystem.json
+SENTINEL_PRIME/13_COMMAND_CENTER/api/sentinel-state.json
+SENTINEL_PRIME/13_COMMAND_CENTER/api/state-history.jsonl
+SENTINEL_PRIME/13_COMMAND_CENTER/api/deployment-tests.json
+SENTINEL_PRIME/13_COMMAND_CENTER/api/last_test_run.json
+SENTINEL_PRIME/13_COMMAND_CENTER/api/verify-report.json
+SENTINEL_PRIME/13_COMMAND_CENTER/api/sentinel-cc.log
+SENTINEL_PRIME/13_COMMAND_CENTER/api/sentinel-cc.err.log
+SENTINEL_PRIME/13_COMMAND_CENTER/api/sentinel-cc.pid
+SENTINEL_PRIME/08_SELF_IMPROVEMENT/backups/
+SENTINEL_PRIME/08_SELF_IMPROVEMENT/backup_metadata/
+
+# Store-ul de versiuni al Control Center: copii ale fisierelor sursa. "Backupul
+# nu contine backup" - aici s-ar aplica regula pentru prima oara in istoricul
+# acestui repo.
+SENTINEL_PRIME/13_COMMAND_CENTER/backups/versions/

@@ -1,3 +1,0 @@
-﻿frozen 2026-10-04T09:31:41.8275383+03:00
-This snapshot is never edited. To change it, write a new one.
-

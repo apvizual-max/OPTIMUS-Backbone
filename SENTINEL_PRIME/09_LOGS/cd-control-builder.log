@@ -1,5 +1,0 @@
-control_repo=C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-13s98s5v\control
-commit=59fb699b3a33941d759900d7b0f18dd0edd69dd5
-invalid_entry=C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME
-### argv type: list of 3
-### cmdline: C:\Users\apviz\AppData\Local\Python\pythoncore-3.14-64\python.exe C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\scripts\make-broken-tree-control.py C:\Users\apviz\AppData\Local\Temp\sentinel-cd-verify-13s98s5v\control

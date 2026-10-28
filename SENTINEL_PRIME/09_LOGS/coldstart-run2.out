@@ -1,5 +1,0 @@
-==========================================================================
-  mavis-sentinel-hub - deployment end-to-end tests
-==========================================================================
-  [ok]   engine_available: docker server 29.8.1
-  [FAIL] precondition_serving: deployment is not serving; attempting to start it before judging it
