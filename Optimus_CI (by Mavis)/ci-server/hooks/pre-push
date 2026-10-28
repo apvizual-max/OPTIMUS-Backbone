@@ -1,0 +1,29 @@
+#!/bin/sh
+# pre-push - delegate to the shared R0 gate.
+#
+# SURSA CANONICA: ci-server/hooks/pre-push (in repo, versionat).
+#
+# The gate logic lives in ONE place, shared with the CD repo:
+#   C:/Users/apviz/.minimax-agent/projects/scripts/git-hooks/pre-push
+# This repo delegates instead of copying it, so the two copies can never
+# drift apart. The marker file (PUSH-ACORD) stays where it always was:
+# $(git rev-parse --git-dir)/PUSH-ACORD
+#
+# In container, MAVIS_PUSH_GATE points to the same file, mounted read-only.
+# The logic is IDENTICAL in both environments: one implementation, two hosts.
+#
+# If the shared gate cannot be reached, the push is REFUSED. A push gate
+# that fails open is not a gate.
+
+shared="${MAVIS_PUSH_GATE:-C:/Users/apviz/.minimax-agent/projects/scripts/git-hooks/pre-push}"
+
+if [ ! -f "$shared" ]; then
+  echo ""
+  echo "  POARTA: poarta de push comuna nu a fost gasita."
+  echo "  $shared"
+  echo "  Pushul e refuzat. Nu e o defectiune, e poarta."
+  echo ""
+  exit 1
+fi
+
+exec sh "$shared" "$@"

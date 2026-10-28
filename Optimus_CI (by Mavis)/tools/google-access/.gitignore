@@ -1,0 +1,10 @@
+# Credentialul viu NU se comite. Refresh token-ul trăiește doar în volumul
+# montat /data, pe mașina lui Popy.
+data/
+logs/
+state/
+
+# Nu se comite niciun .env sau fișier de credențiale
+*.env
+*.env.*
+credentials.json

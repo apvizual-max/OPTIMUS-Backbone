@@ -1,0 +1,40 @@
+#!/bin/sh
+# pre-commit - CI's own gate: no secrets in the index.
+#
+# SURSA CANONICA: ci-server/hooks/pre-commit (in repo, versionat).
+# Gitdir-ul e consumabil; sursa nu. Dupa un an, bootstrap.ps1 reinstaleaza
+# acest hook din sursa versionata.
+#
+# De ce exista: un commit cu secrete intrat intr-un repo PUBLIC nu se mai
+# poate scoate. Portile trebuie sa poata REFUZA, si sa refuze.
+#
+# REZOLVAREA CAII: in container, proiectul e la /workspace/project, iar
+# scannerul se rezolva prin MAVIS_SECRET_SCANNER; pe host, calea normala.
+# Un gate care nu poate rula NU este un gate: commitul e refuzat.
+
+top="$(git rev-parse --show-toplevel)"
+scanner="${MAVIS_SECRET_SCANNER:-$top/scripts/scan-staged-secrets.ps1}"
+
+if [ ! -f "$scanner" ]; then
+  echo ""
+  echo "  POARTA: scannerul de secrete nu a fost gasit."
+  echo "  $scanner"
+  echo "  Commitul e refuzat. Nu e o defectiune, e poarta."
+  echo ""
+  exit 1
+fi
+
+gitdir="$(git rev-parse --git-dir)"
+
+powershell -NoProfile -File "$scanner" -RepoPath "$top" -GitDir "$gitdir"
+code=$?
+
+if [ "$code" -ne 0 ]; then
+  echo ""
+  echo "  POARTA: indexul contine secrete, sau scanarea nu a putut rula (exit $code)."
+  echo "  Commitul e refuzat. Nu e o defectiune, e poarta."
+  echo ""
+  exit "$code"
+fi
+
+exit 0

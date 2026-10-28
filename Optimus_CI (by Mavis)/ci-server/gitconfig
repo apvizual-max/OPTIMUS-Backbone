@@ -1,0 +1,33 @@
+# gitconfig pentru containerul Mavis-Optimus-CI.
+#
+# DE CE EXISTA: pe host, gitul citeste core.autocrlf=true din configul de
+# sistem al lui Git for Windows (C:\Program Files\Git\etc\gitconfig). In
+# container nu exista -> gitul compara octet cu octet si vedea CRLF in
+# worktree versus LF in index ca fiind 403 fisiere "modificate" in clona
+# Cloud, desi pe host sunt curate. Masurat: aceeasi regula, 403 vs 0.
+#
+# Configul de sistem al hostului NU se monteaza cu totul, pentru ca
+# http.sslBackend=schannel nu exista in linux (ar strica TLS) si
+# core.symlinks/fscache sunt specifice Windows.
+#
+# Semantica e aceeasi cu a host-ului: continutul se compara dupa normalizare
+# CRLF -> LF, exact cum face gitul de pe host.
+# filemode = false: in container, the volumes are Windows bind mounts, where
+# every file looks executable (0755). With filemode=true (the Linux default)
+# a commit made in the container records 0755 for the WHOLE tree and the
+# history fills with false mode changes. MEASURED 2026-10-27: one self-check
+# left a commit in main with 127 files and all the modes flipped 644 -> 755.
+#
+# safe.directory = *: the mounted volumes belong to another UID than root.
+# Without this, git refuses the operation ("dubious ownership") and the
+# scripts look for fallbacks that can write into the real repository.
+[core]
+	autocrlf = true
+	longpaths = true
+	filemode = false
+[safe]
+	directory = *
+[init]
+	defaultBranch = main
+[pull]
+	rebase = false

@@ -1,0 +1,49 @@
+# ci-verify.yml - verificarea de pe server a repo-ului CI
+#
+# De ce exista: poarta pre-commit protejeaza commiturile facute pe masina lui
+# Popy. Ea NU protejeaza repo-ul. `git push --no-verify` ocolește hook-urile,
+# iar in acest repo lucreaza si alt AI (sesiunea CD). Acest workflow este
+# plasa de siguranta: ruleaza pe server, peste continutul care a aterizat
+# efectiv.
+#
+# Rolul lui: RAPORTEAZA. Nu blocheaza niciun push - n-are cum; doar arata
+# verdictul. Poarta care blocheaza push-ul e hook-ul pre-push, pe masina.
+#
+# De ce e pe `push` (in CI nu e interzis, ca in CD): se verifica exact ce a
+# aterizat. Un raport pornit de la alt eveniment ar verifica altceva.
+#
+# Poarta punții (mavis-drive-bridge-selfcheck.ps1) NU ruleaza aici: are
+# nevoie de DriveFS, care exista doar pe masina lui Popy. Ruleaza local.
+
+name: CI-verify
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '30 3 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Portile locale, rulate pe server
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Poarta de secrete (index)
+        shell: pwsh
+        run: |
+          powershell -NoProfile -File scripts\scan-staged-secrets.ps1 -RepoPath $env:GITHUB_WORKSPACE
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Auto-proba scannerului
+        shell: pwsh
+        run: |
+          powershell -NoProfile -File scripts\scan-staged-secrets-selfcheck.ps1
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

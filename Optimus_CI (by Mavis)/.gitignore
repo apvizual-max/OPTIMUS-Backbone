@@ -1,0 +1,100 @@
+﻿# cloud-ingest/ = clona MAVIS-CLOUD: sursa contractului consumatorului SI copia de lucru
+# a livrarii cozii secundare (contractul spune "Local scrie sarcina aici").
+# NU se comite: ar duplica date personale (CV-uri, telefon, clienți) într-un repo nou,
+# și ar îngropa un repo în altul. Se accesează prin cale.
+cloud-ingest/
+
+# Fișiere de stare — se rescriu la fiecare măsurătoare
+push-pending.json
+live-state.json
+*.log
+
+# OS
+Thumbs.db
+desktop.ini
+.DS_Store
+
+logs/
+
+# --- Platforma Jules (_JULES-Optimus_CI) -------------------------------
+# Descărcările de repo-uri făcute de Popy NU se comite. Conțin date
+# personale (CV-uri, telefon, nume de clienți) iar MAVIS-OPTIMUS-CI este
+# PUBLIC. Copia veche din commit-uri a fost eliminată prin "git mv catre
+# arhivă"; istoricul public mai conține acele fișiere — asta e o decizie
+# a lui Popy, nu una a mea.
+_JULES-Optimus_CI/_GitHub-Main_Repos-Local/
+
+# Clonele de lucru, folosite doar pentru verificarea locală a PR-urilor
+_JULES-Optimus_CI/work/
+
+# Jurnalele rulării zilnice
+_JULES-Optimus_CI/logs/
+
+# Artefacte temporare și drafturi
+_JULES-Optimus_CI/state/tmp/
+_JULES-Optimus_CI/state/draft-*.md
+_JULES-Optimus_CI/state/verify/
+
+# --- Stare si probe locale (2026-10-27) ---------------------------------
+# state/ = rezultate de masuratoare, probe temporare, loguri de diagnostic.
+# Nu se comite: sunt masuratori punctuale, nu continut de proiect.
+state/
+
+# Cache-ul byte-code al lui Python. Nu e continut de proiect: se regenereaza
+# la prima rulare. Masurat 2026-10-27 - un .pyc a ajuns in index la comit.
+__pycache__/
+*.pyc
+
+# chats/ = transcrierile sesiunilor de lucru (ex. sesiunea de setup Google
+# cu Mavis Cloud) care au aterizat in radacina proiectului.
+# NU se comite: MAVIS-OPTIMUS-CI este PUBLIC, iar o transcriere de sesiune
+# contine context personal, nu continut de sistem. Artefactele de setup sunt
+# deja in repo-ul operational (MAVIS-CLOUD/mavis-tools/), deci nimic nu se
+# pierde prin necomitare.
+chats/
+
+# Google_Connect/ = denumirea noua (renumerita in Drive pe 2026-10-27, 08:02)
+# a folderului "chats" de mai sus: transcrierile sesiunilor de lucru,
+# inclusiv setup-ul Google cu Mavis Cloud.
+# MASURAT: scripts/mavis-sync.ps1:189 ruleaza "git add -A" + commit automat
+# in radacina CI. Cu regula ancorata doar la numele vechi, transcriptul ar fi
+# intrat in MAVIS-OPTIMUS-CI (PUBLIC) la urmatoarea rulare a puntii zilnice.
+# De aceea regula acopera si numele curent, si numele marcant al raftului
+# (supravietuieste unei renumeriri viitoare a parintelui).
+Google_Connect/
+**/Mavis-Cloud_Google-Setup-Session/
+
+# --- Arhiva artefactelor Cloud (2026-10-27) -------------------------------
+# Mavis_Cloud_Artefacts_arhive-10-27-2026/ = copii de lucru ale artefactelor
+# pe care Cloud-ul le produce in cursul zilei (CV-uri, documente de proces,
+# note de integrare Google).
+#
+# MASURAT 2026-10-27: fara aceasta regula, "git add -A" - pe care
+# scripts/mavis-sync.ps1:189 il ruleaza automat in radacina CI - ar adauga
+# 104 cai, dintre care unele contin client_secret, refresh_token, access_token
+# si parole. MAVIS-OPTIMUS-CI este PUBLIC: orice octet aici ajunge libil
+# tuturor. Nu se comite.
+Mavis_Cloud_Artefacts_arhive-*/
+**/Mavis_Cloud_Artefacts_arhive-*/
+
+# --- Transcriptele de sesiune extrase (2026-10-27) ---------------------------
+# sessions/ = locul in care scriptul "extract-transcript.mjs" (skill
+# mavis-session-transcript-skill) depune transcriptul COMPLET al unei sesiuni
+# Mavis, in format .md + .jsonl + raw/.
+#
+# MASURAT 2026-10-27: o singura sesiune (mvs_dad1539226c34024bbba6dfae62a616e,
+# "Mavis - Google_Access", 2026-10-11 -> 2026-10-27) produce 49 fisiere,
+# 39.668.437 B: transcript text + transcript JSONL + 46 artefacte de tool-output
+# copiate verbatim.
+#
+# ACELASI MOTIV CA MAI SUS, MASURAT DIN NOU: MAVIS-OPTIMUS-CI este PUBLIC
+# (verificat cu "gh repo view": visibility=PUBLIC, isPrivate=false), iar
+# scripts/mavis-sync.ps1:189 ruleaza "git add -A" + commit automat in radacina
+# CI ($HQ = Split-Path -Parent $PSScriptRoot). Un folder neignorat ar fi fost
+# adaugat automat si publicat la urmatoarea rulare a puntii zilnice.
+#
+# Transcriptele contin si context personal, si rezultate de unelte din sesiunea
+# Google Access (scope-uri, token-uri de autorizare, URLs de consent) — deci nu
+# se comite. Artefactele de setup sunt deja in repo-ul operational
+# (MAVIS-CLOUD/mavis-tools/), deci nimic nu se pierde prin necomitare.
+/sessions/

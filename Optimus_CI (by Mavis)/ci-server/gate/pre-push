@@ -1,0 +1,26 @@
+#!/bin/sh
+# pre-push - POARTA pe push pentru acest repo.
+#
+# De ce exista: masurat 2026-10-11, 12 comituri au ajuns pe GitHub fara acordul
+# lui Popy. Portile din script (-Acord) se ocolesc prin `git push` direct: un
+# script impune o regula doar fata de cel care coopteaza. Asta nu e o poarta,
+# e o cutie.
+#
+# Refuzul se face PE SERVER, nu se modifica nimic acolo. Se consuma un singur
+# acord: un -Acord = o singura impingere.
+#
+# Scoaterea portii: git config --local --unset core.hooksPath
+# (si stergerea acestui fisier). Nu se atinge nimic din interfata Popy.
+
+marker="$(git rev-parse --git-dir)/PUSH-ACORD"
+if [ -f "$marker" ]; then
+  rm -f "$marker"
+  exit 0
+fi
+
+echo ""
+echo "  POARTA: acest repo nu se impinge fara acordul lui Popy."
+echo "  Orice push direct e refuzat. Nu e o defectiune, e poarta."
+echo "  Calea corecta:  scripts\\git-autopush.ps1 -Acord"
+echo ""
+exit 1

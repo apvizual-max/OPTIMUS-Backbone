@@ -1,0 +1,3 @@
+## 2026-10-23 - PowerShell Pipeline Overhead
+**Learning:** In PowerShell, using the pipeline (`| ForEach-Object`, `| Where-Object`) introduces significant overhead per item, making it very slow for large arrays. Benchmarks show that native array operators (like `-match`, `-notmatch`) and typecasting (like `[string[]]`) are often 10x to 30x faster for simple data filtering and conversion. Furthermore, the `.Where({})` method is roughly 5x faster than `| Where-Object`.
+**Action:** When filtering simple arrays or casting types, prefer native array operators and typecasting over pipelines. For more complex operations where a pipeline is necessary, consider using `.Where()` and `.ForEach()` methods if performance is critical.

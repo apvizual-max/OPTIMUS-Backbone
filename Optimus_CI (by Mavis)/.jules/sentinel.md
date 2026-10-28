@@ -1,0 +1,9 @@
+## 2026-10-12 - Path Traversal Prevention in PowerShell Scripts
+**Vulnerability:** Found a potential path traversal vulnerability in `scripts/meta-prompt.ps1` where the `-Output` parameter could be manipulated to write files outside of the intended directory tree.
+**Learning:** This existed because `Join-Path` directly concatenated user input without validating if the resolved path remained within the intended base directory limits. PowerShell scripts taking user input for file paths need strict validation.
+**Prevention:** Avoid path traversal by resolving both the base directory and the target directory using `[System.IO.Path]::GetFullPath()`, ensuring the base directory ends with a separator, and then validating that the resolved target path starts with the base path.
+
+## 2026-10-12 - Incomplete Path Traversal Prevention Exposes Repository Internals
+**Vulnerability:** A script intended to write a generated file accepted arbitrary paths. A previous fix prevented it from escaping the repository workspace but failed to prevent it from overwriting files *within* sensitive repository directories (e.g., `.git/`, `.github/`, `scripts/`, `.jules/`). An attacker could supply an output path like `.git/hooks/pre-commit` to achieve Remote Code Execution.
+**Learning:** Checking that a path is constrained to a base directory is not always sufficient. Allowing a script to write anywhere inside a repository root introduces risks of overwriting configuration files, Git hooks, CI workflows, or executable scripts.
+**Prevention:** In addition to ensuring paths do not escape the workspace (using `GetFullPath().StartsWith(baseDir)`), always explicitly deny writing to restricted internal directories by parsing the relative path and validating it against a blocklist (e.g., using `-match '^\.git[\\/]'` in PowerShell).
