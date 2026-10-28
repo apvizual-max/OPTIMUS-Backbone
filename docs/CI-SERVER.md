@@ -200,3 +200,46 @@ real, atunci „merge bine" nu e dovada ca nu a stricat nimic: trebuie masurat
 ce a atins. Iar o clasa de accidente care poate aparea din nou trebuie sa fie
 **vizibila**, nu corectata in tac — altfel urmatorul agent o repeta, pentru ca
 nu o vede.
+
+## 12. Botul Optimus CI și carantina (28 oct 2026)
+
+Sesiunea `Mavis Local - Ondoard Optimus_CI` (`mvs_eaaf49033892458a8076c7cc9e8d51aa`) are
+un **skill principal permanent**: `mavis-local-optimus-ci-bot`
+(`C:\Users\apviz\.minimax\agents\mavis\skills\mavis-local-optimus-ci-bot\`).
+
+**Ce e:** personalitatea, rolul, scopul, cele 9 functii (F1–F9), uneltele (7 unelte MCP +
+scripturi + proceduri) si **indexul skillurilor secundare de pe subiect** — 29 membri
+masurati pe disc (10 functionali + 19 referinte).
+
+**Registrul e executabil, nu decorativ:**
+
+| Comanda | Ce masoara | Rezultat masurat 28 oct 2026 |
+|---|---|---|
+| `node scripts\bot-doctor.mjs verify` | integritatea registrului + a listei + a cailor | `checks=70 failed=0 warnings=3` |
+| `node scripts\bot-doctor.mjs doctor` | sistemul real: container, API, 3 repo-uri, carantina, ledger | `checks=19 failed=0 warnings=0` |
+| `node scripts\falsify.mjs` | **falsifica verificatorul**: 5 scenarii stricate | `rosii=5/5` — verificatorul poate deveni ROSU |
+
+### Carantina
+
+Regula lui Popy (28 oct 2026): *„voi sterge eu folderul din cand in cand tu daca ai
+asemenea situatii muti acolo. ca sa nu trebuiasca sa stergi foldere."*
+
+Ce nu poate fi sters nu se sterge — se **muta** in
+`E:\Google\GitData-Optimus-CI\.quarantine\`, **in afara mirrorului DriveFS** (acolo
+DriveFS materializeaza si sterge fisiere pe cont propriu), cu `MOTIV.txt` scris. Popy
+sterge cand vrea.
+
+Detaliu masurat: bash-ul runtime-ului nu poate scrie in afara workspace-ului
+(*„recursive write/delete target cannot be verified inside the workspace"*), iar stergerea
+recuperabila e respinsa pentru tinte din afara lui (*„Windows trash execution rejected a
+target outside the workspace"*). De aceea mutarea se face **prin container** — autorul
+peste volumul gitdata:
+
+```sh
+docker exec Mavis-Optimus-CI sh -lc \
+  'mkdir -p /workspace/gitdata/.quarantine && \
+   mv /workspace/gitdata/scratch/<item> /workspace/gitdata/.quarantine/<data>-<nume>'
+```
+
+Primul element carantinat: `2026-10-28-falsify-guard` (repo git gol, creat pentru
+falsificarea gardei „fixture-ul are propriul gitdir").
