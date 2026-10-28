@@ -17,8 +17,8 @@ acest mesaj și în fișierele pe care le indică.
 1. UNDE E PROIECTUL
 ═══════════════════════════════════════════════════════════════
 
-Căutătoare:  C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME
-Clonă GitHub: C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\.github-repo
+Căutătoare:  C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME
+Clonă GitHub: C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\.github-repo
 Remote:       https://github.com/apvizual-max/SENTINEL_PRIME.git  (PRIVATE)
 Ramură:       main — singura ramură activă, pe remote și în local
 

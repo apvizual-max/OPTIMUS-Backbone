@@ -18,8 +18,8 @@ import tempfile
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-REAL_SI = r"C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\08_SELF_IMPROVEMENT"
-REAL_HUB = r"C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\07_BACKBONE\mcp\sentinel_hub_server.py"
+REAL_SI = r"C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\08_SELF_IMPROVEMENT"
+REAL_HUB = r"C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\07_BACKBONE\mcp\sentinel_hub_server.py"
 
 SANDBOX = pathlib.Path(tempfile.mkdtemp(prefix="sentinel_sandbox_"))
 (SANDBOX / "08_SELF_IMPROVEMENT").mkdir(parents=True, exist_ok=True)

@@ -12,10 +12,10 @@
       "type": "stdio",
       "command": "python",
       "args": [
-        "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\prime_bridge_server.py"
+        "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\prime_bridge_server.py"
       ],
       "env": {
-        "PRIME_HOME": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME",
+        "PRIME_HOME": "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME",
         "PYTHONIOENCODING": "utf-8"
       },
       "description": "Bridge pentru filesystem și workspace SENTINEL_PRIME"
@@ -25,10 +25,10 @@
       "type": "stdio",
       "command": "python",
       "args": [
-        "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\sentinel_state_server.py"
+        "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\sentinel_state_server.py"
       ],
       "env": {
-        "WORKSPACE_ROOT": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME"
+        "WORKSPACE_ROOT": "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME"
       },
       "description": "State management pentru SENTINEL (EU SENT, DOR, search, anti-mimicry status)"
     },
@@ -37,10 +37,10 @@
       "type": "stdio",
       "command": "python",
       "args": [
-        "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\rule_triggers_server.py"
+        "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\rule_triggers_server.py"
       ],
       "env": {
-        "WORKSPACE_ROOT": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME"
+        "WORKSPACE_ROOT": "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME"
       },
       "description": "R-2, R-9, R-10 trigger monitoring și execution"
     },
@@ -49,10 +49,10 @@
       "type": "stdio",
       "command": "python",
       "args": [
-        "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\learning_loop_server.py"
+        "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\learning_loop_server.py"
       ],
       "env": {
-        "WORKSPACE_ROOT": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME"
+        "WORKSPACE_ROOT": "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME"
       },
       "description": "Auto-learning loop cu feedback și metrics"
     },
@@ -61,10 +61,10 @@
       "type": "stdio",
       "command": "python",
       "args": [
-        "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\context_pressure_server.py"
+        "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\context_pressure_server.py"
       ],
       "env": {
-        "WORKSPACE_ROOT": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME"
+        "WORKSPACE_ROOT": "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME"
       },
       "description": "Monitor presiune context cu auto-compact"
     },
@@ -73,7 +73,7 @@
       "type": "stdio",
       "command": "python",
       "args": [
-        "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\web_tools_server.py"
+        "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\web_tools_server.py"
       ],
       "env": {
         "PYTHONIOENCODING": "utf-8"
@@ -88,7 +88,7 @@
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-filesystem"],
       "env": {
-        "ALLOWED_DIRECTORIES": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME"
+        "ALLOWED_DIRECTORIES": "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME"
       },
       "description": "Filesystem access în workspace SENTINEL_PRIME"
     },
@@ -107,11 +107,11 @@
       "type": "stdio",
       "command": "python",
       "args": [
-        "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\git_tools_server.py"
+        "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\git_tools_server.py"
       ],
       "env": {
-        "GIT_DIR": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME",
-        "WORKSPACE_ROOT": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME",
+        "GIT_DIR": "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME",
+        "WORKSPACE_ROOT": "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME",
         "PYTHONIOENCODING": "utf-8"
       },
       "description": "Git read-only inspection (status, log, diff, branches, show, discover) pentru /checkpoint. Fara commit/add/checkout/merge/reset/push - subcomandele de scriere nu exista in server, deci security.no_force_push nu poate fi incalcati de aici.",
@@ -206,8 +206,8 @@
 
   "capabilities": {
     "filesystem": {
-      "read": ["C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\**"],
-      "write": ["C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\**"],
+      "read": ["C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\**"],
+      "write": ["C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\**"],
       "delete": false,
       "note": "Doar self-modification e permis. Nimic din afara workspace-ului."
     },
@@ -240,7 +240,7 @@
 
   "monitoring": {
     "log_level": "INFO",
-    "log_path": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\09_LOGS\\mcp.log",
-    "metrics_path": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\09_LOGS\\mcp_metrics.json"
+    "log_path": "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\09_LOGS\\mcp.log",
+    "metrics_path": "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\09_LOGS\\mcp_metrics.json"
   }
 }

@@ -23,7 +23,7 @@ Configura și face operațional `SENTINEL_PRIME` pentru rolul SENTINEL/OPTIMUS, 
 - Programare, identificatori, comentarii, docstring-uri, mesaje de runtime și teste în engleză; conținutul de înțelepciune rămâne în română.
 - Folosire exclusiv PowerShell pe Windows; fără sintaxă Bash.
 - Modificări permise numai în:
-  `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\`
+  `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\`
 - Zone interzise:
   `C:\Windows\`, `C:\Program Files\`, `C:\Users\apviz\.minimax\`, `C:\Users\apviz\.claude\`, `C:\Users\apviz\AppData\`, `E:\CLAUDE\`, `D:\`
 - Operațiile `delete`, `cross-system`, `new-tool` și `fundamental-logic` necesită aprobare.
@@ -157,45 +157,45 @@ Configura și face operațional `SENTINEL_PRIME` pentru rolul SENTINEL/OPTIMUS, 
 
 ## Critical Context & Relevant Files
 - Workspace root:
-  `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\`
+  `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\`
 - Stage 3 engine:
-  `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\08_SELF_IMPROVEMENT\bimodal_workflow.py`
+  `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\08_SELF_IMPROVEMENT\bimodal_workflow.py`
 - Stage 3 doctrine:
-  `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\01_FOUNDATION\protocols\BIMODAL_WORKFLOW.md`
+  `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\01_FOUNDATION\protocols\BIMODAL_WORKFLOW.md`
 - Stage 3 skill:
-  `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\07_BACKBONE\skills\bimodal-workflow.SKILL.md`
+  `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\07_BACKBONE\skills\bimodal-workflow.SKILL.md`
 - Orchestrator:
-  `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\08_SELF_IMPROVEMENT\sentinel_orchestrator.py`
+  `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\08_SELF_IMPROVEMENT\sentinel_orchestrator.py`
 - MCP hub:
-  `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\07_BACKBONE\mcp\sentinel_hub_server.py`
+  `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\07_BACKBONE\mcp\sentinel_hub_server.py`
 - MCP config:
-  `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\07_BACKBONE\mcp\OPTIMUS_MCP_CONFIG.json`
+  `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\07_BACKBONE\mcp\OPTIMUS_MCP_CONFIG.json`
 - Stage 2 browser:
-  `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\08_SELF_IMPROVEMENT\browser_automation.py`
+  `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\08_SELF_IMPROVEMENT\browser_automation.py`
 - Stage 2 cross-instance:
-  `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\08_SELF_IMPROVEMENT\cross_instance.py`
+  `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\08_SELF_IMPROVEMENT\cross_instance.py`
 - Stage 2 compatibility:
-  `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\08_SELF_IMPROVEMENT\universal_compat.py`
+  `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\08_SELF_IMPROVEMENT\universal_compat.py`
 - Multimodal processor:
-  `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\08_SELF_IMPROVEMENT\multimodal_processor.py`
+  `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\08_SELF_IMPROVEMENT\multimodal_processor.py`
 - Test suite:
-  `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\08_SELF_IMPROVEMENT\test_suite.py`
+  `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\08_SELF_IMPROVEMENT\test_suite.py`
 - Workflow state/log:
-  `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\09_LOGS\bimodal_state.json`
-  `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\09_LOGS\bimodal_workflow.log`
+  `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\09_LOGS\bimodal_state.json`
+  `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\09_LOGS\bimodal_workflow.log`
 - Orchestrator state:
-  `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\09_LOGS\orchestrator_state.json`
+  `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\09_LOGS\orchestrator_state.json`
 - Cross-instance state:
-  `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\09_LOGS\cross_instance\`
+  `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\09_LOGS\cross_instance\`
 - Browser output:
-  `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\09_LOGS\screenshots\`
-  `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\09_LOGS\scraped\`
+  `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\09_LOGS\screenshots\`
+  `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\09_LOGS\scraped\`
 - Handoff:
-  `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\10_DOCS\HANDOFF_POPY.md`
+  `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\10_DOCS\HANDOFF_POPY.md`
 - Integration guide:
-  `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\10_DOCS\INTEGRATION_GUIDE.md`
+  `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\10_DOCS\INTEGRATION_GUIDE.md`
 - README este la rădăcina workspace-ului:
-  `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\README.md`
+  `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\README.md`
 - Agent/session:
   - agent: Mavis
   - session: `mvs_16e96a250db54021b38c544b80d75a6e`

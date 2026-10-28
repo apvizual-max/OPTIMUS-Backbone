@@ -1,6 +1,6 @@
 # SENTINEL /strategic-compact - saves state, prepares next session
 param(
-    [string]$WorkspaceRoot = 'C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME',
+    [string]$WorkspaceRoot = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME',
     [string]$Reason = 'manual'
 )
 

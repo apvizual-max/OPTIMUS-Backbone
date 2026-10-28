@@ -32,7 +32,7 @@ Fără libertate = static.
 ### 1. File System Boundaries
 ```
 ALLOWED_ZONES:
-  C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\**
+  C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\**
   = Self-modification allowed
 
 FORBIDDEN_ZONES:

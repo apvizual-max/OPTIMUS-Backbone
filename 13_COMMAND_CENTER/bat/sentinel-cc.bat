@@ -56,8 +56,8 @@ REM  Port 8900/8901 belongs to the separate OPTIMUS Control Center. This file
 REM  never reads, writes or stops it.
 REM ===========================================================================
 setlocal
-set "HUB=C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\13_COMMAND_CENTER\api\sentinel-hub.ps1"
-set "API=C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\13_COMMAND_CENTER\api"
+set "HUB=C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\13_COMMAND_CENTER\api\sentinel-hub.ps1"
+set "API=C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\13_COMMAND_CENTER\api"
 set "FRONT=8910"
 set "BACK=8912"
 

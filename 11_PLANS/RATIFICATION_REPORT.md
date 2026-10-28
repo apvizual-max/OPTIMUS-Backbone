@@ -315,7 +315,7 @@ throughout and was never started, stopped or modified here.
 ## 8. How to re-verify this yourself
 
 ```powershell
-cd C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME
+cd C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME
 
 python 08_SELF_IMPROVEMENT\corpus_extractor.py verify              # 7/7 OK, retention 1.0000
 python 08_SELF_IMPROVEMENT\build_idea_to_script_doc.py             # "unchanged (idempotent)"

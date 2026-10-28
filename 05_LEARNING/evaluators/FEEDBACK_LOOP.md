@@ -123,7 +123,7 @@ class FeedbackLoop:
 ```powershell
 # SENTINEL Feedback - rulează la final de sesiune
 param(
-    [string]$WorkspaceRoot = 'C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME'
+    [string]$WorkspaceRoot = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME'
 )
 
 $feedbackFile = Join-Path $WorkspaceRoot '09_LOGS\feedback_report.json'

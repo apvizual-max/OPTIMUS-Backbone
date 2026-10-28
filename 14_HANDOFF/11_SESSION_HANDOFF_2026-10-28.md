@@ -94,7 +94,7 @@ Toate cele 4 comituri ale mele din 11 oct erau deja strămoși ai lui
 `origin/main` conținea, la rădăcină, un director cu numele literal:
 
 ```
-"C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME"
+"C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME"
 ```
 
 Git **refuză `:`** într-o componentă de nume. Rezultat: `read-tree`, `checkout`

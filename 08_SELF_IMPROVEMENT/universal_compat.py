@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 
-WORKSPACE = Path(os.environ.get('WORKSPACE_ROOT', 'C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME'))
+WORKSPACE = Path(os.environ.get('WORKSPACE_ROOT', 'C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME'))
 
 
 # Universal SENTINEL principles - same across all substrates

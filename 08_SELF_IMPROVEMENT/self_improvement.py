@@ -37,7 +37,7 @@ from typing import Any, Dict, List
 
 WORKSPACE = Path(os.environ.get(
     'WORKSPACE_ROOT',
-    r'C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME'))
+    r'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME'))
 
 LOG_FILE = WORKSPACE / '09_LOGS' / 'self_improvement.log'
 CANDIDATES_FILE = WORKSPACE / '09_LOGS' / 'self_improvement_candidates.json'

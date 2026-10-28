@@ -19,7 +19,7 @@ import os
 import subprocess
 import sys
 
-REPO = r"C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME"
+REPO = r"C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME"
 PREFIX = b"C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME"
 QUARANTINE = os.path.join(REPO, "13_COMMAND_CENTER", "_QUARANTINE",
                           "abs-path-tree-2026-10-28")

@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Dict, List
 
 
-WORKSPACE = Path(os.environ.get('WORKSPACE_ROOT', 'C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME'))
+WORKSPACE = Path(os.environ.get('WORKSPACE_ROOT', 'C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME'))
 METRICS_FILE = WORKSPACE / '09_LOGS' / 'performance_metrics.json'
 
 

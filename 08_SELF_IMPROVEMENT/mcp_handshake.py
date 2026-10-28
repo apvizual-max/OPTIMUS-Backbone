@@ -28,7 +28,7 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 WORKSPACE = Path(os.environ.get(
-    "WORKSPACE_ROOT", r"C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME"))
+    "WORKSPACE_ROOT", r"C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME"))
 HUB = WORKSPACE / "07_BACKBONE" / "mcp" / "sentinel_hub_server.py"
 RECORD = WORKSPACE / "09_LOGS" / "mcp_handshake.json"
 

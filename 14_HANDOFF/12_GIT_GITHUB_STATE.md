@@ -96,7 +96,7 @@ e89887f  Repara: elimina directorul cu cale absoluta din radacina
 ```
 
 Cu **37 de comituri** înaintea lui, `origin/main` conținea la rădăcină un
-director cu numele literal `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME`.
+director cu numele literal `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME`.
 Git refuză `:` într-o componentă de nume, deci `read-tree`, `checkout` și
 **orice clonă pe Windows** eșuau. Detalii complete în
 `11_SESSION_HANDOFF_2026-10-28.md` §3 și în skill-ul
@@ -203,7 +203,7 @@ invalidă singur. Starea curentă se citește cu `git ls-remote origin refs/head
 
 | | Valoare |
 |---|---|
-| Locație | `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\.github-repo` |
+| Locație | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\.github-repo` |
 | Origine | clonă a aceluiași repository, la `main` |
 | Statut | **resincronizată**: `dirty=0`, **1.547 fișiere**, `HEAD` identic cu `main` local — SHA-ul se citește, nu se memorează: `git -C .github-repo rev-parse HEAD` |
 | În `.gitignore` | **da**, cu motiv scris — e copie de lucru, nu conținut de proiect |

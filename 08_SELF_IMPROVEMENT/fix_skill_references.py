@@ -30,7 +30,7 @@ except AttributeError:
     pass
 
 SRC = pathlib.Path(
-    r'C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\07_BACKBONE\skills')
+    r'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\07_BACKBONE\skills')
 
 B = chr(96)  # backtick, kept out of the literals so nothing has to escape it
 

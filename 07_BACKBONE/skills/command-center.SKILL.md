@@ -15,7 +15,7 @@ measured, data age always shown. This skill is how you start it, check it, and r
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass `
-  -File C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\13_COMMAND_CENTER\api\sentinel-hub.ps1 start
+  -File C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\13_COMMAND_CENTER\api\sentinel-hub.ps1 start
 ```
 
 Then open **http://127.0.0.1:8910/**.
@@ -241,7 +241,7 @@ console, and were found **only by looking at it**.
 
 ```powershell
 # needs the deployment up
-cd C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\08_SELF_IMPROVEMENT
+cd C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\08_SELF_IMPROVEMENT
 python final_browser_proof.py     # the 11 original panels
 python test_deployment.py         # the deployment itself, non-destructive
 python test_deployment.py --coldstart  # + proves logon recovery (destructive)

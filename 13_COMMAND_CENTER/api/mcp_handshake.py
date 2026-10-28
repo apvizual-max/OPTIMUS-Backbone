@@ -28,7 +28,7 @@ from pathlib import Path
 
 WORKSPACE = Path(os.environ.get(
     "WORKSPACE_ROOT",
-    r"C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME",
+    r"C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME",
 ))
 SERVER = WORKSPACE / "07_BACKBONE" / "mcp" / "sentinel_hub_server.py"
 

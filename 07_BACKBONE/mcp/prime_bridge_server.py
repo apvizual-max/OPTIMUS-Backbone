@@ -54,7 +54,7 @@ from mcp.server.mcpserver.exceptions import ToolError
 from pydantic import Field
 from typing_extensions import Annotated
 
-_DEFAULT = r"C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME"
+_DEFAULT = r"C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME"
 ROOT = Path(os.environ.get('PRIME_HOME')
             or os.environ.get('WORKSPACE_ROOT')
             or _DEFAULT).resolve()

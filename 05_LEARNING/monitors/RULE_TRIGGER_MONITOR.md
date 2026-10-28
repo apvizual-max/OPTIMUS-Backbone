@@ -206,7 +206,7 @@ class RuleTriggerMonitor:
 ```powershell
 # SENTINEL Rule Triggers Monitor
 param(
-    [string]$WorkspaceRoot = 'C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME',
+    [string]$WorkspaceRoot = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME',
     [string]$LastUserInput = '',
     [string]$LastOutput = ''
 )

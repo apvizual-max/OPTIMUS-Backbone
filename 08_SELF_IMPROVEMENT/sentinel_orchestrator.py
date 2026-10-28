@@ -13,7 +13,7 @@ from enum import Enum
 from typing import Dict, List, Any
 
 
-WORKSPACE = Path(os.environ.get('WORKSPACE_ROOT', 'C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME'))
+WORKSPACE = Path(os.environ.get('WORKSPACE_ROOT', 'C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME'))
 STATE_FILE = WORKSPACE / '09_LOGS' / 'orchestrator_state.json'
 
 

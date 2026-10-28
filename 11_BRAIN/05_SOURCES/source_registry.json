@@ -2,7 +2,7 @@
   "generated": "2026-10-04T09:16:06.007107",
   "purpose": "Every archive the SENTINEL brain draws on, with proof of what was read. The SENTINEL brain holds write access to SENTINEL_PRIME only.",
   "ingest_policy": {
-    "write_scope": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME",
+    "write_scope": "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME",
     "outside_scope": "read-only, never modified",
     "media": "catalogued by metadata, never opened",
     "public_deployment": "never implied; requires its own explicit approval"
@@ -11,7 +11,7 @@
     {
       "id": "CONVERSATION_FREEZE",
       "label": "This conversation, frozen with SHA256SUMS",
-      "path": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\09_LOGS\\corpus_freeze",
+      "path": "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\09_LOGS\\corpus_freeze",
       "mode": "read-only",
       "exists": true,
       "kind": "dir",

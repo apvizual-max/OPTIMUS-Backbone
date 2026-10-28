@@ -65,7 +65,7 @@ direct, tu nu faci push la fiecare schimbare). Pasii:
 literal:
 
 ```
-"C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME"
+"C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME"
 ```
 
 Git **refuza `:`** intr-o componenta de nume. Deci `read-tree`, `checkout` si

@@ -14,7 +14,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from browser_automation import BrowserAutomation  # noqa: E402
 
 URL = "http://127.0.0.1:8910/"
-SHOTS = Path(r"C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\09_LOGS\screenshots")
+SHOTS = Path(r"C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\09_LOGS\screenshots")
 # The tabs this proof was written against. NOT the source of truth - the real
 # list is read from the page's nav at run time, because a hardcoded list falls
 # behind the UI silently (this one did: it omitted Ecosystem and still reported

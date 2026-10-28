@@ -125,17 +125,17 @@ sentinel_create_handoff        → Cross-session memory
 
 ### Context Monitor
 ```powershell
-powershell C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\02_OPERATIONAL\scripts\sentinel_context_monitor.ps1
+powershell C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\02_OPERATIONAL\scripts\sentinel_context_monitor.ps1
 ```
 
 ### Pattern Learning
 ```python
-python C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\02_OPERATIONAL\scripts\sentinel_learn.py [session_log]
+python C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\02_OPERATIONAL\scripts\sentinel_learn.py [session_log]
 ```
 
 ### Strategic Compact
 ```powershell
-powershell C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\02_OPERATIONAL\scripts\sentinel_strategic_compact.ps1
+powershell C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\02_OPERATIONAL\scripts\sentinel_strategic_compact.ps1
 ```
 
 ## Cross-Substrate Compatibility

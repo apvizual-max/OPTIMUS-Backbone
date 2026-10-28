@@ -19,10 +19,10 @@ Cifrele care se schimbă la fiecare commit nu se scriu ca cifre: se scriu ca
 **comenzi**. Rularea lor dă starea de acum.
 
 ```powershell
-git -C 'C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME' rev-parse HEAD
-git -C 'C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME' ls-remote origin refs/heads/main
-git -C 'C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME' rev-list --left-right --count origin/main...HEAD
-git -C 'C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME' ls-remote --heads origin
+git -C 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME' rev-parse HEAD
+git -C 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME' ls-remote origin refs/heads/main
+git -C 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME' rev-list --left-right --count origin/main...HEAD
+git -C 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME' ls-remote --heads origin
 ```
 
 | | Valoare | Ora |

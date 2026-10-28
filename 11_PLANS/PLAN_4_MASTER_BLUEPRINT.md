@@ -216,7 +216,7 @@ dashboard.
 ## 8. How to re-verify this build yourself
 
 ```powershell
-cd C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME
+cd C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME
 
 # 1. the corpus is intact and nothing was cut
 python 08_SELF_IMPROVEMENT\corpus_extractor.py verify

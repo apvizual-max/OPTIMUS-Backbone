@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Dict, List
 
 
-WORKSPACE = Path(os.environ.get('WORKSPACE_ROOT', 'C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME'))
+WORKSPACE = Path(os.environ.get('WORKSPACE_ROOT', 'C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME'))
 METADATA_FILE = WORKSPACE / '09_LOGS' / 'multimodal_metadata.json'
 
 
@@ -521,7 +521,7 @@ def main():
 
     # Test inputs - all real files that exist in workspace
     test_inputs = [
-        'C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\01_FOUNDATION\\doctrine\\A_FI_DOCTRINE.md',  # doc
+        'C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\01_FOUNDATION\\doctrine\\A_FI_DOCTRINE.md',  # doc
         'https://en.wikipedia.org/wiki/Cucuteni%E2%80%93Trypillia_culture',  # URL
         'test.png',  # test type detection (synthetic, doesn't exist)
         'test.mp3',

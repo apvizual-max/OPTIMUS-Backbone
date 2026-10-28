@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Optional, Dict, List
 
 
-WORKSPACE = Path(os.environ.get('WORKSPACE_ROOT', 'C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME'))
+WORKSPACE = Path(os.environ.get('WORKSPACE_ROOT', 'C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME'))
 LOG_FILE = WORKSPACE / '09_LOGS' / 'self_modifications.log'
 BACKUP_DIR = WORKSPACE / '08_SELF_IMPROVEMENT' / 'backups'
 

@@ -49,7 +49,7 @@ from mcp.server.mcpserver import MCPServer
 from mcp.server.mcpserver.exceptions import ToolError
 from pydantic import Field
 
-_DEFAULT = r"C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME"
+_DEFAULT = r"C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME"
 ROOT = Path(os.environ.get('GIT_DIR')
             or os.environ.get('WORKSPACE_ROOT')
             or _DEFAULT).resolve()

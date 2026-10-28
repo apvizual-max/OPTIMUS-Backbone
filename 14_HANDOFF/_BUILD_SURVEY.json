@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-10-07T04:33:50.620190",
-  "workspace": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME",
+  "workspace": "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME",
   "not_measured": [],
   "deployment": {
     "front_healthz": {
@@ -109,7 +109,7 @@
     "loopback_reachable": []
   },
   "health": {
-    "file": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\13_COMMAND_CENTER\\api\\health.json",
+    "file": "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\13_COMMAND_CENTER\\api\\health.json",
     "sha256": "1bff72944cd34e9ac5125245f1b78076c96b7f77138d4d99a5fdc0fd283a24f4",
     "bytes": 21080,
     "generated_at": "2026-10-07T04:33:39.036023",
@@ -150,11 +150,11 @@
           "referenced_python_servers": 5,
           "missing": 5,
           "missing_entries": [
-            "prime-bridge -> C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\prime_bridge_server.py",
-            "sentinel-state -> C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\sentinel_state_server.py",
-            "rule-triggers -> C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\rule_triggers_server.py",
-            "learning-loop -> C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\learning_loop_server.py",
-            "context-pressure -> C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\context_pressure_server.py"
+            "prime-bridge -> C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\prime_bridge_server.py",
+            "sentinel-state -> C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\sentinel_state_server.py",
+            "rule-triggers -> C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\rule_triggers_server.py",
+            "learning-loop -> C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\learning_loop_server.py",
+            "context-pressure -> C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\context_pressure_server.py"
           ],
           "capability_covered_elsewhere": [
             {
@@ -203,7 +203,7 @@
     ]
   },
   "ecosystem": {
-    "file": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\13_COMMAND_CENTER\\api\\minimax-ecosystem.json",
+    "file": "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\13_COMMAND_CENTER\\api\\minimax-ecosystem.json",
     "bytes": 21223,
     "generated_at": "2026-10-07T04:31:48",
     "counts": {
@@ -413,7 +413,7 @@
   },
   "tests": {
     "unit_suite": {
-      "file": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\13_COMMAND_CENTER\\api\\last_test_run.json",
+      "file": "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\13_COMMAND_CENTER\\api\\last_test_run.json",
       "bytes": 4830,
       "ran_at": "2026-10-07T04:30:42.837805",
       "passed": 502,
@@ -424,7 +424,7 @@
       "checks": null
     },
     "deployment_suite": {
-      "file": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\13_COMMAND_CENTER\\api\\deployment-tests.json",
+      "file": "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\13_COMMAND_CENTER\\api\\deployment-tests.json",
       "bytes": 7497,
       "ran_at": "2026-10-06T23:22:20",
       "passed": 43,
@@ -631,7 +631,7 @@
     "bom": false
   },
   "startup_log": {
-    "path": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\09_LOGS\\hub-startup.log",
+    "path": "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\09_LOGS\\hub-startup.log",
     "bytes": 28180,
     "markers": 61,
     "exit_lines": 25,
@@ -661,7 +661,7 @@
     ]
   },
   "sentinel_hub": {
-    "path": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\sentinel_hub_server.py",
+    "path": "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\sentinel_hub_server.py",
     "bytes": 38765,
     "tools": 26,
     "tool_names": [
@@ -831,7 +831,7 @@
     "8901_owner": "OPTIMUS (not touched by SENTINEL)"
   },
   "blueprint": {
-    "path": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\OPTIMUS_MCP_CONFIG.json",
+    "path": "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\OPTIMUS_MCP_CONFIG.json",
     "sha256": "86989b627f2eb8ebc7ffbdd14accfb935891cc342a75b44f7b346e6957707e36",
     "bytes": 4565,
     "declared": 9,
@@ -861,7 +861,7 @@
     ]
   },
   "gap_register": {
-    "path": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\12_PROGRAM\\GAP_REGISTER.json",
+    "path": "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\12_PROGRAM\\GAP_REGISTER.json",
     "count": 18,
     "by_area": {
       "dependency": 1,
@@ -896,7 +896,7 @@
     ]
   },
   "swarm": {
-    "registry_path": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\09_LOGS\\cross_instance\\instance_registry.json",
+    "registry_path": "C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\09_LOGS\\cross_instance\\instance_registry.json",
     "registry_entries": {
       "PRIME-CLI": {
         "status": "ACTIVE",

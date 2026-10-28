@@ -14,7 +14,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-ROOT = Path(r'C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME')
+ROOT = Path(r'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME')
 SUITE = ROOT / '08_SELF_IMPROVEMENT' / 'test_suite.py'
 INDEX = ROOT / '13_COMMAND_CENTER' / 'index.html'
 PY = r'C:\Users\apviz\AppData\Local\Python\pythoncore-3.14-64\python.exe'

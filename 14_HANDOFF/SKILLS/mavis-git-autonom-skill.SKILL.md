@@ -363,7 +363,7 @@ git clone https://github.com/apvizual-max/SENTINEL_PRIME.git _clone_probe
 ```
 
 **Succes, masurat.** `origin/main` continea la radacina un director cu numele
-literal `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME`. Git refuza
+literal `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME`. Git refuza
 `:` intr-o componenta de nume, deci `read-tree`, `checkout` si orice clona
 esueau cu `error: invalid path` / `make_cache_entry failed for path`. Repo-ul
 era rupt pentru orice client Windows, inclusiv pentru pipeline. Repararea s-a

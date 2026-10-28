@@ -75,7 +75,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-WORKSPACE = Path('C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME')
+WORKSPACE = Path('C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME')
 
 def log_event(event_type, content, context=""):
     """Log generic pentru orice tip de eveniment"""
@@ -188,7 +188,7 @@ if __name__ == '__main__':
 ```powershell
 # SENTINEL Learning Loop - Rulează periodic
 param(
-    [string]$WorkspaceRoot = 'C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME'
+    [string]$WorkspaceRoot = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME'
 )
 
 # Capturează evenimente din sesiune

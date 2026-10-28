@@ -27,7 +27,7 @@ from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-WORKSPACE = Path(r"C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME")
+WORKSPACE = Path(r"C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME")
 OUT = WORKSPACE / "14_HANDOFF" / "_BUILD_SURVEY.json"
 FRONT = "http://127.0.0.1:8910"
 BACKEND = "http://127.0.0.1:8912"

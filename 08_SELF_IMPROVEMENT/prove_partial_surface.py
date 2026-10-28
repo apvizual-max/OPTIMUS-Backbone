@@ -16,7 +16,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-ROOT = Path(r'C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME')
+ROOT = Path(r'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME')
 API = ROOT / '13_COMMAND_CENTER' / 'api'
 RUN_JSON = API / 'last_test_run.json'
 COLLECT = API / 'collect-sentinel.ps1'

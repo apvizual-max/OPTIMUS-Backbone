@@ -70,14 +70,14 @@ Toate 3 sunt necesare simultan:
 ### Allowed Zones
 ```
 ✓ SELF_MODIFY_ZONES = [
-    'C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\01_FOUNDATION\\**',
-    'C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\02_OPERATIONAL\\**',
-    'C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\03_INTELLIGENCE\\**',
-    'C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\05_LEARNING\\**',
-    'C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\**',
-    'C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\08_SELF_IMPROVEMENT\\**',
-    'C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\09_LOGS\\**',
-    'C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\10_DOCS\\**'
+    'C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\01_FOUNDATION\\**',
+    'C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\02_OPERATIONAL\\**',
+    'C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\03_INTELLIGENCE\\**',
+    'C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\05_LEARNING\\**',
+    'C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\07_BACKBONE\\**',
+    'C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\08_SELF_IMPROVEMENT\\**',
+    'C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\09_LOGS\\**',
+    'C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME\\10_DOCS\\**'
 ]
 ```
 

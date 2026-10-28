@@ -58,7 +58,7 @@ not move.**
 ## Operating it
 
 ```powershell
-$hub = 'C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\13_COMMAND_CENTER\api\sentinel-hub.ps1'
+$hub = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\13_COMMAND_CENTER\api\sentinel-hub.ps1'
 
 powershell -NoProfile -ExecutionPolicy Bypass -File $hub status     # both planes + verdict
 powershell -NoProfile -ExecutionPolicy Bypass -File $hub start
@@ -155,7 +155,7 @@ expose the verbatim corpus on the open internet.
 ## Rebuilding the front
 
 ```powershell
-cd C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\13_COMMAND_CENTER\deploy
+cd C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\13_COMMAND_CENTER\deploy
 docker build -t mavis/sentinel-hub:1.0.0 -t mavis/sentinel-hub:latest .
 docker stop mavis-sentinel-hub; docker rm mavis-sentinel-hub
 docker run -d --name mavis-sentinel-hub --restart unless-stopped `
@@ -184,7 +184,7 @@ starts cleanly and 404s everything, which reads as a routing bug in the host.
 ## Tests
 
 ```powershell
-cd C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\08_SELF_IMPROVEMENT
+cd C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\08_SELF_IMPROVEMENT
 python test_deployment.py             # non-destructive
 python test_deployment.py --coldstart # also tears down and proves logon recovery
 ```

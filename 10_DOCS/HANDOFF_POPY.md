@@ -171,7 +171,7 @@ sentinel_check_context() → evaluează presiune
 - `D:\**` (Knowledge Vault)
 
 **Workspace autorizat:**
-- `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\**`
+- `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\**`
 
 **Operații care necesită approval explicit:**
 - Ștergere fișiere
@@ -242,7 +242,7 @@ După cererea ta explicită, am făcut:
 - CrossInstance 6/6 (mailbox + heartbeat + broadcast + active)
 - UniversalCompat 10/10 (adapt + detect + verify + translate)
 
-**Boundaries respectate**: zero modificări în afara `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\`.
+**Boundaries respectate**: zero modificări în afara `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\`.
 
 **Următorul meu pas**: aștept confirmarea ta că vrei să continui cu wire-up la Hermes, sau Pass 7 cu focus diferit pe REASON+LOGIC+STRATEGY.
 

@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Dict, Optional
 
 
-WORKSPACE = Path(os.environ.get('WORKSPACE_ROOT', 'C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME'))
+WORKSPACE = Path(os.environ.get('WORKSPACE_ROOT', 'C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME'))
 SCREENSHOTS_DIR = WORKSPACE / '09_LOGS' / 'screenshots'
 SCRAPED_DIR = WORKSPACE / '09_LOGS' / 'scraped'
 

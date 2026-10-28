@@ -1,7 +1,7 @@
 # HANDOFF — SENTINEL PRIME Control Centre
 
 **Stage:** dashboard build complete · **Date:** 2026-10-06 · **Operator:** Popy
-**Root:** `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\`
+**Root:** `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\`
 **Goal:** `tg_hl5gr4qb0vmuurmeo2` · declared complete at the close of this stage.
 
 Everything here was measured, not recalled. Source: `_BUILD_SURVEY.json`, generated

@@ -39,7 +39,7 @@ try:
 except AttributeError:
     pass
 
-PROJECT = Path(r'C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME')
+PROJECT = Path(r'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME')
 SOURCE_DIR = PROJECT / '07_BACKBONE' / 'skills'
 INSTALL_ROOT = Path(r'C:\Users\apviz\.minimax\agents\mavis\skills')
 

@@ -55,7 +55,7 @@ from pathlib import Path
 
 WORKSPACE = Path(os.environ.get(
     'WORKSPACE_ROOT',
-    r'C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME'))
+    r'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME'))
 
 FREEZE = WORKSPACE / '09_LOGS' / 'corpus_freeze'
 BRAIN = WORKSPACE / '11_BRAIN'

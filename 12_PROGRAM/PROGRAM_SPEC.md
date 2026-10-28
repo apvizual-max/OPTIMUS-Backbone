@@ -185,7 +185,7 @@ never silently repaired, and never deleted from.**
 ## 6. Reproduce
 
 ```powershell
-cd C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME
+cd C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME
 python 08_SELF_IMPROVEMENT\corpus_extractor.py verify
 python 08_SELF_IMPROVEMENT\build_program_matrix.py      # rebuild the matrix from the files
 python 08_SELF_IMPROVEMENT\build_idea_to_script_doc.py  # re-render the correlation doc

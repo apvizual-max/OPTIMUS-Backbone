@@ -10,7 +10,7 @@ from pathlib import Path
 
 
 # Config
-WORKSPACE_ROOT = Path('C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME')
+WORKSPACE_ROOT = Path('C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Optimus-Dashboard\\SENTINEL_PRIME')
 LEARNINGS_LOG = WORKSPACE_ROOT / '09_LOGS' / 'learnings.log'
 PATTERNS_INDEX = WORKSPACE_ROOT / '03_INTELLIGENCE' / 'patterns' / 'extracted_patterns.json'
 

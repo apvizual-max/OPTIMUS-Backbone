@@ -81,15 +81,15 @@ At line:4 char:1
   [ok]   static_route_control_discriminates: the same predicate fails when the gate is rewritten to take $rel, so this check is measuring the gate and not passing vacuously
   [ok]   action_origin_blocks_foreign: foreign Origin refused 403, own/absent Origin reached the action layer 400 (2/2 blocked)
 Traceback (most recent call last):
-  File "C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\08_SELF_IMPROVEMENT\test_deployment.py", line 2232, in 
+  File "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\08_SELF_IMPROVEMENT\test_deployment.py", line 2232, in 
 <module>
     raise SystemExit(main())
                      ~~~~^^
-  File "C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\08_SELF_IMPROVEMENT\test_deployment.py", line 2197, in 
+  File "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\08_SELF_IMPROVEMENT\test_deployment.py", line 2197, in 
 main
     fn()
     ~~^^
-  File "C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\08_SELF_IMPROVEMENT\test_deployment.py", line 1205, in 
+  File "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\08_SELF_IMPROVEMENT\test_deployment.py", line 1205, in 
 test_action_origin_gate_blocks_cross_origin
     src = io.open(srv, encoding="utf-8", errors="replace").read()
           ^^
