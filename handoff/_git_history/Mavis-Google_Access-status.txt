@@ -1,0 +1,41 @@
+ M .handoff/HANDOFF-GOOGLE-ACCESS.md
+ M .handoff/PRIMING-PROMPT.md
+ M .handoff/README.md
+ M .handoff/SKILLS-INDEX.md
+ M .handoff/STATE-MEASURED.md
+ M AGENTS.md
+ D "Mavis-Cloud - GOOGLE_Setup_Session/00_INDEX.md"
+ D "Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/00_INDEX.md"
+ D "Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/2026-10-22-PUBLISH-APP-OAUTH.md"
+ D "Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/2026-10-22-ROTIRE-API-KEY-GOOGLE.md"
+ D "Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/AGENTS.md"
+ D "Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/ARHITECTURA-SISTEM.md"
+ D "Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/AUTORIZARE-LINK (1).txt"
+ D "Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/AUTORIZARE-LINK.txt"
+ D "Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/DEFINITIE-OPERATIONALA.md"
+ D "Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/GOOGLE-PRODUCTION-CHECKLIST (1).md"
+ D "Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/GOOGLE-PRODUCTION-CHECKLIST (2).md"
+ D "Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/GOOGLE-PRODUCTION-CHECKLIST.md"
+ D "Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/GOOGLE-STATUS-2026-10-22 (1).md"
+ D "Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/GOOGLE-STATUS-2026-10-22 (2).md"
+ D "Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/GOOGLE-STATUS-2026-10-22.md"
+ D "Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/MavisCloud-Google.md"
+ D "Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/PROCEDURA-LIVRARE-SECRETE (1).md"
+ D "Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/PROCEDURA-LIVRARE-SECRETE.md"
+ D "Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/README (1).md"
+ D "Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/README.md"
+ D "Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/REGULI-VAULT.md"
+ D "Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/SKILL.md"
+ D "Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/drive-vault.js"
+ D "Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/google-refresh.js"
+ D "Mavis-Cloud - GOOGLE_Setup_Session/Mavis-Cloud_Google-Setup-Session.md"
+ M docs/PUNCT-DE-CONTROL.md
+ M docs/STARE-MASURATA.md
+ M scripts/ensure-consent-watcher.ps1
+ M scripts/ga-doctor.mjs
+ M scripts/ga-doctor.ps1
+ M scripts/picker-download.mjs
+ M scripts/picker-heartbeat.ps1
+ M scripts/probe-minimax-notebooklm.mjs
+ M scripts/rebuild-cloud-workflow.py
+?? .transcripts/

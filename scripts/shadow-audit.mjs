@@ -4,7 +4,7 @@
 // depth 0. A single-name pattern misses `let a=1, b=2, history=[]`.
 import { readFileSync } from 'node:fs';
 
-const HTML = process.argv[2] || 'C:/Users/apviz/.minimax-agent/projects/90_CONTROL_CENTER/index.html';
+const HTML = process.argv[2] || 'C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/90_CONTROL_CENTER/index.html';
 const html = readFileSync(HTML, 'utf8');
 const blocks = [...html.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)];
 if (!blocks.length) { console.log('no inline script found'); process.exit(1); }

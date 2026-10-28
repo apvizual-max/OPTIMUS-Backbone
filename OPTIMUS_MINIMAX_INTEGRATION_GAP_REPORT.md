@@ -363,7 +363,7 @@ Popy's stated architecture: *Hermes = orchestration + user interaction · Waylan
 ## Cross-references
 
 - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md` §9 (bridges), §11 (Second Brain)
-- Backbone hub: `C:\Users\apviz\.minimax-agent\projects\`
+- Backbone hub: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\`
 - Bridge registry: `00_INDEX/00_bridge_registry.md`
 - Skill taxonomy: `00_INDEX/00_skill_taxonomy.md`
 - MCP mirror plan: `70_CONNECTORS/70_mcp_mirror_plan.md`

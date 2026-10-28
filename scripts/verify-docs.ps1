@@ -29,7 +29,7 @@
 param()
 
 $ErrorActionPreference = 'Stop'
-$ROOT = 'C:\Users\apviz\.minimax-agent\projects\_SYSTEM\Skills'
+$ROOT = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\_SYSTEM\Skills'
 
 $DOCS = @(
   @{ N = 'install/SKILL';  P = "$ROOT\git-install\SKILL.md" },

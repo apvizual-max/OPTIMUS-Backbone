@@ -30,7 +30,7 @@ rupe-o. Deci `agentic-os/` e un folder, nu o dispersie.
 ## Cum verifici
 
 ```powershell
-cd C:\Users\apviz\.minimax-agent\projects\20_PROTOCOLS\agentic-os
+cd C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\20_PROTOCOLS\agentic-os
 node core\acceptance.js
 ```
 

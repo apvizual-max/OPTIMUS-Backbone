@@ -261,7 +261,7 @@ Fixing `hot.md` alone (Stage 1, 30 min) recovers the highest-leverage piece.
 
 ## Cross-references
 
-- Master gap report: `C:\Users\apviz\.minimax-agent\projects\OPTIMUS_MINIMAX_INTEGRATION_GAP_REPORT.md`
+- Master gap report: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\OPTIMUS_MINIMAX_INTEGRATION_GAP_REPORT.md`
 - Karpathy spec: `E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\- ORCHESTRATOR - Sys Folder - Hermes Default\SF_MKVA - MEMORIE_KV_ARHIVE\SF_MKVA - KARPATHY_LLM_WIKI_SETUP.md`
 - Hot cache spec: `...\SF_MKVA - HOT_CACHE_DOCUMENTATION.md`
 - Obsidian bridge skill: `C:\Users\apviz\.minimax\agents\mavis\skills\mavis-obsidian-second-brain-skill\SKILL.md`

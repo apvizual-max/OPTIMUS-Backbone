@@ -117,7 +117,7 @@ Useful Antigravity flags surfaced in the bridge spec for future use:
 ## 5. Deploy
 
 ```powershell
-cd C:\Users\apviz\.minimax-agent\projects\20_BRIDGES\minimax
+cd C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\20_BRIDGES\minimax
 docker compose -f docker-compose.yml up -d --build
 docker compose -f docker-compose.yml ps
 ```

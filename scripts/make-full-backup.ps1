@@ -30,7 +30,7 @@
 #>
 [CmdletBinding()]
 param(
-  [string]$Root = 'C:\Users\apviz\.minimax-agent\projects',
+  [string]$Root = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard',
   [string]$Name = '',
   [int]$VerifySample = 40,
   [switch]$AllowExisting

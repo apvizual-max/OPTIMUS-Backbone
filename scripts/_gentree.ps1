@@ -1,5 +1,5 @@
 $ErrorActionPreference = 'Continue'
-$q    = 'C:\Users\apviz\.minimax-agent\projects'
+$q    = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard'
 $docs = Join-Path $q 'FULL_BACKUP_2026-10-04_QUARANTINE\_DOCS'
 New-Item -ItemType Directory -Force -Path (Join-Path $docs '03_TREES') | Out-Null
 

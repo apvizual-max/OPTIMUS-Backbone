@@ -1,0 +1,101 @@
+diff --git a/00_INDEX.md b/00_INDEX.md
+index 7a8f88d..86ef86c 100644
+--- a/00_INDEX.md
++++ b/00_INDEX.md
+@@ -1,13 +1,13 @@
+ ﻿# 00_INDEX — 02_Areas/02-2-AI-SOT/CASA/OPTIMUS - Prime/Optimus_CI (by Mavis)
+ 
+-**7 fișiere · 55 KB · 13 subfoldere**
++**7 fișiere · 55 KB · 14 subfoldere**
+ 
+ > Generat automat de `02_Areas/02-2-AI-SOT/02-2-1-AI-Kit/AI-Kit_manual/build-index.ps1` și `align-index.ps1`. Nu edita manual — rulează scriptul din nou.
+ > Randul **De ce e aici** de mai sus, daca exista, se pastreaza la fiecare regenerare.
+ 
+ ## Ce e aici
+ 
+-Cele mai frecvente două extensii sunt `.md` (4 din 7 fișiere) și `.git` (1 din 7 fișiere). 13 rafturi copil (primele trei după nume: `_plans`, `blueprint`, `BRIDGE-DRIVE`); cel mai mare element din folder e `sessions` (39 MB)
++Cele mai frecvente două extensii sunt `.md` (4 din 7 fișiere) și `.git` (1 din 7 fișiere). 14 rafturi copil (primele trei după nume: `_plans`, `blueprint`, `BRIDGE-DRIVE`); cel mai mare element din folder e `sessions` (39 MB)
+ 
+ ## Cuvinte cheie
+ 
+@@ -20,9 +20,10 @@ _Fiecare raft e legat la indexul lui. Un index care nu e legat nu e în arbore._
+ - [`_plans`](<_plans/00_INDEX.md>) — 1 fișiere · 0 subfoldere
+ - [`blueprint`](<blueprint/00_INDEX.md>) — 1 fișiere · 0 subfoldere
+ - [`BRIDGE-DRIVE`](<BRIDGE-DRIVE/00_INDEX.md>) — 3 fișiere · 2 subfoldere
++- [`ci-server`](<ci-server/00_INDEX.md>) — 5 fișiere · 3 subfoldere
+ - [`cloud-ingest`](<cloud-ingest/00_INDEX.md>) — 0 fișiere · 0 subfoldere
+-- [`docs`](<docs/00_INDEX.md>) — 22 fișiere · 1 subfoldere
+-- [`logs`](<logs/00_INDEX.md>) — 15 fișiere · 0 subfoldere
++- [`docs`](<docs/00_INDEX.md>) — 23 fișiere · 1 subfoldere
++- [`logs`](<logs/00_INDEX.md>) — 16 fișiere · 0 subfoldere
+ - [`mapari`](<mapari/00_INDEX.md>) — 0 fișiere · 0 subfoldere
+ - [`Mavis_Cloud_Artefacts_arhive-10-27-2026`](<Mavis_Cloud_Artefacts_arhive-10-27-2026/00_INDEX.md>) — 104 fișiere · 0 subfoldere
+ - [`QUEUE`](<QUEUE/00_INDEX.md>) — 1 fișiere · 1 subfoldere
+diff --git a/docs/00_INDEX.md b/docs/00_INDEX.md
+index e7ee5c1..01fbb69 100644
+--- a/docs/00_INDEX.md
++++ b/docs/00_INDEX.md
+@@ -1,13 +1,13 @@
+ ﻿# 00_INDEX — 02_Areas/02-2-AI-SOT/CASA/OPTIMUS - Prime/Optimus_CI (by Mavis)/docs
+ 
+-**22 fișiere · 240 KB · 1 subfoldere**
++**23 fișiere · 255 KB · 1 subfoldere**
+ 
+ > Generat automat de `02_Areas/02-2-AI-SOT/02-2-1-AI-Kit/AI-Kit_manual/build-index.ps1` și `align-index.ps1`. Nu edita manual — rulează scriptul din nou.
+ > Randul **De ce e aici** de mai sus, daca exista, se pastreaza la fiecare regenerare.
+ 
+ ## Ce e aici
+ 
+-Singura extensie prezentă e `.md` (22 din 22 fișiere). Un raft copil: `arhiva`; cel mai mare element din folder e `arhiva` (56 KB)
++Singura extensie prezentă e `.md` (23 din 23 fișiere). Un raft copil: `arhiva`; cel mai mare element din folder e `arhiva` (56 KB)
+ 
+ ## Cuvinte cheie
+ 
+@@ -27,6 +27,7 @@ _Fiecare raft e legat la indexul lui. Un index care nu e legat nu e în arbore._
+ | `ARHITECTURA-CI-CD.md` | 9 KB | 2026-10-27 |
+ | `BRIDGE-LOCAL-CLOUD.md` | 14 KB | 2026-10-27 |
+ | `CI-POLICY.md` | 10 KB | 2026-10-27 |
++| `CI-SERVER.md` | 13 KB | 2026-10-28 |
+ | `CONFLICTE-DOZTRINA.md` | 6 KB | 2026-10-24 |
+ | `CONTRACT-CLOUD-QUEUE.md` | 5 KB | 2026-10-27 |
+ | `GIT-GITHUB-PROCEDURI.md` | 10 KB | 2026-10-27 |
+@@ -34,7 +35,7 @@ _Fiecare raft e legat la indexul lui. Un index care nu e legat nu e în arbore._
+ | `HANDOFF-TERMENARE-DEVELOPMENT-2026-10-27.md` | 14 KB | 2026-10-27 |
+ | `INVENTAR-REPO-URI.md` | 8 KB | 2026-10-27 |
+ | `MAPARE-FOLDERE.md` | 15 KB | 2026-10-27 |
+-| `MAVIS-LOCAL-ONBOARDING-2026-10-27.md` | 17 KB | 2026-10-27 |
++| `MAVIS-LOCAL-ONBOARDING-2026-10-27.md` | 19 KB | 2026-10-28 |
+ | `META-PROMPT.md` | 4 KB | 2026-10-27 |
+ | `PROTOCOL-DENUMIRE-LOCAL-CLOUD.md` | 6 KB | 2026-10-27 |
+ | `PUBLISH-CI.md` | 8 KB | 2026-10-27 |
+diff --git a/scripts/00_INDEX.md b/scripts/00_INDEX.md
+index ae0bc68..6741610 100644
+--- a/scripts/00_INDEX.md
++++ b/scripts/00_INDEX.md
+@@ -1,6 +1,6 @@
+ ﻿# 00_INDEX — 02_Areas/02-2-AI-SOT/CASA/OPTIMUS - Prime/Optimus_CI (by Mavis)/scripts
+ 
+-**22 fișiere · 247 KB · 0 subfoldere**
++**22 fișiere · 251 KB · 0 subfoldere**
+ 
+ > Generat automat de `02_Areas/02-2-AI-SOT/02-2-1-AI-Kit/AI-Kit_manual/build-index.ps1` și `align-index.ps1`. Nu edita manual — rulează scriptul din nou.
+ > Randul **De ce e aici** de mai sus, daca exista, se pastreaza la fiecare regenerare.
+@@ -18,7 +18,7 @@ Cele mai frecvente două extensii sunt `.ps1` (20 din 22 fișiere) și `.mjs` (1
+ | Fișier | Dimensiune | Modificat |
+ |---|---|---|
+ | `drivefs_probe.py` | 14 KB | 2026-10-27 |
+-| `git-scratch.ps1` | 4 KB | 2026-10-27 |
++| `git-scratch.ps1` | 4 KB | 2026-10-28 |
+ | `mavis-drive-bridge.ps1` | 19 KB | 2026-10-27 |
+ | `mavis-drive-bridge-selfcheck.ps1` | 19 KB | 2026-10-27 |
+ | `mavis-sync.ps1` | 8 KB | 2026-10-27 |
+@@ -36,7 +36,7 @@ Cele mai frecvente două extensii sunt `.ps1` (20 din 22 fișiere) și `.mjs` (1
+ | `queue-lib.ps1` | 13 KB | 2026-10-27 |
+ | `relocate-gitdata.ps1` | 7 KB | 2026-10-27 |
+ | `run-sync-logged.ps1` | 4 KB | 2026-10-12 |
+-| `scan-staged-secrets.ps1` | 10 KB | 2026-10-27 |
+-| `scan-staged-secrets-selfcheck.ps1` | 12 KB | 2026-10-27 |
++| `scan-staged-secrets.ps1` | 10 KB | 2026-10-28 |
++| `scan-staged-secrets-selfcheck.ps1` | 15 KB | 2026-10-28 |
+ | `snapshot-vault.ps1` | 2 KB | 2026-10-27 |
+ 

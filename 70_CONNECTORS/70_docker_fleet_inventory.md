@@ -149,7 +149,7 @@ Six non-Hermes containers are already covered by Hermes-side MCP servers:
 
 ## Cross-references
 
-- Master gap report: `C:\Users\apviz\.minimax-agent\projects\OPTIMUS_MINIMAX_INTEGRATION_GAP_REPORT.md`
-- Bridge registry: `C:\Users\apviz\.minimax-agent\projects\00_INDEX\00_bridge_registry.md`
+- Master gap report: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\OPTIMUS_MINIMAX_INTEGRATION_GAP_REPORT.md`
+- Bridge registry: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\00_INDEX\00_bridge_registry.md`
 - Docker bridge skill: `C:\Users\apviz\.minimax\agents\mavis\skills\mavis-docker-gordon-skill\SKILL.md`
 - Doctrine §10: `SENTINEL_OPERATIONAL_DOCTRINE.md` (NEVER `docker container prune -a`)

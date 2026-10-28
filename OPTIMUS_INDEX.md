@@ -111,7 +111,7 @@ Rebuild: `optimus sot build`. It only creates what is absent.
 
 ## Key paths
 
-- Workspace: `C:\Users\apviz\.minimax-agent\projects\`
+- Workspace: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\`
 - Hermes: `C:\Users\apviz\AppData\Local\hermes\`
 - Second Brain: `E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\`
 - Audio/Video: `D:\Alex_Knowlege_Vault\03_Resources\03_7-SENTINEL_Character\`

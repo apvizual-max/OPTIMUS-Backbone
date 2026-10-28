@@ -15,22 +15,32 @@ _QUARANTINE*/
 *_probe*/
 *DIPLOID*/
 
-# ── REPO-URI CARE AU DEJA REMOTE PROPRIU ──────────────────────────────────
-# SENTINEL_PRIME are istoria lui. Încă un strat de git peste el ar produce
-# gitlink-uri (mod 160000) — intrări de tip "submodul" care nu sunt submodule.
-SENTINEL_PRIME/
+# ── REPO-URI UNIFICATE ÎN ACEST REPO ───────────────────────────────────────
+# MĂSURAT 2026-10-28: proiectul a devenit un singur SOT
+# (projects\Mavis-Optimus-Dashboard), cu un singur repo git, o singura ramura
+# (main) si un singur remote (apvizual-max/OPTIMUS-Backbone).
+#
+# Cinci repo-uri care stauteau in arborele acestui repo cu istoria si
+# remote-ul lor au fost UNITE prin git subtree, cu istoricul complet pastrat:
+#   SENTINEL_PRIME/                   -> apvizual-max/SENTINEL_PRIME
+#   Mavis-Google_Access/              -> apvizual-max/Mavis-Google_Access
+#   Optimus_CI (by Mavis)/            -> apvizual-max/MAVIS-OPTIMUS-CI
+#   60_SKILLS/mavis-skills/           -> apvizual-max/Optimus-Mavis-Skills
+#   Mavis-Google_Access/.work/MAVIS-CLOUD/ -> apvizual-max/MAVIS-CLOUD
+#
+# Ele NU mai sunt ignorate: continutul lor este acum in istoria acestui repo.
+# Bundle-urile complete (toate ref-urile) si patch-urile starii necomitate
+# sunt in handoff/_git_history/, deci nimic nu s-a pierdut in unire.
+#
+# Cele ce raman IGNORATE, pentru ca NU sunt ale noastre:
+#   60_SKILLS/_links/     -> junction spre folderul LIVE de skill-uri
+#                            (C:\Users\apviz\.minimax\agents\mavis\skills)
+#   Optimus_CD (by Jules)/ -> junction spre proiectul lui Jules, pe E:
+#   scripts/_jtest/      -> repo de test, fara remote
 60_SKILLS/_links/
-
-# MĂSURAT 2026-10-28: trei repo-uri stau în interiorul arborelui backbone și
-# fiecare are istoria și remote-ul lui. Fără această regulă, un `git add` le-ar
-# transforma în gitlink-uri (mod 160000) într-un repo PUBLIC — exact defectul
-# reparat la c73fa0b ("stergerea gitlink-ului mort catre vechea platforma CI").
-#   Mavis-Google_Access/      -> remote apvizual-max/Mavis-Google_Access
-#   Optimus_CD (by Jules)/    -> junction spre repo cu remote propriu
-#   Optimus_CI (by Mavis)/    -> junction spre repo cu remote propriu
-Mavis-Google_Access/
 Optimus_CD (by Jules)/
-Optimus_CI (by Mavis)/
+scripts/_jtest/
+backups/
 
 # Symlink pe o cale locală de pe această mașină (C:\Antigravity - SYSTEM
 # TOPOLOGY...). Ținta există (măsurat), dar un symlink absolut nu are ce căuta

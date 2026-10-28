@@ -1,5 +1,5 @@
 $ErrorActionPreference = 'Stop'
-$f = 'C:\Users\apviz\.minimax-agent\projects\90_CONTROL_CENTER\index.html'
+$f = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\90_CONTROL_CENTER\index.html'
 $lines = [System.Collections.ArrayList]@([IO.File]::ReadAllLines($f, [Text.Encoding]::UTF8))
 
 # Identify the stale line by its CONTENT: it contains the cp1252 rendering of

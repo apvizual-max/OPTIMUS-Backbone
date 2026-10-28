@@ -17,7 +17,7 @@
 **Date:** 2026-10-02
 **Author:** Mavis (MiniMax Code), operating under the SENTINEL doctrine
 **Operator:** Popy (Alexandru Popescu) — OPTIMUS Prime
-**Workspace:** `C:\Users\apviz\.minimax-agent\projects\`
+**Workspace:** `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\`
 
 ---
 

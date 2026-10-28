@@ -7,9 +7,9 @@ REM  Usage:  cc <command>
 REM  Example: cc status
 REM ===========================================================================
 setlocal
-set "OPTIMUS=C:\Users\apviz\.minimax-agent\projects\scripts\optimus.cmd"
-set "OPTIMUS_ROOT=C:\Users\apviz\.minimax-agent\projects"
-set "CC=C:\Users\apviz\.minimax-agent\projects\90_CONTROL_CENTER"
+set "OPTIMUS=C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\scripts\optimus.cmd"
+set "OPTIMUS_ROOT=C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard"
+set "CC=C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\90_CONTROL_CENTER"
 set "CMD=%~1"
 
 if "%CMD%"=="" goto :help
@@ -113,7 +113,7 @@ goto :unknown
   REM supervisor is a process; nothing restarts a process when Windows starts.
   echo Registering the logon task ...
   powershell -NoProfile -ExecutionPolicy Bypass -Command ^
-    "$a=New-ScheduledTaskAction -Execute 'powershell.exe' -Argument '-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\Users\apviz\.minimax-agent\projects\scripts\cc-watchdog.ps1\"'; ^
+    "$a=New-ScheduledTaskAction -Execute 'powershell.exe' -Argument '-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\scripts\cc-watchdog.ps1\"'; ^
      $t=New-ScheduledTaskTrigger -AtLogOn -User $env:USERNAME; ^
      Register-ScheduledTask -TaskName 'OPTIMUS_ControlCenter' -Action $a -Trigger $t -Description 'Keeps the OPTIMUS Control Center alive. Checks every 30s and restarts it if it stops serving fresh state.' -Force | Out-Null; ^
      Write-Host '  installed: OPTIMUS_ControlCenter (runs at logon)' -ForegroundColor Green"

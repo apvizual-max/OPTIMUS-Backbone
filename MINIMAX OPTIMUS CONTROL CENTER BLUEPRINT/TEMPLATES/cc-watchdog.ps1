@@ -49,7 +49,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-$Root     = 'C:\Users\apviz\.minimax-agent\projects'
+$Root     = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard'
 $CC       = Join-Path $Root '90_CONTROL_CENTER'
 $Server   = Join-Path $CC 'api\server.ps1'
 $LogDir   = Join-Path $CC 'logs'

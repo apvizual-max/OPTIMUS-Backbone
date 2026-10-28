@@ -50,7 +50,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-$Root       = 'C:\Users\apviz\.minimax-agent\projects'
+$Root       = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard'
 $Sentinel   = Join-Path $Root 'SENTINEL_PRIME'
 $ServerPath = Join-Path $Sentinel '13_COMMAND_CENTER\api\server.ps1'
 $LogDir     = Join-Path $Sentinel '13_COMMAND_CENTER\logs'

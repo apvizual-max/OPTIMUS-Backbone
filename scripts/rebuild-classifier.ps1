@@ -10,8 +10,8 @@ $ErrorActionPreference = 'Stop'
 $pskills = 'C:\Users\apviz\.minimax\skills'
 $tmpCsv  = Join-Path $env:TEMP 'personal_skills_index.csv'
 $tmpCls  = Join-Path $env:TEMP 'personal_skills_classified.csv'
-$out     = 'C:\Users\apviz\.minimax-agent\projects\70_CONNECTORS\70_personal_skill_index.md'
-$jrPath  = 'C:\Users\apviz\.minimax-agent\projects\40_REGISTRIES\40_partition_C_system.md'
+$out     = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\70_CONNECTORS\70_personal_skill_index.md'
+$jrPath  = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\40_REGISTRIES\40_partition_C_system.md'
 
 # Phase 1: extract name + description from each SKILL.md
 if (Test-Path $tmpCsv) { Remove-Item $tmpCsv -Force }

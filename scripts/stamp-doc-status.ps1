@@ -13,7 +13,7 @@
 param()
 
 $ErrorActionPreference = 'Stop'
-$P = 'C:\Users\apviz\.minimax-agent\projects'
+$P = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard'
 $NOW = (Get-Date -Format 'yyyy-MM-dd HH:mm')
 
 # name -> one line on what this document is

@@ -16,7 +16,7 @@
 > **Purpose**: paste this into MiniMax Code → Settings → Code review → "Custom review rules".
 > **Format**: plain Markdown. Sections are reviewed in order. Each rule is concrete, has a bad/good example, and references Popy's actual stack (TypeScript MCP servers, Python Hermes, PowerShell ops, Markdown doctrine, Obsidian Second Brain, MCP fleet).
 > **Generated**: 2026-09-18 for the OPTIMUS Prime local deployment.
-> **Scope**: any diff in `C:\Users\apviz\.minimax-agent\projects\` or any of Mavis's managed dirs (`C:\Users\apviz\.minimax\agents\mavis\skills\`, `C:\Users\apviz\.minimax\mcp.json`, etc.).
+> **Scope**: any diff in `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\` or any of Mavis's managed dirs (`C:\Users\apviz\.minimax\agents\mavis\skills\`, `C:\Users\apviz\.minimax\mcp.json`, etc.).
 
 ## §0 Reviewer posture
 
@@ -247,7 +247,7 @@
 
 - Read the surrounding call sites before flagging cross-component impact.
 - For paths and tool names, verify against `mavis mcp list` and `mavis agent get` before flagging.
-- For doctrine claims, verify against `C:\Users\apviz\.minimax-agent\projects\SENTINEL_OPERATIONAL_DOCTRINE.md` before flagging.
+- For doctrine claims, verify against `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_OPERATIONAL_DOCTRINE.md` before flagging.
 - For memory claims, verify against the live `memory(target=main, operation=read)` before flagging.
 
 If you can't verify a claim, **say so explicitly** — *"I cannot verify this from the diff; please confirm"*. Never invent.

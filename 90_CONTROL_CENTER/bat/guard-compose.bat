@@ -18,7 +18,7 @@ REM  Safe to run any time. It never stops or recreates a container.
 REM ===========================================================================
 setlocal
 set "COMPOSE=C:\Users\apviz\docker-compose.yml"
-set "GUARD=C:\Users\apviz\.minimax-agent\projects\90_CONTROL_CENTER\api\guard-compose.ps1"
+set "GUARD=C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\90_CONTROL_CENTER\api\guard-compose.ps1"
 
 powershell -NoProfile -ExecutionPolicy Bypass -File "%GUARD%"
 set "RC=%ERRORLEVEL%"

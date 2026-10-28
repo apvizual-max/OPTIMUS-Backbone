@@ -21,7 +21,7 @@
   .\gen-icon-subset.ps1
 #>
 $ErrorActionPreference = 'Stop'
-$root    = 'C:\Users\apviz\.minimax-agent\projects'
+$root    = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard'
 $cc      = Join-Path $root '90_CONTROL_CENTER'
 $page    = Join-Path $cc 'index.html'
 $cssOut  = Join-Path $cc 'assets\tabler-icons.css'

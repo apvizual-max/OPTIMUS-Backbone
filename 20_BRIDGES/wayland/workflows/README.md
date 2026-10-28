@@ -1,7 +1,7 @@
 # Wayland Workflows — Extracted Index
 
 **Source**: `C:\Program Files\Wayland\resources\bundled-workflows`
-**Output**: `C:\Users\apviz\.minimax-agent\projects\20_BRIDGES\wayland\workflows`
+**Output**: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\20_BRIDGES\wayland\workflows`
 **Extracted**: 71 workflows from a 327,837-byte packed blob
 **Failed**: 0
 

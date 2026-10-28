@@ -26,7 +26,7 @@
   .\verify-ui.ps1
 #>
 $ErrorActionPreference = 'Continue'
-$root = 'C:\Users\apviz\.minimax-agent\projects'
+$root = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard'
 $cc   = Join-Path $root '90_CONTROL_CENTER'
 $page = Join-Path $cc 'index.html'
 $pass = 0; $fail = 0

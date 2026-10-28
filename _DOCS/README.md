@@ -9,7 +9,7 @@ back up is here.
 ## 📍 Address
 
 ```
-C:\Users\apviz\.minimax-agent\projects\FULL_BACKUP_2026-10-04_QUARANTINE
+C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\FULL_BACKUP_2026-10-04_QUARANTINE
 ```
 
 ---

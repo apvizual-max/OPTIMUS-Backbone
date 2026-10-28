@@ -1,5 +1,5 @@
 $ErrorActionPreference = 'Stop'
-$f = 'C:\Users\apviz\.minimax-agent\projects\90_CONTROL_CENTER\index.html'
+$f = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\90_CONTROL_CENTER\index.html'
 $lines = [System.Collections.ArrayList]@([IO.File]::ReadAllLines($f, [Text.Encoding]::UTF8))
 
 # The two replaces are in the wrong order. A U+FFFD encoded as cp1252 arrives

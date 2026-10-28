@@ -4,7 +4,7 @@
 **Data:** 10 iulie 2026 · **Versiune:** 2.0
 **Destinatar:** Popy (Alexandru Popescu) — Operator OPTIMUS Prime
 **Autor:** Mavis (MiniMax Code), sub doctrina SENTINEL
-**Workspace:** `C:\Users\apviz\.minimax-agent\projects\`
+**Workspace:** `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\`
 
 > ### ACTUALIZAT 12:56 — citește `OPTIMUS_CURRENT_STATE.md` pentru adevărul curent
 > Acest raport este un **document de fază**. Pe parcursul zilei au existat decizii

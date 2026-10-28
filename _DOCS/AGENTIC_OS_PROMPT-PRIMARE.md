@@ -3,7 +3,7 @@
 **Copiază blocul de mai jos într-o sesiune nouă și trimite-l ca prim mesaj.**
 
 Dacă sesiunea e nouă și proiectul nu e deschis, adaugă la început calea proiectului:
-`C:\Users\apviz\.minimax-agent\projects\20_PROTOCOLS\agentic-os`
+`C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\20_PROTOCOLS\agentic-os`
 
 Toate comenzile de mai jos se rulează cu acest folder ca director curent.
 
@@ -11,7 +11,7 @@ Toate comenzile de mai jos se rulează cu acest folder ca director curent.
 
 ```text
 Citește întâi, înainte de orice altceva, fișierul:
-C:\Users\apviz\.minimax-agent\projects\_DOCS\AGENTIC_OS_HANDOFF.md
+C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\_DOCS\AGENTIC_OS_HANDOFF.md
 
 Apoi citește codul din core\ și audit\. Nu pentru a povesti
 ce e acolo — pentru a avea în vedere ce se rulează și ce se poate rupe.

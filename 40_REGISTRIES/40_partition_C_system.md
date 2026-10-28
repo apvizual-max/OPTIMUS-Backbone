@@ -10,7 +10,7 @@
 | `C:\Users\apviz\.minimax\agents\mavis\memory\MEMORY.md` | Mavis agent memory | âœ… exists |
 | `C:\Users\apviz\.minimax\agents\mavis\skills\` | Mavis skills | âœ… managed scope |
 | `C:\Users\apviz\.minimax\mcp.json` | MCP server config | âœ… managed scope |
-| `C:\Users\apviz\.minimax-agent\projects\` | OPTIMUS backbone workspace | âœ… this directory |
+| `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\` | OPTIMUS backbone workspace | âœ… this directory |
 
 ## Scan policy â€” STRICT
 

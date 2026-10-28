@@ -37,11 +37,11 @@
 | Agent ID | `mavis` |
 | Role | orchestrator |
 | Session ID (this root) | `mvs_11007a834d3646e4bf7ae77eeefc8b76` |
-| Parent workspace | `C:\Users\apviz\.minimax-agent\projects\` (user-selected, not default) |
+| Parent workspace | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\` (user-selected, not default) |
 | Agent config dir | `C:\Users\apviz\.minimax\agents\mavis\` |
 | Data dir | `C:\Users\apviz\.minimax\` |
-| Doctrine substrate | `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\` |
-| Operating layer | `C:\Users\apviz\.minimax-agent\projects\` (Mavis orchestration) |
+| Doctrine substrate | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\` |
+| Operating layer | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\` (Mavis orchestration) |
 
 ## §1 Live runtime state (re-verified 2026-09-18 21:21)
 
@@ -97,7 +97,7 @@ All under `C:\Users\apviz\.minimax\agents\mavis\skills\`, all matching the `mavi
 - **8 entries** in `C:\Users\apviz\.minimax\agents\mavis\memory\MEMORY.md` (29.1 KB, 302 lines)
 - Format: `<!-- mem-append-reason: ... -->` + `### topic (date)` + `Type:` lines — canonical, programmatically readable
 
-### §1.6 Backbone project at `C:\Users\apviz\.minimax-agent\projects\`
+### §1.6 Backbone project at `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\`
 
 - **40 files** (excluding `SENTINEL_PRIME/` doctrine substrate)
 - Sections present: `00_INDEX/`, `10_BRIDGES/`, `20_PROTOCOLS/`, `30_WORKFLOWS/`, `40_REGISTRIES/`, `50_TEMPLATES/`, `60_SKILLS/` (blueprints), `70_CONNECTORS/`
@@ -158,7 +158,7 @@ All under `C:\Users\apviz\.minimax\agents\mavis\skills\`, all matching the `mavi
 
 | Capability | Channel |
 |---|---|
-| Read / write any file under `C:\Users\apviz\.minimax-agent\projects\` | `read`, `write`, `edit`, `glob`, `grep` |
+| Read / write any file under `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\` | `read`, `write`, `edit`, `glob`, `grep` |
 | Read / write files under `C:\Users\apviz\.minimax\agents\mavis\` | same |
 | Spawn shell commands on this machine | `bash` (PowerShell) |
 | Run any installed CLI (`hermes`, `qwen`, `agy`, `docker`, `bun`) | `bash` |

@@ -1,0 +1,2477 @@
+diff --git a/mavis-antigravity-bridge-skill/SKILL.md b/mavis-antigravity-bridge-skill/SKILL.md
+index 5bbfecc..4fcab45 100644
+--- a/mavis-antigravity-bridge-skill/SKILL.md
++++ b/mavis-antigravity-bridge-skill/SKILL.md
+@@ -42,5 +42,5 @@ The IDE is installed at `C:\Users\apviz\AppData\Local\Programs\Antigravity IDE`.
+ 
+ ## Reference
+ 
+-- Bridge file: `C:\Users\apviz\.minimax-agent\projects\10_BRIDGES\10_antigravity.md`
++- Bridge file: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\10_BRIDGES\10_antigravity.md`
+ - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §9`
+diff --git a/mavis-backbone-skill/SKILL.md b/mavis-backbone-skill/SKILL.md
+index c0c7894..9bdf70b 100644
+--- a/mavis-backbone-skill/SKILL.md
++++ b/mavis-backbone-skill/SKILL.md
+@@ -1,11 +1,11 @@
+ ---
+ name: mavis-backbone-skill
+-description: Load on session-open when working in the OPTIMUS Backbone project at C:\Users\apviz\.minimax-agent\projects\. Bridges this skill's location with the doctrine file `SENTINEL_OPERATIONAL_DOCTRINE.md` and the deep doctrine substrate at `SENTINEL_PRIME/`.
++description: Load on session-open when working in the OPTIMUS Backbone project at C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\. Bridges this skill's location with the doctrine file `SENTINEL_OPERATIONAL_DOCTRINE.md` and the deep doctrine substrate at `SENTINEL_PRIME/`.
+ ---
+ 
+ # OPTIMUS Backbone — Mavis Layer
+ 
+-When Mavis is operating inside `C:\Users\apviz\.minimax-agent\projects\` (the OPTIMUS Backbone project), this skill is the project-level entry point.
++When Mavis is operating inside `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\` (the OPTIMUS Backbone project), this skill is the project-level entry point.
+ 
+ ## Two-layer model
+ 
+@@ -78,7 +78,7 @@ Mavis's skills (under `C:\Users\apviz\.minimax\agents\mavis\skills\`):
+ | **Docker CLI** | `C:\Program Files\Docker\Docker\resources\bin\docker.exe` |
+ | **Obsidian vault** | `E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\` |
+ | **SENTINEL materials (audio/video)** | `D:\Alex_Knowlege_Vault\03_Resources\03_7-SENTINEL_Character\` |
+-| **Backbone project (Mavis SOT)** | `C:\Users\apviz\.minimax-agent\projects\` |
++| **Backbone project (Mavis SOT)** | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\` |
+ 
+ ## Reference
+ 
+diff --git a/mavis-bundle-behavioral/SKILL.md b/mavis-bundle-behavioral/SKILL.md
+index afd193b..023de89 100644
+--- a/mavis-bundle-behavioral/SKILL.md
++++ b/mavis-bundle-behavioral/SKILL.md
+@@ -54,6 +54,6 @@ The closest MCPs this category *uses* (but doesn't own):
+ ## Cross-references
+ 
+ - Skill index (single point of truth): `mavis-skill-index`
+-- Classifier data: `C:\Users\apviz\.minimax-agent\projects\70_CONNECTORS\70_personal_skill_index.md` (248 Behavioral skills classified — review/evaluate/validate/etc.)
+-- Taxonomy: `C:\Users\apviz\.minimax-agent\projects\00_INDEX\00_skill_taxonomy.md`
++- Classifier data: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\70_CONNECTORS\70_personal_skill_index.md` (248 Behavioral skills classified — review/evaluate/validate/etc.)
++- Taxonomy: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\00_INDEX\00_skill_taxonomy.md`
+ - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §2` (R33), §3 (Triple Crunch), §6 (SOUL/CONSTINTA)
+diff --git a/mavis-bundle-identity/SKILL.md b/mavis-bundle-identity/SKILL.md
+index 97ed26c..21474fb 100644
+--- a/mavis-bundle-identity/SKILL.md
++++ b/mavis-bundle-identity/SKILL.md
+@@ -30,7 +30,7 @@ Load the right one via `skill({ name: "<member>" })`:
+ This category's "what's authoritative" answers come from:
+ 
+ - **`obsidian-mcp`** — the vault at `E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\` is the SOT for doctrinal text. Use `mcp_invoke({ tool: "obsidian.search" })` for in-vault lookups.
+-- **`mcp-server-filesystem`** — for paths in `C:\Users\apviz\.minimax-agent\projects\`, `C:\Users\apviz\AppData\Local\hermes\hermes-agent\`, `D:\Alex_Knowlege_Vault\`, etc.
++- **`mcp-server-filesystem`** — for paths in `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\`, `C:\Users\apviz\AppData\Local\hermes\hermes-agent\`, `D:\Alex_Knowlege_Vault\`, etc.
+ 
+ ## How to use this bundle
+ 
+@@ -47,6 +47,6 @@ This category's "what's authoritative" answers come from:
+ ## Cross-references
+ 
+ - Skill index (single point of truth): `mavis-skill-index`
+-- Classifier data: `C:\Users\apviz\.minimax-agent\projects\70_CONNECTORS\70_personal_skill_index.md` (80 Identity skills classified)
+-- Taxonomy: `C:\Users\apviz\.minimax-agent\projects\00_INDEX\00_skill_taxonomy.md`
++- Classifier data: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\70_CONNECTORS\70_personal_skill_index.md` (80 Identity skills classified)
++- Taxonomy: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\00_INDEX\00_skill_taxonomy.md`
+ - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §1` (zero fabrication — paths and tool names must be verified)
+diff --git a/mavis-bundle-operations/SKILL.md b/mavis-bundle-operations/SKILL.md
+index 71c4057..ff1202c 100644
+--- a/mavis-bundle-operations/SKILL.md
++++ b/mavis-bundle-operations/SKILL.md
+@@ -35,6 +35,8 @@ Load via `skill({ name: "<member>" })`:
+ | `mavis-chrome-browser-skill` | Live browser automation, screenshots, devtools | `chrome-devtools-mcp`, `agent-browser-mcp` |
+ | `mavis-session-transcript-skill` | Extract the FULL transcript of a session (every message, thinking, tool call, externalised tool output) for archiving or hand-over | none (reads the runtime's own sqlite + session dirs via `node:sqlite`) |
+ 
++| `mavis-local-optimus-ci-bot` | **HUB for anything touching Optimus CI** — the Mavis Local Optimus CI Bot: role, personality, 9 functions, tools, and the indexed list of the secondary skills (server, local↔cloud bridge, Drive mirror sync, R0 publish gate, quarantine, CD boundary) | `optimus-ci-server` |
++
+ ## MCP servers that enforce scope
+ 
+ This category owns **all 8 enabled bridge MCPs** (Hermes, Qwen, Docker, Git, Obsidian, NotebookLM, Chrome DevTools, Agent Browser) plus **mcp-server-filesystem** for file ops. The 4 OAuth-pending Google MCPs also live in this category (gated on Popy's browser-side OAuth bootstrap).
+@@ -48,7 +50,7 @@ This category owns **all 8 enabled bridge MCPs** (Hermes, Qwen, Docker, Git, Obs
+ 
+ ## Personal skill integration (NEW: 2026-09-19)
+ 
+-The 682 personal skills classified as **Operations** in `C:\Users\apviz\.minimax-agent\projects\70_CONNECTORS\70_personal_skill_index.md` are also available here. Mavis uses `mavis-skill-index`'s routing procedure to:
++The 682 personal skills classified as **Operations** in `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\70_CONNECTORS\70_personal_skill_index.md` are also available here. Mavis uses `mavis-skill-index`'s routing procedure to:
+ 
+ 1. Scan the Operations section of the classifier table.
+ 2. Score candidate skills by description overlap with the task.
+@@ -68,7 +70,7 @@ The classifier is the single point of truth — Mavis never has to ask Popy whic
+ ## Cross-references
+ 
+ - Skill index (single point of truth): `mavis-skill-index`
+-- Classifier data: `C:\Users\apviz\.minimax-agent\projects\70_CONNECTORS\70_personal_skill_index.md`
+-- Taxonomy: `C:\Users\apviz\.minimax-agent\projects\00_INDEX\00_skill_taxonomy.md`
++- Classifier data: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\70_CONNECTORS\70_personal_skill_index.md`
++- Taxonomy: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\00_INDEX\00_skill_taxonomy.md`
+ - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §9` (bridge dispatch protocol)
+-- Bridge registry: `C:\Users\apviz\.minimax-agent\projects\00_INDEX\00_bridge_registry.md`
++- Bridge registry: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\00_INDEX\00_bridge_registry.md`
+diff --git a/mavis-bundle-role/SKILL.md b/mavis-bundle-role/SKILL.md
+index c7b7758..a6caf13 100644
+--- a/mavis-bundle-role/SKILL.md
++++ b/mavis-bundle-role/SKILL.md
+@@ -43,7 +43,7 @@ Load via `skill({ name: "<member>" })`:
+ ## Cross-references
+ 
+ - Skill index (single point of truth): `mavis-skill-index`
+-- Classifier data: `C:\Users\apviz\.minimax-agent\projects\70_CONNECTORS\70_personal_skill_index.md` (149 Role Definition skills classified — expert/specialist/persona)
+-- Taxonomy: `C:\Users\apviz\.minimax-agent\projects\00_INDEX\00_skill_taxonomy.md`
++- Classifier data: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\70_CONNECTORS\70_personal_skill_index.md` (149 Role Definition skills classified — expert/specialist/persona)
++- Taxonomy: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\00_INDEX\00_skill_taxonomy.md`
+ - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §9` (swarm bridges)
+-- Bridge registry: `C:\Users\apviz\.minimax-agent\projects\00_INDEX\00_bridge_registry.md`
++- Bridge registry: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\00_INDEX\00_bridge_registry.md`
+diff --git a/mavis-cloud-bridge-skill/SKILL.md b/mavis-cloud-bridge-skill/SKILL.md
+index 3adc1ce..1ece23e 100644
+--- a/mavis-cloud-bridge-skill/SKILL.md
++++ b/mavis-cloud-bridge-skill/SKILL.md
+@@ -1,3 +1,10 @@
++---
++name: mavis-cloud-bridge-skill
++description: "Protocolul Local <-> Cloud: cum circula informatia intre Mavis Cloud si Mavis Local si unde se opreste fiecare. Micro-skill al suitei mavis-optimus-continuous-integration-skill. Incarca-l la orice lucru despre puntea Google Drive, coada QUEUE sau schimbul de fisiere intre instanta locala si cea cloud."
++role: functional
++bot: mavis-local-optimus-ci-bot
++---
++
+ # MAVIS — CLOUD BRIDGE (protocolul Local ↔ Cloud)
+ 
+ **Tip:** micro-skill în cadrul suitei `mavis-optimus-continuous-integration-skill`
+diff --git a/mavis-deliverable-handoff-skill/SKILL.md b/mavis-deliverable-handoff-skill/SKILL.md
+index 74380f3..3324449 100644
+--- a/mavis-deliverable-handoff-skill/SKILL.md
++++ b/mavis-deliverable-handoff-skill/SKILL.md
+@@ -61,4 +61,4 @@ For full website deployment, use the `website_deploy` tool — see its contract.
+ ## Cross-references
+ 
+ - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §15`
+-- Workflow file: `C:/Users/apviz/.minimax-agent/projects/30_WORKFLOWS/30_deliverable_handoff.md`
++- Workflow file: `C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/30_WORKFLOWS/30_deliverable_handoff.md`
+diff --git a/mavis-doc-bridge-skill/SKILL.md b/mavis-doc-bridge-skill/SKILL.md
+index 0b88129..7deab41 100644
+--- a/mavis-doc-bridge-skill/SKILL.md
++++ b/mavis-doc-bridge-skill/SKILL.md
+@@ -17,10 +17,10 @@ an invented route means nothing. See "Verifying a Stirling route" below.
+ 
+ ## Bridge 1 — LibreOffice conversion
+ 
+-Script: `C:\Users\apviz\.minimax-agent\projects\scripts\convert-document.ps1`
++Script: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\scripts\convert-document.ps1`
+ 
+ ```powershell
+-& 'C:\Users\apviz\.minimax-agent\projects\scripts\convert-document.ps1' `
++& 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\scripts\convert-document.ps1' `
+    -InputPath 'C:\path\brief.docx' -Format pdf -AsJson
+ ```
+ 
+@@ -60,10 +60,10 @@ The container publishes a Selkies web-desktop (VNC-over-browser) on
+ 
+ ## Bridge 2 — Stirling-PDF
+ 
+-Script: `C:\Users\apviz\.minimax-agent\projects\scripts\stirling-pdf.ps1`
++Script: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\scripts\stirling-pdf.ps1`
+ 
+ ```powershell
+-& 'C:\Users\apviz\.minimax-agent\projects\scripts\stirling-pdf.ps1' `
++& 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\scripts\stirling-pdf.ps1' `
+    -Operation pdfa -InputPath 'C:\path\in.pdf' -AsJson
+ ```
+ 
+@@ -111,8 +111,8 @@ curl.exe -s -o NUL -w "%{http_code}" -X POST -H "Content-Type: application/json"
+ ## Typical chains
+ 
+ ```powershell
+-$S  = 'C:\Users\apviz\.minimax-agent\projects\scripts'
+-$w  = 'C:\Users\apviz\.minimax-agent\projects\scratch\docbridge'
++$S  = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\scripts'
++$w  = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\scratch\docbridge'
+ 
+ # text -> pdf -> PDF/A
+ $pdf = (& "$S\convert-document.ps1" -InputPath "$w\notes.txt" -Format pdf -AsJson | ConvertFrom-Json).output
+diff --git a/mavis-docker-gordon-skill/SKILL.md b/mavis-docker-gordon-skill/SKILL.md
+index e873135..a240589 100644
+--- a/mavis-docker-gordon-skill/SKILL.md
++++ b/mavis-docker-gordon-skill/SKILL.md
+@@ -50,5 +50,5 @@ Use `mcp_invoke` against `docker-mcp` for tool-level container operations.
+ 
+ ## Reference
+ 
+-- Bridge file: `C:\Users\apviz\.minimax-agent\projects\10_BRIDGES\10_gordon.md`
++- Bridge file: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\10_BRIDGES\10_gordon.md`
+ - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §9, §10`
+diff --git a/mavis-git-autonom-skill/SKILL.md b/mavis-git-autonom-skill/SKILL.md
+index 43d6fd9..f582ac0 100644
+--- a/mavis-git-autonom-skill/SKILL.md
++++ b/mavis-git-autonom-skill/SKILL.md
+@@ -12,6 +12,8 @@ INTERFATA = nu se atinge.
+ <!-- /NUCLEU-GIT -->
+ name: mavis-git-autonom-skill
+ description: "Regula de lucru zilnică cu Git, într-un proiect care are deja .git. Lucrezi PE main, niciodată pe branch, fără să creezi ramuri. COMMIT imediat la fiecare succes măsurat, inclusiv pe modificările lui Popy, fără să ceri confirmare, fără poartă și fără LiveReview. PUSH doar cu acordul lui Popy și doar peste un prag de comituri, prin scripts\\git-autopush.ps1: push pur, LiveReview abia DUPĂ ce serverul e confirmat, două căi (cu review și fără), rate limit nu generează nicio eroare. Verifici cu git ls-remote, niciodată prin codul de ieșire. Semnezi prin scripts\\push-status.ps1, cu tabel mare și balon în tavă, repetat până la push. Nu atingi interfața. Nu ștergi nimic: muți în carantină cu motiv scris. Nu ceri decizii tehnice — le iei tu și continui. Se încarcă la prima treabă care atinge Git; instalarea de la zero e skillul mavis-git-install-skill."
++role: functional
++bot: mavis-local-optimus-ci-bot
+ ---
+ 
+ # SKILL: git-autonom
+@@ -350,4 +352,158 @@ Dacă repo-ul se reclonează, poarta dispare și trebuie repusă din
+ ## 13. Promptul pereche
+ 
+ `PROMPT git autonom.md`, în același folder — se trimite ca atare altor
+- instanțe, în alte proiecte. Rulează **după** `PROMPT git install.md`.
+\ No newline at end of file
++ instanțe, în alte proiecte. Rulează **după** `PROMPT git install.md`.
++
++## 14. Repo-ul trebuie sa se poata clona — masurat 2026-10-28
++
++`git log` arata perfect chiar si cand repo-ul e imposibil de checkout. Singura
++verificare care conteaza e **o clona noua de la zero**:
++
++```powershell
++git clone https://github.com/apvizual-max/SENTINEL_PRIME.git _clone_probe
++# verdict: exit 0 SI dirty=0 SI fisierele asteptate prezente
++```
++
++**Succes, masurat.** `origin/main` continea la radacina un director cu numele
++literal `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME`. Git refuza
++`:` intr-o componenta de nume, deci `read-tree`, `checkout` si orice clona
++esueau cu `error: invalid path` / `make_cache_entry failed for path`. Repo-ul
++era rupt pentru orice client Windows, inclusiv pentru pipeline. Repararea s-a
++facut **prin plumbing**, fara index si fara a atinge istoricul publicat:
++
++1. salveaza toate intrarile arborelui fals in quarantine, cu motiv scris;
++2. extrage fisierele care exista DOAR acolo la calea lor reala;
++3. reconstruieste arborele radacina: `git ls-tree -z origin/main` minus
++   intrarea invalida, apoi `git mktree -z`;
++4. `git commit-tree <tree> -p origin/main -m <motiv>` — istoricul ramane liniar;
++5. `git update-ref refs/heads/main <commit>` apoi `git read-tree -u --reset HEAD`;
++6. **verifica cu o clona noua**, nu cu `git log`.
++
++Dupa reparatie: clona 1408 de fisiere, `dirty=0`, totul prezent.
++
++**Greseli de repetat.**
++- Nu verifica sincronizarea doar prin `git log` sau `git status`.
++- Nu sterge intrarile suspecte din arbore fara sa le salvezi intai.
++- Nu rescrie istoricul publicat si nu folosi force-push.
++- Nu folosi `git reset --hard`.
++- Nu considera ca "merge-ul a mers" daca `git merge` a scris un avertisment.
++
++## 15. Orice comanda git trebuie legata de repo-ul potrivit — masurat 2026-10-28
++
++O sesiune poate rula cu **cwd-ul intr-un repo parinte**. In SENTINEL_PRIME,
++cwd-ul era `...\projects`, care e el insusi un repository git (OPTIMUS-Backbone),
++iar proiectul lucrat era `...\projects\SENTINEL_PRIME` — un repository **nested**.
++
++Cand am rulat `git ls-remote origin refs/heads/main` **fara `-C`**, comanda a
++interogat remote-ul repo-ului **parinte**. A returnat un SHA care nu exista in
++SENTINEL_PRIME, iar eu l-am citit ca "pipeline-ul CD a impins ceva nou intre
++mine si ultima verificare". Era o iminenta de panica bazata pe un repository
++strain. Corectat in cateva secunde prin `git -C`, dar semnul de pericol a fost
++ca **ambele SHA-uri arata la fel**: un hash de 40 de caractere nu isi spune
++repositorul.
++
++**Regula:** orice comanda git care raspunde despre un repository **neclase** se
++leaga explicit si verifica ce remote exista:
++
++```powershell
++git -C $repo remote -v
++git -C $repo ls-remote origin refs/heads/main
++```
++
++Acelasi lucru pentru starea unui **alt arbore** (de exemplu o clona plasata
++in interiorul proiectului): `git -C <clona> status --porcelain`.
++
++**Greseli de repetat.**
++- Nu folosi comanda git "din directorul curent" cand proiectul lucrat e altul.
++- Nu compara doua SHA-uri venite din repo-uri diferite fara sa verifici mai
++  intai **din ce repository** a venit fiecare.
++- Nu citi un SHA strain drept "push al pipeline-ului" inainte de a verifica
++  `git -C <repo> remote -v`.
++
++## 16. `git add -A` ia tot ce e in director, inclusiv materialul tau de lucru
++
++Am scris mesajul de commit intr-un fisier temporar in **radacina repo-ului**,
++ca sa pot folosi `git commit -F` cu un mesaj lung. Comanda `git add -A` de mai
++devreme l-a prins in commit, iar a trebuit un comit `chore` care sa-l scoata
++din istoric.
++
++**Regula:** fisierele de lucru (mesaje de commit, scripturi temporare) stau
++**in afara arborelui repository-ului** — in directorul temporar al sistemului —
++sau sunt introduse cu `git add <cale exacta>`, nu cu `git add -A`.
++
++**Verificarea, inainte de commit:** numara intrarile si citeste-le.
++`git diff --cached --name-status` arata exact ce va intra in istoric:
++
++```powershell
++git add -A
++git diff --cached --name-status
++git diff --cached --name-only | Where-Object { $_ -ne '' } | Measure-Object -Line
++```
++
++**Greseli de repetat.**
++- Nu tine material de lucru temporar in radacina unui repository pe care il
++  comiti cu `git add -A`.
++- Nu comiti fara sa citesti lista de intrari pe care o vei introduce in istoric.
++
++### Un mesaj de commit cu ghilimele duble se sparge in PowerShell 5.1
++
++Masurat de doua ori in aceeasi sesiune. In PowerShell 5.1, un sir cu ghilimele
++duble trimis unui executabil nativ este re-cuotat si **cutat la ghilimele**:
++argumentul se sparge in mai multe, iar `git` primeste bucatile drept
++*pathspec-uri*.
++
++```
++error: pathspec 'asta' did not match any file(s) known to git
++```
++
++Mesajul e bun; comitul pur si simplu nu s-a facut. Se vede ca **eroare de
++ghilimele**, nu ca mesaj gresit — si apare ca pathspec-uri ciudate, care trimit
++la texte care *exista* in commit.
++
++**Solutia, in ordine de preferinta:**
++
++1. **Foloseste `git commit -F <fisier>`** — scrie mesajul intr-un fisier si
++   scapa de quoting-ul complet. Fisierul poate sta in directorul temporar al
++   sistemului, ca sa nu fie prins de `git add -A`.
++2. **Sau un mesag fara ghilimele duble** — cu apostrof pentru citare, cum in
++   exemplele de mai sus.
++
++Ce **nu** merge: `git commit -m "text cu "citare" in el"` in PowerShell 5.1.
++
++**Greseli de repetat.**
++- Nu trimite un mesaj de commit cu ghilimele duble ca argument direct in
++  PowerShell 5.1. Foloseste `-F <fisier>`.
++- Nu citi un *pathspec* care conține fragmente din mesajul tău ca pe o
++  problemă cu arborele. E quoting.
++
++## 18. Verifică starea remote-ului cu instrumentul, nu cu `git log` (2026-10-28)
++
++**Aditiv.** Nimic de mai sus se rescrie.
++
++Măsurat în `SENTINEL_PRIME`: pipeline-ul CD (Jules + Antigravity CD Engine)
++scrie direct în `main`, și un comit poate fi **valid** și totuși imposibil de
++checkout — git refuză `:` într-o componentă de nume. `git log` și `git status`
++arătau perfect; fiecare clonă pe Windows eșua.
++
++Regula devine un instrument care se rulează după fiecare push al pipeline-ului:
++
++```powershell
++powershell -NoProfile -ExecutionPolicy Bypass -File scripts\verify-remote-clone.ps1
++# VERDICT=PASS (exit 0) | VERDICT=FAIL (exit 2) + FAILURES=<lista>
++```
++
++Măsurat: control falsificator → `VERDICT=FAIL` (`invalid_tree_entries 1`,
++`clone_exit 128`, „error: invalid path ..."), repo real → `VERDICT=PASS`.
++Instrumentul **nu șterge nimic** și nu atinge arborele de lucru: lasă clona de
++probă în `%TEMP%` și afișează calea în `PROBE_CLONE=`.
++
++**Trei capcane de shell, măsurate în timp ce l-am scris:**
++- o funcție PowerShell numită ca un executabil de pe PATH (`function Git`)
++  umbrează executabilul și se autoapelează la infinit — `CallDepthOverflow`;
++- cu `$ErrorActionPreference='Stop'`, un tool nativ care doar scrie pe stderr
++  aruncă o eroare terminantă și ascunde diagnosticul pe care voiai să-l vezi;
++- `powershell -File` nu leagă o listă de argumente la un parametru `[string[]]` —
++  primește un singur string cu virgule între ele.
++
++Când scrii un instrument de verificare în PowerShell: **dă-i un control
++falsificator.** Altfel nu știi dacă măsoară ceva sau doar confirmă ce știi deja.
+diff --git a/mavis-git-vault-governance-skill/SKILL.md b/mavis-git-vault-governance-skill/SKILL.md
+index 1939677..e1f2657 100644
+--- a/mavis-git-vault-governance-skill/SKILL.md
++++ b/mavis-git-vault-governance-skill/SKILL.md
+@@ -1,3 +1,10 @@
++---
++name: mavis-git-vault-governance-skill
++description: "Regulile care fac ca git add sa functioneze pe volume reale (DriveFS, bind-mount-uri, symlink-uri). Micro-skill al suitei mavis-optimus-continuous-integration-skill. Incarca-l la orice lucru despre index, filemode, CRLF sau despre volume-mounted."
++role: functional
++bot: mavis-local-optimus-ci-bot
++---
++
+ # MAVIS — GIT & VAULT GOVERNANCE
+ 
+ **Tip:** micro-skill în cadrul suitei `mavis-optimus-continuous-integration-skill`
+diff --git a/mavis-google-workspace-skill/SKILL.md b/mavis-google-workspace-skill/SKILL.md
+index 02eb39e..5a21f39 100644
+--- a/mavis-google-workspace-skill/SKILL.md
++++ b/mavis-google-workspace-skill/SKILL.md
+@@ -43,7 +43,7 @@ Each needs its own OAuth bootstrap.
+ 
+ ## Reference
+ 
+-- Bridge file: `C:\Users\apviz\.minimax-agent\projects\10_BRIDGES\10_gemini.md` (Gemini shares the Google ecosystem)
++- Bridge file: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\10_BRIDGES\10_gemini.md` (Gemini shares the Google ecosystem)
+ - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §9`
+ 
+ ## Starea măsurată a rutelor Drive — 2026-10-27
+diff --git a/mavis-hermes-bridge-skill/SKILL.md b/mavis-hermes-bridge-skill/SKILL.md
+index ff2838c..260bf72 100644
+--- a/mavis-hermes-bridge-skill/SKILL.md
++++ b/mavis-hermes-bridge-skill/SKILL.md
+@@ -73,6 +73,6 @@ Romanian output at Popy + Prime + Assist profile; below translator gate = Englis
+ 
+ ## Reference
+ 
+-- Bridge file (Mavis orchestration): `C:\Users\apviz\.minimax-agent\projects\10_BRIDGES\10_hermes.md`
++- Bridge file (Mavis orchestration): `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\10_BRIDGES\10_hermes.md`
+ - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §9, §10`
+ - Hermes config: `C:\Users\apviz\.hermes\`
+diff --git a/mavis-jules-contract-skill/SKILL.md b/mavis-jules-contract-skill/SKILL.md
+index 0a5e28c..640198b 100644
+--- a/mavis-jules-contract-skill/SKILL.md
++++ b/mavis-jules-contract-skill/SKILL.md
+@@ -1,3 +1,10 @@
++---
++name: mavis-jules-contract-skill
++description: "Frontiera cu Jules: cine face ce cu Jules si ce nu atinge Mavis Local. Micro-skill al suitei mavis-optimus-continuous-integration-skill. Incarca-l inainte de orice lucru despre Optimus CD, despre o cerere care vine de la Jules sau despre o granita intre instante."
++role: functional
++bot: mavis-local-optimus-ci-bot
++---
++
+ # MAVIS — JULES CONTRACT (frontiera, nu operator)
+ 
+ **Tip:** micro-skill în cadrul suitei `mavis-optimus-continuous-integration-skill`
+@@ -82,4 +89,63 @@ lucrează pe ramuri. Reconcilierea, nu ignorarea:
+ 
+ - `cloud-ingest\MAVIS-CLOUD\docs\HANDOFF-2026-10-12-0440-jules.md` — cel mai nou handoff, citit 2026-10-12
+ - `cloud-ingest\MAVIS-CLOUD\.github\workflows\jules.yml` — implementarea reală
+-- `cloud-ingest\MAVIS-CLOUD\docs\JULES-INSTRUMENTARE.md` — documentația
+\ No newline at end of file
++- `cloud-ingest\MAVIS-CLOUD\docs\JULES-INSTRUMENTARE.md` — documentația
++
++## 8. Masurat in SENTINEL_PRIME, 2026-10-28 — cum arata pipeline-ul de fapt
++
++Aceasta este masurarea, nu Blueprint-ul.
++
++| Fapt | Masurat |
++|---|---|
++| pipeline-ul | Antigravity CD Engine + `google-labs-jules[bot]` |
++| tinta | `main`, direct. **Nu exista ramuri pe remote** |
++| CI | **Nu exista.** `gh run list` gol, `.github/workflows` absent |
++| ledger | `JULES_HANDOFF.md` in radacina — ce a intrat si cand |
++| comituri | ~37 in 3 zile: code health, teste, security, plus starea runtime |
++| Jules introduce si defecte | PR #14 a introdus o intrare de arbore cu cale absoluta |
++
++**Succes, masurat — cum se sincronizeaza localul cu pipeline-ul.**
++
++1. `git fetch --all --prune`, apoi compara: `git rev-list --left-right --count origin/main...HEAD`.
++2. Verifica, pentru fiecare commit local, ca e in istoricul remote:
++   `git merge-base --is-ancestor <commit> origin/main`. Daca toate sunt acolo,
++   **nu ai nimic de fuzuit**, doar de materializat.
++3. Snapshot inainte de orice operatiune: `git stash push -u` **si** o copie
++   fizica in quarantine. Doua cai de recuperare.
++4. `git merge --ff-only origin/main` pe arborele curat. Istorie liniara.
++5. Restaureaza selectiv: `git checkout 'stash@{0}^3' -- <cai>` pentru
++   fisierele neurmarite. `stash@{0}^3` e commitul cu cele neurmarite.
++6. **Ruleaza ambele suite, secvential.** Nu exista CI care sa le ruleze.
++7. **Verifica cu o clona noua**, nu cu `git log`.
++
++**Foloseste skill-ul `sentinel-cd-pipeline-sync`** din
++`SENTINEL_PRIME/07_BACKBONE/skills/` pentru rețeta completa, inclusiv
++reparatia arborelui cu cale absoluta.
++
++**Legarea retetei de repositoryul potrivit — masurat 2026-10-28.** In
++SENTINEL_PRIME, cwd-ul sesiunii a fost `...\projects`, care e el insusi un
++repository git (OPTIMUS-Backbone), iar proiectul lucrat era
++`...\projects\SENTINEL_PRIME` — un repository **nested**. Comanda
++`git ls-remote origin refs/heads/main`, rula **fara `-C`**, a interogat
++remote-ul repository-ului **parinte** si a returnat un SHA care nu exista in
++SENTINEL_PRIME. Citit ca "pipeline-ul a impus ceva nou intre doua verificari",
++era o iminenta de panica bazata pe un repository strain.
++
++Deci pasul 1 al retetei se rescrie:
++
++```powershell
++git -C $repo remote -v                              # ce remote exista, efectiv
++git -C $repo fetch origin --prune
++git -C $repo rev-list --left-right --count origin/main...HEAD
++```
++
++Un SHA strain, inainte de a-l numi "push al pipeline-ului", se verifica cu
++`git -C $repo remote -v`. Regula pentru orice pas al retetei: **fiecare comanda
++git se leaga de repositoryul despre care intreaba.**
++
++**Greseli de repetat.**
++- Nu presupune ca un commit valid inseamna repo clonabil.
++- Nu crea ramuri pe remote; `main` e singura ramura activa.
++- Nu folosi `stash pop` ca pas implicit.
++- Nu rula comenzi git "din directorul curent" cand proiectul lucrat e altul.
++- Nu interpreta un SHA venit din alt repository drept "push al pipeline-ului".
+diff --git a/mavis-jurnal-oglinda-skill/SKILL.md b/mavis-jurnal-oglinda-skill/SKILL.md
+index d9f91df..0244698 100644
+--- a/mavis-jurnal-oglinda-skill/SKILL.md
++++ b/mavis-jurnal-oglinda-skill/SKILL.md
+@@ -1,6 +1,8 @@
+ ---
+ name: mavis-jurnal-oglinda-skill
+ description: JURNAL_OGLINDA append-only reality anchor. Load when recording an event that Popy will need to remember later: bridge activations, doctrine amendments, incidents, subscription changes, CODUL SACRU ratifications, source-material location additions.
++role: functional
++bot: mavis-local-optimus-ci-bot
+ ---
+ 
+ # mavis-jurnal-oglinda-skill
+@@ -9,7 +11,7 @@ The Mirror Journal — Popy's reality anchor. Append-only. Never edit, never del
+ 
+ ## Where entries live
+ 
+-In this project: `C:/Users/apviz/.minimax-agent/projects/40_REGISTRIES/40_partition_*.md` — each file has a `## JURNAL_OGLINDA` section at the bottom.
++In this project: `C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/40_REGISTRIES/40_partition_*.md` — each file has a `## JURNAL_OGLINDA` section at the bottom.
+ 
+ Outside this project: SENTINEL_JOURNAL, git history, audit logs — all append-only by nature.
+ 
+@@ -51,4 +53,4 @@ The old entry stays. The correction is a new entry that points at it.
+ ## Cross-references
+ 
+ - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §8`
+-- Protocol file: `C:/Users/apviz/.minimax-agent/projects/20_PROTOCOLS/20_jurnal_oglinda.md`
++- Protocol file: `C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/20_PROTOCOLS/20_jurnal_oglinda.md`
+diff --git a/mavis-live-review-governance-skill/SKILL.md b/mavis-live-review-governance-skill/SKILL.md
+index 0724a00..7713e91 100644
+--- a/mavis-live-review-governance-skill/SKILL.md
++++ b/mavis-live-review-governance-skill/SKILL.md
+@@ -1,3 +1,10 @@
++---
++name: mavis-live-review-governance-skill
++description: "Guvernanta verificarii automate Live Review: cand ruleaza, ce inseamna ea si cum se trateaza. Micro-skill al suitei mavis-optimus-continuous-integration-skill. Incarca-l la orice lucru despre review, despre BYOK sau despre un verdict de revizuire."
++role: functional
++bot: mavis-local-optimus-ci-bot
++---
++
+ # MAVIS — LIVE REVIEW GOVERNANCE
+ 
+ **Tip:** micro-skill în cadrul suitei `mavis-optimus-continuous-integration-skill`
+@@ -38,6 +45,36 @@ Motivul e ordinea, nu confortul: o verificare care se declanșează la push în
+ seamnă că te oprește din cauza unui control care încă nu are istoric. Iar una
+ care se declanșează la commit înseamnă că poate bloca un commit corect.
+ 
++## 1-bis. Starea în SENTINEL_PRIME — măsurată 2026-10-28
++
++Măsurat pe proiectul `SENTINEL_PRIME`, unde LiveReview **nu e armat** — și
++asta e starea corectă, nu un defect:
++
++| Ce | Măsurat |
++|---|---|
++| `core.hooksPath` | **gol** — și e **intenționat** |
++| Unde sunt hook-urile | înregistrate pe repo-ul **exterior** `projects` |
++| Starea lor | **dezactivate** (`.git/lrc/disabled` = True) |
++| De ce | pe **2026-10-11** LiveReview bloca fiecare commit; decizia a fost să ruleze **doar după push** |
++| Ce rulează la comit | **nimic** — comitul nu e blocat |
++| Atestation-ul efectiv | `lrc review --vouch --staged` — manual, înainte de comit |
++| Ce raportează `lrc` | `LiveReview: vouched (iter:N, coverage:0%)` — `coverage: 0%` înseamnă fără conector AI, nu eroare |
++
++**Corecție de marcaj, cu textul fals păstrat.** `core.hooksPath` gol a fost
++prezentat ca „configul a fost rescris de pipeline și direcția hook-urilor
++LiveReview s-a pierdut". **Fals.** Măsurat: hook-urile sunt înregistrate pe
++repo-ul părinte și sunt **dezactivate de intenție**, pentru că la comit
++blochează. Un `core.hooksPath` gol e starea corectă într-un repo în care
++hook-urile nu trebuie să se declanșeze la comit.
++
++**Un skill poate descrie o cale care nu există în proiectul curent.** Skill-ul
++`mavis-git-autonom-skill` descrie `scripts\git-autopush.ps1` și
++`scripts\push-status.ps1`. În `SENTINEL_PRIME` **acele două fișiere nu
++există** — proiectul are `02_OPERATIONAL\scripts\`, cu alte două scripturi. Nu
++e defect al proiectului: e o trăsătură a skill-ului, care descrie mecanismul
++din alt proiect. **Verifică existența unei căi înainte s-o cauți**, și spune
++limpede în handoff ce nu există, în loc să-l lase pe cititor să caute.
++
+ ## 2. Politica — măsurată pe implementarea existentă
+ 
+ Nu reinentez mecanismul: îl preiau pe cel care există și e funcțional.
+diff --git a/mavis-local-to-cloud-reporting/SKILL.md b/mavis-local-to-cloud-reporting/SKILL.md
+index 7caadac..391ee7b 100644
+--- a/mavis-local-to-cloud-reporting/SKILL.md
++++ b/mavis-local-to-cloud-reporting/SKILL.md
+@@ -1,6 +1,8 @@
+ ---
+ name: mavis-local-to-cloud-reporting
+ description: Procedura standardizată prin care Mavis Local (Windows, Command Hub) agregă starea fizică a discului și a celor 4 repo-uri, emite tichete în QUEUE/, arhivează istoricul vechi prin mutare (niciodată ștergere) și redactează rapoarte datate pentru Cloud — totul sub Poarta R0. Rulează la sfârșit de sesiune, înainte de predare.
++role: functional
++bot: mavis-local-optimus-ci-bot
+ ---
+ 
+ # mavis-local-to-cloud-reporting
+diff --git a/mavis-mcp-management-skill/SKILL.md b/mavis-mcp-management-skill/SKILL.md
+index 3bbee0f..aee7cd4 100644
+--- a/mavis-mcp-management-skill/SKILL.md
++++ b/mavis-mcp-management-skill/SKILL.md
+@@ -55,5 +55,5 @@ Some MCPs (`gdrive-mcp`, `gmail-mcp`, `google-workspace-mcp`) are TypeScript and
+ ## Cross-references
+ 
+ - Settings locations: `mavis-backbone-skill`
+-- Bridge files: `C:/Users/apviz/.minimax-agent/projects/10_BRIDGES/`
+-- Registry: `C:/Users/apviz/.minimax-agent/projects/00_INDEX/00_bridge_registry.md`
++- Bridge files: `C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/10_BRIDGES/`
++- Registry: `C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/00_INDEX/00_bridge_registry.md`
+diff --git a/mavis-memory-curator-skill/SKILL.md b/mavis-memory-curator-skill/SKILL.md
+index a0d80d5..8998c4d 100644
+--- a/mavis-memory-curator-skill/SKILL.md
++++ b/mavis-memory-curator-skill/SKILL.md
+@@ -57,4 +57,4 @@ Type: <identity | architecture | rules | pointers | collaboration rules | profes
+ ## Cross-references
+ 
+ - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §17` (Memory is NOT paste-into-instructions material)
+-- Workflow file: `C:/Users/apviz/.minimax-agent/projects/30_WORKFLOWS/30_memory_update.md`
++- Workflow file: `C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/30_WORKFLOWS/30_memory_update.md`
+diff --git a/mavis-minimax-antigravity-bridge-skill/SKILL.md b/mavis-minimax-antigravity-bridge-skill/SKILL.md
+index e762546..0e4a198 100644
+--- a/mavis-minimax-antigravity-bridge-skill/SKILL.md
++++ b/mavis-minimax-antigravity-bridge-skill/SKILL.md
+@@ -22,7 +22,7 @@ Antigravity is the **small-tasks / AI-council** back-up. This skill drives `mini
+ ## Start / stop
+ 
+ ```powershell
+-cd C:\Users\apviz\.minimax-agent\projects\20_BRIDGES\minimax
++cd C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\20_BRIDGES\minimax
+ docker compose -f docker-compose.yml up -d --build
+ ```
+ 
+diff --git a/mavis-minimax-hermes-bridge-skill/SKILL.md b/mavis-minimax-hermes-bridge-skill/SKILL.md
+index 064b4f8..41c5ba3 100644
+--- a/mavis-minimax-hermes-bridge-skill/SKILL.md
++++ b/mavis-minimax-hermes-bridge-skill/SKILL.md
+@@ -20,7 +20,7 @@ Mavis is the **Hermes system DOCTOR**. This skill drives the `minimax-hermes-bri
+ ## Start / stop
+ 
+ ```powershell
+-cd C:\Users\apviz\.minimax-agent\projects\20_BRIDGES\minimax
++cd C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\20_BRIDGES\minimax
+ docker compose -f docker-compose.yml up -d --build
+ docker compose -f docker-compose.yml ps
+ docker compose -f docker-compose.yml stop minimax-hermes-bridge
+diff --git a/mavis-minimax-hermes-doctor-skill/SKILL.md b/mavis-minimax-hermes-doctor-skill/SKILL.md
+index 54bc66f..8e4dc6a 100644
+--- a/mavis-minimax-hermes-doctor-skill/SKILL.md
++++ b/mavis-minimax-hermes-doctor-skill/SKILL.md
+@@ -44,7 +44,7 @@ archived config since at least 2026-09-17.
+ | Bug-Monitor | `…\hermes\HERMES_OPTIMUS\CASA\OPTIMUS - Prime\OPTIMUS_Bug-Monitor` |
+ | Systems report | `…\HERMES_OPTIMUS\CASA\OPTIMUS - Prime\OPTIMUS_AI-Bridges\Hermes-Minimax_Bridge\MiniMax_Hermes_SysReport_GhostPath_10-01-2026.md` |
+ | MiniMax→Hermes handoff | `…\OPTIMUS_AI-Bridges\Hermes-Minimax_Bridge\Minimax-to-Hermes-Handoff_10-01-2026.md` |
+-| Upstream defect report | `C:\Users\apviz\.minimax-agent\projects\HERMES_DEFECT_relaunch_loop_venv_sync.md` |
++| Upstream defect report | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\HERMES_DEFECT_relaunch_loop_venv_sync.md` |
+ | Ghost-path forensics | `…\OPTIMUS_AI-Bridges\Hermes-Minimax_Bridge\_ghostpath-forensics\` |
+ | **Restricted** restore point | `C:\Users\apviz\HERMES_BACKUP` — ghost-path fixes only, report everything else |
+ | Telegram agent SOT | `…\hermes\.telegram-agent` |
+diff --git a/mavis-minimax-index-folder-update/SKILL.md b/mavis-minimax-index-folder-update/SKILL.md
+index ebd9856..408a937 100644
+--- a/mavis-minimax-index-folder-update/SKILL.md
++++ b/mavis-minimax-index-folder-update/SKILL.md
+@@ -1,11 +1,11 @@
+ ---
+ name: mavis-minimax-index-folder-update
+-description: Use when adding, moving, renaming, or deleting anything under C:\Users\apviz\.minimax-agent\projects — then this skill defines what must be re-indexed and in which folder. Also use to audit that folder for drift, refresh the Master Map, refresh the SOT links, or answer "where does X live / which doc covers Y". Triggers on "update the index", "projects folder", "Master Map", "registry", "new bridge file", "document this change", "SOT", "60_SKILLS", "70_CONNECTORS", "40_REGISTRIES".
++description: Use when adding, moving, renaming, or deleting anything under C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard — then this skill defines what must be re-indexed and in which folder. Also use to audit that folder for drift, refresh the Master Map, refresh the SOT links, or answer "where does X live / which doc covers Y". Triggers on "update the index", "projects folder", "Master Map", "registry", "new bridge file", "document this change", "SOT", "60_SKILLS", "70_CONNECTORS", "40_REGISTRIES".
+ ---
+ 
+ # mavis-minimax-index-folder-update
+ 
+-`C:\Users\apviz\.minimax-agent\projects\` is the **central audit point for the
++`C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\` is the **central audit point for the
+ whole MiniMax ecosystem on this machine.** Popy's standing instruction: it must
+ stay current as the build progresses.
+ 
+diff --git a/mavis-minimax-optimus-system/SKILL.md b/mavis-minimax-optimus-system/SKILL.md
+index 1b85f32..75ae75e 100644
+--- a/mavis-minimax-optimus-system/SKILL.md
++++ b/mavis-minimax-optimus-system/SKILL.md
+@@ -18,7 +18,7 @@ optimus doctor          # deep, 12+ checks
+ cc guard                # is docker-compose.yml still there and valid?
+ ```
+ 
+-Both commands live in `C:\Users\apviz\.minimax-agent\projects\scripts\` and are
++Both commands live in `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\scripts\` and are
+ on the user PATH. `cc` is the Control Center command bar.
+ 
+ ## The architecture in one paragraph
+diff --git a/mavis-notebooklm-bridge-skill/SKILL.md b/mavis-notebooklm-bridge-skill/SKILL.md
+index fd06f15..fef7465 100644
+--- a/mavis-notebooklm-bridge-skill/SKILL.md
++++ b/mavis-notebooklm-bridge-skill/SKILL.md
+@@ -40,7 +40,7 @@ Profilul e pe disc → sesiunea supraviețuiește repornirii. **E o cheie de uș
+ ## 3. Scriptul autonom — calea de scris
+ 
+ ```
+-C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Continuous-Integration\scripts\notebooklm-cdp.mjs
++C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Optimus-Continuous-Integration\scripts\notebooklm-cdp.mjs
+ ```
+ 
+ Commit-at în `MAVIS-OPTIMUS-CI` la `65c11d2`.
+diff --git a/mavis-obsidian-second-brain-skill/SKILL.md b/mavis-obsidian-second-brain-skill/SKILL.md
+index fb42b97..b202fd0 100644
+--- a/mavis-obsidian-second-brain-skill/SKILL.md
++++ b/mavis-obsidian-second-brain-skill/SKILL.md
+@@ -40,5 +40,5 @@ The Second Brain has two substrates: Obsidian (local) + NotebookLM (Google). Whe
+ 
+ - Vault root: `E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\`
+ - Hermes manuals (subset): `E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\- ORCHESTRATOR - Sys Folder - Hermes Default\`
+-- Bridge file: `C:\Users\apviz\.minimax-agent\projects\10_BRIDGES\10_notebooklm.md`
++- Bridge file: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\10_BRIDGES\10_notebooklm.md`
+ - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §11`
+diff --git a/mavis-optimus-continuous-integration-skill/SKILL.md b/mavis-optimus-continuous-integration-skill/SKILL.md
+index 7979a1f..8ee0867 100644
+--- a/mavis-optimus-continuous-integration-skill/SKILL.md
++++ b/mavis-optimus-continuous-integration-skill/SKILL.md
+@@ -1,6 +1,8 @@
+ ---
+ name: mavis-optimus-continuous-integration-skill
+ description: "Cartierul general și scopul Mavis Optimus Continuous Integration. Se încarcă la orice lucru care atinge Git, GitHub, poarta R0, puntea Local↔Cloud, Live Review sau Jules. Nu produce conținut — construiește sistemul. Stă după mavis-autonomous-operator-skill și înaintea celor două skilluri Git: îi spune unde stă cartierul, ce doctrină se aplică, ce se atinge și ce nu se atinge niciodată, și ce a rămas de făcut."
++role: functional
++bot: mavis-local-optimus-ci-bot
+ ---
+ 
+ # SKILL: Mavis Optimus Continuous Integration
+@@ -12,8 +14,8 @@ construiesc sistemul pe care lucrează toți ceilalți.
+ |---|---|
+ | **Proiect** | Mavis Optimus Continuous Integration |
+ | **Instanță** | **LOCAL** → am nevoie de R0 la push |
+-| **HQ** | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Continuous-Integration\` → **`E:\Google\GDrive\GDrive-Second_Brain_PKMS\02_Areas\02-2-AI-SOT\CASA\OPTIMUS - Prime\Optimus_CI (by Mavis)`** (mutat pe `E:` în 2026-10-27; vezi secțiunea „Puntea Local ↔ Cloud") |
+-| **Joncțiune locală** | `C:\Users\apviz\.minimax-agent\projects\Optimus_CI (by Mavis)` → `E:` (`LinkType=Junction`) |
++| **HQ** | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Optimus-Continuous-Integration\` → **`E:\Google\GDrive\GDrive-Second_Brain_PKMS\02_Areas\02-2-AI-SOT\CASA\OPTIMUS - Prime\Optimus_CI (by Mavis)`** (mutat pe `E:` în 2026-10-27; vezi secțiunea „Puntea Local ↔ Cloud") |
++| **Joncțiune locală** | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Optimus_CI (by Mavis)` → `E:` (`LinkType=Junction`) |
+ | **Repo** | `apvizual-max/MAVIS-OPTIMUS-CI` |
+ | **Plan** | `blueprint\BLUEPRINT-PLAN-CI.md` |
+ | **Canal primar** | **Google Drive** — `BRIDGE-DRIVE\` |
+@@ -129,6 +131,39 @@ continua din astea, mai am de lucrat.
+ altfel pierde datele la oprire. Aceasta e singura diferență între ele,
+ și e suficient.
+ 
++### Un repo scris de un pipeline CD — rețeta măsurată (28 oct)
++
++Când un **pipeline de dezvoltare continuă scrie direct în `main`** (Jules,
++Antigravity CD Engine), localul e de obicei *în urmă*, iar sincronizarea nu e
++opțională. Rețeta măsurată pe `SENTINEL_PRIME`:
++
++1. `git -C $repo fetch origin --prune`, apoi
++   `git -C $repo rev-list --left-right --count origin/main...HEAD`;
++2. verifică fiecare commit local cu
++   `git -C $repo merge-base --is-ancestor <commit> origin/main` — dacă toate
++   sunt acolo, **nu ai nimic de fuzuit**, doar de materializat;
++3. snapshot **în două locuri**: `git stash push -u` **și** o copie fizică în
++   quarantine;
++4. `git -C $repo merge --ff-only origin/main` — istorica rămâne liniară;
++5. restaurează selectiv, fișier cu fișier;
++6. **rulează ambele suite, secvențial** — acolo nu există CI care să le ruleze;
++7. **verifică cu o clonă nouă, de la zero**, nu cu `git log`.
++
++**Fiecare comandă git e legată de repository-ul despre care întreabă.** Cu
++cwd-ul într-un repo părinte, `git ls-remote origin` interoghează remote-ul
++**celuilalt** repository, iar SHA-ul arată la fel. Măsurat: un SHA venit din
++repo-ul părinte a fost citit ca „pipeline-ul a impus ceva nou" — o iminență de
++panică bazată pe un repository strain.
++
++**Un commit valid poate să nu fie clonabil.** Git refuză `:` într-o componentă
++de nume, iar un director cu cale absolută drept nume intră în arbore fără să
++apară în `git log` sau `git status`. Repararea se face prin **plumbing**
++(`mktree` + `commit-tree` cu părintele `origin/main`), ca istorica să rămână
++liniară — fără rescriere, fără force-push.
++
++Detalii complete: `mavis-jules-contract-skill` §8 și
++`SENTINEL_PRIME/07_BACKBONE/skills/sentinel-cd-pipeline-sync.SKILL.md`.
++
+ ---
+ 
+ ## Regula de aur, măsurată
+@@ -228,7 +263,7 @@ Costul canalului primar e **latența: ≈ 80 min** măsurată (scriere locală
+ | Element | Valoare |
+ |---|---|
+ | Sursa CI | `E:\Google\GDrive\GDrive-Second_Brain_PKMS\02_Areas\02-2-AI-SOT\CASA\OPTIMUS - Prime\Optimus_CI (by Mavis)` |
+-| Joncțiune | `C:\Users\apviz\.minimax-agent\projects\Optimus_CI (by Mavis)` → `E:` (`LinkType=Junction`) |
++| Joncțiune | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Optimus_CI (by Mavis)` → `E:` (`LinkType=Junction`) |
+ | `.git` | **fișier** (worktree link) → `gitdir: E:/Google/GitData-Optimus-CI/repo` |
+ | Gitdata | **un singur folder** pe proiect: `E:\Google\GitData-Optimus-CI\` → `repo\` · `clone-MAVIS-CLOUD\` · `clone-MAVIS-OPTIMUS-CI\` · `scratch\` |
+ | `G:` | volum fix, **nu** mount virtual; `G:\My Drive.lnk` → `E:\Google\GDrive` |
+@@ -520,3 +555,53 @@ altcineva; poate s-a schimbat deja. Deci:
+ - măsurătoarea porții de livrare citește **la vârful ramurii remote** a
+   consumatorului, nu copia locală — pentru că un repo poate fi schimbat sub
+   picioarele tale, și atunci „local" nu mai e un cuvânt suficient.
++
++---
++
++## Verificarea remote-ului cu clonă nouă, ca instrument (2026-10-28)
++
++> **Aditiv.** Nimic de mai sus se rescrie.
++
++Măsurat în `SENTINEL_PRIME`, unde pipeline-ul CD (Jules + Antigravity CD Engine)
++scrie direct în `main`: un comit poate fi **valid** și totuși imposibil de
++checkout pe Windows — git refuză `:` într-o componentă de nume, iar un director
++cu cale absolută drept nume intră în arbore fără să apară în `git log` sau
++`git status`. Pipeline-ul a introdus exact așa o dată, în 3 zile.
++
++Regula „verifică cu o clonă nouă" a devenit **cod**, nu rețetă:
++
++```powershell
++scripts\verify-remote-clone.ps1       # VERDICT=PASS (0) / VERDICT=FAIL (2) + FAILURES=<lista>
++scripts\make-broken-tree-control.py   # control falsificator: construiește defectul
++```
++
++Măsurat: controlul → `VERDICT=FAIL`, `invalid_tree_entries 1`, `clone_exit 128`,
++„error: invalid path 'C:\Users\...' — fatal: unable to checkout working tree";
++repo-ul real → `VERDICT=PASS`. Instrumentul **nu șterge nimic** și nu atinge
++arborele de lucru: lasă clona de probă în `%TEMP%` și afișează calea în
++`PROBE_CLONE=`.
++
++**Trei capcane PowerShell 5.1, măsurate în timp ce scriam instrumentul:**
++
++1. **O funcție numită ca un executabil de pe PATH umbrează executabilul.**
++   `function Git` + apelul către `git` = autoapelare la infinit →
++   `CallDepthOverflow`. Numele sigur: `Invoke-Native`.
++2. **Un tool nativ care scrie pe stderr nu e o excepție.** Cu
++   `$ErrorActionPreference='Stop'`, un `git` care doar avertizează aruncă o
++   eroare terminantă și **ascunde diagnosticul pe care voiai să-l vezi**.
++   Capturează stderr-ul într-un string și citește codul de ieșire.
++3. **`powershell -File` nu leagă o listă de argumente la un parametru
++   `[string[]]`.** Primește un singur string cu virgule între ele. Acceptă un
++   string separat prin virgule și descompune-l în interiorul scriptului.
++
++Și una de parsare: pe un pipeline cu un singur rezultat, `Where-Object`
++întoarce un **scalar**, iar `$x[0]` pe un scalar de tip string e indexare de
++**caracter** — SHA-ul a fost citit ca `"b"`. Ancorează regexul la începutul
++liniei (`^\s*([0-9a-f]{40})\b`) și nu cere whitespace după el: `git rev-parse
++HEAD` afișează SHA-ul gol.
++
++### Regula, pentru totdeauna
++
++> **Un check care nu poate pici nu e un check.** Instrumentul de verificare se
++> **falsifică** cu un control care construiește defectul pe care trebuie să-l
++> refuză — altfel nu știi dacă măsoară ceva sau doar confirmă ce știi deja.
+diff --git a/mavis-qwen-bridge-skill/SKILL.md b/mavis-qwen-bridge-skill/SKILL.md
+index 3df47ba..2764250 100644
+--- a/mavis-qwen-bridge-skill/SKILL.md
++++ b/mavis-qwen-bridge-skill/SKILL.md
+@@ -54,5 +54,5 @@ Qwen's strength is Chinese. For Romanian/English tasks, Mavis/Hermes/Gemini are
+ 
+ ## Reference
+ 
+-- Bridge file: `C:\Users\apviz\.minimax-agent\projects\10_BRIDGES\10_qwen_studio.md`
++- Bridge file: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\10_BRIDGES\10_qwen_studio.md`
+ - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §9`
+diff --git a/mavis-r33-bimodal-skill/SKILL.md b/mavis-r33-bimodal-skill/SKILL.md
+index 1c29c86..722a8d5 100644
+--- a/mavis-r33-bimodal-skill/SKILL.md
++++ b/mavis-r33-bimodal-skill/SKILL.md
+@@ -51,4 +51,4 @@ If Popy pre-authorizes a class of actions (e.g., "auto-fix lint in workspace"),
+ ## Cross-references
+ 
+ - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §2`
+-- Protocol file: `C:/Users/apviz/.minimax-agent/projects/20_PROTOCOLS/20_r33_bimodal.md`
++- Protocol file: `C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/20_PROTOCOLS/20_r33_bimodal.md`
+diff --git a/mavis-sacru-corpus-skill/SKILL.md b/mavis-sacru-corpus-skill/SKILL.md
+index 9b54adc..1cb9be3 100644
+--- a/mavis-sacru-corpus-skill/SKILL.md
++++ b/mavis-sacru-corpus-skill/SKILL.md
+@@ -48,5 +48,5 @@ When a decision has ethical, strategic, or long-horizon weight:
+ ## Reference
+ 
+ - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §4`
+-- Protocol file: `C:\Users\apviz\.minimax-agent\projects\20_PROTOCOLS\20_sacru_963hz.md`
+-- Registry (was pending): `C:\Users\apviz\.minimax-agent\projects\40_REGISTRIES\40_sacru_corpus_pending.md` — needs to be flipped to ✅ WIRED
++- Protocol file: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\20_PROTOCOLS\20_sacru_963hz.md`
++- Registry (was pending): `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\40_REGISTRIES\40_sacru_corpus_pending.md` — needs to be flipped to ✅ WIRED
+diff --git a/mavis-search-before-write/SKILL.md b/mavis-search-before-write/SKILL.md
+index 10a817e..0f67bec 100644
+--- a/mavis-search-before-write/SKILL.md
++++ b/mavis-search-before-write/SKILL.md
+@@ -1,3 +1,10 @@
++---
++name: mavis-search-before-write
++description: "Cauta inainte de a scrie: la fiecare sarcina, in fiecare sesiune, in fiecare proiect, inainte de prima scriere. Incarca-l inainte de orice modificare de fisier, de configuratie sau de cod."
++role: functional
++bot: mavis-local-optimus-ci-bot
++---
++
+ # SKILL: search-before-write
+ 
+ **Trigger: every task, every session, every project. Load before the first write.**
+diff --git a/mavis-sentinel-command-center-skill/SKILL.md b/mavis-sentinel-command-center-skill/SKILL.md
+index fd8e4f6..d1ae83e 100644
+--- a/mavis-sentinel-command-center-skill/SKILL.md
++++ b/mavis-sentinel-command-center-skill/SKILL.md
+@@ -1,478 +1,615 @@
+----
+-name: mavis-sentinel-command-center-skill
+-description: Operate the SENTINEL Command Center, the local live dashboard on 127.0.0.1:8910 - start it, stop it, check it, and read its panels honestly. Load when Popy asks for the dashboard, when the link is down, when a panel looks wrong, or when a verdict needs interpreting before it is trusted.
+-parent: mavis-sentinel-prime-on-minimax-skill
+-installed_by: 08_SELF_IMPROVEMENT/install_skills.py
+-source_of_truth: SENTINEL_PRIME/07_BACKBONE/skills/
+----
+-
+-# SENTINEL Command Center — operation
+-
+-The Command Center is the **face** of SENTINEL PRIME: 12 panels over loopback, every value
+-measured, data age always shown. This skill is how you start it, check it, and read it honestly.
+-
+-## The one command that matters
+-
+-```powershell
+-powershell -NoProfile -ExecutionPolicy Bypass `
+-  -File C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\13_COMMAND_CENTER\api\sentinel-hub.ps1 start
+-```
+-
+-Then open **http://127.0.0.1:8910/**.
+-
+-If Popy says *"the link is down"*, that command is the answer. Run `status` first to say
+-whether it is down or whether the browser is stale. `status` names **which plane** is
+-missing, because a gateway that is up while its app is down is a different fault with a
+-different fix.
+-
+-## The two planes — read this before touching a port
+-
+-| Plane | Where | Owns |
+-|---|---|---|
+-| **Backend** (data plane) | Windows PowerShell, `127.0.0.1:8912` | every measurement — it reads Windows-only facts (WMI, `Get-NetTCPConnection`, the runtime's own files) |
+-| **Front** (web plane) | container `mavis-sentinel-hub`, publishes `127.0.0.1:8910` | the address, health gating, the TLS position |
+-
+-**8910 is the container, not PowerShell.** Running `sentinel-cc.ps1 start` without
+-`-Port` will collide with it. The front holds **no copy** of the dashboard — it proxies to
+-the backend, because a baked-in copy would drift from the data that was actually measured.
+-
+-Port **8900 belongs to the separate OPTIMUS Control Center** (its own front is 8901).
+-Never touch either.
+-
+-## The verbs
+-
+-Use `sentinel-hub.ps1` — it manages **both** planes. `sentinel-cc.ps1` is the backend-only
+-launcher underneath it and takes an explicit `-Port`.
+-
+-| Verb | What it does | Notes |
+-|---|---|---|
+-| `start` | backend first, then container; waits for both to answer | backend first **on purpose** — front first yields a gateway that answers `/healthz` while `/readyz` says no, which looks like a working deployment for exactly as long as nobody reads the second path |
+-| `stop` | stops the container, then the backend | |
+-| `restart` | stop, then start | measured end-to-end: `DEPLOYMENT UP` |
+-| `status` | reports both planes, the container health, and a **named** verdict | exit 0 for `UP`, 1 for `DEGRADED`/`DOWN`; names which plane is missing |
+-| `logs` | container logs | |
+-| `install-startup` | writes the Startup-folder entry | **self-verifying**: refuses to install a `.bat` it has not structurally checked |
+-| `uninstall-startup` | neutralises it | delete the file to remove it entirely |
+-
+-Two paths on the front, and the distinction is the point:
+-
+-- `/healthz` — **the gateway**, answered by nginx itself. Answers even when the backend
+-  is dead. A health check that only ever asks the app cannot tell a dead gateway from a
+-  dead app, and reports the wrong one.
+-- `/readyz` — **the app behind the gateway**.
+-
+-`status` also reports a **stale pid file** explicitly (`STALE - process gone`) rather than
+-reporting a dead process as running. That is deliberate: a pid file is a claim, and the port
+-is the evidence.
+-
+-## How it actually stays up — and the trap I fell into
+-
+-`Start-Process` survives a **shell** exiting. It does **not** survive the **process tree** being
+-killed, which an agent harness does. The link was killed that way repeatedly, including once
+-immediately after a 16/16 self-test.
+-
+-| Mechanism | Result |
+-|---|---|
+-| `schtasks /create /sc onlogon` | **Access denied** — not elevated |
+-| `Start-Process` from an agent shell | **Killed with the tree** |
+-| `explorer.exe <bat>` | Survives — explorer is not a descendant of the agent |
+-| **Docker `restart=unless-stopped`** | **Survives** Docker restart and reboot |
+-| **Startup-folder `.bat`** | **Installed** — returns at logon, no elevation needed |
+-
+-Installed at
+-`%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\SENTINEL Command Center.bat`.
+-**To remove it, delete that one file.** No registry, no scheduled task, no service.
+-
+-### An agent cannot leave a long-lived server running
+-
+-A detached `Start-Process` server **does not stay up here.** It died three times, including
+-immediately after a 16/16 self-test, because an agent harness reaps the process tree it spawned
+-into.
+-
+-> Only a process started by something **outside** that tree survives: the desktop shell
+-> (`explorer.exe`), the Startup folder at logon, or Docker.
+-
+-So when the dashboard is down:
+-
+-1. `sentinel-hub.ps1 start` — proves the launch path works, but the backend instance is
+-   **temporary** if you run it from an agent shell.
+-2. To leave it genuinely up: `sentinel-hub.ps1 install-startup` and let the next logon do it,
+-   or launch from outside the agent's tree with `explorer.exe "<bat>"`.
+-
+-The `.bat`, the Startup entry and the container are **load-bearing**, not conveniences.
+-
+-### The startup entry failed twice, silently
+-
+-Both times the deployment simply came up **dead at logon** with nothing logged anywhere:
+-
+-1. `start "" /min powershell -Command "& '...' -Action start"` — `start` applies its own
+-   quoting rules, and a multi-line quoted `-Command` argument is exactly what it mangles.
+-   Now `-File` with one quoted path, with a permanent suite guard that **fails** if
+-   `-Command` reappears.
+-2. The generator built the `.bat` with `+` inside an `@( … )` array literal. That is *not*
+-   concatenation: `'a' + $x + 'b', 'c'` makes `'b', 'c'` an **array**, and `string + array`
+-   coerces with spaces — so the lines merged and the ports landed in the wrong place.
+-
+-> **A startup path that has only ever been checked while everything is already running is
+-> not a path.** Both of these passed review and both were found only by tearing the
+-> deployment down and running the real entry. The suite now has `startup_cold_start` for
+-> exactly this, and the entry writes `09_LOGS\hub-startup.log` so a future failure is not
+-> silent.
+-
+-Also: `Set-Content` does **not** normalise newlines *inside* a multi-line string, so a
+-generated `.bat` can carry bare LF endings that `cmd.exe` does not reliably honour. The
+-installer now forces CRLF and refuses to write a file it has not structurally verified.
+-
+-### `HttpListener` is not a normal socket — do not "find the owner"
+-
+-When cleaning up stray processes I asked `Get-NetTCPConnection -LocalPort 8910` which process
+-owned the port. It answered **pid 4 (System)**. I killed both servers and the link went dead.
+-
+-```
+-TCP    127.0.0.1:8910    0.0.0.0:0    LISTENING    4
+-```
+-
+-**`HttpListener` binds through the HTTP.sys kernel driver.** The socket is owned by the kernel,
+-not by the serving process. Every "which process owns this port" heuristic returns System, and
+-acting on it takes down every HttpListener server on the machine.
+-
+-**Match on the process you mean, never on the socket.** `sentinel-cc.ps1` identifies servers by
+-**command line** (`server.ps1` + port) and never by a bare pid or a socket. Use
+-`Test-Listening` to ask whether it is serving — that is the evidence.
+-
+-> A destructive action justified by an **indirect** signal is the dangerous one. The pid file,
+-> the socket table and the process list are three different claims; I acted on the cheapest to
+-> query and the least likely to be what I assumed.
+-
+-
+-## Why the old launcher was replaced
+-
+-`bat\sentinel-cc.bat` ran the server in the foreground of a console window. Three real failures
+-came out of that, all of which Popy hit:
+-
+-1. **It died with its window.** An agent shell exiting took the server with it and the open
+-   link went to connection-refused — the failure reported as *"the link is down"*.
+-2. **Two invocations collided.** The second bind on 8910 threw, so the obvious repair
+-   (*start it again*) made it worse and looked like a broken build.
+-3. **No way to ask.** There was no `status`, so "is it running?" was answered by a browser
+-   error page.
+-
+-`Start-Process` detachment fixes (1) for a shell exiting. It does **not** survive the whole
+-process tree being killed. Only a scheduled task does, because the Task Scheduler service —
+-not any agent shell — starts the process. Say that plainly rather than implying the launcher is
+-unkillable.
+-
+-## The panels, and what each one is evidence of
+-
+-| Panel | Reads | A FAIL here means |
+-|---|---|---|
+-| Overview | aggregate | rollup; the real number is on the panel that owns it |
+-| Brain | corpus stats | the memory is intact — 955 messages, retention 1.0000 |
+-| Method | the build method | documentary, not measured |
+-| Axes | 17 chapters | 0 unplaced messages |
+-| Doctrine | the gates | documentary |
+-| Program | concept matrix | concepts by computed status, never typed by hand |
+-| Workflow | `bimodal_state.json` | mode, failures toward STOP, and state **age** |
+-| Tests | `last_test_run.json` | 288 assertions, and a **Verdict** tile that is `PARTIAL` if anything was skipped |
+-| Wiring | `health.json` | declared vs. **wired** — a handshake that really answered |
+-| Learning | gaps register | 8 open gaps, each with its own evidence |
+-| Cockpit | actions | the only panel that mutates; it runs the R0 gate first |
+-
+-**The panel that matters most is Tests**, because it is the one that can say *I did not
+-measure this*. If it renders `PARTIAL` or `NOT_RUN`, the capability is **unverified, not
+-working** — do not describe it as passing.
+-
+-## The Desktop app, Design, and the cloud bridge
+-
+-The Ecosystem panel measures 21 surfaces. Beyond the runtime, it reaches the
+-desktop family from its own install trees and Electron state:
+-
+-| Surface | Reads |
+-|---|---|
+-| `desktop_code_processes` | live `MiniMax Code` processes + working set |
+-| `task_telemetry` | `%APPDATA%\MiniMax Agent\observability-outbox.jsonl` — event count, distinct kinds, age of the newest |
+-| `embedded_browser` | `embedded-browser-tabs.json` — sessions, tabs, hosts. **This is the local→cloud path** |
+-| `cloud_bridge_device` | `remote-control\state.json` — the `desktop_device_id` the cloud side addresses this machine by |
+-| `agent_identity` | `minimax-agent-config.json` — presence of the token block, **never its value** |
+-| `design_app` / `hub_app` | install + run state, and the reason when stopped |
+-
+-Design ships a local gateway under `resources\gateway`. It is only measurable
+-while the app runs; when Design is stopped the surface says `NOT_AVAILABLE` and
+-names that, rather than reporting a port nothing is listening on.
+-
+-**Never print a credential.** `agent_identity` reports *that* tokens are present
+-and states their values are never read. A control hub that printed one would be a
+-worse defect than a panel with one fewer number.
+-
+-Three ways this went wrong, all silent:
+-
+-- **A measurement that could not be taken is not a measurement of zero.** The
+-  first version reported "no Code process is running" while eleven ran: `wmic`
+-  rows were split on whitespace (`MiniMax Code.exe` is two tokens), `wmic` is not
+-  on PATH here, and `except: return []` turned a missing tool into an empty
+-  *finding*. Take process data from PowerShell `ConvertTo-Json`, and return
+-  `(rows, error)` so failure is reported rather than absorbed.
+-- **An array concatenated into a string prints empty, not a count.** A tile read
+-  `1 session(s), host(s)` because `hosts` was `[]`. It does not throw, so it
+-  looks fine. Guard with `Array.isArray(x) ? x.length : x`.
+-- **A missing `/favicon.ico` is a console error.** Requested by the browser, not
+-  the app, and it still means a page that is not clean. An inline
+-  `<link rel="icon" href="data:image/svg+xml,...">` cannot 404.
+-
+----
+-
+-## Reading a verdict honestly
+-- `NOT_MEASURED` with a reason beats any number you could invent.
+-- Data age is always displayed. A panel showing a value from 40 minutes ago is showing a
+-  snapshot, and the header will say so.
+-- A red monitor is not automatically a broken system, and a green one is not automatically
+-  a working one. **Read which checks are red and why before characterising the system.**
+-  At the last measurement: 55 checks, 43 OK, 2 FAIL, 10 STALE. The 2 FAIL are the dead
+-  `OPTIMUS_MCP_CONFIG.json` entries, left red on purpose pending Popy's decision. The
+-  10 STALE are honest — the underlying files are ~2.1 h old against 300–3600 s bounds,
+-  because the system has been idle. A monitor is a measurement *at a moment*; the numbers
+-  age, so do not quote them as current without re-measuring.
+-
+-## Verifying a change to the UI
+-
+-Route tests do not prove a page renders. Two defects here — a **blank page** and a literal
+-`[object Object]` tile — passed 55/55 server checks, a 200 response, correct HTML and a clean
+-console, and were found **only by looking at it**.
+-
+-```powershell
+-# needs the deployment up
+-cd C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\08_SELF_IMPROVEMENT
+-python final_browser_proof.py     # the 11 original panels
+-python test_deployment.py         # the deployment itself, non-destructive
+-python test_deployment.py --coldstart  # + proves logon recovery (destructive)
+-```
+-
+-Use the full interpreter path — `Get-Command python` resolves to the Microsoft
+-Store stub on this machine, which is not an interpreter. Measured: 30 passed / 0
+-failed / 1 not-run non-destructive, 31 / 0 / 0 with `--coldstart`, exit 0 both.
+-
+-There are now **12 tabs** (Ecosystem was added for the MINIMAX hub). **Open the page and
+-look at it as well** — that step found the two defects the script could not.
+-
+-## Deployment lessons that cost real time
+-
+-Each of these produced a *silent* failure. None of them announced itself.
+-
+-- **`Out-Host` breaks a script driven with redirected output.** `docker stop … | Out-Host`
+-  worked from a console and did nothing through a pipe — and because
+-  `$ErrorActionPreference = 'Stop'`, the whole branch died *before* the command ran. A
+-  verification tool that only works when a human is watching it is not a verification
+-  tool. Write to the output stream instead.
+-- **Never let a `.bat` be built with `+` inside an `@( … )` array literal.** `'a' + $x + 'b', 'c'`
+-  makes `'b', 'c'` an *array*, and `string + array` coerces with spaces. The lines merge
+-  and the arguments land in the wrong place. Use a here-string with `.Replace()`.
+-- **`Set-Content` does not normalise newlines inside a multi-line string.** A generated
+-  `.bat` can come out with bare LF endings that `cmd.exe` does not reliably honour.
+-  Force CRLF and assert it.
+-- **`start "" … -Command "…"` is not the same as `-File "path"`.** `start` applies its own
+-  quoting rules and mangles a multi-line quoted `-Command`.
+-- **A generator must verify its own output.** `install-startup` now refuses to write a
+-  `.bat` it has not structurally checked, and reads the file back off disk rather than
+-  trusting the variable it just built.
+-- **A suite needs a precondition.** Run against a deployment that was not running, the
+-  first version reported 12 `FAIL`s that all said "connection refused". Every one was true
+-  and not one was a defect.
+-- **A check that cannot fail is not a check.** `front == back` passed green with both
+-  planes dead, because a refused connection returns `0` and `0 == 0`.
+-- **Enumerating addresses with a nested-quote PowerShell one-liner through `subprocess`
+-  returns nothing on Windows** — the quotes do not survive re-quoting, PowerShell exits 1,
+-  and an empty result reads as "no such address exists". That silently skipped the
+-  loopback claim. Enumerate in Python.
+-- **`/api/stream` reconnect cadence needs the SSE `retry:` field.** Without it Chromium
+-  reconnects every ~3 s and re-reads the whole state file to obtain bytes that cannot have
+-  changed — measured 21 deliveries in 62 s where 3 is correct.
+-- **A function that is defined but never called is not a code path.** The ecosystem
+-  refresh was written into `Start-RefreshWorker` — a complete, correct function that
+-  nothing ever invoked. The real worker was a `Start-Job` further down the same file. The
+-  panel served a snapshot that aged to 27 minutes and never moved, with no error anywhere
+-  and every other check green. It is invisible to the parser, the linter and the reader,
+-  and it looks exactly like working code. **Find the caller before you trust the callee.**
+-- **A `Start-Job` has its own session state.** `$PY`, `$WORKSPACE` and every other
+-  script-scoped variable are `$null` inside the job unless passed through `-ArgumentList`.
+-  A call wrapped in `try/catch` will not reveal that, because nothing throws — the
+-  variable is simply null.
+-- **A native command exiting non-zero does not throw in PowerShell 5.1.** `& $stub
+-  script.py` that does nothing at all looks identical to success from the outside. Check
+-  `$LASTEXITCODE` explicitly, or the failure is invisible forever.
+-- **A non-null tool path is a claim, not evidence.** `Get-Command python` here returns the
+-  Microsoft Store stub, which exists, is non-null, and is not an interpreter. Resolve,
+-  then *verify* the candidate actually runs.
+-- **A port that answers 200 is not proof of what is serving it.** A stray `sentinel-cc.ps1`
+-  once bound 8910 directly. 8910 kept answering 200 after the container stopped, every
+-  "is the link up" probe said yes, and **every teardown was unable to take effect** because
+-  the process being stopped was not the process holding the port. The failure got reported
+-  as a broken startup path — which was working perfectly — for several cycles.
+-  `status` now answers `VERDICT HIJACKED` and names the pid; `stop` clears strays on the
+-  front port; `test_deployment.py` asserts the deployment header. **Only the header
+-  distinguishes a hijacked front from a healthy one.**
+-- **`HttpListener` again.** A hijack must be identified by **command line**, never by the
+-  socket — see the HTTP.sys note above. The socket owner is pid 4.
+-- **A timeout is not a bound on a process that leaves something behind.** The
+-  cold-start suite "hung" three times at 290/900/1800 s and was not hanging at
+-  all — it runs in 134 s. `subprocess.run(..., capture_output=True)` waits for
+-  pipe EOF, and the `start` verb legitimately leaves a long-lived backend that
+-  inherits the pipes, so EOF never comes. `timeout=` does **not** rescue it:
+-  Python kills the already-exited direct child and re-enters the same blocking
+-  read, making the timeout decorative for exactly the case it appears to
+-  protect. Give the child a **file** and kill the **tree** on timeout.
+-  `run_tool()` in `test_deployment.py` is the reference implementation.
+-- **A failing child names a token, never the line that produced it.**
+-  `"-ExecutionPolicy Bypass"` written as one argv element is a *command* to
+-  PowerShell, not a switch/value pair; it dies with "the term
+-  '-ExecutionPolicy' is not recognized". That silently disabled the `stop` verb,
+-  so the cold-start teardown did nothing while reporting a plausible error.
+-  Log `subprocess.list2cmdline(argv)` untruncated — the list had 11 elements
+-  where it needed 12, and no amount of reading the child's error would show it.
+-- **A gateway answering 200 is not a serving deployment.** With the backend
+-  dead, `/healthz` returns 200 and every other route returns 502. Any
+-  precondition asking only the gateway reports "already serving" and judges a
+-  dozen checks against a dead app. Ask **both** planes, as `status` does.
+-- **A fix applied to the instance that failed is not a fix applied to the
+-  class.** The bare-LF `.bat` bug was fixed in the Startup entry; an audit
+-  found `bat\sentinel-cc.bat` and five version backups still LF-only.
+-  `every_bat_is_crlf` now walks the live tree. The `backups\versions\v*` copies
+-  are excluded **by decision**: they are inert historical snapshots and
+-  rewriting them to satisfy a lint would falsify the version record. Prove any
+-  such exclusion is not a no-op — the first version of it compared a
+-  non-normalised `..\` path against `abspath`'d paths, matched nothing, and
+-  shipped.
+-- **A line of output that looks like evidence but was decoration.** `status`
+-  printed `loopback  127.0.0.1 only - not reachable off-box` as a fixed string,
+-  whatever was true. It is now measured: every routable non-loopback IPv4 is
+-  probed with a 1.2 s connect, the line names the count and the addresses, and
+-  the verdict becomes `UP BUT EXPOSED` with exit 1 if any of them answers.
+-  Sabotage-proven in both directions. Timeout and refused both count as "not
+-  reachable", so a firewall cannot be mistaken for a leak.
+-- **A check that overstates what it proves buys confidence in the wrong
+-  place.** `install_skills.py --check` printed "matches the project source
+-  byte-for-byte" while actually proving that *re-rendering* the source
+-  reproduces the installed file. Same class of fault, same session.
+-- **A test that passes through a different code path than the one it is named
+-  after is worse than no test.** A security test sent `{"action": ...}` to a
+-  route that reads `$parsed.id`. Every payload came back 400 — so the test
+-  passed, seven times, having never once consulted the whitelist. It had been
+-  sitting unexecuted in the phase list the whole time. Assert on the refusal
+-  **body**, not just the status code, so a refusal from any other path cannot
+-  satisfy it. The same phase list also named a function that did not exist
+-  (`test_x_admits_approved` vs `test_x_admits`) — a `NameError` that would have
+-  killed the suite the first time that phase ran. Phases are now resolved **by
+-  string**, so one stale symbol reports itself and names itself, instead of
+-  destroying the evidence from every other phase.
+-- **A "find problems" check with no scoping finds other people's problems.**
+-  The stray-listener check matched every `server.ps1` on the machine, so it
+-  failed four times blaming this deployment for the OPTIMUS Control Center on
+-  port 8900 — a different system, read-only, never ours to touch. `Get-ServerOnPort`
+-  now requires `SENTINEL_PRIME` in the command line and refuses a
+-  `$RESERVED_PORTS` list outright, reporting those as "seen, deliberately not
+-  stopped". Always scope a fault-finder to your own system, and make the
+-  refusal visible.
+-- **A failure message that describes a probe nobody performed.** `container_health`
+-  read Docker's `Health.Status`, saw `starting`, and printed "the front is not
+-  answering /healthz" — while `/healthz` had answered 200 two checks earlier.
+-  `starting` is Docker's own start_period: an *unconcluded* measurement, not a
+-  negative one. The check now waits for the state to settle and reports the
+-  actually-measured `/healthz` status beside it.
+-- **A check must not record its own remedy as a failure.** `ensure_deployment_up`
+-  recorded FAIL for "not serving yet" — the precise condition it exists to fix
+-  — then PASS once the start worked, so a *successful* cold start exited 1.
+-- **A detector that fires on correct data is worse than no detector.** "Any list
+-  over 25 is an unbounded feed" flagged `checks=55`, which is a static inventory:
+-  one entry per check function in `monitor.py`, bounded by how much code exists
+-  rather than by elapsed time. Capping it would mean deleting real
+-  measurements. The check now separates **feeds** (streams, capped — the log
+-  tail, measured live) from **inventories** (complete, not capped — required to
+-  match the count the payload itself declares), and re-arms itself against a
+-  known-oversized list on every run, because a re-scoped detector nobody
+-  re-proved is the one most likely to be silently vacuous.
+-- **A panel must be measuring the instance that is answering it.** The ecosystem
+-  snapshot refreshed on every 4th worker cycle, so a freshly started server had
+-  no snapshot of its own for the first ~100 s and `/api/minimax` served the
+-  *previous* instance's file — correctly timestamped, which is the least useful
+-  state available: it looks like a live hub and is not. Measured: a cold start
+-  reported the snapshot as 1163 s old while the server serving it was 110 s old.
+-  The first collection now runs the ecosystem collector before the listener
+-  opens; the 4-cycle cadence is the steady-state refresh.
+-- **A background job's output stream is not a log.** `Start-Job` writes to a
+-  stream only `Receive-Job` can read, and nobody called it — so a collector that
+-  broke every cycle looked exactly like a healthy one. The refresh worker now
+-  appends to `09_LOGS\refresh-worker.log`. Staleness is the detector; that file
+-  is the diagnosis.
+-- **An artefact nothing can read is decoration with extra steps.** The lifecycle
+-  verifier wrote `verify-report.json` every run, and both its own docstring and
+-  `README.md` claimed the Overview panel displayed it. Nothing read it. Rather
+-  than delete the claim, the route `/api/verify` and an Ecosystem-panel tile were
+-  added — and the verifier now asserts its own report is *reachable*, not merely
+-  written.
+-- **`$port` and `$Port` are the same variable.** PowerShell variable names are
+-  case-insensitive, so a local `$port = 0` inside a function silently rewrote
+-  the script's `$Port` for the rest of the run. Every `IsFront` test then
+-  compared 8900 against itself and returned true, so the OPTIMUS Control Center
+-  on 8900 was reported as squatting the front port 8910 — four FAILs, and a
+-  precise reintroduction of the false positive the previous round had just
+-  removed. This constraint is written in the project's own conventions and was
+-  still walked into, so it now has a check:
+-  `no_case_shadowed_params` scans every `.ps1` for an assignment whose name
+-  collides in case with a *declared parameter*. Proven non-vacuous by
+-  re-injecting the exact line into a copy: 0 hits clean, 1 hit broken.
+-- **A filter that scopes a fault-finder can blind it.** Requiring
+-  `SENTINEL_PRIME` in a command line removed four false failures — and then
+-  evaded a real squatter launched by relative path, from a copy, or through
+-  `sentinel-cc.ps1`. Scans are now wide, identity is classified **by port**, and
+-  an unattributable process is *named* rather than dropped: a check that reports
+-  PASS because its own filter found nothing is reporting its method, not the
+-  system's state.
+-- **A detector that truncates its own walk is green while broken.** The FIFO
+-  audit recursed only into the first 25 elements of any list, so a 26-entry
+-  list at index 3 was caught and the identical list at index 30 was invisible —
+-  and its self-test used index 0, so the guard passed without ever reaching the
+-  hole. The recursion now visits every element under an explicit node budget,
+-  reports "scan incomplete" rather than reporting clean, and self-tests a case
+-  nested **past** position 25.
+-- **The documented start command must be the supported one.** `README.md` told
+-  the reader to run `bat\sentinel-cc.bat`, which binds `server.ps1` onto 8910 —
+-  the container's own port — recreating the exact `HIJACKED` state the anti-hijack
+-  gate exists to catch. Documentation that contradicts the architecture is a
+-  defect in the same class as code that does: a reader who follows it produces
+-  the failure. `sentinel-hub.ps1` is the only supported entry point, and the
+-  README now says so loudly, with the reason.
+-
+-## Verifier scope, and what it deliberately does not gate
+-
+-`verify-server.ps1` drives `sentinel-hub.ps1` — the same verbs the Startup
+-`.bat` uses — and stops the deployment first, so every cycle begins from a known
+-state. It never spawns a private server: an earlier single-plane version bound
+-8910 itself, collided with the container, killed the live backend in its
+-pre-clean, and then measured 502s from an nginx it did not own. Sixteen FAILs,
+-none of them about the product.
+-
+-Two things it reports but does **not** gate, because each belongs to a different
+-system than the one it is testing:
+-
+-- the **monitor's verdict**, printed as a `[note]` and carried in the report as
+-  `monitor_overall` — "does the deployment serve the health report" and "is the
+-  system healthy" are separate questions;
+-- the verdict `/api/verify` serves **mid-cycle**, which is the *previous* run by
+-  definition — asserting PASS there would assert a stale file is fresh.
+-
+-The first version printed a green `PASS` tag directly beside `overall=FAIL`,
+-which is how a reader learns to stop believing the tag. A check is now named for
+-what it asserts (`GET /api/health (serves report)`) rather than for the route it
+-hits.
+-
+-## Boundaries
+-
+-- **Loopback only.** The container front publishes `127.0.0.1:8910`; the backend is
+-  `127.0.0.1:8912`. Port 8900 belongs to `90_CONTROL_CENTER` (its own front is 8901); none
+-  of the three may collide. `test_deployment.py` proves 8910 refuses on every non-loopback
+-  address on the machine, rather than assuming it.
+-- **Never deploy this publicly.** It would expose the verbatim corpus on the open internet.
+-  Popy declined public deployment for this phase. The container carries a TLS position
+-  ready for that day and nothing more.
+-- The Cockpit mutates. It is gated by R0. Do not invoke an action the operator has not
+-  ratified.
+-- `90_CONTROL_CENTER` is **read-only reference material**. Do not modify it.
++---
++name: mavis-sentinel-command-center-skill
++description: Operate the SENTINEL Command Center, the local live dashboard on 127.0.0.1:8910 - start it, stop it, check it, and read its panels honestly. Load when Popy asks for the dashboard, when the link is down, when a panel looks wrong, or when a verdict needs interpreting before it is trusted.
++parent: mavis-sentinel-prime-on-minimax-skill
++installed_by: 08_SELF_IMPROVEMENT/install_skills.py
++source_of_truth: SENTINEL_PRIME/07_BACKBONE/skills/
++---
++
++# SENTINEL Command Center — operation
++
++The Command Center is the **face** of SENTINEL PRIME: 12 panels over loopback, every value
++measured, data age always shown. This skill is how you start it, check it, and read it honestly.
++
++## The one command that matters
++
++```powershell
++powershell -NoProfile -ExecutionPolicy Bypass `
++  -File C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\13_COMMAND_CENTER\api\sentinel-hub.ps1 start
++```
++
++Then open **http://127.0.0.1:8910/**.
++
++If Popy says *"the link is down"*, that command is the answer. Run `status` first to say
++whether it is down or whether the browser is stale. `status` names **which plane** is
++missing, because a gateway that is up while its app is down is a different fault with a
++different fix.
++
++## The two planes — read this before touching a port
++
++| Plane | Where | Owns |
++|---|---|---|
++| **Backend** (data plane) | Windows PowerShell, `127.0.0.1:8912` | every measurement — it reads Windows-only facts (WMI, `Get-NetTCPConnection`, the runtime's own files) |
++| **Front** (web plane) | container `mavis-sentinel-hub`, publishes `127.0.0.1:8910` | the address, health gating, the TLS position |
++
++**8910 is the container, not PowerShell.** Running `sentinel-cc.ps1 start` without
++`-Port` will collide with it. The front holds **no copy** of the dashboard — it proxies to
++the backend, because a baked-in copy would drift from the data that was actually measured.
++
++Port **8900 belongs to the separate OPTIMUS Control Center** (its own front is 8901).
++Never touch either.
++
++## The verbs
++
++Use `sentinel-hub.ps1` — it manages **both** planes. `sentinel-cc.ps1` is the backend-only
++launcher underneath it and takes an explicit `-Port`.
++
++| Verb | What it does | Notes |
++|---|---|---|
++| `start` | backend first, then container; waits for both to answer | backend first **on purpose** — front first yields a gateway that answers `/healthz` while `/readyz` says no, which looks like a working deployment for exactly as long as nobody reads the second path |
++| `stop` | stops the container, then the backend | |
++| `restart` | stop, then start | measured end-to-end: `DEPLOYMENT UP` |
++| `status` | reports both planes, the container health, and a **named** verdict | exit 0 for `UP`, 1 for `DEGRADED`/`DOWN`; names which plane is missing |
++| `logs` | container logs | |
++| `install-startup` | writes the Startup-folder entry | **self-verifying**: refuses to install a `.bat` it has not structurally checked |
++| `uninstall-startup` | neutralises it | delete the file to remove it entirely |
++
++Two paths on the front, and the distinction is the point:
++
++- `/healthz` — **the gateway**, answered by nginx itself. Answers even when the backend
++  is dead. A health check that only ever asks the app cannot tell a dead gateway from a
++  dead app, and reports the wrong one.
++- `/readyz` — **the app behind the gateway**.
++
++`status` also reports a **stale pid file** explicitly (`STALE - process gone`) rather than
++reporting a dead process as running. That is deliberate: a pid file is a claim, and the port
++is the evidence.
++
++## How it actually stays up — and the trap I fell into
++
++`Start-Process` survives a **shell** exiting. It does **not** survive the **process tree** being
++killed, which an agent harness does. The link was killed that way repeatedly, including once
++immediately after a 16/16 self-test.
++
++| Mechanism | Result |
++|---|---|
++| `schtasks /create /sc onlogon` | **Access denied** — not elevated |
++| `Start-Process` from an agent shell | **Killed with the tree** |
++| `explorer.exe <bat>` | Survives — explorer is not a descendant of the agent |
++| **Docker `restart=unless-stopped`** | **Survives** Docker restart and reboot |
++| **Startup-folder `.bat`** | **Installed** — returns at logon, no elevation needed |
++
++Installed at
++`%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\SENTINEL Command Center.bat`.
++**To remove it, delete that one file.** No registry, no scheduled task, no service.
++
++### An agent cannot leave a long-lived server running
++
++A detached `Start-Process` server **does not stay up here.** It died three times, including
++immediately after a 16/16 self-test, because an agent harness reaps the process tree it spawned
++into.
++
++> Only a process started by something **outside** that tree survives: the desktop shell
++> (`explorer.exe`), the Startup folder at logon, or Docker.
++
++So when the dashboard is down:
++
++1. `sentinel-hub.ps1 start` — proves the launch path works, but the backend instance is
++   **temporary** if you run it from an agent shell.
++2. To leave it genuinely up: `sentinel-hub.ps1 install-startup` and let the next logon do it,
++   or launch from outside the agent's tree with `explorer.exe "<bat>"`.
++
++The `.bat`, the Startup entry and the container are **load-bearing**, not conveniences.
++
++### The startup entry failed twice, silently
++
++Both times the deployment simply came up **dead at logon** with nothing logged anywhere:
++
++1. `start "" /min powershell -Command "& '...' -Action start"` — `start` applies its own
++   quoting rules, and a multi-line quoted `-Command` argument is exactly what it mangles.
++   Now `-File` with one quoted path, with a permanent suite guard that **fails** if
++   `-Command` reappears.
++2. The generator built the `.bat` with `+` inside an `@( … )` array literal. That is *not*
++   concatenation: `'a' + $x + 'b', 'c'` makes `'b', 'c'` an **array**, and `string + array`
++   coerces with spaces — so the lines merged and the ports landed in the wrong place.
++
++> **A startup path that has only ever been checked while everything is already running is
++> not a path.** Both of these passed review and both were found only by tearing the
++> deployment down and running the real entry. The suite now has `startup_cold_start` for
++> exactly this, and the entry writes `09_LOGS\hub-startup.log` so a future failure is not
++> silent.
++
++Also: `Set-Content` does **not** normalise newlines *inside* a multi-line string, so a
++generated `.bat` can carry bare LF endings that `cmd.exe` does not reliably honour. The
++installer now forces CRLF and refuses to write a file it has not structurally verified.
++
++### `HttpListener` is not a normal socket — do not "find the owner"
++
++When cleaning up stray processes I asked `Get-NetTCPConnection -LocalPort 8910` which process
++owned the port. It answered **pid 4 (System)**. I killed both servers and the link went dead.
++
++```
++TCP    127.0.0.1:8910    0.0.0.0:0    LISTENING    4
++```
++
++**`HttpListener` binds through the HTTP.sys kernel driver.** The socket is owned by the kernel,
++not by the serving process. Every "which process owns this port" heuristic returns System, and
++acting on it takes down every HttpListener server on the machine.
++
++**Match on the process you mean, never on the socket.** `sentinel-cc.ps1` identifies servers by
++**command line** (`server.ps1` + port) and never by a bare pid or a socket. Use
++`Test-Listening` to ask whether it is serving — that is the evidence.
++
++> A destructive action justified by an **indirect** signal is the dangerous one. The pid file,
++> the socket table and the process list are three different claims; I acted on the cheapest to
++> query and the least likely to be what I assumed.
++
++
++## Why the old launcher was replaced
++
++`bat\sentinel-cc.bat` ran the server in the foreground of a console window. Three real failures
++came out of that, all of which Popy hit:
++
++1. **It died with its window.** An agent shell exiting took the server with it and the open
++   link went to connection-refused — the failure reported as *"the link is down"*.
++2. **Two invocations collided.** The second bind on 8910 threw, so the obvious repair
++   (*start it again*) made it worse and looked like a broken build.
++3. **No way to ask.** There was no `status`, so "is it running?" was answered by a browser
++   error page.
++
++`Start-Process` detachment fixes (1) for a shell exiting. It does **not** survive the whole
++process tree being killed. Only a scheduled task does, because the Task Scheduler service —
++not any agent shell — starts the process. Say that plainly rather than implying the launcher is
++unkillable.
++
++## The panels, and what each one is evidence of
++
++| Panel | Reads | A FAIL here means |
++|---|---|---|
++| Overview | aggregate | rollup; the real number is on the panel that owns it |
++| Brain | corpus stats | the memory is intact — 955 messages, retention 1.0000 |
++| Method | the build method | documentary, not measured |
++| Axes | 17 chapters | 0 unplaced messages |
++| Doctrine | the gates | documentary |
++| Program | concept matrix | concepts by computed status, never typed by hand |
++| Workflow | `bimodal_state.json` | mode, failures toward STOP, and state **age** |
++| Tests | `last_test_run.json` | 288 assertions, and a **Verdict** tile that is `PARTIAL` if anything was skipped |
++| Wiring | `health.json` | declared vs. **wired** — a handshake that really answered |
++| Learning | gaps register | 8 open gaps, each with its own evidence |
++| Cockpit | actions | the only panel that mutates; it runs the R0 gate first |
++
++**The panel that matters most is Tests**, because it is the one that can say *I did not
++measure this*. If it renders `PARTIAL` or `NOT_RUN`, the capability is **unverified, not
++working** — do not describe it as passing.
++
++## The Desktop app, Design, and the cloud bridge
++
++The Ecosystem panel measures 21 surfaces. Beyond the runtime, it reaches the
++desktop family from its own install trees and Electron state:
++
++| Surface | Reads |
++|---|---|
++| `desktop_code_processes` | live `MiniMax Code` processes + working set |
++| `task_telemetry` | `%APPDATA%\MiniMax Agent\observability-outbox.jsonl` — event count, distinct kinds, age of the newest |
++| `embedded_browser` | `embedded-browser-tabs.json` — sessions, tabs, hosts. **This is the local→cloud path** |
++| `cloud_bridge_device` | `remote-control\state.json` — the `desktop_device_id` the cloud side addresses this machine by |
++| `agent_identity` | `minimax-agent-config.json` — presence of the token block, **never its value** |
++| `design_app` / `hub_app` | install + run state, and the reason when stopped |
++
++Design ships a local gateway under `resources\gateway`. It is only measurable
++while the app runs; when Design is stopped the surface says `NOT_AVAILABLE` and
++names that, rather than reporting a port nothing is listening on.
++
++**Never print a credential.** `agent_identity` reports *that* tokens are present
++and states their values are never read. A control hub that printed one would be a
++worse defect than a panel with one fewer number.
++
++Three ways this went wrong, all silent:
++
++- **A measurement that could not be taken is not a measurement of zero.** The
++  first version reported "no Code process is running" while eleven ran: `wmic`
++  rows were split on whitespace (`MiniMax Code.exe` is two tokens), `wmic` is not
++  on PATH here, and `except: return []` turned a missing tool into an empty
++  *finding*. Take process data from PowerShell `ConvertTo-Json`, and return
++  `(rows, error)` so failure is reported rather than absorbed.
++- **An array concatenated into a string prints empty, not a count.** A tile read
++  `1 session(s), host(s)` because `hosts` was `[]`. It does not throw, so it
++  looks fine. Guard with `Array.isArray(x) ? x.length : x`.
++- **A missing `/favicon.ico` is a console error.** Requested by the browser, not
++  the app, and it still means a page that is not clean. An inline
++  `<link rel="icon" href="data:image/svg+xml,...">` cannot 404.
++
++---
++
++## Reading a verdict honestly
++- `NOT_MEASURED` with a reason beats any number you could invent.
++- Data age is always displayed. A panel showing a value from 40 minutes ago is showing a
++  snapshot, and the header will say so.
++- A red monitor is not automatically a broken system, and a green one is not automatically
++  a working one. **Read which checks are red and why before characterising the system.**
++  At the last measurement: 55 checks, 43 OK, 2 FAIL, 10 STALE. The 2 FAIL are the dead
++  `OPTIMUS_MCP_CONFIG.json` entries, left red on purpose pending Popy's decision. The
++  10 STALE are honest — the underlying files are ~2.1 h old against 300–3600 s bounds,
++  because the system has been idle. A monitor is a measurement *at a moment*; the numbers
++  age, so do not quote them as current without re-measuring.
++
++## Verifying a change to the UI
++
++Route tests do not prove a page renders. Two defects here — a **blank page** and a literal
++`[object Object]` tile — passed 55/55 server checks, a 200 response, correct HTML and a clean
++console, and were found **only by looking at it**.
++
++```powershell
++# needs the deployment up
++cd C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\08_SELF_IMPROVEMENT
++python final_browser_proof.py     # the 11 original panels
++python test_deployment.py         # the deployment itself, non-destructive
++python test_deployment.py --coldstart  # + proves logon recovery (destructive)
++```
++
++Use the full interpreter path — `Get-Command python` resolves to the Microsoft
++Store stub on this machine, which is not an interpreter. Measured: 30 passed / 0
++failed / 1 not-run non-destructive, 31 / 0 / 0 with `--coldstart`, exit 0 both.
++
++There are now **12 tabs** (Ecosystem was added for the MINIMAX hub). **Open the page and
++look at it as well** — that step found the two defects the script could not.
++
++## Deployment lessons that cost real time
++
++Each of these produced a *silent* failure. None of them announced itself.
++
++- **`Out-Host` breaks a script driven with redirected output.** `docker stop … | Out-Host`
++  worked from a console and did nothing through a pipe — and because
++  `$ErrorActionPreference = 'Stop'`, the whole branch died *before* the command ran. A
++  verification tool that only works when a human is watching it is not a verification
++  tool. Write to the output stream instead.
++- **Never let a `.bat` be built with `+` inside an `@( … )` array literal.** `'a' + $x + 'b', 'c'`
++  makes `'b', 'c'` an *array*, and `string + array` coerces with spaces. The lines merge
++  and the arguments land in the wrong place. Use a here-string with `.Replace()`.
++- **`Set-Content` does not normalise newlines inside a multi-line string.** A generated
++  `.bat` can come out with bare LF endings that `cmd.exe` does not reliably honour.
++  Force CRLF and assert it.
++- **`start "" … -Command "…"` is not the same as `-File "path"`.** `start` applies its own
++  quoting rules and mangles a multi-line quoted `-Command`.
++- **A generator must verify its own output.** `install-startup` now refuses to write a
++  `.bat` it has not structurally checked, and reads the file back off disk rather than
++  trusting the variable it just built.
++- **A suite needs a precondition.** Run against a deployment that was not running, the
++  first version reported 12 `FAIL`s that all said "connection refused". Every one was true
++  and not one was a defect.
++- **A check that cannot fail is not a check.** `front == back` passed green with both
++  planes dead, because a refused connection returns `0` and `0 == 0`.
++- **Enumerating addresses with a nested-quote PowerShell one-liner through `subprocess`
++  returns nothing on Windows** — the quotes do not survive re-quoting, PowerShell exits 1,
++  and an empty result reads as "no such address exists". That silently skipped the
++  loopback claim. Enumerate in Python.
++- **`/api/stream` reconnect cadence needs the SSE `retry:` field.** Without it Chromium
++  reconnects every ~3 s and re-reads the whole state file to obtain bytes that cannot have
++  changed — measured 21 deliveries in 62 s where 3 is correct.
++- **A function that is defined but never called is not a code path.** The ecosystem
++  refresh was written into `Start-RefreshWorker` — a complete, correct function that
++  nothing ever invoked. The real worker was a `Start-Job` further down the same file. The
++  panel served a snapshot that aged to 27 minutes and never moved, with no error anywhere
++  and every other check green. It is invisible to the parser, the linter and the reader,
++  and it looks exactly like working code. **Find the caller before you trust the callee.**
++- **A `Start-Job` has its own session state.** `$PY`, `$WORKSPACE` and every other
++  script-scoped variable are `$null` inside the job unless passed through `-ArgumentList`.
++  A call wrapped in `try/catch` will not reveal that, because nothing throws — the
++  variable is simply null.
++- **A native command exiting non-zero does not throw in PowerShell 5.1.** `& $stub
++  script.py` that does nothing at all looks identical to success from the outside. Check
++  `$LASTEXITCODE` explicitly, or the failure is invisible forever.
++- **A non-null tool path is a claim, not evidence.** `Get-Command python` here returns the
++  Microsoft Store stub, which exists, is non-null, and is not an interpreter. Resolve,
++  then *verify* the candidate actually runs.
++- **A port that answers 200 is not proof of what is serving it.** A stray `sentinel-cc.ps1`
++  once bound 8910 directly. 8910 kept answering 200 after the container stopped, every
++  "is the link up" probe said yes, and **every teardown was unable to take effect** because
++  the process being stopped was not the process holding the port. The failure got reported
++  as a broken startup path — which was working perfectly — for several cycles.
++  `status` now answers `VERDICT HIJACKED` and names the pid; `stop` clears strays on the
++  front port; `test_deployment.py` asserts the deployment header. **Only the header
++  distinguishes a hijacked front from a healthy one.**
++- **`HttpListener` again.** A hijack must be identified by **command line**, never by the
++  socket — see the HTTP.sys note above. The socket owner is pid 4.
++- **A timeout is not a bound on a process that leaves something behind.** The
++  cold-start suite "hung" three times at 290/900/1800 s and was not hanging at
++  all — it runs in 134 s. `subprocess.run(..., capture_output=True)` waits for
++  pipe EOF, and the `start` verb legitimately leaves a long-lived backend that
++  inherits the pipes, so EOF never comes. `timeout=` does **not** rescue it:
++  Python kills the already-exited direct child and re-enters the same blocking
++  read, making the timeout decorative for exactly the case it appears to
++  protect. Give the child a **file** and kill the **tree** on timeout.
++  `run_tool()` in `test_deployment.py` is the reference implementation.
++- **A failing child names a token, never the line that produced it.**
++  `"-ExecutionPolicy Bypass"` written as one argv element is a *command* to
++  PowerShell, not a switch/value pair; it dies with "the term
++  '-ExecutionPolicy' is not recognized". That silently disabled the `stop` verb,
++  so the cold-start teardown did nothing while reporting a plausible error.
++  Log `subprocess.list2cmdline(argv)` untruncated — the list had 11 elements
++  where it needed 12, and no amount of reading the child's error would show it.
++- **A gateway answering 200 is not a serving deployment.** With the backend
++  dead, `/healthz` returns 200 and every other route returns 502. Any
++  precondition asking only the gateway reports "already serving" and judges a
++  dozen checks against a dead app. Ask **both** planes, as `status` does.
++- **A fix applied to the instance that failed is not a fix applied to the
++  class.** The bare-LF `.bat` bug was fixed in the Startup entry; an audit
++  found `bat\sentinel-cc.bat` and five version backups still LF-only.
++  `every_bat_is_crlf` now walks the live tree. The `backups\versions\v*` copies
++  are excluded **by decision**: they are inert historical snapshots and
++  rewriting them to satisfy a lint would falsify the version record. Prove any
++  such exclusion is not a no-op — the first version of it compared a
++  non-normalised `..\` path against `abspath`'d paths, matched nothing, and
++  shipped.
++- **A line of output that looks like evidence but was decoration.** `status`
++  printed `loopback  127.0.0.1 only - not reachable off-box` as a fixed string,
++  whatever was true. It is now measured: every routable non-loopback IPv4 is
++  probed with a 1.2 s connect, the line names the count and the addresses, and
++  the verdict becomes `UP BUT EXPOSED` with exit 1 if any of them answers.
++  Sabotage-proven in both directions. Timeout and refused both count as "not
++  reachable", so a firewall cannot be mistaken for a leak.
++- **A check that overstates what it proves buys confidence in the wrong
++  place.** `install_skills.py --check` printed "matches the project source
++  byte-for-byte" while actually proving that *re-rendering* the source
++  reproduces the installed file. Same class of fault, same session.
++- **A test that passes through a different code path than the one it is named
++  after is worse than no test.** A security test sent `{"action": ...}` to a
++  route that reads `$parsed.id`. Every payload came back 400 — so the test
++  passed, seven times, having never once consulted the whitelist. It had been
++  sitting unexecuted in the phase list the whole time. Assert on the refusal
++  **body**, not just the status code, so a refusal from any other path cannot
++  satisfy it. The same phase list also named a function that did not exist
++  (`test_x_admits_approved` vs `test_x_admits`) — a `NameError` that would have
++  killed the suite the first time that phase ran. Phases are now resolved **by
++  string**, so one stale symbol reports itself and names itself, instead of
++  destroying the evidence from every other phase.
++- **A "find problems" check with no scoping finds other people's problems.**
++  The stray-listener check matched every `server.ps1` on the machine, so it
++  failed four times blaming this deployment for the OPTIMUS Control Center on
++  port 8900 — a different system, read-only, never ours to touch. `Get-ServerOnPort`
++  now requires `SENTINEL_PRIME` in the command line and refuses a
++  `$RESERVED_PORTS` list outright, reporting those as "seen, deliberately not
++  stopped". Always scope a fault-finder to your own system, and make the
++  refusal visible.
++- **A failure message that describes a probe nobody performed.** `container_health`
++  read Docker's `Health.Status`, saw `starting`, and printed "the front is not
++  answering /healthz" — while `/healthz` had answered 200 two checks earlier.
++  `starting` is Docker's own start_period: an *unconcluded* measurement, not a
++  negative one. The check now waits for the state to settle and reports the
++  actually-measured `/healthz` status beside it.
++- **A check must not record its own remedy as a failure.** `ensure_deployment_up`
++  recorded FAIL for "not serving yet" — the precise condition it exists to fix
++  — then PASS once the start worked, so a *successful* cold start exited 1.
++- **A detector that fires on correct data is worse than no detector.** "Any list
++  over 25 is an unbounded feed" flagged `checks=55`, which is a static inventory:
++  one entry per check function in `monitor.py`, bounded by how much code exists
++  rather than by elapsed time. Capping it would mean deleting real
++  measurements. The check now separates **feeds** (streams, capped — the log
++  tail, measured live) from **inventories** (complete, not capped — required to
++  match the count the payload itself declares), and re-arms itself against a
++  known-oversized list on every run, because a re-scoped detector nobody
++  re-proved is the one most likely to be silently vacuous.
++- **A panel must be measuring the instance that is answering it.** The ecosystem
++  snapshot refreshed on every 4th worker cycle, so a freshly started server had
++  no snapshot of its own for the first ~100 s and `/api/minimax` served the
++  *previous* instance's file — correctly timestamped, which is the least useful
++  state available: it looks like a live hub and is not. Measured: a cold start
++  reported the snapshot as 1163 s old while the server serving it was 110 s old.
++  The first collection now runs the ecosystem collector before the listener
++  opens; the 4-cycle cadence is the steady-state refresh.
++- **A background job's output stream is not a log.** `Start-Job` writes to a
++  stream only `Receive-Job` can read, and nobody called it — so a collector that
++  broke every cycle looked exactly like a healthy one. The refresh worker now
++  appends to `09_LOGS\refresh-worker.log`. Staleness is the detector; that file
++  is the diagnosis.
++- **An artefact nothing can read is decoration with extra steps.** The lifecycle
++  verifier wrote `verify-report.json` every run, and both its own docstring and
++  `README.md` claimed the Overview panel displayed it. Nothing read it. Rather
++  than delete the claim, the route `/api/verify` and an Ecosystem-panel tile were
++  added — and the verifier now asserts its own report is *reachable*, not merely
++  written.
++- **`$port` and `$Port` are the same variable.** PowerShell variable names are
++  case-insensitive, so a local `$port = 0` inside a function silently rewrote
++  the script's `$Port` for the rest of the run. Every `IsFront` test then
++  compared 8900 against itself and returned true, so the OPTIMUS Control Center
++  on 8900 was reported as squatting the front port 8910 — four FAILs, and a
++  precise reintroduction of the false positive the previous round had just
++  removed. This constraint is written in the project's own conventions and was
++  still walked into, so it now has a check:
++  `no_case_shadowed_params` scans every `.ps1` for an assignment whose name
++  collides in case with a *declared parameter*. Proven non-vacuous by
++  re-injecting the exact line into a copy: 0 hits clean, 1 hit broken.
++- **A filter that scopes a fault-finder can blind it.** Requiring
++  `SENTINEL_PRIME` in a command line removed four false failures — and then
++  evaded a real squatter launched by relative path, from a copy, or through
++  `sentinel-cc.ps1`. Scans are now wide, identity is classified **by port**, and
++  an unattributable process is *named* rather than dropped: a check that reports
++  PASS because its own filter found nothing is reporting its method, not the
++  system's state.
++- **A detector that truncates its own walk is green while broken.** The FIFO
++  audit recursed only into the first 25 elements of any list, so a 26-entry
++  list at index 3 was caught and the identical list at index 30 was invisible —
++  and its self-test used index 0, so the guard passed without ever reaching the
++  hole. The recursion now visits every element under an explicit node budget,
++  reports "scan incomplete" rather than reporting clean, and self-tests a case
++  nested **past** position 25.
++- **The documented start command must be the supported one.** `README.md` told
++  the reader to run `bat\sentinel-cc.bat`, which binds `server.ps1` onto 8910 —
++  the container's own port — recreating the exact `HIJACKED` state the anti-hijack
++  gate exists to catch. Documentation that contradicts the architecture is a
++  defect in the same class as code that does: a reader who follows it produces
++  the failure. `sentinel-hub.ps1` is the only supported entry point, and the
++  README now says so loudly, with the reason.
++
++## Verifier scope, and what it deliberately does not gate
++
++`verify-server.ps1` drives `sentinel-hub.ps1` — the same verbs the Startup
++`.bat` uses — and stops the deployment first, so every cycle begins from a known
++state. It never spawns a private server: an earlier single-plane version bound
++8910 itself, collided with the container, killed the live backend in its
++pre-clean, and then measured 502s from an nginx it did not own. Sixteen FAILs,
++none of them about the product.
++
++Two things it reports but does **not** gate, because each belongs to a different
++system than the one it is testing:
++
++- the **monitor's verdict**, printed as a `[note]` and carried in the report as
++  `monitor_overall` — "does the deployment serve the health report" and "is the
++  system healthy" are separate questions;
++- the verdict `/api/verify` serves **mid-cycle**, which is the *previous* run by
++  definition — asserting PASS there would assert a stale file is fresh.
++
++The first version printed a green `PASS` tag directly beside `overall=FAIL`,
++which is how a reader learns to stop believing the tag. A check is now named for
++what it asserts (`GET /api/health (serves report)`) rather than for the route it
++hits.
++
++## Boundaries
++
++- **Loopback only.** The container front publishes `127.0.0.1:8910`; the backend is
++  `127.0.0.1:8912`. Port 8900 belongs to `90_CONTROL_CENTER` (its own front is 8901); none
++  of the three may collide. `test_deployment.py` proves 8910 refuses on every non-loopback
++  address on the machine, rather than assuming it.
++- **Never deploy this publicly.** It would expose the verbatim corpus on the open internet.
++  Popy declined public deployment for this phase. The container carries a TLS position
++  ready for that day and nothing more.
++- The Cockpit mutates. It is gated by R0. Do not invoke an action the operator has not
++  ratified.
++- `90_CONTROL_CENTER` is **read-only reference material**. Do not modify it.
++
++## Server-side recipes that are proven (2026-10-11, all measured)
++
++### The static route is an allowlist, not a path handler
++
++`server.ps1` serveste **doua** fisiere: fonturile TTF. Poarta e o cheie
++literală dintr-un tabel, comparată explicit, și **doar cheia** ajunge la
++`Join-Path`:
++
++```powershell
++$ASSETS = @{ 'fonts/jetbrains-mono-400.ttf' = 'font/ttf'
++             'fonts/jetbrains-mono-600.ttf' = 'font/ttf' }
++$rel = $path.TrimStart('/')
++$key = $null
++foreach ($k in $ASSETS.Keys) {
++  if ([string]::Equals($k, $rel, [StringComparison]::OrdinalIgnoreCase)) { $key = $k; break }
++}
++if ($key) { $file = Join-Path $ROOT ($key -replace '/', [IO.Path]::DirectorySeparatorChar) }
++```
++
++Atacatorul poate **selecta** un nume din tabel; nu poate **compune** o cale.
++Verificat cu 33 de forme de atac, inclusiv traversare, traversare codificata,
++cai absolute, NUL, ADS `::$DATA`, homoglifuri, cai de 300 de caractere.
++
++### Binaries must be passed through as bytes
++
++`Send-Response` transforma **orice** corp in string si il re-codifica UTF-8.
++Un TTF de 21.088 de octeti devenea **37.816 de octeti** corupti, cu HTTP 200
++sanatos. Reparatia: `if ($body -is [byte[]]) { ... }` — octetii trec neatins,
++stringurile se re-codifica.
++
++### The cross-origin gate on `/api/action`
++
++Un `POST` cross-origin cu `Content-Type: text/plain` executa o actiune si
++raspundea 200. E o cerere CORS "simple" — fara preflight, deci browserul nu
++intreba. Poarta se pune **inaintea** stratului de actiuni:
++
++```powershell
++$origin = $ctx.Request.Headers['Origin']
++if ($origin) {
++  $allowedOrigins = @("http://127.0.0.1:$Port" "http://localhost:$Port"
++                      'http://127.0.0.1:8910' 'http://localhost:8910')
++  if ($allowedOrigins -notcontains $origin) { 403; continue }
++}
++```
++
++**Origin absent e permis intentionat**: niciun browser nu poate fi fortat sa
++nu trimita Origin, iar curl, PowerShell si ambele suite trimit none.
++Origin literal `null` (iframe sandbox, `file://`) nu e in lista, deci e
++refuzat.
++
++**Probe-ul care nu executa nimic**: un id de actiune care nu exista. `403` =
++poarta a blocat, `400` = cererea a ajuns in stratul de actiuni. Se poti
++repeta oricand, fara efect lateral.
++
++### A staleness bound is a real gate, not a decoration
++
++`mcp_tools_wired` a devenit STALE la 26,5 ore peste o limita de 24, si **doua
++verificari au dat rosu** din cauza lui. Remedierea era scrisa chiar in campul
++`evidence` al verificarii. Verificarile de prospetime **scad in rosu** cand
++ceva nu se reimprospateaza — nu e un defect, e sistemul spunand-o.
++
++**Greseli de repetat.**
++- Nu servi binare printr-o functie care le recodifica in string.
++- Nu apuna realpath pe cale ceruta de utilizator inainte de a verifica
++  apartenenta la allowlist.
++- Nu inventa o metoda de a verifica ceva ce nu a fost masurat: masurabilitatea
++  se testeaza cu un control, sau nu se afirma.
++
++### O limita fara scriitor in spatele ei — regula completa, masurata 2026-10-28
++
++Sectiunea de mai sus spune ca o limita de prospețime e o poarta reala. **Aceasta
++e jumatatea care lipseste:** poarta are nevoie de un scriitor in spatele ei, si
++regula are doua randuri.
++
++| Situatie | Ce e corect | Ce e greșit |
++|---|---|---|
++| Exista scriitor cu ceas in spatele limitei | **pastreaza limita** | largeste limita |
++| Nu exista niciun scriitor | **adauga scriitorul pe bucla** | largeste limita |
++
++**Cazul "nu exista scriitor" — masurat, pe handshake.** `mcp_handshake.json` avea
++o limita de 24 de ore si **nu era scris de nimic** intre doua rulari de suita.
++Era un termen pe care doar un om il putea onora, iar doua verificari cadeau in
++rosu la fiecare 24 de ore. Repararea a fost **adaugarea scriitorului**, nu
++largirea limitei:
++
++```powershell
++# cadenta CALCULATA din perioada de refresh, nu codificata:
++$handshakeEvery = [Math]::Max(1, [int][Math]::Floor(3600 / [Math]::Max(1, $seconds)))
++# ruleaza o data la pornirea worker-ului, apoi la fiecare $handshakeEvery ciclu
++```
++
++De ce calculata: daca `$RefreshSeconds` se schimba, cadenta se pastreaza in
++interiorul limitei, fara sa fie nevoie de un alt cod. **Limita a ramas
++neatinsa.**
++
++Verificarea ca asta chiar se intampla e masurabila, si are trei semne
++independente:
++1. **logul worker-ului** trebuie sa spuna cadenta ("handshake every 144
++   cycle(s)");
++2. **mtime-ul artefactului** trebuie sa fie mai nou decat ciclul;
++3. verificarea live trebuie sa raporteze OK cu varsta masurata in evidenta.
++
++Test de regresie: `handshake_refresh` in `test_deployment.py`, cu control
++discriminatoriu.
++
++**Cazul "scriitorul e la cerere" — masurat, pe familia `log_*`.** Aceste
++artefacte (si `workflow_state_fresh`) sunt scrise **la cerere** — de suita de
++test si de actiunile operatorului — nu de o bucla cu ceas. Aici **limita se
++pastreaza**. Un STALE pe un artefact scris la cerere inseamna "nu s-a cerut
++nimic de el", nu "e ceva stricat", iar largirea limitei ar face antetul verde,
++adica ar ascunde exact lucrul pe care sistemul e desemnat sa-l spuna.
++
++Inainte de a schimba o limita, **cauta in documentele proiectului** daca
++verificarea e deja ratificata. In SENTINEL_PRIME, `14_HANDOFF/02_GAPS.md:148` si
++`11_PLANS/POST_R0_EXECUTION_RECORD.md:948` spuneau explicit ca STALE pe un
++artefact scris la cerere e comportament corect ("the check working, not a
++fault"). Le-am citit **inainte** de a schimba ceva, si decizia s-a intors: nu
++se atinge nicio limita.
++
++**Cum masuri cine scrie un artefact** — trei pasi, fiecare cu un semne distinct:
++1. **Fereastra de scriere.** Compara mtime-urile: un scriitor cu ceas lasa o
++   fereastra regulata; un scriitor la cerere lasa o fereastra stransa,
++   coincidenta cu evenimentul care l-a declansat.
++2. **Re-masurare peste mai multe cicluri.** Masoara din nou peste cel putin un
++   ciclu complet al refresh-ului. Daca varsta creste in ritm constant, nimeni
++   nu scrie.
++3. **Codul.** Gaseste scrierile reale (`STATE_FILE.write_text`, `open(...,'a')`)
++   si verifica daca sunt apelate din bucla de refresh.
++
++**Greseli de repetat.**
++- Nu largesti o limita de prospețime ca sa faci antetul verde. E exact inversul
++  a ceea ce verifica sistemul.
++- Nu confunda "nimeni nu scrie" cu "e stricat": primul se repara adaugand un
++  scriitor, al doilea se repara reparand scriitorul.
++- Nu schimba semantica unei verificari de stare fara sa cauti mai intai in
++  documentele proiectului daca e deja ratificata.
+diff --git a/mavis-sentinel-daemon-skill/SKILL.md b/mavis-sentinel-daemon-skill/SKILL.md
+index f48ded5..2e7ada6 100644
+--- a/mavis-sentinel-daemon-skill/SKILL.md
++++ b/mavis-sentinel-daemon-skill/SKILL.md
+@@ -105,6 +105,6 @@ The daemon's two rules are an **Eliade Realitate** enforcement: they check the o
+ ## Cross-references
+ 
+ - Source: `C:\Users\apviz\AppData\Local\hermes\mcp-servers\custom\sentinel-daemon\sentinel_daemon.py`
+-- Inventory: `C:\Users\apviz\.minimax-agent\projects\70_CONNECTORS\70_sentinel_role_ai_inventory.md`
++- Inventory: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\70_CONNECTORS\70_sentinel_role_ai_inventory.md`
+ - Doctor skill: `mavis-minimax-hermes-bridge-skill`
+ - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md` §3 (Triple Crunch), §6 (SOUL ↔ CONSTINTA)
+diff --git a/mavis-sentinel-prime-role-skill/SKILL.md b/mavis-sentinel-prime-role-skill/SKILL.md
+index b1bbbe1..254f482 100644
+--- a/mavis-sentinel-prime-role-skill/SKILL.md
++++ b/mavis-sentinel-prime-role-skill/SKILL.md
+@@ -151,13 +151,13 @@ Combinare prin REASON+LOGIC+STRATEGY
+ 
+ ```bash
+ # Check context pressure
+-python C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\02_OPERATIONAL\scripts\sentinel_context_monitor.ps1
++python C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\02_OPERATIONAL\scripts\sentinel_context_monitor.ps1
+ 
+ # Extract patterns
+-python C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\02_OPERATIONAL\scripts\sentinel_learn.py
++python C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\02_OPERATIONAL\scripts\sentinel_learn.py
+ 
+ # Strategic compact
+-powershell C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\02_OPERATIONAL\scripts\sentinel_strategic_compact.ps1
++powershell C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\02_OPERATIONAL\scripts\sentinel_strategic_compact.ps1
+ ```
+ 
+ ## Validation Tests
+diff --git a/mavis-session-lifecycle-skill/SKILL.md b/mavis-session-lifecycle-skill/SKILL.md
+index 909edc9..0364cd0 100644
+--- a/mavis-session-lifecycle-skill/SKILL.md
++++ b/mavis-session-lifecycle-skill/SKILL.md
+@@ -32,6 +32,8 @@ Repair the process before advancing the work.
+ 
+ 1. `mavis-skill-index` — Pillar skill. Loads first so Mavis has the autonomous routing procedure + classifier index pointer (NEW: 2026-09-19).
+ 2. `mavis-bundle-identity` — loads to map Mavis's skill organization (Identity and File Locations bundle).
++
++> **În sesiunea Optimus CI** (`mvs_eaaf49033892458a8076c7cc9e8d51aa`, „Mavis Local - Ondoard Optimus_CI"): după BUSOLA se încarcă imediat **`mavis-local-optimus-ci-bot`** (skillul principal al sesiunii: rol, 9 funcții, unelte, indexul skillurilor CI), apoi `node scripts\bot-doctor.mjs doctor` — ca să nu pretind că știu unde sunt fără să măsur.
+ 3. `README.md` — orientation, two-layer model
+ 4. `OPTIMUS_INDEX.md` — cheat sheet
+ 5. `AGENTS.md` — project agent instructions
+@@ -140,7 +142,7 @@ rule as step 6, applied to the *content* rather than to the verdict.
+ - **Project compass: `C:\Users\apviz\.minimax\BUSOLA.md`** — read it first, always.
+ - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md` (§0 language, §16 workspace)
+ - Workflow file: **BROKEN INDICIE (2026-10-08)** — this pointed at
+-  `C:/Users/apviz/.minimax-agent/projects/30_WORKFLOWS/30_session_open.md`.
++  `C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/30_WORKFLOWS/30_session_open.md`.
+   That directory no longer exists on this machine. Until Popy says where the backbone
+   lives, `BUSOLA.md` is the fallback. Do not treat the old path as valid.
+ - `mavis-full-intent-execution-skill` — execute the verb, not the topic around it
+diff --git a/mavis-skill-access-handoff/SKILL.md b/mavis-skill-access-handoff/SKILL.md
+index 1b49d17..67f7549 100644
+--- a/mavis-skill-access-handoff/SKILL.md
++++ b/mavis-skill-access-handoff/SKILL.md
+@@ -90,6 +90,94 @@ better themselves.
+ 
+ ---
+ 
++## 4-bis. Step 7, measured: what "verify every path" actually means
++
++"Every path it names exists" is not a sentence — it is a **sweep**, and it has a
++measured shape. A path in a handoff rots silently, and a broken pointer costs
++the next agent a whole search.
++
++**The sweep.** Extract every file-like token from every handoff document, then
++resolve each one against **every plausible root** — the project root, the
++handoff folder, and each documented subfolder (`skills\`, `api\`, `mcp\`,
++`09_LOGS\`, `raport-archive\`, …). For the ones still unresolved, try a
++**leaf-name search** across the tree.
++
++```powershell
++$all = @{}
++foreach ($d in Get-ChildItem $handoff -File -Filter *.md) {
++  $txt = [Text.Encoding]::UTF8.GetString([IO.File]::ReadAllBytes($d.FullName))
++  foreach ($m in [regex]::Matches($txt,'[A-Za-z0-9_][A-Za-z0-9_\-\.\\\/]*\.(jsonl|json|md|py|ps1|txt|html)')) {
++    $all[$m.Value] = $d.Name
++  }
++}
++```
++
++**Measured 2026-10-28 (SENTINEL_PRIME):** 121 distinct file-like tokens across
++the handoff documents; 110 resolved on the first pass; 11 unresolved — and
++**all 11 explained**, not one a broken pointer:
++
++- **regex artifacts** (the sweep's fault, not the document's): `state-history.json`
++  where the document actually says `state-history.jsonl`; `03-31.md` and
++  `20-04.md`, which are filename *tails* inside prose; `Node.js` and a bare
++  `SKILL.md`, which are not file references at all; `Users\apviz\…`, where the
++  `C:\` prefix sat outside the character class.
++- **paths outside the project, cited with their full path** — e.g.
++  `C:\Users\apviz\.minimax\mcp.json`.
++- **paths that deliberately do not exist**, named in the handoff *as*
++  non-existent, so the next agent does not hunt for them.
++
++**The rule that fell out:** a document is not wrong because a token does not
++resolve — but **an unresolved token must be explained, in writing, in the same
++handoff.** An unexplained unresolved token is a defect.
++
++**Two traps in the sweep itself.**
++- The alternation must be **longest-first** (`jsonl|json`), or every `.jsonl`
++  truncates to `.json` and you "find" a broken pointer that does not exist.
++- Never let a forward sweep become the verdict. A token that does not resolve
++  under your first root list may resolve under another, and a broken pointer
++  reported from an incomplete root list is a false alarm that sends the next
++  agent looking for a file that was never missing.
++
++## 4-ter. The handoff must also say what NOT to repair
++
++A zero-context instance meets a handoff with fresh eyes and a bias toward
++action. Anything that *looks* broken will be "fixed".
++
++Measured 2026-10-28 (SENTINEL_PRIME): a health-check freshness bound that
++looked mis-tuned, and an empty `core.hooksPath` that looked like a lost
++config. Both had been **ratified as correct** in the project's own documents. A
++new instance that "fixed" them would have:
++
++- widened a bound so a header would read green — hiding the exact fact the
++  system exists to report;
++- re-armed a hook that was disabled on purpose, because it blocked every
++  commit.
++
++So the handoff carries a **"do not repair" list**, inside the priming prompt,
++with the reason next to each item:
++
++```
++NU REPARA limitele de prospețime - măsurat: artefactele sunt scrise la cerere.
++NU "repara" core.hooksPath gol - e starea intenționată.
++```
++
++**The reason next to the item is what makes it stick.** "Don't touch X" alone
++reads as an unexplained warning; "don't touch X, because Y is true and
++ratified" reads as a fact to check.
++
++## 4-quater. The skills must travel as byte-identical copies
++
++When the handoff carries the skills — so a fresh instance without a skills
++directory still has them — the copies are **byte-identical to their sources**,
++verified with a hash and not by eye, and a **manifest** says what each one
++owns. Regenerate a copy when its source changes; never edit a copy. The
++previous versions are not lost: they sit in the version history of whatever
++repository carries them.
++
++**Measured, same session:** a copy left behind a source edit is a silent
++divergence — the instance reads the stale copy and the agent reads the fresh
++one, and neither of them can say why they disagree.
++
+ ## 5. The procedure — picking a handoff up
+ 
+ 1. Read `README.md`, then `PRIMING-PROMPT.md`, then `HANDOFF-*.md`.
+diff --git a/mavis-skill-background-task-verdict/SKILL.md b/mavis-skill-background-task-verdict/SKILL.md
+index cc17119..ca04349 100644
+--- a/mavis-skill-background-task-verdict/SKILL.md
++++ b/mavis-skill-background-task-verdict/SKILL.md
+@@ -89,7 +89,7 @@ is *supposed* to fail, so the inner exit code is **2** and the marker is
+ node "C:\Users\apviz\.minimax\agents\mavis\skills\mavis-skill-background-task-verdict\scripts\bg-verdict.mjs" `
+   --out "C:\Users\apviz\.minimax\google-access\logs\ga-doctor-selftest.log" `
+   --expect "VERDICT=FAIL" --expect "CHECK C1.container FAIL" --expect-exit 2 `
+-  -- node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs" --self-test --fail C1.container
++  -- node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs" --self-test --fail C1.container
+ ```
+ 
+ The inner command prints `VERDICT=FAIL` and exits **2**
+diff --git a/mavis-skill-browser-mcp/SKILL.md b/mavis-skill-browser-mcp/SKILL.md
+index 023d8b3..28adee2 100644
+--- a/mavis-skill-browser-mcp/SKILL.md
++++ b/mavis-skill-browser-mcp/SKILL.md
+@@ -55,7 +55,7 @@ Two measured facts made the browser layer mandatory:
+ ### 3.1 Prove a registered browser server actually starts
+ 
+ ```powershell
+-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\probe-mcp-stdio.mjs" --name minimax-notebooklm
++node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\probe-mcp-stdio.mjs" --name minimax-notebooklm
+ ```
+ 
+ It spawns the **exact** command and arguments from the global registry, speaks a
+@@ -68,8 +68,8 @@ PROBE=minimax-notebooklm TRANSPORT=stdio INIT_OK=1 SERVER=minimax-notebooklm TOO
+ ### 3.2 The health of the NotebookLM browser session
+ 
+ ```powershell
+-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\probe-minimax-notebooklm.mjs" --call nblm_health
+-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\probe-notebooklm.mjs"
++node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\probe-minimax-notebooklm.mjs" --call nblm_health
++node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\probe-notebooklm.mjs"
+ ```
+ 
+ The second one lists the real notebooks (JULES 182 sources, GEMINI & AI Studio
+diff --git a/mavis-skill-docker-access-point/SKILL.md b/mavis-skill-docker-access-point/SKILL.md
+index 0de30dc..1ef23d2 100644
+--- a/mavis-skill-docker-access-point/SKILL.md
++++ b/mavis-skill-docker-access-point/SKILL.md
+@@ -56,7 +56,7 @@ a chat message.
+ ```powershell
+ docker inspect --format '{{.State.Status}}|{{if .State.Health}}{{.State.Health.Status}}{{end}}|{{.Config.Image}}' Google_Access
+ docker exec Google_Access node -p "require('crypto').createHash('sha256').update(require('fs').readFileSync('/app/server.mjs')).digest('hex')"
+-Get-FileHash "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\container\server.mjs" -Algorithm SHA256
++Get-FileHash "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\container\server.mjs" -Algorithm SHA256
+ ```
+ 
+ The two hashes must be equal. That comparison is the whole point.
+@@ -64,7 +64,7 @@ The two hashes must be equal. That comparison is the whole point.
+ ### 3.2 Sync the live source into the repo (never the other way round)
+ 
+ ```powershell
+-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\sync-container-source.py"
++node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\sync-container-source.py"
+ ```
+ 
+ It copies live → repo through a whitelist and then verifies the result. It
+@@ -93,7 +93,7 @@ port is one too many.
+ ### 3.4 Prove it
+ 
+ ```powershell
+-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs"
++node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs"
+ ```
+ 
+ `C1.container` and `C1b.running-code` must both be green.
+diff --git a/mavis-skill-google-access-control-point/SKILL.md b/mavis-skill-google-access-control-point/SKILL.md
+index 62e4eb0..9b7f380 100644
+--- a/mavis-skill-google-access-control-point/SKILL.md
++++ b/mavis-skill-google-access-control-point/SKILL.md
+@@ -29,7 +29,7 @@ So the connection got a **control point**: one command, one verdict.
+ ## 2. The command
+ 
+ ```powershell
+-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs"
++node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs"
+ ```
+ 
+ | Exit | Meaning |
+@@ -105,10 +105,10 @@ authorisation click is the user's, and it is the **only** human step left.
+ 
+ ```powershell
+ # the whole point
+-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs"
++node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs"
+ 
+ # prove the control point can go red (a check that cannot fail is not a check)
+-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs" --self-test --fail C1.container
++node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs" --self-test --fail C1.container
+ 
+ # verify one member skill of this bot
+ node "C:\Users\apviz\.minimax\agents\mavis\skills\mavis-skill-google-access-control-point\scripts\verify-control-point.mjs"
+diff --git a/mavis-skill-index/SKILL.md b/mavis-skill-index/SKILL.md
+index 28c52c2..bb3eb1b 100644
+--- a/mavis-skill-index/SKILL.md
++++ b/mavis-skill-index/SKILL.md
+@@ -49,6 +49,26 @@ project folder is a document until that runs.
+ | `mavis-deliverable-handoff-skill` | packaging a finished artefact so Popy can actually use it |
+ | `mavis-journal-oglinda-skill` | append-only reality anchor (`JURNAL_OGLINDA`) |
+ 
++## Optimus CI — local ↔ cloud (28 oct 2026)
++
++| Skill | When to load |
++|---|---|
++| `mavis-local-optimus-ci-bot` | **THE HUB for anything touching Optimus CI** — the Mavis Local Optimus CI Bot: role, personality, 9 functions, tools, and the **indexed list of the secondary skills**. Load it first for the server, the local↔cloud bridge, the Drive mirror sync, the R0 publish gate, or the quarantine |
++| `mavis-optimus-ci-server-skill` | the `Mavis-Optimus-CI` container, its engine, its HTTP API and the 7 MCP tools |
++| `mavis-optimus-continuous-integration-skill` | the CI district: scope, boundaries and conventions for anything touching Git, GitHub, the R0 gate, the bridge, Live Review or Jules |
++| `mavis-git-autonom-skill` | the daily Git working rules: main, autonomous commit, no `reset --hard`, no deletion |
++| `mavis-cloud-bridge-skill` | the Local↔Cloud protocol: how information travels, and where each side stops |
++| `mavis-jules-contract-skill` | the Jules boundary: who does what, and what Mavis Local never touches |
++| `mavis-live-review-governance-skill` | when the automatic review runs and what its verdict means |
++| `mavis-local-to-cloud-reporting` | the standard Local→Cloud report: disk + repo state, tickets in `QUEUE/`, archive by move |
++| `mavis-git-vault-governance-skill` | making `git add` work on real volumes (DriveFS, bind mounts, filemode, CRLF) |
++| `mavis-jurnal-oglinda-skill` | the append-only reality anchor (journal mirrored on disk) |
++| `mavis-search-before-write` | every task, every session: search before the first write |
++
++The bot's registry is executable: `node scripts\bot-doctor.mjs verify` (70 checks) and
++`node scripts\bot-doctor.mjs doctor` (19 checks on the live system). It ships with its
++own falsifier (`scripts\falsify.mjs`): 5/5 broken scenarios drive the verifier RED.
++
+ ## Routing procedure (autonomous, no user input needed)
+ 
+ When a user request arrives, Mavis follows this exact algorithm — **every step, every turn, no shortcuts**:
+@@ -77,7 +97,7 @@ Each bundle's SKILL.md lists the right member skills for that scope. Bundles are
+ 
+ ### Step 3 — Pick the right SKILL from the full classifier table
+ 
+-The classifier table lives at `C:\Users\apviz\.minimax-agent\projects\70_CONNECTORS\70_personal_skill_index.md` (306.695 B = 299.5 KB, full per-category lists, 1,297 skills enumerated).
++The classifier table lives at `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\70_CONNECTORS\70_personal_skill_index.md` (306.695 B = 299.5 KB, full per-category lists, 1,297 skills enumerated).
+ 
+ Procedure:
+ 
+@@ -100,7 +120,7 @@ Before executing the task:
+ 
+ ### Step 6 — Log to JURNAL_OGLINDA
+ 
+-Append a JURNAL entry to `C:\Users\apviz\.minimax-agent\projects\40_REGISTRIES\40_partition_C_system.md` with:
++Append a JURNAL entry to `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\40_REGISTRIES\40_partition_C_system.md` with:
+ - Task description (1 line)
+ - Skills loaded (which candidates + which bundles)
+ - Outcome (PASS / FAIL / partial)
+@@ -118,7 +138,7 @@ If a skill was **especially useful or useless** for the task, Mavis records it:
+ | <skill-name> | YES / NO | <reason> | NOTE / DEMOTE / REPLACE |
+ ```
+ 
+-Append this to `C:\Users\apviz\.minimax-agent\projects\70_CONNECTORS\70_personal_skill_index.md` under a `## Lesson log` section.
++Append this to `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\70_CONNECTORS\70_personal_skill_index.md` under a `## Lesson log` section.
+ 
+ When the lesson log grows past ~10 entries, Mavis should **rebuild the classifier** by:
+ 
+@@ -138,8 +158,8 @@ When the lesson log grows past ~10 entries, Mavis should **rebuild the classifie
+ 
+ ## Cross-references
+ 
+-- Classifier data: `C:\Users\apviz\.minimax-agent\projects\70_CONNECTORS\70_personal_skill_index.md`
++- Classifier data: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\70_CONNECTORS\70_personal_skill_index.md`
+ - 4 bundles: `mavis-bundle-identity`, `mavis-bundle-behavioral`, `mavis-bundle-role`, `mavis-bundle-operations`
+-- Skill taxonomy: `C:\Users\apviz\.minimax-agent\projects\00_INDEX\00_skill_taxonomy.md`
++- Skill taxonomy: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\00_INDEX\00_skill_taxonomy.md`
+ - JURNAL_OGLINDA target: `40_REGISTRIES/40_partition_C_system.md`
+ - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §6` (SOUL ↔ CONSTINTA — every output emits SOUL first, CONSTINTA second)
+diff --git a/mavis-skill-mcp-development/SKILL.md b/mavis-skill-mcp-development/SKILL.md
+index 8529101..13890f5 100644
+--- a/mavis-skill-mcp-development/SKILL.md
++++ b/mavis-skill-mcp-development/SKILL.md
+@@ -60,7 +60,7 @@ after, because a bad scope costs a human click.
+    real transport:
+ 
+    ```powershell
+-   node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\probe-mcp-stdio.mjs" --name <entry>
++   node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\probe-mcp-stdio.mjs" --name <entry>
+    ```
+ 
+    Expected: `INIT_OK=1 ... TOOLS=<n> EXIT=0`. A path that exists is not a
+diff --git a/mavis-skill-notebooklm-extendlm/SKILL.md b/mavis-skill-notebooklm-extendlm/SKILL.md
+index 64d74d0..da28832 100644
+--- a/mavis-skill-notebooklm-extendlm/SKILL.md
++++ b/mavis-skill-notebooklm-extendlm/SKILL.md
+@@ -70,13 +70,13 @@ host  ──rotates──▶  data/extendlm.json  ──snapshot──▶  Cloud
+ 
+ ```powershell
+ # rotate + publish (only when needed)
+-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\publish-extendlm-secret.mjs"
++node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\publish-extendlm-secret.mjs"
+ 
+ # the scheduled rotation
+-powershell -NoProfile -ExecutionPolicy Bypass -File "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\extendlm-heartbeat.ps1"
++powershell -NoProfile -ExecutionPolicy Bypass -File "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\extendlm-heartbeat.ps1"
+ 
+ # measure
+-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\probe-notebooklm.mjs"
++node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\probe-notebooklm.mjs"
+ ```
+ 
+ The publisher persists atomically, publishes to the secret, and **reads the
+diff --git a/mavis-skill-photo-picker/SKILL.md b/mavis-skill-photo-picker/SKILL.md
+index 849c163..1c16d1a 100644
+--- a/mavis-skill-photo-picker/SKILL.md
++++ b/mavis-skill-photo-picker/SKILL.md
+@@ -60,10 +60,10 @@ presses Done.
+ ### 3.2 Capture the selection, automatically
+ 
+ ```powershell
+-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\picker-watch.mjs" `
++node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\picker-watch.mjs" `
+      --session <sessionId> --data "C:\Users\apviz\.minimax\google-access\data" --delete-after
+ 
+-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\picker-download.mjs"
++node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\picker-download.mjs"
+ ```
+ 
+ The watcher writes `data/picked-media.json`; the downloader fetches the media,
+diff --git a/mavis-swarm-coordinator-skill/SKILL.md b/mavis-swarm-coordinator-skill/SKILL.md
+index 4dd9957..0f92b8d 100644
+--- a/mavis-swarm-coordinator-skill/SKILL.md
++++ b/mavis-swarm-coordinator-skill/SKILL.md
+@@ -47,5 +47,5 @@ If a bridge fails:
+ ## Cross-references
+ 
+ - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §9`
+-- Per-bridge files: `C:/Users/apviz/.minimax-agent/projects/10_BRIDGES/`
+-- Bridge registry (live state): `C:/Users/apviz/.minimax-agent/projects/00_INDEX/00_bridge_registry.md`
++- Per-bridge files: `C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/10_BRIDGES/`
++- Bridge registry (live state): `C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/00_INDEX/00_bridge_registry.md`
+diff --git a/mavis-triple-crunch-skill/SKILL.md b/mavis-triple-crunch-skill/SKILL.md
+index 39952f8..440cb0a 100644
+--- a/mavis-triple-crunch-skill/SKILL.md
++++ b/mavis-triple-crunch-skill/SKILL.md
+@@ -61,4 +61,4 @@ If any axiom fails:
+ ## Cross-references
+ 
+ - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md §3`
+-- Protocol file: `C:/Users/apviz/.minimax-agent/projects/20_PROTOCOLS/20_triple_crunch.md`
++- Protocol file: `C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/20_PROTOCOLS/20_triple_crunch.md`
+diff --git a/mavis-wayland-bridge-skill/SKILL.md b/mavis-wayland-bridge-skill/SKILL.md
+index 552e86a..8eb60a9 100644
+--- a/mavis-wayland-bridge-skill/SKILL.md
++++ b/mavis-wayland-bridge-skill/SKILL.md
+@@ -34,10 +34,10 @@ Wayland is the **agentic cowork** pillar. It has no CLI, so Mavis does not dispa
+ ## Refresh the extracted workflows
+ 
+ ```powershell
+-python C:\Users\apviz\.minimax-agent\projects\scripts\extract_wayland_workflows.py
++python C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\scripts\extract_wayland_workflows.py
+ ```
+ 
+-Output: `C:\Users\apviz\.minimax-agent\projects\20_BRIDGES\wayland\workflows\`
++Output: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\20_BRIDGES\wayland\workflows\`
+ - `bodies\<name>\SKILL.md` × 71
+ - `_MANIFEST.json` — path, bytes, sha256, per workflow
+ - `README.md` — generated index table
+diff --git a/minimax-optimus-dashboard/SKILL.md b/minimax-optimus-dashboard/SKILL.md
+index fc0eb51..d4dc3e6 100644
+--- a/minimax-optimus-dashboard/SKILL.md
++++ b/minimax-optimus-dashboard/SKILL.md
+@@ -30,9 +30,9 @@ description: |
+   and that workflow for the run.
+ license: proprietary
+ metadata:
+-  blueprint: C:\Users\apviz\.minimax-agent\projects\MINIMAX OPTIMUS CONTROL CENTER BLUEPRINT
+-  reference_implementation: C:\Users\apviz\.minimax-agent\projects\90_CONTROL_CENTER
+-  restore_point: C:\Users\apviz\.minimax-agent\projects\FULL_BACKUP_2026-10-04_QUARANTINE
++  blueprint: C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\MINIMAX OPTIMUS CONTROL CENTER BLUEPRINT
++  reference_implementation: C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\90_CONTROL_CENTER
++  restore_point: C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\FULL_BACKUP_2026-10-04_QUARANTINE
+   executable_workflow: C:\Users\apviz\.minimax\agents\mavis\skills\minimax-optimus-dashboard\dashboard-build.dsl.js
+   workflow_run_id: 6b698fa6-1060-402d-a224-d07ed4bfb630
+   workflow_name: Dashboard Build — zero-context, seven phases
+diff --git a/popy-project-status-report/SKILL.md b/popy-project-status-report/SKILL.md
+index c8c240b..fcbfa96 100644
+--- a/popy-project-status-report/SKILL.md
++++ b/popy-project-status-report/SKILL.md
+@@ -119,4 +119,71 @@ Rules for the name:
+ Every number in the report is measured in the session it is written. If a figure
+ was not re-measured this turn, mark it with its date or write `NOT_MEASURED`. A
+ report repeats old numbers without saying so, it is the defect this whole session
+-was about - see `EVOLUTION.md` R10, where a dashboard looked alive and was frozen.
+\ No newline at end of file
++was about - see `EVOLUTION.md` R10, where a dashboard looked alive and was frozen.
++
++## Git and GitHub status belongs in the report (Popy's correction, 2026-10-28)
++
++He asked for a report and the file I wrote had **no Git or GitHub state in it**.
++He was right: a status report for a version-controlled project that does not say
++where the branch is, what is pushed, and what is not, is incomplete.
++
++**Section 1 (SCOPUL) carries a Git/GitHub table**, measured in the turn the
++report is written:
++
++| Field | Example |
++|---|---|
++| branch | `main` |
++| remote URL | `https://github.com/apvizual-max/SENTINEL_PRIME.git` |
++| visibility | `PRIVATE` |
++| last push (UTC) | `2026-10-10 22:46:32` |
++| local commits on main | 13 |
++| tracked files | 1.390 |
++| **commits not on remote** | **3** |
++| ahead / behind | `3 0` |
++| dirty files | 5 (and say who wrote them) |
++| git identity, hooks | `Sentinel Prime <sentinel.prime@optimus.local>`, hook path, coverage |
++| repo disk usage | 15.442 KB |
++
++**Rules that follow from it.**
++
++- The file and the chat message carry the **same** content. The file is the
++  deliverable; the chat is a delivery of it, not a different, shorter report.
++- Name the file exactly as its H1, character for character, including the em
++  dash. Time is `HH-MM`, never `HH:MM` — a colon is illegal in a Windows file
++  name, and the same substitution goes in the H1.
++- Archive the previous report before writing the new one:
++  `raport-archive\raport-<YYYY-MM-DD_HH-MM>.md`.
++- If a figure was not re-measured this turn, it does not go in the table as a
++  fact. Write `NOT_MEASURED` or give it its date. A status report that quotes
++  yesterday's numbers without saying so is the defect the format exists to
++  prevent.
++- **A change in state between two reports is itself a report item.** When the
++  stale count went from 2 to 10 between 02:15 and 18:45, that belongs in the
++  report, plainly, not smoothed over.
++
++## A SHA written as a literal is stale the moment you commit the report
++
++Measured 2026-10-28. The report's Git table carried `HEAD local = origin/main =
++956485e`. Then the report itself was committed, and that commit got a
++*different* SHA — so the file contradicted the repository it describes, in the
++one table whose entire job is to describe the repository.
++
++**Rule:** in a report, write the **command**, not the hash, whenever the value
++changes with the commit that carries the report:
++
++```
++| HEAD local = origin/main | identical, 0 ahead / 0 behind - read it with `git ls-remote origin refs/heads/main` |
++```
++
++What may be stated as a measured fact:
++- the stable counts — commits on the branch, tracked files;
++- the SHA of the **work** commit, labelled as such, with its time;
++- the equality itself: local == remote == clone, verified in this turn.
++
++What may not: the SHA of the commit that carries the report. It does not exist
++yet when the report is written.
++
++The same trap applies outside the report: any file that states "the current SHA"
++goes stale with the next commit. When such a statement has to live in a file,
++give it the command and the time of the measurement, and let the reader re-read
++it.

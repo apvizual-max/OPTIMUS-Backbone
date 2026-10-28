@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-  Builds the OPTIMUS central Source-Of-Truth (SOT) index for C:\Users\apviz\.minimax-agent\projects.
+  Builds the OPTIMUS central Source-Of-Truth (SOT) index for C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard.
 
 .DESCRIPTION
   Popy's rule: one place to reach every custom script, every skill source and
@@ -36,7 +36,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$PROJECTS = 'C:\Users\apviz\.minimax-agent\projects'
+$PROJECTS = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard'
 $started  = Get-Date
 $stats    = [ordered]@{ junction = 0; hardlink = 0; kept = 0; skipped = 0; missing = 0; conflict = 0 }
 

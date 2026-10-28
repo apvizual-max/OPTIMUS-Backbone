@@ -1,0 +1,67 @@
+[
+    {
+        "pid":  9976,
+        "name":  "powershell.exe",
+        "cmd":  "\"powershell.exe\" -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\\Users\\apviz\\.minimax-agent\\projects\\scripts\\sentinel-guardian.ps1\""
+    },
+    {
+        "pid":  10024,
+        "name":  "powershell.exe",
+        "cmd":  "\"powershell.exe\" -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\\Users\\apviz\\.minimax-agent\\projects\\scripts\\cc-watchdog.ps1\""
+    },
+    {
+        "pid":  57184,
+        "name":  "powershell.exe",
+        "cmd":  "\"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\13_COMMAND_CENTER\\api\\server.ps1 -Port 8912 -NoBrowser "
+    },
+    {
+        "pid":  58048,
+        "name":  "node.exe",
+        "cmd":  "\"C:\\Program Files\\nodejs\\node.exe\" C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Google_Access\\google-layer\\minimax-notebooklm.js"
+    },
+    {
+        "pid":  13216,
+        "name":  "bun.exe",
+        "cmd":  "\"C:\\Program Files\\Qwen\\resources\\bun\\bun.exe\" C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Google_Access\\google-layer\\gmail-launcher.js"
+    },
+    {
+        "pid":  59640,
+        "name":  "python.exe",
+        "cmd":  "C:\\Users\\apviz\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe C:\\Users\\apviz\\.minimax-agent\\projects\\scripts\\qwen_acp_mcp.py"
+    },
+    {
+        "pid":  48400,
+        "name":  "python.exe",
+        "cmd":  "C:\\Users\\apviz\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\sentinel_hub_server.py"
+    },
+    {
+        "pid":  41564,
+        "name":  "python.exe",
+        "cmd":  "C:\\Users\\apviz\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\prime_bridge_server.py"
+    },
+    {
+        "pid":  48832,
+        "name":  "python.exe",
+        "cmd":  "\"C:\\Users\\apviz\\AppData\\Roaming\\uv\\python\\cpython-3.11-windows-x86_64-none\\python.exe\"  C:\\Users\\apviz\\.minimax-agent\\projects\\scripts\\qwen_acp_mcp.py"
+    },
+    {
+        "pid":  56248,
+        "name":  "python.exe",
+        "cmd":  "C:\\Users\\apviz\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\web_tools_server.py"
+    },
+    {
+        "pid":  48236,
+        "name":  "python.exe",
+        "cmd":  "C:\\Users\\apviz\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\git_tools_server.py"
+    },
+    {
+        "pid":  48628,
+        "name":  "bun.exe",
+        "cmd":  "\"C:\\Program Files\\Qwen\\resources\\bun\\bun.exe\" C:\\Users\\apviz\\.minimax-agent\\projects\\Mavis-Google_Access\\google-layer\\gdrive-launcher.js"
+    },
+    {
+        "pid":  33376,
+        "name":  "powershell.exe",
+        "cmd":  "\"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\apviz\\.minimax-agent\\projects\\90_CONTROL_CENTER\\api\\server.ps1\" -Port 8900 -NoBrowser "
+    }
+]

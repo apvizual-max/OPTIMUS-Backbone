@@ -3,8 +3,8 @@
 # is read from the machine at generation time, so the document cannot rot into
 # describing a system that no longer exists.
 param(
-  [string]$Root = 'C:\Users\apviz\.minimax-agent\projects',
-  [string]$Docs = 'C:\Users\apviz\.minimax-agent\projects\FULL_BACKUP_2026-10-04_QUARANTINE\_DOCS'
+  [string]$Root = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard',
+  [string]$Docs = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\FULL_BACKUP_2026-10-04_QUARANTINE\_DOCS'
 )
 $ErrorActionPreference = 'Continue'
 New-Item -ItemType Directory -Force -Path $Docs | Out-Null
@@ -122,7 +122,7 @@ Write-Host ("wrote 02_DEPENDENCIES.md ({0:N0} bytes)" -f $sb.Length)
 
 # ------------------------------------------------------------------ FILE_TREE
 $tree = New-Object Text.StringBuilder
-$q = 'C:\Users\apviz\.minimax-agent\projects'
+$q = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard'
 function T([string]$s) { [void]$tree.AppendLine($s) }
 T "# 03 - FILE TREE"
 T ""

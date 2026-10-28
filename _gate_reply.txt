@@ -19,5 +19,5 @@ Un lucru semnalez din secțiunea 5: o rotație a magaziei de `.bak` a împuns af
 Aștept R0 pe două puncte: `corpus_fresh` — îl re-extract sau îl las în pace; și repo public sau privat, acum privat.
 
 <deliver-assets>
-<media type="file" src="C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\RAPORT DE STARE — SENTINEL PRIME DASHBOARD - 2026-10-11 02-18.md" caption="Raport de stare — SENTINEL PRIME DASHBOARD — 2026-10-11 02-18" />
+<media type="file" src="C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\RAPORT DE STARE — SENTINEL PRIME DASHBOARD - 2026-10-11 02-18.md" caption="Raport de stare — SENTINEL PRIME DASHBOARD — 2026-10-11 02-18" />
 </deliver-assets>

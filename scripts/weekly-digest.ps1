@@ -31,7 +31,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-$Root     = 'C:\Users\apviz\.minimax-agent\projects'
+$Root     = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard'
 $CC       = Join-Path $Root '90_CONTROL_CENTER'
 $HistF    = Join-Path $CC 'api\state-history.jsonl'
 $HealthF  = Join-Path $CC 'api\cc-health.json'

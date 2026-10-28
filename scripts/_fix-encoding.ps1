@@ -9,7 +9,7 @@
 #   - leave every correctly-encoded character untouched
 #   - loop only while it keeps improving, so it cannot run away
 $ErrorActionPreference = 'Stop'
-$file = 'C:\Users\apviz\.minimax-agent\projects\90_CONTROL_CENTER\index.html'
+$file = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\90_CONTROL_CENTER\index.html'
 $utf8 = [Text.Encoding]::UTF8
 $cp1252 = [Text.Encoding]::GetEncoding(1252)
 $REPL = [string][char]0xFFFD

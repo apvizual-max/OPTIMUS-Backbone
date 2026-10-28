@@ -1,5 +1,5 @@
 $ErrorActionPreference = 'Stop'
-$f = 'C:\Users\apviz\.minimax-agent\projects\90_CONTROL_CENTER\api\collect-state.ps1'
+$f = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\90_CONTROL_CENTER\api\collect-state.ps1'
 $lines = [System.Collections.ArrayList]@([IO.File]::ReadAllLines($f, [Text.Encoding]::UTF8))
 
 # Replace the process-census ancestry walk. The previous version called

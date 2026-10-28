@@ -15,9 +15,9 @@ description: |
   until there is nothing left to find.
 license: proprietary
 metadata:
-  blueprint: C:\Users\apviz\.minimax-agent\projects\MINIMAX OPTIMUS CONTROL CENTER BLUEPRINT
-  reference_implementation: C:\Users\apviz\.minimax-agent\projects\90_CONTROL_CENTER
-  restore_point: C:\Users\apviz\.minimax-agent\projects\FULL_BACKUP_2026-10-04_QUARANTINE
+  blueprint: C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\MINIMAX OPTIMUS CONTROL CENTER BLUEPRINT
+  reference_implementation: C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\90_CONTROL_CENTER
+  restore_point: C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\FULL_BACKUP_2026-10-04_QUARANTINE
 ---
 
 # MINIMAX OPTIMUS DASHBOARD

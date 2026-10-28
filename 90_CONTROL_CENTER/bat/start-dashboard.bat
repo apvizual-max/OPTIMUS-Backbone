@@ -8,7 +8,7 @@ REM  command buttons both need this local HTTP origin. It binds 127.0.0.1
 REM  ONLY -- never reachable from off-box.
 REM ===========================================================================
 setlocal
-set "CC=C:\Users\apviz\.minimax-agent\projects\90_CONTROL_CENTER"
+set "CC=C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\90_CONTROL_CENTER"
 set "PORT=8900"
 
 echo.

@@ -17,7 +17,7 @@
 param([switch]$Quiet)
 
 $ErrorActionPreference = 'Continue'
-$PROJECTS = 'C:\Users\apviz\.minimax-agent\projects'
+$PROJECTS = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard'
 $OUT      = Join-Path $PROJECTS 'OPTIMUS_CURRENT_STATE.md'
 $NOW      = (Get-Date).ToString('yyyy-MM-dd HH:mm')
 

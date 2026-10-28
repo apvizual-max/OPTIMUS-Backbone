@@ -20,7 +20,7 @@ Pointer to the detailed per-partition registries under `40_REGISTRIES/`. This fi
 | SPO | `E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\SENTINEL_PRIME_OPPERATIONS - SPO\` |
 | PO (incl. SENTINEL_TREZIRE_PROMPT.md) | `E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\POPY_OPPERATIONS - PO\` |
 | SACRU corpus (963 proverbs) | **NOT YET LOCATED** — see `40_REGISTRIES/40_sacru_corpus_pending.md` |
-| OPTIMUS backbone (this dir) | `C:\Users\apviz\.minimax-agent\projects\` |
+| OPTIMUS backbone (this dir) | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\` |
 
 ## Scan policy
 

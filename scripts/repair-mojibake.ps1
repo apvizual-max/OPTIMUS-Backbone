@@ -24,7 +24,7 @@
 [CmdletBinding()]
 param(
   [switch]$Apply,
-  [string]$Root = 'C:\Users\apviz\.minimax-agent\projects',
+  [string]$Root = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard',
   # Walk subfolders too. The first version only scanned the root, so mojibake
   # introduced into 40_REGISTRIES\, 70_CONNECTORS\ and 10_BRIDGES\ survived the
   # repair unnoticed.

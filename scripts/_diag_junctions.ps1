@@ -1,5 +1,5 @@
 $ErrorActionPreference = 'Stop'
-$Root = 'C:\Users\apviz\.minimax-agent\projects'
+$Root = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard'
 $Name = 'FULL_BACKUP_2026-10-03'
 $dest = Join-Path $Root $Name
 $mf = Get-Content -LiteralPath (Join-Path $dest 'BACKUP-MANIFEST.json') -Raw | ConvertFrom-Json

@@ -9,7 +9,7 @@ When Mavis creates a file Popy needs (a doctrine, a config, an archive, an image
 ## `<media />` (single file)
 
 ```
-<media src="C:/Users/apviz/.minimax-agent/projects/SENTINEL_OPERATIONAL_DOCTRINE.md" type="file" caption="Paste-into-Custom-instructions doctrine" />
+<media src="C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/SENTINEL_OPERATIONAL_DOCTRINE.md" type="file" caption="Paste-into-Custom-instructions doctrine" />
 ```
 
 Attributes:

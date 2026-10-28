@@ -1,5 +1,5 @@
 $ErrorActionPreference = 'Stop'
-$f = 'C:\Users\apviz\.minimax-agent\projects\90_CONTROL_CENTER\index.html'
+$f = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\90_CONTROL_CENTER\index.html'
 $lines = [System.Collections.ArrayList]@([IO.File]::ReadAllLines($f, [Text.Encoding]::UTF8))
 
 # locate the block by its anchors rather than by reproducing the exact bytes,

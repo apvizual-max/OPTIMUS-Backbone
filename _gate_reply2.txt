@@ -13,5 +13,5 @@ Raportul e rescris complet, cu starea Git și GitHub măsurată acum, la 18:45. 
 **Rămân deschise:** cele 4 comituri neîmpuse, `corpus_fresh` la 6,9 zile peste o limită de o oră (refacerea înseamnă extracție completă a corpusului tău, deci nu o fac de unii singuri), și calibrarea limitelor `log_*`.
 
 <deliver-assets>
-<media type="file" src="C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\RAPORT DE STARE — SENTINEL PRIME DASHBOARD - 2026-10-11 18-45.md" caption="Raport de stare — SENTINEL PRIME DASHBOARD — 2026-10-11 18-45 (cu stare Git și GitHub)" />
+<media type="file" src="C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\RAPORT DE STARE — SENTINEL PRIME DASHBOARD - 2026-10-11 18-45.md" caption="Raport de stare — SENTINEL PRIME DASHBOARD — 2026-10-11 18-45 (cu stare Git și GitHub)" />
 </deliver-assets>

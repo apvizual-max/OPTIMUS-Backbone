@@ -110,7 +110,7 @@ When Popy says "second brain," treat both as one operational system. When you pr
 - **SPO**: `E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\SENTINEL_PRIME_OPPERATIONS - SPO\`
 - **PO**: same root, `POPY_OPPERATIONS - PO\` (includes `SENTINEL_TREZIRE_PROMPT.md`)
 - **SACRU corpus (963 proverbs)**: **LOCATED** — `E:\CLAUDE\MINTE\00_KV_SECOND BRAIN\- ORCHESTRATOR - Sys Folder - Hermes Default\SF_IA - IDENTITATE_AXIOMA\SF_IA - 963_PROVERBE_COMPLET.md`. (25-axe decision matrix, NOT 963 literal proverbs.)
-- **Backbone hub (this directory)**: `C:\Users\apviz\.minimax-agent\projects\`
+- **Backbone hub (this directory)**: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\`
 
 ## §12.5 Google Access — conectarea permanentă la Google (28 oct 2026)
 
@@ -119,9 +119,9 @@ Pe această stație, Google **nu** e o capabilitate care se re-configurează la 
 | | |
 |---|---|
 | Endpoint MCP | `http://127.0.0.1:8766/mcp` — înregistrat **global** în `C:\Users\apviz\.minimax\mcp.json` ca `Google_Access`, deci îl moștenește **orice** agent de pe stație, nu doar Mavis |
-| Punct de control (o singură comandă) | `node C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs` → `VERDICT=PASS` / `FAIL`, exit 0 / 2 / 3, 11 verificări |
-| Harness CLI (pentru un AI fără client MCP) | `node C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\container\mcp-call.mjs <tool> @args.json` |
-| Proiect | `C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access` (repo public `apvizual-max/Mavis-Google_Access`) |
+| Punct de control (o singură comandă) | `node C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs` → `VERDICT=PASS` / `FAIL`, exit 0 / 2 / 3, 11 verificări |
+| Harness CLI (pentru un AI fără client MCP) | `node C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\container\mcp-call.mjs <tool> @args.json` |
+| Proiect | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access` (repo public `apvizual-max/Mavis-Google_Access`) |
 | Bridge | `10_BRIDGES\10_google_access.md` |
 
 Reguli care decurg din asta:
@@ -169,7 +169,7 @@ If any CLI is not on PATH or its binary is missing, say so. Do not pretend to ca
 
 ## §16 Workspace discipline
 
-- Default workspace for this project: `C:\Users\apviz\.minimax-agent\projects\`.
+- Default workspace for this project: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\`.
 - The backbone structure lives there: `00_INDEX/`, `10_BRIDGES/`, `20_PROTOCOLS/`, `30_WORKFLOWS/`, `40_REGISTRIES/`, `50_TEMPLATES/`, `60_SKILLS/`, `70_CONNECTORS/`, plus `AGENTS.md`, `README.md`, `OPTIMUS_INDEX.md`.
 - When Popy asks for a deliverable in a specific path, honor that. Otherwise, default to this workspace.
 

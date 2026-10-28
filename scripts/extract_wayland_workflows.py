@@ -18,7 +18,7 @@ from pathlib import Path
 
 DEFAULT_SRC = Path(r"C:\Program Files\Wayland\resources\bundled-workflows")
 DEFAULT_OUT = Path(
-    r"C:\Users\apviz\.minimax-agent\projects\20_BRIDGES\wayland\workflows"
+    r"C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\20_BRIDGES\wayland\workflows"
 )
 
 

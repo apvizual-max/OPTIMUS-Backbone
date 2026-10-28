@@ -13,7 +13,7 @@
 -->
 # Memory Summary — Mavis (agent memory)
 
-> **Purpose of this file**: Popy opened MiniMax Code's Memory summary modal and asked for the full memory content as a copyable MD document at `C:\Users\apviz\.minimax-agent\projects\memory_summary.md`.
+> **Purpose of this file**: Popy opened MiniMax Code's Memory summary modal and asked for the full memory content as a copyable MD document at `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\memory_summary.md`.
 >
 > **Usage**:
 > 1. Open the in-app **Memory summary** modal (the one shown in the screenshot).
@@ -76,7 +76,7 @@ Senior design strategist / Systems Architect, 15+ years. Microsoft PCoE, Yokogaw
 ### OPTIMUS Backbone hub at projects/ (2026-09-18)
 Type: project reference
 
-Hub: C:\Users\apviz\.minimax-agent\projects\
+Hub: C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\
 Doctrine to paste into MiniMax Code Custom instructions: SENTINEL_OPERATIONAL_DOCTRINE.md (root).
 Cheat sheet: OPTIMUS_INDEX.md. Project agent instructions: AGENTS.md.
 Sections: 00_INDEX, 10_BRIDGES, 20_PROTOCOLS, 30_WORKFLOWS, 40_REGISTRIES, 50_TEMPLATES, 60_SKILLS (blueprints), 70_CONNECTORS (blueprints).

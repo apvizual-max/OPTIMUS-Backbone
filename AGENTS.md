@@ -1,6 +1,6 @@
 # AGENTS.md — OPTIMUS Backbone Project
 
-This is the project-level instruction file for the agent (Mavis / MiniMax Code) when working inside `C:\Users\apviz\.minimax-agent\projects\`. It complements — does not replace — the doctrine in `SENTINEL_OPERATIONAL_DOCTRINE.md` (which goes into the MiniMax Code UI) and the deeper doctrine substrate in `SENTINEL_PRIME/`.
+This is the project-level instruction file for the agent (Mavis / MiniMax Code) when working inside `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\`. It complements — does not replace — the doctrine in `SENTINEL_OPERATIONAL_DOCTRINE.md` (which goes into the MiniMax Code UI) and the deeper doctrine substrate in `SENTINEL_PRIME/`.
 
 ## 00. OPERATING PROCEDURE — this section outranks every other
 
@@ -69,9 +69,9 @@ Google is **not** a capability that gets re-set-up per session. It is one contai
 | | |
 |---|---|
 | MCP endpoint | `http://127.0.0.1:8766/mcp` — registered globally in `C:\Users\apviz\.minimax\mcp.json` as `Google_Access`, so **every** agent on this station inherits it, not only Mavis |
-| Control point (one command) | `node C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs` → `VERDICT=PASS` / `FAIL`, exit 0 / 2 / 3, 11 checks |
-| CLI harness (no MCP client needed) | `node C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\container\mcp-call.mjs <tool> @args.json` |
-| Project | `C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access` (public repo `apvizual-max/Mavis-Google_Access`) |
+| Control point (one command) | `node C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs` → `VERDICT=PASS` / `FAIL`, exit 0 / 2 / 3, 11 checks |
+| CLI harness (no MCP client needed) | `node C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\container\mcp-call.mjs <tool> @args.json` |
+| Project | `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access` (public repo `apvizual-max/Mavis-Google_Access`) |
 | Bridge spec | `10_BRIDGES\10_google_access.md` |
 
 Rules that follow from it:

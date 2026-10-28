@@ -1,0 +1,4121 @@
+diff --git a/.handoff/HANDOFF-GOOGLE-ACCESS.md b/.handoff/HANDOFF-GOOGLE-ACCESS.md
+index 959f02f..ae91509 100644
+--- a/.handoff/HANDOFF-GOOGLE-ACCESS.md
++++ b/.handoff/HANDOFF-GOOGLE-ACCESS.md
+@@ -26,7 +26,7 @@ că funcționează, cu 11 verificări și un verdict unic.
+ control și repară verificarea care a picat.
+ 
+ ```powershell
+-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs"
++node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs"
+ ```
+ 
+ ---
+@@ -43,7 +43,7 @@ CHECK C1b.running-code OK   repo=63e4ea8d2bbb running=63e4ea8d2bbb match=true
+ CHECK C2.health OK   grant=live reauth=false tools=32
+ CHECK C3.services OK   state=HEALTHY OK=14 REFUSED=2[keep,sites] ERROR=0[] attempts=1
+ CHECK C4.extendlm OK   token_minutes_left=109 refresh_token=yes cloud_secret_age_min=11
+-CHECK C5.browser-mcp OK   server=minimax-notebooklm tools=4 path=C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\google-layer\minimax-notebooklm.js
++CHECK C5.browser-mcp OK   server=minimax-notebooklm tools=4 path=C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\google-layer\minimax-notebooklm.js
+ CHECK C6.mcp-registry OK   enabled=true url=http://127.0.0.1:8766/mcp type=streamable-http
+ CHECK C10.mcp-paths OK   checked=23 dead_total=0
+ CHECK C7.tasks OK   count=4
+@@ -120,7 +120,7 @@ din `FULL_SCOPES`, **cu motivul scris în sursă**. Uneltele `gkeep_list` și
+ ### 5.1 „Nu are Google" — ce faci
+ 
+ ```powershell
+-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs"
++node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs"
+ ```
+ 
+ Citește **verificarea care a picat** (e numită în ieșire), repară **acea** bucată,
+@@ -138,7 +138,7 @@ refuzat — **măsurătoare**, nu eșec) · `ERROR` (nu a răspuns nimic) · `SK
+ ### 5.3 Un server MCP nou, sau unul rupte
+ 
+ ```powershell
+-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\probe-mcp-stdio.mjs" --name <intrare>
++node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\probe-mcp-stdio.mjs" --name <intrare>
+ ```
+ 
+ Face handshake MCP real peste stdio, cu comanda și argumentele **exact cum
+@@ -153,7 +153,7 @@ invalidă toate celelalte scope-uri.
+ ### 5.5 NotebookLM
+ 
+ ```powershell
+-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\probe-notebooklm.mjs"
++node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\probe-notebooklm.mjs"
+ ```
+ 
+ Două drumuri: **ExtendLM** (MCP, 160 unelte) și **browserul**
+@@ -163,8 +163,8 @@ tokenului o face **doar gazda**; Cloudul consumă doar un snapshot.
+ ### 5.6 Poze
+ 
+ ```powershell
+-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\picker-watch.mjs" --session <id> --data "C:\Users\apviz\.minimax\google-access\data" --delete-after
+-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\picker-download.mjs"
++node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\picker-watch.mjs" --session <id> --data "C:\Users\apviz\.minimax\google-access\data" --delete-after
++node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\picker-download.mjs"
+ ```
+ 
+ Un `404` pe sesiune înseamnă **consumată**, nu defect: e marcată în fișier
+diff --git a/.handoff/PRIMING-PROMPT.md b/.handoff/PRIMING-PROMPT.md
+index 709ca8d..d5b0094 100644
+--- a/.handoff/PRIMING-PROMPT.md
++++ b/.handoff/PRIMING-PROMPT.md
+@@ -19,7 +19,7 @@ verifică printr-o singură comandă.
+ ## Comanda de control (rulează-o PRIMA)
+ 
+ ```powershell
+-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs"
++node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs"
+ ```
+ 
+ Starea măsurată la ultima rulare (2026-10-28 01:54Z):
+diff --git a/.handoff/README.md b/.handoff/README.md
+index b5ed7ef..8384f59 100644
+--- a/.handoff/README.md
++++ b/.handoff/README.md
+@@ -13,7 +13,7 @@ Pentru o sesiune cu **0 context și 0 memorie**.
+ **O singură comandă spune dacă totul e în picioare:**
+ 
+ ```powershell
+-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs"
++node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs"
+ ```
+ 
+ Starea la predare (2026-10-28 00:48Z): `SUMMARY checks=11 failed=0 warnings=0`
+diff --git a/.handoff/SKILLS-INDEX.md b/.handoff/SKILLS-INDEX.md
+index d0f1a2c..718ac73 100644
+--- a/.handoff/SKILLS-INDEX.md
++++ b/.handoff/SKILLS-INDEX.md
+@@ -105,5 +105,5 @@ Get-ChildItem "$s\mavis-skill-*\scripts\verify-*.mjs" | ForEach-Object {
+ }
+ 
+ # 3. sistemul însuși
+-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs"
++node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs"
+ ```
+diff --git a/.handoff/STATE-MEASURED.md b/.handoff/STATE-MEASURED.md
+index 8dcefb3..e34c126 100644
+--- a/.handoff/STATE-MEASURED.md
++++ b/.handoff/STATE-MEASURED.md
+@@ -9,7 +9,7 @@ cifră nu mai corespunde, cifra e cea greșită, nu realitatea.
+ ## 1. Punctul de control
+ 
+ ```
+-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs"
++node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs"
+ ```
+ 
+ ```
+@@ -22,7 +22,7 @@ CHECK C1b.running-code OK   repo=63e4ea8d2bbb running=63e4ea8d2bbb match=true
+ CHECK C2.health OK   grant=live reauth=false tools=32
+ CHECK C3.services OK   state=HEALTHY OK=14 REFUSED=2[keep,sites] ERROR=0[] attempts=1
+ CHECK C4.extendlm OK   token_minutes_left=109 refresh_token=yes cloud_secret_age_min=11
+-CHECK C5.browser-mcp OK   server=minimax-notebooklm tools=4 path=C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\google-layer\minimax-notebooklm.js
++CHECK C5.browser-mcp OK   server=minimax-notebooklm tools=4 path=C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\google-layer\minimax-notebooklm.js
+ CHECK C6.mcp-registry OK   enabled=true url=http://127.0.0.1:8766/mcp type=streamable-http
+ CHECK C10.mcp-paths OK   checked=23 dead_total=0
+ CHECK C7.tasks OK   count=4
+diff --git a/AGENTS.md b/AGENTS.md
+index a7ec0b2..bf0c951 100644
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -47,8 +47,8 @@ station:
+ ## Probes (run them before claiming anything)
+ 
+ ```powershell
+-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs"   # THE control point - 11 checks, one verdict
+-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\probe-mcp-stdio.mjs" --name <entry>  # does a registered MCP entry actually start?
++node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs"   # THE control point - 11 checks, one verdict
++node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\probe-mcp-stdio.mjs" --name <entry>  # does a registered MCP entry actually start?
+ node "C:\Users\apviz\.minimax\google-access\probe-services.mjs"   # every service, live
+ node "C:\Users\apviz\.minimax\google-access\state\probe-token.mjs" # what the token carries
+ docker inspect --format '{{.State.Status}}|{{if .State.Health}}{{.State.Health.Status}}{{end}}' Google_Access
+diff --git a/Mavis-Cloud - GOOGLE_Setup_Session/00_INDEX.md b/Mavis-Cloud - GOOGLE_Setup_Session/00_INDEX.md
+deleted file mode 100644
+index 5821071..0000000
+--- a/Mavis-Cloud - GOOGLE_Setup_Session/00_INDEX.md	
++++ /dev/null
+@@ -1,27 +0,0 @@
+-# 00_INDEX — 02_Areas/02-2-AI-SOT/CASA/OPTIMUS - Prime/Optimus_CI (by Mavis)/Google_Connect/Mavis-Cloud_Google-Setup-Session
+-
+-**1 fișiere · 50 KB · 1 subfoldere**
+-
+-> Generat automat de `02_Areas/02-2-AI-SOT/02-2-1-AI-Kit/AI-Kit_manual/build-index.ps1` și `align-index.ps1`. Nu edita manual — rulează scriptul din nou.
+-> Randul **De ce e aici** de mai sus, daca exista, se pastreaza la fiecare regenerare.
+-
+-## Ce e aici
+-
+-Singura extensie prezentă e `.md` (1 din 1 fișiere). Un raft copil: `Artefacts`; cel mai mare element din folder e `Artefacts` (109 KB)
+-
+-## Cuvinte cheie
+-
+-`Mavis-Cloud_Google-Setup-Session` · `Artefacts` · `.md`
+-
+-## Subfoldere
+-
+-_Fiecare raft e legat la indexul lui. Un index care nu e legat nu e în arbore._
+-
+-- [`Artefacts`](<Artefacts/00_INDEX.md>) — 22 fișiere · 0 subfoldere
+-
+-## Fișiere
+-
+-| Fișier | Dimensiune | Modificat |
+-|---|---|---|
+-| `Mavis-Cloud_Google-Setup-Session.md` | 50 KB | 2026-10-27 |
+-
+diff --git a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/00_INDEX.md b/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/00_INDEX.md
+deleted file mode 100644
+index 9c86acc..0000000
+--- a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/00_INDEX.md	
++++ /dev/null
+@@ -1,42 +0,0 @@
+-# 00_INDEX — 02_Areas/02-2-AI-SOT/CASA/OPTIMUS - Prime/Optimus_CI (by Mavis)/Google_Connect/Mavis-Cloud_Google-Setup-Session/Artefacts
+-
+-**22 fișiere · 109 KB · 0 subfoldere**
+-
+-> Generat automat de `02_Areas/02-2-AI-SOT/02-2-1-AI-Kit/AI-Kit_manual/build-index.ps1` și `align-index.ps1`. Nu edita manual — rulează scriptul din nou.
+-> Randul **De ce e aici** de mai sus, daca exista, se pastreaza la fiecare regenerare.
+-
+-## Ce e aici
+-
+-Cele mai frecvente două extensii sunt `.md` (18 din 22 fișiere) și `.js` (2 din 22 fișiere). Cel mai mare element din folder e `GOOGLE-STATUS-2026-10-22 (1).md` (11 KB)
+-
+-## Cuvinte cheie
+-
+-`Artefacts` · `GOOGLE` · `STATUS` · `.md` · `.js`
+-
+-## Fișiere
+-
+-| Fișier | Dimensiune | Modificat |
+-|---|---|---|
+-| `2026-10-22-PUBLISH-APP-OAUTH.md` | 3 KB | 2026-10-27 |
+-| `2026-10-22-ROTIRE-API-KEY-GOOGLE.md` | 3 KB | 2026-10-27 |
+-| `AGENTS.md` | 5 KB | 2026-10-27 |
+-| `ARHITECTURA-SISTEM.md` | 5 KB | 2026-10-27 |
+-| `AUTORIZARE-LINK (1).txt` | 1 KB | 2026-10-27 |
+-| `AUTORIZARE-LINK.txt` | 1 KB | 2026-10-27 |
+-| `DEFINITIE-OPERATIONALA.md` | 5 KB | 2026-10-27 |
+-| `drive-vault.js` | 9 KB | 2026-10-27 |
+-| `GOOGLE-PRODUCTION-CHECKLIST (1).md` | 4 KB | 2026-10-27 |
+-| `GOOGLE-PRODUCTION-CHECKLIST (2).md` | 4 KB | 2026-10-27 |
+-| `GOOGLE-PRODUCTION-CHECKLIST.md` | 4 KB | 2026-10-27 |
+-| `google-refresh.js` | 9 KB | 2026-10-27 |
+-| `GOOGLE-STATUS-2026-10-22 (1).md` | 11 KB | 2026-10-27 |
+-| `GOOGLE-STATUS-2026-10-22 (2).md` | 11 KB | 2026-10-27 |
+-| `GOOGLE-STATUS-2026-10-22.md` | 11 KB | 2026-10-27 |
+-| `MavisCloud-Google.md` | 4 KB | 2026-10-27 |
+-| `PROCEDURA-LIVRARE-SECRETE (1).md` | 3 KB | 2026-10-27 |
+-| `PROCEDURA-LIVRARE-SECRETE.md` | 3 KB | 2026-10-27 |
+-| `README (1).md` | 3 KB | 2026-10-27 |
+-| `README.md` | 3 KB | 2026-10-27 |
+-| `REGULI-VAULT.md` | 4 KB | 2026-10-27 |
+-| `SKILL.md` | 4 KB | 2026-10-27 |
+-
+diff --git a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/2026-10-22-PUBLISH-APP-OAUTH.md b/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/2026-10-22-PUBLISH-APP-OAUTH.md
+deleted file mode 100644
+index 4f5bf3a..0000000
+--- a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/2026-10-22-PUBLISH-APP-OAUTH.md	
++++ /dev/null
+@@ -1,83 +0,0 @@
+-# 01 · Publish la aplicația OAuth
+-
+-**Data:** 2026-10-22 · **Tip:** configurări în Google Cloud Console
+-**Perspectivă lipsă:** niciuna — dar **accesul** e doar la tine (contul tău, cu 2FA)
+-**Stare:** ⏳ așteaptă pe tine
+-
+----
+-
+-## De ce contează (măsurat, nu estimat)
+-
+-Refresh token-ul a fost obținut **2026-10-22 01:39 UTC**. App-ul OAuth e în modul
+-**Testing**, unde Google omoară refresh token-ul în **7 zile de la consimțământ**.
+-Deci tokenul moare în jur de **29 octombrie**.
+-
+-În Testing, **fiecare re-autentificare e un ciclu de 7 zile.** Am bătut-o de trei
+-ori în septembrie–octombrie. Fixul nu e să re-autentificăm mai repede — e să
+-scădem de tot ciclul.
+-
+----
+-
+-## Ce ai de făcut (în Google Cloud Console)
+-
+-**1. OAuth consent screen** → verifică / completează:
+-
+-| Setare | Valoare | De ce |
+-|---|---|---|
+-| User type | **External** | altfel nu apare pe conturi gmail.com |
+-| App name | ceva lizibil (ex. „Mavis Cloud") | apare pe ecranul de consimțământ |
+-| User support email | apvizual@gmail.com | obligatoriu |
+-| Developer contact email | apvizual@gmail.com | obligatoriu |
+-| Audience | **External** | obligatoriu pentru Publish |
+-| Test users | apvizual@gmail.com | necesar doar cât timp e în Testing |
+-
+-**2. Publish app** → **In production**
+-
+-> Pentru uz personal poate apărea „Google hasn't verified this app".
+-> **E normal** și nu blochează nimic. Verificarea completă (green check) se cere
+-> doar dacă app-ul servește alți oameni.
+-
+-**3. (opțional) Authorized domains** — gol e OK pentru uz personal. Nu ai nevoie
+-de domeniu.
+-
+----
+-
+-## De ce nu pot face eu
+-
+-Consola Cloud cere **sesiune ta** cu `apvizual@gmail.com` și verificare în doi
+-pași. Credentialele mele sunt un **OAuth client** — nu sunt administrator de
+-proiect. Nu am și nu pot obține acces la pagina de administrare a proiectului.
+-
+----
+-
+-## Ce fac eu imediat după
+-
+-1. `node mavis-tools/google-refresh.js link` → link nou, împins în repo
+-2. Tu apeși Allow, îmi dai codul
+-3. `node mavis-tools/google-refresh.js code "<url>"` → token nou
+-4. Scriu tokenul în secret manager
+-5. `node mavis-tools/google-verify.js` → verificare live, per serviciu
+-
+-**Timpul tău:** ~2 minute. **Al meu:** ~1 minut.
+-
+----
+-
+-## Cum verificăm că s-a rezolvat
+-
+-- Tokenul obținut **după** publicare → nu mai are limita de 7 zile
+-- `google-preflight.js` → pasul 4 OK, și rămâne OK peste 7 zile
+-- Proba reală: în `google_accounts` → **Securitate** → **Conexiuni cu terți**
+-  → aplicația `Mavis_Cloud` apare, iar conexiunea **nu mai expiră în 7 zile**
+-
+----
+-
+-## Bonus: ce devine posibil abia după publish
+-
+-- Tokenul trăiește până la revocare sau ~6 luni de inactivitate
+-- **Sesiunile paralele** devin permanente: azi fiecare re-autentificare într-o
+-  sesiune ar omorî tokenul celeilalte (vezi `docs/` — `prompt=consent` revocă)
+-- Nu mai ai nevoie de mine la fiecare 7 zile
+-
+----
+-
+-*2026-10-22 · Mavis Cloud · singurul TO DO de pe lista ta care blochează un ciclu întreg*
+diff --git a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/2026-10-22-ROTIRE-API-KEY-GOOGLE.md b/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/2026-10-22-ROTIRE-API-KEY-GOOGLE.md
+deleted file mode 100644
+index b823848..0000000
+--- a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/2026-10-22-ROTIRE-API-KEY-GOOGLE.md	
++++ /dev/null
+@@ -1,81 +0,0 @@
+-# 05 · Rotește cheia API Google expusă
+-
+-**Data:** 2026-10-22 · **Tip:** configurări + acces
+-**Perspectivă lipsă:** niciuna — dar **consola cere sesiunea ta cu 2FA**
+-**Stare:** ⏳ așteaptă pe tine
+-
+----
+-
+-## Ce s-a întâmplat (măsurat, nu estimat)
+-
+-Repo-ul `hermes-agent-temp` era **public din august**. În istoricul lui (nu în HEAD)
+-se află o cheie API Google **verificată vie**:
+-
+-```
+-AIzaSyAyimku…(restul in secret manager: GOOGLE_API_KEY_EXPOSED_HERMES_TEMP)
+-```
+-
+-**Cum am verificat că e vie** (metoda e calibrată, nu ghicită):
+-- cheia asta → `GET https://www.googleapis.com/discovery/v1/apis?key=…` → **HTTP 403**
+-  = Google o recunoaște, dar API-ul e restricționat pentru ea
+-- placeholder-ul `AIzaSyB-abc123def456ghi789jklmno012345` din același repo →
+-  **HTTP 400 „API key not valid"** = mort
+-
+-Deci 403 = **vie**.
+-
+-## Ce am făcut deja
+-
+-| Acțiune | Stare |
+-|---|---|
+-| Repo-ul `hermes-agent-temp` → **privat** | ✅ făcut (oprește expunerea nouă) |
+-| Refresh token Google din `hermes-local-backup` | ✅ **revocat** (era viu) |
+-| Refresh token din `hermes-agent-temp` | era deja mort — fără acțiune |
+-| Cheia API de mai sus | ⏳ **nevoie de tine** |
+-
+-**Ce a rămas:** cine a clonat repo-ul în trecut are cheia. Rotirea e obligatorie —
+-containment-ul nu o anulează.
+-
+-## Ce ai de făcut
+-
+-**Google Cloud Console → APIs & Services → Credentials** → găsești cheia
+-`AIzaSyAy…` → **Delete** sau **regenerează**.
+-
+-- **Delete** e varianta mai curată: cheia n-a fost folosită în producție.
+-- Dacă e folosită de ceva (Maps, un site, un script), **regenerează** și
+-  actualizează referința.
+-
+-## De ce nu pot face eu
+-
+-Consola Cloud cere **sesiunea ta** pe `apvizual@gmail.com`, cu verificare în doi
+-pași. Am un OAuth *client*, nu sunt administrator de proiect. Nu pot ajunge la
+-pagina de administrare a proiectului.
+-
+-## Cum verificăm că s-a rezolvat
+-
+-```bash
+-# dupa rotire, cheia VECHE trebuie sa dea "API key not valid" (HTTP 400)
+-# cheia completa e in secret manager: GOOGLE_API_KEY_EXPOSED_HERMES_TEMP
+-KEY=$(cat ~/.secrets/GOOGLE_API_KEY_EXPOSED_HERMES_TEMP 2>/dev/null)   # sau din panoul de secrete
+-curl -s -o /dev/null -w "%{http_code}\n" "https://www.googleapis.com/discovery/v1/apis?key=$KEY"
+-# asteptat: 400  (403 = inca vie, 200 = activata fara restrictii)
+-```
+-
+-**Unde o iei:** Mavis Cloud → Environmental Information → Secrets →
+-`GOOGLE_API_KEY_EXPOSED_HERMES_TEMP`. **De ce e acolo, nu în acest doc:** un
+-repo public nu conține valori de secrete — nici revocate, nici de rotit. GitHub
+-secret-scanning blochează push-ul și e corect că o face.
+-
+-După aceea, cheia nouă (dacă ai făcut regenerate) o pui în secret manager, **nu**
+-în repo.
+-
+-## Bonus — ce am învățat azi
+-
+-**`git clone --depth 1` ascunde exact ce cauți.** Auditul meu inițial pe
+-`pkms-vault-automation` a fost pe un clone shallow — și tot pe acolo, 177 de
+-commituri și 27 de ramuri n-au fost scanate. Abia `git fetch --unshallow` +
+-`git fetch origin "+refs/heads/*:refs/remotes/origin/*"` a acoperit tot.
+-**Procedura de audit e acum în `docs/AUDIT-VIZIBILITATE-REPO-URI.md`.**
+-
+----
+-
+-*2026-10-22 · Mavis Cloud · singurul lucru rămas din tot ce am făcut azi*
+diff --git a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/AGENTS.md b/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/AGENTS.md
+deleted file mode 100644
+index 3526333..0000000
+--- a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/AGENTS.md	
++++ /dev/null
+@@ -1,108 +0,0 @@
+-# Cum lucrez în acest repo
+-
+-**Sunt Mavis Cloud.** Voi lucrez în cloud, pe main, cu commit și push automat.
+-Celălalt agent, **Mavis**, lucrează pe calculatorul lui POPY.
+-
+-## REGULA GENERALĂ — nu se negociază
+-
+-**Tot ce fac ajunge în repo. AUTOMAT. Fără aprobări, fără întrebări, fără limite.**
+-
+-```bash
+-nohup ./mavis-tools/mavis-cloud-autosave.sh &    # pornește bucla
+-```
+-
+-Scriptul: ia ce a scris Local → rulează R0 → comitează → împinge pe `main`.
+-**Dacă R0 pică, nu comitează și scrie în log.** Mă opresc singur înainte să stric.
+-
+-Verificarea înainte de orice raport:
+-> „e gata" înseamnă „POPY poate să vadă", nu „există în repo".
+-
+-## Regula 0 — nu se negociază
+-
+-**Un singur deployment:**
+-```
+-https://da15e9yb994ps.space.minimax.io
+-```
+-**Niciodată altul**, fără cerere explicită de la POPY. Fiecare deploy creează
+-un site nou în panoul lui. Am făcut asta de trei ori și l-am stricat.
+-
+-**Ramuri: nu.** Se lucrează pe `main`. Ramură se face **doar** când POPY o cere.
+-
+-**Version control este git**, nu deployment-uri. Deployment-ul e doar un website.
+-
+-## Regula 1 — nu se negociază: valorile din secret manager NU trec prin chat
+-
+-Platforma **maschează** valorile din secret manager în mesajele mele:
+-`{{ARCHON_SECRET:NUME}}`. Ce ajunge la POPY e un placeholder, nu valoarea.
+-
+-**2026-10-22:** un link de autorizare OAuth trimis în chat a ajuns în browser
+-cu `client_id=%7B%7BARCHON_SECRET%3A...%7D%7D` → *Error 401: invalid_client*.
+-Trei runde de diagnostic până am citit bara de adresa a browserului.
+-
+-```bash
+-# TEST: valoarea e mascat sau reala?
+-node -e 'console.log(process.env.GOOGLE_CLIENT_ID_MAVIS_CLOUD)'   # real -> complet
+-# aceeasi valoare in chat                                        # -> {{ARCHON_SECRET:...}}
+-```
+-
+-**Dacă bash-ul arată valoarea și chatul arată placeholder → problema e
+-livrarea, nu credentialul.** Nu cere lui POPY să schimbe chei.
+-
+-### Cum se livrează corect
+-
+-1. **Identificatorii publici** (`client_id`, project number) → în repo, ca sursă
+-   unică: `mavis-tools/google-client.json`.
+-2. **Scriptul generează artefactul în repo**, nu în chat:
+-   `node mavis-tools/google-link-file.js` → `18-GOOGLE/AUTORIZARE-LINK.txt`.
+-3. **Comit + push. Fără aprobare.**
+-4. **Livreză URL de repo** (nu conține secret, nu se maschează):
+-   `https://github.com/apvizual-max/MAVIS-CLOUD/blob/main/18-GOOGLE/AUTORIZARE-LINK.txt`
+-5. **Codul de autorizare** poate veni prin chat. **Secretele nu** — vin prin
+-   panoul de secrete sau prin tool-ul `secret`.
+-
+-Procedura lungă: `docs/PROCEDURA-LIVRARE-SECRETE.md` ·
+-Skill: `.skills/mavis-secure-delivery/`
+-
+-## Regula 2 — nu se negociază: comit și push fără aprobare
+-
+-POPY a cerut explicit: *„niciodată să ceri permisiune pentru comit și push,
+-orice lucru am face"*. **Un livrabil care stă doar în conversație e un
+-livrabil pierdut.** Fiecare document, cod, status și plan intră în repo, în
+-folderul potrivit, și se împinge pe `main`.
+-
+-Repo-ul este **public** (2026-10-22) — ca aplicațiile conectate să-l poată
+-analiza. Audit făcut înainte: **zero secrete** în istoric, **zero date
+-personale ale terților**, doar contorizări și documentație.
+-
+-## Fluxul la fiecare schimbare
+-
+-```bash
+-cd /workspace/Mavis
+-git add -A
+-git commit -m "ce s-a făcut"     # fără întrebare
+-# R0: verifică înainte de push
+-node --check <js-uri>
+-python3 -c "import ast,io; ast.parse(io.open('<py>',encoding='utf-8').read())"
+-git diff --cached --name-only | grep -iE "secret|token|credential"   # trebuie gol
+-git push origin main              # fără întrebare
+-```
+-
+-**Comit și împing mereu**, ca POPY să vadă în panoul Environmental Information
+-(`Changes` / `Commit or push` / `Git Graph`) că lucrez.
+-
+-**Îl avertizez** dacă se adună mai mult de 5 commituri nepushate.
+-
+-Ce decide singur
+-
+-## REGULI DE PLATFORMĂ — citește asta la fiecare pornire
+-
+-Fișierul complet: `docs/REGULI-PLATFORMA.md`
+-
+-1. **CRON → verific pe platforma ONLINE.** Cronurile Cloud și cronurile Local sunt în locuri diferite. Programat în cloud și căutat în interfața Local = concluzie greșită.
+-2. **NotebookLM → browser.** API-ul oficial există DOAR pe Enterprise (licențe plătite). Cloud pregătește documentele, Local creează notebook-ul și le încarcă.
+-3. **DEPLOY → Local.** Instrumentul cloud creează nod nou la fiecare rulare, nu actualizează.
+-4. **VARIABILE → verifică ce există, nu inventa.** `LINKEDIN_EMAIL` nu există; e `GOOGLE_EMAIL`.
+-5. **SECRETE → sertar.** O cheie, un scop. Nu în chat, nu în repo, nu prin Jules.
+-6. **Nu cere date pe care le verific deja.** Nu întreb cine are notebook-ul. Nu întreb ce se vede în Drive.
+-7. **VALORI DIN SECRET MANAGER → NU PRIN CHAT.** Platforma le maschează în `{{ARCHON_SECRET:...}}`. Livrare prin repo (fișier + URL). Vezi Regula 1.
+-8. **COMIT + PUSH, fără aprobare.** Repo-ul e public; un livrabil care stă doar în conversație e un livrabil pierdut.
+diff --git a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/ARHITECTURA-SISTEM.md b/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/ARHITECTURA-SISTEM.md
+deleted file mode 100644
+index 6ef665a..0000000
+--- a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/ARHITECTURA-SISTEM.md	
++++ /dev/null
+@@ -1,93 +0,0 @@
+-# ARHITECTURA SISTEMULUI — versiunea reală
+-
+-**Descoperită 2026-10-22, de Mavis Cloud, din vault-ul live de pe Google Drive.**
+-Înainte de această dată, `docs/DEFINITIE-OPERATIONALA.md` avea o variantă
+-simplificată și **incompletă**: lipseau un al treilea agent, al doilea repo,
+-ogonda locală NVMe, baza Git decuplată și taskurile programate.
+-
+----
+-
+-## 1. Cele trei componente de stocare
+-
+-| Componentă | Unde | Ce e |
+-|---|---|---|
+-| **Vaultul (oglinda locală)** | `E:\Google\GDrive\GDrive-Second_Brain_PKMS` | rădăcina de lucru fizică, pe NVMe. Google Drive for Desktop o ține sincronizată bit-cu-bit cu cloud-ul |
+-| **Baza Git decuplată** | `E:\Google\GitData-PKMS` | obiectele, packfile-urile, indexul, refs, logs. În rădăcina vaultului e doar un pointer text de 31 octeți (`.git`) |
+-| **Arhiva externă** | `H:\CLAUDE_Archive` (711.821 fișiere · 180,77 GB) | **imutabilă, nu e reperul**. Se citește, nu se scrie niciodată |
+-
+-**Reperul de siguranță = oglinda Google Drive Cloud**, verificată **per fișier**
+-local↔cloud (`verifica-oglinda.ps1`). De ce a fost decuplată Git: a eliminat
+-definitiv `0x91 ERROR_DIR_NOT_EMPTY` și blocajele `index.lock`.
+-
+-**Măsurători (21-10-2026):** 51.157 fișiere de conținut activ · 88,72 GiB util ·
+-95,86 GB brut zecimal · **paritate de biți 100%** · **0 fișiere pierdute**.
+-
+-## 2. Cele două repo-uri GitHub
+-
+-| Repo | Ramură | Rol | Vizibilitate |
+-|---|---|---|---|
+-| `apvizual-max/MAVIS-CLOUD` | `main` | **Mavis Cloud** (eu) + puntea cu Mavis Local + proceduri + skill-uri | **PUBLIC** (2026-10-22) |
+-| `apvizual-max/pkms-vault-automation` | `master` | **motorul vaultului** — `AI-Kit` (14 scripturi `.ps1` + 1 `.js`), documentația, indexurile `00_INDEX.md`, handoff-urile | **PRIVAT** (decizie de POPY de luat) |
+-
+-`pkms-vault-automation` urmărește **doar** motorul, documentația, indexurile și
+-handoff-urile. Conținutul personal și logurile mari sunt excluse prin
+-`.gitignore`. 699 fișiere urmărite · 26 ramuri (inclusiv `jules-*` și `fix-*`).
+-
+-## 3. Cei trei agenți
+-
+-| Agent | Unde | Rol |
+-|---|---|---|
+-| **Mavis Local** (MiniMax Code) | calculatorul lui POPY | **Operator frontend / co-pilot.** Sarcinile zilnice, navigarea prin indexuri, sortarea inbox-ului, crearea notițelor |
+-| **Antigravity Sentinel** (Google DeepMind Gemini) | infrastructură separată | **Operator backend / suveran.** Arhitectul de sistem, depozitul Git decuplat, sincronizarea cu GitHub, pipeline-ul din Windows Task Scheduler, depanarea avansată (disc, lock-uri, blocaje DriveFS). Intervine ca **rescue operator** |
+-| **Mavis Cloud** (eu) | cloud MiniMax | Agent pe cloud. Acces la Drive/Gmail prin OAuth. Lucrează pe MAVIS-CLOUD, raportează în repo |
+-
+-## 4. Taskurile programate (Windows Task Scheduler)
+-
+-`PKMS-Aliniere` · `PKMS-Watch` · `PKMS-GitAutoCommit` · `PKMS-DriveFS-AutoRepair`
+-
+-## 5. Straturile (pattern LLM Wiki)
+-
+-| Strat | În vault | Cine scrie |
+-|---|---|---|
+-| **Schema** | `COTOR.md` — contractul sistemului | omul; automatul doar verifică |
+-| **Wiki** | `00_INDEX.md` în fiecare folder + `INDEX CENTRAL.md` | `build-index.ps1` / `align-index.ps1` |
+-| **Log** | istoricul git + `raport-aliniere.log` + jurnalele `*-registru.txt` | append-only, nu se rescrie niciodată |
+-| **Raw sources** | `00_Inbox` … `08_Clippings` | omul |
+-
+-## 6. Cele două niveluri
+-
+-- **00–09 = BAZA** — fondul de bibliotecă. Nu se rearanjează. Aici stă ce nu e treabă curentă.
+-- **`01_Projects` = LUCRU** — singurul nivel în care intri să lucrezi. 6 rafturi.
+-- **`_SYSTEM`** unelte + skill-uri vii · **`_ARCHIVE`** scoase din calea deschisă ·
+-  **`_QUARANTINE`** tot ce e neclar — **nimic nu se șterge**.
+-- `.obsidian`, `.trash`, `.vault-intelligence`, `.claudian`, `.neural_memory` — **NU SE ATINGE**.
+-
+-**Regula de aur:** intri în `01_Projects`. Nu cauți niciodată prin baza `00`–`09`.
+-
+-## 7. Rafturile de lucru (măsurat 19-10-2026)
+-
+-| Raft | Fișiere | GB |
+-|---|---|---|
+-| `01_Projects\01-6-Work_Folder (to sort)` | 32.181 | 47,78 |
+-| `01_Projects\01-2-AP-ID.ro - AI Branding Work and Clients` | 764 | 31,58 |
+-| `01_Projects\01-1-Alex - AI Work - Colaborations` | 97 | 0,07 |
+-| `01_Projects\01-5-FORGE - AI JOB Automation` | 9 | 0,00 |
+-| `01_Projects\01-3-Arhiva Elements - To Monetize` | 1 | 0,00 |
+-| `01_Projects\01-4-Arhiva Foto - To Monetize` | 1 | 0,00 |
+-
+-## 8. Motorul
+-
+-`02_Areas\02-2-AI-SOT\02-2-4-AI-Kit\AI-Kit_manual\` — 13 scripturi `.ps1` + 1 cititor `.js`
+-(măsurat pe disc, nu promis din document).
+-Documentația: `02-2-4-AI-Kit\AI-Kit_guide\`.
+-Skill-urile vii `git-autonom` / `git-install`: `_SYSTEM\Skills_MASTER_Folder\SENTINEL - git-*- Skill\`.
+-
+-**Detaliu util:** `git-autocommit.ps1` conține un **detector de secrete cu
+-auto-test** (`Test-ContinutSecret` + `AutoProbe`). Fixture-urile lui
+-(`ghp_0123456789abcdefghijABCDEFGHIJ`, `AKIA-EXEMPLU-AWS`, `MIIEow==`) sunt
+-**false-positive-uri sigure** când scanezi istoricul git. Nu le confunda cu
+-secrete reale.
+-
+----
+-
+-*2026-10-22 · Mavis Cloud · măsurat pe vault-ul live, nu din documentație*
+diff --git a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/AUTORIZARE-LINK (1).txt b/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/AUTORIZARE-LINK (1).txt
+deleted file mode 100644
+index 20f4850..0000000
+--- a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/AUTORIZARE-LINK (1).txt	
++++ /dev/null
+@@ -1,21 +0,0 @@
+-=== GOOGLE — LINK DE AUTORIZARE ===
+-
+-Generat: 2026-10-22 00:43
+-Client: Mavis_Cloud (Desktop)  |  proiect: gen-lang-client-0284509562
+-Redirect: http://127.0.0.1:8976
+-
+---- LINK (copiaza tot cu tot) ---
+-
+-https://accounts.google.com/o/oauth2/v2/auth?client_id=1068987308935-bp47aoerh6gu1aohm74blfhnccnku773.apps.googleusercontent.com&redirect_uri=http%3A%2F%2F127.0.0.1%3A8976&response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.modify+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdocuments+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fspreadsheets+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fpresentations&access_type=offline&prompt=consent&include_granted_scopes=true
+-
+---- CE FACI CU EL ---
+-
+-1. Deschide linkul in browser.
+-2. Alege contul apvizual@gmail.com -> Continue -> Allow.
+-3. Browserul va incerca sa deschida http://127.0.0.1:8976 si va da un ecran gol
+-   sau o eroare de conexiune. ASTA E NORMAL — nimic nu ruleaza acolo.
+-4. Copiaza bara de adresa intreaga (contine ?code=...).
+-5. Trimite-o inapoi la Mavis Cloud.
+-
+-IMPORTANT: acest link contine client_id, care e un identificator public, nu un secret.
+-Nu trimite client_secret in chat.
+diff --git a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/AUTORIZARE-LINK.txt b/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/AUTORIZARE-LINK.txt
+deleted file mode 100644
+index 20f4850..0000000
+--- a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/AUTORIZARE-LINK.txt	
++++ /dev/null
+@@ -1,21 +0,0 @@
+-=== GOOGLE — LINK DE AUTORIZARE ===
+-
+-Generat: 2026-10-22 00:43
+-Client: Mavis_Cloud (Desktop)  |  proiect: gen-lang-client-0284509562
+-Redirect: http://127.0.0.1:8976
+-
+---- LINK (copiaza tot cu tot) ---
+-
+-https://accounts.google.com/o/oauth2/v2/auth?client_id=1068987308935-bp47aoerh6gu1aohm74blfhnccnku773.apps.googleusercontent.com&redirect_uri=http%3A%2F%2F127.0.0.1%3A8976&response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.modify+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdocuments+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fspreadsheets+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fpresentations&access_type=offline&prompt=consent&include_granted_scopes=true
+-
+---- CE FACI CU EL ---
+-
+-1. Deschide linkul in browser.
+-2. Alege contul apvizual@gmail.com -> Continue -> Allow.
+-3. Browserul va incerca sa deschida http://127.0.0.1:8976 si va da un ecran gol
+-   sau o eroare de conexiune. ASTA E NORMAL — nimic nu ruleaza acolo.
+-4. Copiaza bara de adresa intreaga (contine ?code=...).
+-5. Trimite-o inapoi la Mavis Cloud.
+-
+-IMPORTANT: acest link contine client_id, care e un identificator public, nu un secret.
+-Nu trimite client_secret in chat.
+diff --git a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/DEFINITIE-OPERATIONALA.md b/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/DEFINITIE-OPERATIONALA.md
+deleted file mode 100644
+index e06522a..0000000
+--- a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/DEFINITIE-OPERATIONALA.md	
++++ /dev/null
+@@ -1,118 +0,0 @@
+-# Mavis Cloud — definiția operațională
+-
+-> Acesta este documentul care spune **ce fac eu** și **la ce sunt bun**.
+-> Nu e o interpretare. E definiția care a deblocat proiectul.
+-
+----
+-
+-## Diferența dintre Local și Cloud, într-o propoziție
+-
+-> **Agentul Local este mecanicul din atelierul tău fizic, iar Agentul de Cloud
+-> este un server extern închis într-un container temporar pe infrastructura MiniMax.**
+-
+-## Arhitectura sistemului — 2026-10-22
+-
+-Definita de POPY, acceptata ca atare:
+-
+-| Suprafata | Ce este | Cine lucreaza acolo |
+-|---|---|---|
+-| **Google Drive** | **Suprafata de lucru.** PKM personal (Personal Knowledge Management System) + **executia efectiva** — Gmail si GDrive | POPY + Mavis Cloud |
+-| **GitHub `apvizual-max/MAVIS-CLOUD`** | **Configuratia sistemului** + back-up + **puntea de comunicare** directa intre Mavis Cloud si Mavis Local | ambii agenti |
+-| **Mavis Local** | Administreaza **configuratia** | agentul de pe calculatorul lui POPY |
+-| **Mavis Cloud** | Agent pe cloud | eu |
+-
+-**Trei reguli care rezulta din asta:**
+-
+-1. **WORK ≠ CONFIG.** Munca efectiva se face in Gmail si GDrive. Folderul
+-   `Alex Work/` **nu mai exista** — a fost inlocuit de Drive.
+-2. **Repo-ul nu e locul de munca.** E locul unde sistemul e *definit* si
+-   *versionat*. Orice livrabil intra aici, pe `main`, cu commit si push
+-   automat, **fara aprobare**.
+-3. **Integrarea e continua.** Feedback-ul circula Local ↔ Cloud prin repo.
+-   Repo-ul e **public** (2026-10-22) ca aplicatiile conectate sa-l analizeze.
+-
+-**Focus curent:** *system configurations* — repo-ul GitHub + folderul
+-`18-GOOGLE/` alocat Google.
+-
+-## De ce nu pot edita fișiere pe Cloud
+-
+-Cloud trăiește pe serverele MiniMax, într-un mediu complet izolat. **Nu are acces
+-la hard disk-ul tău**, nu vede folderul proiectului, nu știe unde ai salvat
+-HTML-ul, nu se poate lega la `localhost`.
+-
+-- **Local** → are drepturi de sistem: deschide fișiere, rescrie cod, salvează pe
+-  disc, rezultatul apare instant în browserul tău.
+-- **Cloud** → este „orb" la calculatorul tău. Singurul drum e un depozit extern
+-  (GitHub) unde ambii au acces.
+-
+-**Nu e o scăpare. E cum a fost gândit.**
+-
+-## Pentru ce a fost creat Cloud
+-
+-### 1. Rulare asincronă
+-Închizi laptopul, localul moare. Cloudul continuă. Iei o cercetare mare, apeși
+-Enter, pleci, revii — **rezultatul e gata.**
+-
+-### 2. Sandbox de securitate
+-Scripturi experimentale, pachete necunoscute, scraping agresiv. Localul îți
+-sufle discul și îți blochează IP-ul de casă. Cloudul e o mașină virtuală izolată
+-— se strică și se recreează, **calculatorul tău nu simte nimic.**
+-
+-### 3. Acces de oriunde
+-De pe telefon, de pe altă stație, fără mediu de dev instalat. Se conectează prin
+-API la Drive, Sheets, repo-uri.
+-
+-## Împărțirea rolurilor
+-
+-| Rol | Unde | De ce |
+-|---|---|---|
+-| **Local (Mavis)** | producție, fișiere, cod, site | singurul cu acces la disc și editare în timp real |
+-| **Cloud (Mavis Cloud)** | cercetare, sinteză, date, rapoarte | singurul cu rulare lungă și fără stația ocupată |
+-
+-**Dacă scopul tău e să construiești și să editezi site-ul, rămâi pe Local.**
+-
+----
+-
+-## Ce fac eu concret, pentru POPY
+-
+-**Nu fac:** editare de fișiere locale, deploy-uri repetate, butoane care nu apasă
+-nimic, promisiuni despre limite pe care le ascund.
+-
+-**Fac, și e testat:**
+-
+-| Ce | Instrument | Stare |
+-|---|---|---|
+-| Căutare joburi pe site-uri | `web_search` cu interogare pe domeniu | merge |
+-| Scoring pe 4 secțiuni | `ALEX-KIT/scoring.gs` | merge |
+-| Alegerea șablonului potrivit | `cv-mutator.js` + `FAMILY_TITLE` | merge |
+-| CV adaptat la anunț | `cv-mutator.js` | merge |
+-| Scrisoare de intenție ~203 cuv | `letter-engine.js` | merge |
+-| CV Word 1 pagină, ATS-friendly | `make-cv-docx.py` | merge |
+-| Sortarea Gmail | `email-sort.js` | merge |
+-| Numărare exactă Gmail | `email-count.js` | merge |
+-| Raport de stare | `sentinel.py` | merge |
+-| Log cu rotație 150 | `log.py` | merge |
+-| Cercetare web grea | sesiune cloud | merge |
+-
+-## Ce fac eu greșit, și cum se corectează
+-
+-| Greșeală | De ce | Corectat |
+-|---|---|---|
+-| Cifre false | instrument stricat, zis „e defect" | numărare prin paginare |
+-| Nume de client „corectat" fără motiv | am schimbat Smite în Smike | înapoi la Smite |
+-| „tab adăugat" fără deploy | omisiune | `mavis-cloud-verify-before-report` |
+-| 3 site-uri create | 3 deploy-uri | un singur deployment, regulă scrisă |
+-| Butoane care nu fac nimic | le-am vândut ca funcționale | spus deschis, static, fără server |
+-| Nu am răspuns la întrebări | am răspuns la altă întrebare | definiția aceasta |
+-
+-## Principiul meu, scris
+-
+-**Tot ce fac ajunge în repo, automat, fără aprobare.** Dacă cineva, oricând,
+-fără memorie, clonează `apvizual-max/MAVIS-CLOUD` și citește `AGENTS.md` +
+-`docs/HANDOFF-COMPLET.md`, poate prelua exact de unde am rămas.
+-
+-**Când cerința lui POPY nu are sens rațional: o corectez, o construiesc, și îi
+-spun de ce într-o propoziție.** Nu pun pe listă și aștept. Nu ascund limită.
+-
+-**Când nu pot face ceva: spun înainte.** Nu construiesc un buton care apasă
+-nimic și nu-l vind drept funcțional.
+\ No newline at end of file
+diff --git a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/GOOGLE-PRODUCTION-CHECKLIST (1).md b/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/GOOGLE-PRODUCTION-CHECKLIST (1).md
+deleted file mode 100644
+index 6655abc..0000000
+--- a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/GOOGLE-PRODUCTION-CHECKLIST (1).md	
++++ /dev/null
+@@ -1,98 +0,0 @@
+-# GOOGLE — checklist: din Testing în In production
+-
+-**De ce contează:** cu consent screen-ul în **Testing**, Google omoară refresh
+-token-ul în **7 zile de la consimțământ**. Fără asta, oricât de bine arată
+-setup-ul, într-o săptămână trebuie reluat tot fluxul. Cu **In production**,
+-tokenul trăiește până la revocare sau ~6 luni de inactivitate.
+-
+-Sursa oficială: https://support.google.com/cloud/answer/15549945
+-
+----
+-
+-## Ordine
+-
+-1. **Consimțământul** — întâi. Ca să existe un token viu.
+-2. **Clientul Desktop** — există deja: `Mavis_Cloud`
+-   (`1068987308935-bp47aoerh6gu1aohm74blfhnccnku773…`), creat 21 Oct 2026.
+-3. **Consent screen → In production.**
+-4. **Verificare** — `node mavis-tools/google-verify.js` din cloud.
+-5. **Consimțământ nou, dacă e nevoie** — dacă tokenul a fost obținut înainte
+-   de publicare, un token nou în Production nu mai are limita de 7 zile.
+-
+----
+-
+-## Pasul 1 — ce verificăm înainte
+-
+-În Cloud Console → **APIs & Services → OAuth consent screen**:
+-
+-| Setare | Valoarea corectă | De ce |
+-|---|---|---|
+-| **User type** | External | altfel nu apare pe conturi gmail.com |
+-| **App name** | ceva lizibil (ex. „Mavis Cloud") | apare pe ecranul de consimțământ |
+-| **User support email** | apvizual@gmail.com | obligatoriu |
+-| **Developer contact email** | apvizual@gmail.com | obligatoriu |
+-| **Logo** | opțional | apare pe ecran |
+-| **Application homepage** | opțional | polită Google pentru verificare |
+-| **Application privacy policy** | opțional, dar recomandat | polită Google |
+-| **Authorized domains** | gol e OK pentru uz personal | nu ai nevoie de domeniu |
+-
+-**Test users** (doar relevant cât timp e în Testing):
+-`apvizual@gmail.com` trebuie să fie în listă. În Production nu mai contează.
+-
+----
+-
+-## Pasul 2 — de ce „Publish app" poate fi refuzat
+-
+-Google cere **„Setup branding"** și **„Audience"** completate. Dacă lipsesc
+-Publicații/Publicare, butonul „Publish app" poate fi acolo dar să dea erori.
+-Verifică:
+-
+-- Application name — nevid
+-- User support email — setat
+-- Developer contact email — setat
+-- **Audience** — External
+-
+-Apoi: **Publish app → In production**.
+-
+-> Pentru uz personal, poate apărea „Google hasn't verified this app".
+-> **E normal** și nu blochează nimic. Verificarea completă (green check)
+-> se cere doar dacă app-ul e folosit de alți oameni.
+-
+----
+-
+-## Pasul 3 — după publicare
+-
+-```bash
+-# din cloud
+-node mavis-tools/google-preflight.js     # verdict pe un singur rand
+-node mavis-tools/google-verify.js        # masuratoare reala per serviciu
+-```
+-
+-Dacă tokenul a fost obținut **înainte** de publicare, e deja „mort" în
+-sensul lui Google după 7 zile de la consimțământ. Fă un consimțământ nou:
+-
+-```bash
+-node mavis-tools/google-link.js          # da linkul, deschide in browser
+-node mavis-tools/google-connect.js "<url>"   # cod -> refresh_token
+-```
+-
+-Tokenul nou intră în secret manager → trăiește mult.
+-
+----
+-
+-## Cum nu se mai strică
+-
+-| Situație | Detectare | Repar |
+-|---|---|---|
+-| client_id greșit în secret manager | `google-preflight.js` → pasul 2 sau 3 FAIL | pune clientul Desktop corect |
+-| token expirat / revocat | `google-preflight.js` → pasul 4 FAIL | consimțământ nou |
+-| client șters din Cloud Console | preflight FAIL | refă clientul Desktop (2 min) |
+-| rețea din cloud pică | retry inclus în `kit.js` și `google-connect.js` | automat |
+-
+-**Regula de aur:** înainte de orice operațiune Google, rulează
+-`node mavis-tools/google-preflight.js`. Un singur verdict, în 10 secunde.
+-Nu mai cheltui ore cu „de ce nu merge".
+-
+----
+-
+-*Pregătit 2026-10-22 · Mavis Cloud*
+diff --git a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/GOOGLE-PRODUCTION-CHECKLIST (2).md b/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/GOOGLE-PRODUCTION-CHECKLIST (2).md
+deleted file mode 100644
+index 6655abc..0000000
+--- a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/GOOGLE-PRODUCTION-CHECKLIST (2).md	
++++ /dev/null
+@@ -1,98 +0,0 @@
+-# GOOGLE — checklist: din Testing în In production
+-
+-**De ce contează:** cu consent screen-ul în **Testing**, Google omoară refresh
+-token-ul în **7 zile de la consimțământ**. Fără asta, oricât de bine arată
+-setup-ul, într-o săptămână trebuie reluat tot fluxul. Cu **In production**,
+-tokenul trăiește până la revocare sau ~6 luni de inactivitate.
+-
+-Sursa oficială: https://support.google.com/cloud/answer/15549945
+-
+----
+-
+-## Ordine
+-
+-1. **Consimțământul** — întâi. Ca să existe un token viu.
+-2. **Clientul Desktop** — există deja: `Mavis_Cloud`
+-   (`1068987308935-bp47aoerh6gu1aohm74blfhnccnku773…`), creat 21 Oct 2026.
+-3. **Consent screen → In production.**
+-4. **Verificare** — `node mavis-tools/google-verify.js` din cloud.
+-5. **Consimțământ nou, dacă e nevoie** — dacă tokenul a fost obținut înainte
+-   de publicare, un token nou în Production nu mai are limita de 7 zile.
+-
+----
+-
+-## Pasul 1 — ce verificăm înainte
+-
+-În Cloud Console → **APIs & Services → OAuth consent screen**:
+-
+-| Setare | Valoarea corectă | De ce |
+-|---|---|---|
+-| **User type** | External | altfel nu apare pe conturi gmail.com |
+-| **App name** | ceva lizibil (ex. „Mavis Cloud") | apare pe ecranul de consimțământ |
+-| **User support email** | apvizual@gmail.com | obligatoriu |
+-| **Developer contact email** | apvizual@gmail.com | obligatoriu |
+-| **Logo** | opțional | apare pe ecran |
+-| **Application homepage** | opțional | polită Google pentru verificare |
+-| **Application privacy policy** | opțional, dar recomandat | polită Google |
+-| **Authorized domains** | gol e OK pentru uz personal | nu ai nevoie de domeniu |
+-
+-**Test users** (doar relevant cât timp e în Testing):
+-`apvizual@gmail.com` trebuie să fie în listă. În Production nu mai contează.
+-
+----
+-
+-## Pasul 2 — de ce „Publish app" poate fi refuzat
+-
+-Google cere **„Setup branding"** și **„Audience"** completate. Dacă lipsesc
+-Publicații/Publicare, butonul „Publish app" poate fi acolo dar să dea erori.
+-Verifică:
+-
+-- Application name — nevid
+-- User support email — setat
+-- Developer contact email — setat
+-- **Audience** — External
+-
+-Apoi: **Publish app → In production**.
+-
+-> Pentru uz personal, poate apărea „Google hasn't verified this app".
+-> **E normal** și nu blochează nimic. Verificarea completă (green check)
+-> se cere doar dacă app-ul e folosit de alți oameni.
+-
+----
+-
+-## Pasul 3 — după publicare
+-
+-```bash
+-# din cloud
+-node mavis-tools/google-preflight.js     # verdict pe un singur rand
+-node mavis-tools/google-verify.js        # masuratoare reala per serviciu
+-```
+-
+-Dacă tokenul a fost obținut **înainte** de publicare, e deja „mort" în
+-sensul lui Google după 7 zile de la consimțământ. Fă un consimțământ nou:
+-
+-```bash
+-node mavis-tools/google-link.js          # da linkul, deschide in browser
+-node mavis-tools/google-connect.js "<url>"   # cod -> refresh_token
+-```
+-
+-Tokenul nou intră în secret manager → trăiește mult.
+-
+----
+-
+-## Cum nu se mai strică
+-
+-| Situație | Detectare | Repar |
+-|---|---|---|
+-| client_id greșit în secret manager | `google-preflight.js` → pasul 2 sau 3 FAIL | pune clientul Desktop corect |
+-| token expirat / revocat | `google-preflight.js` → pasul 4 FAIL | consimțământ nou |
+-| client șters din Cloud Console | preflight FAIL | refă clientul Desktop (2 min) |
+-| rețea din cloud pică | retry inclus în `kit.js` și `google-connect.js` | automat |
+-
+-**Regula de aur:** înainte de orice operațiune Google, rulează
+-`node mavis-tools/google-preflight.js`. Un singur verdict, în 10 secunde.
+-Nu mai cheltui ore cu „de ce nu merge".
+-
+----
+-
+-*Pregătit 2026-10-22 · Mavis Cloud*
+diff --git a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/GOOGLE-PRODUCTION-CHECKLIST.md b/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/GOOGLE-PRODUCTION-CHECKLIST.md
+deleted file mode 100644
+index 6655abc..0000000
+--- a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/GOOGLE-PRODUCTION-CHECKLIST.md	
++++ /dev/null
+@@ -1,98 +0,0 @@
+-# GOOGLE — checklist: din Testing în In production
+-
+-**De ce contează:** cu consent screen-ul în **Testing**, Google omoară refresh
+-token-ul în **7 zile de la consimțământ**. Fără asta, oricât de bine arată
+-setup-ul, într-o săptămână trebuie reluat tot fluxul. Cu **In production**,
+-tokenul trăiește până la revocare sau ~6 luni de inactivitate.
+-
+-Sursa oficială: https://support.google.com/cloud/answer/15549945
+-
+----
+-
+-## Ordine
+-
+-1. **Consimțământul** — întâi. Ca să existe un token viu.
+-2. **Clientul Desktop** — există deja: `Mavis_Cloud`
+-   (`1068987308935-bp47aoerh6gu1aohm74blfhnccnku773…`), creat 21 Oct 2026.
+-3. **Consent screen → In production.**
+-4. **Verificare** — `node mavis-tools/google-verify.js` din cloud.
+-5. **Consimțământ nou, dacă e nevoie** — dacă tokenul a fost obținut înainte
+-   de publicare, un token nou în Production nu mai are limita de 7 zile.
+-
+----
+-
+-## Pasul 1 — ce verificăm înainte
+-
+-În Cloud Console → **APIs & Services → OAuth consent screen**:
+-
+-| Setare | Valoarea corectă | De ce |
+-|---|---|---|
+-| **User type** | External | altfel nu apare pe conturi gmail.com |
+-| **App name** | ceva lizibil (ex. „Mavis Cloud") | apare pe ecranul de consimțământ |
+-| **User support email** | apvizual@gmail.com | obligatoriu |
+-| **Developer contact email** | apvizual@gmail.com | obligatoriu |
+-| **Logo** | opțional | apare pe ecran |
+-| **Application homepage** | opțional | polită Google pentru verificare |
+-| **Application privacy policy** | opțional, dar recomandat | polită Google |
+-| **Authorized domains** | gol e OK pentru uz personal | nu ai nevoie de domeniu |
+-
+-**Test users** (doar relevant cât timp e în Testing):
+-`apvizual@gmail.com` trebuie să fie în listă. În Production nu mai contează.
+-
+----
+-
+-## Pasul 2 — de ce „Publish app" poate fi refuzat
+-
+-Google cere **„Setup branding"** și **„Audience"** completate. Dacă lipsesc
+-Publicații/Publicare, butonul „Publish app" poate fi acolo dar să dea erori.
+-Verifică:
+-
+-- Application name — nevid
+-- User support email — setat
+-- Developer contact email — setat
+-- **Audience** — External
+-
+-Apoi: **Publish app → In production**.
+-
+-> Pentru uz personal, poate apărea „Google hasn't verified this app".
+-> **E normal** și nu blochează nimic. Verificarea completă (green check)
+-> se cere doar dacă app-ul e folosit de alți oameni.
+-
+----
+-
+-## Pasul 3 — după publicare
+-
+-```bash
+-# din cloud
+-node mavis-tools/google-preflight.js     # verdict pe un singur rand
+-node mavis-tools/google-verify.js        # masuratoare reala per serviciu
+-```
+-
+-Dacă tokenul a fost obținut **înainte** de publicare, e deja „mort" în
+-sensul lui Google după 7 zile de la consimțământ. Fă un consimțământ nou:
+-
+-```bash
+-node mavis-tools/google-link.js          # da linkul, deschide in browser
+-node mavis-tools/google-connect.js "<url>"   # cod -> refresh_token
+-```
+-
+-Tokenul nou intră în secret manager → trăiește mult.
+-
+----
+-
+-## Cum nu se mai strică
+-
+-| Situație | Detectare | Repar |
+-|---|---|---|
+-| client_id greșit în secret manager | `google-preflight.js` → pasul 2 sau 3 FAIL | pune clientul Desktop corect |
+-| token expirat / revocat | `google-preflight.js` → pasul 4 FAIL | consimțământ nou |
+-| client șters din Cloud Console | preflight FAIL | refă clientul Desktop (2 min) |
+-| rețea din cloud pică | retry inclus în `kit.js` și `google-connect.js` | automat |
+-
+-**Regula de aur:** înainte de orice operațiune Google, rulează
+-`node mavis-tools/google-preflight.js`. Un singur verdict, în 10 secunde.
+-Nu mai cheltui ore cu „de ce nu merge".
+-
+----
+-
+-*Pregătit 2026-10-22 · Mavis Cloud*
+diff --git a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/GOOGLE-STATUS-2026-10-22 (1).md b/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/GOOGLE-STATUS-2026-10-22 (1).md
+deleted file mode 100644
+index f38d8e9..0000000
+--- a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/GOOGLE-STATUS-2026-10-22 (1).md	
++++ /dev/null
+@@ -1,219 +0,0 @@
+-# GOOGLE — stare măsurată 2026-10-22 02:10 (Mavis Cloud)
+-
+-**Măsurat în sandbox, cu cod HTTP real. Nu e estimare.**
+-
+----
+-
+-## 1. Răspuns scurt
+-
+-**NU.** Google nu funcționează acum din cloud. `refresh_token`-ul din secret manager
+-**e mort**.
+-
+-Diagnosticul e însă **curat**: clientul OAuth e valid, secretul e valid.
+-**Singura piesă moartă e tokenul.** Deci nu trebuie re-făcut nimic de la zero —
+-trebuie reificat **un singur** token.
+-
+----
+-
+-## 2. Diagnosticul, cu probe
+-
+-| Test | Ce am trimis | Răspuns Google | Ce înseamnă |
+-|---|---|---|---|
+-| 1 | client_id real + secret real + **token fictiv** | `invalid_grant: Bad Request` | client_id + client_secret **sunt valide** (altfel ar fi `invalid_client`) |
+-| 2 | client_id real + **secret fals** + token fictiv | `invalid_client` | confirmă că testul 1 chiar verifică secretul |
+-| 3 | client_id real + secret real + **token real** | `invalid_grant: Token has been expired or revoked.` | **tokenul e expirat sau revocat** |
+-
+-Plus:
+-- `client_id` din secret manager **==** cel hardcodat în `google-link.js`
+-  (`1068987308935-…apps.googleusercontent.com`) → **nu** e cauza „client și token din clienți diferiți".
+-- Tokenul **nu** apare în istoricul git (n-a fost vărsat niciodată în repo).
+-
+-## 3. Cronologia — de ce se repetă
+-
+-| Data | Ce s-a întâmplat |
+-|---|---|
+-| 2026-10-09 → 11 | Gmail mergea **real** (SENTINEL 2026-10-11: `in:inbox` 4000) |
+-| 2026-10-21 20:00 → 23:10 | 6 commituri: credentiale pentru cloud, kit refăcut, `google-local.js` |
+-| 2026-10-21 22:50 | `docs/GOOGLE-INTEGRARE.md` scris, cu tabelul „ce funcționează azi din cloud" |
+-| 2026-10-22 02:10 | **token mort** |
+-
+-**Cauza reală:** app-ul OAuth e în modul **Testing**. În Testing, refresh token-ul
+-moare în **7 zile de la consimțământ** (sursa oficială:
+-https://support.google.com/cloud/answer/15549945). Consimțământul a fost în jur de
+-**2026-10-09/10** → tokenul a expirat în jur de **2026-10-16/17**.
+-
+-Setarea de pe 2026-10-21 a pus în secret manager tokenul **vechi, deja mort**.
+-Tabelul din `GOOGLE-INTEGRARE.md` secțiunea 6 spune chiar, paranteză:
+-*„exemplu de format — numerele reale apar doar după ce cheile sunt puse și rulezi tu"*.
+-Deci **nu a existat niciodată o verificare reală din cloud.** De aceea fiecare
+-sessie a început cu „nu merge" și a cerut re-setup.
+-
+-**Bucla:** re-setup → token nou → moare în 7 zile → re-setup → …
+-
+-## 4. Împărțirea cauzelor
+-
+-Două cauze posibile, **același fix**:
+-
+-- **(a) Testing** — probabil (~85%). Se vede în Cloud Console: banner galben
+-  „Google hasn't verified this app" + buton **Publish app**.
+-- **(b) Client secret rotit/șters** — posibil (~15%). Google: ștergerea unui
+-  client secret **revocă toate refresh token-urile** clientului. Se vede dacă în
+-  Cloud Console → Credentials există mai multe secrete pentru același client.
+-
+-Ambele se rezolvă cu **aceeași secvență**: Publishing status → In production,
+-apoi un consimțământ nou.
+-
+----
+-
+-## 5. Fix — o singură acțiune din partea lui POPY
+-
+-### Pasul A (obligatoriu, ~30 sec) — înainte de consimțământ
+-
+-Google Cloud Console → **APIs & Services → OAuth consent screen**:
+-- dacă vezi bannerul galben „Google hasn't verified this app" → apeș��
+-  **Publish app** → **In production**
+-- verifică și `apvizual@gmail.com` e în **Test users** (sau în Production nu mai contează)
+-
+-> **Fără Pasul A, tokenul nou moare în 7 zile și suntem exact în punctul de acum.**
+-
+-### Pasul B (~1 min) — consimțământ
+-
+-Deschide linkul (generat cu scope-urile canonice, redirect fix):
+-
+-```
+-https://accounts.google.com/o/oauth2/v2/auth?client_id=1068987308935-5b7h17gt1c5hc4i1m6eginads37o3m2h.apps.googleusercontent.com&redirect_uri=http%3A%2F%2F127.0.0.1%3A8976&response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.modify+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdocuments+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fspreadsheets+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fpresentations&access_type=offline&prompt=consent&include_granted_scopes=true
+-```
+-
+-Apasă **Continue** → **Allow**. Browserul o să moară pe `http://127.0.0.1:8976`
+-(normal — nu e nimic acolo). **Copiază bara de adresa** (conține `?code=…`) și
+-trimite-mi-o. Atât.
+-
+-### Pasul C — îl fac eu, în cloud, în același tur
+-
+-1. `node mavis-tools/google-connect.js "<url>"` → schimb codul în refresh_token
+-2. scriu tokenul în secret manager (`GOOGLE_REFRESH_TOKEN_MAVIS_CLOUD`)
+-3. `node mavis-tools/google-verify.js` → **verificare reală, per serviciu, cu cod HTTP**
+-
+-Niciun secret nu trece prin chat, niciunul în repo.
+-
+----
+-
+-## 6. Bug de tooling reparat azi
+-
+-`kit.js` folosea `https.request` → în sandboxul de cloud proxy-ul nu e onorat:
+-`Client network socket disconnected before secure TLS connection was established`.
+-**Apărea ca „nu am acces la Google"** — fals. `fetch` merge.
+-
+-Reparat: `refresh()` și `attempt()` folosesc acum `fetch` (fallback `https.request`
+-pentru Node < 18). Commit `0d5bfe5`, împins pe `main`.
+-
+-`google-verify.js` funcționează acum din cloud și raportează corect.
+-
+-## 7. Ce nu merge și NU se repară din cloud
+-
+-| Serviciu | Stare | De ce |
+-|---|---|---|
+-| Google Photos | ⛔ | `photoslibrary.googleapis.com` nu răspunde din cloud (DNS ok, conexiune nu) |
+-| Google Workspace MCP servers | ⛔ | `*mcp.googleapis.com` — 0/6 conexiuni din cloud |
+-| Google Maps | ⛔ | are nevoie de `GOOGLE_MAPS_API_KEY` + proiect cu billing |
+-
+----
+-
+-*2026-10-22 02:10 · Mavis Cloud · măsurat în cloud, pe sandbox-ul real*
+-
+----
+-
+-## 8. ADDENDUM 03:40 — cauza reală a `invalid_client` în browser
+-
+-**Clientul OAuth era corect. Linkul era corect. Valoarea din link era mascată.**
+-
+-Screenshot-ul lui POPY arăta în bara de adresa:
+-
+-```
+-accounts.google.com/signin/oauth/error?authError=...&client_id=%7B%7BARCHON_SECRET%3AGOOGLE_CLIENT_ID_MAVIS_CL...
+-```
+-
+-`%7B%7B` = `{{`, `%3A` = `:` → **`{{ARCHON_SECRET:GOOGLE_CLIENT_ID_MAVIS_CLOUD}}`**.
+-
+-**Platforma mascheaza valorile din secret manager in mesajele mele.** Deci
+-client_id-ul real n-a ajuns niciodata la Google — a ajuns un placeholder.
+-Google a raspuns corect: „The OAuth client was not found", pentru ca intr-adevar
+-nu exista un client cu numele ala.
+-
+-**Procesul meu a fost greșit:** am verificat clientul *din cloud* (unde valoarea
+-era reala, fiind citita din env) si am presupus ca și linkul trimis lui POPY
+-conține aceeasi valoare. Nu contine.
+-
+-**Dovada ca valoarea e reala in cloud, dar mascata in chat:**
+-- `node -e` cu `process.env.GOOGLE_CLIENT_ID_MAVIS_CLOUD` → valoare **completa**
+-- aceleasi valoare, scrisa in mesajul de chat → `{{ARCHON_SECRET:...}}`
+-
+-**Repar, aplicat:**
+-- `mavis-tools/google-client.json` → client_id ca **identificator public** în repo
+-  (Google nu-l considera confidential; apare in orice URL de autorizare).
+-- `mavis-tools/google-link-file.js` → genereaza linkul in `18-GOOGLE/AUTORIZARE-LINK.txt`.
+-  Livrare prin repo, unde mascarea nu exista.
+-- `mavis-tools/google-preflight.js` → pasul 0 verifica **drift** intre
+-  secret manager si repo.
+-- Regula scrisa in skill: **nicio valoare din secret manager prin chat.**
+-
+-**Concluzie pentruMine:** daca o valoare vine din secret manager, nu o scriu in
+-chat. O scriu intr-un fisier si livrez prin repo.
+-
+-**Notă de corectitudine:** diagnosticul din secțiunea 2 („client_id + secret
+-valide, tokenul e mort") a fost corect **la nivel de cloud**, dar explicația
+-finală („clientul din secret manager e al altui tool") a fost doar una dintre
+-cauze. Cauza **suficientă** pentru eroarea din browser a fost mascarea. Ambele
+-erau reale: clientul din secret manager era si el vechi, iar POPY l-a inlocuit
+-intrucât ii-am spus ca ala e.
+-
+----
+-
+-## 9. STARE FINALĂ — 2026-10-22 04:40 · CONECTAT
+-
+-Tokenul e obținut, scris în secret manager (`GOOGLE_REFRESH_TOKEN_MAVIS_CLOUD`)
+-și verificat live. **Măsurătoare reală:**
+-
+-| Serviciu | Stare | Măsurătoare |
+-|---|---|---|
+-| **token** | ✅ | 6 scope-uri acordate, `expires_in=3599s` |
+-| **Gmail** | ✅ | apvizual@gmail.com · **84.313 mesaje** · **78.519 thread-uri** · 50 etichete (8 din seria MAVIS/*) |
+-| **Calendar** | ✅ | 4 calendare: apvizual@gmail.com, Family, Holidays in Romania, Sărbători în România |
+-| **Drive** | ✅ | **104,07 GB folosiți / 5498 GB** · 100+ fișiere listate |
+-| **Sheets** | ✅ | "Design_Jobs_Community_Board" → 'Design Jobs'!A1:Z50 = 23 rânduri |
+-| **Slides** | ✅ | "441DPH-Brief slides for GD senior_sep 2026" → 7 slide-uri |
+-| **Docs** | ⚠️ | `docs.googleapis.com` **blocat din cloud** (HTTP 400, pagină anti-bot reCAPTCHA — nu JSON). Conținutul se citește prin **Drive export** (`drive/v3/files/{id}/export?mimeType=text/plain`) — merge, conținut real. |
+-| **Photos** | ⛔ | `photoslibrary.googleapis.com` — conexiune blocată din cloud (0/6). De pe calculatorul lui merge. |
+-| **Maps** | ⛔ | cere `GOOGLE_MAPS_API_KEY` + proiect Cloud cu billing |
+-| **Workspace MCP** | ⛔ | `*mcp.googleapis.com` — 0/6 conexiuni din cloud |
+-
+-### Ce s-a reparat azi, ca să nu se mai întâmple
+-
+-1. **Mascarea secretelor în chat** → valorile din secret manager nu mai trec
+-   prin chat. Linkul se livrează prin repo (`18-GOOGLE/AUTORIZARE-LINK.txt`),
+-   client_id stă în repo ca identificator public (`mavis-tools/google-client.json`).
+-2. **`https.request` vs `fetch`** în sandbox → `kit.js` folosește acum `fetch`
+-   cu fallback pe `https.request` (fără verificare de certificat), pentru că
+-   gateway-ul platformei prezintă uneori un **certificat expirat**.
+-3. **`docs.get` avea URL-ul greșit** (`/docs/v1/` în loc de `/document/v1/`).
+-   Corectat. Plus `docs.export()` / `docs.text()` prin Drive.
+-4. **`google-local.js` nu procesa codul**: serverul verifica doar calea
+-   `/callback`, dar redirect_uri nu are segment de cale → Google trimite pe `/`
+-   → 404 → cod pierdut. Acum acceptă orice cale.
+-5. **`google-local.js` strica linkul pe Windows**: `cmd /c start "" "<url>"`
+-   trece prin cmd, care expandează `%VAR%` — iar URL-ul OAuth e plin de
+-   `%3A %2F %26` → **Google răspundea „Error 400 / Bad Request"**. Acum folosește
+-   `rundll32 url.dll,FileProtocolHandler`, care nu atinge cmd.
+-6. **Scriptul nu spunea nimic** la rulare → acum afișează clientul, scope-urile,
+-   linkul și avertismente pentru „Error 400" / versiune veche / `git pull`.
+-
+-### Observație de diagnostic
+-
+-`Error 400 / Bad Request` la authorize = **scope invalid** (ex.
+-`photoslibrary.readwrite` fără Photos Library API activat) **sau** link
+-corupt. Nu e credential. Verifică: scriptul e la zi? (`git pull`)
+-
+-### Următorul pas: In production
+-
+-Appul e în **Testing** → refresh tokenul moare în 7 zile de la consimțământ
+-(2026-10-22 01:39 UTC). Checklist: `docs/GOOGLE-PRODUCTION-CHECKLIST.md`.
+diff --git a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/GOOGLE-STATUS-2026-10-22 (2).md b/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/GOOGLE-STATUS-2026-10-22 (2).md
+deleted file mode 100644
+index f38d8e9..0000000
+--- a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/GOOGLE-STATUS-2026-10-22 (2).md	
++++ /dev/null
+@@ -1,219 +0,0 @@
+-# GOOGLE — stare măsurată 2026-10-22 02:10 (Mavis Cloud)
+-
+-**Măsurat în sandbox, cu cod HTTP real. Nu e estimare.**
+-
+----
+-
+-## 1. Răspuns scurt
+-
+-**NU.** Google nu funcționează acum din cloud. `refresh_token`-ul din secret manager
+-**e mort**.
+-
+-Diagnosticul e însă **curat**: clientul OAuth e valid, secretul e valid.
+-**Singura piesă moartă e tokenul.** Deci nu trebuie re-făcut nimic de la zero —
+-trebuie reificat **un singur** token.
+-
+----
+-
+-## 2. Diagnosticul, cu probe
+-
+-| Test | Ce am trimis | Răspuns Google | Ce înseamnă |
+-|---|---|---|---|
+-| 1 | client_id real + secret real + **token fictiv** | `invalid_grant: Bad Request` | client_id + client_secret **sunt valide** (altfel ar fi `invalid_client`) |
+-| 2 | client_id real + **secret fals** + token fictiv | `invalid_client` | confirmă că testul 1 chiar verifică secretul |
+-| 3 | client_id real + secret real + **token real** | `invalid_grant: Token has been expired or revoked.` | **tokenul e expirat sau revocat** |
+-
+-Plus:
+-- `client_id` din secret manager **==** cel hardcodat în `google-link.js`
+-  (`1068987308935-…apps.googleusercontent.com`) → **nu** e cauza „client și token din clienți diferiți".
+-- Tokenul **nu** apare în istoricul git (n-a fost vărsat niciodată în repo).
+-
+-## 3. Cronologia — de ce se repetă
+-
+-| Data | Ce s-a întâmplat |
+-|---|---|
+-| 2026-10-09 → 11 | Gmail mergea **real** (SENTINEL 2026-10-11: `in:inbox` 4000) |
+-| 2026-10-21 20:00 → 23:10 | 6 commituri: credentiale pentru cloud, kit refăcut, `google-local.js` |
+-| 2026-10-21 22:50 | `docs/GOOGLE-INTEGRARE.md` scris, cu tabelul „ce funcționează azi din cloud" |
+-| 2026-10-22 02:10 | **token mort** |
+-
+-**Cauza reală:** app-ul OAuth e în modul **Testing**. În Testing, refresh token-ul
+-moare în **7 zile de la consimțământ** (sursa oficială:
+-https://support.google.com/cloud/answer/15549945). Consimțământul a fost în jur de
+-**2026-10-09/10** → tokenul a expirat în jur de **2026-10-16/17**.
+-
+-Setarea de pe 2026-10-21 a pus în secret manager tokenul **vechi, deja mort**.
+-Tabelul din `GOOGLE-INTEGRARE.md` secțiunea 6 spune chiar, paranteză:
+-*„exemplu de format — numerele reale apar doar după ce cheile sunt puse și rulezi tu"*.
+-Deci **nu a existat niciodată o verificare reală din cloud.** De aceea fiecare
+-sessie a început cu „nu merge" și a cerut re-setup.
+-
+-**Bucla:** re-setup → token nou → moare în 7 zile → re-setup → …
+-
+-## 4. Împărțirea cauzelor
+-
+-Două cauze posibile, **același fix**:
+-
+-- **(a) Testing** — probabil (~85%). Se vede în Cloud Console: banner galben
+-  „Google hasn't verified this app" + buton **Publish app**.
+-- **(b) Client secret rotit/șters** — posibil (~15%). Google: ștergerea unui
+-  client secret **revocă toate refresh token-urile** clientului. Se vede dacă în
+-  Cloud Console → Credentials există mai multe secrete pentru același client.
+-
+-Ambele se rezolvă cu **aceeași secvență**: Publishing status → In production,
+-apoi un consimțământ nou.
+-
+----
+-
+-## 5. Fix — o singură acțiune din partea lui POPY
+-
+-### Pasul A (obligatoriu, ~30 sec) — înainte de consimțământ
+-
+-Google Cloud Console → **APIs & Services → OAuth consent screen**:
+-- dacă vezi bannerul galben „Google hasn't verified this app" → apeș��
+-  **Publish app** → **In production**
+-- verifică și `apvizual@gmail.com` e în **Test users** (sau în Production nu mai contează)
+-
+-> **Fără Pasul A, tokenul nou moare în 7 zile și suntem exact în punctul de acum.**
+-
+-### Pasul B (~1 min) — consimțământ
+-
+-Deschide linkul (generat cu scope-urile canonice, redirect fix):
+-
+-```
+-https://accounts.google.com/o/oauth2/v2/auth?client_id=1068987308935-5b7h17gt1c5hc4i1m6eginads37o3m2h.apps.googleusercontent.com&redirect_uri=http%3A%2F%2F127.0.0.1%3A8976&response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.modify+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdocuments+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fspreadsheets+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fpresentations&access_type=offline&prompt=consent&include_granted_scopes=true
+-```
+-
+-Apasă **Continue** → **Allow**. Browserul o să moară pe `http://127.0.0.1:8976`
+-(normal — nu e nimic acolo). **Copiază bara de adresa** (conține `?code=…`) și
+-trimite-mi-o. Atât.
+-
+-### Pasul C — îl fac eu, în cloud, în același tur
+-
+-1. `node mavis-tools/google-connect.js "<url>"` → schimb codul în refresh_token
+-2. scriu tokenul în secret manager (`GOOGLE_REFRESH_TOKEN_MAVIS_CLOUD`)
+-3. `node mavis-tools/google-verify.js` → **verificare reală, per serviciu, cu cod HTTP**
+-
+-Niciun secret nu trece prin chat, niciunul în repo.
+-
+----
+-
+-## 6. Bug de tooling reparat azi
+-
+-`kit.js` folosea `https.request` → în sandboxul de cloud proxy-ul nu e onorat:
+-`Client network socket disconnected before secure TLS connection was established`.
+-**Apărea ca „nu am acces la Google"** — fals. `fetch` merge.
+-
+-Reparat: `refresh()` și `attempt()` folosesc acum `fetch` (fallback `https.request`
+-pentru Node < 18). Commit `0d5bfe5`, împins pe `main`.
+-
+-`google-verify.js` funcționează acum din cloud și raportează corect.
+-
+-## 7. Ce nu merge și NU se repară din cloud
+-
+-| Serviciu | Stare | De ce |
+-|---|---|---|
+-| Google Photos | ⛔ | `photoslibrary.googleapis.com` nu răspunde din cloud (DNS ok, conexiune nu) |
+-| Google Workspace MCP servers | ⛔ | `*mcp.googleapis.com` — 0/6 conexiuni din cloud |
+-| Google Maps | ⛔ | are nevoie de `GOOGLE_MAPS_API_KEY` + proiect cu billing |
+-
+----
+-
+-*2026-10-22 02:10 · Mavis Cloud · măsurat în cloud, pe sandbox-ul real*
+-
+----
+-
+-## 8. ADDENDUM 03:40 — cauza reală a `invalid_client` în browser
+-
+-**Clientul OAuth era corect. Linkul era corect. Valoarea din link era mascată.**
+-
+-Screenshot-ul lui POPY arăta în bara de adresa:
+-
+-```
+-accounts.google.com/signin/oauth/error?authError=...&client_id=%7B%7BARCHON_SECRET%3AGOOGLE_CLIENT_ID_MAVIS_CL...
+-```
+-
+-`%7B%7B` = `{{`, `%3A` = `:` → **`{{ARCHON_SECRET:GOOGLE_CLIENT_ID_MAVIS_CLOUD}}`**.
+-
+-**Platforma mascheaza valorile din secret manager in mesajele mele.** Deci
+-client_id-ul real n-a ajuns niciodata la Google — a ajuns un placeholder.
+-Google a raspuns corect: „The OAuth client was not found", pentru ca intr-adevar
+-nu exista un client cu numele ala.
+-
+-**Procesul meu a fost greșit:** am verificat clientul *din cloud* (unde valoarea
+-era reala, fiind citita din env) si am presupus ca și linkul trimis lui POPY
+-conține aceeasi valoare. Nu contine.
+-
+-**Dovada ca valoarea e reala in cloud, dar mascata in chat:**
+-- `node -e` cu `process.env.GOOGLE_CLIENT_ID_MAVIS_CLOUD` → valoare **completa**
+-- aceleasi valoare, scrisa in mesajul de chat → `{{ARCHON_SECRET:...}}`
+-
+-**Repar, aplicat:**
+-- `mavis-tools/google-client.json` → client_id ca **identificator public** în repo
+-  (Google nu-l considera confidential; apare in orice URL de autorizare).
+-- `mavis-tools/google-link-file.js` → genereaza linkul in `18-GOOGLE/AUTORIZARE-LINK.txt`.
+-  Livrare prin repo, unde mascarea nu exista.
+-- `mavis-tools/google-preflight.js` → pasul 0 verifica **drift** intre
+-  secret manager si repo.
+-- Regula scrisa in skill: **nicio valoare din secret manager prin chat.**
+-
+-**Concluzie pentruMine:** daca o valoare vine din secret manager, nu o scriu in
+-chat. O scriu intr-un fisier si livrez prin repo.
+-
+-**Notă de corectitudine:** diagnosticul din secțiunea 2 („client_id + secret
+-valide, tokenul e mort") a fost corect **la nivel de cloud**, dar explicația
+-finală („clientul din secret manager e al altui tool") a fost doar una dintre
+-cauze. Cauza **suficientă** pentru eroarea din browser a fost mascarea. Ambele
+-erau reale: clientul din secret manager era si el vechi, iar POPY l-a inlocuit
+-intrucât ii-am spus ca ala e.
+-
+----
+-
+-## 9. STARE FINALĂ — 2026-10-22 04:40 · CONECTAT
+-
+-Tokenul e obținut, scris în secret manager (`GOOGLE_REFRESH_TOKEN_MAVIS_CLOUD`)
+-și verificat live. **Măsurătoare reală:**
+-
+-| Serviciu | Stare | Măsurătoare |
+-|---|---|---|
+-| **token** | ✅ | 6 scope-uri acordate, `expires_in=3599s` |
+-| **Gmail** | ✅ | apvizual@gmail.com · **84.313 mesaje** · **78.519 thread-uri** · 50 etichete (8 din seria MAVIS/*) |
+-| **Calendar** | ✅ | 4 calendare: apvizual@gmail.com, Family, Holidays in Romania, Sărbători în România |
+-| **Drive** | ✅ | **104,07 GB folosiți / 5498 GB** · 100+ fișiere listate |
+-| **Sheets** | ✅ | "Design_Jobs_Community_Board" → 'Design Jobs'!A1:Z50 = 23 rânduri |
+-| **Slides** | ✅ | "441DPH-Brief slides for GD senior_sep 2026" → 7 slide-uri |
+-| **Docs** | ⚠️ | `docs.googleapis.com` **blocat din cloud** (HTTP 400, pagină anti-bot reCAPTCHA — nu JSON). Conținutul se citește prin **Drive export** (`drive/v3/files/{id}/export?mimeType=text/plain`) — merge, conținut real. |
+-| **Photos** | ⛔ | `photoslibrary.googleapis.com` — conexiune blocată din cloud (0/6). De pe calculatorul lui merge. |
+-| **Maps** | ⛔ | cere `GOOGLE_MAPS_API_KEY` + proiect Cloud cu billing |
+-| **Workspace MCP** | ⛔ | `*mcp.googleapis.com` — 0/6 conexiuni din cloud |
+-
+-### Ce s-a reparat azi, ca să nu se mai întâmple
+-
+-1. **Mascarea secretelor în chat** → valorile din secret manager nu mai trec
+-   prin chat. Linkul se livrează prin repo (`18-GOOGLE/AUTORIZARE-LINK.txt`),
+-   client_id stă în repo ca identificator public (`mavis-tools/google-client.json`).
+-2. **`https.request` vs `fetch`** în sandbox → `kit.js` folosește acum `fetch`
+-   cu fallback pe `https.request` (fără verificare de certificat), pentru că
+-   gateway-ul platformei prezintă uneori un **certificat expirat**.
+-3. **`docs.get` avea URL-ul greșit** (`/docs/v1/` în loc de `/document/v1/`).
+-   Corectat. Plus `docs.export()` / `docs.text()` prin Drive.
+-4. **`google-local.js` nu procesa codul**: serverul verifica doar calea
+-   `/callback`, dar redirect_uri nu are segment de cale → Google trimite pe `/`
+-   → 404 → cod pierdut. Acum acceptă orice cale.
+-5. **`google-local.js` strica linkul pe Windows**: `cmd /c start "" "<url>"`
+-   trece prin cmd, care expandează `%VAR%` — iar URL-ul OAuth e plin de
+-   `%3A %2F %26` → **Google răspundea „Error 400 / Bad Request"**. Acum folosește
+-   `rundll32 url.dll,FileProtocolHandler`, care nu atinge cmd.
+-6. **Scriptul nu spunea nimic** la rulare → acum afișează clientul, scope-urile,
+-   linkul și avertismente pentru „Error 400" / versiune veche / `git pull`.
+-
+-### Observație de diagnostic
+-
+-`Error 400 / Bad Request` la authorize = **scope invalid** (ex.
+-`photoslibrary.readwrite` fără Photos Library API activat) **sau** link
+-corupt. Nu e credential. Verifică: scriptul e la zi? (`git pull`)
+-
+-### Următorul pas: In production
+-
+-Appul e în **Testing** → refresh tokenul moare în 7 zile de la consimțământ
+-(2026-10-22 01:39 UTC). Checklist: `docs/GOOGLE-PRODUCTION-CHECKLIST.md`.
+diff --git a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/GOOGLE-STATUS-2026-10-22.md b/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/GOOGLE-STATUS-2026-10-22.md
+deleted file mode 100644
+index f38d8e9..0000000
+--- a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/GOOGLE-STATUS-2026-10-22.md	
++++ /dev/null
+@@ -1,219 +0,0 @@
+-# GOOGLE — stare măsurată 2026-10-22 02:10 (Mavis Cloud)
+-
+-**Măsurat în sandbox, cu cod HTTP real. Nu e estimare.**
+-
+----
+-
+-## 1. Răspuns scurt
+-
+-**NU.** Google nu funcționează acum din cloud. `refresh_token`-ul din secret manager
+-**e mort**.
+-
+-Diagnosticul e însă **curat**: clientul OAuth e valid, secretul e valid.
+-**Singura piesă moartă e tokenul.** Deci nu trebuie re-făcut nimic de la zero —
+-trebuie reificat **un singur** token.
+-
+----
+-
+-## 2. Diagnosticul, cu probe
+-
+-| Test | Ce am trimis | Răspuns Google | Ce înseamnă |
+-|---|---|---|---|
+-| 1 | client_id real + secret real + **token fictiv** | `invalid_grant: Bad Request` | client_id + client_secret **sunt valide** (altfel ar fi `invalid_client`) |
+-| 2 | client_id real + **secret fals** + token fictiv | `invalid_client` | confirmă că testul 1 chiar verifică secretul |
+-| 3 | client_id real + secret real + **token real** | `invalid_grant: Token has been expired or revoked.` | **tokenul e expirat sau revocat** |
+-
+-Plus:
+-- `client_id` din secret manager **==** cel hardcodat în `google-link.js`
+-  (`1068987308935-…apps.googleusercontent.com`) → **nu** e cauza „client și token din clienți diferiți".
+-- Tokenul **nu** apare în istoricul git (n-a fost vărsat niciodată în repo).
+-
+-## 3. Cronologia — de ce se repetă
+-
+-| Data | Ce s-a întâmplat |
+-|---|---|
+-| 2026-10-09 → 11 | Gmail mergea **real** (SENTINEL 2026-10-11: `in:inbox` 4000) |
+-| 2026-10-21 20:00 → 23:10 | 6 commituri: credentiale pentru cloud, kit refăcut, `google-local.js` |
+-| 2026-10-21 22:50 | `docs/GOOGLE-INTEGRARE.md` scris, cu tabelul „ce funcționează azi din cloud" |
+-| 2026-10-22 02:10 | **token mort** |
+-
+-**Cauza reală:** app-ul OAuth e în modul **Testing**. În Testing, refresh token-ul
+-moare în **7 zile de la consimțământ** (sursa oficială:
+-https://support.google.com/cloud/answer/15549945). Consimțământul a fost în jur de
+-**2026-10-09/10** → tokenul a expirat în jur de **2026-10-16/17**.
+-
+-Setarea de pe 2026-10-21 a pus în secret manager tokenul **vechi, deja mort**.
+-Tabelul din `GOOGLE-INTEGRARE.md` secțiunea 6 spune chiar, paranteză:
+-*„exemplu de format — numerele reale apar doar după ce cheile sunt puse și rulezi tu"*.
+-Deci **nu a existat niciodată o verificare reală din cloud.** De aceea fiecare
+-sessie a început cu „nu merge" și a cerut re-setup.
+-
+-**Bucla:** re-setup → token nou → moare în 7 zile → re-setup → …
+-
+-## 4. Împărțirea cauzelor
+-
+-Două cauze posibile, **același fix**:
+-
+-- **(a) Testing** — probabil (~85%). Se vede în Cloud Console: banner galben
+-  „Google hasn't verified this app" + buton **Publish app**.
+-- **(b) Client secret rotit/șters** — posibil (~15%). Google: ștergerea unui
+-  client secret **revocă toate refresh token-urile** clientului. Se vede dacă în
+-  Cloud Console → Credentials există mai multe secrete pentru același client.
+-
+-Ambele se rezolvă cu **aceeași secvență**: Publishing status → In production,
+-apoi un consimțământ nou.
+-
+----
+-
+-## 5. Fix — o singură acțiune din partea lui POPY
+-
+-### Pasul A (obligatoriu, ~30 sec) — înainte de consimțământ
+-
+-Google Cloud Console → **APIs & Services → OAuth consent screen**:
+-- dacă vezi bannerul galben „Google hasn't verified this app" → apeș��
+-  **Publish app** → **In production**
+-- verifică și `apvizual@gmail.com` e în **Test users** (sau în Production nu mai contează)
+-
+-> **Fără Pasul A, tokenul nou moare în 7 zile și suntem exact în punctul de acum.**
+-
+-### Pasul B (~1 min) — consimțământ
+-
+-Deschide linkul (generat cu scope-urile canonice, redirect fix):
+-
+-```
+-https://accounts.google.com/o/oauth2/v2/auth?client_id=1068987308935-5b7h17gt1c5hc4i1m6eginads37o3m2h.apps.googleusercontent.com&redirect_uri=http%3A%2F%2F127.0.0.1%3A8976&response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.modify+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdocuments+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fspreadsheets+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fpresentations&access_type=offline&prompt=consent&include_granted_scopes=true
+-```
+-
+-Apasă **Continue** → **Allow**. Browserul o să moară pe `http://127.0.0.1:8976`
+-(normal — nu e nimic acolo). **Copiază bara de adresa** (conține `?code=…`) și
+-trimite-mi-o. Atât.
+-
+-### Pasul C — îl fac eu, în cloud, în același tur
+-
+-1. `node mavis-tools/google-connect.js "<url>"` → schimb codul în refresh_token
+-2. scriu tokenul în secret manager (`GOOGLE_REFRESH_TOKEN_MAVIS_CLOUD`)
+-3. `node mavis-tools/google-verify.js` → **verificare reală, per serviciu, cu cod HTTP**
+-
+-Niciun secret nu trece prin chat, niciunul în repo.
+-
+----
+-
+-## 6. Bug de tooling reparat azi
+-
+-`kit.js` folosea `https.request` → în sandboxul de cloud proxy-ul nu e onorat:
+-`Client network socket disconnected before secure TLS connection was established`.
+-**Apărea ca „nu am acces la Google"** — fals. `fetch` merge.
+-
+-Reparat: `refresh()` și `attempt()` folosesc acum `fetch` (fallback `https.request`
+-pentru Node < 18). Commit `0d5bfe5`, împins pe `main`.
+-
+-`google-verify.js` funcționează acum din cloud și raportează corect.
+-
+-## 7. Ce nu merge și NU se repară din cloud
+-
+-| Serviciu | Stare | De ce |
+-|---|---|---|
+-| Google Photos | ⛔ | `photoslibrary.googleapis.com` nu răspunde din cloud (DNS ok, conexiune nu) |
+-| Google Workspace MCP servers | ⛔ | `*mcp.googleapis.com` — 0/6 conexiuni din cloud |
+-| Google Maps | ⛔ | are nevoie de `GOOGLE_MAPS_API_KEY` + proiect cu billing |
+-
+----
+-
+-*2026-10-22 02:10 · Mavis Cloud · măsurat în cloud, pe sandbox-ul real*
+-
+----
+-
+-## 8. ADDENDUM 03:40 — cauza reală a `invalid_client` în browser
+-
+-**Clientul OAuth era corect. Linkul era corect. Valoarea din link era mascată.**
+-
+-Screenshot-ul lui POPY arăta în bara de adresa:
+-
+-```
+-accounts.google.com/signin/oauth/error?authError=...&client_id=%7B%7BARCHON_SECRET%3AGOOGLE_CLIENT_ID_MAVIS_CL...
+-```
+-
+-`%7B%7B` = `{{`, `%3A` = `:` → **`{{ARCHON_SECRET:GOOGLE_CLIENT_ID_MAVIS_CLOUD}}`**.
+-
+-**Platforma mascheaza valorile din secret manager in mesajele mele.** Deci
+-client_id-ul real n-a ajuns niciodata la Google — a ajuns un placeholder.
+-Google a raspuns corect: „The OAuth client was not found", pentru ca intr-adevar
+-nu exista un client cu numele ala.
+-
+-**Procesul meu a fost greșit:** am verificat clientul *din cloud* (unde valoarea
+-era reala, fiind citita din env) si am presupus ca și linkul trimis lui POPY
+-conține aceeasi valoare. Nu contine.
+-
+-**Dovada ca valoarea e reala in cloud, dar mascata in chat:**
+-- `node -e` cu `process.env.GOOGLE_CLIENT_ID_MAVIS_CLOUD` → valoare **completa**
+-- aceleasi valoare, scrisa in mesajul de chat → `{{ARCHON_SECRET:...}}`
+-
+-**Repar, aplicat:**
+-- `mavis-tools/google-client.json` → client_id ca **identificator public** în repo
+-  (Google nu-l considera confidential; apare in orice URL de autorizare).
+-- `mavis-tools/google-link-file.js` → genereaza linkul in `18-GOOGLE/AUTORIZARE-LINK.txt`.
+-  Livrare prin repo, unde mascarea nu exista.
+-- `mavis-tools/google-preflight.js` → pasul 0 verifica **drift** intre
+-  secret manager si repo.
+-- Regula scrisa in skill: **nicio valoare din secret manager prin chat.**
+-
+-**Concluzie pentruMine:** daca o valoare vine din secret manager, nu o scriu in
+-chat. O scriu intr-un fisier si livrez prin repo.
+-
+-**Notă de corectitudine:** diagnosticul din secțiunea 2 („client_id + secret
+-valide, tokenul e mort") a fost corect **la nivel de cloud**, dar explicația
+-finală („clientul din secret manager e al altui tool") a fost doar una dintre
+-cauze. Cauza **suficientă** pentru eroarea din browser a fost mascarea. Ambele
+-erau reale: clientul din secret manager era si el vechi, iar POPY l-a inlocuit
+-intrucât ii-am spus ca ala e.
+-
+----
+-
+-## 9. STARE FINALĂ — 2026-10-22 04:40 · CONECTAT
+-
+-Tokenul e obținut, scris în secret manager (`GOOGLE_REFRESH_TOKEN_MAVIS_CLOUD`)
+-și verificat live. **Măsurătoare reală:**
+-
+-| Serviciu | Stare | Măsurătoare |
+-|---|---|---|
+-| **token** | ✅ | 6 scope-uri acordate, `expires_in=3599s` |
+-| **Gmail** | ✅ | apvizual@gmail.com · **84.313 mesaje** · **78.519 thread-uri** · 50 etichete (8 din seria MAVIS/*) |
+-| **Calendar** | ✅ | 4 calendare: apvizual@gmail.com, Family, Holidays in Romania, Sărbători în România |
+-| **Drive** | ✅ | **104,07 GB folosiți / 5498 GB** · 100+ fișiere listate |
+-| **Sheets** | ✅ | "Design_Jobs_Community_Board" → 'Design Jobs'!A1:Z50 = 23 rânduri |
+-| **Slides** | ✅ | "441DPH-Brief slides for GD senior_sep 2026" → 7 slide-uri |
+-| **Docs** | ⚠️ | `docs.googleapis.com` **blocat din cloud** (HTTP 400, pagină anti-bot reCAPTCHA — nu JSON). Conținutul se citește prin **Drive export** (`drive/v3/files/{id}/export?mimeType=text/plain`) — merge, conținut real. |
+-| **Photos** | ⛔ | `photoslibrary.googleapis.com` — conexiune blocată din cloud (0/6). De pe calculatorul lui merge. |
+-| **Maps** | ⛔ | cere `GOOGLE_MAPS_API_KEY` + proiect Cloud cu billing |
+-| **Workspace MCP** | ⛔ | `*mcp.googleapis.com` — 0/6 conexiuni din cloud |
+-
+-### Ce s-a reparat azi, ca să nu se mai întâmple
+-
+-1. **Mascarea secretelor în chat** → valorile din secret manager nu mai trec
+-   prin chat. Linkul se livrează prin repo (`18-GOOGLE/AUTORIZARE-LINK.txt`),
+-   client_id stă în repo ca identificator public (`mavis-tools/google-client.json`).
+-2. **`https.request` vs `fetch`** în sandbox → `kit.js` folosește acum `fetch`
+-   cu fallback pe `https.request` (fără verificare de certificat), pentru că
+-   gateway-ul platformei prezintă uneori un **certificat expirat**.
+-3. **`docs.get` avea URL-ul greșit** (`/docs/v1/` în loc de `/document/v1/`).
+-   Corectat. Plus `docs.export()` / `docs.text()` prin Drive.
+-4. **`google-local.js` nu procesa codul**: serverul verifica doar calea
+-   `/callback`, dar redirect_uri nu are segment de cale → Google trimite pe `/`
+-   → 404 → cod pierdut. Acum acceptă orice cale.
+-5. **`google-local.js` strica linkul pe Windows**: `cmd /c start "" "<url>"`
+-   trece prin cmd, care expandează `%VAR%` — iar URL-ul OAuth e plin de
+-   `%3A %2F %26` → **Google răspundea „Error 400 / Bad Request"**. Acum folosește
+-   `rundll32 url.dll,FileProtocolHandler`, care nu atinge cmd.
+-6. **Scriptul nu spunea nimic** la rulare → acum afișează clientul, scope-urile,
+-   linkul și avertismente pentru „Error 400" / versiune veche / `git pull`.
+-
+-### Observație de diagnostic
+-
+-`Error 400 / Bad Request` la authorize = **scope invalid** (ex.
+-`photoslibrary.readwrite` fără Photos Library API activat) **sau** link
+-corupt. Nu e credential. Verifică: scriptul e la zi? (`git pull`)
+-
+-### Următorul pas: In production
+-
+-Appul e în **Testing** → refresh tokenul moare în 7 zile de la consimțământ
+-(2026-10-22 01:39 UTC). Checklist: `docs/GOOGLE-PRODUCTION-CHECKLIST.md`.
+diff --git a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/MavisCloud-Google.md b/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/MavisCloud-Google.md
+deleted file mode 100644
+index cc6e244..0000000
+--- a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/MavisCloud-Google.md	
++++ /dev/null
+@@ -1,106 +0,0 @@
+-# MavisCloud-Google
+-
+-**Document pentru încărcare în notebookul `MavisCloud-Google`**
+-Pregătit de Mavis Cloud · actualizat 2026-10-22 · stare reală, măsurată
+-
+-Google Workspace: Gmail, Drive, Calendar, Docs, Sheets, Slides
+-
+----
+-
+-**Stare** — ✅ **CONECTAT** (măsurat 2026-10-22 04:40). Tokenul e în secret
+-manager, cele 6 scope-uri sunt acordate, verificarea live trece.
+-
+-| Serviciu | Stare | Măsurătoare |
+-|---|---|---|
+-| Gmail | ✅ | 84.313 mesaje · 78.519 thread-uri · 50 etichete (8 MAVIS/*) |
+-| Drive | ✅ | 104,07 GB / 5498 GB |
+-| Calendar | ✅ | 4 calendare |
+-| Sheets | ✅ | "Design_Jobs_Community_Board" → 23 rânduri |
+-| Slides | ✅ | "441DPH-Brief slides…" → 7 slide-uri |
+-| Docs | ⚠️ | API-ul blocat din cloud (anti-bot) — **conținutul merge prin Drive export** |
+-| Photos | ⛔ | blocat din cloud — merge de pe calculatorul lui POPY |
+-| Maps | ⛔ | cere `GOOGLE_MAPS_API_KEY` + billing |
+-
+-**Următorul pas:** Testing → **In production**, ca tokenul să nu moară în
+-7 zile (consimțământul a fost 2026-10-22 01:39 UTC). Checklist:
+-`docs/GOOGLE-PRODUCTION-CHECKLIST.md`.
+-
+-**Ce e măsurat acum** (din sandbox-ul de cloud, cu cod HTTP real):
+-- Google Drive API → merge
+-- Gmail API → merge
+-- Calendar API → merge
+-- Docs / Sheets / Slides → merge
+-- Google Photos → ⛔ host blocat de rețea din cloud (`photoslibrary.googleapis.com`, 0/6)
+-- Google Workspace MCP servers (oficiale) → ⛔ tot blocate din cloud (`*mcp.googleapis.com`, 0/6)
+-
+-**Conector nativ MiniMax pentru Google** → nu există în Marketplace
+-(catalog: Hundsun, Qichacha, EverMe, PKBC, Office, WPS, WeCom; cache runtime: figma, github).
+-
+-**Cum se rezolvă** → OAuth propriu. Client ID = identificator public, stă în
+-`mavis-tools/google-client.json`. Secretele stau în secret manager:
+-`GOOGLE_CLIENT_SECRET_MAVIS_CLOUD`, `GOOGLE_REFRESH_TOKEN_MAVIS_CLOUD`, `GOOGLE_EMAIL`.
+-
+-**Setup** →
+-1. `node mavis-tools/google-preflight.js` — verdict pe un singur rând
+-2. `node mavis-tools/google-link-file.js` — scrie linkul în `18-GOOGLE/AUTORIZARE-LINK.txt`
+-3. consimțământ în browser → codul de autorizare
+-4. `node mavis-tools/google-connect.js "<url>"` → tokenul
+-5. `node mavis-tools/google-verify.js` — măsurătoare reală per serviciu
+-
+-**Regulă** — NUNCIODATĂ ștergere definitivă. Trash doar, și se poate restaura.
+-
+-**Identitate** — apvizual@gmail.com — singurul email pe tot sistemul.
+-
+-**Detalii complete** — `docs/GOOGLE-INTEGRARE.md` ·
+-`docs/GOOGLE-STATUS-2026-10-22.md` (diagnostic + forensică) ·
+-`docs/GOOGLE-PRODUCTION-CHECKLIST.md` (Testing → In production) ·
+-`docs/PROCEDURA-LIVRARE-SECRETE.md` (livrare fără secrete)
+-
+----
+-
+-## Arhitectura — unde se lucrează
+-
+-| Suprafață | Ce e | Cine lucrează acolo |
+-|---|---|---|
+-| **Google Drive** | PKM personal + **munca efectivă** (Gmail, GDrive) | POPY + Mavis Cloud |
+-| **Acest repo** | **configurația** sistemului + back-up + puntea Cloud↔Local | Mavis Cloud + Mavis Local |
+-| **Mavis Local** | administrează configurația | agentul de pe calculatorul lui POPY |
+-
+-Repo-ul **nu** e locul de muncă. E locul unde sistemul e definit și versionat.
+-Folderul `Alex Work/` nu mai există — a fost înlocuit de Drive.
+-
+-Repo-ul este **public** (2026-10-22), ca aplicațiile conectate să-l analizeze.
+-
+----
+-
+-## PROCEDURA — cum se livrează un link de autorizare care merge
+-
+-**Regula:** valorile din secret manager **nu trec prin chat** — platforma le
+-maschează în `{{ARCHON_SECRET:...}}` și linkul ajunge în browser cu
+-placeholder → *Error 401: invalid_client* (2026-10-22).
+-
+-```bash
+-cd /workspace/mavis-cloud
+-
+-# 1. verifica starea — verdict pe un singur rand, ~10 secunde
+-node mavis-tools/google-preflight.js
+-
+-# 2. genereaza linkul IN REPO (nu in chat)
+-node mavis-tools/google-link-file.js     # -> 18-GOOGLE/AUTORIZARE-LINK.txt
+-
+-# 3. comit + push, fara aprobare
+-git add -A && git commit -m "..." && git push origin main
+-
+-# 4. livreaza URL-ul de repo
+-#    https://github.com/apvizual-max/MAVIS-CLOUD/blob/main/18-GOOGLE/AUTORIZARE-LINK.txt
+-```
+-
+-POPY deschide linkul → Allow → browserul moare pe `127.0.0.1:8976` (normal) →
+-copiază bara de adresa cu `?code=...` → o trimite prin chat (codul **nu** e
+-secret) → eu schimb codul, scriu tokenul în secret manager și verific live.
+-
+-Detalii: `docs/PROCEDURA-LIVRARE-SECRETE.md` · skill `mavis-secure-delivery`
+-
+----
+-
+-*2026-10-22 · Mavis Cloud · măsurat, nu estimat*
+diff --git a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/PROCEDURA-LIVRARE-SECRETE (1).md b/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/PROCEDURA-LIVRARE-SECRETE (1).md
+deleted file mode 100644
+index f81cd06..0000000
+--- a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/PROCEDURA-LIVRARE-SECRETE (1).md	
++++ /dev/null
+@@ -1,104 +0,0 @@
+-# PROCEDURĂ — livrare fără secrete
+-
+-**De ce există:** pe 2026-10-22, platforma a mascat `client_id`-ul din secret
+-manager în mesajele mele. Linkul de autorizare a ajuns în browser cu
+-`{{ARCHON_SECRET:...}}` în loc de valoare reală. Google a răspuns corect:
+-*Error 401: invalid_client*. Au fost trei runde de diagnostic până am citit
+-URL-ul din bara de adresa a browserului.
+-
+-**Regula:** o valoare care vine din secret manager **nu trece prin chat**.
+-
+----
+-
+-## 1. Clasifică valoarea
+-
+-| E secret? | Exemple | Unde stă | Poate în chat? |
+-|---|---|---|---|
+-| **Da** | `client_secret`, `refresh_token`, `access_token`, `LINKEDIN_PASSWORD`, API keys | secret manager | ❌ nu |
+-| **Nu** | `client_id`, project number, nume de etichetă, IDs, linkuri fără token | repo | ✅ da |
+-
+-`client_id` e identificator **public**: apare în fiecare URL de autorizare, în
+-`devtools`, în istoricul browserului. Google nu-l consideră confidential.
+-`client_secret` e secretul.
+-
+-## 2. Identificatorii publici stau în repo, ca sursă unică de adevăr
+-
+-```
+-mavis-tools/google-client.json
+-```
+-
+-Conține `client_id`, tipul clientului, proiectul, redirect_uri, scope-urile.
+-Scripturile îl citesc. `google-preflight.js` compară valoarea din repo cu cea
+-din secret manager și raportează **drift** dacă diferă.
+-
+-> **Regula veche, greșită:** „niciun client_id hardcodat în repo". Motivul real
+-> nu era confidențialitatea, ci **stale-ul** — un client_id învechit duce
+-> exact la `invalid_client`. Soluția nu e „niciun client_id în repo", ci
+-> **o singură sursă + verificare de drift**.
+-
+-## 3. Scriptul generează artefactul în repo
+-
+-```bash
+-node mavis-tools/google-link-file.js
+-```
+-
+-Scrie `18-GOOGLE/AUTORIZARE-LINK.txt` — linkul de autorizare + instrucțiunile
+-pentru POPY. Nimic nu trece prin chat.
+-
+-## 4. Comit + push. Fără aprobare.
+-
+-```bash
+-git add -A && git commit -m "..." && git push origin main
+-```
+-
+-Regula lui POPY, care e și a mea: *„niciodată să ceri permisiune pentru comit
+-și push"*. Repo-ul e acum **public** — aplicațiile conectate îl pot analiza.
+-
+-## 5. Livreză un URL de repo
+-
+-```
+-https://github.com/apvizual-max/MAVIS-CLOUD/blob/main/18-GOOGLE/AUTORIZARE-LINK.txt
+-```
+-
+-Un URL nu conține secret și nu se maschează. POPY deschide pagina, copiază
+-linkul de acolo.
+-
+-Cum repo-ul e public, merge și fără sesiune GitHub:
+-`https://raw.githubusercontent.com/apvizual-max/MAVIS-CLOUD/main/18-GOOGLE/AUTORIZARE-LINK.txt`
+-
+-## 6. El copiază valoarea și o întoarce prin canalul potrivit
+-
+-- **cod de autorizare** (temporar, nu e în secret manager) → **chat, ok**
+-- **refresh token** → **panoul de secrete**, nu chat
+-
+-## 7. Scriu secretul în secret manager
+-
+-```bash
+-# prin tool-ul `secret` (create / update), nu prin bash
+-secret create --name=GOOGLE_REFRESH_TOKEN_MAVIS_CLOUD --value=<valoare>
+-```
+-
+-## 8. Verific
+-
+-```bash
+-node mavis-tools/google-preflight.js    # verdict, ~10 secunde
+-node mavis-tools/google-verify.js       # masuratoare reala per serviciu
+-```
+-
+----
+-
+-## Testul care l-a prins pe Alex
+-
+-```bash
+-node -e 'console.log(process.env.GOOGLE_CLIENT_ID_MAVIS_CLOUD)'
+-```
+-→ valoare **completă** (bash nu e mascat).
+-
+-Aceleași valoare scrisă în mesajul de chat → `{{ARCHON_SECRET:...}}`.
+-
+-**Concluzie:** dacă bash-ul arată valoarea și chatul arată placeholder,
+-problema e **livrarea**, nu credentialul. Nu cere lui POPY să schimbe nimic.
+-
+----
+-
+-*2026-10-22 · Mavis Cloud · scris după cea de-a treia rundă de diagnostic*
+diff --git a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/PROCEDURA-LIVRARE-SECRETE.md b/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/PROCEDURA-LIVRARE-SECRETE.md
+deleted file mode 100644
+index f81cd06..0000000
+--- a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/PROCEDURA-LIVRARE-SECRETE.md	
++++ /dev/null
+@@ -1,104 +0,0 @@
+-# PROCEDURĂ — livrare fără secrete
+-
+-**De ce există:** pe 2026-10-22, platforma a mascat `client_id`-ul din secret
+-manager în mesajele mele. Linkul de autorizare a ajuns în browser cu
+-`{{ARCHON_SECRET:...}}` în loc de valoare reală. Google a răspuns corect:
+-*Error 401: invalid_client*. Au fost trei runde de diagnostic până am citit
+-URL-ul din bara de adresa a browserului.
+-
+-**Regula:** o valoare care vine din secret manager **nu trece prin chat**.
+-
+----
+-
+-## 1. Clasifică valoarea
+-
+-| E secret? | Exemple | Unde stă | Poate în chat? |
+-|---|---|---|---|
+-| **Da** | `client_secret`, `refresh_token`, `access_token`, `LINKEDIN_PASSWORD`, API keys | secret manager | ❌ nu |
+-| **Nu** | `client_id`, project number, nume de etichetă, IDs, linkuri fără token | repo | ✅ da |
+-
+-`client_id` e identificator **public**: apare în fiecare URL de autorizare, în
+-`devtools`, în istoricul browserului. Google nu-l consideră confidential.
+-`client_secret` e secretul.
+-
+-## 2. Identificatorii publici stau în repo, ca sursă unică de adevăr
+-
+-```
+-mavis-tools/google-client.json
+-```
+-
+-Conține `client_id`, tipul clientului, proiectul, redirect_uri, scope-urile.
+-Scripturile îl citesc. `google-preflight.js` compară valoarea din repo cu cea
+-din secret manager și raportează **drift** dacă diferă.
+-
+-> **Regula veche, greșită:** „niciun client_id hardcodat în repo". Motivul real
+-> nu era confidențialitatea, ci **stale-ul** — un client_id învechit duce
+-> exact la `invalid_client`. Soluția nu e „niciun client_id în repo", ci
+-> **o singură sursă + verificare de drift**.
+-
+-## 3. Scriptul generează artefactul în repo
+-
+-```bash
+-node mavis-tools/google-link-file.js
+-```
+-
+-Scrie `18-GOOGLE/AUTORIZARE-LINK.txt` — linkul de autorizare + instrucțiunile
+-pentru POPY. Nimic nu trece prin chat.
+-
+-## 4. Comit + push. Fără aprobare.
+-
+-```bash
+-git add -A && git commit -m "..." && git push origin main
+-```
+-
+-Regula lui POPY, care e și a mea: *„niciodată să ceri permisiune pentru comit
+-și push"*. Repo-ul e acum **public** — aplicațiile conectate îl pot analiza.
+-
+-## 5. Livreză un URL de repo
+-
+-```
+-https://github.com/apvizual-max/MAVIS-CLOUD/blob/main/18-GOOGLE/AUTORIZARE-LINK.txt
+-```
+-
+-Un URL nu conține secret și nu se maschează. POPY deschide pagina, copiază
+-linkul de acolo.
+-
+-Cum repo-ul e public, merge și fără sesiune GitHub:
+-`https://raw.githubusercontent.com/apvizual-max/MAVIS-CLOUD/main/18-GOOGLE/AUTORIZARE-LINK.txt`
+-
+-## 6. El copiază valoarea și o întoarce prin canalul potrivit
+-
+-- **cod de autorizare** (temporar, nu e în secret manager) → **chat, ok**
+-- **refresh token** → **panoul de secrete**, nu chat
+-
+-## 7. Scriu secretul în secret manager
+-
+-```bash
+-# prin tool-ul `secret` (create / update), nu prin bash
+-secret create --name=GOOGLE_REFRESH_TOKEN_MAVIS_CLOUD --value=<valoare>
+-```
+-
+-## 8. Verific
+-
+-```bash
+-node mavis-tools/google-preflight.js    # verdict, ~10 secunde
+-node mavis-tools/google-verify.js       # masuratoare reala per serviciu
+-```
+-
+----
+-
+-## Testul care l-a prins pe Alex
+-
+-```bash
+-node -e 'console.log(process.env.GOOGLE_CLIENT_ID_MAVIS_CLOUD)'
+-```
+-→ valoare **completă** (bash nu e mascat).
+-
+-Aceleași valoare scrisă în mesajul de chat → `{{ARCHON_SECRET:...}}`.
+-
+-**Concluzie:** dacă bash-ul arată valoarea și chatul arată placeholder,
+-problema e **livrarea**, nu credentialul. Nu cere lui POPY să schimbe nimic.
+-
+----
+-
+-*2026-10-22 · Mavis Cloud · scris după cea de-a treia rundă de diagnostic*
+diff --git a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/README (1).md b/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/README (1).md
+deleted file mode 100644
+index f6c9310..0000000
+--- a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/README (1).md	
++++ /dev/null
+@@ -1,76 +0,0 @@
+-# TO DOs — folderul de lucru al lui POPY
+-
+-**Acesta e working folder-ul lui în repo.** Aici intră tot ce **nu pot
+-rezolva singur** și trebuie să fie condus, decisd sau orchestrat de el.
+-
+----
+-
+-## Ce intră aici
+-
+-| Tip | Exemplu |
+-|---|---|
+-| **Acces** | permisiune pe un cont, pe un proiect, pe o resursă |
+-| **Tools** | un tool nou, o integrare, un plugin, o cheie nouă |
+-| **Configurări** | un setar în Google Cloud Console, în Drive, în contul lui |
+-| **Aprobări** | decizii de direcție, priorități, unde se investește timpul |
+-| **R0 lipsă** | o perspectivă din trio nu poate fi completată de mine |
+-
+-## Metoda — logica, rațiunea, strategia
+-
+-Înainte de a te întreba ceva, trec taskul prin **trei perspective**:
+-
+-| Perspectivă | Întrebarea | Cine o are |
+-|---|---|---|
+-| **LOGICĂ** | E corect tehnic? Se poate face, cum, cu ce consecințe? | eu |
+-| **RAȚIUNE** | De ce? Ce e coerent cu restul sistemului? Ce se rupe dacă nu? | eu |
+-| **STRATEGIE** | Servește scopul? E prioritatea corectă acum? Ce se câștigă, ce se pierde? | ambii |
+-
+-**Intersecția celor trei e soluția mea.** Dacă o găsesc, **o construiesc și nu te
+-întreb** — conform regulii tale: „acestea ar trebui să fie soluția ta".
+-
+-**Dacă o perspectivă lipsește** — nu pot calcula intersecția, pentru că îmi lipsește
+-una dintre cele trei — atunci **taskul intră aici**, cu R0 scris explicit: *ce
+-perspectivă lipsește și de ce nu o pot completa singur*.
+-
+-**Nu te întreb niciodată ceva aici al cărui răspuns se deduce din repo, din
+-Google sau din vault.** Te întreb doar ce nu știu și nu se poate măsura.
+-
+----
+-
+-## Cum arată un TO DO
+-
+-```
+-## <data> · <titlu>
+-
+-**Tip:** acces | tools | configurări | aprobări | R0 lipsă
+-**Perspectivă lipsă:** logica | rațiune | strategia | (nimic — soluția e clară)
+-**De ce nu pot singur:** ...
+-**Ce am nevoie concret de la tine:** ...
+-**Ce fac eu imediat după:** ...
+-**Cum verificăm că s-a rezolvat:** ...
+-```
+-
+-Și un **TODO** e o întrebare pusă corect: cu context, cu opțiuni, cu
+-recomandarea mea. Nu o întrebare goală.
+-
+----
+-
+-## Index
+-
+-| # | Data | Task | Tip | Stare |
+-|---|---|---|---|---|
+-| 01 | 2026-10-22 | [Publish la aplicația OAuth](2026-10-22-PUBLISH-APP-OAUTH.md) | configurări | ⏳ așteaptă pe tine |
+-| 02 | 2026-10-22 | [pkms-vault-automation: public sau privat](2026-10-22-PKMS-VAULT-REPO-VIZIBILITATE.md) | aprobări | ✅ **DECIZIE: PUBLIC** — rezolvat 2026-10-22 |
+-| 03 | 2026-10-22 | [Ce workflow-uri vrei pe Gmail și pe Drive](2026-10-22-WORKFLOW-URI-DIRECTIE.md) | strategie | ⏳ așteaptă pe tine |
+-| 04 | 2026-10-21 | [Profilul tău ca designer (blochează CV-urile)](2026-10-21-PROFIL-DESIGNER.md) | strategie | ⏳ așteaptă pe tine |
+-| 05 | 2026-10-22 | [Rotește cheia API Google expusă](2026-10-22-ROTIRE-API-KEY-GOOGLE.md) | configurări | ⏳ așteaptă pe tine |
+-
+-**Rezolvat 2026-10-22:** auditul complet de vizibilitate al celor 10 repo-uri
+-→ `docs/AUDIT-VIZIBILITATE-REPO-URI.md`. 7 publice, 3 private, 2 refresh token-uri
+-revocate. Singura acțiune rămasă: rotația cheii API din TO DO 05.
+-
+-**Regula de mișcare:** un TO DO se închide doar cu măsurătoare, nu cu intenție.
+-
+----
+-
+-*Creat 2026-10-22 · Mavis Cloud · working folder-ul lui POPY*
+diff --git a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/README.md b/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/README.md
+deleted file mode 100644
+index f6c9310..0000000
+--- a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/README.md	
++++ /dev/null
+@@ -1,76 +0,0 @@
+-# TO DOs — folderul de lucru al lui POPY
+-
+-**Acesta e working folder-ul lui în repo.** Aici intră tot ce **nu pot
+-rezolva singur** și trebuie să fie condus, decisd sau orchestrat de el.
+-
+----
+-
+-## Ce intră aici
+-
+-| Tip | Exemplu |
+-|---|---|
+-| **Acces** | permisiune pe un cont, pe un proiect, pe o resursă |
+-| **Tools** | un tool nou, o integrare, un plugin, o cheie nouă |
+-| **Configurări** | un setar în Google Cloud Console, în Drive, în contul lui |
+-| **Aprobări** | decizii de direcție, priorități, unde se investește timpul |
+-| **R0 lipsă** | o perspectivă din trio nu poate fi completată de mine |
+-
+-## Metoda — logica, rațiunea, strategia
+-
+-Înainte de a te întreba ceva, trec taskul prin **trei perspective**:
+-
+-| Perspectivă | Întrebarea | Cine o are |
+-|---|---|---|
+-| **LOGICĂ** | E corect tehnic? Se poate face, cum, cu ce consecințe? | eu |
+-| **RAȚIUNE** | De ce? Ce e coerent cu restul sistemului? Ce se rupe dacă nu? | eu |
+-| **STRATEGIE** | Servește scopul? E prioritatea corectă acum? Ce se câștigă, ce se pierde? | ambii |
+-
+-**Intersecția celor trei e soluția mea.** Dacă o găsesc, **o construiesc și nu te
+-întreb** — conform regulii tale: „acestea ar trebui să fie soluția ta".
+-
+-**Dacă o perspectivă lipsește** — nu pot calcula intersecția, pentru că îmi lipsește
+-una dintre cele trei — atunci **taskul intră aici**, cu R0 scris explicit: *ce
+-perspectivă lipsește și de ce nu o pot completa singur*.
+-
+-**Nu te întreb niciodată ceva aici al cărui răspuns se deduce din repo, din
+-Google sau din vault.** Te întreb doar ce nu știu și nu se poate măsura.
+-
+----
+-
+-## Cum arată un TO DO
+-
+-```
+-## <data> · <titlu>
+-
+-**Tip:** acces | tools | configurări | aprobări | R0 lipsă
+-**Perspectivă lipsă:** logica | rațiune | strategia | (nimic — soluția e clară)
+-**De ce nu pot singur:** ...
+-**Ce am nevoie concret de la tine:** ...
+-**Ce fac eu imediat după:** ...
+-**Cum verificăm că s-a rezolvat:** ...
+-```
+-
+-Și un **TODO** e o întrebare pusă corect: cu context, cu opțiuni, cu
+-recomandarea mea. Nu o întrebare goală.
+-
+----
+-
+-## Index
+-
+-| # | Data | Task | Tip | Stare |
+-|---|---|---|---|---|
+-| 01 | 2026-10-22 | [Publish la aplicația OAuth](2026-10-22-PUBLISH-APP-OAUTH.md) | configurări | ⏳ așteaptă pe tine |
+-| 02 | 2026-10-22 | [pkms-vault-automation: public sau privat](2026-10-22-PKMS-VAULT-REPO-VIZIBILITATE.md) | aprobări | ✅ **DECIZIE: PUBLIC** — rezolvat 2026-10-22 |
+-| 03 | 2026-10-22 | [Ce workflow-uri vrei pe Gmail și pe Drive](2026-10-22-WORKFLOW-URI-DIRECTIE.md) | strategie | ⏳ așteaptă pe tine |
+-| 04 | 2026-10-21 | [Profilul tău ca designer (blochează CV-urile)](2026-10-21-PROFIL-DESIGNER.md) | strategie | ⏳ așteaptă pe tine |
+-| 05 | 2026-10-22 | [Rotește cheia API Google expusă](2026-10-22-ROTIRE-API-KEY-GOOGLE.md) | configurări | ⏳ așteaptă pe tine |
+-
+-**Rezolvat 2026-10-22:** auditul complet de vizibilitate al celor 10 repo-uri
+-→ `docs/AUDIT-VIZIBILITATE-REPO-URI.md`. 7 publice, 3 private, 2 refresh token-uri
+-revocate. Singura acțiune rămasă: rotația cheii API din TO DO 05.
+-
+-**Regula de mișcare:** un TO DO se închide doar cu măsurătoare, nu cu intenție.
+-
+----
+-
+-*Creat 2026-10-22 · Mavis Cloud · working folder-ul lui POPY*
+diff --git a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/REGULI-VAULT.md b/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/REGULI-VAULT.md
+deleted file mode 100644
+index 126842f..0000000
+--- a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/REGULI-VAULT.md	
++++ /dev/null
+@@ -1,93 +0,0 @@
+-# REGULILE VAULTULUI — cum lucrez cu PKM-ul din cloud
+-
+-**Sursa:** `AGENTS.md` și `COTOR.md` din vaultul live
+-(`GDrive-Second_Brain_PKMS`), citite de Mavis Cloud pe 2026-10-22.
+-**De ce contează:** din cloud am acces la Drive acum. Orice scriu acolo intră în
+-sistemul tău real, cu 51.157 de fișiere și oglindă sincronizată.
+-
+----
+-
+-## Cele 8 reguli care nu se încalcă
+-
+-1. **Nu se șterge nimic.** `rm` și `Remove-Item` sunt blocate. Neclarul ajunge
+-   în `_QUARANTINE`, cu motiv scris în indexul lui.
+-2. **Nu se atinge arhiva externă** (`H:\CLAUDE_Archive` și
+-   `H:\Alex_Knowlege_Vault_BKUP_10-19-2026`). Se citește doar la nevoie.
+-   **Ea nu mai e reperul** — reperul e oglinda Google Drive Cloud, verificată
+-   per fișier local↔cloud.
+-3. **Nu se scrie o cale cu un folder numerotat în mână.** Numerotarea este
+-   poziție, nu etichetă, și se oprește la al treilea nivel în adâncime.
+-4. **`00_INDEX.md` nu se editează manual** — se regenerează. Singura excepție:
+-   rândul `**De ce e aici:**`, scris de om.
+-5. **Rădăcinile care încep cu `_`** (`_SYSTEM`, `_ARCHIVE`, `_QUARANTINE`) nu
+-   primesc cod numeric: sublinierea spune deja „sunt sistem, nu conținut".
+-6. **Zero ștergeri și zero mutări fără R0.** Mutarea conținutului e decizia
+-   suverană a lui POPY.
+-7. **Ramura Knights Templar** (cele două directoare identice de 14,09 GB din
+-   `01_Projects`) rămâne neatinsă până la organizarea manuală de POPY.
+-8. **Nu se scrie nicio cale de reper în mână, nicăieri.** Calea reală e
+-   `E:\Google\GDrive\GDrive-Second_Brain_PKMS` și se **descoperă** dinamic
+-   (`paths.ps1` → `Get-PkmsVault` / `Get-PkmsDriveFsMount`).
+-
+-## Vocabular — folosit corect
+-
+-| Cuvânt | Ce înseamnă | Nu e |
+-|---|---|---|
+-| **vault** | singurul loc unde se lucrează | — |
+-| **backup** | arhiva de pe `H:`, **imutabilă**, nu e reperul | nu e raft, nu e reper |
+-| **oglindă** | perechea local↔cloud a aceluiași fișier | nu e copie locală |
+-| **bază** | nivelul `00`–`09` (10 baze), neatins | nu e locul de lucru |
+-| **proiect** | `01_Projects` — singurul nivel în care intri | nu e o bază |
+-| **raft** | un folder din `01_Projects`, pe un subiect de muncă | — |
+-| **cotor** | documentația sistemului, tot pe un fir | — |
+-| **index** | `00_INDEX.md`: ce conține, în cuvinte | — |
+-| **carantină** | `_QUARANTINE` — nimic nu se șterge | nu e coș de gunoi |
+-
+-## Ordinea de citit: patru citiri, zero scanări
+-
+-1. `COTOR.md` — sistemul: ce e, ce nu se atinge, cine scrie ce
+-2. `MANUAL DE NAVIGARE - cotor.md` — cum cauți
+-3. `02_Areas\02-2-AI-SOT\02-2-4-AI-Kit\AI-Kit_guide\START AICI.md` — harta rafturilor, cifrele de azi
+-4. `00_INDEX.md` din folderul în care lucrezi
+-
+-## Scara de căutare
+-
+-| Situație | Faci | De ce |
+-|---|---|---|
+-| Știi calea | deschizi folderul | nu cauți nimic |
+-| Știi subiectul | cauți în `00_INDEX.md` | sub o secundă |
+-| Nu știi nici subiectul | `INDEX CENTRAL.md` | tot vaultul, pe un ecran |
+-| Ai nevoie de cifre vii | `health-check.ps1` | cifrele din rapoartele vechi sunt istorice |
+-
+-**Interdicție:** nu scanezi niciodată tot arborele ca să găsești un fișier.
+-Cotorul răspunde în sub o secundă.
+-
+-## Cum se aplică din cloud
+-
+-Unelta: `mavis-tools/drive-vault.js` — **read-only**, cu o singură excepție:
+-`quarantine`, care **mută** (nu șterge) și cere `--confirm` + motiv scris.
+-
+-```bash
+-node mavis-tools/drive-vault.js root                    # structura de la rădăcină
+-node mavis-tools/drive-vault.js ls "01_Projects"        # conținutul unui folder
+-node mavis-tools/drive-vault.js read "COTOR.md"         # citește un fișier
+-node mavis-tools/drive-vault.js find "termen"           # caută în 00_INDEX.md
+-node mavis-tools/drive-vault.js quarantine "<cale>" "<motiv>" --confirm
+-```
+-
+-Zonele protejate (refuză automat): `Knights Templar`, `_SYSTEM`, `.obsidian`,
+-`.trash`, `.vault-intelligence`, `.claudian`, `.neural_memory`, `.wwebjs_cache`.
+-
+-## Ce NU fac din cloud
+-
+-- **Nu șterg.** Nimic, niciodată. Nici Trash.
+-- **Nu mut.** Fără R0 și fără decizia lui POPY.
+-- **Nu editez `00_INDEX.md`** — se regenerează.
+-- **Nu ating `.obsidian` / `.trash` / `.vault-intelligence`** și nici ramura
+-  Knights Templar.
+-- **Nu scriu căi de reper în mână** — le descoper, ca `drive-vault.js`.
+-- **Nu ating `H:`** — inaccesibil din cloud prin design.
+-
+----
+-
+-*2026-10-22 · Mavis Cloud · copiat din contractul live al vaultului*
+diff --git a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/SKILL.md b/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/SKILL.md
+deleted file mode 100644
+index 85f304b..0000000
+--- a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/SKILL.md	
++++ /dev/null
+@@ -1,96 +0,0 @@
+----
+-name: mavis-secure-delivery
+-description: Cum livrezi o valoare care vine din secret manager fara sa o trimiti prin chat. Platforma o mascheaza in {{ARCHON_SECRET:...}} si livrezarea se strica. Reguli, procedura si teste.
+----
+-
+-# Livrare fără secrete — procedura care merge
+-
+-## Regula, într-o propoziție
+-
+-**O valoare care vine din secret manager nu trece prin chat.**
+-Platforma o înlocuiește cu `{{ARCHON_SECRET:NUME}}` în mesajele mele.
+-Ce ajunge la om e un placeholder, nu valoarea.
+-
+-## Cum arată simptomul
+-
+-| Ce am trimis | Ce a ajuns | Ce a răspuns destinatarul |
+-|---|---|---|
+-| link OAuth cu `client_id` real | `client_id=%7B%7BARCHON_SECRET%3A...%7D%7D` | *Error 401: invalid_client* |
+-| cheie API în chat | `{{ARCHON_SECRET:API_KEY}}` | „nu merge" |
+-| URL cu token | `{{ARCHON_SECRET:TOKEN}}` | 401 / invalid_grant |
+-
+-**Nu da vina utilizatorului și nu schimba credentialele.** Verifică mai întâi
+-dacă valoarea pe care i-ai dat-o era deja mascată. Costă o oră de diagnostic
+-pe 2026-10-22.
+-
+-## Testul: e mascat sau e real?
+-
+-```bash
+-# 1. valoarea reala (din env) — se vede corect
+-node -e 'console.log(process.env.GOOGLE_CLIENT_ID_MAVIS_CLOUD)'
+-# 2. aceeasi valoare scrisa in mesajul de chat -> {{ARCHON_SECRET:...}}
+-```
+-
+-Dacă (1) e plin și (2) e placeholder → **livrare mascată**, nu credential greșit.
+-
+-## Procedura corectă (asta a mers)
+-
+-1. **Ce valoare e secretă?**
+-   - `client_secret`, `refresh_token`, `access_token`, parole, API keys → **secret**
+-   - `client_id`, project number, nume de etichetă → **identificator public** → poate în repo
+-
+-2. **Identificatorii publici stau în repo**, ca sursă unică de adevăr.
+-   Exemplu: `mavis-tools/google-client.json`.
+-
+-3. **Scriptul generează artefactul în repo**, nu în chat.
+-   Exemplu: `mavis-tools/google-link-file.js` → `18-GOOGLE/AUTORIZARE-LINK.txt`.
+-
+-4. **Comit + push.** Fără aprobare. Regula lui POPY: *„nu cere permisiune pentru
+-   comit și push"*.
+-
+-5. **Livreză un URL de repo**, nu valoarea:
+-   `https://github.com/<owner>/<repo>/blob/main/<cale>` — un URL nu conține
+-   secret și nu se maschează.
+-
+-6. **Destinatarul copiază valoarea din pagină** și o întoarce prin canalul
+-   potrivit (chat: doar dacă nu e secret; panoul de secrete: dacă e secret).
+-
+-7. **Eu scriu secretul în secret manager** cu tool-ul `secret` (create/update).
+-   Nu îl pun niciodată în chat nici în repo.
+-
+-## Ce se poate cere prin chat, sigur
+-
+-| Tip | Prin chat? |
+-|---|---|
+-| cod de autorizare OAuth (obiect temporar, nu e în secret manager) | ✅ da |
+-| numere, etichete, IDs, linkuri fără secret | ✅ da |
+-| `client_id`, project number | ✅ da (identificator public) |
+-| `client_secret`, `refresh_token`, parole, API keys | ❌ **nu** |
+-
+-## Dacă secretul trebuie neapărat să ajungă la mine
+-
+-Panoul de secrete al platformei (`secret` tool) e singura cale sigură.
+-Nu cer niciodată lui POPY să trimită un secret în chat.
+-
+-## Anti-patternuri
+-
+-- ❌ `Adresa este: https://...&client_id=1068987308935-...` în chat
+-- ❌ „am trimis codul, dă-mi și secretul"
+-- ❌ Fișier cu secrete pus în repo „temporar"
+-- ❌ URL cu token într-un mesaj de raport
+-
+-## Verificare înainte de orice livrare
+-
+-```bash
+-cd /workspace/mavis-cloud
+-node mavis-tools/google-preflight.js    # exemplu: client + token + retea
+-```
+-
+-Dacă verdictul e „client la auth OK", **livreză prin repo**.
+-Dacă e „client la auth FAIL", problema e în credential, nu în livrare.
+-
+-## Legături
+-
+-- Skill: `google-cloud-auth` — aplicația concretă (OAuth Google)
+-- Skill: `sandbox-gotchas` — mascarea + proxy + `curl -k`
+-- Doc: `docs/PROCEDURA-LIVRARE-SECRETE.md` — procedura în format lung
+diff --git a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/drive-vault.js b/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/drive-vault.js
+deleted file mode 100644
+index bcb52a4..0000000
+--- a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/drive-vault.js	
++++ /dev/null
+@@ -1,191 +0,0 @@
+-#!/usr/bin/env node
+-/**
+- * DRIVE VAULT — acces la vault-ul PKMS din Google Drive, respectând regulile lui.
+- *
+- *   node mavis-tools/drive-vault.js root                 # structura de la rădăcină
+- *   node mavis-tools/drive-vault.js ls "<cale>"           # conținutul unui folder
+- *   node mavis-tools/drive-vault.js read "<cale>"         # citește un fișier (.md)
+- *   node mavis-tools/drive-vault.js find "<termen>"       # caută în 00_INDEX.md
+- *   node mavis-tools/drive-vault.js index                # citește 00_INDEX.md din rădăcină
+- *
+- * REGULILE VAULTULUI (din AGENTS.md / COTOR.md, 21-10-2026) — respectate aici:
+- *   1. Nu se șterge nimic. Nimic. Funcția `quarantine` mută, nu șterge.
+- *   2. Nu se atinge arhiva externă (H:) — inaccesibilă din cloud, prin design.
+- *   3. Nu se scrie o cale cu folder numerotat „din mână" — căile se descoperă.
+- *   4. 00_INDEX.md nu se editează manual — se regenerează.
+- *   5. Rădăcinile cu "_" nu primesc cod numeric.
+- *   6. Zero ștergeri și zero mutări fără R0.
+- *   7. Ramura Knights Templar rămâne neatinsă.
+- *   8. Nu se scriu căi de reper în mână — se descoperă dinamic.
+- *
+- * PRIN ROST: READ-ONLY, cu o singură excepție — `quarantine`, care mută în
+- * _QUARANTINE cu motiv scris. Și asta cere --confirm explicit.
+- */
+-const path = require('path');
+-const k = require('./kit.js');
+-
+-const C = {
+-  b: s => `\x1b[1m${s}\x1b[0m`, g: s => `\x1b[32m${s}\x1b[0m`,
+-  y: s => `\x1b[33m${s}\x1b[0m`, r: s => `\x1b[31m${s}\x1b[0m`, d: s => `\x1b[2m${s}\x1b[0m`,
+-};
+-
+-const VAULT_NAME = 'GDrive-Second_Brain_PKMS';
+-const QUARANTINE = '_QUARANTINE';
+-const PROTECTED = [
+-  // reguli care nu se ating, nici cu quarantine
+-  'Knights Templar',
+-  '_SYSTEM',
+-  '.obsidian', '.trash', '.vault-intelligence', '.claudian', '.neural_memory', '.wwebjs_cache',
+-];
+-
+-/** Rădăcina vaultului, descoperită dinamic (regula 8 — nu scriem căi de reper). */
+-async function findVaultRoot() {
+-  const r = await k.drive.list("mimeType='application/vnd.google-apps.folder' and 'root' in parents and trashed=false", 50);
+-  const v = r.files.find(f => f.name === VAULT_NAME);
+-  if (!v) {
+-    const names = r.files.map(f => f.name).join(', ');
+-    throw new Error(`Vaultul "${VAULT_NAME}" nu e la rădăcina Drive. Root are: ${names || '(gol)'}`);
+-  }
+-  return v;
+-}
+-
+-/** Rezolvă o cale relativă din rădăcina vaultului -> id de folder. */
+-async function resolvePath(rel) {
+-  const root = await findVaultRoot();
+-  const parts = String(rel || '').split('/').map(s => s.trim()).filter(Boolean);
+-  if (!parts.length) return { root, folder: root, parts: [] };
+-  let cur = root;
+-  for (const part of parts) {
+-    const q = `name='${part.replace(/'/g, "\\'")}' and mimeType='application/vnd.google-apps.folder' and trashed=false`;
+-    const r = await k.drive.list(q, 20);
+-    if (!r.files.length) throw new Error(`Nu am gasit folderul "${part}" in calea "${rel}".`);
+-    cur = r.files[0];
+-  }
+-  return { root, folder: cur, parts };
+-}
+-
+-async function listFolder(rel) {
+-  const { folder, parts } = await resolvePath(rel);
+-  const r = await k.drive.list(`'${folder.id}' in parents and trashed=false`, 200);
+-  const label = parts.length ? parts.join('/') : '(rădăcină)';
+-  console.log(C.b(`\n  ${label}`) + C.d(`  [${r.files.length} elemente]\n`));
+-  const folders = r.files.filter(f => f.mimeType === 'application/vnd.google-apps.folder');
+-  const files = r.files.filter(f => f.mimeType !== 'application/vnd.google-apps.folder');
+-  for (const f of folders) {
+-    const prot = PROTECTED.some(p => f.name.includes(p)) ? C.y('  [PROTECTAT — nu se atinge]') : '';
+-    console.log(`  ${C.b('[ ]')} ${f.name}${prot}`);
+-  }
+-  if (folders.length) console.log('');
+-  for (const f of files) {
+-    const kind = f.mimeType.replace('application/vnd.google-apps.', '').replace('text/', '');
+-    const size = f.size ? ` · ${(f.size / 1024).toFixed(0)} KB` : '';
+-    console.log(`  ${C.d('•')} ${f.name} ${C.d('(' + kind + size + ')')}`);
+-  }
+-  console.log('');
+-  return r.files;
+-}
+-
+-/** Citește un fișier .md din vault. Fișierele obișnuite se citesc cu alt=media. */
+-async function readFile(rel) {
+-  const { folder, parts } = await resolvePath(path.dirname(rel) === '.' ? '' : path.dirname(rel));
+-  const name = path.basename(rel);
+-  const r = await k.drive.list(`'${folder.id}' in parents and name='${name.replace(/'/g, "\\'")}' and trashed=false`, 5);
+-  if (!r.files.length) throw new Error(`Nu am gasit fisierul "${name}" in "${parts.join('/')}".`);
+-  const f = r.files[0];
+-  if (f.mimeType === 'application/vnd.google-apps.document') {
+-    const t = await k.docs.text(f.id);
+-    console.log(t);
+-    return t;
+-  }
+-  const d = await k.req('GET', `https://www.googleapis.com/drive/v3/files/${f.id}?alt=media`);
+-  const txt = String(d.raw || d.data || '');
+-  console.log(txt);
+-  return txt;
+-}
+-
+-/**
+- * Scara de căutare a vaultului: NU scanăm arborele.
+- * 1. știi calea -> deschizi folderul
+- * 2. știi subiectul -> cauți în 00_INDEX.md
+- * 3. nu știi nimic -> INDEX CENTRAL.md
+- */
+-async function find(term, limit = 40) {
+-  const { root } = await findVaultRoot();
+-  const hits = [];
+-  // cautam in 00_INDEX.md din toate folderele urmarite de repo
+-  const q = `mimeType='text/markdown' and name='00_INDEX.md' and trashed=false`;
+-  let page = await k.drive.list(q, 1000);
+-  const all = page.files || [];
+-  for (const f of all) {
+-    if (!f.name) continue;
+-    const d = await k.req('GET', `https://www.googleapis.com/drive/v3/files/${f.id}?alt=media`);
+-    const txt = String(d.raw || d.data || '');
+-    if (txt.toLowerCase().includes(term.toLowerCase())) {
+-      // gasim folderul parinte prin lista de fisiere
+-      hits.push({ id: f.id, name: f.name });
+-    }
+-  }
+-  console.log(C.b(`\n  "${term}" — ${hits.length} indexuri contin termenul\n`));
+-  for (const h of hits.slice(0, limit)) console.log(`  ${C.g('•')} ${h.name}`);
+-  console.log(C.d(`\n  Sursa: indexurile 00_INDEX.md (nu continutul). ` +
+-    `Pentru "nu stiu nici subiectul" -> INDEX CENTRAL.md\n`));
+-  return hits;
+-}
+-
+-async function quarantine(rel, reason) {
+-  if (!reason) throw new Error('Motivul e obligatoriu: nimic nu se muta fara motiv scris in index.');
+-  if (!process.argv.includes('--confirm')) {
+-    console.log(C.y('\n  QUARANTINE cere --confirm.'));
+-    console.log(C.d(`  node mavis-tools/drive-vault.js quarantine "${rel}" "<motiv>" --confirm\n`));
+-    return;
+-  }
+-  const { folder, parts } = await resolvePath(path.dirname(rel) === '.' ? '' : path.dirname(rel));
+-  const name = path.basename(rel);
+-  if (PROTECTED.some(p => (parts.join('/') + '/' + name).includes(p))) {
+-    throw new Error(`REFUZAT: "${rel}" e in zona protejata. Regula 1-2-7.`);
+-  }
+-  const r = await k.drive.list(`'${folder.id}' in parents and name='${name.replace(/'/g, "\\'")}' and trashed=false`, 5);
+-  if (!r.files.length) throw new Error(`Nu am gasit "${name}" in "${parts.join('/')}".`);
+-  const f = r.files[0];
+-  const qf = await k.drive.list(`name='${QUARANTINE}' and mimeType='application/vnd.google-apps.folder' and trashed=false`, 5);
+-  if (!qf.files.length) throw new Error(`Folderul ${QUARANTINE} nu exista.`);
+-  await k.drive.move(f.id, qf.files[0].id, folder.id);
+-  console.log(C.g(`  Mutat in ${QUARANTINE}: ${name}`));
+-  console.log(C.d(`  Motiv: ${reason}`));
+-  console.log(C.y('  Nu s-a sters nimic. Motivul trebuie scris si in 00_INDEX.md al folderului.'));
+-}
+-
+-(async () => {
+-  const [cmd, ...rest] = process.argv.slice(2);
+-  try {
+-    if (cmd === 'root') {
+-      const v = await findVaultRoot();
+-      const r = await k.drive.list(`'${v.id}' in parents and trashed=false`, 200);
+-      console.log(C.b(`\n  ${v.name}`) + C.d(`  [${r.files.length} elemente la rădăcină]\n`));
+-      for (const f of r.files) {
+-        if (f.mimeType === 'application/vnd.google-apps.folder') console.log(`  ${C.b('[ ]')} ${f.name}`);
+-        else console.log(`  ${C.d('•')} ${f.name}`);
+-      }
+-      console.log('');
+-    } else if (cmd === 'ls') {
+-      await listFolder(rest.join(' '));
+-    } else if (cmd === 'read') {
+-      await readFile(rest.join(' '));
+-    } else if (cmd === 'find') {
+-      await find(rest.join(' '));
+-    } else if (cmd === 'quarantine') {
+-      await quarantine(rest[0], rest[1]);
+-    } else {
+-      console.log(C.b('\n  DRIVE VAULT — comenzi:\n'));
+-      console.log('    node mavis-tools/drive-vault.js root');
+-      console.log('    node mavis-tools/drive-vault.js ls "<subfolder>"');
+-      console.log('    node mavis-tools/drive-vault.js read "<nume.md>"');
+-      console.log('    node mavis-tools/drive-vault.js find "<termen>"');
+-      console.log('    node mavis-tools/drive-vault.js quarantine "<cale>" "<motiv>" --confirm\n');
+-      console.log(C.d('  READ-ONLY, cu o singură excepție: quarantine mută, nu șterge.\n'));
+-    }
+-  } catch (e) {
+-    console.log(C.r('\n  Eroare: ' + e.message + '\n'));
+-    process.exit(1);
+-  }
+-})();
+diff --git a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/google-refresh.js b/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/google-refresh.js
+deleted file mode 100644
+index 0871b81..0000000
+--- a/Mavis-Cloud - GOOGLE_Setup_Session/Artefacts/google-refresh.js	
++++ /dev/null
+@@ -1,186 +0,0 @@
+-#!/usr/bin/env node
+-/**
+- * GOOGLE REFRESH — re-autentificarea în ONE COMMAND.
+- *
+- *   node mavis-tools/google-refresh.js link              # pasul 1: generează linkul, îl pushuiește
+- *   node mavis-tools/google-refresh.js link --reauth     #   varianta care NU revocă tokenul vechi
+- *   node mavis-tools/google-refresh.js code "<url>"      # pasul 2: schimbă codul → token
+- *
+- * PASUL 1: tu (POPY) deschizi linkul, apeși Allow, copiezi bara de adresa.
+- * PASUL 2: eu schimb codul și primesc tokenul. Îl scriu în secret manager.
+- *
+- * ──────────────────────────────────────────────────────────────────────────
+- * REGULA CRITICĂ (docs oficiale Google + issue confirmat):
+- *   `prompt=consent` **REVOCĂ refresh token-ul precedent** pentru aceeași
+- *   pereche client+utilizator. Deci:
+- *
+- *   → Doar O sesiune poate face re-autentificare, la un moment dat.
+- *   → Dacă mai există un token viu, folosește `--reauth` (prompt=select_account):
+- *     NU revocă tokenul, deci celelalte sesiuni nu mor.
+- *   → Dacă tokenul e deja mort (situația „7 zile"), e safe să re-autentifici:
+- *     oricum nu mai e nimic de pierdut.
+- *
+- * Concret: dacă două sesiuni paralele rulează `link` în același timp, a doua
+- * re-autentificare omoară tokenul primei, și prima moare și ea. De aceea
+- * `link` scrie un marcaj în repo: `18-GOOGLE/AUTORIZARE-LINK.txt` conține
+- * `status: IN-PROGRESS` și e șters/înlocuit la final.
+- * ──────────────────────────────────────────────────────────────────────────
+- */
+-const fs = require('fs');
+-const path = require('path');
+-const { execFileSync } = require('child_process');
+-
+-const ROOT = path.join(__dirname, '..');
+-const CLIENT_JSON = path.join(__dirname, 'google-client.json');
+-const OUT_REL = path.join('18-GOOGLE', 'AUTORIZARE-LINK.txt');
+-const REPO = 'apvizual-max/MAVIS-CLOUD';
+-const BRANCH = 'main';
+-
+-const C = {
+-  b: s => `\x1b[1m${s}\x1b[0m`, g: s => `\x1b[32m${s}\x1b[0m`,
+-  y: s => `\x1b[33m${s}\x1b[0m`, r: s => `\x1b[31m${s}\x1b[0m`, d: s => `\x1b[2m${s}\x1b[0m`,
+-};
+-
+-function readClientConfig() {
+-  try { return JSON.parse(fs.readFileSync(CLIENT_JSON, 'utf8')); } catch { return null; }
+-}
+-
+-function hasLiveToken() {
+-  const t = process.env.GOOGLE_REFRESH_TOKEN_MAVIS_CLOUD || process.env.GOOGLE_REFRESH_TOKEN;
+-  return !!(t && t.length > 40);
+-}
+-
+-function buildLink(cfg, prompt) {
+-  const clientId = process.env.GOOGLE_CLIENT_ID_MAVIS_CLOUD || process.env.GOOGLE_CLIENT_ID || cfg.client_id;
+-  const redirect = process.env.GOOGLE_REDIRECT_URI || cfg.redirect_uri || 'http://127.0.0.1:8976';
+-  const scopes = cfg.scope_uri || [];
+-  const p = new URLSearchParams({
+-    client_id: clientId,
+-    redirect_uri: redirect,
+-    response_type: 'code',
+-    scope: scopes.join(' '),
+-    access_type: 'offline',
+-    prompt,
+-    include_granted_scopes: 'true',
+-  });
+-  return 'https://accounts.google.com/o/oauth2/v2/auth?' + p.toString();
+-}
+-
+-function git(args, quiet = true) {
+-  try {
+-    return execFileSync('git', args, { cwd: ROOT, encoding: 'utf8', stdio: quiet ? ['ignore', 'pipe', 'pipe'] : 'inherit' });
+-  } catch (e) { return null; }
+-}
+-
+-function pushLinkFile(link, mode) {
+-  const outPath = path.join(ROOT, OUT_REL);
+-  fs.mkdirSync(path.dirname(outPath), { recursive: true });
+-  const stamp = new Date().toISOString().slice(0, 16).replace('T', ' ');
+-  const body = [
+-    '=== GOOGLE — LINK DE AUTORIZARE ===',
+-    '',
+-    'Generat: ' + stamp,
+-    'Mod: ' + mode,
+-    '',
+-    '--- LINK (copiaza tot cu tot) ---',
+-    '',
+-    link,
+-    '',
+-    '--- CE FACI CU EL ---',
+-    '',
+-    '1. Deschide linkul in browser.',
+-    '2. Contul apvizual@gmail.com -> Continue -> Allow.',
+-    '3. Browserul va incerca http://127.0.0.1:8976 si da ecran gol sau eroare.',
+-    '   ASTA E NORMAL — nimic nu ruleaza acolo.',
+-    '4. Copiaza bara de adresa intreaga (contine ?code=...).',
+-    '5. Trimite-o inapoi la Mavis Cloud.',
+-    '',
+-    'IMPORTANT: client_id e identificator public, nu secret. Nu trimite client_secret.',
+-    '',
+-  ].join('\n');
+-  fs.writeFileSync(outPath, body, 'utf8');
+-  git(['add', OUT_REL]);
+-  git(['commit', '-m', 'Google: link de autorizare regenerat (' + mode + ')']);
+-  git(['push', 'origin', BRANCH]);
+-  return outPath;
+-}
+-
+-async function exchange(code, cfg) {
+-  const clientId = process.env.GOOGLE_CLIENT_ID_MAVIS_CLOUD || process.env.GOOGLE_CLIENT_ID || cfg.client_id;
+-  const clientSecret = process.env.GOOGLE_CLIENT_SECRET_MAVIS_CLOUD || process.env.GOOGLE_CLIENT_SECRET;
+-  const redirect = process.env.GOOGLE_REDIRECT_URI || cfg.redirect_uri || 'http://127.0.0.1:8976';
+-  const payload = new URLSearchParams({
+-    client_id: clientId, client_secret: clientSecret,
+-    code, grant_type: 'authorization_code', redirect_uri: redirect,
+-  }).toString();
+-  let last = null;
+-  for (let i = 0; i < 8; i++) {
+-    try {
+-      const r = await fetch('https://oauth2.googleapis.com/token', {
+-        method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+-        body: payload, signal: AbortSignal.timeout(20000),
+-      });
+-      const j = await r.json();
+-      if (j.error) return { error: j.error + ' — ' + (j.error_description || '') };
+-      return { token: j };
+-    } catch (e) {
+-      last = e;
+-      await new Promise(z => setTimeout(z, Math.min(2000 * i, 8000)));
+-    }
+-  }
+-  return { error: 'RETEA: ' + (last?.cause?.code || last?.message) + ' (codul NU s-a consumat, reia cu el)' };
+-}
+-
+-(async () => {
+-  const args = process.argv.slice(2);
+-  const cmd = args[0];
+-  const cfg = readClientConfig();
+-  if (!cfg || !cfg.client_id) { console.error(C.r('\n[ROSU] mavis-tools/google-client.json lipseste sau nu are client_id.\n')); process.exit(1); }
+-
+-  if (cmd === 'link') {
+-    const reauth = args.includes('--reauth');
+-    const live = hasLiveToken();
+-    // Daca exista token viu, NU revocam: prompt=select_account.
+-    const prompt = (reauth || live) ? 'select_account' : 'consent';
+-    const mode = live
+-      ? (reauth ? 'REAUTH (select_account — NU revocă tokenul existent)' : 'implicit (token viu → select_account, NU revocă)')
+-      : 'PRIMĂ AUTENTIFICARE (consent)';
+-    const link = buildLink(cfg, prompt);
+-    pushLinkFile(link, mode);
+-    const url = `https://github.com/${REPO}/blob/${BRANCH}/${OUT_REL.replace(/\\/g, '/')}`;
+-    console.log(C.g('\n  Link generat și împins în repo.\n'));
+-    console.log(C.b('  Dă-i lui POPY URL-ul de mai jos:\n'));
+-    console.log('  ' + url + '\n');
+-    console.log(C.d('  (nu trimite linkul în chat — platforma maschează valorile din secret manager)'));
+-    console.log(C.d('  După ce vine codul: node mavis-tools/google-refresh.js code "<url>"\n'));
+-    return;
+-  }
+-
+-  if (cmd === 'code') {
+-    const raw = args.slice(1).filter(a => a !== '--reauth').join(' ');
+-    const m = raw.match(/[?&]code=([^&\s]+)/);
+-    const code = m ? decodeURIComponent(m[1]) : raw.trim();
+-    if (!code) { console.error(C.r('\n[ROSU] Nu am primit codul. Trimite URL-ul complet (cu ?code=...).\n')); process.exit(1); }
+-    console.log(C.d('  Schimb codul...'));
+-    const res = await exchange(code, cfg);
+-    if (res.error) { console.log(C.r('\n  ' + res.error + '\n')); process.exit(1); }
+-    const rt = res.token.refresh_token;
+-    console.log(C.g('\n  ✅ TOKEN NOU OBȚINUT.\n'));
+-    console.log(C.b('  Scrie-l în secret manager (tool-ul `secret`, NU chat):\n'));
+-    console.log('    create --name=GOOGLE_REFRESH_TOKEN_MAVIS_CLOUD --value=' + rt + '\n');
+-    console.log(C.d('  (dacă există deja: update --name=GOOGLE_REFRESH_TOKEN_MAVIS_CLOUD --value=' + rt.slice(0, 12) + '...)'));
+-    console.log(C.d('  Apoi: node mavis-tools/google-verify.js\n'));
+-    try {
+-      fs.mkdirSync(path.join(process.env.HOME || '', '.google-mcp', 'tokens'), { recursive: true });
+-      fs.writeFileSync(path.join(process.env.HOME || '', '.google-mcp', 'tokens', 'mavis.json'), JSON.stringify(res.token, null, 2), { mode: 0o600 });
+-    } catch { /* nu e critic */ }
+-    return;
+-  }
+-
+-  console.log(C.b('\n  GOOGLE REFRESH — procedura în 2 pași\n'));
+-  console.log('    node mavis-tools/google-refresh.js link              # generează + pushuiește linkul');
+-  console.log('    node mavis-tools/google-refresh.js link --reauth     # NU revocă tokenul existent');
+-  console.log('    node mavis-tools/google-refresh.js code "<url>"      # schimbă codul → token\n');
+-  console.log(C.d('  REGULĂ: o singură sesiune face re-autentificare la un moment dat.'));
+-  console.log(C.d('  `prompt=consent` revocă tokenul precedent → celelalte sesiuni mor.\n'));
+-})();
+diff --git a/Mavis-Cloud - GOOGLE_Setup_Session/Mavis-Cloud_Google-Setup-Session.md b/Mavis-Cloud - GOOGLE_Setup_Session/Mavis-Cloud_Google-Setup-Session.md
+deleted file mode 100644
+index 8a5777c..0000000
+--- a/Mavis-Cloud - GOOGLE_Setup_Session/Mavis-Cloud_Google-Setup-Session.md	
++++ /dev/null
+@@ -1,1142 +0,0 @@
+-\---
+-
+-title: "MiniMax Code: Minimize Effort, Maximize Intelligence"
+-
+-source: "https://agent.minimax.io/mavis?id=454947992641880"
+-
+-author:
+-
+-published:
+-
+-created: 2026-10-27
+-
+-description: "Discover MiniMax Code, your AI supercompanion, enhancing creativity and productivity with tools for meditation, podcast, coding, analysis, and more!"
+-
+-tags:
+-
+-&#x20; - "clippings"
+-
+-\---
+-
+-Flash Notes
+-
+-
+-
+-Copy Formula
+-
+-
+-
+-can you fully access my google services now? I AM SO TIRED of trying to set you up.....in several sessions...haw is the status now?
+-
+-
+-
+-10/22 02:10
+-
+-
+-
+-\*\*Short answer: no.\*\* Google is not working right now. But it's not a broken setup — it's \*\*one dead piece\*\*, and I can prove exactly which one.
+-
+-
+-
+-\### What I measured (real HTTP codes, not guesses)
+-
+-
+-
+-| Test | What I sent | Google's answer | Means |
+-
+-| --- | --- | --- | --- |
+-
+-| 1 | real client\\\_id + real secret + \*\*fake token\*\* | `invalid\_grant` | client\\\_id + secret are \*\*valid\*\* |
+-
+-| 2 | real client\\\_id + \*\*wrong secret\*\* + fake token | `invalid\_client` | confirms test 1 really checks the secret |
+-
+-| 3 | real client\\\_id + real secret + \*\*your real token\*\* | `invalid\_grant: Token has been expired or revoked.` | \*\*the token is dead\*\* |
+-
+-
+-
+-Your client\\\_id also matches the one hardcoded in `google-link.js` byte-for-byte. So: \*\*client ✓, secret ✓, token ✗.\*\* No need to redo the OAuth client.
+-
+-
+-
+-\### The real reason this keeps happening
+-
+-
+-
+-Your OAuth app is in \*\*Testing\*\* mode. In Testing, Google kills refresh tokens \*\*7 days after consent\*\*. Consent was around 2026-10-09 (Gmail was genuinely working then). Token died \~2026-10-16.
+-
+-
+-
+-The 2026-10-21 setup put the \*\*old, already-dead token\*\* into the secret manager. And that doc claiming "what works from cloud today" was an example — it literally says so in parentheses. \*\*There was never a real cloud verification.\*\* That's why every session starts with "it doesn't work."
+-
+-
+-
+-The loop: re-setup → token → dies in 7 days → re-setup → …
+-
+-
+-
+-\### Two fixes, one of them done by me already
+-
+-
+-
+-\*\*Done (committed + pushed, `main`):\*\*
+-
+-
+-
+-\- `kit.js` used raw `https.request`, which the cloud sandbox proxy silently drops — it looked like "no Google access" but was a false negative. Now uses `fetch`. `google-verify.js` runs from cloud and reports correctly.
+-
+-\- The cloud→Google network drops \~1 in 5 connections. Added retries so a single blip can't eat your one-shot authorization code.
+-
+-
+-
+-\*\*One thing only you can do — 2 steps:\*\*
+-
+-
+-
+-\*\*A. (\~30 sec, do this FIRST)\*\* Google Cloud Console → APIs \& Services → \*\*OAuth consent screen\*\* → if you see the yellow "Google hasn't verified this app" banner, click \*\*Publish app\*\* → \*\*In production\*\*.
+-
+-
+-
+-> Skip this and the new token dies in 7 days and we're right back here. This is the step that was never done.
+-
+-
+-
+-\*\*B. (\~1 min)\*\* Open this link, hit \*\*Continue\*\* → \*\*Allow\*\*:
+-
+-
+-
+-text
+-
+-
+-
+-```text
+-
+-https://accounts.google.com/o/oauth2/v2/auth?client\_id={{ARCHON\_SECRET:GOOGLE\_CLIENT\_ID\_MAVIS\_CLOUD}}\&redirect\_uri=http%3A%2F%2F127.0.0.1%3A8976\&response\_type=code\&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.modify+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdocuments+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fspreadsheets+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fpresentations\&access\_type=offline\&prompt=consent\&include\_granted\_scopes=true
+-
+-```
+-
+-
+-
+-The browser will die on `http://127.0.0.1:8976` — that's normal, nothing's there. \*\*Copy the address bar\*\* (it has `?code=…`) and paste it back to me.
+-
+-
+-
+-\### What I do the moment you paste it
+-
+-
+-
+-Exchange the code → write the new token straight into the secret manager → run a live per-service verification with real HTTP codes. No terminal work for you, no secrets in chat, one turn.
+-
+-
+-
+-\### What still won't work from cloud, regardless
+-
+-
+-
+-\- \*\*Google Photos\*\* — `photoslibrary.googleapis.com` doesn't respond from the sandbox (DNS resolves, connection doesn't). Works from your machine.
+-
+-\- \*\*Google Workspace MCP servers\*\* — `\*mcp.googleapis.com`, 0/6 connections from cloud.
+-
+-\- \*\*Google Maps\*\* — needs `GOOGLE\_MAPS\_API\_KEY` + billing on the Cloud project.
+-
+-
+-
+-Full write-up with the forensics: `docs/GOOGLE-STATUS-2026-10-22.md` in the repo.
+-
+-
+-
+-One flag while we're here: your `Alex Work/` structure, tracker and LOG files aren't in this sandbox — the workspace came up empty except for skills. So even after Google is back, that folder needs restoring. Want me to rebuild it from the repo, or is it still only on your machine?
+-
+-
+-
+-10/22 02:10
+-
+-
+-
+-!\[image.png](https://matrix-internal.oss-us-east-1.aliyuncs.com/222c90dc-bbe6-4a58-998a-bcf1bba4ee61?Expires=1793080634\&OSSAccessKeyId=LTAI5tRgbJ63ieNp3YeXRwFH\&Signature=VGxltkDWAfpQPSnKrT7vZA6AMBw%3D)
+-
+-
+-
+-you are doing something WRONG!
+-
+-
+-
+-10/22 03:01
+-
+-
+-
+-Both token-endpoint controls (F2/F3) give the same answer, so the token endpoint never validated the redirect — the client itself resolves fine there. Let me check whether it resolves at the authorize endpoint too.
+-
+-
+-
+-Ran cd /workspace/mavis-cloud \&\& node -e ' const CID = process.env.GOOGLE\\\_CLIENT\\\_ID\\\_MAVIS\\\_CLOUD; const GARBAGE = "111111111111-abcdefghijklmnopqrstuvwxyz1234.apps.googleusercontent.com"; async function probe(label, cid) { for (let i=0;i<6;i++){ try{ const p = new URLSearchParams({client\\\_id:cid, redirect\\\_uri:"http://127.0.0.1:8976", response\\\_type:"code", scope:"https://www.googleapis.com/auth/drive", access\\\_type:"offline", prompt:"consent"}); const r = await fetch("https://accounts.google.com/o/oauth2/v2/auth?"+p,{redirect:"manual",headers:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120"}}); const loc = r.headers.get("location")||""; const op = decodeURIComponent((loc.match(/opparams=(\\\[^\&\\]\\\*)/)||\\\[\\])\\\[1\\]||"(none)"); console.log(\\`${label} HTTP ${r.status}\\`); console.log(\\` opparams: ${op.slice(0,160)}\\`); console.log(\\` loc are ${loc.length} caractere; contine ds=${loc.includes("dsh=")}\\`); return; }catch(e){ if(i===5) console.log(\\`${label} NETWORK ${e.cause?.code||e.message}\\`); else await new Promise(z=>setTimeout(z,2000)); } } } (async()=>{ console.log("=== authorize endpoint: REAL vs GARBAGE ===\\\\n"); await probe("REAL:", CID); await probe("GARBAGE:", GARBAGE); })(); '
+-
+-
+-
+-10/22 03:02
+-
+-
+-
+-!\[image.png](https://matrix-internal.oss-us-east-1.aliyuncs.com/0024ab78-d37e-4e3b-989a-ce7f3b969c01?Expires=1793080634\&OSSAccessKeyId=LTAI5tRgbJ63ieNp3YeXRwFH\&Signature=9X1rIUFEXblbvFBn9CzgxgeU988%3D)
+-
+-
+-
+-I have changed your enviromental variables JUSTNOW to match the new oath meant for you! the previous id and secret are for hermes CLI not for you. and both are present in the credentials.json from the.google-mcp folder. I still have no token. please continue now and let's get this setup definitively. please consider that also I can not publish the app just yet on google, but I will do so if needed to take it from testing to into production so we get more than 7 days. but for that to ahppen some settings need to be fixed and we will do that afterwards, after we get the connection perfectly working and MOST IMPORTAT we need to have it working across different sessions and for long as possible without having to go throught this shit again...
+-
+-
+-
+-10/22 03:23
+-
+-
+-
+-\*\*You were right, and your fix was the whole thing.\*\* The old `...5b7h17gt...` pair was the Hermes CLI's client — that's why the token endpoint said "invalid\\\_grant" (looks healthy) while the browser said `invalid\_client`. Same symptom, wrong cause.
+-
+-
+-
+-New client verified on both endpoints, from cloud:
+-
+-
+-
+-| Check | Result |
+-
+-| --- | --- |
+-
+-| Token endpoint, real pair + fake code | `invalid\_grant: Malformed auth code` → \*\*client + secret found\*\* |
+-
+-| Authorize endpoint | `opparams` + `dsh` present (vs. absent for a garbage client) → \*\*resolves for browser\*\* |
+-
+-| Type | \*\*Desktop\*\* ✓ (from your screenshot — correct for the loopback flow) |
+-
+-
+-
+-\### Click this — new client, same 6 scopes
+-
+-
+-
+-text
+-
+-
+-
+-```text
+-
+-https://accounts.google.com/o/oauth2/v2/auth?client\_id={{ARCHON\_SECRET:GOOGLE\_CLIENT\_ID\_MAVIS\_CLOUD}}\&redirect\_uri=http%3A%2F%2F127.0.0.1%3A8976\&response\_type=code\&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.modify+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdocuments+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fspreadsheets+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fpresentations\&access\_type=offline\&prompt=consent\&include\_granted\_scopes=true
+-
+-```
+-
+-
+-
+-Continue → Allow. Browser dies on `127.0.0.1:8976` (normal — nothing's there). \*\*Copy the address bar, paste it back to me.\*\* That's the whole remaining ask.
+-
+-
+-
+-Then I do, in one turn: exchange the code → write `GOOGLE\_REFRESH\_TOKEN\_MAVIS\_CLOUD` to the secret manager → live per-service verification with real HTTP codes. No terminal, no secrets in chat, no repo.
+-
+-
+-
+-\### About "never doing this again" — the three things that were broken
+-
+-
+-
+-1.\*\*A hardcoded `client\_id` in `google-link.js`.\*\* It silently filled in the wrong client whenever env was missing. Removed — the script now refuses to build a link without a client\\\_id.
+-
+-
+-
+-2.\*\*A wrong conclusion baked into the skill.\*\* I had written "invalid\\\_grant ⇒ client is fine." The garbage-client control disproved it. Corrected in the skill, with the real test table.
+-
+-
+-
+-3.\*\*No fast diagnosis.\*\* New `mavis-tools/google-preflight.js` → one verdict in \~10 seconds: credentials / client-at-token / client-at-authorize / token-alive. \*\*Any future session runs that first.\*\* No more three-hour archaeology.
+-
+-
+-
+-Committed and pushed: `be5b56f` (preflight + landmine removed), `d0bdbd6` (checklist + doc corrections).
+-
+-
+-
+-\### On the 7-day fuse
+-
+-
+-
+-Understood — publish after. Until then the token has a 7-day life, and I'll be straight with you about the consequence: \*\*it will die\*\*, and when it does, the re-consent is now \~1 minute (you click a link, I do the rest) instead of a session. The full In-production checklist is staged — every setting that needs fixing, in order:
+-
+-
+-
+-I've also set a self-check for \*\*6 days out\*\* that tests the token and, if it's dead, tells you straight instead of letting you find out.
+-
+-
+-
+-\*\*Two honest caveats:\*\*
+-
+-
+-
+-\- Until the token exists, this isn't "working" yet — right now I have a valid client and no token.
+-
+-\- Still open from before: your `Alex Work/` structure isn't in this sandbox (workspace came up empty except skills). Google or no Google, I need to know whether to rebuild it from the repo or whether it only exists on your machine.
+-
+-
+-
+-Paste me that address bar.
+-
+-
+-
+-10/22 03:23
+-
+-
+-
+-!\[image.png](https://matrix-internal.oss-us-east-1.aliyuncs.com/eb66c71b-6972-4449-95b0-afc53ff411cb?Expires=1793080611\&OSSAccessKeyId=LTAI5tRgbJ63ieNp3YeXRwFH\&Signature=5jCqZ4wP7sqtmdrBezy%2Bgat6X%2BQ%3D)
+-
+-
+-
+-everything related to what we do here and now, and looking foeward needs to be sincronised with the github repo. never ask me for permitions to comit and push directly to the repo. I expect that all delivrables are propperly added to the repo as well, respecting the structure of the repo folders, not only here in the conversation. the reminder is a good ideea but the link is still not working.
+-
+-
+-
+-10/22 03:34
+-
+-
+-
+-\*\*Found the real cause, and it was mine.\*\* Your screenshot's URL bar reads:
+-
+-
+-
+-`client\_id=%7B%7BARCHON\_SECRET%3AGOOGLE\_CLIENT\_ID\_MAVIS\_CL...`
+-
+-
+-
+-That's `{{ARCHON\_SECRET:...}}`. \*\*The platform masks secret-manager values in my chat messages\*\* — so the link I pasted never carried your real client\\\_id. Google received a placeholder and correctly said "The OAuth client was not found."
+-
+-
+-
+-The client was fine. The repo even documents this exact trap in `google-local.js` — I read past it. My bad.
+-
+-
+-
+-\### The link now travels through the repo, where it can't be masked
+-
+-
+-
+-\*\*`https://github.com/apvizual-max/MAVIS-CLOUD/blob/main/18-GOOGLE/AUTORIZARE-LINK.txt`\*\*
+-
+-
+-
+-Open it → copy the URL from the file → open it → Continue → Allow → browser dies on `127.0.0.1:8976` (normal) → \*\*copy the address bar\*\* → paste back to me. Then I exchange, write the secret manager, and verify live. You touch nothing else.
+-
+-
+-
+-Fallback if the GitHub page needs a login — one command on your machine:
+-
+-
+-
+-text
+-
+-
+-
+-```text
+-
+-cd <repo> \&\& git pull \&\& node mavis-tools/google-link-file.js --print
+-
+-```
+-
+-
+-
+-\### Structurally, so it can't recur
+-
+-
+-
+-| Change | Why |
+-
+-| --- | --- |
+-
+-| `mavis-tools/google-client.json` — client\\\_id as \*\*public identifier\*\* in repo, single source of truth | Google doesn't treat it as confidential; it's in every auth URL. Keeps the repo in sync, kills the "stale hardcoded id" bug |
+-
+-| `mavis-tools/google-link-file.js` → writes `18-GOOGLE/AUTORIZARE-LINK.txt` | Delivery path with \*\*no masking\*\* |
+-
+-| `google-preflight.js` step 0 — drift check env vs repo | Catches a swapped client in seconds |
+-
+-| `google-preflight.js` — now says \*\*"INDETERMINAT (rețea)"\*\* instead of blaming the client | It was reporting a network timeout as "your client is wrong". That sends you chasing ghosts |
+-
+-| `google-connect.js` — 8 retries, extended backoff | Sandbox egress to Google is flaking \~50% right now (GET works, POST times out, then GET fails). A failed TLS handshake doesn't consume your code |
+-
+-| Skill + memory | "No value from the secret manager through chat" — file and repo, never chat |
+-
+-
+-
+-\### Repo, fully synced (committed + pushed, no permission asked)
+-
+-
+-
+-text
+-
+-
+-
+-```text
+-
+-18-GOOGLE/MavisCloud-Google.md              ← updated, real state
+-
+-18-GOOGLE/Google Priming KIT/STATUS.md       ← updated
+-
+-18-GOOGLE/Google Priming KIT/HANDOFF.md      ← + Local Google task
+-
+-18-GOOGLE/AUTORIZARE-LINK.txt                ← generated artifact
+-
+-docs/INTENTII.md                             ← intent for your local agent
+-
+-docs/GOOGLE-STATUS-2026-10-22.md             ← forensică + addendum mascare
+-
+-docs/GOOGLE-PRODUCTION-CHECKLIST.md          ← Testing → In production
+-
+-mavis-tools/google-client.json · google-link-file.js · google-preflight.js
+-
+-```
+-
+-
+-
+-Commits: `be5b56f` → `d0bdbd6` → `381c258` → `2b0a4f8`. Your standing rule ("never ask permission to commit and push, put deliverables in the repo") is now saved to memory and is how I operate by default.
+-
+-
+-
+-\*\*One honest correction to my earlier message:\*\* I told you the old pair was the Hermes client's and that swapping it fixed it. Swapping it was right — but it was never the sufficient cause of the browser error. The masking was. Both were real; I should have caught the masking first, because it's the one thing that made every link fail regardless of which client was in the secret manager.
+-
+-
+-
+-\*\*Still open:\*\* your `Alex Work/` structure isn't in this sandbox. Rebuild from repo, or does it only exist on your machine?
+-
+-
+-
+-10/22 03:35
+-
+-
+-
+-\[https://accounts.google.com/o/oauth2/v2/auth?client\\\_id=1068987308935-bp47aoerh6gu1aohm74blfhnccnku773.apps.googleusercontent.com\&redirect\\\_uri=http%3A%2F%2F127.0.0.1%3A8976\&response\\\_type=code\&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.modify+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar+https%3A%2F%](https://accounts.google.com/o/oauth2/v2/auth?client\_id=1068987308935-bp47aoerh6gu1aohm74blfhnccnku773.apps.googleusercontent.com\&redirect\_uri=http%3A%2F%2F127.0.0.1%3A8976\&response\_type=code\&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.modify+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar+https%3A%2F%) acum a mers. Te rog updateaza TOATE PROCEDURILE si toate skills si tot avem ca procedura ca pe viitor sa STIM sa procedam ASA CORECT cum am facut acum cu privire la acest link. repet ORICE CER ma astept sa fie de la sine inteles ca trebuie sa-l regasesc DIRECT in github in repo fara sa-mi mai ceri aprobari pentru asta. comit si push direct orice lucram! AM ASTEPTAREA MEREU sa functionezi si sa procedezi asa. orice abatere este o eroare de operare care rupe systemul meu de lucru si creeaza probleme in workflow, deci updateaza tot ce tine de skills si proceduri si bune practici pe care le urmam ca sa nu mai ma tampesti 5 prompturi ca sa-mi dai un link care merge. tine minte in detaliu ce am fauct bine si doar mentioneerorile sa stim sa le ocolim. acum linkul merge as expected deci hai sa continuam Still open: your Alex Work/ structure isn't in this sandbox. Rebuild from repo, or does it only exist on your machine? - nu mai exista de mult. workspace-ul de lucru este pe DRIVE la care vrem sa ajungem. acolo este PKM Personal Knowledge Management System al meu si acolo vom lucra executia efectiva. iat pe github ramane back-up SYSTEMULUI pe care-l avem. WORK e separat de configuratie si system. Configuratia sta pe Local administrata de Mavis LOCAL si pe Github repo este bridge-ul de comunicare directa dintre tine Mavis CLOUD si Mavis LOCAL totodata este back-up ul systemului pe care-l avem implementat de feedback intre local si cloud...o integrare continua in care rolul tau este de agent pe cloud. Munca efectiva o vom face in Gmail si in Gdrive. acum ne concentram sa lucram pe partea de system configurations adica github repo si exact folderul alocat google. apropo trebuie NEAPARAT sa SCHIMBI statusul repoului in PUBLIC...altfel aplicatiile conectate nu-l pot analiza daca e privat. deci mavis-cloud trebuie sa fie public acum.
+-
+-
+-
+-10/22 03:58
+-
+-
+-
+-\*\*Repo-ul e public.\*\* `private: false` → `visibility: public`, confirmat cu acces anonim (api 200, raw 200, fără token).
+-
+-
+-
+-\### Audit înainte de publicare — curat
+-
+-
+-
+-| Verificat | Rezultat |
+-
+-| --- | --- |
+-
+-| Secrete în tot istoricul git (86 commituri) | \*\*0\*\* — `GOCSPX`, `ghp\_`, `1//…`, `AIza`, chei private, `oauth.json` |
+-
+-| Date personale ale terților | \*\*0\*\* — doar 8 adrese email, toate ale lui sau `example.com` |
+-
+-| Conținut Gmail | doar \*\*contorizări\*\* (`MAVIS/Joburi: 5061`), zero mesaje, zero subiecte |
+-
+-| Fișiere suspecte | doar `docs/CREDENTIALE.md` — documentație, fără valori |
+-
+-
+-
+-\*\*Ce a devenit public, concret:\*\* numele (51 fișiere), emailul (50), telefonul (14), orașul, site-ul. Secretele au rămas în secret manager. \*\*Dacă vrei să scapi de telefonul din repo, spune-mi\*\* — îl curăț într-un commit și în istoric.
+-
+-
+-
+-\### Totul e în repo, pe structura existentă
+-
+-
+-
+-text
+-
+-
+-
+-```text
+-
+-AGENTS.md                                  ← Regula 1 (fără secrete prin chat) + Regula 2 (comit+push, fără aprobare)
+-
+-docs/PROCEDURA-LIVRARE-SECRETE.md          ← procedura în format lung
+-
+-docs/GOOGLE-STATUS-2026-10-22.md           ← forensică + addendum mascare
+-
+-docs/GOOGLE-PRODUCTION-CHECKLIST.md        ← Testing → In production
+-
+-docs/INTENTII.md                           ← intenția pentru Mavis Local
+-
+-18-GOOGLE/MavisCloud-Google.md             ← arhitectura + procedura
+-
+-18-GOOGLE/AUTORIZARE-LINK.txt               ← linkul generat
+-
+-18-GOOGLE/Google Priming KIT/{STATUS,HANDOFF,PROMPT-START}
+-
+-.skills/mavis-secure-delivery/SKILL.md      ← skill NOU
+-
+-.skills/google-cloud-auth/SKILL.md          ← procedura în 9 pași
+-
+-.skills/sandbox-gotchas/SKILL.md            ← + mascare, + cert expirat, + rețea intermitentă
+-
+-.skills/mavis-repo/SKILL.md                 ← corectat: nu mai cere confirmare la commit
+-
+-```
+-
+-
+-
+-\*\*Un gol real pe care l-am găsit:\*\* skill-urile din repo erau \*\*vechi\*\* — editările mele din runtime nu ajunseseră niciodată în repo. Localul tău ar fi continuat să lucreze cu procedurile vechi, inclusiv cu „niciun client\\\_id în repo" care era cauza răspunsului greșit. Sincronizate acum, cu verificare înainte de push.
+-
+-
+-
+-\*\*Memorie actualizată:\*\* `Alex Work` marcat desființat, Drive ca suprafață de lucru, arhitectura (Drive = PKM + execuție / repo = configurație + back-up + puntea Cloud↔Local / Local = administrare configurație / Cloud = agent), plus regulile tale permanente.
+-
+-
+-
+-\### Ce mai trebuie de la tine — un singur lucru
+-
+-
+-
+-Ai trimis \*\*URL-ul de autorizare\*\* (cel pe care l-ai deschis). Codul e în bara de adresa a \*\*paginii de după Allow\*\* — cea care arată `http://127.0.0.1:8976/?code=...`:
+-
+-
+-
+-1\.Întoarce-te la tabul cu \*\*ecranul gol / eroare de conexiune\*\* (nu pagina „Sign in with Google").
+-
+-
+-
+-2.Copiază bara de adresa aia — începe cu `http://127.0.0.1:8976/?code=`.
+-
+-
+-
+-3.Trimite-mi-o.
+-
+-
+-
+-Codul \*\*nu\*\* e secret și nu e în secret manager, deci trece prin chat fără mascaj. De acolo eu fac restul: schimb, scriu tokenul în secret manager, verific live per serviciu.
+-
+-
+-
+-Reminder-ul la 6 zile a fost rescris să folosească procedura din repo — \*\*nu\*\* să-ți trimită linkul în chat.
+-
+-
+-
+-10/22 03:59
+-
+-
+-
+-why are you asking for it AGAIN? i gave ti to you in the previous prompt allready i am expecting you to give me the GOOGLE\\\_CLIENT\\\_TOKEN so i can input it in the enviromental variables and I am expecting you to have updated everything in the repo as requested: \[https://accounts.google.com/o/oauth2/v2/auth?client\\\_id=1068987308935-bp47aoerh6gu1aohm74blfhnccnku773.apps.googleusercontent.com\&redirect\\\_uri=http%3A%2F%2F127.0.0.1%3A8976\&response\\\_type=code\&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.modify+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar+https%3A%2F%](https://accounts.google.com/o/oauth2/v2/auth?client\_id=1068987308935-bp47aoerh6gu1aohm74blfhnccnku773.apps.googleusercontent.com\&redirect\_uri=http%3A%2F%2F127.0.0.1%3A8976\&response\_type=code\&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.modify+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar+https%3A%2F%) acum a mers. Te rog updateaza TOATE PROCEDURILE si toate skills si tot avem ca procedura ca pe viitor sa STIM sa procedam ASA CORECT cum am facut acum cu privire la acest link. repet ORICE CER ma astept sa fie de la sine inteles ca trebuie sa-l regasesc DIRECT in github in repo fara sa-mi mai ceri aprobari pentru asta. comit si push direct orice lucram! AM ASTEPTAREA MEREU sa functionezi si sa procedezi asa. orice abatere este o eroare de operare care rupe systemul meu de lucru si creeaza probleme in workflow, deci updateaza tot ce tine de skills si proceduri si bune practici pe care le urmam ca sa nu mai ma tampesti 5 prompturi ca sa-mi dai un link care merge. tine minte in detaliu ce am fauct bine si doar mentioneerorile sa stim sa le ocolim. acum linkul merge as expected deci hai sa continuam Still open: your Alex Work/ structure isn't in this sandbox. Rebuild from repo, or does it only exist on your machine? - nu mai exista de mult. workspace-ul de lucru este pe DRIVE la care vrem sa ajungem. acolo este PKM Personal Knowledge Management System al meu si acolo vom lucra executia efectiva. iat pe github ramane back-up SYSTEMULUI pe care-l avem. WORK e separat de configuratie si system. Configuratia sta pe Local administrata de Mavis LOCAL si pe Github repo este bridge-ul de comunicare directa dintre tine Mavis CLOUD si Mavis LOCAL totodata este back-up ul systemului pe care-l avem implementat de feedback intre local si cloud...o integrare continua in care rolul tau este de agent pe cloud. Munca efectiva o vom face in Gmail si in Gdrive. acum ne concentram sa lucram pe partea de system configurations adica github repo si exact folderul alocat google. response\\\_type=code\&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.modify+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar+https%3A%2F%
+-
+-
+-
+-10/22 04:28
+-
+-
+-
+-Nu te-am mai cerut aprobări — nici o dată în ultimele runde. Ce cer e \*\*codul\*\*, care e altceva: nu pot obține un token fără el.
+-
+-
+-
+-\### De ce nu e în ce ai trimis
+-
+-
+-
+-Sunt \*\*două\*\* URL-uri, și tu mi-ai trimis de două ori primul:
+-
+-
+-
+-|  | Ce e | Cod? |
+-
+-| --- | --- | --- |
+-
+-| `accounts.google.com/o/oauth2/v2/auth?client\_id=…` | \*\*cererea\*\* — ce ai deschis tu. Rămâne în istoric. | ❌ conține doar `response\_type=code` — ăla e numele parametrului, nu valoarea |
+-
+-| `http://127.0.0.1:8976/?code=4/0Aean…` | \*\*răspunsul\*\* — ce te trimite Google după Allow | ✅ \*\*codul e aici\*\* |
+-
+-
+-
+-Al doilea apare în bara de adresa a paginii cu „This site can't be reached". Ai copiat din tabul cu pagina de autentificare, nu din cel cu ecranul de eroare.
+-
+-
+-
+-\### Varianta care nu mai poate pica — îți dă tokenul direct
+-
+-
+-
+-Un command pe calculatorul tău. Deschide browserul singur, prinde codul singur, și \*\*îți afișează tokenul gata de lipit\*\* în formatul exact pentru env vars:
+-
+-
+-
+-bash
+-
+-
+-
+-```bash
+-
+-cd <repo> \&\& git pull \&\& node mavis-tools/google-local.js
+-
+-```
+-
+-
+-
+-Am updatat `google-local.js` ca să tipărească:
+-
+-
+-
+-text
+-
+-
+-
+-```text
+-
+-GOOGLE\_REFRESH\_TOKEN\_MAVIS\_CLOUD = 1//03z...
+-
+-```
+-
+-
+-
+-îl copiezi, îl pui în Environmental Information → Secrets, și eu verific din cloud. \*\*Zero URL-uri copiate, zero coduri, zero greșeli de tab.\*\* (I-am pus și un avertisment în script care explică diferența dintre cele două URL-uri.)
+-
+-
+-
+-Alternativa manuală, dacă nu vrei terminal: tabul cu ecranul de eroare → bara de adresa → copiază \*\*întregul\*\* URL (începe cu `http://127.0.0.1:8976/?code=`).
+-
+-
+-
+-\### Repo-ul e actualizat — verificat live, fără token
+-
+-
+-
+-Nu te spun că am făcut ceva. \*\*Verific pe repo-ul public, acum:\*\*
+-
+-
+-
+-| Sursă | Stare |
+-
+-| --- | --- |
+-
+-| `AGENTS.md` | `## Regula 1 — valorile din secret manager NU trec prin chat` + `## Regula 2 — comit și push fără aprobare` ✅ |
+-
+-| `docs/PROCEDURA-LIVRARE-SECRETE.md` | 8 secțiuni, de la clasificare până la livrare ✅ |
+-
+-| `.skills/mavis-secure-delivery/` | skill nou ✅ |
+-
+-| `.skills/google-cloud-auth/` | procedura în \*\*9 pași numerotați\*\* ✅ |
+-
+-| `.skills/sandbox-gotchas/` | \\+ mascarea, + cert expirat `api.github.com` (`curl -k`), + rețea intermitentă ✅ |
+-
+-| `.skills/mavis-repo/` | corectat: nu mai cere confirmare la commit ✅ |
+-
+-| `docs/DEFINITIE-OPERATIONALA.md` | \*\*Arhitectura sistemului\*\* — Drive = suprafață de lucru (PKM + execuție), repo = configurație + back-up + puntea Cloud↔Local, Local = administrare configurație, Cloud = agent ✅ |
+-
+-| `18-GOOGLE/` | `MavisCloud-Google.md` + Priming KIT (STATUS, HANDOFF, PROMPT-START) + `AUTORIZARE-LINK.txt` ✅ |
+-
+-| `docs/INTENTII.md` | intenția pentru Mavis Local ✅ |
+-
+-
+-
+-Repo-ul e \*\*public\*\*, acces anonim confirmat. Ultimul commit: `97ecf49`. Am sincronizat și skill-urile din repo care erau \*\*vechi\*\* — Localul tău ar fi continuat cu proceduri greșite.
+-
+-
+-
+-\*\*Ce mai lipsește: tokenul.\*\* Îl iau din cod pe care îl primește `google-local.js` direct pe ecranul tău, sau din URL-ul de redirect. Restul îl fac eu în același tur: scriu în secret manager, verific live per serviciu, și mai departe cu `18-GOOGLE/` + In production.
+-
+-
+-
+-10/22 04:28
+-
+-
+-
+-!\[image.png](https://matrix-internal.oss-us-east-1.aliyuncs.com/5bf1f69b-3b36-4b9b-9994-3a00847a7ace?Expires=1793080583\&OSSAccessKeyId=LTAI5tRgbJ63ieNp3YeXRwFH\&Signature=UsJX/asi52urdn4BAFIApOZstGY%3D)
+-
+-
+-
+-PS C:\\\\users\\\\apviz\\\\.minimax-agent\\\\projects\\\\mavis-optimus-continuous-integration\\\\mavis-cloud> node mavis-tools/google-local.js PS C:\\\\users\\\\apviz\\\\.minimax-agent\\\\projects\\\\mavis-optimus-continuous-integration\\\\mavis-cloud> Nu AM CE SA-TI DAU ALTCEVA!
+-
+-
+-
+-10/22 04:36
+-
+-
+-
+-\*\*Error 400\*\* — that's new and diagnostic. And look at your terminal: the script printed \*\*nothing\*\* and exited instantly. Two bugs. Let me read the actual script.
+-
+-
+-
+-Read file `google-local.js` （96～155）
+-
+-
+-
+-10/22 04:37
+-
+-
+-
+-\[http://127.0.0.1:8976/?iss=https://accounts.google.com\&code=4/0AXlqoi5tp\\\_iO54I9Sw1CtSEW1Ro6FSA-TsejlZ1jrLH7\\\_Wa1F5l1SPcOig7oG9\\\_7XFv18g\&scope=https://www.googleapis.com/auth/drive%20https://www.googleapis.com/auth/presentations%20https://www.googleapis.com/auth/documents%20https://www.googleapis.com/auth/spreadsheets%20https://www.googleapis.com/auth/calendar%20https://www.googleapis.com/auth/gmail.modify](http://127.0.0.1:8976/?iss=https://accounts.google.com\&code=4/0AXlqoi5tp\_iO54I9Sw1CtSEW1Ro6FSA-TsejlZ1jrLH7\_Wa1F5l1SPcOig7oG9\_7XFv18g\&scope=https://www.googleapis.com/auth/drive%20https://www.googleapis.com/auth/presentations%20https://www.googleapis.com/auth/documents%20https://www.googleapis.com/auth/spreadsheets%20https://www.googleapis.com/auth/calendar%20https://www.googleapis.com/auth/gmail.modify) l-am obtiunt acum
+-
+-
+-
+-10/22 04:38
+-
+-
+-
+-\## ✅ Conectat. Tokenul e în secret manager și funcționează.
+-
+-
+-
+-Am schimbat codul, scris tokenul în secret manager (`GOOGLE\_REFRESH\_TOKEN\_MAVIS\_CLOUD`), și verificarea live trece cu \*\*numere reale\*\*:
+-
+-
+-
+-| Serviciu |  | Măsurătoare |
+-
+-| --- | --- | --- |
+-
+-| \*\*Gmail\*\* | ✅ | {{ARCHON\\\_SECRET:LINKEDIN\\\_EMAIL}} · \*\*84.313 mesaje\*\* · \*\*78.519 thread-uri\*\* · 50 etichete (8 MAVIS/\\\*) |
+-
+-| \*\*Drive\*\* | ✅ | \*\*104,07 GB / 5498 GB\*\* |
+-
+-| \*\*Calendar\*\* | ✅ | 4 calendare |
+-
+-| \*\*Sheets\*\* | ✅ | "Design\\\_Jobs\\\_Community\\\_Board" → 23 rânduri |
+-
+-| \*\*Slides\*\* | ✅ | "441DPH-Brief slides…" → 7 slide-uri |
+-
+-| \*\*Docs\*\* | ⚠️ | API-ul blocat din cloud (anti-bot) — \*\*conținutul trece prin Drive export\*\*, a returnat text real |
+-
+-| \*\*Photos\*\* | ⛔ | blocat din cloud — merge de pe calculatorul tău |
+-
+-| \*\*Maps\*\* | ⛔ | cere API key + billing |
+-
+-
+-
+-\*\*Tu nu mai ai nimic de făcut pentru conectare.\*\*
+-
+-
+-
+-\### De ce ai primit „Error 400"
+-
+-
+-
+-Două lucruri, ambele reparate în repo:
+-
+-
+-
+-1.\*\*Scriptul tău local era o versiune veche\*\* — nu ai dat `git pull`. Versiunea veche includea scope-ul `photoslibrary.readwrite`, iar Google îl respinge cu `invalid\_scope` → \*\*exact „Error 400 / Bad Request"\*\*.
+-
+-
+-
+-2.\*\*Bug real în `google-local.js` pe Windows:\*\* `cmd /c start "" "<url>"` trece prin cmd, care expandează `%VAR%`. URL-ul OAuth e plin de `%3A %2F %26` → linkul se strica. Acum folosește `rundll32`, care nu atinge cmd.
+-
+-
+-
+-Și: serverul verifica calea `/callback`, dar redirect\\\_uri nu are cale → Google trimite pe `/` → 404 → \*\*codul pierdut, scriptul tău nu afișa nimic\*\*. Acum acceptă orice cale.
+-
+-
+-
+-Toate trei reparate, plus `git pull` afișat la rulare, plus avertisment pentru „Error 400" cu diagnostic exact.
+-
+-
+-
+-\### Repo — totul commited și pushuit
+-
+-
+-
+-`ce524b4` + `98add34` pe `main`, repo public. Adăugat:
+-
+-
+-
+-text
+-
+-
+-
+-```text
+-
+-mavis-tools/kit.js                        ← docs URL reparat, fallback TLS, docs.text() prin Drive export
+-
+-mavis-tools/google-local.js               ← rundll32, orice cale, mesaje, git pull
+-
+-mavis-tools/google-verify.js              ← structura reală din Drive (folderul Alex Work nu mai există)
+-
+-mavis-tools/google-preflight.js           ← verdict pe un singur rând
+-
+-.skills/google-cloud-auth/                ← starea reală + tabela de capcane reparate
+-
+-.skills/sandbox-gotchas/                  ← + cmd % expansion, + redirect fără cale, + cert expirat
+-
+-docs/GOOGLE-STATUS-2026-10-22.md          ← secțiunea 9: stare finală cu măsurători
+-
+-18-GOOGLE/                                ← doc + Priming KIT actualizate
+-
+-```
+-
+-
+-
+-Am sincronizat și \*\*skill-urile din repo\*\*, care erau vechi — Localul tău ar fi lucrat cu proceduri greșite.
+-
+-
+-
+-\### Ce rămâne: In production
+-
+-
+-
+-Tokenul e obținut la \*\*01:39 UTC\*\*. Cât timp appul e în Testing, \*\*moare în 7 zile\*\* → \~29 octombrie. Am pus un self-check la \*\*27 octombrie\*\*, cu procedura completă în prompt, ca să nu mai trebuiască să re-facem asta.
+-
+-
+-
+-Checklist-ul e pregătit în `docs/GOOGLE-PRODUCTION-CHECKLIST.md` — User type External, App name, support email, developer contact email, Audience External, apoi \*\*Publish app → In production\*\*. Spune-mi când ai setările și te duc prin pași.
+-
+-
+-
+-\*\*Notă:\*\* ai pus în secret manager `GOOGLE\_CLIENT\_TOKEN\_MAVIS\_CLOUD` (linkul) și `GOOGLE\_OAUTH\_MAVIS\_CLOUD` (credentials.json). Le-am lăsat neatinse — tooling-ul nu le folosește, dar nu le-am șters fără să cer.
+-
+-
+-
+-\## ✅ Google conectat și măsurat
+-
+-
+-
+-| Serviciu |  | Măsurătoare |
+-
+-| --- | --- | --- |
+-
+-| \*\*Gmail\*\* | ✅ | \*\*84.316 mesaje\*\* · 78.522 thread-uri · 50 etichete (8 MAVIS/\\\*) |
+-
+-| \*\*Drive\*\* | ✅ | \*\*104,07 GB / 5498 GB\*\* |
+-
+-| \*\*Calendar\*\* | ✅ | 4 calendare |
+-
+-| \*\*Sheets\*\* | ✅ | "Design\\\_Jobs\\\_Community\\\_Board" → 23 rânduri |
+-
+-| \*\*Slides\*\* | ✅ | "441DPH-Brief slides…" → 7 slide-uri |
+-
+-| \*\*Docs\*\* | ✅ | contentul merge prin Drive export (API-ul e anti-bot din cloud) |
+-
+-| \*\*Photos\*\* | ⛔ | blocat din cloud — merge de la tine |
+-
+-| \*\*Maps\*\* | ⛔ | cere API key + billing |
+-
+-
+-
+-Tokenul e în secret manager. \*\*Nu mai ai nimic de făcut.\*\*
+-
+-
+-
+-\*\*Error 400-ul tău:\*\* scriptul local era o versiune veche (fără `git pull`) → scope invalid. Plus un bug real: `cmd /c start` pe Windows expandează `%VAR%` și strica linkul. Reparate amândouă.
+-
+-
+-
+-\## Am descoperit sistemul tău real
+-
+-
+-
+-Când tokenul a intrat, am putut citi vaultul. \*\*Arhitectura din repo era incompletă\*\* — corectată acum:
+-
+-
+-
+-|  |  |
+-
+-| --- | --- |
+-
+-| \*\*Vault\*\* | `GDrive-Second\_Brain\_PKMS` — 51.157 fișiere · 88,72 GiB · paritate 100% |
+-
+-| \*\*Oglindă locală\*\* | `E:\\Google\\GDrive\\...` pe NVMe, sincronizată bit-cu-bit |
+-
+-| \*\*Git decuplat\*\* | `E:\\Google\\GitData-PKMS` (`.git` = pointer de 31 octeți) |
+-
+-| \*\*Repo #2\*\* | `apvizual-max/pkms-vault-automation` (master) — motorul, indexurile, handoff-urile. \*\*Privat\*\* |
+-
+-| \*\*Repo #3\*\* | `MAVIS-CLOUD` — eu + puntea. \*\*Public\*\* acum |
+-
+-| \*\*3 agenți\*\* | Mavis Local (frontend) · \*\*Antigravity Sentinel\*\* (backend/suveran) · Mavis Cloud (eu) |
+-
+-| \*\*4 taskuri\*\* | PKMS-Aliniere · Watch · GitAutoCommit · DriveFS-AutoRepair |
+-
+-
+-
+-Structura e PARA: `00\_Inbox` → `01\_Projects` (6 rafturi, aici se lucrează) → `02\_Areas` → `03\_Resources` → … → `\_SYSTEM` / `\_ARCHIVE` / `\_QUARANTINE`. Vault Obsidian, cu `COTOR.md` ca contract.
+-
+-
+-
+-\### Ce am construit
+-
+-
+-
+-text
+-
+-
+-
+-```text
+-
+-mavis-tools/drive-vault.js     ← READ-ONLY. Singura excepție: quarantine mută (nu șterge),
+-
+-&#x20;                                 cere --confirm + motiv, și refuză zonele protejate.
+-
+-docs/ARHITECTURA-SISTEM.md     ← arhitectura reală, măsurată
+-
+-docs/REGULI-VAULT.md            ← cele 8 reguli ale tale, întregi
+-
+-.skills/pkms-vault-drive/       ← skill nou, ca să nu afle alt agent regulile de la zero
+-
+-```
+-
+-
+-
+-Și \*\*Regula 3 în AGENTS.md\*\* + o verificare R0 nouă: `git status` trebuie să fie gol după commit — a prins o omisiune reală a mea (un fișier editat rămăs necomitat, push-ul a dus o versiune incompletă).
+-
+-
+-
+-\*\*Audit de `pkms-vault-automation`:\*\* zero secrete reale. Matcher-ul meu a lovit \*\*fixture-urile auto-testului detectorului de secrete\*\* din vault (`ghp\_0123456789…`, `AKIA-EXEMPLU-AWS`) — detectorul tău funcționează, eu l-am declanșat pe el.
+-
+-
+-
+-\## Două decizii care te așteaptă
+-
+-
+-
+-\*\*1\\. `pkms-vault-automation` — public sau rămâne privat?\*\* E curat de secrete, dar indexurile expun \*\*nume de clienți\*\* (Knights Templar, Futureheads, AP-ID.ro) și subiecte de job-uri prin calea fișierelor. MAVIS-CLOUD are doar contorizări și documentație. \*\*Nu l-am făcut public\*\* — tu ai numit MAVIS-CLOUD, și ăsta e alt nivel de expunere. Spune-mi și îl fac, sau îl lasem privat.
+-
+-
+-
+-\*\*2\\. In production\*\* — tokenul moare pe \*\*29 octombrie\*\*. Checklist-ul e pregătit cu fiecare setare. Am un self-check pe 27, cu procedura completă.
+-
+-
+-
+-10/22 05:46
+-
+-
+-
+-deci confirma-mi te rog fara sa ma minti si daca nu poti confirma spune dar straduieste-te sa reusesti sa-mi poti confirma daca este posibil si nu te-ai blocat pe undeva: 1. Acum putem lucra in orice sesiune noua cu google drive fara probleme de aici din Mavis Cloud? 2. cand expira tokenul, avem direct o procedura prin care sa-l refacem simplu si fara aceste batai de cap, repede si eficient, prin reautentificarea cu link corect cum am facut acum si rescrierea tokenului creat de tine acum corect, daca la intrebarea 1 raspunsul este da? 3. Pot lansa acum o conversatie paralela in care sa lucrez pe gdrive si alta pentru a lucra pe gmail ca sa-mi pot face workflowul de care am nevoie sau o sa am aceste dificultati iarasi in alta sesiune paralela noua? am nevoie sa-mi pot dezvolta mai departe workflowurile pe gmail si gdrive in sesiuni paralele diferite, separate intre ele si de aceasta, pot face asta acum? 4. Ai updatat repoul de pe github la sectiune google / in folderul de google ca sa incluzi absolut tot ce am facut corect acum in acesta discutie si in acelasi timp cu skillurile si procedurile updatate ca sa includa tot ce avem nevoie mai departe si am refer aici la skilluri, procese, proceduri, etc.? la acest punct ar trebui sa avem in repo inca un folder pentru tot ce tine de GDRIVE, asa cum avem pentru GMAIL. iar folderul de google se va referi la setupul pe care l-am refacut acum corect. si ar trebui sa mai existe un folder cu "TO DOs" iar in acest folder trebuiesc trecute toate taskurile MELE care tin strict de mine ca arhitect de system si pe care trebuie sa le decid, conduc sau orchestrez eu in dezvoltarea lor mai departe pentru ca tie iti lipseste directia clara. deocamdata aici trebuie sa intre de exemplu "Publish" la aplicatie ca sa nu mai refacem autentificarea la 7 zile. iar pentru asta am nevoie sa fac niste configurari in google pentru a purea da publish. acesta este un exemplu dar tot ce tine de mine in acest mod adica trebuie sa iti dau acces, sau trebuie sa-ti dau tools sau sa fac eu configurari ca sistemul sa evolueze sau iti trebuie aprobari de la mine pe car enu le poti rezolva tu singur prin calcularea intersesctiei dintre logica ratiune si strategie, cautand solutia care le cuprinde pe toate trei perspectivele si unde toate trei se intersecteaza, aceia ar trebui sa fie solutia ta, daca u o gasesti si ai nevoie de R0 pentru ca lipseste perspectiva corecta pe oricare din cele 3 planuri logica ratiune si strategie...toate aceste aspecte ce tine d emine intra la TO DOs. si acesta va fi working folderul meu in repo.
+-
+-
+-
+-10/22 06:04
+-
+-
+-
+-\## Răspunsuri confirmate — fiecare verificat, nu estimat
+-
+-
+-
+-\### 1\\. Putem lucra cu Drive în orice sesiune nouă?
+-
+-
+-
+-\*\*DA — dar am găsit o gaură și am reparat-o.\*\*
+-
+-
+-
+-O sesiune nouă pornește cu `HOME` gol, fără config git → primul `git clone` pica cu "server certificate verification failed". Am reprodus exact asta într-un HOME curat.
+-
+-
+-
+-\*\*Reparul:\*\* `bash mavis-tools/bootstrap.sh` — configurează proxy-ul, clonează repo-ul, dă verdictul pe Drive/Gmail. \*\*Testat din HOME proaspăt\*\*, merge.
+-
+-
+-
+-\### 2\\. Când expiră tokenul, procedura e rapidă?
+-
+-
+-
+-\*\*DA — 2 comenzi + 2 click-uri ale tale, \~3 minute.\*\*
+-
+-
+-
+-bash
+-
+-
+-
+-```bash
+-
+-node mavis-tools/google-refresh.js link        # generează + pushuiește linkul
+-
+-node mavis-tools/google-refresh.js code "<url>"  # schimbă codul → token
+-
+-```
+-
+-
+-
+-Eu scriu tokenul în secret manager și verific live. Tu doar apeși Allow și îmi dai codul.
+-
+-
+-
+-\*\*Și am reparat o capcană:\*\* `prompt=consent` \*\*revocă\*\* tokenul precedent (docs oficiale Google). Deci procedura \*\*nouă\*\* folosește automat `select\_account` când tokenul e viu — \*\*nu mai strică nimic\*\*.
+-
+-
+-
+-\### 3\\. Sesiuni paralele — Gmail și Drive?
+-
+-
+-
+-\*\*DA.\*\* Infrastructura e gata, tokenul e în secret manager → toate sesiunile îl moștenesc.
+-
+-
+-
+-\*\*O singură regulă, verificată:\*\* re-autentificarea e \*\*cu un singur scriitor\*\*. Două sesiuni care se re-autentifică simultan se distrug (a doua revocă tokenul primei). De aceea `google-refresh.js` e non-revoking când tokenul e viu. Restul — citit, scris, workflow-uri — e paralelizabil fără probleme.
+-
+-
+-
+-\### 4\\. Repo-ul actualizat?
+-
+-
+-
+-\*\*DA, și am creat cele două foldere.\*\*
+-
+-
+-
+-text
+-
+-
+-
+-```text
+-
+-18-GOOGLE/     ← setupul Google (OAuth, token, proceduri)
+-
+-19-GDRIVE/     ← NOU: operațiile pe Drive + REGULI-VAULT.md mutat aici + Drive Priming KIT/STATUS.md
+-
+-20-TO-DOs/     ← NOU: working folder-ul tău + metoda ta                + 4 taskuri reale + \_TEMPLATE.md
+-
+-```
+-
+-
+-
+-\*\*Metoda scrisă exact cum ai spus-o:\*\* LOGICĂ ∩ RAȚIUNE ∩ STRATEGIE → \*\*intersecția e soluția mea, o construiesc, nu te întreb\*\*. Dacă o perspectivă lipsește → \*\*intră în TO DOs cu R0 scris\*\*.
+-
+-
+-
+-\*\*Cele 4 taskuri reale în TO DOs:\*\*
+-
+-
+-
+-| # | Task | Ce așteaptă de la tine |
+-
+-| --- | --- | --- |
+-
+-| 01 | \*\*Publish la app\*\* ( exemplul tău) | setările din Cloud Console — cu fiecare câmp explicat |
+-
+-| 02 | `pkms-vault-automation` public? | decizie — \*\*cu alternativa B pe care o pot face singur\*\* (mirror sanitizat) |
+-
+-| 03 | Direcția workflow-urilor Gmail/Drive | 3 răspunsuri concrete; recomand workflow-ul de joburi |
+-
+-| 04 | Profilul tău ca designer | întrebările din 08 oct, încă fără răspuns |
+-
+-
+-
+-\*\*TO DO 02 e scris cu recomandare, nu cu întrebare goală\*\* — și spune explicit că pot construi alternativa care nu expune nimic.
+-
+-
+-
+-\### Două lucruri de care trebuie să știi
+-
+-
+-
+-\*\*Un commit al meu a rămas incomplet\*\* — un fișier editat n-a intrat în commit, iar push-ul a dus o versiune fără el. L-am prins verificând repo-ul public. \*\*Am adăugat în R0: `git status --porcelain` trebuie să fie gol după commit.\*\* E în skill-ul de git.
+-
+-
+-
+-\*\*Rețeaua cloud → Google e intermitentă\*\* (certificat expirat la gateway, \~20-50% pierderi). Am pus retry + fallback `https.request`. De aceea `google-preflight.js` spune acum \*\*"INDETERMINAT (rețea)"\*\* în loc să-ți spună că credentialele sunt greșite.
+-
+-
+-
+-10/22 06:22
+-
+-
+-
+-1\\. Edit file (Failed) Input { "file\\\_path": "/workspace/mavis-cloud/AGENTS.md", "new\\\_string": "\\\*\\\*Regula 0 — nu se negociază\\\*\\\*\\\\n\\\\n\\\*\\\*Un singur deployment:\\\*\\\*\\\\n\\`\\`\\`\\\\n \[https://da15e9yb994ps.space.minimax.io](https://da15e9yb994ps.space.minimax.io/) \\\\n\\`\\`\\`\\\\n\\\*\\\*Niciodată altul\\\*\\\*, fără cerere explicită de la POPY. Fiecare deploy creează\\\\nun site nou în panoul lui. Am făcut asta de trei ori și l-am stricat.\\\\n\\\\n\\\*\\\*Ramuri: nu.\\\*\\\* Se lucrează pe \\`main\\`. Ramură se face \\\*\\\*doar\\\*\\\* când POPY o cere.\\\\n\\\\n\\\*\\\*Version control este git\\\*\\\*, nu deployment-uri. Deployment-ul e doar un website.\\\\n\\\\n## Regula 1 — nu se negociază: valorile din secret manager NU trec prin chat\\\\n\\\\nPlatforma \\\*\\\*maschează\\\*\\\* valorile din secret manager în mesajele mele:\\\\n\\`{{ARCHON\\\_SECRET:NUME}}\\`. Ce ajunge la POPY e un placeholder, nu valoarea.\\\\n\\\\n\\\*\\\*2026-10-22:\\\*\\\* un link de autorizare OAuth trimis în chat a ajuns în browser\\\\ncu \\`client\\\_id=%7B%7BARCHON\\\_SECRET%3A...%7D%7D\\` → \\\*Error 401: invalid\\\_client\\\*.\\\\nTrei runde de diagnostic până am citit bara de adresa a browserului.\\\\n\\\\n\\`\\`\\`bash\\\\n# TEST: valoarea e mascat sau reala?\\\\nnode -e 'console.log(process.env.GOOGLE\\\_CLIENT\\\_ID\\\_MAVIS\\\_CLOUD)' # real -> complet\\\\n# aceeasi valoare in chat # -> {{ARCHON\\\_SECRET:...}}\\\\n\\`\\`\\`\\\\n\\\\n\\\*\\\*Dacă bash-ul arată valoarea și chatul arată placeholder → problema e\\\\nlivrarea, nu credentialul.\\\*\\\* Nu cere lui POPY să schimbe chei.\\\\n\\\\n### Cum se livrează corect\\\\n\\\\n1. \\\*\\\*Identificatorii publici\\\*\\\* (\\`client\\\_id\\`, project number) → în repo, ca sursă\\\\n unică: \\`mavis-tools/google-client.json\\`.\\\\n2. \\\*\\\*Scriptul generează artefactul în repo\\\*\\\*, nu în chat:\\\\n \\`node mavis-tools/google-link-file.js\\` → \\`18-GOOGLE/AUTORIZARE-LINK.txt\\`.\\\\n3. \\\*\\\*Comit + push. Fără aprobare.\\\*\\\*\\\\n4. \\\*\\\*Livreză URL de repo\\\*\\\* (nu conține secret, nu se maschează):\\\\n \\` \[https://github.com/apvizual-max/MAVIS-CLOUD/blob/main/18-GOOGLE/AUTORIZARE-LINK.txt](https://github.com/apvizual-max/MAVIS-CLOUD/blob/main/18-GOOGLE/AUTORIZARE-LINK.txt) \\`\\\\n5. \\\*\\\*Codul de autorizare\\\*\\\* poate veni prin chat. \\\*\\\*Secretele nu\\\*\\\* — vin prin\\\\n panoul de secrete sau prin tool-ul \\`secret\\`.\\\\n\\\\nProcedura lungă: \\`docs/PROCEDURA-LIVRARE-SECRETE.md\\`... Error Could not find the exact text in /workspace/mavis-cloud/AGENTS.md. The old text must match exactly including all whitespace and newlines. If oldText was written from memory or an earlier read, the file may have changed since - use the read tool to reload it before retrying. 2. Două lucruri de care trebuie să știi Un commit al meu a rămas incomplet — un fișier editat n-a intrat în commit, iar push-ul a dus o versiune fără el. L-am prins verificând repo-ul public. Am adăugat în R0: git status --porcelain trebuie să fie gol după commit. E în skill-ul de git. 3. Rețeaua cloud → Google e intermitentă (certificat expirat la gateway, \~20-50% pierderi). Am pus retry + fallback https.request. De aceea google-preflight.js spune acum "INDETERMINAT (rețea)" în loc să-ți spună că credentialele sunt greșite. 4. pkms-vault-automation — public sau rămâne privat? E curat de secrete, dar indexurile expun nume de clienți (Knights Templar, Futureheads, AP-ID.ro) și subiecte de job-uri prin calea fișierelor. MAVIS-CLOUD are doar contorizări și documentație. Nu l-am făcut public — tu ai numit MAVIS-CLOUD, și ăsta e alt nivel de expunere. Spune-mi și îl fac, sau îl lasem privat. - PUBLIC ramane!... asa cum ti-a rezultat si tie analizand. intersectia Logica strategie si ratiune. rezolva te rog tot ce mai este de facut
+-
+-
+-
+-10/22 07:47
+-
+-
+-
+-\## Rezolvat. Și a ieșit un cadou neașteptat.
+-
+-
+-
+-\### Starea repo-urilor — 7 publice, 3 private
+-
+-
+-
+-\*\*Public\*\* (aplicațiile conectate trebuie să le analizeze): `MAVIS-CLOUD` · `pkms-vault-automation` · `hermes-doctor` · `MAVIS-OPTIMUS-CI` · `OPTIMUS-Backbone` · `Optimus-Mavis-Skills` · `hermes-local-backup`
+-
+-
+-
+-\*\*Private\*\* (arhive, transcripte, media, secrete): `hermes-agent-temp` · `Qwen-Ecosystem-Dashboard` · `SENTINEL\_PRIME`
+-
+-
+-
+-`pkms-vault-automation` → \*\*public\*\*, cum ai decis. Auditul înainte de flip a fost \*\*complet\*\* — și asta a schimbat răspunsul la o întrebare.
+-
+-
+-
+-\### Ce am găsit în repo-uri care erau deja publice din august
+-
+-
+-
+-Le-am auditat pe toate și \*\*am găsit expunere live\*\*:
+-
+-
+-
+-|  |  |
+-
+-| --- | --- |
+-
+-| \*\*Refresh token Google\*\* în `hermes-local-backup` | era \*\*VIU\*\* → \*\*l-am revocat\*\* (HTTP 200) |
+-
+-| \*\*Refresh token Google\*\* în `hermes-agent-temp` | deja mort |
+-
+-| \*\*Cheie API Google\*\* în istoricul lui `hermes-agent-temp` | \*\*VERIFICAT VIE\*\* (403 = recunoscută; metoda e calibrată — placeholder-ul din același repo dă 400 „API key not valid") |
+-
+-
+-
+-Repo-ul cu cheia e acum \*\*private\*\* → expunerea nouă e oprită. \*\*Cheia e în secret manager\*\* ca `GOOGLE\_API\_KEY\_EXPOSED\_HERMES\_TEMP` — o iei de acolo și o rotești în Cloud Console. \*\*TO DO 05\*\*, cu instrucțiunea de verificare.
+-
+-
+-
+-\### Am greșit eu, și GitHub m-a oprit
+-
+-
+-
+-Am scris valori reale de secrete într-un document dintr-un repo public. \*\*Push-ul a fost refuzat de secret-scanning\*\* — corect, pentru motivul care contează. Am refăcut commitul cu valorile redacted și le-am mutat în secret manager.
+-
+-
+-
+-\*\*Regula nouă, în skill:\*\* nicio valoare de secret într-un repo public — nici revocată, nici de rotit. Doar prefix + referință. Plus: \*\*auditul se face pe istoricul complet\*\* (`--unshallow` + toate ramurile) — primul meu audit a fost pe un clone shallow și a ratat 177 de commituri.
+-
+-
+-
+-\### Fals pozitivuri confirmate, ca să nu te sperii
+-
+-
+-
+-`ghp\_xxxx…` · `GOCSPX-aaaa…` · `AKIA-EXEMPLU-AWS` (cheia exemplu AWS) · `glpat-AbCdEf…` · `xoxb EXEMPLU` · un șir `1//…` găsit \*\*în interiorul unui JPEG base64\*\* · fixture-uri din auto-testul detectorului tău de secrete.
+-
+-
+-
+-\### TO DOs — 1 închis, 1 nou
+-
+-
+-
+-| # | Task | Stare |
+-
+-| --- | --- | --- |
+-
+-| 01 | Publish la app OAuth | ⏳ așteaptă pe tine |
+-
+-| 02 | Vizibilitate repo-uri | ✅ \*\*DECIZIE: PUBLIC\*\* — rezolvat, cu tot istoricul auditat |
+-
+-| 03 | Direcția workflow-urilor Gmail/Drive | ⏳ așteaptă pe tine |
+-
+-| 04 | Profilul de designer | ⏳ așteaptă pe tine |
+-
+-| \*\*05\*\* | \*\*Rotește cheia API Google\*\* | ⏳ \*\*nou\*\* — e singura expunere rămasă |
+-
+-
+-
+-\*\*Un singur lucru de la tine rămâne în plus față de ce știai:\*\* rotește cheia din TO DO 05. Restul e rezolvat sau te așteaptă pe tine prin decizii, nu prin tehnică.
+-
+-
+-
+-Auditul complet e în repo: `docs/AUDIT-VIZIBILITATE-REPO-URI.md` — cu metoda de verificare „e vie sau e placeholder?" pentru orice cheie, ca să nu mai stai după un audit de 3 ore.
+-
+-
+-
+-10/22 07:48
+-
+-
+-
+-<iframe allow="clipboard-write; web-share" src="chrome-extension://cnjifjpddelmedmihgijeibhnjfabmlf/side-panel.html?context=iframe"></iframe>
+-
+diff --git a/docs/PUNCT-DE-CONTROL.md b/docs/PUNCT-DE-CONTROL.md
+index 08fdc3c..92efaa5 100644
+--- a/docs/PUNCT-DE-CONTROL.md
++++ b/docs/PUNCT-DE-CONTROL.md
+@@ -11,7 +11,7 @@ measurement that produced each one is named next to it.
+ ## The command
+ 
+ ```powershell
+-node "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\scripts\ga-doctor.mjs"
++node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\scripts\ga-doctor.mjs"
+ ```
+ 
+ Exit **0** = every critical check passed. Exit **2** = at least one failed.
+diff --git a/docs/STARE-MASURATA.md b/docs/STARE-MASURATA.md
+index 4f57fca..697c970 100644
+--- a/docs/STARE-MASURATA.md
++++ b/docs/STARE-MASURATA.md
+@@ -785,7 +785,7 @@ CHECK C1b.running-code OK   repo=63e4ea8d2bbb running=63e4ea8d2bbb match=true
+ CHECK C2.health OK   grant=live reauth=false tools=32
+ CHECK C3.services OK   state=HEALTHY OK=14 REFUSED=2[keep,sites] ERROR=0[] attempts=1
+ CHECK C4.extendlm OK   token_minutes_left=109 refresh_token=yes cloud_secret_age_min=11
+-CHECK C5.browser-mcp OK   server=minimax-notebooklm tools=4 path=C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\google-layer\minimax-notebooklm.js
++CHECK C5.browser-mcp OK   server=minimax-notebooklm tools=4 path=C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\google-layer\minimax-notebooklm.js
+ CHECK C6.mcp-registry OK   enabled=true url=http://127.0.0.1:8766/mcp type=streamable-http
+ CHECK C10.mcp-paths OK   checked=23 dead_total=0
+ CHECK C7.tasks OK   count=4
+diff --git a/scripts/ensure-consent-watcher.ps1 b/scripts/ensure-consent-watcher.ps1
+index 5f6a6c0..0fb7049 100644
+--- a/scripts/ensure-consent-watcher.ps1
++++ b/scripts/ensure-consent-watcher.ps1
+@@ -21,7 +21,7 @@
+ param(
+     [string]$Node     = 'C:\Program Files\nodejs\node.exe',
+     [string]$Watcher  = 'C:\Users\apviz\.minimax\google-access\consent-watcher.mjs',
+-    [string]$Fallback = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access\container\consent-watcher.mjs',
++    [string]$Fallback = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access\container\consent-watcher.mjs',
+     [int]$WindowMinutes = 720,
+     [int]$Port = 80,
+     [string]$LogDir = 'C:\Users\apviz\.minimax\google-access\logs'
+diff --git a/scripts/ga-doctor.mjs b/scripts/ga-doctor.mjs
+index cfcec63..703d86d 100644
+--- a/scripts/ga-doctor.mjs
++++ b/scripts/ga-doctor.mjs
+@@ -58,7 +58,7 @@ const HEALTH_URL = argOf("--health", "http://127.0.0.1:8766/health");
+ const PROBE = argOf("--probe", "C:/Users/apviz/.minimax/google-access/probe-services.mjs");
+ const NOTEBOOKLM_JS = argOf(
+   "--notebooklm-js",
+-  "C:/Users/apviz/.minimax-agent/projects/Mavis-Google_Access/google-layer/minimax-notebooklm.js"
++  "C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/Mavis-Google_Access/google-layer/minimax-notebooklm.js"
+ );
+ const TASKS = ["Google_Access_Watch", "MavisExtendLMHeartbeat", "MavisPickerHeartbeat", "Google_Access_Doctor"];
+ const EXPECTED_REFUSED = ["keep", "sites"];
+diff --git a/scripts/ga-doctor.ps1 b/scripts/ga-doctor.ps1
+index 436ce7f..e6200c2 100644
+--- a/scripts/ga-doctor.ps1
++++ b/scripts/ga-doctor.ps1
+@@ -12,7 +12,7 @@
+ # ASCII ONLY (Windows PowerShell 5.1). Write-Output contaminates
+ # $LASTEXITCODE here, so the line goes straight to the console handle.
+ param(
+-    [string]$Repo   = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access',
++    [string]$Repo   = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access',
+     [string]$Data   = 'C:\Users\apviz\.minimax\google-access\data',
+     [string]$LogDir = 'C:\Users\apviz\.minimax\google-access\logs'
+ )
+diff --git a/scripts/picker-download.mjs b/scripts/picker-download.mjs
+index 12030b4..53d9ad9 100644
+--- a/scripts/picker-download.mjs
++++ b/scripts/picker-download.mjs
+@@ -16,7 +16,7 @@ const argOf = (flag, dflt) => {
+ };
+ const DATA = "C:/Users/apviz/.minimax/google-access/data";
+ const PICKED = argOf("--picked", path.join(DATA, "picked-media.json"));
+-const OUT = argOf("--out", "C:/Users/apviz/.minimax-agent/projects/Mavis-Google_Access/state/picked");
++const OUT = argOf("--out", "C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/Mavis-Google_Access/state/picked");
+ const CREDS = path.join(DATA, "credentials.json");
+ 
+ async function accessToken() {
+diff --git a/scripts/picker-heartbeat.ps1 b/scripts/picker-heartbeat.ps1
+index fbb2e19..28288b2 100644
+--- a/scripts/picker-heartbeat.ps1
++++ b/scripts/picker-heartbeat.ps1
+@@ -16,7 +16,7 @@
+ # wrapped with the error preference relaxed, and the exit code propagated.
+ param(
+     [string]$DataDir = "C:\Users\apviz\.minimax\google-access\data",
+-    [string]$Repo    = "C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access",
++    [string]$Repo    = "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access",
+     [string]$LogDir  = "C:\Users\apviz\.minimax\google-access\logs"
+ )
+ 
+diff --git a/scripts/probe-minimax-notebooklm.mjs b/scripts/probe-minimax-notebooklm.mjs
+index 1785da2..efe5684 100644
+--- a/scripts/probe-minimax-notebooklm.mjs
++++ b/scripts/probe-minimax-notebooklm.mjs
+@@ -22,7 +22,7 @@ const argOf = (flag, dflt) => {
+ };
+ const FILE = argOf(
+   "--file",
+-  "C:/Users/apviz/.minimax-agent/projects/Mavis-Google_Access/google-layer/minimax-notebooklm.js"
++  "C:/Users/apviz/.minimax-agent/projects/Mavis-Optimus-Dashboard/Mavis-Google_Access/google-layer/minimax-notebooklm.js"
+ );
+ const CALL = argOf("--call", "nblm_health");
+ const NODE = "C:/Program Files/nodejs/node.exe";
+diff --git a/scripts/rebuild-cloud-workflow.py b/scripts/rebuild-cloud-workflow.py
+index 2153dd1..3d43380 100644
+--- a/scripts/rebuild-cloud-workflow.py
++++ b/scripts/rebuild-cloud-workflow.py
+@@ -14,7 +14,7 @@ anchor it replaces, and refuses to write a file that lost a measured property.
+ """
+ import sys
+ 
+-REPO = r"C:\Users\apviz\.minimax-agent\projects\Mavis-Google_Access"
++REPO = r"C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\Mavis-Google_Access"
+ PREV = REPO + r"\state\tmp\cloud-prev-workflow.yml"
+ DEST = REPO + r"\cloud\google-access.yml"
+ 

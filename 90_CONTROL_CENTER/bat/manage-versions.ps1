@@ -24,7 +24,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$CC     = 'C:\Users\apviz\.minimax-agent\projects\90_CONTROL_CENTER'
+$CC     = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\90_CONTROL_CENTER'
 $VER    = "$CC\backups\versions"
 $MAX    = 5
 

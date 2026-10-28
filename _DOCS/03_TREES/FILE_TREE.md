@@ -2,7 +2,7 @@
 
 Generated: 2026-10-04 04:00:09 +03:00
 
-Root: `C:\Users\apviz\.minimax-agent\projects`
+Root: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard`
 
 Depth limited to 4 levels. Junctions are shown with their target and NOT
 followed - they point outside this root and are recreated as junctions in
@@ -223,7 +223,7 @@ scripts/    (109 files: 32 top-level, 75 hermes-custom, 2 __pycache__)
     hermes-agent-scripts  ->  C:\Users\apviz\AppData\Local\hermes\hermes-agent\scripts   [JUNCTION, not followed]
     hermes-scripts  ->  C:\Users\apviz\AppData\Local\hermes\scripts   [JUNCTION, not followed]
     mcp-servers  ->  C:\Users\apviz\AppData\Local\hermes\mcp-servers   [JUNCTION, not followed]
-    sentinel-operational  ->  C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\02_OPERATIONAL\scripts   [JUNCTION, not followed]
+    sentinel-operational  ->  C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME\02_OPERATIONAL\scripts   [JUNCTION, not followed]
   hermes-custom/    (75 files)
     append_email3.py  ->  C:\Users\apviz\AppData\Local\hermes\scripts\append_email3.py   [JUNCTION, not followed]
     append_journal.py  ->  C:\Users\apviz\AppData\Local\hermes\scripts\append_journal.py   [JUNCTION, not followed]

@@ -281,7 +281,7 @@ The honest blocker: **Wayland's invocation surface is not exposed.** Options:
 
 ## Cross-references
 
-- Master gap report: `C:\Users\apviz\.minimax-agent\projects\OPTIMUS_MINIMAX_INTEGRATION_GAP_REPORT.md`
+- Master gap report: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\OPTIMUS_MINIMAX_INTEGRATION_GAP_REPORT.md`
 - Mavis skill index: `C:\Users\apviz\.minimax\agents\mavis\skills\mavis-skill-index\SKILL.md`
 - Wayland workflows: `C:\Program Files\Wayland\resources\bundled-workflows\index.json`
 - Wayland routines: `C:\Program Files\Wayland\resources\bundled-workflows\routines.json`

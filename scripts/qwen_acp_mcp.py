@@ -58,7 +58,7 @@ except ImportError:  # pragma: no cover
     raise
 
 DEFAULT_CWD = os.environ.get(
-    "OPTIMUS_WORKSPACE", r"C:\Users\apviz\.minimax-agent\projects"
+    "OPTIMUS_WORKSPACE", r"C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard"
 )
 QWEN_CMD = os.environ.get(
     "QWEN_CMD", r"C:\Users\apviz\AppData\Local\qwen-code\bin\qwen.cmd"

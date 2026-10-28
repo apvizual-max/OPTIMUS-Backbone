@@ -35,7 +35,7 @@ $ErrorActionPreference = 'SilentlyContinue'
 # duplicated timeout is a timeout that eventually gets edited in one place only.
 # The two git calls below are the ones that deadlocked for five hours.
 . (Join-Path $PSScriptRoot 'run-bounded.ps1')
-if (-not $ProjectsRoot)       { $ProjectsRoot       = Join-Path $env:USERPROFILE '.minimax-agent\projects' }
+if (-not $ProjectsRoot)       { $ProjectsRoot       = Join-Path $env:USERPROFILE '.minimax-agent\projects\Mavis-Optimus-Dashboard' }
 if (-not $ComposeFile)        { $ComposeFile        = Join-Path $env:USERPROFILE 'docker-compose.yml' }
 if (-not $HermesRoot)         { $HermesRoot         = Join-Path $env:LOCALAPPDATA 'hermes' }
 if (-not $MavisSkillsRoot)    { $MavisSkillsRoot    = Join-Path $env:USERPROFILE '.minimax\agents\mavis\skills' }

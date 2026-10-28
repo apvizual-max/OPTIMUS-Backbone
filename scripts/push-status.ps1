@@ -34,13 +34,13 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$CC = 'C:\Users\apviz\.minimax-agent\projects\90_CONTROL_CENTER'
+$CC = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\90_CONTROL_CENTER'
 
 if (-not $Repo -or $Repo.Count -eq 0) {
     $Repo = @(
-        'C:\Users\apviz\.minimax-agent\projects',
-        'C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME',
-        'C:\Users\apviz\.minimax-agent\projects\60_SKILLS\_links\mavis-skills'
+        'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard',
+        'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\SENTINEL_PRIME',
+        'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\60_SKILLS\_links\mavis-skills'
     )
 }
 

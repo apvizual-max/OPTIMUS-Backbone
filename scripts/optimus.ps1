@@ -25,7 +25,7 @@ param(
   [Parameter(Position = 1, ValueFromRemainingArguments = $true)][string[]]$Rest
 )
 $ErrorActionPreference = 'Continue'
-$PROJECTS = 'C:\Users\apviz\.minimax-agent\projects'
+$PROJECTS = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard'
 $SCRIPTS  = "$PROJECTS\scripts"
 
 # ------------------------------------------------------------------ helpers --

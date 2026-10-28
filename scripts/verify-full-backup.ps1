@@ -23,7 +23,7 @@
 #>
 [CmdletBinding()]
 param(
-  [string]$Root = 'C:\Users\apviz\.minimax-agent\projects',
+  [string]$Root = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard',
   [string]$Name = 'FULL_BACKUP_2026-10-03_FINAL',
   [int]$Sample = 150
 )

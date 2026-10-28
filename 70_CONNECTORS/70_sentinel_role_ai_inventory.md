@@ -178,7 +178,7 @@ Popy said the Docker layer runs *"custom Sentinel role AI implementations."* Tha
 
 ## Cross-references
 
-- Master gap report: `C:\Users\apviz\.minimax-agent\projects\OPTIMUS_MINIMAX_INTEGRATION_GAP_REPORT.md`
-- Docker fleet: `C:\Users\apviz\.minimax-agent\projects\70_CONNECTORS\70_docker_fleet_inventory.md`
+- Master gap report: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\OPTIMUS_MINIMAX_INTEGRATION_GAP_REPORT.md`
+- Docker fleet: `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\70_CONNECTORS\70_docker_fleet_inventory.md`
 - Daemon source: `C:\Users\apviz\AppData\Local\hermes\mcp-servers\custom\sentinel-daemon\sentinel_daemon.py`
 - Doctrine: `SENTINEL_OPERATIONAL_DOCTRINE.md` §3 (Triple Crunch), §6 (SOUL ↔ CONSTINTA)

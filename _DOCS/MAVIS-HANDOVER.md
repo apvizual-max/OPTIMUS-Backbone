@@ -149,7 +149,7 @@ grea pe firul cererii.
 
 ## 5. HARTA FIȘIERELOR
 
-**Totul sub** `C:\Users\apviz\.minimax-agent\projects\`
+**Totul sub** `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\`
 
 ```
 90_CONTROL_CENTER\              ← produsul
@@ -218,11 +218,11 @@ Index · OBSIDIAN · OmniRouter
 ```powershell
 # certificarea completă — 39 de verificări, trebuie 3 consecutive curate
 powershell -NoProfile -ExecutionPolicy Bypass `
-  -File C:\Users\apviz\.minimax-agent\projects\scripts\health-harness.ps1
+  -File C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\scripts\health-harness.ps1
 
 # UI
 powershell -NoProfile -ExecutionPolicy Bypass `
-  -File C:\Users\apviz\.minimax-agent\projects\scripts\verify-ui.ps1
+  -File C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\scripts\verify-ui.ps1
 
 # stare live, read-only
 (Invoke-WebRequest http://127.0.0.1:8900/api/state -UseBasicParsing).Content
@@ -360,7 +360,7 @@ de machine dă *„Requested registry access is not allowed"*; Program Files dă
 
 ```powershell
 # PowerShell ELEVAT, mai întâi planul
-powershell -ExecutionPolicy Bypass -File C:\Users\apviz\.minimax-agent\projects\scripts\make-ollama-machine-wide.ps1 -WhatIf
+powershell -ExecutionPolicy Bypass -File C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\scripts\make-ollama-machine-wide.ps1 -WhatIf
 ```
 
 `-Mode path` e nedistructiv și reversibil. **NU muta binarul cu mâna** —

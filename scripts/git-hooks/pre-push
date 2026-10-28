@@ -11,6 +11,27 @@
 #
 # Scoaterea portii: git config --local --unset core.hooksPath
 # (si stergerea acestui fisier). Nu se atinge nimic din interfata Popy.
+#
+# NOTA 2026-10-28: acest fisier a disparit de pe disk (cel mai probabil un
+# `git clean` de control negativ in repo-ul backbone, unde hook-ul era
+# neversionat). Consecinta: poarta de push a fost INEXISTENTA timp de cateva
+# ore, iar doua push-uri au trecut fara niciun consum de acord. Fisierul a
+# fost restaurat si versionat in backbone, ca un `git clean` sa nu-l mai
+# poata sterge.
+#
+# NOTA 2026-10-28 (unificare SOT): masurat - versiunea cu NOTA de mai sus NU
+# se gassea in istoricul niciunuia dintre ref-uri (git log --all -S 'NOTA
+# 2026-10-28' -> gol; singurul commit pe aceasta cale era bf6997a, 883 octeti,
+# fara NOTA). A fost recuperata din copia ramasa la
+# projects\scripts\git-hooks\pre-push si a devenit varianta CANONICA.
+# Acum exista un singur fisier al portii:
+#   SOT\scripts\git-hooks\pre-push        <- varianta canonica (versionata)
+#   SOT\.git\hooks\pre-push               <- copia instalata (activate)
+#   projects\scripts\git-hooks\pre-push   <- junction spre varianta canonica
+#
+# Verificare ca poarta chiar opreste: creeaza fisierul PUSH-ACORD in
+# .git\ si ruleaza `git push --dry-run`. Daca trece fara acord, poarta e
+# decoratie, nu poarta.
 
 marker="$(git rev-parse --git-dir)/PUSH-ACORD"
 if [ -f "$marker" ]; then
@@ -21,6 +42,6 @@ fi
 echo ""
 echo "  POARTA: acest repo nu se impinge fara acordul lui Popy."
 echo "  Orice push direct e refuzat. Nu e o defectiune, e poarta."
-echo "  Calea corecta:  scripts\\git-autopush.ps1 -Acord"
+echo "  Calea corecta:  scripts\git-autopush.ps1 -Acord"
 echo ""
 exit 1

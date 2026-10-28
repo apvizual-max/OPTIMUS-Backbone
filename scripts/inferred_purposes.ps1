@@ -5,7 +5,7 @@
 
 $ErrorActionPreference = 'Stop'
 
-$out = 'C:\Users\apviz\.minimax-agent\projects\70_CONNECTORS\70_personal_skill_index.md'
+$out = 'C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\70_CONNECTORS\70_personal_skill_index.md'
 # Use $env:TEMP (same as rebuild-classifier.ps1) so the two scripts agree on any profile.
 # If the CSV is missing (rebuild-classifier cleans it up), regenerate it from the skills tree.
 $csv = Join-Path $env:TEMP 'personal_skills_index.csv'

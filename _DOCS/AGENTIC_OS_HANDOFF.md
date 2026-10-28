@@ -188,7 +188,7 @@ Lecția din 6: **o sabotare care trece e o afirmație despre sabotaj, nu despre 
 ## 10. Cum verifici că nu mint
 
 ```powershell
-node "C:\Users\apviz\.minimax-agent\projects\20_PROTOCOLS\agentic-os\core\acceptance.js"
+node "C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\20_PROTOCOLS\agentic-os\core\acceptance.js"
 ```
 Trebuie să dea `pass=10 fail=0 total=10`, ieșire 0. **Dacă dă altceva, sistemul e rupt și așa trebuie spus**, nu reparat în tăcere. Rulează-l de trei ori: o trecere curată e o mostră, trei consecutive sunt o măsurătoare.
 

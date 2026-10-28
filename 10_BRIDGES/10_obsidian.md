@@ -23,7 +23,7 @@ Obsidian holds Popy's **local** Second Brain — markdown vault at `E:\CLAUDE\MI
 ## Use cases
 
 - Read / search / propose new note entries
-- Cross-reference SENTINEL materials between Obsidian and the SENTINEL_PRIME project at `C:\Users\apviz\.minimax-agent\projects\`
+- Cross-reference SENTINEL materials between Obsidian and the SENTINEL_PRIME project at `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\`
 - Anchor doctrine (R33, TRIPLE CRUNCH, etc.) to the local vault
 
 ## Hard rules

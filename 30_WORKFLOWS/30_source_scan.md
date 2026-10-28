@@ -28,7 +28,7 @@ Never run a recursive scan on a partition root. Always scan a specific subtree P
 
 **Acceptable narrow scans**:
 - `C:\Users\apviz\.minimax\` — MiniMax Code's own data dir (managed scope)
-- `C:\Users\apviz\.minimax-agent\projects\` — this workspace
+- `C:\Users\apviz\.minimax-agent\projects\Mavis-Optimus-Dashboard\` — this workspace
 
 If Popy asks for material that *might* be on C:, ask for the specific path. If uncertain, propose the likely path and let Popy confirm.
 
