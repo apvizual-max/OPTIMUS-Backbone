@@ -1,6 +1,6 @@
 {
-  "ran_at": "2026-10-28T07:36:02.718604",
-  "passed": 607,
+  "ran_at": "2026-10-28T09:26:22.424149",
+  "passed": 612,
   "failed": 0,
   "skipped": 0,
   "not_run": [],
@@ -272,6 +272,14 @@
       "partial": false
     },
     {
+      "name": "McpHandshakeStale",
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "not_run": false,
+      "partial": false
+    },
+    {
       "name": "DashboardBoot",
       "passed": 10,
       "failed": 0,
@@ -392,5 +400,5 @@
       "partial": false
     }
   ],
-  "total_classes": 48
+  "total_classes": 49
 }

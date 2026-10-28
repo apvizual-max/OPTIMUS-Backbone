@@ -1,10 +1,10 @@
 {
   "suite": "mavis-sentinel-hub deployment e2e",
-  "generated_at": "2026-10-28T07:29:26",
-  "passed": 70,
+  "generated_at": "2026-10-28T09:02:59",
+  "passed": 72,
   "failed": 0,
   "not_run": 1,
-  "total": 71,
+  "total": 73,
   "green": true,
   "checks": [
     {
@@ -80,17 +80,17 @@
     {
       "id": "route_readyz",
       "status": "PASS",
-      "detail": "200 91030 B"
+      "detail": "200 91194 B"
     },
     {
       "id": "route_api_state",
       "status": "PASS",
-      "detail": "200 91030 B"
+      "detail": "200 91194 B"
     },
     {
       "id": "route_api_health",
       "status": "PASS",
-      "detail": "200 20335 B"
+      "detail": "200 20499 B"
     },
     {
       "id": "served_by_front",
@@ -160,7 +160,7 @@
     {
       "id": "ecosystem_snapshot_fresh",
       "status": "PASS",
-      "detail": "snapshot age 28s, refreshed by the server's worker (bound 600s)"
+      "detail": "snapshot age 33s, refreshed by the server's worker (bound 600s)"
     },
     {
       "id": "ecosystem_route",
@@ -223,14 +223,24 @@
       "detail": "the refresh worker receives mcp_handshake.py and invokes it, so the 24h freshness bound on mcp_tools_wired is met by the system"
     },
     {
-      "id": "handshake_refresh_period_inside_bound",
+      "id": "handshake_refresh_period_is_wall_clock",
       "status": "PASS",
-      "detail": "the cadence is computed from the refresh period, target 3600s, well inside the 86400s bound"
+      "detail": "the handshake cadence is a wall-clock deadline of at most 3600s, so it cannot drift with the cost of a cycle nor be multiplied by nesting"
+    },
+    {
+      "id": "handshake_refresh_gate_is_not_nested",
+      "status": "PASS",
+      "detail": "the handshake gate sits outside the every-4th-cycle block, so the ecosystem cadence cannot multiply the handshake cadence"
     },
     {
       "id": "handshake_refresh_control_discriminates",
       "status": "PASS",
       "detail": "the same predicate reports 'not wired' on a copy with the invocation removed, so this check is measuring the gate"
+    },
+    {
+      "id": "handshake_refresh_shape_control_discriminates",
+      "status": "PASS",
+      "detail": "the shape predicate rejects the cycle-count form it replaced, so it measures the shape of the cadence and not the presence of a number"
     },
     {
       "id": "telemetry_detector_armed",
@@ -350,7 +360,7 @@
     {
       "id": "cd_control_built",
       "status": "PASS",
-      "detail": "control repository carrying an invalid path entry built at C:\\Users\\apviz\\AppData\\Local\\Temp\\sentinel-cd-verify-1msjf1sg\\control"
+      "detail": "control repository carrying an invalid path entry built at C:\\Users\\apviz\\AppData\\Local\\Temp\\sentinel-cd-verify-1edfbr7b\\control"
     },
     {
       "id": "cd_clone_verifier_blocks_broken_tree",

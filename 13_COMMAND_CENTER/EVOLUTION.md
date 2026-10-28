@@ -2588,3 +2588,126 @@ M-31 (the generator of a ledger is not its owner), M-32 (a number in a
 source-of-truth file is a claim about the world, and it expires), M-33 (a field
 hardcoded where a measurement belongs is a placeholder that reads as a fact).
 
+## R19 - The handshake refreshed every 5h54m, and every check was green
+
+**Requested**: keep improving the build - look for gaps, errors, bugs, silent
+failures, misalignments, in the system files, the monitors and the daemons.
+**Run**: 2026-10-28, 08:40 to 10:10.
+
+### Result: **a daemon was running at a sixth of the rate it declared, and nothing in the system could see it.**
+
+The refresh worker in `api\server.ps1` is supposed to refresh the MCP handshake
+record every hour, so the 24 hour freshness bound on `mcp_tools_wired` is met
+by the system and not by a human remembering. Measured on 2026-10-28, the
+record refreshed every **5 hours 54 minutes**.
+
+### The arithmetic that produced it
+
+The counter that drives the handshake sat inside the block that runs every
+FOURTH cycle, while the divisor that turned a counter into a period was
+computed PER cycle. Four times. Then the cycle itself outlasted its sleep -
+the collector takes about 12 s on top of a 25 s sleep - so one and a half times
+more. Measured exactly: the record was written at 02:53:13 and the next one at
+08:47:50.
+
+### Why the dashboard stayed green
+
+Two instruments, each doing its job, neither able to see the other:
+
+- the **24 hour bound** was met, with a 4x margin - and a bound met with a 4x
+  margin is not the bound anybody wrote down;
+- the **worker's log** recorded its START and nothing else, so the gap was
+  invisible from the worker's side as well.
+
+What was missing was the comparison between the period the code DECLARED and the
+period the system DELIVERED. The deployment check that guarded this loop
+asserted that a period was computed and that it was inside the bound. It
+passed the entire time the period was six times longer than written down,
+because the FORMULA was there and the SHAPE around it was not.
+
+### What changed
+
+| | before | after |
+|---|---|---|
+| handshake cadence | a cycle count, inside the every-4th-cycle block | a wall-clock deadline: `((Get-Date) - $lastHandshakeAt).TotalSeconds -ge $handshakePeriodSeconds` |
+| effective period | **5h54m** | the declared 3600 s, and it cannot drift with the cost of a cycle |
+| the gate's position | inside the every-4th-cycle block | outside it, so the ecosystem cadence cannot multiply it |
+| the worker's log | the start, once | every refresh, so the cadence is a record and not an assumption |
+| the deployment check | asserted a formula was present | asserts the SHAPE, plus a control that must reject the old cycle-count form |
+
+The control was falsified before it was trusted: run against the previous
+`server.ps1` it reports FAIL (no wall-clock deadline, gate nested), and against
+the fixed one it reports PASS.
+
+### Also taken from the CD pipeline, in the same pass
+
+The continuous pipeline had 23 PRs closed without merge. Each was compared
+blob-by-blob against `main`; the ones whose change was still missing were
+taken, and the ones that a merged PR had already superseded were not:
+
+- **#50** - the npm package membership test in `monitor.py` rebuilt a list for
+  every candidate. Now a set. The old form was quadratic.
+- **#26** - the hub wrote its event log with a blocking `open()` inside an
+  async tool handler. Now `asyncio.to_thread`. One slow write no longer delays
+  the 25 other tools queued behind it.
+- **#28** - three regexes were recompiled for every script and every line of
+  it. Now compiled once, outside the loop.
+- **20 unused imports** across 14 files, found by an AST sweep rather than by
+  waiting for a PR. The pipeline's two security fixes - arbitrary code
+  execution in `git_tools_server` (#5) and path traversal in
+  `SelfModifyEngine` (#9) - were already merged and are in this tree.
+
+### The push gate, measured
+
+59 PRs: **36 merged, 23 closed, 0 open**. `origin/main` is an ancestor of the
+local `main`, so the local tree contains everything GitHub has. One branch, no
+PRs, a clean tree: the condition the push gate asks for.
+
+---
+
+## R20 - The branch that exists to stop the system lying had no test behind it, and the suite knew two verdicts where the monitor has four
+
+**Requested**: the same sweep - gaps, errors, bugs, silent failures,
+misalignments, monitors, daemons.
+
+**What happened.** After the handshake record was re-measured against the edited
+hub source, the unit suite went from **607 passed / 0 failed** to **605 passed
+/ 2 failed**, with no change to the monitor. Both reds were in the same place:
+the verdict for the MCP handshake. The monitor said `STALE` - the record was
+written at **08:47:50** and the hub source was edited at **08:55:44**, so the
+record described a file that no longer existed in that form - and the suite
+expected `OK` or `FAIL`.
+
+Neither side was wrong. They were two observations of the same fact, and only
+one of them knew that `STALE` existed.
+
+### What was wrong
+
+| | before | after |
+|---|---|---|
+| the suite's model of the verdict | `'OK' if justified else 'FAIL'` | all four legal verdicts, re-derived from the record's content, the record's age and the server's mtime |
+| the `STALE` branch of the monitor | reached only by accidents | pinned on purpose by a new class on a synthetic workspace |
+| the liveness of the live record | not measured at all | the deployment suite holds the record's age against 2x the refresh period |
+
+**Why it matters.** `STALE` is the verdict that exists to STOP the system
+claiming the tools are wired when the code has moved on. It was the one branch
+with nothing behind it: the suite pinned `OK` and `FAIL` and never reached
+`STALE` deliberately. And on 2026-10-28 it was reached - and the accident was
+reported as a broken handshake, which is a different and wrong accusation of a
+healthy system.
+
+### The control was falsified before it was trusted
+
+The new class (`McpHandshakeStale`) is run against two mutants of the monitor:
+one with the `STALE` branch removed, and one that answers `STALE` to
+everything. Against the first, **2 assertions go red** (the stale cases read
+`OK`); against the second, **2 assertions go red** (the fresh cases read
+`STALE`). It fails in both directions, so it measures the decision instead of
+restating it.
+
+The liveness of the live record was moved to where it belongs: the deployment
+suite now holds the record's **age** against twice the daemon's refresh period
+(7200 s against a 3600 s declared period). The old cadence reached 21240 s -
+5.9x - so the bound separates the two regimes. That is the outcome the panel's
+"wired" claim rests on, and it was the part nothing was measuring.
+

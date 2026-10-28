@@ -10,7 +10,6 @@ files are still restored, because restore is not conditional on success.
 Run:  python 09_LOGS\\sabotage_round3.py
 """
 import re
-import shutil
 import subprocess
 import sys
 from pathlib import Path

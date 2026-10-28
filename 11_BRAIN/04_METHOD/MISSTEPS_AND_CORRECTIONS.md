@@ -688,3 +688,79 @@ come from a measurement of the world.** Where a field is hardcoded, the honest
 options are to measure it or to delete it - but never to leave a constant
 standing in for a fact, because a constant is the one value that can never be
 wrong and therefore can never be right either.
+
+### M-34 (2026-10-28) - A counter in the wrong place multiplies the period, and a bound met with a 4x margin is not the bound anybody wrote down
+
+**What happened.** The refresh worker in `13_COMMAND_CENTER\api\server.ps1` was
+supposed to refresh the MCP handshake record every hour, so the 24 hour
+freshness bound on `mcp_tools_wired` would be met by the system and not by a
+human remembering. It refreshed every **5 hours 54 minutes**. The counter that
+drove it sat inside the block that runs every FOURTH cycle, while the divisor
+that turned a counter into a period was computed PER cycle: four times. Then
+the cycle itself outlasted its sleep - the collector takes about 12 s on top
+of a 25 s sleep - so one and a half times more. Measured exactly: the record
+was written at 02:53:13 and the next one at 08:47:50.
+
+**Why nothing was red.** Two instruments, each doing its job, neither able to
+see the other. The 24 hour bound was met, with a 4x margin. The worker's own
+log recorded its START and nothing else, so the gap was invisible from the
+worker's side too. What was missing was the comparison between the period the
+code DECLARED and the period the system DELIVERED.
+
+**What was done.** The cadence is now a wall-clock deadline - `((Get-Date) -
+$lastHandshakeAt).TotalSeconds -ge $handshakePeriodSeconds` - and the gate
+sits outside the every-fourth-cycle block, so neither the cost of a cycle nor
+the nesting can multiply it. Every refresh is written to the worker's log, so
+the cadence is a record and not an assumption. The deployment check that
+guarded this loop asserted that a period was COMPUTED and that it was inside
+the bound; it passed the whole time the period was six times longer than
+written down, because the formula was there and the shape around it was not.
+It now asserts the shape, and it carries a control that must reject the old
+cycle-count form.
+
+*Correction in force:* **a declared period is a claim about the world; compare
+it with the delivered one.** A check that reads a formula out of the source
+proves the formula is present, not that the system obeys it. Where a period is
+derived, derive it from something that cannot drift (wall-clock, not a count
+of units whose cost varies), and when a counter gates a job, ask what block
+the counter sits in - the block multiplies the period, and nothing will say so.
+
+### M-35 (2026-10-28) - Two correct observations that disagree are not one of them being wrong; and a branch no test reaches is reached only by accident
+
+**What happened.** The unit suite went from 607 passed / 0 failed to **605
+passed / 2 failed** with no change to the monitor. The monitor reported the MCP
+handshake as `STALE`; the suite expected `OK` or `FAIL`. Both readings were
+correct - the record had been written at 08:47:50 and the server source was
+edited at 08:55:44, so the record described a file that no longer existed in
+that form - and the disagreement was reported as a broken handshake.
+
+**Why nothing was red before it.** `STALE` is one of the four verdicts the
+monitor can return, and it is the one that exists precisely to stop the system
+claiming the tools are wired when the code has moved on. No test reached it on
+purpose: the suite pinned `OK` and `FAIL`, so the branch was exercised only by
+accidents. Its model of the verdict was written as a two-valued expression -
+`'OK' if justified else 'FAIL'` - which cannot name a third answer, so a stale
+record was classified as a broken one.
+
+**What was done.** The suite's model now derives the verdict from the facts the
+monitor reads - the record's content, the record's age, and the server's mtime
+against the record's - and names all four verdicts. A new class
+(`McpHandshakeStale`) reaches `STALE` deliberately, on a synthetic workspace
+where the source is dated three days back, so each staleness trigger fires
+ALONE: superseded by an edit, and expired against the 24h bound. The liveness
+of the live record moved to where it belongs - the deployment suite now holds
+the record's AGE against twice the daemon's refresh period, which is the
+outcome the panel's "wired" claim rests on.
+
+**The control.** The new class is run against two mutants of the monitor - one
+without the `STALE` branch, one that answers `STALE` to everything - and two
+assertions go red against each. A test that cannot fail is a decoration, and
+this one is shown to fail in both directions before it is trusted.
+
+*Correction in force:* **a disagreement between two measurements is a third
+fact, not a defect in one of them.** Before declaring either side wrong, ask
+whether the vocabulary is complete: the suite knew two verdicts, the monitor
+had four. And **every branch a system can take must be reachable by a test on
+purpose** - a branch reached only by accident is a branch whose behaviour was
+never chosen, only discovered.
+

@@ -1047,6 +1047,54 @@ def test_self_improvement_ratify_gate():
         result.error(f'Exception: {e}')
     return result
 
+def _handshake_expected_status(record_path, hub_path, max_age=86400):
+    """Re-derive the verdict a handshake record entitles the monitor to report.
+
+    Four verdicts are legal for the handshake, and the suite has to state all
+    four, not two:
+
+      NOT_RUN - there is no record at all
+      STALE   - the record can no longer speak about the server as it stands:
+                 it is older than the age bound, or the server source was
+                 edited after the record was written
+      OK      - a fresh record whose probe proved the arguments arrived
+      FAIL    - a fresh record whose probe did not verify
+
+    The staleness rule is re-derived here from the two facts the monitor reads
+    (the record's own age, and the server's mtime against the record's), not
+    imported from the monitor, so that a change in one does not silently
+    change the other.
+
+    Measured on 2026-10-28: the live record was written at 08:47:50 and the
+    hub source was edited at 08:55:44, so the monitor said STALE. The suite
+    expected 'OK' or 'FAIL' and had no third answer, so it reported the
+    verdict as a broken handshake - a wrong accusation of a healthy system.
+    """
+    import time
+    try:
+        if not record_path.exists():
+            return 'NOT_RUN'
+        rec = json.loads(record_path.read_text(encoding='utf-8'))
+    except (json.JSONDecodeError, OSError):
+        return 'FAIL'
+    try:
+        returned = int(rec.get('tools_returned_by_server') or 0)
+    except (TypeError, ValueError):
+        return 'FAIL'
+    probe = rec.get('probe_result') or {}
+    probe_ok = bool(probe.get('ok')) and bool(probe.get('arguments_arrived'))
+    hs_ok = rec.get('status') == 'OK' and returned > 0 and probe_ok
+    try:
+        record_mtime = record_path.stat().st_mtime
+        hub_mtime = hub_path.stat().st_mtime if hub_path.is_file() else 0.0
+    except OSError:
+        return 'FAIL'
+    age = time.time() - record_mtime
+    if hub_mtime > record_mtime or age > max_age:
+        return 'STALE'
+    return 'OK' if hs_ok else 'FAIL'
+
+
 def test_monitor_status():
     """Checks monitor returns four statuses, and it can say NOT_RUN."""
     import json
@@ -1069,16 +1117,20 @@ def test_monitor_status():
                                  'NOT_RUN',
                                  'with no handshake record, MCP tools report NOT_RUN')
         else:
-            rec = json.loads(record.read_text(encoding='utf-8'))
-            probe = rec.get('probe_result') or {}
-            justified = (rec.get('status') == 'OK'
-                         and int(rec.get('tools_returned_by_server') or 0) > 0
-                         and bool(probe.get('ok'))
-                         and bool(probe.get('arguments_arrived')))
+            # The verdict must match the FACTS, and there are four possible
+            # facts, not two. The old expectation was 'OK' or 'FAIL' only, so
+            # a record that had gone STALE - older than the server source it
+            # describes - was reported as a broken handshake, which is a
+            # different and wrong accusation of a healthy system.
+            expected = _handshake_expected_status(
+                record,
+                monitor.WORKSPACE / '07_BACKBONE' / 'mcp'
+                / 'sentinel_hub_server.py')
             result.assert_equals(mcp_wired[0]['status'] if mcp_wired else None,
-                                 'OK' if justified else 'FAIL',
-                                 'MCP tools report OK only on a measured, '
-                                 'argument-confirmed handshake')
+                                 expected,
+                                 'the handshake verdict matches what the record '
+                                 f'and the server edit history entitle it to '
+                                 f'({expected})')
         result.assert_true(
             all(c.get('measured_at') for c in report['checks']),
             'every check carries a measurement timestamp')
@@ -1328,8 +1380,136 @@ def test_mcp_handshake_measure():
             shutil.copy2(backup, record)
             backup.unlink()
 
-    result.assert_equals(verdict(), 'OK',
-                         'the real record is restored and the check returns OK')
+    # The restored record must produce the verdict its own age and the
+    # server's edit history entitle it to: OK when it is still current, STALE
+    # when the server source was edited after it was written. The old
+    # assertion demanded OK unconditionally, so a record that had honestly
+    # gone stale was reported as a broken restore - a different accusation
+    # than the facts support. The liveness of the live record is a separate
+    # question, and it is measured where it belongs: the deployment suite
+    # holds the record's AGE against the daemon's refresh period.
+    expected = _handshake_expected_status(
+        record, WORKSPACE / '07_BACKBONE' / 'mcp' / 'sentinel_hub_server.py')
+    result.assert_equals(verdict(), expected,
+                         'the real record is restored and the check returns '
+                         f'the verdict it is entitled to ({expected})')
+    return result
+
+
+def test_mcp_handshake_stale_verdicts():
+    """The handshake has FOUR verdicts, and only three of them were tested.
+
+    The monitor can say NOT_RUN (no record at all), OK (a fresh record whose
+    probe proved the arguments arrived), FAIL (a fresh record whose probe did
+    not verify) and STALE (a record that can no longer speak about the server
+    as it stands: older than its bound, or older than the server source it
+    describes).
+
+    The suite pinned three of those and left the fourth - STALE - untested.
+    That is a hole in the most safety-critical decision in the monitor, and it
+    is exactly the branch that exists to STOP the system from claiming the
+    tools are wired when the code has moved on. Measured on 2026-10-28: the
+    record was written at 08:47:50 and the hub source was edited at 08:55:44,
+    so the monitor said STALE while the suite said FAIL - two correct
+    observations that did not agree, because only one of them knew that
+    STALE existed.
+
+    This test builds a SYNTHETIC workspace, so all four verdicts are reached
+    without touching the live record, and dates the synthetic source three
+    days back so each staleness trigger fires ALONE:
+      - record 1 minute old -> OK      (fresh and justified)
+      - record 4 days old   -> STALE   (older than the source: superseded)
+      - record 2 days old   -> STALE   (older than the 24h bound but NEWER
+                                        than the source: expiry on its own)
+      - fresh record, probe -> FAIL
+      - no record at all    -> NOT_RUN
+    """
+    result = TestResult('McpHandshakeStale')
+    import monitor
+    import time
+
+    original_ws = monitor.WORKSPACE
+    original_logs = monitor.LOGS
+    original_handshake = monitor._HANDSHAKE
+
+    with tempfile.TemporaryDirectory() as tmp:
+        base = Path(tmp)
+        logs = base / '09_LOGS'
+        hub = base / '07_BACKBONE' / 'mcp' / 'sentinel_hub_server.py'
+        logs.mkdir(parents=True)
+        hub.parent.mkdir(parents=True)
+        hub.write_text('name="sentinel_probe_tool"\n', encoding='utf-8')
+        record = logs / 'mcp_handshake.json'
+
+        now = time.time()
+        # The source is three days old, so a two-day-old record is NEWER than
+        # the code it describes (expiry alone) and a four-day-old one is
+        # OLDER than it (supersession alone).
+        os.utime(hub, (now - 3 * 86400, now - 3 * 86400))
+
+        good = {
+            'status': 'OK',
+            'tools_declared_in_source': 26,
+            'tools_returned_by_server': 26,
+            'probe_result': {
+                'tool': 'sentinel_confirm_identity',
+                'ok': True,
+                'arguments_arrived': True,
+            },
+        }
+
+        def write_record(payload, age_seconds):
+            record.write_text(json.dumps(payload, indent=2), encoding='utf-8')
+            stamp = now - age_seconds
+            os.utime(record, (stamp, stamp))
+
+        def verdict() -> str:
+            monitor.WORKSPACE = base
+            monitor.LOGS = logs
+            checks = monitor.wiring_checks()
+            found = [c for c in checks if c['id'] == 'mcp_tools_wired']
+            return found[0]['status'] if found else 'MISSING'
+
+        try:
+            # The hub handshake script is not needed here and it spawns a
+            # server; pointing it at a path that does not exist keeps this
+            # test on the decision it is about.
+            monitor._HANDSHAKE = base / 'no-such-handshake.py'
+
+            result.assert_equals(verdict(), 'NOT_RUN',
+                                 'with no handshake record the verdict is '
+                                 'NOT_RUN, never OK and never FAIL')
+
+            write_record(good, 60)
+            result.assert_equals(verdict(), 'OK',
+                                 'a fresh record whose probe verified reads OK')
+
+            write_record(good, 4 * 86400)
+            result.assert_equals(verdict(), 'STALE',
+                                 'a record older than the server source reads '
+                                 'STALE, because it describes a different file')
+
+            write_record(good, 2 * 86400)
+            result.assert_equals(verdict(), 'STALE',
+                                 'a record older than its 24h bound reads '
+                                 'STALE, even though the source is older still')
+
+            forged = dict(good)
+            forged['probe_result'] = {
+                'tool': 'sentinel_confirm_identity',
+                'ok': False,
+                'arguments_arrived': False,
+            }
+            write_record(forged, 60)
+            result.assert_equals(verdict(), 'FAIL',
+                                 'a fresh record whose probe did not verify '
+                                 'reads FAIL, never OK')
+        except Exception as exc:
+            result.error(f'Exception: {exc}')
+        finally:
+            monitor.WORKSPACE = original_ws
+            monitor.LOGS = original_logs
+            monitor._HANDSHAKE = original_handshake
     return result
 
 
@@ -3733,6 +3913,7 @@ def run_all_tests():
         test_programme_matrix,
         test_scrape_artifact_emptiness,
         test_mcp_handshake_measure,
+        test_mcp_handshake_stale_verdicts,
         test_dashboard_boot_activates_a_panel,
         test_ui_never_stringifies_an_object,
         test_mcp_slice_slug,

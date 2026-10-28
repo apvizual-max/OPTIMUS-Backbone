@@ -990,6 +990,12 @@ def test_no_case_shadowed_params() -> None:
         check("no_case_shadowed_params", False, "",
               f"no PowerShell scripts found at {api} - the check could not run")
         return
+    # The three patterns are compiled ONCE, outside the per-script loop. The
+    # loop runs over every .ps1 in the api folder on every suite run, and each
+    # of these was recompiled for every script and for every line of it.
+    param_block_re = re.compile(r"param\s*\((.*?)\)\s*\n", re.S)
+    param_decl_re = re.compile(r'\[\w+\]\$\{?([A-Za-z_]\w*)')
+    var_assign_re = re.compile(r'(?m)^\s*\$([A-Za-z_]\w*)\s*=(?!=)')
     for name in names:
         ps1 = os.path.join(api, name)
         try:
@@ -1000,13 +1006,13 @@ def test_no_case_shadowed_params() -> None:
             continue
         # Script-level parameters: names declared inside a `param(` block.
         declared = set()
-        for block in re.findall(r"param\s*\((.*?)\)\s*\n", text, re.S):
-            for m in re.finditer(r'\[\w+\]\$\{?([A-Za-z_]\w*)', block):
+        for block in param_block_re.findall(text):
+            for m in param_decl_re.finditer(block):
                 declared.add(m.group(1))
         if not declared:
             continue
         lowered = {d.lower(): d for d in declared}
-        for m in re.finditer(r'(?m)^\s*\$([A-Za-z_]\w*)\s*=(?!=)', text):
+        for m in var_assign_re.finditer(text):
             vname = m.group(1)
             owner = lowered.get(vname.lower())
             if owner and vname != owner:
@@ -1329,6 +1335,37 @@ def _handshake_wired(text: str) -> bool:
     return invokes and receives
 
 
+def _handshake_gate_outside_every_fourth_block(block: str) -> bool:
+    """True when the handshake gate is NOT inside the every-4th-cycle block.
+
+    The block is found by its own text and closed by counting braces, and the
+    gate is then required to sit AFTER the closing brace. A gate inside that
+    block advances its counter once per four cycles, so a divisor computed per
+    cycle is off by a factor of four - and a factor of four is invisible in a
+    green dashboard.
+
+    Braces inside the block are balanced (PowerShell interpolations like
+    ${seconds} open and close together), so counting them is safe here.
+    """
+    import re as _re
+    m = _re.search(r"if\s*\(\$cycles\s*-ge\s*4\)\s*\{", block)
+    gate = _re.search(r"if\s*\(\(\(Get-Date\)\s*-\s*\$lastHandshakeAt\)", block)
+    if gate is None:
+        return False
+    if m is None:
+        return True                      # no such block: nothing to nest inside
+    depth = 0
+    for j in range(m.end() - 1, len(block)):
+        ch = block[j]
+        if ch == '{':
+            depth += 1
+        elif ch == '}':
+            depth -= 1
+            if depth == 0:
+                return gate.start() > j   # the gate comes after the block closed
+    return False
+
+
 def test_handshake_refresh_is_on_the_loop() -> None:
     """The MCP handshake must be produced by the refresh loop, not by hand.
 
@@ -1363,14 +1400,34 @@ def test_handshake_refresh_is_on_the_loop() -> None:
           "bound can only be met by a human remembering")
 
     block = _handshake_worker_block(src)
-    m = _re.search(r"\$handshakeEvery\s*=\s*\[Math\]::Max\(1,\s*"
-                   r"\[int\]\[Math\]::Floor\((\d+)\s*/", block)
-    check("handshake_refresh_period_inside_bound",
-          m is not None and int(m.group(1)) <= 3600,
-          "the cadence is computed from the refresh period, target 3600s, well "
-          "inside the 86400s bound",
-          "no computed handshake period found in the worker block, so the "
-          "cadence cannot be shown to stay inside the bound")
+    # The cadence must be a WALL-CLOCK deadline, not a cycle count.
+    #
+    # Measured 2026-10-28: the counter sat inside the every-4th-cycle block
+    # while its divisor was computed per cycle, so the effective period was 4x
+    # the intended one - and a cycle outlasts its sleep, so it was closer to
+    # 6x. The record refreshed every 5h54m instead of every hour, and EVERY
+    # CHECK STAYED GREEN, because the 24h freshness bound was still met. A
+    # bound that is met with a 4x margin is not the bound anybody wrote down.
+    #
+    # So the assertion is about the SHAPE of the cadence, not about a formula
+    # that can be satisfied by a counter in the wrong place.
+    wall = _re.search(r"\(\(Get-Date\)\s*-\s*\$lastHandshakeAt\)\.TotalSeconds"
+                      r"\s*-ge\s*\$handshakePeriodSeconds", block)
+    period = _re.search(r"\$handshakePeriodSeconds\s*=\s*(\d+)", block)
+    check("handshake_refresh_period_is_wall_clock",
+          wall is not None and period is not None and int(period.group(1)) <= 3600,
+          "the handshake cadence is a wall-clock deadline of at most 3600s, so it "
+          "cannot drift with the cost of a cycle nor be multiplied by nesting",
+          "the worker does not gate the handshake on a wall-clock deadline, so the "
+          "effective period is whatever the cycle count and the block nesting "
+          "happen to make it")
+
+    check("handshake_refresh_gate_is_not_nested",
+          _handshake_gate_outside_every_fourth_block(block),
+          "the handshake gate sits outside the every-4th-cycle block, so the "
+          "ecosystem cadence cannot multiply the handshake cadence",
+          "the handshake gate is inside the every-4th-cycle block, so the "
+          "effective handshake period is four times the declared one")
 
     broken = block.replace("& $pyExe $handshakeScript", "& $pyExe $nothingScript")
     check("handshake_refresh_control_discriminates",
@@ -1378,6 +1435,86 @@ def test_handshake_refresh_is_on_the_loop() -> None:
           "the same predicate reports 'not wired' on a copy with the "
           "invocation removed, so this check is measuring the gate",
           "the neutralised copy still looked wired, so this test proves nothing")
+
+    # And the shape check must reject the form it replaced. A check that
+    # accepts the old cadence is not a check.
+    old_style = block.replace(
+        "if (((Get-Date) - $lastHandshakeAt).TotalSeconds -ge $handshakePeriodSeconds) {",
+        "if ($handshakeCycles -ge $handshakeEvery) {")
+    old_period = _re.search(r"\$handshakePeriodSeconds\s*=\s*(\d+)", old_style)
+    old_wall = _re.search(r"\(\(Get-Date\)\s*-\s*\$lastHandshakeAt\)\.TotalSeconds"
+                          r"\s*-ge\s*\$handshakePeriodSeconds", old_style)
+    check("handshake_refresh_shape_control_discriminates",
+          old_style != block and (old_wall is None or old_period is None
+                                  or int(old_period.group(1)) > 3600),
+          "the shape predicate rejects the cycle-count form it replaced, so it "
+          "measures the shape of the cadence and not the presence of a number",
+          "the shape predicate still accepts the old cycle-count form, so it "
+          "cannot catch the defect it was written for")
+
+
+def _handshake_record_age(path: str, now: float) -> float:
+    """Seconds since the handshake record was written, or -1.0 when absent."""
+    if not os.path.isfile(path):
+        return -1.0
+    return now - os.path.getmtime(path)
+
+
+def test_handshake_record_is_current() -> None:
+    """The handshake record must be REFRESHED, not merely present.
+
+    Added 2026-10-28. `09_LOGS/mcp_handshake.json` is the only evidence that
+    the 26 SENTINEL tools are served over stdio, and the daemon rewrites it on
+    a timer. That timer was wrong until 2026-10-28: the refresh counter sat
+    inside the "every 4th cycle" block, so the handshake was re-measured every
+    5h54m instead of every hour. Nothing was red. The monitor's 24h bound was
+    still met with a 4x margin, and the worker journal recorded only the
+    STARTUP, so a dead loop looked alive from every angle that was read.
+
+    `handshake_refresh_*` pins the SHAPE of the cadence. This phase pins the
+    OUTCOME, which is the part the panel's "wired" claim actually rests on:
+    the record on disk is younger than twice the intended refresh period.
+
+    The bound is 2x, not 1x, so a slow cycle or a busy machine does not
+    produce a red. The old behaviour reached 21240s - 5.9x the intended
+    period - so a 7200s bound separates the two regimes with room to spare.
+
+    The control is measured too: the same predicate over a record deliberately
+    aged past the bound must refuse it. A liveness check that cannot go red is
+    a decoration.
+    """
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    live = os.path.join(root, "09_LOGS", "mcp_handshake.json")
+    bound = 7200
+    if not os.path.isfile(live):
+        not_run("handshake_record_is_current",
+                f"no handshake record at {live}")
+        return
+
+    age = _handshake_record_age(live, time.time())
+    check("handshake_record_is_current", age < bound,
+          f"handshake record age {age:.0f}s, rewritten by the daemon every "
+          f"3600s (bound {bound}s)",
+          f"the handshake record is {age:.0f}s old (bound {bound}s) - the daemon "
+          f"is NOT re-measuring the handshake. The record describes the server as "
+          f"it was {age:.0f}s ago, and the panel's 'wired' claim rests on it.")
+
+    # The control: the same predicate over a record that is deliberately too
+    # old must refuse it. If it accepts that, it is measuring the presence of
+    # a file and calling it freshness.
+    import tempfile
+    with tempfile.TemporaryDirectory() as tmp:
+        aged = os.path.join(tmp, "mcp_handshake.json")
+        with open(aged, "w", encoding="utf-8") as fh:
+            fh.write("{}")
+        stale_stamp = time.time() - (bound + 600)
+        os.utime(aged, (stale_stamp, stale_stamp))
+        aged_age = _handshake_record_age(aged, time.time())
+        check("handshake_record_control_discriminates", aged_age >= bound,
+              "the same predicate refuses a record aged past the bound, so this "
+              "check measures the age and not the presence of a file",
+              f"the predicate accepted a record {aged_age:.0f}s old, so it is "
+              f"reporting freshness it never measured")
 
 
 def test_static_route_is_allowlisted_and_serves_intact_bytes() -> None:
@@ -2393,6 +2530,7 @@ def main() -> int:
             ("static_route", "test_static_route_is_allowlisted_and_serves_intact_bytes"),
             ("action_origin_gate", "test_action_origin_gate_blocks_cross_origin"),
             ("handshake_refresh", "test_handshake_refresh_is_on_the_loop"),
+            ("handshake_record_current", "test_handshake_record_is_current"),
             ("telemetry_fifo", "test_telemetry_feed_is_bounded"),
             ("inventory_registry_exempts_correctly", "test_inventory_registry_exempts_correctly"),
             ("inventory_registry_catches_same_leaf_name", "test_inventory_registry_catches_same_leaf_name"),

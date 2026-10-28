@@ -623,8 +623,14 @@ async def call_tool(name: str, arguments: dict) -> list[types.TextContent]:
             entry += f"  Context: {context}\n"
         entry += "-" * 80 + "\n"
 
-        with open(log_file, 'a', encoding='utf-8') as f:
-            f.write(entry)
+        # The append goes to a thread: this is an async tool handler, and a
+        # blocking file write inside one stalls the whole event loop - the hub
+        # serves 26 tools over a single stdio session, so one slow write
+        # delays every other tool queued behind it.
+        def _write_log():
+            with open(log_file, 'a', encoding='utf-8') as f:
+                f.write(entry)
+        await asyncio.to_thread(_write_log)
 
         return [types.TextContent(type="text", text=f"Logged to {log_file}")]
 

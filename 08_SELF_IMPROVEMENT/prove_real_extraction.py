@@ -17,7 +17,6 @@ Rules this harness obeys:
   * Read-only against D:. Nothing outside SENTINEL_PRIME is written.
 """
 import json
-import os
 import subprocess
 import sys
 from datetime import datetime

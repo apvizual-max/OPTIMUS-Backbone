@@ -4,7 +4,6 @@ SENTINEL /learn - extracts patterns from session and persists them.
 All code/comments/messages in English.
 """
 import json
-import os
 import sys
 from datetime import datetime
 from pathlib import Path

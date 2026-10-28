@@ -337,11 +337,24 @@ $worker = Start-Job -ArgumentList $API, $RefreshSeconds, $PY, $ECO_SCRIPT, (Join
   # than hard-coded, so the cadence survives a change of $seconds. The bound it
   # has to stay inside is 24 hours; an hour leaves room for the worker to be
   # down for a while and still come back inside it.
-  $handshakeEvery = [Math]::Max(1, [int][Math]::Floor(3600 / [Math]::Max(1, $seconds)))
-  $handshakeCycles = 0
+  # The handshake runs on a WALL-CLOCK deadline, not on a cycle count.
+  #
+  # Measured 2026-10-28: the counter sat inside the every-4th-cycle block
+  # while its divisor was computed per cycle, so the real period was 4x the
+  # intended one - and a cycle takes longer than its sleep (the collector
+  # alone runs about 12 s on top of a 25 s sleep), so the real period was
+  # closer to 6x. The record refreshed every 5h54m, not every hour, while
+  # every check stayed green: the 24h bound was still met, so nothing was
+  # red, and the log recorded only the worker's START, so the stall was
+  # invisible from both ends.
+  #
+  # A deadline in wall-clock seconds cannot drift with the cost of a cycle,
+  # and it cannot be multiplied by moving code into another block.
+  $handshakePeriodSeconds = 3600
+  $lastHandshakeAt = Get-Date
   $handshakeBroken = $false
 
-  & $say "refresh worker started: every ${seconds}s, ecosystem every 4th cycle, handshake every ${handshakeEvery} cycle(s)"
+  & $say "refresh worker started: every ${seconds}s, ecosystem every 4th cycle, handshake every ${handshakePeriodSeconds}s (wall clock)"
 
   # Once at startup, so a freshly started server does not spend its first hour
   # carrying whatever record the previous instance left behind. The record's
@@ -349,9 +362,12 @@ $worker = Start-Job -ArgumentList $API, $RefreshSeconds, $PY, $ECO_SCRIPT, (Join
   # process is exactly the kind of thing that looks fine and is not.
   if ($pyExe -and (Test-Path $handshakeScript)) {
     & $pyExe $handshakeScript | Out-Null
+    $lastHandshakeAt = Get-Date
     if ($LASTEXITCODE -ne 0) {
       & $say "startup handshake exited $LASTEXITCODE"
       $handshakeBroken = $true
+    } else {
+      & $say 'handshake refreshed (startup)'
     }
   } else {
     & $say "NOT RUNNING: pyExe='$pyExe' handshake='$handshakeScript'"
@@ -393,37 +409,45 @@ $worker = Start-Job -ArgumentList $API, $RefreshSeconds, $PY, $ECO_SCRIPT, (Join
           $ecoBroken = $false
         }
       }
+    }
 
-      # ---- the MCP handshake, on a clock --------------------------------
-      # The handshake record carries a 24 hour freshness bound. When it ages
-      # past that, the monitor reports mcp_tools_wired as STALE and TWO test
-      # checks go red - which is the system telling the truth, but only
-      # useful if something can act on it. Until now nothing did: the record
-      # was written by hand, once, and then it aged. The tools stayed wired
-      # while the only evidence of that wiring went stale.
-      #
-      # The period is an hour, far inside the 24 hour bound, because a bound
-      # that is met by luck is not a bound. The handshake takes about two
-      # seconds (measured), so this is not a cost worth arguing about.
-      $handshakeCycles++
-      if ($handshakeCycles -ge $handshakeEvery) {
-        $handshakeCycles = 0
-        if (-not $pyExe -or -not (Test-Path $handshakeScript)) {
+    # ---- the MCP handshake, on a wall-clock deadline --------------------
+    # The handshake record carries a 24 hour freshness bound. When it ages
+    # past that, the monitor reports mcp_tools_wired as STALE and TWO test
+    # checks go red - which is the system telling the truth, but only
+    # useful if something can act on it. Until now nothing did: the record
+    # was written by hand, once, and then it aged. The tools stayed wired
+    # while the only evidence of that wiring went stale.
+    #
+    # The period is an hour, far inside the 24 hour bound, because a bound
+    # that is met by luck is not a bound. The handshake takes about two
+    # seconds (measured), so this is not a cost worth arguing about.
+    #
+    # This gate is deliberately OUTSIDE the every-4th-cycle block. Inside it,
+    # the counter advanced once per four cycles while the divisor was
+    # computed per cycle, and the effective period came out at 4x - then
+    # 6x, because a cycle outlasts its sleep. Measured 2026-10-28: 5h54m
+    # between refreshes, with every check green.
+    if (((Get-Date) - $lastHandshakeAt).TotalSeconds -ge $handshakePeriodSeconds) {
+      $lastHandshakeAt = Get-Date
+      if (-not $pyExe -or -not (Test-Path $handshakeScript)) {
+        if (-not $handshakeBroken) {
+          & $say "NOT RUNNING: pyExe='$pyExe' handshake='$handshakeScript'"
+          $handshakeBroken = $true
+        }
+      } else {
+        & $pyExe $handshakeScript | Out-Null
+        if ($LASTEXITCODE -ne 0) {
           if (-not $handshakeBroken) {
-            & $say "NOT RUNNING: pyExe='$pyExe' handshake='$handshakeScript'"
+            & $say "handshake exited $LASTEXITCODE"
             $handshakeBroken = $true
           }
         } else {
-          & $pyExe $handshakeScript | Out-Null
-          if ($LASTEXITCODE -ne 0) {
-            if (-not $handshakeBroken) {
-              & $say "handshake exited $LASTEXITCODE"
-              $handshakeBroken = $true
-            }
-          } elseif ($handshakeBroken) {
+          if ($handshakeBroken) {
             & $say 'handshake recovered'
             $handshakeBroken = $false
           }
+          & $say 'handshake refreshed'
         }
       }
     }

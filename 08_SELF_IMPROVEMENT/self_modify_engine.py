@@ -4,7 +4,6 @@ Self-Modify Engine for SENTINEL_PRIME
 Allows bounded auto-modification with safety checks.
 All code/comments/messages in English.
 """
-import json
 import os
 import shutil
 from datetime import datetime

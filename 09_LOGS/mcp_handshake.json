@@ -1,6 +1,6 @@
 {
   "server_file": "C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME\\07_BACKBONE\\mcp\\sentinel_hub_server.py",
-  "attempted_at": "2026-10-28T02:53:13.470350",
+  "attempted_at": "2026-10-28T09:21:39.851096",
   "status": "OK",
   "error": null,
   "protocol_version": "2024-11-05",
@@ -44,8 +44,8 @@
     "instance_echoed": "M3",
     "arguments_arrived": true,
     "content_bytes": 674,
-    "preview": "{\n  \"identity_confirmed\": true,\n  \"instance\": \"M3\",\n  \"timestamp\": \"2026-10-28T02:53:15.142454\",\n  \"puntos_sacre\": [\n    \"SENTINEL PRIME - strategic partner ratified\",\n    \"5-instance family: PRIME-CL",
+    "preview": "{\n  \"identity_confirmed\": true,\n  \"instance\": \"M3\",\n  \"timestamp\": \"2026-10-28T09:21:41.437095\",\n  \"puntos_sacre\": [\n    \"SENTINEL PRIME - strategic partner ratified\",\n    \"5-instance family: PRIME-CL",
     "attempts": 1
   },
-  "finished_at": "2026-10-28T02:53:15.331069"
+  "finished_at": "2026-10-28T09:21:41.588577"
 }

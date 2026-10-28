@@ -10,7 +10,7 @@ import re
 from datetime import datetime
 from pathlib import Path
 from enum import Enum
-from typing import Optional, Callable, Dict, List, Any
+from typing import Dict, List, Any
 
 
 WORKSPACE = Path(os.environ.get('WORKSPACE_ROOT', 'C:\\Users\\apviz\\.minimax-agent\\projects\\SENTINEL_PRIME'))
@@ -288,7 +288,7 @@ History entries: {len(self.history)}
         Returns dict with bimodal status, mode, and any stop reason.
         """
         # Lazy import to avoid circular dependency
-        from bimodal_workflow import BimodalWorkflow, WorkflowMode
+        from bimodal_workflow import BimodalWorkflow
 
         if not hasattr(self, '_bimodal') or self._bimodal is None:
             self._bimodal = BimodalWorkflow()

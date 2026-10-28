@@ -37,7 +37,7 @@ import sys
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 WORKSPACE = Path(os.environ.get(
     'WORKSPACE_ROOT',
@@ -335,6 +335,7 @@ def _npx_resolution_check(npx_specs):
     import subprocess
 
     packages = []
+    seen_packages = set()
     pkg_pattern = re.compile(r'^(@[a-z0-9-]+/)?[a-z0-9][a-z0-9._-]*$', re.I)
 
     for sname, sspec in npx_specs:
@@ -351,7 +352,11 @@ def _npx_resolution_check(npx_specs):
                 continue
             if not pkg_pattern.match(a):
                 continue
-            if a not in [p for _, p in packages]:
+            # Membership in a SET, not in a list rebuilt on every iteration: the
+            # old form rebuilt the whole list per candidate, so the check was
+            # quadratic in the number of declared packages.
+            if a not in seen_packages:
+                seen_packages.add(a)
                 packages.append((sname, a))
 
     # Resolve npm through the project's own resolver. Bare 'npm' raises

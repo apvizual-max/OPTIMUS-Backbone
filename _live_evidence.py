@@ -9,7 +9,6 @@ mesajele de consola si cererile de retea care nu sunt 200.
 """
 import json
 import sys
-import urllib.request
 
 URL = "http://127.0.0.1:8910/"
 

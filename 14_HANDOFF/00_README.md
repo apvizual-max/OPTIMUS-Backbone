@@ -36,6 +36,7 @@ python survey_build.py
 | **11** | **`11_SESSION_HANDOFF_2026-10-28.md`** | **The state as of the last session: what was found, what was fixed, what is left, what is Popy's decision.** |
 | **12** | **`12_GIT_GITHUB_STATE.md`** | **Exact Git and GitHub state: branch, SHAs, what is pushed, who else writes to this repo, and the rules for pushing.** |
 | **13** | **`13_GAP_REGISTER_AUDIT_2026-10-28.md`** | **The gap register, measured and repaired: why the ledger was three weeks stale, what the nine Hermes profile servers actually are, and why the tool that regenerates the ledger used to destroy it.** |
+| **14** | **`14_CD_SYNC_AND_CADENCE_2026-10-28.md`** | **The GitHub synchronisation with the CD pipeline, and the two silent failures found in the live system: a handshake that refreshed every 5h54m instead of every hour, and a verdict branch with no test behind it.** |
 | **—** | **`SKILLS/`** | **The 10 skills handed to the new instance, plus a manifest. Copies, so a fresh agent without a skills directory still has them.** |
 | 01 | `01_BUILD_STATUS.md` | **Start here.** What is live, what is strong, what is weak. |
 | 02 | `02_GAPS.md` | Every gap, sorted into **BUG** (went wrong) and **SCAFFOLDING** (not built yet). |
