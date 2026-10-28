@@ -115,7 +115,30 @@ Aceasta este masurarea, nu Blueprint-ul.
 `SENTINEL_PRIME/07_BACKBONE/skills/` pentru rețeta completa, inclusiv
 reparatia arborelui cu cale absoluta.
 
+**Legarea retetei de repositoryul potrivit — masurat 2026-10-28.** In
+SENTINEL_PRIME, cwd-ul sesiunii a fost `...\projects`, care e el insusi un
+repository git (OPTIMUS-Backbone), iar proiectul lucrat era
+`...\projects\SENTINEL_PRIME` — un repository **nested**. Comanda
+`git ls-remote origin refs/heads/main`, rula **fara `-C`**, a interogat
+remote-ul repository-ului **parinte** si a returnat un SHA care nu exista in
+SENTINEL_PRIME. Citit ca "pipeline-ul a impus ceva nou intre doua verificari",
+era o iminenta de panica bazata pe un repository strain.
+
+Deci pasul 1 al retetei se rescrie:
+
+```powershell
+git -C $repo remote -v                              # ce remote exista, efectiv
+git -C $repo fetch origin --prune
+git -C $repo rev-list --left-right --count origin/main...HEAD
+```
+
+Un SHA strain, inainte de a-l numi "push al pipeline-ului", se verifica cu
+`git -C $repo remote -v`. Regula pentru orice pas al retetei: **fiecare comanda
+git se leaga de repositoryul despre care intreaba.**
+
 **Greseli de repetat.**
 - Nu presupune ca un commit valid inseamna repo clonabil.
 - Nu crea ramuri pe remote; `main` e singura ramura activa.
 - Nu folosi `stash pop` ca pas implicit.
+- Nu rula comenzi git "din directorul curent" cand proiectul lucrat e altul.
+- Nu interpreta un SHA venit din alt repository drept "push al pipeline-ului".

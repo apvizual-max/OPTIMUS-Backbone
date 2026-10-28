@@ -544,3 +544,72 @@ ceva nu se reimprospateaza — nu e un defect, e sistemul spunand-o.
   apartenenta la allowlist.
 - Nu inventa o metoda de a verifica ceva ce nu a fost masurat: masurabilitatea
   se testeaza cu un control, sau nu se afirma.
+
+### O limita fara scriitor in spatele ei — regula completa, masurata 2026-10-28
+
+Sectiunea de mai sus spune ca o limita de prospețime e o poarta reala. **Aceasta
+e jumatatea care lipseste:** poarta are nevoie de un scriitor in spatele ei, si
+regula are doua randuri.
+
+| Situatie | Ce e corect | Ce e greșit |
+|---|---|---|
+| Exista scriitor cu ceas in spatele limitei | **pastreaza limita** | largeste limita |
+| Nu exista niciun scriitor | **adauga scriitorul pe bucla** | largeste limita |
+
+**Cazul "nu exista scriitor" — masurat, pe handshake.** `mcp_handshake.json` avea
+o limita de 24 de ore si **nu era scris de nimic** intre doua rulari de suita.
+Era un termen pe care doar un om il putea onora, iar doua verificari cadeau in
+rosu la fiecare 24 de ore. Repararea a fost **adaugarea scriitorului**, nu
+largirea limitei:
+
+```powershell
+# cadenta CALCULATA din perioada de refresh, nu codificata:
+$handshakeEvery = [Math]::Max(1, [int][Math]::Floor(3600 / [Math]::Max(1, $seconds)))
+# ruleaza o data la pornirea worker-ului, apoi la fiecare $handshakeEvery ciclu
+```
+
+De ce calculata: daca `$RefreshSeconds` se schimba, cadenta se pastreaza in
+interiorul limitei, fara sa fie nevoie de un alt cod. **Limita a ramas
+neatinsa.**
+
+Verificarea ca asta chiar se intampla e masurabila, si are trei semne
+independente:
+1. **logul worker-ului** trebuie sa spuna cadenta ("handshake every 144
+   cycle(s)");
+2. **mtime-ul artefactului** trebuie sa fie mai nou decat ciclul;
+3. verificarea live trebuie sa raporteze OK cu varsta masurata in evidenta.
+
+Test de regresie: `handshake_refresh` in `test_deployment.py`, cu control
+discriminatoriu.
+
+**Cazul "scriitorul e la cerere" — masurat, pe familia `log_*`.** Aceste
+artefacte (si `workflow_state_fresh`) sunt scrise **la cerere** — de suita de
+test si de actiunile operatorului — nu de o bucla cu ceas. Aici **limita se
+pastreaza**. Un STALE pe un artefact scris la cerere inseamna "nu s-a cerut
+nimic de el", nu "e ceva stricat", iar largirea limitei ar face antetul verde,
+adica ar ascunde exact lucrul pe care sistemul e desemnat sa-l spuna.
+
+Inainte de a schimba o limita, **cauta in documentele proiectului** daca
+verificarea e deja ratificata. In SENTINEL_PRIME, `14_HANDOFF/02_GAPS.md:148` si
+`11_PLANS/POST_R0_EXECUTION_RECORD.md:948` spuneau explicit ca STALE pe un
+artefact scris la cerere e comportament corect ("the check working, not a
+fault"). Le-am citit **inainte** de a schimba ceva, si decizia s-a intors: nu
+se atinge nicio limita.
+
+**Cum masuri cine scrie un artefact** — trei pasi, fiecare cu un semne distinct:
+1. **Fereastra de scriere.** Compara mtime-urile: un scriitor cu ceas lasa o
+   fereastra regulata; un scriitor la cerere lasa o fereastra stransa,
+   coincidenta cu evenimentul care l-a declansat.
+2. **Re-masurare peste mai multe cicluri.** Masoara din nou peste cel putin un
+   ciclu complet al refresh-ului. Daca varsta creste in ritm constant, nimeni
+   nu scrie.
+3. **Codul.** Gaseste scrierile reale (`STATE_FILE.write_text`, `open(...,'a')`)
+   si verifica daca sunt apelate din bucla de refresh.
+
+**Greseli de repetat.**
+- Nu largesti o limita de prospețime ca sa faci antetul verde. E exact inversul
+  a ceea ce verifica sistemul.
+- Nu confunda "nimeni nu scrie" cu "e stricat": primul se repara adaugand un
+  scriitor, al doilea se repara reparand scriitorul.
+- Nu schimba semantica unei verificari de stare fara sa cauti mai intai in
+  documentele proiectului daca e deja ratificata.

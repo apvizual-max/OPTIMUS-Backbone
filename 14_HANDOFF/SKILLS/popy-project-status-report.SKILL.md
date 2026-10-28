@@ -160,3 +160,30 @@ report is written:
 - **A change in state between two reports is itself a report item.** When the
   stale count went from 2 to 10 between 02:15 and 18:45, that belongs in the
   report, plainly, not smoothed over.
+
+## A SHA written as a literal is stale the moment you commit the report
+
+Measured 2026-10-28. The report's Git table carried `HEAD local = origin/main =
+956485e`. Then the report itself was committed, and that commit got a
+*different* SHA — so the file contradicted the repository it describes, in the
+one table whose entire job is to describe the repository.
+
+**Rule:** in a report, write the **command**, not the hash, whenever the value
+changes with the commit that carries the report:
+
+```
+| HEAD local = origin/main | identical, 0 ahead / 0 behind - read it with `git ls-remote origin refs/heads/main` |
+```
+
+What may be stated as a measured fact:
+- the stable counts — commits on the branch, tracked files;
+- the SHA of the **work** commit, labelled as such, with its time;
+- the equality itself: local == remote == clone, verified in this turn.
+
+What may not: the SHA of the commit that carries the report. It does not exist
+yet when the report is written.
+
+The same trap applies outside the report: any file that states "the current SHA"
+goes stale with the next commit. When such a statement has to live in a file,
+give it the command and the time of the measurement, and let the reader re-read
+it.

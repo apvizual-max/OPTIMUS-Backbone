@@ -303,6 +303,20 @@ Noi, în repo (`07_BACKBONE/skills\`, deci călătoresc cu proiectul):
 Copii + manifest în `14_HANDOFF\SKILLS\`, ca instanța nouă să le primească
 explicit, nu doar prin descoperire.
 
+### Reimprospate în blocul de închidere (03:00–03:20)
+
+| Skill | Ce s-a adăugat |
+|---|---|
+| `mavis-git-autonom-skill` | **§15**: orice comandă git se leagă de repository-ul potrivit (`-C <repo>`) — un SHA citit din repo-ul părinte putea fi confundat cu un push al pipeline-ului. **§16**: `git add -A` ia tot ce e în director, inclusiv materialul de lucru |
+| `mavis-sentinel-command-center-skill` | **regula completă a limitei**: scriitor cu ceas → păstrează limita; fără scriitor → **adaugă scriitorul**, nu lărgeste limita; cele trei pași de măsurare a scriitorului; rețeta handshake-ului pe buclă |
+| `popy-project-status-report` | **un SHA scris ca cifră literală îmbătrânește la commit-ul care transportă raportul** — se scrie comanda, nu hash-ul |
+| `verification-and-falsification` (repo) | **§8**: măsoară cine scrie înainte să schimbi limita; cazul opus (scriitor la cerere → limita rămâne); plus: un pipeline gol măsurat cu `Measure-Object -Line` numără 1, nu 0 |
+| `sentinel-cd-pipeline-sync` (repo) | verificarea legată obligatoriu de repository-ul potrivit, și cele două greșeli de repetat |
+
+Toate sunt **append-only**: textul anterior rămâne, secțiunile noi se adaugă.
+Copiile din `14_HANDOFF\SKILLS\` au fost regenerate din surse și verificate
+byte-identice; versiunile anterioare sunt în istoricul git.
+
 ---
 
 ## 6. RĂMASE DE FACUT

@@ -150,6 +150,26 @@ $local -eq $remote          # singura verificare care conteaza pentru push
 Apoi **clona noua de proba**, de la zero, si verifica `dirty=0` si ca fisierele
 asteptate exista acolo. Daca o clona noua nu se poate face, nu ai terminat.
 
+**Legat obligatoriu de repository.** In SENTINEL_PRIME, cwd-ul sesiunii a fost
+`...\projects`, care e el insusi un repository git (OPTIMUS-Backbone), iar
+proiectul lucrat era `...\projects\SENTINEL_PRIME` — un repository **nested**.
+`git ls-remote origin refs/heads/main` rula **fara `-C`** a interogat remote-ul
+repository-ului **parinte** si a returnat un SHA care nu exista in
+SENTINEL_PRIME. Citit ca "pipeline-ul a impus ceva nou intre doua verificari",
+era o iminenta de panica bazata pe un repository strain.
+
+Regula: orice comanda git care raspunde despre un repository **neclase** se
+leaga explicit, iar inainte de a intelesi un SHA neasteptat, verifica ce remote
+exista:
+
+```powershell
+git -C $repo remote -v
+git -C $repo ls-remote origin refs/heads/main
+```
+
+La fel pentru starea unui **alt arbore** (o clona plasata in interiorul
+proiectului): `git -C <clona> status --porcelain`.
+
 ## 6. Greseli de repetat
 
 - Nu verifica sincronizarea doar prin `git log` sau `git status`.
@@ -160,6 +180,12 @@ asteptate exista acolo. Daca o clona noua nu se poate face, nu ai terminat.
 - Nu considera ca "merge-ul a mers" daca `git merge` a scris un avertisment.
 - Nu folosi `git clone` ca test al starii repo-ului fara sa verifici si
   fisierele, nu doar exit code-ul.
+- Nu rula comenzi git "din directorul curent" cand proiectul lucrat e altul:
+  leaga-le cu `-C <repo>` si verifica `remote -v` inainte de a interpreta un
+  SHA strain drept "push al pipeline-ului".
+- Nu tine material de lucru temporar (mesaje de commit, scripturi) in radacina
+  unui repository pe care il comiti cu `git add -A`; citeste lista de intrari
+  cu `git diff --cached --name-status` inainte de commit.
 
 ## 7. Legaturi
 

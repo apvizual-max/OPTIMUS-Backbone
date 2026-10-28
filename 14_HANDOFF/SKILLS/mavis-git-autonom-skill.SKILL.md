@@ -385,3 +385,60 @@ Dupa reparatie: clona 1408 de fisiere, `dirty=0`, totul prezent.
 - Nu rescrie istoricul publicat si nu folosi force-push.
 - Nu folosi `git reset --hard`.
 - Nu considera ca "merge-ul a mers" daca `git merge` a scris un avertisment.
+
+## 15. Orice comanda git trebuie legata de repo-ul potrivit — masurat 2026-10-28
+
+O sesiune poate rula cu **cwd-ul intr-un repo parinte**. In SENTINEL_PRIME,
+cwd-ul era `...\projects`, care e el insusi un repository git (OPTIMUS-Backbone),
+iar proiectul lucrat era `...\projects\SENTINEL_PRIME` — un repository **nested**.
+
+Cand am rulat `git ls-remote origin refs/heads/main` **fara `-C`**, comanda a
+interogat remote-ul repo-ului **parinte**. A returnat un SHA care nu exista in
+SENTINEL_PRIME, iar eu l-am citit ca "pipeline-ul CD a impins ceva nou intre
+mine si ultima verificare". Era o iminenta de panica bazata pe un repository
+strain. Corectat in cateva secunde prin `git -C`, dar semnul de pericol a fost
+ca **ambele SHA-uri arata la fel**: un hash de 40 de caractere nu isi spune
+repositorul.
+
+**Regula:** orice comanda git care raspunde despre un repository **neclase** se
+leaga explicit si verifica ce remote exista:
+
+```powershell
+git -C $repo remote -v
+git -C $repo ls-remote origin refs/heads/main
+```
+
+Acelasi lucru pentru starea unui **alt arbore** (de exemplu o clona plasata
+in interiorul proiectului): `git -C <clona> status --porcelain`.
+
+**Greseli de repetat.**
+- Nu folosi comanda git "din directorul curent" cand proiectul lucrat e altul.
+- Nu compara doua SHA-uri venite din repo-uri diferite fara sa verifici mai
+  intai **din ce repository** a venit fiecare.
+- Nu citi un SHA strain drept "push al pipeline-ului" inainte de a verifica
+  `git -C <repo> remote -v`.
+
+## 16. `git add -A` ia tot ce e in director, inclusiv materialul tau de lucru
+
+Am scris mesajul de commit intr-un fisier temporar in **radacina repo-ului**,
+ca sa pot folosi `git commit -F` cu un mesaj lung. Comanda `git add -A` de mai
+devreme l-a prins in commit, iar a trebuit un comit `chore` care sa-l scoata
+din istoric.
+
+**Regula:** fisierele de lucru (mesaje de commit, scripturi temporare) stau
+**in afara arborelui repository-ului** — in directorul temporar al sistemului —
+sau sunt introduse cu `git add <cale exacta>`, nu cu `git add -A`.
+
+**Verificarea, inainte de commit:** numara intrarile si citeste-le.
+`git diff --cached --name-status` arata exact ce va intra in istoric:
+
+```powershell
+git add -A
+git diff --cached --name-status
+git diff --cached --name-only | Where-Object { $_ -ne '' } | Measure-Object -Line
+```
+
+**Greseli de repetat.**
+- Nu tine material de lucru temporar in radacina unui repository pe care il
+  comiti cu `git add -A`.
+- Nu comiti fara sa citesti lista de intrari pe care o vei introduce in istoric.

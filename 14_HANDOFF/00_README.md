@@ -48,7 +48,7 @@ python survey_build.py
 | — | `HANDOFF.md` | The one-page state of play for the next session. |
 | — | `_BUILD_SURVEY.json` | Raw measurement. 30,136 bytes. The source for every number above. |
 
-### Three things that changed after this package was written
+### Four things that changed after this package was written
 
 - **2026-10-28 — the repository was broken for every Windows clone.** `origin/main`
   carried a top-level directory whose name was the project's own absolute path,
@@ -69,6 +69,12 @@ python survey_build.py
   The full writer-to-artifact table and the decision are in
   `11_SESSION_HANDOFF_2026-10-28.md` §4, with the ratified quotations that
   settle it.
+- **2026-10-28 — the skills were refreshed with the closing block's lessons, and
+  the copies in `SKILLS\` were regenerated from them.** The rule that came out of
+  it: **a freshness bound needs a writer behind it — if there is none, add the
+  writer; if the writer is on demand, keep the bound.** The copies are
+  byte-identical to their sources, and the previous versions are in git history.
+  `SKILLS\MANIFEST.md` says what each one now carries.
 
 **Figures in files 01–09 are from 2026-10-06** and are a snapshot, not the
 current state. The live numbers are in file 11 and in the status report at the

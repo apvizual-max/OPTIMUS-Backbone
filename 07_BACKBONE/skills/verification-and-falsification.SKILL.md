@@ -138,13 +138,70 @@ Conditiile pentru un test de falsificare valid:
   liniile cu em-dash. `[regex]::ReadAllText` nu exista — e `[IO.File]::ReadAllText`.
 - Git scrie progresul pe **stderr** si arunca o eroare rosie chiar la push
   reusit. Verificarea de push e `git ls-remote`, nu exit code-ul.
+- **Un pipeline gol masurat cu `Measure-Object -Line` numara 1, nu 0.** Cand
+  comanda nu returneaza nimic, PowerShell ii pasa un sir gol, iar
+  `Measure-Object -Line` raporteaza o linie. Un arbore curat se masura astfel
+  "dirty=1". Filtreaza sirurile goale inainte de numarat si verifica **ce
+  inseamna** numarul inainte sa-l folosesti intr-o afirmatie.
 
 ## 7. Ce scrie Popy cand cere "raport"
 
 Formatul fix e in skill-ul `popy-project-status-report`. Acolo se cere si
 **starea Git/GitHub** — nu era in raport si a fost o lipsa reala.
 
-## 8. Legaturi
+## 8. O limita fara scriitor in spatele ei: masurati cine scrie, inainte sa schimbati limita
+
+Cand o verificare de stare cade in rosu, exista doua interpretari posibile, si
+ele cer **actiuni opuse**:
+
+| Interpretare | Actiunea corecta |
+|---|---|
+| artefactul e stricat | repara scriitorul |
+| **nu exista scriitor** (nimic nu scrie artefactul) | **adauga scriitorul** pe bucla de refresh |
+
+A treia interpretare, cea care trage inspre "hai sa largim limita", **ascunde
+defectul** in loc sa-l rezolve. E alegerea prin care un sistem de sanatate
+invata sa minta.
+
+**Cum masuri cine scrie** - trei pasi, fiecare cu un semne distinct:
+
+1. **Fereastra de scriere.** Compara mtime-urile artefactelor: un scriitor cu
+   ceas lasa o fereastra regulata; un scriitor la cerere lasa o fereastra
+   stransa, coincidenta cu evenimentul care l-a declansat.
+2. **Re-masurare peste mai multe cicluri.** Masoara din nou peste cel putin un
+   ciclu complet al refresh-ului. Daca varsta creste in ritm constant, nimeni
+   nu scrie.
+3. **Codul.** Gaseste scrierile reale si verifica daca sunt apelate din bucla
+   de refresh.
+
+**Succes masurat, 2026-10-28.** `mcp_handshake.json` avea o limita de 24 de ore
+si **nu era scris de nimic** intre doua rulari de suita: era un termen pe care
+doar un om il putea onora. Scriitorul a fost mutat pe bucla de refresh, cu
+cadenta **calculata** din perioada de refresh (nu codificata), si o data la
+pornirea worker-ului. Limita a ramas neatinsa. Verificat end-to-end: logul
+worker-ului spune cadenta, mtime-ul artefactului e mai nou decat ciclul, iar
+verificarea live raporteaza OK cu varsta in evidenta.
+
+**Cazul opus, masurat in aceeasi sesiune.** Familia `log_*` si
+`workflow_state_fresh` sunt scrise **la cerere** (de suita de test si de
+actiunile operatorului), nu de o bucla cu ceas. Aici **limita se pastreaza**:
+un STALE inseamna "nu s-a cerut nimic de el", nu "e stricat". Largirea limitei
+ar face antetul verde, adica ar ascunde exact lucrul pe care sistemul trebuie
+sa-l spuna. Inainte de a schimba o limita, **cauta in documentele proiectului**
+daca verificarea e deja ratificata: in SENTINEL_PRIME, `14_HANDOFF/02_GAPS.md`
+si `11_PLANS/POST_R0_EXECUTION_RECORD.md` spuneau explicit ca STALE pe un
+artefact scris la cerere e comportament corect ("the check working, not a
+fault"). Le-am citit **inainte** de a schimba ceva, si decizia s-a intors.
+
+**Greseli de repetat.**
+- Nu largesti o limita ca sa repari un semnal de staleness. Mai intai masura cine
+  scrie.
+- Nu confunda "nimeni nu scrie" cu "e stricat": primul cere un scriitor nou,
+  al doilea cere scriitorul reparat.
+- Nu schimba semantica unei verificari fara sa cauti in documentele proiectului
+  daca e deja ratificata.
+
+## 9. Legaturi
 
 - `sentinel-cd-pipeline-sync.SKILL.md` — sincronizarea cu pipeline-ul
 - `command-center.SKILL.md` — sistemul in care se aplica toate astea

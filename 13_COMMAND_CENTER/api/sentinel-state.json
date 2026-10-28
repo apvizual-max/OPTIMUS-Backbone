@@ -1,5 +1,5 @@
 {
-    "generated":  "2026-10-28T03:14:18.6159707+02:00",
+    "generated":  "2026-10-28T03:31:41.9966212+02:00",
     "age_sec":  0,
     "age_bound_sec":  300,
     "status":  "DEGRADED",
@@ -72,17 +72,17 @@
                               "status":  "OK",
                               "value":  2388756,
                               "bound":  "file must exist",
-                              "evidence":  "corpus_full.jsonl age=1967169s",
-                              "measured_at":  "2026-10-28T03:14:09.521598"
+                              "evidence":  "corpus_full.jsonl age=1968213s",
+                              "measured_at":  "2026-10-28T03:31:32.897001"
                           },
                           {
                               "id":  "corpus_fresh",
                               "family":  "corpus",
                               "status":  "STALE",
-                              "value":  1967169.2,
+                              "value":  1968212.6,
                               "bound":  "\u003c 3600s",
                               "evidence":  "extraction is a snapshot; older than the bound means the conversation moved on",
-                              "measured_at":  "2026-10-28T03:14:09.521645"
+                              "measured_at":  "2026-10-28T03:31:32.897043"
                           },
                           {
                               "id":  "corpus_stats",
@@ -95,7 +95,7 @@
                                         },
                               "bound":  "",
                               "evidence":  "corpus_stats.json parsed",
-                              "measured_at":  "2026-10-28T03:14:09.522197"
+                              "measured_at":  "2026-10-28T03:31:32.897605"
                           },
                           {
                               "id":  "corpus_no_unplaced",
@@ -104,7 +104,7 @@
                               "value":  0,
                               "bound":  "== 0",
                               "evidence":  "UNPLACED.md declares \"None\" - every verbatim message belongs to a chapter",
-                              "measured_at":  "2026-10-28T03:14:09.522204"
+                              "measured_at":  "2026-10-28T03:31:32.897612"
                           },
                           {
                               "id":  "corpus_retention",
@@ -113,7 +113,7 @@
                               "value":  1.0,
                               "bound":  "\u003e= 0.95",
                               "evidence":  "emitted verbatim text vs extracted source text - the \"nothing cut\" measure",
-                              "measured_at":  "2026-10-28T03:14:09.522209"
+                              "measured_at":  "2026-10-28T03:31:32.897617"
                           },
                           {
                               "id":  "corpus_chapters",
@@ -122,7 +122,7 @@
                               "value":  17,
                               "bound":  "\u003e 0",
                               "evidence":  "17 chapter files under 02_CHAPTERS/",
-                              "measured_at":  "2026-10-28T03:14:09.522844"
+                              "measured_at":  "2026-10-28T03:31:32.898244"
                           },
                           {
                               "id":  "corpus_unplaced_declared",
@@ -131,7 +131,7 @@
                               "value":  true,
                               "bound":  "file present and empty",
                               "evidence":  "UNPLACED.md must exist and state that nothing was dropped",
-                              "measured_at":  "2026-10-28T03:14:09.523094"
+                              "measured_at":  "2026-10-28T03:31:32.898467"
                           },
                           {
                               "id":  "corpus_index",
@@ -141,8 +141,8 @@
                                             "bytes":  5178
                                         },
                               "bound":  "file must exist",
-                              "evidence":  "00_CORPUS_INDEX.md age=2055865s",
-                              "measured_at":  "2026-10-28T03:14:09.523232"
+                              "evidence":  "00_CORPUS_INDEX.md age=2056908s",
+                              "measured_at":  "2026-10-28T03:31:32.898594"
                           },
                           {
                               "id":  "corpus_freeze",
@@ -152,8 +152,8 @@
                                             "bytes":  16253
                                         },
                               "bound":  "file must exist",
-                              "evidence":  "SHA256SUMS.txt age=2056235s",
-                              "measured_at":  "2026-10-28T03:14:09.523324"
+                              "evidence":  "SHA256SUMS.txt age=2057278s",
+                              "measured_at":  "2026-10-28T03:31:32.898709"
                           },
                           {
                               "id":  "workflow_mode",
@@ -162,7 +162,7 @@
                               "value":  "MODE_B",
                               "bound":  "one of the four modes",
                               "evidence":  "MODE_A -\u003e R0 -\u003e MODE_B -\u003e STOPPED; anything else is a corrupted machine",
-                              "measured_at":  "2026-10-28T03:14:09.523607"
+                              "measured_at":  "2026-10-28T03:31:32.898969"
                           },
                           {
                               "id":  "workflow_stop_consistent",
@@ -174,7 +174,7 @@
                                         },
                               "bound":  "no orphaned stop reason",
                               "evidence":  "a stop reason outside MODE_A/STOPPED is inconsistent state",
-                              "measured_at":  "2026-10-28T03:14:09.523615"
+                              "measured_at":  "2026-10-28T03:31:32.898976"
                           },
                           {
                               "id":  "workflow_failures",
@@ -183,25 +183,25 @@
                               "value":  0,
                               "bound":  "\u003c 5",
                               "evidence":  "5 consecutive MODE_B failures must land in STOPPED, never a 6th attempt",
-                              "measured_at":  "2026-10-28T03:14:09.523618"
+                              "measured_at":  "2026-10-28T03:31:32.898979"
                           },
                           {
                               "id":  "workflow_state_fresh",
                               "family":  "workflow",
                               "status":  "STALE",
-                              "value":  1209.1,
+                              "value":  422.5,
                               "bound":  "\u003c 300s",
                               "evidence":  "how long since the workflow last wrote its state",
-                              "measured_at":  "2026-10-28T03:14:09.523666"
+                              "measured_at":  "2026-10-28T03:31:32.899026"
                           },
                           {
                               "id":  "workflow_log",
                               "family":  "workflow",
                               "status":  "OK",
-                              "value":  1203.3,
+                              "value":  416.5,
                               "bound":  "\u003c 1800s",
                               "evidence":  "transition log freshness",
-                              "measured_at":  "2026-10-28T03:14:09.523729"
+                              "measured_at":  "2026-10-28T03:31:32.899086"
                           },
                           {
                               "id":  "code_modules_present",
@@ -215,7 +215,7 @@
                                         },
                               "bound":  "none missing",
                               "evidence":  "each engine must exist as a file",
-                              "measured_at":  "2026-10-28T03:14:09.524093"
+                              "measured_at":  "2026-10-28T03:31:32.899449"
                           },
                           {
                               "id":  "code_no_romanian",
@@ -226,7 +226,7 @@
                                         ],
                               "bound":  "no diacritics in code",
                               "evidence":  "the language law: code, identifiers, docstrings and runtime messages in English. Romanian belongs in wisdom, not in source.",
-                              "measured_at":  "2026-10-28T03:14:09.546128"
+                              "measured_at":  "2026-10-28T03:31:32.921668"
                           },
                           {
                               "id":  "code_test_suite",
@@ -237,7 +237,7 @@
                                         },
                               "bound":  "file must exist",
                               "evidence":  "test harness present",
-                              "measured_at":  "2026-10-28T03:14:09.546248"
+                              "measured_at":  "2026-10-28T03:31:32.921786"
                           },
                           {
                               "id":  "mcp_tools_declared",
@@ -246,7 +246,7 @@
                               "value":  26,
                               "bound":  "\u003e 0",
                               "evidence":  "26 SENTINEL tools registered in the hub",
-                              "measured_at":  "2026-10-28T03:14:09.546931"
+                              "measured_at":  "2026-10-28T03:31:32.922475"
                           },
                           {
                               "id":  "mcp_tools_wired",
@@ -257,12 +257,12 @@
                                             "probe_tool":  "sentinel_confirm_identity",
                                             "probe_ok":  true,
                                             "handshake_status":  "OK",
-                                            "record_age_seconds":  1254.2,
+                                            "record_age_seconds":  2297.6,
                                             "record_superseded_by_server_edit":  false
                                         },
                               "bound":  "a completed handshake returning \u003e 0 tools, with a probe whose arguments provably reached the handler",
-                              "evidence":  "26 tools returned by the server over stdio; probe \"sentinel_confirm_identity\" ok=True, arguments arrived=True. Measured 1254s ago by mcp_handshake.py, not asserted here.",
-                              "measured_at":  "2026-10-28T03:14:09.547351"
+                              "evidence":  "26 tools returned by the server over stdio; probe \"sentinel_confirm_identity\" ok=True, arguments arrived=True. Measured 2298s ago by mcp_handshake.py, not asserted here.",
+                              "measured_at":  "2026-10-28T03:31:32.922896"
                           },
                           {
                               "id":  "mcp_config",
@@ -271,7 +271,7 @@
                               "value":  null,
                               "bound":  "",
                               "evidence":  "OPTIMUS_MCP_CONFIG.json is valid JSON",
-                              "measured_at":  "2026-10-28T03:14:09.547784"
+                              "measured_at":  "2026-10-28T03:31:32.923299"
                           },
                           {
                               "id":  "mcp_config_servers_exist",
@@ -292,7 +292,7 @@
                                         },
                               "bound":  "every referenced .py server exists on disk",
                               "evidence":  "7 .py servers referenced by the config, 0 not on disk. All referenced servers exist.",
-                              "measured_at":  "2026-10-28T03:14:13.079881"
+                              "measured_at":  "2026-10-28T03:31:36.723561"
                           },
                           {
                               "id":  "mcp_npx_packages_resolve",
@@ -307,7 +307,7 @@
                                         },
                               "bound":  "every npx package the config declares actually resolves",
                               "evidence":  "2/2 declared npx packages resolve (registry control answered: 19.3.1)",
-                              "measured_at":  "2026-10-28T03:14:15.812081"
+                              "measured_at":  "2026-10-28T03:31:39.353614"
                           },
                           {
                               "id":  "mcp_live_profile_registered",
@@ -333,7 +333,7 @@
                                         },
                               "bound":  "every server the config records as live is actually registered and enabled in the live MCP profile",
                               "evidence":  "3 of 7 declared .py servers are registered and enabled in the live profile: git-tools, prime-bridge, web-tools. Declared but deliberately not registered: context-pressure, learning-loop, rule-triggers, sentinel-state - their tools are already served by the live sentinel-hub, and registering them would put duplicate tool names in front of every session",
-                              "measured_at":  "2026-10-28T03:14:15.812715"
+                              "measured_at":  "2026-10-28T03:31:39.354270"
                           },
                           {
                               "id":  "skills_present",
@@ -350,70 +350,70 @@
                                         ],
                               "bound":  "\u003e 0",
                               "evidence":  "7 skill files",
-                              "measured_at":  "2026-10-28T03:14:15.813229"
+                              "measured_at":  "2026-10-28T03:31:39.354803"
                           },
                           {
                               "id":  "log_bimodal_state",
                               "family":  "logs",
                               "status":  "OK",
-                              "value":  1215.4,
+                              "value":  428.9,
                               "bound":  "\u003c 3000s",
-                              "evidence":  "bimodal_state.json last written 1215s ago",
-                              "measured_at":  "2026-10-28T03:14:15.813369"
+                              "evidence":  "bimodal_state.json last written 429s ago",
+                              "measured_at":  "2026-10-28T03:31:39.354936"
                           },
                           {
                               "id":  "log_bimodal_log",
                               "family":  "logs",
                               "status":  "OK",
-                              "value":  1209.5,
+                              "value":  423.0,
                               "bound":  "\u003c 3000s",
-                              "evidence":  "bimodal_workflow.log last written 1210s ago",
-                              "measured_at":  "2026-10-28T03:14:15.813667"
+                              "evidence":  "bimodal_workflow.log last written 423s ago",
+                              "measured_at":  "2026-10-28T03:31:39.355270"
                           },
                           {
                               "id":  "log_orchestrator_state",
                               "family":  "logs",
                               "status":  "OK",
-                              "value":  1222.0,
+                              "value":  435.5,
                               "bound":  "\u003c 3000s",
-                              "evidence":  "orchestrator_state.json last written 1222s ago",
-                              "measured_at":  "2026-10-28T03:14:15.813732"
+                              "evidence":  "orchestrator_state.json last written 436s ago",
+                              "measured_at":  "2026-10-28T03:31:39.355374"
                           },
                           {
                               "id":  "log_performance_metrics",
                               "family":  "logs",
                               "status":  "OK",
-                              "value":  1220.9,
+                              "value":  434.4,
                               "bound":  "\u003c 3000s",
-                              "evidence":  "performance_metrics.json last written 1221s ago",
-                              "measured_at":  "2026-10-28T03:14:15.814020"
+                              "evidence":  "performance_metrics.json last written 434s ago",
+                              "measured_at":  "2026-10-28T03:31:39.355645"
                           },
                           {
                               "id":  "log_self_modifications",
                               "family":  "logs",
                               "status":  "OK",
-                              "value":  1221.9,
+                              "value":  435.5,
                               "bound":  "\u003c 3000s",
-                              "evidence":  "self_modifications.log last written 1222s ago",
-                              "measured_at":  "2026-10-28T03:14:15.814456"
+                              "evidence":  "self_modifications.log last written 435s ago",
+                              "measured_at":  "2026-10-28T03:31:39.356124"
                           },
                           {
                               "id":  "log_state_transitions",
                               "family":  "logs",
                               "status":  "OK",
-                              "value":  1222.0,
+                              "value":  435.5,
                               "bound":  "\u003c 3000s",
-                              "evidence":  "state_transitions.log last written 1222s ago",
-                              "measured_at":  "2026-10-28T03:14:15.814516"
+                              "evidence":  "state_transitions.log last written 436s ago",
+                              "measured_at":  "2026-10-28T03:31:39.356185"
                           },
                           {
                               "id":  "log_self_improvement",
                               "family":  "logs",
                               "status":  "OK",
-                              "value":  1209.5,
+                              "value":  422.9,
                               "bound":  "\u003c 3000s",
-                              "evidence":  "self_improvement.log last written 1209s ago",
-                              "measured_at":  "2026-10-28T03:14:15.814577"
+                              "evidence":  "self_improvement.log last written 423s ago",
+                              "measured_at":  "2026-10-28T03:31:39.356238"
                           },
                           {
                               "id":  "logs_parse",
@@ -424,14 +424,14 @@
                                         ],
                               "bound":  "no parse errors",
                               "evidence":  "every state JSON must parse; a corrupt state file is a silent failure",
-                              "measured_at":  "2026-10-28T03:14:15.814583"
+                              "measured_at":  "2026-10-28T03:31:39.356245"
                           },
                           {
                               "id":  "logs_empty_artifacts",
                               "family":  "logs",
                               "status":  "OK",
                               "value":  {
-                                            "inspected":  219,
+                                            "inspected":  220,
                                             "empty":  0,
                                             "unreadable":  0,
                                             "empty_files":  [
@@ -445,8 +445,8 @@
                                                                                   ]
                                         },
                               "bound":  "0 empty and 0 unreadable artefacts",
-                              "evidence":  "219 scrape artefacts inspected by content: 0 of a content-bearing URL carry no result, 0 unreadable, 1 are navigation-only targets with no content by definition. Size is never the criterion - a successful scrape of a small page is small. Reported, not deleted: deleting is an explicit operator decision.",
-                              "measured_at":  "2026-10-28T03:14:15.851350"
+                              "evidence":  "220 scrape artefacts inspected by content: 0 of a content-bearing URL carry no result, 0 unreadable, 1 are navigation-only targets with no content by definition. Size is never the criterion - a successful scrape of a small page is small. Reported, not deleted: deleting is an explicit operator decision.",
+                              "measured_at":  "2026-10-28T03:31:39.392822"
                           },
                           {
                               "id":  "dep_playwright",
@@ -455,7 +455,7 @@
                               "value":  null,
                               "bound":  "",
                               "evidence":  "browser automation: importable",
-                              "measured_at":  "2026-10-28T03:14:15.852843"
+                              "measured_at":  "2026-10-28T03:31:39.394425"
                           },
                           {
                               "id":  "dep_PIL",
@@ -464,7 +464,7 @@
                               "value":  null,
                               "bound":  "",
                               "evidence":  "image processing: importable",
-                              "measured_at":  "2026-10-28T03:14:15.855654"
+                              "measured_at":  "2026-10-28T03:31:39.397217"
                           },
                           {
                               "id":  "dep_pypdf",
@@ -473,7 +473,7 @@
                               "value":  null,
                               "bound":  "",
                               "evidence":  "PDF processing: importable",
-                              "measured_at":  "2026-10-28T03:14:16.077668"
+                              "measured_at":  "2026-10-28T03:31:39.610559"
                           },
                           {
                               "id":  "dep_docx",
@@ -482,7 +482,7 @@
                               "value":  null,
                               "bound":  "",
                               "evidence":  "DOCX processing: importable",
-                              "measured_at":  "2026-10-28T03:14:16.242875"
+                              "measured_at":  "2026-10-28T03:31:39.764465"
                           },
                           {
                               "id":  "dep_openpyxl",
@@ -491,7 +491,7 @@
                               "value":  null,
                               "bound":  "",
                               "evidence":  "XLSX processing: importable",
-                              "measured_at":  "2026-10-28T03:14:16.783732"
+                              "measured_at":  "2026-10-28T03:31:40.258121"
                           },
                           {
                               "id":  "dep_pptx",
@@ -500,7 +500,7 @@
                               "value":  null,
                               "bound":  "",
                               "evidence":  "PPTX processing: importable",
-                              "measured_at":  "2026-10-28T03:14:17.017132"
+                              "measured_at":  "2026-10-28T03:31:40.489150"
                           },
                           {
                               "id":  "dep_cv2",
@@ -509,7 +509,7 @@
                               "value":  null,
                               "bound":  "",
                               "evidence":  "video processing (OpenCV): importable",
-                              "measured_at":  "2026-10-28T03:14:17.056816"
+                              "measured_at":  "2026-10-28T03:31:40.526203"
                           },
                           {
                               "id":  "dep_pytesseract",
@@ -518,7 +518,7 @@
                               "value":  null,
                               "bound":  "",
                               "evidence":  "OCR binding: importable",
-                              "measured_at":  "2026-10-28T03:14:17.068719"
+                              "measured_at":  "2026-10-28T03:31:40.537913"
                           },
                           {
                               "id":  "dep_faster_whisper",
@@ -527,7 +527,7 @@
                               "value":  null,
                               "bound":  "",
                               "evidence":  "audio transcription: importable",
-                              "measured_at":  "2026-10-28T03:14:17.318491"
+                              "measured_at":  "2026-10-28T03:31:40.774392"
                           },
                           {
                               "id":  "dep_av_faster_whisper_compat",
@@ -539,7 +539,7 @@
                                         },
                               "bound":  "the audio path opens a real container, not just an import",
                               "evidence":  "av 15.1.0 accepts metadata_errors - the exact call faster-whisper makes opens a real container (1 streams)",
-                              "measured_at":  "2026-10-28T03:14:17.326781"
+                              "measured_at":  "2026-10-28T03:31:40.781424"
                           },
                           {
                               "id":  "bin_tesseract",
@@ -551,7 +551,7 @@
                                         },
                               "bound":  "a working binary, located rather than assumed",
                               "evidence":  "OCR engine (tesseract) at C:\\Users\\apviz\\AppData\\Local\\TesseractOCR\\tesseract.exe [resolved via known_location, not assumed from PATH]",
-                              "measured_at":  "2026-10-28T03:14:17.326872"
+                              "measured_at":  "2026-10-28T03:31:40.781518"
                           },
                           {
                               "id":  "bin_docker",
@@ -560,7 +560,7 @@
                               "value":  "C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE",
                               "bound":  "a working binary, located rather than assumed",
                               "evidence":  "container runtime (docker) at C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE",
-                              "measured_at":  "2026-10-28T03:14:17.331381"
+                              "measured_at":  "2026-10-28T03:31:40.785895"
                           },
                           {
                               "id":  "bin_git",
@@ -569,7 +569,7 @@
                               "value":  "C:\\Program Files\\Git\\cmd\\git.EXE",
                               "bound":  "a working binary, located rather than assumed",
                               "evidence":  "version control (git) at C:\\Program Files\\Git\\cmd\\git.EXE",
-                              "measured_at":  "2026-10-28T03:14:17.335473"
+                              "measured_at":  "2026-10-28T03:31:40.789812"
                           },
                           {
                               "id":  "program_matrix",
@@ -586,7 +586,7 @@
                                         },
                               "bound":  "file must parse",
                               "evidence":  "concept -\u003e file -\u003e tool -\u003e test -\u003e panel correlation",
-                              "measured_at":  "2026-10-28T03:14:17.336027"
+                              "measured_at":  "2026-10-28T03:31:40.790345"
                           },
                           {
                               "id":  "program_no_unowned_design",
@@ -597,7 +597,7 @@
                                         ],
                               "bound":  "no unowned DESIGNED rows",
                               "evidence":  "a concept left in DESIGNED must still have an owner and a next action",
-                              "measured_at":  "2026-10-28T03:14:17.336041"
+                              "measured_at":  "2026-10-28T03:31:40.790357"
                           },
                           {
                               "id":  "cc_index",
@@ -607,8 +607,8 @@
                                             "bytes":  122479
                                         },
                               "bound":  "Command Center part present",
-                              "evidence":  "index.html age=3283s",
-                              "measured_at":  "2026-10-28T03:14:17.336192"
+                              "evidence":  "index.html age=4326s",
+                              "measured_at":  "2026-10-28T03:31:40.790510"
                           },
                           {
                               "id":  "cc_server",
@@ -618,8 +618,8 @@
                                             "bytes":  37242
                                         },
                               "bound":  "Command Center part present",
-                              "evidence":  "server.ps1 age=1295s",
-                              "measured_at":  "2026-10-28T03:14:17.336286"
+                              "evidence":  "server.ps1 age=2338s",
+                              "measured_at":  "2026-10-28T03:31:40.790600"
                           },
                           {
                               "id":  "cc_collector",
@@ -629,19 +629,19 @@
                                             "bytes":  14030
                                         },
                               "bound":  "Command Center part present",
-                              "evidence":  "collect-sentinel.ps1 age=1838143s",
-                              "measured_at":  "2026-10-28T03:14:17.336371"
+                              "evidence":  "collect-sentinel.ps1 age=1839187s",
+                              "measured_at":  "2026-10-28T03:31:40.790681"
                           },
                           {
                               "id":  "cc_state",
                               "family":  "dashboard",
                               "status":  "OK",
                               "value":  {
-                                            "bytes":  98265
+                                            "bytes":  98248
                                         },
                               "bound":  "Command Center part present",
                               "evidence":  "sentinel-state.json age=35s",
-                              "measured_at":  "2026-10-28T03:14:17.336450"
+                              "measured_at":  "2026-10-28T03:31:40.790755"
                           },
                           {
                               "id":  "ps_scripts_found",
@@ -650,7 +650,7 @@
                               "value":  20,
                               "bound":  "",
                               "evidence":  "20 PowerShell script(s) under the workspace",
-                              "measured_at":  "2026-10-28T03:14:17.474957"
+                              "measured_at":  "2026-10-28T03:31:40.925765"
                           },
                           {
                               "id":  "ps_variable_case_collisions",
@@ -659,7 +659,7 @@
                               "value":  0,
                               "bound":  "PowerShell folds $Foo and $foo into one variable",
                               "evidence":  "no two script-scope variables in any .ps1 differ only by case",
-                              "measured_at":  "2026-10-28T03:14:17.534826"
+                              "measured_at":  "2026-10-28T03:31:40.985229"
                           },
                           {
                               "id":  "ps_shadowed_script_vars",
@@ -668,7 +668,7 @@
                               "value":  0,
                               "bound":  "a local $py silently replaces a script $PY inside the function",
                               "evidence":  "no function-local variable shadows or collides with a script variable",
-                              "measured_at":  "2026-10-28T03:14:17.600248"
+                              "measured_at":  "2026-10-28T03:31:41.050540"
                           },
                           {
                               "id":  "ps_stray_type_named_files",
@@ -677,7 +677,7 @@
                               "value":  0,
                               "bound":  "catches the collector writing state to its own ToString()",
                               "evidence":  "no file is named after a .NET type inside SENTINEL_PRIME\\ or in its immediate parent (a path/object variable collision)",
-                              "measured_at":  "2026-10-28T03:14:17.870326"
+                              "measured_at":  "2026-10-28T03:31:41.321664"
                           }
                       ],
     "health_total_checks":  56,
@@ -831,7 +831,7 @@
                      "max_failures":  5,
                      "execution_attempts":  3,
                      "agreement_goal":  "Test",
-                     "age_sec":  1218.1
+                     "age_sec":  431.4
                  },
     "program":  {
                     "status":  "MEASURED",
@@ -1067,10 +1067,10 @@
     "tests":  {
                   "status":  "MEASURED",
                   "reason":  "last_test_run.json",
-                  "passed":  593,
+                  "passed":  594,
                   "failed":  0,
                   "skipped":  0,
-                  "ran_at":  "2026-10-28T02:56:06.914481",
+                  "ran_at":  "2026-10-28T03:26:32.668810",
                   "not_run":  [
 
                               ],
@@ -1121,7 +1121,7 @@
                                   },
                                   {
                                       "name":  "NoRomanianInCode",
-                                      "passed":  141,
+                                      "passed":  142,
                                       "failed":  0,
                                       "skipped":  0,
                                       "not_run":  false,

@@ -122,6 +122,10 @@ care conțin lecțiile din sesiunea precedentă:
   - mavis-sentinel-command-center-skill
   - mavis-autonomous-operator-skill   ← se încarcă ÎNAINTE de orice altceva
 
+În pachetul de predare: 14_HANDOFF\SKILLS\ conține **copii byte-identice** ale
+skill-urilor de mai sus, plus un MANIFEST.md care spune ce aduce fiecare. Dacă
+agentul tău nu are un skill, ia-l de acolo.
+
 Cele mai importante, pe scurt:
   - git: verifici push-ul cu git ls-remote, NICIODATĂ prin exit code (git
     scrie pe stderr și aruncă eroare roșie chiar când push-ul reușește).
