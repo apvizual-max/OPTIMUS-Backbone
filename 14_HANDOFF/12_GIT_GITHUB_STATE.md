@@ -170,21 +170,51 @@ Instrumentul măsoară 10 lucruri (intrări de arbore invalide, clonă nouă de 
 `dirty=0`, HEAD-ul clonei egal cu SHA-ul remote-ului, o singură ramură, fișierele
 cerute prezente) și spune `VERDICT=PASS` / `VERDICT=FAIL` (exit 0 / 2).
 
+### Verificarea după push — măsurată la 09:40
+
+```
+remote main     = f01c76d320cc2b98e61d1fb92587736ec9b64786
+local HEAD      = f01c76d320cc2b98e61d1fb92587736ec9b64786
+IDENTICE        = True
+behind / ahead  = 0 / 0
+```
+
+Instrumentul, pe o clonă nouă de la zero (nu pe arborele de lucru):
+
+```
+CHECK remote_main_sha        f01c76d320cc2b98e61d1fb92587736ec9b64786   PASS
+CHECK remote_branches        1                                          PASS
+CHECK local_head             f01c76d320cc2b98e61d1fb92587736ec9b64786   PASS
+CHECK behind_ahead           0/0                                        PASS
+CHECK invalid_tree_entries   0                                          PASS
+CHECK clone_exit             0                                          PASS
+CHECK clone_head_sha         f01c76d320cc2b98e61d1fb92587736ec9b64786   PASS
+CHECK clone_dirty            0                                          PASS
+CHECK clone_branches         main                                       PASS
+CHECK clone_tracked_files    1547                                       PASS
+CHECK expect_files_missing   0                                          PASS
+VERDICT=PASS
+```
+
+SHA-ul de mai sus e **o citire cu ora indicată**, nu o stare: următorul comit îl
+invalidă singur. Starea curentă se citește cu `git ls-remote origin refs/heads/main`.
+
 ## 5. Clona locală `.github-repo`
 
 | | Valoare |
 |---|---|
 | Locație | `C:\Users\apviz\.minimax-agent\projects\SENTINEL_PRIME\.github-repo` |
 | Origine | clonă a aceluiași repository, la `main` |
-| Statut | **resincronizată la 09:40: 1.547 fișiere, `dirty=0`, SHA identic cu `main` local** — ff-only de la `7cf6d4b` la `aa49c72`, fără reset și fără rescriere de istoric |
+| Statut | **resincronizată**: `dirty=0`, **1.547 fișiere**, `HEAD` identic cu `main` local — SHA-ul se citește, nu se memorează: `git -C .github-repo rev-parse HEAD` |
 | În `.gitignore` | **da**, cu motiv scris — e copie de lucru, nu conținut de proiect |
 
 **Cum se resincronizează.** Cu `git -C .github-repo pull --ff-only` după orice push
 nou. Când mirrorul trebuie adus la un commit **local, neîmpins încă**, se face
 `git -C .github-repo fetch <calea repo-ului local> main` și apoi
 `git -C .github-repo merge --ff-only FETCH_HEAD` — o fast-forward, niciodată un reset.
-Măsurat pe 28 oct: `Updating 7cf6d4b..aa49c72` / `Fast-forward`, `dirty=0`,
-**1.547 fișiere**, SHA identic cu `main`.
+Măsurat pe 28 oct: `Updating 7cf6d4b..aa49c72` / `Fast-forward`, apoi încă o
+fast-forward până la comitul de documentație; `dirty=0`, **1.547 fișiere** — același
+număr ca arborele principal, și `HEAD` identic cu `main`.
 
 ## 6. Ce trebuie știut înainte de orice push
 

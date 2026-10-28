@@ -212,6 +212,16 @@ Three things changed:
    the new pid (29300) and its `.log` was rewritten. The `.pid` / `.log` /
    `.err.log` files were stale only because the backend had been started by another
    path (the guardian). **Do not quarantine them.**
+8. **`sentinel-hub.ps1 restart` prints everything it has to print, but an
+   invocation that waits on the process tree does not come back.** Measured on
+   28 Oct: the command produced its full output (up to `DEPLOYMENT UP`), the
+   deployment was then verified live — `healthz` / `readyz` / `api/health` all
+   200, backend pid 29300 — and the invocation still had not returned after
+   600 s. The reason is that the backend it starts is a long-lived process inside
+   that tree. Run it backgrounded, or with the output redirected to a file.
+   This is **not** a defect in the instrument: the launcher already redirects the
+   child's output (`-RedirectStandardOutput $LOG_FILE`) and disposes the .NET
+   process object precisely so that it does not hang on its own.
 
 
 ## 7. Suite results
